@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+"use strict";
+require('source-map-support').install();
+const fs = require('fs');
+const path = require('path');
+const yargs = require('yargs');
+
+process.on('uncaughtException', function (e) {
+  console.error(e.stack);
+  process.exit(1);
+});
+
+yargs
+  .demand(1)
+  .help()
+  .version(() => {
+    const logo = fs.readFileSync(path.join(__dirname, '../logo')).toString();
+    return `${logo}\nPandora: ${require('../package.json').version} (${__dirname}) Node: ${process.version} ${process.alinode ? '(Alinode: ' + process.alinode + ')' : ''}`
+  })
+  .alias('v', 'version')
+  .command(require('../cli/start'))
+  .command(require('../cli/stop'))
+  .command(require('../cli/restart'))
+  .command(require('../cli/reload'))
+  .command(require('../cli/log'))
+  .command(require('../cli/pid'))
+  .command(require('../cli/list'))
+  .command(require('../cli/dev'))
+  .command(require('../cli/exit'))
+  .wrap(Math.max(40, yargs.terminalWidth() - 8))
+  .locale('en')
+  .argv;

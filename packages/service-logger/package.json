@@ -1,0 +1,62 @@
+{
+  "name": "pandora-service-logger",
+  "version": "2.0.38",
+  "description": "pandora service logger",
+  "main": "dist/index",
+  "typings": "src/index",
+  "scripts": {
+    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run lint && mocha",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/service-logger src/"
+  },
+  "keywords": [
+    "logger"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^6.0.85",
+    "chai": "^3.5.0",
+    "mkdirp": "^0.5.1",
+    "mm": "^2.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^11.2.1"
+  },
+  "dependencies": {
+    "pandora-dollar": "^2.0.38",
+    "pandora-env": "^2.0.38",
+    "pandora-messenger": "^2.0.38",
+    "co": "^4.6.0",
+    "egg-logger": "^1.6.0",
+    "humanize-ms": "^1.2.1",
+    "moment": "^2.18.1",
+    "mz": "^2.6.0"
+  },
+  "nyc": {
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "typings",
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "json",
+      "html"
+    ],
+    "all": true
+  }
+}

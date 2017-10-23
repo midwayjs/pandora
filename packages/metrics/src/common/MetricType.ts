@@ -1,0 +1,8 @@
+export let MetricType = {
+  METRICSET: 'METRICSET',
+  GAUGE: 'GAUGE',
+  COUNTER: 'COUNTER',
+  HISTOGRAM: 'HISTOGRAM',
+  METER: 'METER',
+  TIMER: 'TIMER',
+};

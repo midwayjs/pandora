@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "target": "ES2016",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "stripInternal": true,
+    "pretty": true,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "typeRoots" : ["./d.ts/", "./node_modules/@types/"]
+  },
+  "include": [
+    "src/**/*",
+    "d.ts/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

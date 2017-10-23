@@ -1,0 +1,84 @@
+{
+  "name": "pandora",
+  "version": "2.0.38",
+  "description": "Pandora.js",
+  "main": "dist/index.js",
+  "typings": "src/index",
+  "bin": {
+    "pandora": "bin/pandora"
+  },
+  "scripts": {
+    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/pandora src/"
+  },
+  "keywords": [
+    "pandora",
+    "cluster"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "pandora-configurator": "^2.0.34",
+    "pandora-dollar": "^2.0.38",
+    "pandora-env": "^2.0.38",
+    "pandora-messenger": "^2.0.38",
+    "pandora-metrics": "^2.0.38",
+    "pandora-service-logger": "^2.0.38",
+    "cfork": "^1.6.1",
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "debug": "^2.6.8",
+    "egg-logger": "^1.6.0",
+    "extend": "^3.0.1",
+    "is-type-of": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.18.1",
+    "sdk-base": "^2.0.1",
+    "source-map-support": "^0.4.15",
+    "table": "^4.0.1",
+    "tail": "^1.2.2",
+    "yargs": "^6.6.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "0.0.2",
+    "chai": "^3.5.0",
+    "mm": "^2.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^11.2.1",
+    "nyc-ts-patch": "^1.0.0",
+    "urllib": "^2.24.0"
+  },
+  "nyc": {
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/debug",
+      "src/index.ts",
+      "src/domain.ts",
+      "typings",
+      "doc",
+      "test.bak",
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "json",
+      "html"
+    ],
+    "all": true
+  }
+}

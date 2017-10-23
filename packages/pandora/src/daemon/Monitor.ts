@@ -1,0 +1,72 @@
+'use strict';
+import {getDaemonLogger} from '../universal/LoggerBroker';
+import {ILogger, LoggerRotator} from 'pandora-service-logger';
+import {
+  MetricsActuatorServer,
+  CpuUsageGaugeSet,
+  NetTrafficGaugeSet,
+  SystemMemoryGaugeSet,
+  SystemLoadGaugeSet
+} from 'pandora-metrics';
+import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+
+const debug = require('debug')('pandora:cluster:monitor');
+
+/**
+ * Class Monitor
+ */
+export class Monitor {
+  private daemonLogger = getDaemonLogger();
+  private globalConfigProcesser = GlobalConfigProcessor.getInstance();
+  private globalConfig = this.globalConfigProcesser.getAllProperties();
+  private server;
+
+  /**
+   * Start Monitor
+   * @return {Promise<void>}
+   */
+  async start() {
+    // start logger rotator serivce
+    debug('start a monitor logger rotator service');
+    const loggerRotator = new LoggerRotator({
+      logger: <ILogger> this.daemonLogger
+    });
+    await loggerRotator.startService();
+
+    // start metrics server
+    debug('start a metrics server');
+    this.server = new this.globalConfig['actuatorServer']({
+      config: this.globalConfig['actuator'],
+      logger: this.daemonLogger
+    });
+
+    // register some default metrics
+    let metricsManager = this.server.getMetricsManager();
+    metricsManager.register('system', 'system', new CpuUsageGaugeSet());
+    metricsManager.register('system', 'system', new NetTrafficGaugeSet());
+    metricsManager.register('system', 'system', new SystemMemoryGaugeSet());
+    metricsManager.register('system', 'system', new SystemLoadGaugeSet());
+    // metricsManager.register('system', 'system', new DiskStatGaugeSet());
+
+    debug('start a metrics reporter');
+    for (let reporterName in this.globalConfig['reporters']) {
+      const reporterObj = this.globalConfig['reporters'][reporterName];
+      if (reporterObj['enabled']) {
+        let reporterIns = new reporterObj['reporter'](this.server, reporterObj.initConfig || {});
+        reporterIns.start(reporterObj['interval']);
+        this.daemonLogger.info(`${reporterName} reporter started`);
+      }
+    }
+    this.daemonLogger.info('monitor started');
+
+  }
+
+  /**
+   * @return {Promise<void>}
+   */
+  async stop() {
+    await this.server.destroy();
+  }
+
+}
+

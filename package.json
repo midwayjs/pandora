@@ -1,0 +1,53 @@
+{
+  "name": "pandora.js",
+  "version": "0.0.1",
+  "description": "Runtime Container for Node.js Application",
+  "main": "lib",
+  "preferGlobal": true,
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "typedoc": "^0.9.0",
+    "lerna": "^2.0.0",
+    "lerna-relinker": "^1.4.0",
+    "nyc": "^11.2.1",
+    "nyc-ts-patch": "^1.0.0",
+    "ts-node": "^3.2.0",
+    "tslint": "^4.1.1",
+    "typescript": "^2.1.4"
+  },
+  "scripts": {
+    "test": "mocha",
+    "cov": "sh scripts/cov.sh",
+    "ci": "npm run lint && npm run cov",
+    "purge": "tnpm run clean && rm -rf node_modules",
+    "reset": "tnpm run purge && tnpm i && tnpm run ci",
+    "canary": "sh scripts/publish.sh --canary",
+    "beta": "sh scripts/publish.sh --npm-tag pandora2 --force-publish=*",
+    "next": "sh scripts/publish.sh --npm-tag next",
+    "publish": "rm -f ./packages/.DS*; sh scripts/publish.sh",
+    "bootstrap": "rm -f ./packages/.DS*; lerna bootstrap",
+    "clean": "lerna clean --yes",
+    "updated": "lerna updated",
+    "li": "lerna init",
+    "build": "sh scripts/build.sh",
+    "gen-api-ref": "sh scripts/gen-api-ref.sh"
+  },
+  "keywords": [
+    "container",
+    "runtime",
+    "cluster",
+    "service",
+    "application"
+  ],
+  "homepage": "https://github.com/midwayjs/pandora",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/midwayjs/pandora.git"
+  },
+  "engines": {
+    "node": ">= 6.0.0"
+  },
+  "license": "MIT"
+}

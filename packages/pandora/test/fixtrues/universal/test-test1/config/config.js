@@ -1,0 +1,1 @@
+exports.gotConfig = true;

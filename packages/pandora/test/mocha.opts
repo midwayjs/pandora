@@ -1,0 +1,5 @@
+--compilers ts:ts-node/register
+--require ./test/TestHelper.ts
+--timeout 100000
+test/**/*.test.ts
+
