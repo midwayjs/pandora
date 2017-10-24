@@ -1,7 +1,7 @@
 import {CachedMetricSet} from '../../client/CachedMetricSet';
 import {MetricName} from '../../common/MetricName';
 import {Gauge} from '../../client/MetricsProxy';
-import {startsWith, extractInt} from '../../util/indicatorHelper';
+import {startsWith, extractInt} from '../../util/IndicatorHelper';
 import * as fs from 'fs';
 
 

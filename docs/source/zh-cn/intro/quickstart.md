@@ -5,83 +5,68 @@
 操作系统：支持 macOS，Linux
 运行环境：建议选择 LTS 版本，最低要求 6.x
 
-## 两种安装模式
+## 本节目标
 
-### 套路：全局安装模式
-
-```sh
-npm i pandora -g
-```
-
-**全局安装模式下的使用**
+了解 Pandora.js 最基础的 start, stop, dev, exit, list 命令
 
 
+## 安装
 
-### 套路：安装进应用模式
+Pandora.js 可以直接安装在应用程序中，也可以安装在全局。
 
 ```sh
-npm i pandora --save
+npm i pandora -g  // 安装在全局
+npm i pandora --save   // 安装在应用
 ```
 
-## start 启动应用
+## 通过应用本身脚本启停
+
+这种情况下， pandora 会进入应用的整个开发流程，一般情况下，我们会将 pandora 命令写到 scripts 段落中。
+
+```json
+// package.json
+{
+  "script": {
+    "dev": "pandora dev ./",
+    "start": "pandora start ./",
+    "debug": "pandora debug ./",
+    "stop": "pandora stop ./"
+  }
+}
+```
+
+
+## 全局模式下启停应用
 
 ```sh
 pandora start [--name xxx]<path>
 ```
 
-最常用的启动命令，用于启动一个新的应用，这里的应用名为可选，默认为目录名。
-
-举例：
+比如当前在应用根目录，应用为 `helloApp`。
 
 ```sh
-// 当前目录为 /home/admin/mytaobao/target/mytaobao
-
-pandora start . // 启动 mytaobao 应用，类似 --name=mytaobao
-pandora start . --name mytaobao // 同上
-pandora start `pwd` // 同上
+pandora start .
+pandora start . --name helloApp
 ```
 
-## stop 停止应用
+第一个命令会以目录最后一截作为应用名，这样，应用会默认以 cluster 模式来启动，并在后台运行。
+
+如果希望在前台启动，可以使用 dev 命令。
 
 ```sh
-pandora stop <name>
+pandora dev .
 ```
 
-停止一个应用，应用的信息保留。
-
-举例：
-
-```sh
-pandora stop mytaobao // mytaobao 为之前定义的名字
-```
-
-## restart 重启应用
-
-```sh
-pandora restart <name>
-```
-
-重启一个应用，先停止运行，再按原配置启动。
-
-举例：
-
-```sh
-pandora restart mytaobao // mytaobao 为之前定义的名字
-```
-
-## list 列出所有运行的应用
+当应用启动之后，可以通过 list 命令查看。
 
 ```sh
 pandora list
 ```
 
-列出应用列表，示例如下：
-![b0df27982689aff7.png](https://private-alipayobjects.alipay.com/alipay-rmsdeploy-image/skylark/png/33200/b0df27982689aff7.png) 
-
-## exit 退出 pandora
-
-将 pandora 进程彻底退出，同时停止所有正在运行的应用
+也可以将它停止运行。
 
 ```sh
-pandora exit
+pandora stop
 ```
+
+> 因为 pandora 全局模式下一般在后台启动，所以最好是部署到服务器上才这么做。
