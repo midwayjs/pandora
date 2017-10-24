@@ -1,6 +1,6 @@
 # pandora 
 
-阿里Node.js应用的服务容器。
+一个 Node.js 应用的服务容器。
 
 
 ## 安装
@@ -38,12 +38,4 @@ pandora stop pandora-project
 ```bash
 pandora list
 ```
-
-
-## 现有应用如何使用 Pandora.js 
-
-1. [Midway 应用使用 pandora](https://lark.alipay.com/midway/pandora/uwlthp)
-2. [Egg 应用使用 pandora](https://lark.alipay.com/midway/pandora/pandora-egg)
-3. [其他应用使用 pandora](https://lark.alipay.com/midway/pandora/pandora-other)
-
 
