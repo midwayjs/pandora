@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/midwayjs/pandora.svg?branch=develop)](https://travis-ci.org/midwayjs/pandora)
+[![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora.svg?style=flat-square)](https://codecov.io/gh/midwayjs/pandora)
+
 ## Installation
 
 ```bash

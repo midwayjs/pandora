@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "6"
+  - "8"
+install:
+  - npm i
+  - npm i codecov
+script:
+  - npm run bootstrap
+  - npm run ci
+after_script:
+  - codecov
