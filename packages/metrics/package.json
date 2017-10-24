@@ -28,7 +28,8 @@
     "node-df": "^0.1.1",
     "nyc": "^11.2.1",
     "supertest": "^3.0.0",
-    "yargs": "^6.6.0"
+    "yargs": "^6.6.0",
+    "pandora": "^0.1.0"
   },
   "dependencies": {
     "cron-parser": "^2.4.1",
