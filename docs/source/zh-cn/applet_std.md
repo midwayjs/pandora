@@ -9,7 +9,7 @@ Applet 对象可以理解为应用的主程序，用于注入业务实现。
 Applet 主要应该实现两个接口约束：
 
 1. [Applet](interfaces/Applet.html) -> 对象的基础 Interface
-2. [AppletConstructor](interfaces/AppletConstructor.html) -> 构造器方法
+2. [AppletConstructor](interfaces/AppletConstructor.html) -> 构造器约束
 
 其中主要包括两个生命周期方法和一个构造器约束：
 
@@ -29,7 +29,6 @@ Applet 主要应该实现两个接口约束：
   * context -> 进程级别的上下文访问器 [WorkerContextAccessor](calsses/WorkerContextAccessor.html)
   * appletName -> 该 Applet 名字
   * category -> 当前被分配的 category
-
 
 
 ## 建议使用的基础实现
