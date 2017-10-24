@@ -26,7 +26,7 @@ exports.builder = (yargs) => {
 
   yargs.option('inject-monitoring', {
     alias: 'i',
-    describe: 'Only when mode be fork, inject the monitoring before each child running automatically',
+    describe: 'Only when the start mode be fork, inject the monitoring automatically before each child process started',
     boolean: true
   });
 

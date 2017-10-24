@@ -18,23 +18,23 @@
 		
 ### 每个 Package 应该暴露的命令
 
-* tnpm run build => 编译
-* tnpm run lint => 执行对 test、src 目录的 lint
-* tnpm run test => 执行测试
-* tnpm run cov => 覆盖率
-* tnpm run gen-api-ref => 生成 API-Reference
+* npm run build => 编译
+* npm run lint => 执行对 test、src 目录的 lint
+* npm run test => 执行测试
+* npm run cov => 覆盖率
+* npm run gen-api-ref => 生成 API-Reference
 
 ### 根目录暴露的命令
     
-* tnpm run bootstrap => lerna bootstrap
-* tnpm run test => 对所有 packages 执行单元测试
-* tnpm run cov => 对所有 packages 执行覆盖率测试
-* tnpm run build => 对所有 packages 执行 build
-* tnpm run publish => 发布到 npm
-* tnpm run clean => lerna clean
-* tnpm run purge => 清除所有依赖
-* tnpm run gen-api-ref => 生成全部 API-Reference
-* tnpm run ci => 执行 CI
+* npm run bootstrap => lerna bootstrap
+* npm run test => 对所有 packages 执行单元测试
+* npm run cov => 对所有 packages 执行覆盖率测试
+* npm run build => 对所有 packages 执行 build
+* npm run publish => 发布到 npm
+* npm run clean => lerna clean
+* npm run purge => 清除所有依赖
+* npm run gen-api-ref => 生成全部 API-Reference
+* npm run ci => 执行 CI
 
 
 ### 开发新功能
