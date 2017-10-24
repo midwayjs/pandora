@@ -55,5 +55,9 @@
       "html"
     ],
     "all": true
-  }
+  },
+  "files": [
+    "dist",
+    "d.ts"
+  ]
 }

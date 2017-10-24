@@ -80,5 +80,13 @@
       "html"
     ],
     "all": true
-  }
+  },
+  "files": [
+    "3rd",
+    "bin",
+    "cli",
+    "d.ts",
+    "dist",
+    "logo"
+  ]
 }
