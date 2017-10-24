@@ -6,7 +6,7 @@
 ## 安装
 
 ```bash
-tnpm install pandora -g
+npm install pandora -g
 ```
 
 全局安装 `pandora`，将会提供一个全局命令 `pandora` 。

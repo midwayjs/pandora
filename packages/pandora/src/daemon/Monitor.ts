@@ -2,7 +2,6 @@
 import {getDaemonLogger} from '../universal/LoggerBroker';
 import {ILogger, LoggerRotator} from 'pandora-service-logger';
 import {
-  MetricsActuatorServer,
   CpuUsageGaugeSet,
   NetTrafficGaugeSet,
   SystemMemoryGaugeSet,

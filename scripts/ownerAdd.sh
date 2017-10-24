@@ -10,7 +10,7 @@ do
       cd $pkg
       echo ">>>>>> Owner Adding"
       echo ">>>>>>" $pkg
-      tnpm owner add $user
+      npm owner add $user
     fi
 done
 cd $cwd

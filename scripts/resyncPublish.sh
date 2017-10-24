@@ -10,7 +10,7 @@ do
       cd $pkg
       echo ">>>>>> Publishing"
       echo ">>>>>>" $pkg
-      tnpm publish
+      npm publish
     fi
 done
 cd $cwd

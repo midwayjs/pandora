@@ -16,7 +16,7 @@
 }
 ```
 
-> 之后运行 `tnpm run dev` 即可本地启动应用。
+> 之后运行 `npm run dev` 即可本地启动应用。
 
 ## 使用自带的 node-inspector 调试项目
 
