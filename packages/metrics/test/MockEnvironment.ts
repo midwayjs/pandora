@@ -5,7 +5,7 @@ import {MetricsConstants} from '../src/MetricsConstants';
 export class MockEnvironment extends BaseEnvironment {
 
   constructor() {
-    super(path.join(__dirname, 'fixtures'), {
+    super({
       appName: MetricsConstants.METRICS_DEFAULT_APP
     });
   }
