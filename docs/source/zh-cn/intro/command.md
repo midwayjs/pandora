@@ -6,32 +6,6 @@ Pandora.js 提供了一些常用的命令行来帮助应用进行管理，比如
 - list
 - exit
 
-## 前置：关于在淘系使用 Pandora.js 的若干
-
-因为 Pandora.js 是开放软件，不集成任何与淘宝相关的环境处理、中间件等。如果用户需要在淘宝环境下使用 Pandora.js ，需要在 `package.json` 中增加如下：
-
-```javascript
-{
-  "scripts": {
-    "pandora": "PANDORA_CONFIG=@ali/pandora-taobao pandora"
-  }
-}
-```
-
-增加 pandora 的命令代理，主要是指定了使用 `PANDORA_CONFIG=@ali/pandora-taobao` 这一淘系默认配置。
-
-**下文中所有提到 pandora 开头的 shell 命令需要使用 tnpm run pandora 代替，即如：**
-
-```sh
-pandora start .
-```
-
-替代为
-
-```sh
-tnpm run pandora start .
-```
-
 ## start 启动应用
 
 ```sh
