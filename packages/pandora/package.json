@@ -22,7 +22,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "pandora-configurator": "^2.0.34",
     "pandora-dollar": "^2.0.38",
     "pandora-env": "^2.0.38",
     "pandora-messenger": "^2.0.38",
