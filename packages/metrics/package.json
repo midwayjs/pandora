@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "2.0.38",
+  "version": "0.1.0",
   "description": "applicatoin metrics",
   "main": "dist/index",
   "typings": "src/index",
@@ -31,15 +31,15 @@
     "yargs": "^6.6.0"
   },
   "dependencies": {
-    "pandora-env": "^2.0.38",
-    "pandora-messenger": "^2.0.38",
-    "pandora-service-logger": "^2.0.38",
     "cron-parser": "^2.4.1",
     "debug": "^2.6.8",
     "extend": "^3.0.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "node-df": "^0.1.1",
+    "pandora-env": "^0.1.0",
+    "pandora-messenger": "^0.1.0",
+    "pandora-service-logger": "^0.1.0",
     "pidusage": "^1.1.6",
     "urllib": "^2.24.0"
   },
