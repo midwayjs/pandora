@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "applicatoin metrics",
   "main": "dist/index",
   "typings": "dist/index",
@@ -27,9 +27,9 @@
     "mocha": "^3.5.0",
     "node-df": "^0.1.1",
     "nyc": "^11.2.1",
+    "pandora": "^0.1.1",
     "supertest": "^3.0.0",
-    "yargs": "^6.6.0",
-    "pandora": "^0.1.0"
+    "yargs": "^6.6.0"
   },
   "dependencies": {
     "cron-parser": "^2.4.1",
@@ -38,9 +38,9 @@
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "node-df": "^0.1.1",
-    "pandora-env": "^0.1.0",
-    "pandora-messenger": "^0.1.0",
-    "pandora-service-logger": "^0.1.0",
+    "pandora-env": "^0.1.1",
+    "pandora-messenger": "^0.1.1",
+    "pandora-service-logger": "^0.1.1",
     "pidusage": "^1.1.6",
     "urllib": "^2.24.0"
   },
