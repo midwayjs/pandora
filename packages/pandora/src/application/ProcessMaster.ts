@@ -9,7 +9,7 @@ import {consoleLogger} from '../universal/LoggerBroker';
 import {ProcfileReconciler} from './ProcfileReconciler';
 import {
   READY, WORKER_READY, APP_START_SUCCESS, RELOAD, SHUTDOWN, WORKER_EXIT, ERROR,
-  RELOAD_SUCCESS, RELOAD_ERROR
+  RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN
 } from '../const';
 import {ClusterSupport} from './ClusterSupport';
 
@@ -167,12 +167,12 @@ export class ProcessMaster extends Base {
     return new Promise((resolve, reject) => {
       let timer = setTimeout(() => {
         resolve();
-      }, 3000);
+      }, SHUTDOWN_TIMEOUT);
       // Mark it doesn't want to refork by 3rd lib cfork
       worker._refork = false;
-      worker.send(SHUTDOWN);
+      worker.send({action: SHUTDOWN});
       worker.on('message', message => {
-        if (message === 'finish_shutdown') {
+        if (message.action === FINISH_SHUTDOWN) {
           clearTimeout(timer);
           timer = null;
           resolve();
@@ -328,7 +328,12 @@ export class ProcessMaster extends Base {
    */
   onProcessTerm(sig) {
     consoleLogger.info(`Application's master receive a signal ${sig}, exit with code 0, pid ${process.pid}`);
-    process.exit(0);
+    this.stop().then(() => {
+      process.exit(0);
+    }).catch((err) => {
+      consoleLogger.error(err);
+      process.exit(1);
+    });
   }
 
   /**

@@ -38,6 +38,9 @@ export const PUBLISH_TOPIC_MESSAGE = 'publish_topic_message';
 export const SUBSCRIBE_TOP_MESSAGE = 'subscribe_topic_message';
 
 export const SHUTDOWN = 'shutdown';
+export const FINISH_SHUTDOWN = 'finish_shutdown';
+export const SHUTDOWN_TIMEOUT = 5000;
+
 // reload进程
 export const RELOAD = 'reload';
 export const RELOAD_SUCCESS = 'reload_success';

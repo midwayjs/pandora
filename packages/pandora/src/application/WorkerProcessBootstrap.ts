@@ -1,7 +1,7 @@
 'use strict';
 require('source-map-support').install();
 import program = require('commander');
-import {ERROR, READY} from '../const';
+import {ERROR, FINISH_SHUTDOWN, READY, SHUTDOWN} from '../const';
 import {WorkerContext} from './WorkerContext';
 import {Configurator, ProcessRepresentation} from '../domain';
 import {ProcfileReconciler} from './ProcfileReconciler';
@@ -54,6 +54,12 @@ export class WorkerProcessBootstrap {
       return;
     }
     await this.startByProcfile();
+  }
+
+  async stop() {
+    if (this.context) {
+      await this.context.stop();
+    }
   }
 
   /**
@@ -170,6 +176,15 @@ export class WorkerProcessBootstrap {
 
     const workerBootstrap = new WorkerProcessBootstrap(entry, options);
     workerBootstrap.start().then(() => {
+      process.on('message', (message) => {
+        if (message.action === SHUTDOWN) {
+          workerBootstrap.stop().then(() => {
+            if (process.send) {
+              process.send({action: FINISH_SHUTDOWN});
+            }
+          });
+        }
+      });
       if (process.send) {
         process.send({action: READY});
       }
