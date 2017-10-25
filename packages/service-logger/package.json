@@ -55,7 +55,8 @@
     "reporter": [
       "text",
       "json",
-      "html"
+      "html",
+      "lcovonly"
     ],
     "all": true
   },

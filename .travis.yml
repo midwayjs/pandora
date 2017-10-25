@@ -5,8 +5,10 @@ node_js:
 install:
   - npm i
   - npm i codecov
-script:
+before_script:
   - npm run bootstrap
-  - npm run ci
+  - npm run build
+script:
+  - npm run cov
 after_script:
   - codecov
