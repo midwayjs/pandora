@@ -9,22 +9,21 @@
     - [Cluster 模式](cluster_mode.md) 
     - [Procfile.js 模式](procfile_mode.md)
     - [调试应用](debug.md) 
-    - 目录结构指南 
+    - [目录结构指南](dir.md)
 - 进程管理进阶
+    - 全局配置覆盖
     - [基于 Procfile.js 编排应用](custom_procfile.md) 
         - [Environment 标准](environment_std.md) 
         - [Configurator 标准](configurator_std.md) 
         - [Applet 标准](applet_std.md) 
         - [Service 标准](service_std.md) 
-    - 自定义监控
-    - 进程模型 
-    - 应用生命周期 
+    - [进程模型](process/process_model.md) 
+    - [应用生命周期](process/applicationl_life cycle.md) 
 - 标准监控体系
-    - metrics 体系介绍 
-    - fork 模式使用 metrics 
-    - cluster 模式使用 metrics 
-    - 内置的监控 
-    - 自定义监控 
+    - [监控体系介绍](monitor/index.md) 
+    - [使用和扩展 EndPoint](monitor/endpoint.md)
+    - [使用和扩展 Metrics](monitor/metrics.md)
+    - [内置的监控内容](monitor/monitor_inner.md)
 - 二次开发
     - [基于 Pandora.js 开发框架](develop_framework_with_pandora.md) 
 - 社区和开放

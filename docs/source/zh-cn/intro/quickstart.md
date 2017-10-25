@@ -35,6 +35,13 @@ npm i pandora --save   // 安装在应用
 }
 ```
 
+这个时候，你可以通过 ``scripts` 本身的机制来运行，比如
+
+```
+npm run dev // 本地启动
+npm run start // 线上启动
+```
+
 
 ## 全局模式下启停应用
 
@@ -70,3 +77,9 @@ pandora stop
 ```
 
 > 因为 pandora 全局模式下一般在后台启动，所以最好是部署到服务器上才这么做。
+
+一般情况下，使用过 start 命令启动应用之后，Daemon 进程依旧会常驻在内存中，这个时候就需要手动 exit，将 Daemon 进程正常退出，注意，使用 kill 指令不一定能够有效的杀死 Daemon 进程。
+
+```sh
+pandora exit
+```
