@@ -2,7 +2,7 @@
  * A proxy (or called accessor) of the WorkerContext, to provide a grace interface to use
  */
 import {WorkerContext} from './WorkerContext';
-import {Environment} from 'pandora-env/src/domain';
+import {Environment} from 'pandora-env';
 import {Applet, Configurator, Service} from '../domain';
 
 /**
