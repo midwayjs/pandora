@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Pandora.js",
   "main": "dist/index.js",
-  "typings": "src/index",
+  "typings": "dist/index",
   "bin": {
     "pandora": "bin/pandora"
   },
