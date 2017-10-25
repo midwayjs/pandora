@@ -152,7 +152,7 @@ export class ProcfileReconciler {
   }
 
   /**
-   * callProcfile get a param typed function, call that function inject ProcfileReconcilerAccessor as the first param.
+   * callProcfile required a argument as typed function, then call that function, pass ProcfileReconcilerAccessor as the first argument of that function.
    * @param entryFn
    * @param path
    */
@@ -170,9 +170,9 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Normalize entry class, entry class such as applet class, service class, configurator class
+   * Normalize entry class, entry class such as applet class, service class and configurator class
    * Those classes have a lazy way to represent, it can get a relative path
-   * this method will wrap that relative path to a real Class
+   * this method will wrap that relative path to a real class
    * @param entry
    * @return {EntryClass}
    */
@@ -199,7 +199,7 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Class name to instance name
+   * Convert class name to instance name
    * @param {string} name
    * @return {string}
    */
