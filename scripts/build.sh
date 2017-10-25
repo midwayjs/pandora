@@ -15,9 +15,8 @@ do
       echo ">>>>>> Building"
       echo ">>>>>>" $pkg
       echo "*****************************************"
-      echo "************************ © Pandora.js **"
+      echo "************************ © Pandora.js ***"
       npm run build
     fi
 done
-wait
 cd $cwd

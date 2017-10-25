@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "pandora service logger",
   "main": "dist/index",
-  "typings": "dist/index",
+  "typings": "src/index",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -61,6 +61,7 @@
     "all": true
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ]
 }

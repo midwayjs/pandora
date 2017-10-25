@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "pandora.js messenger module",
   "main": "dist/index",
-  "typings": "dist/index",
+  "typings": "src/index",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -59,6 +59,7 @@
   },
   "files": [
     "dist",
+    "src",
     "d.ts"
   ]
 }

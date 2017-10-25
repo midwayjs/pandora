@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "Pandora.js",
   "main": "dist/index.js",
-  "typings": "dist/index",
+  "typings": "src/index",
   "bin": {
     "pandora": "bin/pandora"
   },
@@ -87,6 +87,7 @@
     "cli",
     "d.ts",
     "dist",
+    "src",
     "logo"
   ]
 }
