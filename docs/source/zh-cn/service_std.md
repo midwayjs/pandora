@@ -53,10 +53,58 @@ Service 主要应该实现两个接口约束：
 
 #### 一个简单的例子
 
-#### 如何测试
+```typescript
+class HotConfig {
+  
+  // 默认使用类名，作为 Service 名，亦可自行更改
+  // static serviceName = 'hotConfig';
+  
+  getConfig(key) {
+    swtich (key) {
+      case 'prefix':
+        return 'myprefix:';
+    }
+  }
 
+}
+
+class KVStore {
+  
+  // 默认使用类名，作为 Service 名，亦可自行更改
+  // static serviceName = 'kvStore';
+
+  static dependencies = ['HotConfig'];
+  
+  store: Map<string, Map<string, string>> = new Map;
+
+  private getTopic(topic) {
+    if (!this.store.has(topic)) {
+      this.store.set(topic) = new Map;
+    }
+    return this.store.get(topic);
+  }
+  
+  get(topic, key) {
+    const hotConfig = this.core.deps.HotConfig;
+    key = hotConfig.getConfig('prefix') + key;
+    return this.getTopic(topic).get(key);
+  }
+  
+  set(topic, key) {
+    const hotConfig = this.core.deps.HotConfig;
+    key = hotConfig.getConfig('prefix') + key;
+    return this.getTopic(topic).set(key);
+  }
+
+}
+```
+
+#### 如何测试
 
 ## 跨进程单实例
 
-## 如何断言测试
+#### 一个简单的例子
+
+#### 如何测试
+
 

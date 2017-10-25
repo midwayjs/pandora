@@ -204,8 +204,8 @@ export class ProcfileReconciler {
    * @return {string}
    */
   normalizeName(name: string): string {
-    return name.replace(/^[A-Z]/, (x) => x.toLocaleLowerCase());
-
+    return name;
+    // return name.replace(/^[A-Z]/, (x) => x.toLocaleLowerCase());
   }
 
   /**
@@ -233,7 +233,7 @@ export class ProcfileReconciler {
     const serviceEntry = this.normalizeEntry(serviceRepresentation.serviceEntry);
     const ret = {
       ...serviceRepresentation,
-      serviceName: this.normalizeName(serviceRepresentation.serviceName || (<any> serviceEntry).lazyName || (<any> serviceEntry).name),
+      serviceName: this.normalizeName(serviceRepresentation.serviceName || (<any> serviceEntry).lazyName ||  (<any> serviceEntry).serviceName || (<any> serviceEntry).name),
       category: serviceRepresentation.category || this.defaultServiceCategory,
       serviceEntry: serviceEntry
     };
@@ -250,7 +250,7 @@ export class ProcfileReconciler {
     const appletEntry = this.normalizeEntry(appletRepresentation.appletEntry);
     const ret = {
       ...appletRepresentation,
-      appletName: this.normalizeName(appletRepresentation.appletName || (<any> appletEntry).lazyName || (<any> appletEntry).name),
+      appletName: this.normalizeName(appletRepresentation.appletName || (<any> appletEntry).lazyName || (<any> appletEntry).appletName || (<any> appletEntry).name),
       category: appletRepresentation.category || this.defaultAppletCategory,
       appletEntry
     };

@@ -57,6 +57,9 @@ export class AppletReconciler {
     if (typeof represent === 'string') {
       represent = this.getRepresentationByAppletName(represent);
     }
+    if(!represent) {
+      return null;
+    }
     if (!this.instanceMap.has(represent)) {
       represent.config = represent.configResolver ?
         represent.configResolver(this.context.workerContextAccessor, represent.config) : represent.config;
@@ -79,7 +82,7 @@ export class AppletReconciler {
   async start() {
     for (const represent of this.appletSet) {
       const inst = this.getAppletInstance(represent);
-      await inst.start();
+      inst.start && await inst.start();
     }
   }
 
@@ -90,7 +93,7 @@ export class AppletReconciler {
   async stop() {
     for (const represent of this.appletSet) {
       const inst = this.getAppletInstance(represent);
-      await inst.stop();
+      inst.stop && await inst.stop();
     }
   }
 

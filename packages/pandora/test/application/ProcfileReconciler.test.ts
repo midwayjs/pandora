@@ -111,7 +111,7 @@ describe('ProcfileReconciler', function () {
       });
       const allInjectedApplets = reconciler.getAppletsByCategory('all');
       expect(allInjectedApplets[0].appletEntry).equal(TestApplet);
-      expect(allInjectedApplets[0].appletName).equal('testApplet');
+      expect(allInjectedApplets[0].appletName).equal('TestApplet');
       expect(allInjectedApplets[0].category).equal('worker');
     });
 
@@ -151,7 +151,7 @@ describe('ProcfileReconciler', function () {
       const allInjectedApplets = reconciler.getAppletsByCategory('all');
       const someApplet = new (<any> allInjectedApplets[0].appletEntry);
       expect(someApplet.passTestCase()).to.be.ok;
-      expect(allInjectedApplets[0].appletName).equal('someApplet');
+      expect(allInjectedApplets[0].appletName).equal('SomeApplet');
     });
   });
 
@@ -190,7 +190,7 @@ describe('ProcfileReconciler', function () {
         pandora.service(TestService).dependency('baba');
       });
       const allInjectedService = reconciler.getServicesByCategory('all');
-      expect(allInjectedService[0].serviceName).equal('testService');
+      expect(allInjectedService[0].serviceName).equal('TestService');
       expect(allInjectedService[0].category).equal('all');
       expect(allInjectedService[0].serviceEntry).equal(TestService);
       expect(allInjectedService[0].dependencies).to.be.deep.equal(['depServiceA', 'baba']);
@@ -232,9 +232,9 @@ describe('ProcfileReconciler', function () {
         pandora.service('./SomeService');
       }, pathProjectSimple1);
       const allInjectedService = reconciler.getServicesByCategory('all');
-      expect(allInjectedService[0].serviceName).equal('someService');
+      expect(allInjectedService[0].serviceName).equal('SomeService');
       expect(allInjectedService[0].category).equal('all');
-      expect(allInjectedService[0].dependencies).to.be.deep.equal(['depServiceBABA']);
+      expect(allInjectedService[0].dependencies).to.be.deep.equal(['DepServiceBABA']);
     });
 
     it('should inject logger service by default be ok', () => {

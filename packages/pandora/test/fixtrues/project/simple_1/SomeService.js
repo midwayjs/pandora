@@ -6,5 +6,5 @@ class SomeService {
     // console.log('stop');
   }
 }
-SomeService.dependencies = ['depServiceBABA'];
+SomeService.dependencies = ['DepServiceBABA'];
 module.exports = SomeService;

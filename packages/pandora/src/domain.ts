@@ -132,6 +132,11 @@ export {MessengerClient, MessengerServer} from 'pandora-messenger';
 export interface ServiceCore extends SimpleServiceCore {
 }
 
+
+export interface ServiceConstructor {
+  dependencies: string[];
+  getProxy(): Service;
+}
 export interface Service {
 
   core?: ServiceCore;
