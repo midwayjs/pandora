@@ -32,7 +32,7 @@ export class GlobalConfigProcessor {
           } catch (err) {
             // info
             consoleLogger.info(`Can't find config from ${configPath}`);
-            consoleLogger.error(err);
+            consoleLogger.warn(err);
           }
         }
       }

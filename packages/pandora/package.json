@@ -12,7 +12,7 @@
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
     "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
-    "cov": "nyc mocha",
+    "cov": "NODE_ENV=unittest nyc mocha",
     "ci": "npm run test",
     "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/pandora src/"
   },

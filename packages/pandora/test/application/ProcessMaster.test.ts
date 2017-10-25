@@ -1,9 +1,8 @@
 import mm = require('mm');
-import {cpus} from 'os';
 import {join, dirname} from 'path';
 import {expect} from 'chai';
 import urllib = require('urllib');
-import {ProcessMaster} from '../../src/application/ProcessMaster';
+import {defaultWorkerCount, ProcessMaster} from '../../src/application/ProcessMaster';
 
 const pathProjectMaster = join(__dirname, '../fixtrues/project/master');
 const pathSimpleClusterApp = join(__dirname, '../fixtrues/project/simple_cluster/app.js');
@@ -23,7 +22,7 @@ describe('ProcessMaster', function () {
 
     it('should start be ok', async () => {
       await processMaster.start();
-      expect(processMaster.getWorkers().length === cpus().length);
+      expect(processMaster.getWorkers().length === defaultWorkerCount);
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });
@@ -33,7 +32,7 @@ describe('ProcessMaster', function () {
       await processMaster.reload('worker');
       const afterWorkers = processMaster.getWorkers();
       expect(beforeWorkers.length).equal(afterWorkers.length);
-      expect(beforeWorkers[0].pid).not.equal(afterWorkers[1].pid);
+      expect(beforeWorkers[0].pid).not.equal(afterWorkers[0].pid);
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });
@@ -77,7 +76,7 @@ describe('ProcessMaster', function () {
 
     it('should start be ok', async () => {
       await processMaster.start();
-      expect(processMaster.getWorkers().length).equal(cpus().length);
+      expect(processMaster.getWorkers().length).equal(defaultWorkerCount);
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });
@@ -87,7 +86,7 @@ describe('ProcessMaster', function () {
       await processMaster.reload('worker');
       const afterWorkers = processMaster.getWorkers();
       expect(beforeWorkers.length).equal(afterWorkers.length);
-      expect(beforeWorkers[0].pid).not.equal(afterWorkers[1].pid);
+      expect(beforeWorkers[0].pid).not.equal(afterWorkers[0].pid);
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });

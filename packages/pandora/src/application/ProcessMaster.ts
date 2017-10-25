@@ -15,8 +15,9 @@ import {ClusterSupport} from './ClusterSupport';
 
 const cFork = require('../../3rd/fork');
 const PathWorkerProcessBootstrap = require.resolve('./WorkerProcessBootstrap');
-const defaultWorkerCount = cpus().length;
 const $ProcessName = Symbol('ProcessName');
+
+export const defaultWorkerCount = process.env.DEFAULT_WORKER_COUNT ? parseInt(process.env.DEFAULT_WORKER_COUNT) : cpus().length;
 
 /**
  * Class Master
@@ -239,7 +240,7 @@ export class ProcessMaster extends Base {
   private forkWorker(processRepresentation: ProcessRepresentation): Promise<any> {
 
     const workerArgs = ['--params', JSON.stringify(processRepresentation)];
-    const count = processRepresentation.scale === 'auto' ? cpus().length : (processRepresentation.scale || defaultWorkerCount);
+    const count = processRepresentation.scale === 'auto' ? defaultWorkerCount : (processRepresentation.scale || defaultWorkerCount);
     const execArgv = process.execArgv.concat(processRepresentation.argv || []);
 
     // Handing TypeScript, only for unit test

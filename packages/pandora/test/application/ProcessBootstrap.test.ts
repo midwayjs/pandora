@@ -15,9 +15,7 @@ describe('ProcessBootstrap', function () {
       mode: 'fork'
     });
     await processBootstrap.start();
-    await promise.delay(200);
-    const timeMark = require(pathToProcessBootstrapForkTimeMark);
-    assert(timeMark.requireTime.getTime() + 200 < Date.now());
+    assert(require.cache[pathToProcessBootstrapForkTimeMark]);
   });
 
   it('should entryFn start be ok', async () => {
