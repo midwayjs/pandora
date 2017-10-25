@@ -69,7 +69,7 @@ describe('Daemon', function () {
           appName: 'demo',
         });
       } catch (err) {
-        expect(err.name).equal('AssertionError');
+        expect(err.name).to.be.includes('AssertionError');
         expect(err.message).equal(`${appDir} does not exists!`);
       }
     });

@@ -277,9 +277,9 @@ export class ProcessMaster extends Base {
             }
           } else if (action === ERROR) {
             const message = format(
-              'web-worker#%s:%s start error (suicide: %s, state: %s), current workers: %j',
+              'web-worker#%s:%s start error (exitedAfterDisconnect: %s, state: %s), current workers: %j',
               worker.id, worker.process.pid,
-              worker.suicide, worker.state,
+              worker.exitedAfterDisconnect, worker.state,
               Object.keys(cluster.workers)
             );
             const err = new Error(message);
@@ -294,9 +294,9 @@ export class ProcessMaster extends Base {
         const workerProcess = worker.process;
         const exitCode = workerProcess.exitCode;
         const message = format(
-          'web-worker#%s:%s died (code: %s, signal: %s, suicide: %s, state: %s), current workers: %j',
+          'web-worker#%s:%s died (code: %s, signal: %s, exitedAfterDisconnect: %s, state: %s), current workers: %j',
           worker.id, worker.process.pid, exitCode, signal,
-          worker.suicide, worker.state,
+          worker.exitedAfterDisconnect, worker.state,
           Object.keys(cluster.workers)
         );
         const err = new Error(message);
