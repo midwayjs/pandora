@@ -21,12 +21,10 @@
     - [应用生命周期](process/applicationl_life cycle.md) 
 - 标准监控体系
     - [监控体系介绍](monitor/index.md) 
-    - [使用和扩展 EndPoint](monitor/endpoint.md)
-    - [使用和扩展 Metrics](monitor/metrics.md)
+    - [使用 EndPoint](monitor/endpoint.md)
+    - [使用 Metrics](monitor/metrics.md)
     - [内置的监控内容](monitor/monitor_inner.md)
 - 二次开发
     - [基于 Pandora.js 开发框架](develop_framework_with_pandora.md) 
 - 社区和开放
-    - 支持的框架 
-    - 支持的监控平台 
     - 如何贡献 

@@ -29,7 +29,6 @@ npm i pandora --save   // 安装在应用
   "script": {
     "dev": "pandora dev ./",
     "start": "pandora start ./",
-    "debug": "pandora debug ./",
     "stop": "pandora stop ./"
   }
 }
@@ -46,7 +45,7 @@ npm run start // 线上启动
 ## 全局模式下启停应用
 
 ```sh
-pandora start [--name xxx]<path>
+pandora start [--name xxx] <path>
 ```
 
 比如当前在应用根目录，应用为 `helloApp`。
