@@ -4,7 +4,7 @@
 
 ## 主要接口
 
-最基本的 `Configurator` 对象是约束于 Interface [Configurator](classes/Environment.html) 。
+最基本的 Configurator 对象是约束于 Interface [Configurator](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/configurator.html) 。
 
 只包含如下一个主要接口：
 
@@ -15,9 +15,9 @@
 
 ## 默认行为 - DefaultConfigurator
 
-如果用户不注入自定义的 `Configurator` 类，我们将使用默认的 `DefaultConfigurator` 。
+如果用户不注入自定义的 Configurator 类，我们将使用默认的 [DefaultConfigurator](https://midwayjs.github.io/pandora/api-reference/pandora/classes/defaultconfigurator.html) 。
 
-该类主要是基于 `Environment` 对象的 `get('env')` 来加载区分环境的配置。
+该类主要是基于 Environment 对象的 `get('env')` 来加载区分环境的配置。
 
 按照如下顺序覆盖合并，后缀名可为 `json`、`js` 或其他 Node.js `require()` 支持的后缀名：
 

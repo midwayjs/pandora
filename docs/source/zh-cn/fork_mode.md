@@ -43,5 +43,10 @@ $ pandora list
 
 ## 进阶功能
 
-* [Fork 模式使用 Metrics 体系](fork_use_metrics)
-* [Fork 模式使用日志切割服务](fork_use_logger)
+#### Fork 模式使用 Metrics 体系
+
+Coming soon...
+
+#### Fork 模式使用日志切割服务
+
+Coming soon...

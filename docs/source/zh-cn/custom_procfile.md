@@ -52,7 +52,7 @@ module.exports = function (pandora) {
  
 该 `function` 接受一个参数 `pandora: ProcfileReconcilerAccessor`，我们可以透过这个对象进行访问与注入。
 
-下面列出 `ProcfileReconcilerAccessor` 的一些基础能力，详细能力具体参见类型信息 [ProcfileReconcilerAccessor](classes/ProcfileReconcilerAccessor.html)。
+下面列出 `ProcfileReconcilerAccessor` 的一些基础能力，详细能力具体参见类型信息 [ProcfileReconcilerAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/procfilereconcileraccessor.html)。
 
 
 ### **基础属性**
@@ -117,7 +117,7 @@ module.exports = function (pandora) {
 }
 ```
 
-pandora.applet() 会返回一个类型为 [AppletRepresentationChainModifier](classes/AppletRepresentationChainModifier.html) 对象，我们通过这个对象链式地配置注入的 Applet ，简单介绍如下：
+pandora.applet() 会返回一个类型为 [AppletRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/appletrepresentationchainmodifier.html) 对象，我们通过这个对象链式地配置注入的 Applet ，简单介绍如下：
 
 ```javascript
 pandora.applet(HTTPServer)
@@ -169,7 +169,7 @@ module.exports = function (pandora) {
 }
 ```
 
-pandora.service() 会返回一个类型为 [ServiceRepresentationChainModifier](classes/ServiceRepresentationChainModifier.html) 对象，我们通过这个对象链式地配置注入的 Service ，简单介绍如下：
+pandora.service() 会返回一个类型为 [ServiceRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html) 对象，我们通过这个对象链式地配置注入的 Service ，简单介绍如下：
 
 ```javascript
 pandora.service(CalculatorService)

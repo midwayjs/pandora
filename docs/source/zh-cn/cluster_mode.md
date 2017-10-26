@@ -77,5 +77,10 @@ $ pstree 92195
 
 ## 进阶功能
 
-* [Cluster 模式使用 Metrics 体系](cluster_use_metrics)
-* [Cluster 模式使用日志切割服务](cluster_use_logger)
+#### Cluster 模式使用 Metrics 体系
+
+Coming soon...
+
+#### Cluster 模式使用日志切割服务
+
+Coming soon...

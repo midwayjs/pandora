@@ -38,9 +38,11 @@ pandora start --mode cluster app.js
 pandora start --mode cluster --scale 10 app.js
 ```
 
+<!--
 应用场景：
 
-* [KOA 应用使用 Pandora.js](koa_use_pandora)
+* [KOA 应用使用 Pandora.js](koa_use_pandora.md)
+-->
 
 ## Procfile.js 模式
 

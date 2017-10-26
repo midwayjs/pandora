@@ -9,3 +9,4 @@ coverage
 .idea
 package-lock.json
 .*
+docs/api-reference

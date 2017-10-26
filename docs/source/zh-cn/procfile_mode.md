@@ -85,7 +85,7 @@ $ pandora list
 
 ## 进阶功能
 
+
 * [基于 procfile.js 编排应用](custom_procfile.md) 
-* [Procfile.js 模式使用 Metrics 体系](procfile_use_metrics.md)
-* [基于 Pandora.js 的框架](develop_framework_with_pandora.md) 
-* [Procfile.js 模式使用日志服务](procfile_use_logger.md)
+* [基于 Pandora.js 开发框架](develop_framework_with_pandora.md) 
+

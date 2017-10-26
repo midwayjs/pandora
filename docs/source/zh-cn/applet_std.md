@@ -8,8 +8,8 @@ Applet 对象可以理解为应用的主程序，用于注入业务实现。
 
 Applet 主要应该实现两个接口约束：
 
-1. [Applet](interfaces/Applet.html) -> 对象的基础 Interface
-2. [AppletConstructor](interfaces/AppletConstructor.html) -> 构造器约束
+1. [Applet](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/applet.html) -> 对象的基础 Interface
+2. [AppletConstructor](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/appletconstructor.html) -> 构造器约束
 
 其中主要包括两个生命周期方法和一个构造器约束：
 
@@ -23,10 +23,10 @@ Applet 主要应该实现两个接口约束：
 
 **new AppletConstructor(options: AppletOptions): Applet**
 
-构造器约束中重点是 [AppletOptions](interfaces/AppletOptions.html)，包含了 Applet 需要的上下文、配置等对象，包括：
+构造器约束中重点是 [AppletOptions](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/appletoptions.html)，包含了 Applet 需要的上下文、配置等对象，包括：
 
   * config -> 对该 Applet 的配置信息
-  * context -> 进程级别的上下文访问器 [WorkerContextAccessor](calsses/WorkerContextAccessor.html)
+  * context -> 进程级别的上下文访问器 [WorkerContextAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/workercontextaccessor.html)
   * appletName -> 该 Applet 名字
   * category -> 当前被分配的 category
 
@@ -39,7 +39,7 @@ Pandora.js 中内置了几种 Applet 的默认实现，若有需要推荐使用�
 
 实现了 HTTP 类型业务的基础行为。
 
-具体类型信息参见：[HTTPApplet](classes/httpapplet.html)
+具体类型信息参见：[HTTPApplet](https://midwayjs.github.io/pandora/api-reference/pandora/classes/httpapplet.html)
 
 需要用户实现：
 
