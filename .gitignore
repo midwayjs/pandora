@@ -10,3 +10,4 @@ coverage
 package-lock.json
 .*
 docs/api-reference
+_book

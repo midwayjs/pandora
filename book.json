@@ -1,3 +1,8 @@
 {
-  "root": "./docs"
+  "links": {
+    "sharing": {
+      "facebook": false,
+      "twitter": false
+    }
+  }
 }
