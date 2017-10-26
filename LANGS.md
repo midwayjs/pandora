@@ -1,4 +1,4 @@
 # Languages
 
-* [English](en/)
-* [Chinese](docs/zh-cn)
+* [English](./en/)
+* [Chinese](./zh/)
