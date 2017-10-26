@@ -110,7 +110,7 @@ export default {
   reporter: {
     file: {
       enabled: true,
-      reporter: FileMetricManagerReporter,
+      target: FileMetricManagerReporter,
       interval: 5
     }
   }

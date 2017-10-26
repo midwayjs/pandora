@@ -48,10 +48,10 @@ export class Monitor {
     // metricsManager.register('system', 'system', new DiskStatGaugeSet());
 
     debug('start a metrics reporter');
-    for (let reporterName in this.globalConfig['reporters']) {
-      const reporterObj = this.globalConfig['reporters'][reporterName];
+    for (let reporterName in this.globalConfig['reporter']) {
+      const reporterObj = this.globalConfig['reporter'][reporterName];
       if (reporterObj['enabled']) {
-        let reporterIns = new reporterObj['reporter'](this.server, reporterObj.initConfig || {});
+        let reporterIns = new reporterObj['target'](this.server, reporterObj.initConfig || {});
         reporterIns.start(reporterObj['interval']);
         this.daemonLogger.info(`${reporterName} reporter started`);
       }
