@@ -21,8 +21,8 @@ Node.js >= 6.0.0 required.
 
 Choose Language
 
-* [中文](https://midwayjs.gitbooks.io/pandora/content/zh/)
-* [English](https://midwayjs.gitbooks.io/pandora/content/en/)
+* [中文](https://midwayjs.gitbooks.io/pandora/zh-cn/)
+* [English](https://midwayjs.gitbooks.io/pandora/en/)
 
 ## API Reference
 
