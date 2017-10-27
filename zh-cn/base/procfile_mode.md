@@ -2,7 +2,7 @@
 
 `procfile.js` 模式是 Pandora.js 的主推模式，用户可以基于 `procfile.js` 来编排应用，使用 Pandora.js 提供的各种强大功能。
 
-本章只讲述基于 `procfile.js` 的应用如何启动，不讲述 `procfile.js` 的具体编写规范，相关参见 [&lt;基于 Procfile.js 编排应用&gt;](custom_procfile.md) 。
+本章只讲述基于 `procfile.js` 的应用如何启动，不讲述 `procfile.js` 的具体编写规范，相关参见 [&lt;基于 Procfile.js 编排应用&gt;](../custom_procfile.md) 。
 
 
 ## 应该把 procfile.js 放在哪里？ 
@@ -86,6 +86,6 @@ $ pandora list
 ## 进阶功能
 
 
-* [基于 procfile.js 编排应用](custom_procfile.md) 
-* [基于 Pandora.js 开发框架](develop_framework_with_pandora.md) 
+* [基于 procfile.js 编排应用](../custom_procfile.md) 
+* [基于 Pandora.js 开发框架](../develop_framework_with_pandora.md) 
 

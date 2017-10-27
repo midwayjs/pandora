@@ -4,12 +4,12 @@
     - [基础命令使用](intro/command.md) 
     - [术语列表](intro/keyword.md) 
 - 入门教程
-    - [不同启动模式的区别](kinds_of_startup.md) 
-    - [Fork 模式](fork_mode.md) 
-    - [Cluster 模式](cluster_mode.md) 
-    - [Procfile.js 模式](procfile_mode.md)
-    - [调试应用](debug.md) 
-    - [目录结构指南](dir.md)
+    - [不同启动模式的区别](base/kinds_of_startup.md) 
+    - [Fork 模式](base/fork_mode.md) 
+    - [Cluster 模式](base/cluster_mode.md) 
+    - [Procfile.js 模式](base/procfile_mode.md)
+    - [调试应用](base/debug.md) 
+    - [目录结构指南](base/dir.md)
 - 进程管理进阶
     - [全局配置覆盖](process/global_config.md)
     - [基于 Procfile.js 编排应用](custom_procfile.md) 

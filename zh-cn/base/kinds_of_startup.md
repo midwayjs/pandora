@@ -56,7 +56,7 @@ pandora start --mode procfile.js ./
 
 应用场景：
 
-* [基于 procfile.js 编排应用](custom_procfile.md)
+* [基于 procfile.js 编排应用](../custom_procfile.md)
 
 
 ## 三种模式的特性支持情况

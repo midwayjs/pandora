@@ -1,4 +1,4 @@
 # Languages
 
-* [Chinese](zh)
+* [Chinese](zh-cn)
 * [English](en)
