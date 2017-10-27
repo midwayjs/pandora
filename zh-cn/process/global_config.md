@@ -128,3 +128,13 @@ PANDORA_CONFIG=./index.js pandora start .
 ```
 
 文件的内容**只需要写覆盖的部分**
+
+## 多配置支持
+
+本质上，配置的覆盖就只是配置文件内容的覆盖，所以只需要做好分割就好。
+
+注意：Pandora.js 使用 `:` 作为分隔符来分割多个路径。
+
+```sh
+PANDORA_CONFIG=pandora-ali:./index.js pandora start .
+```
