@@ -3,6 +3,7 @@ import {makeRequire} from 'pandora-dollar';
 import {PANDORA_CWD, PANDORA_GLOBAL_CONFIG} from '../const';
 import {consoleLogger} from './LoggerBroker';
 import extend = require('extend');
+const GLOBAL_PACKAGE_SPLIT = ':';
 
 export class GlobalConfigProcessor {
 
@@ -21,7 +22,7 @@ export class GlobalConfigProcessor {
     const cwd = process.env[PANDORA_CWD] || process.cwd();
     const cwdRequire = makeRequire(cwd);
     if (!this.globalConfig) {
-      const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(';') : [];
+      const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GLOBAL_PACKAGE_SPLIT) : [];
       let globalConfig = require('../default').default;
       for (const configPath of configPaths) {
         if (configPath) {

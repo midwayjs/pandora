@@ -29,7 +29,7 @@ describe('GlobalConfigProcessor', function () {
 
   it('should getAllProperties() ignore error when given a wrong PANDORA_CONFIG', () => {
     globalConfigProcessor.globalConfig = null;
-    process.env.PANDORA_CONFIG = pathToGlobalConfigExt + ';/sdf/dsfsdf/dsf';
+    process.env.PANDORA_CONFIG = pathToGlobalConfigExt + ':/sdf/dsfsdf/dsf';
     const properties = globalConfigProcessor.getAllProperties();
     expect(properties.testKey).to.be.equal('testValue');
     process.env.PANDORA_CONFIG = null;
