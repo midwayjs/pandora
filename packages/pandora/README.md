@@ -1,41 +1,29 @@
-# pandora 
+[![Build Status](https://travis-ci.org/midwayjs/pandora.svg?branch=develop)](https://travis-ci.org/midwayjs/pandora)
+[![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora.svg?style=flat-square)](https://codecov.io/gh/midwayjs/pandora)
 
-一个 Node.js 应用的服务容器。
+## Installation
 
-
-## 安装
-
-```bash
-npm install pandora -g
-```
-
-全局安装 `pandora`，将会提供一个全局命令 `pandora` 。
-
-
-##  pandora 命令详解
-
-
-### pandora start
-
-启动一个应用，默认使用项目路径的最后一段作为应用名。亦可通过 `--name giveAName` 。
+Please use tag `beta` before we release!
 
 ```bash
-pandora start ./pandora-project
+$ npm install pandora@beta --save
 ```
 
-### pandora stop
+Node.js >= 6.0.0 required.
 
-停止一个应用。
+## Features
 
-```bash
-pandora stop pandora-project
-```
+- ✔︎ Built-in application model
+- ✔︎ Built-in process management
+- ✔︎ Dev Ops customization
+- ✔︎ Support lots of web framework
 
-### pandora list
+## How to Contribute
 
-查看所有的应用。
+Please let us know how can we help. Do check out [issues](https://github.com/midwayjs/pandora/issues) for bug reports or suggestions first.
 
-```bash
-pandora list
-```
+To become a contributor, please follow our [contributing guide](CONTRIBUTING.md).
 
+## License
+
+[MIT](LICENSE)
