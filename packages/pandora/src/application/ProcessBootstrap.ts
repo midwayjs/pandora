@@ -23,9 +23,9 @@ export class ProcessBootstrap {
 
   /**
    * start process
-   * @returns {Promise<any>}
+   * @returns {Promise<void>}
    */
-  async start() {
+  async start(): Promise<void> {
     const entryMod = require(this.entry);
 
     // Only require that entry if the mode be fork
@@ -36,7 +36,7 @@ export class ProcessBootstrap {
     // Otherwise it needs the entire procedures.
     const entryFn = 'function' === typeof entryMod ? entryMod : entryMod.default;
     assert('function' === typeof entryFn, 'The entry should export a function, during loading ' + this.entry);
-    return await new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       const options = {...this.options || {}};
       if (entryFn.length >= 2) {
         entryFn(options, (err) => {

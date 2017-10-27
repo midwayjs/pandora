@@ -32,8 +32,8 @@ exports.builder = (yargs) => {
 exports.handler = function (argv) {
 
   if(argv.inspector) {
-    console.log('coming soon...');
-    return;
+    console.log('Inspector coming soon...');
+    process.exit(0);
   }
 
   const targetPathResolved = path.resolve(argv.targetPath) || process.cwd();

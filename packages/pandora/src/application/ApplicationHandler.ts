@@ -90,7 +90,7 @@ export class ApplicationHandler extends Base {
 
       proc.once('message', (message) => {
         if (message.action === APP_START_SUCCESS) {
-          const msg = `Application master[name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
+          const msg = `Application [name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
           daemonLogger.info(msg);
           nodejsStdout.info(msg);
           this.state = State.complete;
@@ -100,7 +100,7 @@ export class ApplicationHandler extends Base {
             daemonLogger.error(err);
             nodejsStdout.error(err);
           }).then(() => {
-            reject(new Error(`Application master[name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] start error!`));
+            reject(new Error(`Application [name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] start error!`));
           });
         }
       });
@@ -115,7 +115,7 @@ export class ApplicationHandler extends Base {
 
       // Here just to distinguish normal exits and exceptional exits, exceptional exits needs to restart
       proc.once('exit', (code, signal) => {
-        const msg = `Application master[name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] exit with code ${code} and signal ${signal}`;
+        const msg = `Application [name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] exit with code ${code} and signal ${signal}`;
         daemonLogger.info(msg);
         nodejsStdout.info(msg);
         switch (this.state) {
@@ -130,7 +130,7 @@ export class ApplicationHandler extends Base {
             break;
           case State.pending:
           default:
-            const err = new Error('Start failed, read more : ' + getAppLogPath(this.name, 'nodejs_stdout'));
+            const err = new Error('Start failed, log file: ' + getAppLogPath(this.name, 'nodejs_stdout'));
             reject(err);
             break;
         }

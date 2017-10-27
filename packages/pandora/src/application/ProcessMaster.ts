@@ -100,11 +100,14 @@ export class ProcessMaster extends Base {
    * @return {Promise<void>}
    */
   async stop() {
+    for(const id of Object.keys(cluster.workers)) {
+      const worker = cluster.workers[id];
+      (<any> worker)._refork = false;
+    }
     this.notify(SHUTDOWN, {});
     await $.promise.delay(3000);
     await Promise.all(Object.keys(cluster.workers).map(async (id) => {
       const worker = cluster.workers[id];
-      (<any> worker)._refork = false;
       await this.killWorkerSop(worker);
     }));
     this.started = false;

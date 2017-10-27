@@ -2,7 +2,7 @@
 import {ApplicationRepresentation} from '../domain';
 import {ProcessMaster} from '../application/ProcessMaster';
 import {consoleLogger} from '../universal/LoggerBroker';
-import {ApplicationHandler} from '../application/ApplicationHandler';
+import {ProcessBootstrap} from '../application/ProcessBootstrap';
 
 /**
  * Class DebugApplicationLoader
@@ -10,7 +10,7 @@ import {ApplicationHandler} from '../application/ApplicationHandler';
  */
 export class DebugApplicationLoader {
   protected options: ApplicationRepresentation;
-  protected master: ProcessMaster | ApplicationHandler;
+  protected master: ProcessMaster | ProcessBootstrap;
 
   constructor(options: ApplicationRepresentation) {
     this.options = options;
@@ -30,7 +30,7 @@ export class DebugApplicationLoader {
     };
     if(!this.master) {
       if('fork' === mode) {
-        this.master = new ApplicationHandler(options);
+        this.master = new ProcessBootstrap(options.entryFile, options);
       } else {
         this.master = new ProcessMaster(options);
       }
@@ -41,6 +41,6 @@ export class DebugApplicationLoader {
       consoleLogger.error(err);
     });
   }
-}
 
+}
 

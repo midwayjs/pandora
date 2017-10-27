@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const app = new Koa();
-app.use(function * () {
+app.use(function (ctx) {
   ctx.body = 'Hello Pandora.js';
 });
 app.listen(3000);

@@ -1,5 +1,5 @@
 module.exports = {
   http: {
-    port: 1338
+    port: 1342
   }
 }

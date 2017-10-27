@@ -1,5 +1,7 @@
 'use strict';
 
+const debug = require('debug')('pandora:cluster:monitor');
+
 var cluster = require('cluster');
 var os = require('os');
 var util = require('util');
@@ -95,11 +97,11 @@ function fork(options) {
     cluster.on('disconnect', function (worker) {
       disconnectCount++;
       var isDead = worker.isDead && worker.isDead();
-      console.error('[%s] [cfork:master:%s] worker:%s disconnect (exitedAfterDisconnect: %s, state: %s, isDead: %s)',
+      debug('[%s] [cfork:master:%s] worker:%s disconnect (exitedAfterDisconnect: %s, state: %s, isDead: %s)',
         Date(), process.pid, worker.process.pid, worker.exitedAfterDisconnect, worker.state, isDead);
       if (isDead) {
         // worker has terminated before disconnect
-        console.error('[%s] [cfork:master:%s] don\'t fork, because worker:%s exit event emit before disconnect',
+        debug('[%s] [cfork:master:%s] don\'t fork, because worker:%s exit event emit before disconnect',
           Date(), process.pid, worker.process.pid);
         return;
       }
@@ -108,10 +110,10 @@ function fork(options) {
       if (allow(worker)) {
         newWorker = forkWorker(worker._clusterSettings, env);
         newWorker._clusterSettings = worker._clusterSettings;
-        console.error('[%s] [cfork:master:%s] new worker:%s fork (state: %s)',
+        debug('[%s] [cfork:master:%s] new worker:%s fork (state: %s)',
           Date(), process.pid, newWorker.process.pid, newWorker.state);
       } else {
-        console.error('[%s] [cfork:master:%s] don\'t fork new work (refork: %s)',
+        debug('[%s] [cfork:master:%s] don\'t fork new work (refork: %s)',
           Date(), process.pid, refork);
       }
     });
@@ -120,7 +122,7 @@ function fork(options) {
       process.nextTick(function () {
           var isExpected = !!disconnects[worker.process.pid];
           var isDead = worker.isDead && worker.isDead();
-          console.error('[%s] [cfork:master:%s] worker:%s exit (code: %s, exitedAfterDisconnect: %s, state: %s, isDead: %s, isExpected: %s)',
+          debug('[%s] [cfork:master:%s] worker:%s exit (code: %s, exitedAfterDisconnect: %s, state: %s, isDead: %s, isExpected: %s)',
               Date(), process.pid, worker.process.pid, code, worker.exitedAfterDisconnect, worker.state, isDead, isExpected);
           if (isExpected) {
               delete disconnects[worker.process.pid];
@@ -132,10 +134,10 @@ function fork(options) {
           if (allow(worker)) {
               newWorker = forkWorker(worker._clusterSettings, env);
               newWorker._clusterSettings = worker._clusterSettings;
-              console.error('[%s] [cfork:master:%s] new worker:%s fork (state: %s)',
+              debug('[%s] [cfork:master:%s] new worker:%s fork (state: %s)',
                   Date(), process.pid, newWorker.process.pid, newWorker.state);
           } else {
-              console.error('[%s] [cfork:master:%s] don\'t fork new work (refork: %s)',
+              debug('[%s] [cfork:master:%s] don\'t fork new work (refork: %s)',
                   Date(), process.pid, refork);
           }
           cluster.emit('unexpectedExit', worker, code, signal);
@@ -212,9 +214,9 @@ function fork(options) {
     if (!err) {
       return;
     }
-    console.error('[%s] [cfork:master:%s] master uncaughtException: %s', Date(), process.pid, err.stack);
-    console.error(err);
-    console.error('(total %d disconnect, %d unexpected exit)', disconnectCount, unexpectedCount);
+    debug('[%s] [cfork:master:%s] master uncaughtException: %s', Date(), process.pid, err.stack);
+    debug(err);
+    debug('(total %d disconnect, %d unexpected exit)', disconnectCount, unexpectedCount);
   }
 
   /**
@@ -227,7 +229,7 @@ function fork(options) {
       worker.process.pid, exitCode, signal, worker.exitedAfterDisconnect, worker.state));
     err.name = 'WorkerDiedUnexpectedError';
 
-    console.error('[%s] [cfork:master:%s] (total %d disconnect, %d unexpected exit) %s',
+    debug('[%s] [cfork:master:%s] (total %d disconnect, %d unexpected exit) %s',
       Date(), process.pid, disconnectCount, unexpectedCount, err.stack);
   }
 
@@ -236,7 +238,7 @@ function fork(options) {
    */
 
   function onReachReforkLimit() {
-    console.error('[%s] [cfork:master:%s] worker died too fast (total %d disconnect, %d unexpected exit)',
+    debug('[%s] [cfork:master:%s] worker died too fast (total %d disconnect, %d unexpected exit)',
       Date(), process.pid, disconnectCount, unexpectedCount);
   }
 
