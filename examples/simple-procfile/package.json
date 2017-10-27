@@ -1,0 +1,14 @@
+{
+  "name": "simple-procfile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "pandora start --name simple-procfile ./",
+    "dev": "pandora dev --name simple-procfile ./",
+    "stop": "pandora exit"
+  },
+  "dependencies": {
+    "koa": "^2.3.0"
+  }
+}
