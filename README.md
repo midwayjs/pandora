@@ -3,7 +3,7 @@
 
 ## Installation
 
-Please use tag 'beta' before we release!
+Please use tag `beta` before we release!
 
 ```bash
 $ npm install pandora@beta --save
