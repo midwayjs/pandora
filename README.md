@@ -3,8 +3,10 @@
 
 ## Installation
 
+Please use tag 'beta' before we release!
+
 ```bash
-$ npm install pandora --save
+$ npm install pandora@beta --save
 ```
 
 Node.js >= 6.0.0 required.
