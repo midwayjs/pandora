@@ -6,29 +6,29 @@ Applet 对象可以理解为应用的主程序，用于注入业务实现。
 
 ## 主要接口
 
-Applet 主要应该实现两个接口约束：
+Applet 主要实现两个接口约束：
 
 1. [Applet](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/applet.html) -> 对象的基础 Interface
 2. [AppletConstructor](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/appletconstructor.html) -> 构造器约束
 
 其中主要包括两个生命周期方法和一个构造器约束：
 
-**start(): Promise<void>**
+**start(): Promise&lt;void&gt;**
 
-一个 async 异步方法，启动 Applet。
+> 一个 async 异步方法，启动 Applet。
 
-**stop(): Promise<void>**
+**stop(): Promise&lt;void&gt;**
 
-一个 stop 异步方法，停止 Applet。
+> 一个 stop 异步方法，停止 Applet。
 
 **new AppletConstructor(options: AppletOptions): Applet**
 
-构造器约束中重点是 [AppletOptions](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/appletoptions.html)，包含了 Applet 需要的上下文、配置等对象，包括：
-
-  * config -> 对该 Applet 的配置信息
-  * context -> 进程级别的上下文访问器 [WorkerContextAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/workercontextaccessor.html)
-  * appletName -> 该 Applet 名字
-  * category -> 当前被分配的 category
+> 构造器约束中重点是 [AppletOptions](https://midwayjs.github.io/pandora/api-reference/pandora/interfaces/appletoptions.html)，包含了 Applet 需要的上下文、配置等对象，包括：
+>
+>  * config -> 对该 Applet 的配置信息
+>  * context -> 进程级别的上下文访问器 [WorkerContextAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/workercontextaccessor.html)
+>  * appletName -> 该 Applet 名字
+>  * category -> 当前被分配的 category
 
 
 ## 建议使用的基础实现

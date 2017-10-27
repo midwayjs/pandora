@@ -10,20 +10,20 @@
 
 **get(name: string): any**
 
-通过一个 name 获得特定的上下文变量
-
-保留意义的变量名：
-
-1. env -> 当前环境的标识字符串，如 production 、development
+> 通过一个 name 获得特定的上下文变量
+> 
+> 保留意义的变量名：
+> 
+> 1. env -> 当前环境的标识字符串，如 production 、development
   
 **match(name: string): boolean**
 
-通过一个 name (当前环境的标识字符串) 来匹配当前环境，返回布尔型。 
+> 通过一个 name (当前环境的标识字符串) 来匹配当前环境，返回布尔型。 
 
 
 ## 建议使用的基础实现 - 抽象类 BaseEnvironment
 
-这里我们建议直接继承我们的基础实现 BaseEnvironment。
+这里我们建议直接继承我们的基础实现 BaseEnvironment，通过`import {BaseEnvironment} from 'pandora'`获得。
 
 详细参见类型信息： [BaseEnvironment](https://midwayjs.github.io/pandora/api-reference/env/classes/baseenvironment.html) 
 

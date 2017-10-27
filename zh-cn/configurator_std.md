@@ -8,9 +8,9 @@
 
 只包含如下一个主要接口：
 
-**getAllProperties(options?: ConfiguratorLoadOptions): Promise<any> | any**
+**getAllProperties(options?: ConfiguratorLoadOptions): Promise&lt;any&gt; | any**
 
-获得全部的配置属性，一个的 Javascript 对象。 可以实现为 async 的异步方法，同步读取文件，异步从网络获得配置皆可满足。
+> 获得全部的配置属性，一个的 Javascript 对象。 可以实现为 async 的异步方法，同步读取文件或异步从网络获得配置皆可满足。
 
 
 ## 默认行为 - DefaultConfigurator

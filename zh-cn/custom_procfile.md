@@ -1,44 +1,36 @@
 # 基于 procfile.js 编排应用
 
-`procfile.js` 模式是 Pandora.js 主推的模式，用于静态地描述一个应用的结构，我们将这种行为称之为 —— 
-`编排应用`。
+`procfile.js` 模式是 Pandora.js 主推的模式，用于静态地描述一个应用的结构，我们将这种行为称之为编排应用。
 
 `procfile.js` 主要分为以下四个能力：
 
-* Inject Environment -> 对运行环境的抽象注入
-* Inject Configurator  -> 对应用全局抽象注入
-* Inject Applet -> 对主业务逻辑的抽象注入
-* Inject Service -> 对于通用组件（如中间件）的抽象注入
+> * Inject Environment -> 对于环境处理类的注入
+> * Inject Configurator  -> 对于应用全局配置处理类的注入
+> * Inject Applet -> 对于主业务实现类的注入
+> * Inject Service -> 对于通用组件类（如中间件）的注入
 
-然后 Pandora.js 会根据注入上面四种要素，自动产生进程结构，进而启动应用。
+然后 Pandora.js 会根据上面四种要素，自动产生进程结构，进而启动应用。
 
 ## 把 Procfile.js 放在哪里？ 
 
 Pandora.js 会在下述两个位置查找 procfile.js 。
 
-**./procfile.js**
 
 应用的 procfile.js 直接放在项目根目录下即可。
 
-**./node_modules/.bin/procfile.js**
+
+> **./procfile.js**
 
 还有另一个扫描位置为框架预留，这样我们可以将 `procfile.js` 内置在另一个 NPM 包里面，开发项目时不需要编写 `procfile.js`。
 
-在框架包的 `package.json` 中作如下配置即可：
+> **./node_modules/.bin/procfile.js**
 
-```json
-{
-  "bin": {
-    "procfile.js": "./bin/procfile.js"
-  }
-}
-```
 
 ## 基础接口
 
 ### 作为一个 Node.js 模块
 
-`一个简单的 procfile.js`
+一个简单的 procfile.js
 
 ```javascript
 module.exports = function (pandora) {
@@ -50,19 +42,19 @@ module.exports = function (pandora) {
 ```
 `procfile.js` 是一个 Node.js 模块，必须导出一个 `function`。可以通过 `module.exports` （ES5） 或 `export default` (ES2017) 导出。
  
-该 `function` 接受一个参数 `pandora: ProcfileReconcilerAccessor`，我们可以透过这个对象进行访问与注入。
+该 `function` 接受一个参数 `pandora: ProcfileReconcilerAccessor`，我们透过这个对象进行注入与访问。
 
 下面列出 `ProcfileReconcilerAccessor` 的一些基础能力，详细能力具体参见类型信息 [ProcfileReconcilerAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/procfilereconcileraccessor.html)。
 
 
 ### **基础属性**
 
-* pandora.appName -> 获得当前应用的名称
-* pandora.appDir -> 获得当前应用的工作目录
+> * pandora.appName -> 获得当前应用的名称
+> * pandora.appDir -> 获得当前应用的工作目录
 
 ### **environment()**
 
-用于注入环境处理对象，该对象用于统一处理识别线上与线下、机房等环境问题 。该类具有默认实现，基于环境变量 NODE_ENV 的默认实现。
+用于注入环境处理类，该类用于统一处理识别线上与线下、机房等环境问题。该类具有默认实现，基于环境变量 NODE_ENV 的默认实现。
 
 简单示例如下：
 
@@ -75,7 +67,7 @@ module.exports = function (pandora) {
 
 ### **configurator()**
 
-用于注入配置处理对象，该对象用于统一处理全局性质配置。该类具有默认实现，基于 Environment 给定的当前环境，基于某目录 （默认为 ./config 目录） 加载全局配置。
+用于注入配置处理类，该类用于统一处理应用全局性质配置。该类具有默认实现，基于 Environment 给定的当前环境，基于某目录（默认为 ./config 目录）加载全局配置。
 
 简单示例如下：
 
@@ -99,7 +91,6 @@ Applet 对象可以理解为应用的主程序，用于注入业务实现。Appl
 ```javascript
 class HTTPServer {
   constructor(options) {
-    console.log(options);
     this.config = options.config;
   }
   start () {
@@ -117,7 +108,7 @@ module.exports = function (pandora) {
 }
 ```
 
-pandora.applet() 会返回一个类型为 [AppletRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/appletrepresentationchainmodifier.html) 对象，我们通过这个对象链式地配置注入的 Applet ，简单介绍如下：
+pandora.applet() 会返回一个类型为 [AppletRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/appletrepresentationchainmodifier.html) 对象，可以通过这个对象链式地配置注入的 Applet ，简单介绍如下：
 
 ```javascript
 pandora.applet(HTTPServer)
@@ -147,11 +138,10 @@ pandora.applet(HTTPServer)
 
 ### **service()**
 
-Service 对象可以理解为抽象的通用的服务（比如中间件），Service 应该实现 [Service 接口](classes/Service.html)。
+Service 对象可以理解为通用服务（比如中间件），Service 应该实现 [Service 接口](classes/Service.html)。
 
 一个简单的例子
 
-`applet`
 ```javascript
 class CalculatorService {
   constructor() {
@@ -169,7 +159,7 @@ module.exports = function (pandora) {
 }
 ```
 
-pandora.service() 会返回一个类型为 [ServiceRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html) 对象，我们通过这个对象链式地配置注入的 Service ，简单介绍如下：
+pandora.service() 会返回一个类型为 [ServiceRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html) 对象，可以通过这个对象链式地配置注入的 Service ，简单介绍如下：
 
 ```javascript
 pandora.service(CalculatorService)

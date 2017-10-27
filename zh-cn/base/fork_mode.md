@@ -43,6 +43,15 @@ $ pandora list
 
 ## 进阶功能
 
+#### 自动注入 Monitoring （监控能力）
+
+因为 Fork 模式下，次级进程的创建不受 Pandora.js 控制。
+可以使用 `--inject-monitoring` 或 `-i` 向所有后辈的 Node.js 进程默认注入监控能力。
+
+```bash
+$ pandora start --mode fork --inject-monitoring app.js
+```
+
 #### Fork 模式使用 Metrics 体系
 
 Coming soon...
