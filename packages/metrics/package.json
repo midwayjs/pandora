@@ -17,6 +17,10 @@
     "pandora",
     "metrics"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/midwayjs/pandora.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.5.2",

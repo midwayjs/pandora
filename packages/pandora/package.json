@@ -20,6 +20,10 @@
     "pandora",
     "cluster"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/midwayjs/pandora.git"
+  },
   "license": "MIT",
   "dependencies": {
     "cfork": "^1.6.1",
