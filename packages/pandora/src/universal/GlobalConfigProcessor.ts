@@ -3,13 +3,16 @@ import {makeRequire} from 'pandora-dollar';
 import {PANDORA_CWD, PANDORA_GLOBAL_CONFIG} from '../const';
 import {consoleLogger} from './LoggerBroker';
 import extend = require('extend');
+
 const GLOBAL_PACKAGE_SPLIT = ':';
 
 export class GlobalConfigProcessor {
 
-  private globalConfig;
+  private globalConfig = {};
 
   static instance;
+
+  private initialized = false;
 
   static getInstance() {
     if (!this.instance) {
@@ -19,17 +22,18 @@ export class GlobalConfigProcessor {
   }
 
   getAllProperties() {
-    const cwd = process.env[PANDORA_CWD] || process.cwd();
-    const cwdRequire = makeRequire(cwd);
-    if (!this.globalConfig) {
+    if (!this.initialized) {
+      const cwd = process.env[PANDORA_CWD] || process.cwd();
+      const cwdRequire = makeRequire(cwd);
       const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GLOBAL_PACKAGE_SPLIT) : [];
       let globalConfig = require('../default').default;
+      this.mergeProperties(globalConfig);
       for (const configPath of configPaths) {
         if (configPath) {
           try {
             let extendConfig = cwdRequire(configPath);
             extendConfig = extendConfig.default ? extendConfig.default : extendConfig;
-            globalConfig = extend(true, globalConfig, extendConfig);
+            this.mergeProperties(extendConfig);
           } catch (err) {
             // info
             consoleLogger.info(`Can't find config from ${configPath}`);
@@ -37,22 +41,25 @@ export class GlobalConfigProcessor {
           }
         }
       }
-      this.globalConfig = globalConfig;
+      this.initialized = true;
     }
-
     return this.globalConfig;
-
   }
 
   // merge other properties after init
   mergeProperties(properties) {
-    if(this.globalConfig) {
-      try {
-        this.globalConfig = extend(true, this.globalConfig, properties);
-      } catch (err) {
-        // info
-        consoleLogger.error(`merge global config error`, err);
-      }
+    try {
+      this.globalConfig = extend(true, this.globalConfig, properties);
+    } catch (err) {
+      // info
+      consoleLogger.error(`merge global config error`, err);
     }
   }
+
+  // for test
+  clearProperties() {
+    this.globalConfig = {};
+    this.initialized = false;
+  }
+
 }
