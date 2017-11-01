@@ -370,6 +370,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     for (let client of this.metricsClients.values()) {
       client.close();
     }
+    MetricsServerManager.instance = null;
   }
 
   getNewMetricRegistry(): IMetricsRegistry {
