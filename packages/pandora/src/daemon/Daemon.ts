@@ -37,6 +37,9 @@ export class Daemon extends Base {
    * @return {Promise<any>}
    */
   async start() {
+    if(this.state === State.complete) {
+      return;
+    }
     return new Promise((resolve, reject) => {
       this.messengerServer = messenger.getServer({
         name: DAEMON_MESSENGER,
@@ -46,6 +49,7 @@ export class Daemon extends Base {
       });
       this.messengerServer.ready(() => {
         return this.startMonitor().then(() => {
+          this.state = State.complete;
           this.ready(true);
           resolve();
         }).catch(err => {
@@ -213,6 +217,7 @@ export class Daemon extends Base {
     daemonLogger.info('daemon is going to stop');
     this.messengerServer.close();
     await this.stopMonitor();
+    this.state = State.stopped;
   }
 
   /**
@@ -235,4 +240,5 @@ export class Daemon extends Base {
       return this.monitor.stop();
     }
   }
+
 }
