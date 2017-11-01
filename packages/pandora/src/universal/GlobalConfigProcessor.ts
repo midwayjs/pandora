@@ -7,7 +7,7 @@ const GLOBAL_PACKAGE_SPLIT = ':';
 
 export class GlobalConfigProcessor {
 
-  globalConfig;
+  private globalConfig;
 
   static instance;
 
@@ -42,5 +42,17 @@ export class GlobalConfigProcessor {
 
     return this.globalConfig;
 
+  }
+
+  // merge other properties after init
+  mergeProperties(properties) {
+    if(this.globalConfig) {
+      try {
+        this.globalConfig = extend(true, this.globalConfig, properties);
+      } catch (err) {
+        // info
+        consoleLogger.error(`merge global config error`, err);
+      }
+    }
   }
 }
