@@ -17,7 +17,7 @@ export default class Server extends MessengerBase {
     this.clients = new Map();
     this.server = net.createServer(this._handleConnection.bind(this));
     this.server.on('error', this._throwError.bind(this));
-    this.listen();
+    // this.listen();
   }
 
   listen(callback?) {
@@ -80,8 +80,9 @@ export default class Server extends MessengerBase {
 
   _handleDisconnect(socket) {
     debug(`[server] server lost a connection!`);
+    const client = this.clients.get(socket);
     this.clients.delete(socket);
-    this.emit('disconnected');
+    this.emit('disconnected', client);
   }
 
   _handleConnection(socket) {

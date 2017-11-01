@@ -1,0 +1,62 @@
+{
+  "name": "pandora-hub",
+  "version": "0.1.10",
+  "description": "pandora.js messenge hub",
+  "main": "dist/index",
+  "typings": "src/index",
+  "scripts": {
+    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run lint && mocha",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/messenger src/"
+  },
+  "keywords": [
+    "pandora",
+    "messenge",
+    "IPC",
+    "HUB"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "pandora-messenger": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "0.0.2",
+    "chai": "^3.5.0",
+    "mocha": "^3.5.0",
+    "nyc": "^11.2.1"
+  },
+  "nyc": {
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "typings",
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "json",
+      "html",
+      "lcovonly"
+    ],
+    "all": true
+  },
+  "files": [
+    "dist",
+    "src",
+    "d.ts"
+  ]
+}
