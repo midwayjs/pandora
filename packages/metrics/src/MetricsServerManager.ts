@@ -96,7 +96,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     client.on('close', () => {
       let remove_id = client._CLIENT_ID;
       let remove_client = this.metricsClients.get(remove_id);
-      remove_client = null;
+      remove_client.close();
       this.metricsClients.delete(remove_id);
       debug(`server(${this.clientId}) remove client(${remove_id})`);
     });
@@ -370,6 +370,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     for (let client of this.metricsClients.values()) {
       client.close();
     }
+    MetricsServerManager.instance = null;
   }
 
   getNewMetricRegistry(): IMetricsRegistry {

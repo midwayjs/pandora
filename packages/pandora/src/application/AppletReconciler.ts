@@ -9,7 +9,7 @@ import {WorkerContext} from './WorkerContext';
  */
 export class AppletReconciler {
 
-  private processRepresentation: ProcessRepresentation;
+  protected processRepresentation: ProcessRepresentation;
   private appletSet: Array<AppletRepresentation> = [];
   private instanceMap: Map<AppletRepresentation, Applet> = new Map;
   private context: WorkerContext;
