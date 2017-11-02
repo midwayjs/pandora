@@ -1,5 +1,5 @@
 export * from './hub/Hub';
-export * from './hub/RouteMap';
+export * from './hub/RouteTable';
 export * from './hub/Balancer';
 
 export * from './client/Client';

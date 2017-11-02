@@ -2,13 +2,13 @@ import {MessagePackage} from '../domain';
 import {MessengerClient, MessengerServer} from 'pandora-messenger';
 import {HUB_SOCKET_NAME, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_MSG_DOWN,
   PANDORA_HUB_ACTION_OFFLINE_UP, PANDORA_HUB_ACTION_ONLINE_UP} from '../const';
-import {RouteMap} from './RouteMap';
+import {RouteTable} from './RouteTable';
 import {Balancer} from './Balancer';
 
 export class Hub {
 
   protected messengerServer: MessengerServer;
-  protected routeMap: RouteMap = new RouteMap;
+  protected routeTable: RouteTable = new RouteTable;
 
   async start(): Promise<void> {
     if(!this.messengerServer) {
@@ -35,7 +35,7 @@ export class Hub {
     }
 
     try {
-      const clients = this.routeMap.selectClients(message.remote);
+      const clients = this.routeTable.selectClients(message.remote);
       if(message.broadcast) {
         for (const client of clients) {
           // Dispatch the message to all selected clients
@@ -56,17 +56,17 @@ export class Hub {
 
   startListen() {
     this.messengerServer.on('connected', (client: MessengerClient) => {
-      this.routeMap.setRelation(client, null);
+      this.routeTable.setRelation(client, null);
     });
     this.messengerServer.on('disconnected', (client: MessengerClient) => {
-      this.routeMap.forgetClient(client);
+      this.routeTable.forgetClient(client);
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_ONLINE_UP, (message: MessagePackage, reply, client: MessengerClient) => {
-      this.routeMap.setRelation(client, message.host);
+      this.routeTable.setRelation(client, message.host);
       reply({success: true});
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_OFFLINE_UP, (message: MessagePackage, reply, client: MessengerClient) => {
-      this.routeMap.forgetClient(client);
+      this.routeTable.forgetClient(client);
       reply({success: true});
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_MSG_UP, this.handleMessageIn.bind(this));

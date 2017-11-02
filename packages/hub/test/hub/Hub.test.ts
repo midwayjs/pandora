@@ -1,8 +1,8 @@
 import {expect} from 'chai';
 import {Hub} from '../../src/hub/Hub';
-import {RouteMap} from '../../src/hub/RouteMap';
 import {MessagePackage, Selector} from '../../src/domain';
 import {PANDORA_HUB_ACTION_MSG_DOWN} from '../../src/const';
+import {RouteTable} from '../../src/hub/RouteTable';
 
 describe('Hub', function () {
 
@@ -36,7 +36,7 @@ describe('Hub', function () {
           super();
           options = options || {};
           const hub = this;
-          this.routeMap = <RouteMap> <any> {
+          this.routeTable = <RouteTable> <any> {
             selectClients(selector) {
               hub.selectClientsCalled.push(selector);
               if(options.selectClients) {

@@ -10,6 +10,15 @@ export interface Selector extends Location {
   method?: string;
 }
 
+export const selectorSchema  = [
+  'appName',
+  'processName',
+  'pid',
+  'serviceName',
+  'tag',
+  'method'
+];
+
 export interface MessagePackage {
   broadcast?: boolean;
   host?: Selector;
@@ -18,3 +27,4 @@ export interface MessagePackage {
   error?: any;
   data?: any;
 }
+
