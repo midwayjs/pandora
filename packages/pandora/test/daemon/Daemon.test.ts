@@ -197,7 +197,7 @@ describe('Daemon', function () {
       let did = false;
       await new Promise((resolve, reject) => {
         mm(process, 'exit', function (code) {
-          if (0 === code) {
+          if (0 === code && !did) {
             resolve();
             did = true;
           }

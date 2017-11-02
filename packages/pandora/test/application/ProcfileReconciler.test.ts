@@ -155,6 +155,9 @@ describe('ProcfileReconciler', function () {
     });
   });
 
+  function printEmpty(data) {
+  }
+
   describe('service', function () {
 
     let startCnt = 0;
@@ -170,10 +173,12 @@ describe('ProcfileReconciler', function () {
 
       start() {
         startCnt++;
+        printEmpty(startCnt);
       }
 
       stop() {
         stopCnt++;
+        printEmpty(stopCnt);
       }
 
       abs(n) {

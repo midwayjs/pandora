@@ -19,7 +19,7 @@ function removeIllegalOpentsdbChars(input) {
   return input.replace(ILLEGAL_CHARS, '_');
 }
 
-export enum MetricType {
+export enum CollectMetricType {
   /**
    * 用于累加型的数据
    */
@@ -66,7 +66,7 @@ export class Builder {
     return this;
   }
 
-  withType(type: MetricType): Builder {
+  withType(type: CollectMetricType): Builder {
     this.metric.metricType = type;
     return this;
   }
@@ -85,7 +85,7 @@ export class Builder {
 
 export class MetricObject {
 
-  static MetricType = MetricType;
+  static MetricType = CollectMetricType;
 
   /*
    * {
@@ -109,7 +109,7 @@ export class MetricObject {
 
   value: any;
 
-  metricType: MetricType;
+  metricType: CollectMetricType;
 
   tags = {};
 
