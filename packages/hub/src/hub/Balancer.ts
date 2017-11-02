@@ -8,7 +8,7 @@ export class Balancer {
   }
 
   pick(): MessengerClient {
-    const randomInt = getRandomInt(0, this.clients.length);
+    const randomInt = getRandomInt(0, this.clients.length - 1);
     return this.clients[randomInt];
   }
 

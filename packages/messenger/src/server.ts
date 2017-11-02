@@ -69,8 +69,8 @@ export default class Server extends MessengerBase {
       client.close();
       this.clients.delete(sock);
     }
-    this.server.close(callback);
     this.server.removeAllListeners();
+    this.server.close(callback);
     return this;
   }
 

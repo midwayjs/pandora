@@ -1,5 +1,5 @@
 import {MessagePackage} from '../domain';
-import {MessengerClient, MessengerServer, default as Messenger} from 'pandora-messenger';
+import {MessengerClient, MessengerServer} from 'pandora-messenger';
 import {HUB_SOCKET_NAME, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_MSG_DOWN,
   PANDORA_HUB_ACTION_OFFLINE_UP, PANDORA_HUB_ACTION_ONLINE_UP} from '../const';
 import {RouteMap} from './RouteMap';
@@ -12,34 +12,44 @@ export class Hub {
 
   async start(): Promise<void> {
     if(!this.messengerServer) {
-      this.messengerServer = Messenger.getServer(HUB_SOCKET_NAME);
+      this.messengerServer = new MessengerServer({
+        name: HUB_SOCKET_NAME
+      });
     }
     await new Promise((resolve) => {
       this.messengerServer.listen(resolve);
     });
-
   }
 
-  handleMessageIn(message: MessagePackage, reply, client: MessengerClient) {
+  handleMessageIn(message: MessagePackage, reply) {
 
     // Broadcast to all clients if message.broadcast be true and no message.remote
     if(message.broadcast && !message.remote) {
-      this.messengerServer.broadcast(PANDORA_HUB_ACTION_MSG_DOWN, message);
+      try {
+        this.messengerServer.broadcast(PANDORA_HUB_ACTION_MSG_DOWN, message);
+        reply({success: true});
+      } catch (error) {
+        reply({success: false, error});
+      }
       return;
     }
 
-    const clients = this.routeMap.selectClients(message.remote);
-
-    if(message.broadcast) {
-      for (const client of clients) {
-        // dispatch message to all selected clients
+    try {
+      const clients = this.routeMap.selectClients(message.remote);
+      if(message.broadcast) {
+        for (const client of clients) {
+          // Dispatch the message to all selected clients
+          client.send(PANDORA_HUB_ACTION_MSG_DOWN, message);
+        }
+      } else {
+        const balancer = new Balancer(clients);
+        const client = balancer.pick();
+        // Dispatch the message to a random client of all selected clients
         client.send(PANDORA_HUB_ACTION_MSG_DOWN, message);
       }
-    } else {
-      const balancer = new Balancer(clients);
-      const client = balancer.pick();
-      // dispatch message to a random client of all selected clients
-      client.send(PANDORA_HUB_ACTION_MSG_DOWN, message);
+      reply({success: true});
+    } catch (error) {
+      reply({success: false, error});
     }
 
   }
