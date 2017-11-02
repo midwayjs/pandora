@@ -11,3 +11,4 @@ console.log('------');
 setInterval(() => {
   total += Math.random();
 }, 100);
+console.log(total);
