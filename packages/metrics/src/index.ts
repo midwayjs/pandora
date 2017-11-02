@@ -35,6 +35,7 @@ export * from './reporter/ScheduledMetricsReporter';
 export * from './reporter/ConsoleReporter';
 export * from './reporter/FileMetricManagerReporter';
 export * from './reporter/CustomReporter';
+export * from './collect/MetricObject';
 export * from './collect/MetricsCollector';
 export * from './collect/MetricsCollectorFactory';
 
