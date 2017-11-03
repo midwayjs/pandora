@@ -82,3 +82,14 @@ export interface ServiceObjectSpecial {
   serviceTag?: string;
   getProxy?(autoBuild): any;
 }
+
+export interface Introspection {
+  properties: Array<{
+    name: string;
+    type: string;
+  }>;
+  methods: Array<{
+    name: string;
+    length: number;
+  }>;
+}

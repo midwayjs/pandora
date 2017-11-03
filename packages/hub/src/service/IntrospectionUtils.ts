@@ -1,8 +1,10 @@
+import {Introspection} from '../domain';
+
 export class IntrospectionUtils {
 
   private static namesOfObject = getAllNames({});
 
-  public static introspect(obj) {
+  public static introspect(obj): Introspection {
 
     const allNames = getAllNames(obj);
     const properties = [];

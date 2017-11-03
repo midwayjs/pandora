@@ -4,6 +4,6 @@ export * from './hub/Balancer';
 
 export * from './hub/HubClient';
 
-export * from './service/ProxyFactory';
+export * from './service/ProxyBuilder';
 
 export * from './domain';
