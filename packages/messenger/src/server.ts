@@ -17,7 +17,7 @@ export default class Server extends MessengerBase {
     this.clients = new Map();
     this.server = net.createServer(this._handleConnection.bind(this));
     this.server.on('error', this._throwError.bind(this));
-    // this.listen();
+    this.listen();
   }
 
   listen(callback?) {

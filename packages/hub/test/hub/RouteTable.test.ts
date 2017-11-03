@@ -51,25 +51,25 @@ describe('RouteMap', function () {
 
   it('should selectClients() be ok in case 1', () => {
 
-    const clients = routeTable.selectClients({
+    const selecteds = routeTable.selectClients({
       appName: 'testApp'
     });
 
-    expect(clients.length).to.be.equal(2);
-    expect((<any> clients[0]).client).to.be.equal('1');
-    expect((<any> clients[1]).client).to.be.equal('2');
+    expect(selecteds.length).to.be.equal(2);
+    expect((<any> selecteds[0].client).client).to.be.equal('1');
+    expect((<any> selecteds[1].client).client).to.be.equal('2');
 
   });
 
   it('should selectClients() be ok in case 2', () => {
 
-    const clients = routeTable.selectClients({
+    const selecteds = routeTable.selectClients({
       processName: 'processB'
     });
 
-    expect(clients.length).to.be.equal(2);
-    expect((<any> clients[0]).client).to.be.equal('2');
-    expect((<any> clients[1]).client).to.be.equal('4');
+    expect(selecteds.length).to.be.equal(2);
+    expect((<any> selecteds[0].client).client).to.be.equal('2');
+    expect((<any> selecteds[1].client).client).to.be.equal('4');
 
   });
 
@@ -81,7 +81,7 @@ describe('RouteMap', function () {
     });
 
     expect(clients.length).to.be.equal(1);
-    expect((<any> clients[0]).client).to.be.equal('3');
+    expect((<any> clients[0].client).client).to.be.equal('3');
 
   });
 

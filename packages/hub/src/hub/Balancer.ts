@@ -1,13 +1,16 @@
-import {MessengerClient} from 'pandora-messenger';
+import {SelectedInfo} from '../domain';
+
+
+
 export class Balancer {
 
-  protected clients: MessengerClient[];
+  protected clients: Array<SelectedInfo>;
   constructor(clients) {
     this.clients = clients;
     // TODO: assert clients.length
   }
 
-  pick(): MessengerClient {
+  pick(): SelectedInfo {
     const randomInt = getRandomInt(0, this.clients.length - 1);
     return this.clients[randomInt];
   }
