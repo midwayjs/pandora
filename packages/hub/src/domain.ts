@@ -10,7 +10,6 @@ export interface Location {
 export interface Selector extends Location {
   serviceName?: string;
   tag?: string;
-  method?: string;
 }
 
 export const selectorSchema  = [
@@ -18,9 +17,16 @@ export const selectorSchema  = [
   'processName',
   'pid',
   'serviceName',
-  'tag',
-  'method'
+  'tag'
 ];
+
+export interface ServiceMessage extends HubMessage {
+  method: string;
+}
+
+export interface HubMessage extends MessagePackage {
+  action: string;
+}
 
 export interface MessagePackage {
   needReply?: boolean;
@@ -59,4 +65,20 @@ export interface ForceReplyFn {
 export interface SelectedInfo {
   client: MessengerClient;
   selector: Selector;
+}
+
+export interface DispatchHandler {
+  dispatch(message: HubMessage): Promise<any> | any
+}
+
+export interface ServiceDescription {
+  name: string;
+  tag?: string;
+}
+
+export interface ServiceObjectSpecial {
+  new();
+  serviceName?: string;
+  serviceTag?: string;
+  getProxy?(autoBuild): any;
 }

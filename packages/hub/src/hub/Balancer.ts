@@ -7,7 +7,6 @@ export class Balancer {
   protected clients: Array<SelectedInfo>;
   constructor(clients) {
     this.clients = clients;
-    // TODO: assert clients.length
   }
 
   pick(): SelectedInfo {

@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Hub} from '../../src/hub/Hub';
-import {Client} from '../../src/client/Client';
+import {HubClient} from '../../src/hub/HubClient';
 import {Selector} from '../../src/domain';
 describe('HubAndClient', () => {
 
@@ -11,19 +11,19 @@ describe('HubAndClient', () => {
   }
 
   let hub: TestHub;
-  let clientA: Client;
-  let clientB: Client;
+  let clientA: HubClient;
+  let clientB: HubClient;
 
   before(async () => {
     hub = new TestHub;
-    clientA = new Client({
+    clientA = new HubClient({
       location: {
         appName: 'testApp',
         processName: 'process1',
         pid: '1'
       }
     });
-    clientB = new Client({
+    clientB = new HubClient({
       location: {
         appName: 'testApp',
         processName: 'process2',
@@ -65,7 +65,7 @@ describe('HubAndClient', () => {
       serviceName: 'service1'
     };
 
-    const res = await clientB.invoke(selector, {
+    const res = await clientB.invoke(selector, 'myAction', {
       testData: '1234'
     });
 

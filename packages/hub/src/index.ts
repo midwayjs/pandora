@@ -2,8 +2,8 @@ export * from './hub/Hub';
 export * from './hub/RouteTable';
 export * from './hub/Balancer';
 
-export * from './client/Client';
+export * from './hub/HubClient';
 
-export * from './proxy/ProxyFactory';
+export * from './service/ProxyFactory';
 
 export * from './domain';

@@ -1,34 +1,49 @@
-import {Location, Selector, MessagePackage, ReplyPackage, PublishPackage, LookupPackage, ForceReplyFn} from '../domain';
+///<reference path="../domain.ts"/>
+import {
+  Location, Selector, MessagePackage, ReplyPackage, PublishPackage, LookupPackage, ForceReplyFn,
+  DispatchHandler, HubMessage
+} from '../domain';
 import {MessengerClient} from 'pandora-messenger';
 import {
   HUB_SOCKET_NAME, PANDORA_HUB_ACTION_DISCOVER_UP, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_PUBLISH_UP,
   PANDORA_HUB_ACTION_UNPUBLISH_UP, PANDORA_HUB_ACTION_MSG_DOWN, PANDORA_HUB_ACTION_ONLINE_UP,
   PANDORA_HUB_ACTION_OFFLINE_UP, TIMEOUT_OF_RESPONSE
 } from '../const';
-import {SelectorUtils} from '../SelectorUtils';
+import {SelectorUtils} from './SelectorUtils';
 import {format} from 'util';
+import {DefaultDispatchHandler} from './DefaultDispatchHandler';
 
 export interface ClientOptions {
   location: Location;
   logger?: any;
 }
 
-export class Client {
+export class HubClient {
 
   protected location: Location;
   protected messengerClient: MessengerClient = null;
   protected publishedSelectors: Array<Selector> = [];
   protected logger;
+  protected dispatchHandler: DispatchHandler;
 
   constructor (options: ClientOptions) {
     this.location = options.location;
     this.logger = options.logger || console;
   }
 
-  async handleHubDispatch(message: MessagePackage): Promise<any> {
-    return {
-      echo: message
-    };
+  /**
+   * Set a handler to hand HUB Dispatching message
+   * @param {DispatchHandler} dispatchHandler
+   */
+  public setDispatchHandler(dispatchHandler: DispatchHandler) {
+    this.dispatchHandler = dispatchHandler;
+  }
+
+  protected async handleHubDispatch(message: HubMessage): Promise<any> {
+    if(!this.dispatchHandler) {
+      this.dispatchHandler = new DefaultDispatchHandler(this);
+    }
+    return this.dispatchHandler.dispatch(message);
   }
 
   /**
@@ -47,17 +62,21 @@ export class Client {
       responseTimeout: TIMEOUT_OF_RESPONSE
     });
 
-    this.messengerClient.on(PANDORA_HUB_ACTION_MSG_DOWN, async (message: MessagePackage, reply: ForceReplyFn) => {
+    this.messengerClient.on(PANDORA_HUB_ACTION_MSG_DOWN, async (message: HubMessage, reply: ForceReplyFn) => {
       try {
         let replyPkg: ReplyPackage = null;
         try {
           const data = await this.handleHubDispatch(message);
           replyPkg = {
+            host: this.location,
+            remote: message.host,
             success: true,
             data: data
           };
         } catch (error) {
           replyPkg = {
+            host: this.location,
+            remote: message.host,
             success: false,
             error: error
           };
@@ -178,9 +197,10 @@ export class Client {
    * Invoke a remote Service only from a random one of all selected clients
    * @return {Promise<any>}
    */
-  async invoke(remote: Selector, data): Promise<ReplyPackage> {
-    const res = await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_MSG_UP, {
+  async invoke(remote: Selector, action, data): Promise<ReplyPackage> {
+    const res = await this.sendToHubAndWaitReply<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
+      action,
       broadcast: false,
       data: data
     });
@@ -193,9 +213,10 @@ export class Client {
    * @param data
    * @return {Promise<Array<ReplyPackage>>}
    */
-  async multipleInvoke(remote: Selector, data): Promise<Array<ReplyPackage>> {
-    const res = await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_MSG_UP, {
+  async multipleInvoke(remote: Selector, action, data): Promise<Array<ReplyPackage>> {
+    const res = await this.sendToHubAndWaitReply<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
+      action,
       broadcast: true,
       data: data
     });
@@ -208,9 +229,10 @@ export class Client {
    * @param data
    * @return {Promise<void>}
    */
-  send(remote: Selector, data): void {
-    this.sendToHub(PANDORA_HUB_ACTION_MSG_UP, {
+  send(remote: Selector, action, data): void {
+    this.sendToHub<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
+      action,
       broadcast: false,
       data: data
     });
@@ -222,9 +244,10 @@ export class Client {
    * @param data
    * @return {Promise<void>}
    */
-  multipleSend(remote: Selector, data): void {
-    this.sendToHub(PANDORA_HUB_ACTION_MSG_UP, {
+  multipleSend(remote: Selector, action, data): void {
+    this.sendToHub<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
+      action,
       broadcast: true,
       data: data
     });

@@ -1,6 +1,6 @@
 import {SelectedInfo, Selector} from '../domain';
 import {MessengerClient} from 'pandora-messenger';
-import {SelectorUtils} from '../SelectorUtils';
+import {SelectorUtils} from './SelectorUtils';
 import {format} from 'util';
 
 // TODO: Increase performance
