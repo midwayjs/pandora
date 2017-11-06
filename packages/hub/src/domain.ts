@@ -22,7 +22,7 @@ export const selectorSchema  = [
 ];
 
 export interface ServiceMessage extends HubMessage {
-  method: string;
+  propertyName: string;
 }
 
 export interface HubMessage extends MessagePackage {
@@ -98,9 +98,11 @@ export interface Introspection {
 export interface ServiceProxyBehaviour {
   host: {
     invoke (host: any, method: string, params: any[]): Promise<any>;
+    getProperty (host: any, name: string): Promise<any>;
     introspect(host: any): Introspection;
   };
   proxy: {
     invoke (proxy: any, consumer: ServiceConsumer, method: string, params: any[]): Promise<any>
+    getProperty (proxy: any, consumer: ServiceConsumer, name: string): Promise<any>;
   };
 }

@@ -1,6 +1,6 @@
 import {DispatchHandler, Introspection, ServiceMessage} from '../domain';
 import {ProviderManager} from './ProviderManager';
-import {SERVICE_ACTION_INTROSPECT, SERVICE_ACTION_INVOKE} from '../const';
+import {SERVICE_ACTION_GET_PROPERTY, SERVICE_ACTION_INTROSPECT, SERVICE_ACTION_INVOKE} from '../const';
 import {format} from 'util';
 import {ServiceProxyBehaviourManager} from './ServiceProxyBehaviourManager';
 
@@ -18,6 +18,9 @@ export class ServiceDispatchHandler implements DispatchHandler {
     if(message.action === SERVICE_ACTION_INVOKE) {
       return this.invoke(message);
     }
+    if(message.action === SERVICE_ACTION_GET_PROPERTY) {
+      return this.getProperty(message);
+    }
     if(message.action === SERVICE_ACTION_INTROSPECT) {
       return this.introspect(message);
     }
@@ -25,7 +28,7 @@ export class ServiceDispatchHandler implements DispatchHandler {
   }
 
   async invoke (message: ServiceMessage) {
-    const targetMethod = message.method;
+    const targetMethod = message.propertyName;
     const serviceDescription = {
       name: message.remote.serviceName,
       tag: message.remote.tag
@@ -35,6 +38,18 @@ export class ServiceDispatchHandler implements DispatchHandler {
       return this.serviceProxyBehaviourManager.getBehaviour(serviceDescription).host.invoke(obj, targetMethod, message.data);
     }
     throw new Error(format('can not found method called %s within service %j', targetMethod, serviceDescription));
+  }
+
+  private getProperty(message: ServiceMessage) {
+    const propertyName = message.propertyName;
+    const serviceDescription = {
+      name: message.remote.serviceName,
+      tag: message.remote.tag
+    };
+    const obj = this.serviceManager.getPublishedService(serviceDescription);
+    if(obj[propertyName]) {
+      return this.serviceProxyBehaviourManager.getBehaviour(serviceDescription).host.getProperty(obj, propertyName);
+    }
   }
 
   introspect(message: ServiceMessage): Introspection {

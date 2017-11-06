@@ -6,6 +6,7 @@ describe('IntrospectionUtils', () => {
 
   it('should introspect() be ok', () => {
     const names = IntrospectionUtils.introspect(new Hub);
+    // TODO:
     console.log(names);
   });
 

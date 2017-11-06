@@ -49,7 +49,7 @@ export class RouteTable {
       for(const targetSelector of targetSelectors) {
         const found = SelectorUtils.match(selector, targetSelector);
         if(found) {
-          selectedClients.push({client: client, selector});
+          selectedClients.push({client: client, targetSelectors});
           break;
         }
       }
