@@ -14,7 +14,7 @@ export class ServiceConsumer {
     this.hubClient = hubClient;
   }
 
-  public async invoke(method, params): Promise<any> {
+  public async invoke(method, params: any[]): Promise<any> {
     const res = await this.hubClient.invoke({
       serviceName: this.serviceDescription.name,
       tag: this.serviceDescription.tag
@@ -22,13 +22,13 @@ export class ServiceConsumer {
       method: method,
       data: params
     });
+    if(res.error) {
+      throw res.error;
+    }
     return res.data;
   }
 
-  public async getProxy<T extends any>(): Promise<T> {
-    if(this.serviceProxy) {
-      return <any> this.serviceProxy;
-    }
+  public async introspect(): Promise<Introspection> {
     const res = await this.hubClient.invoke({
       serviceName: this.serviceDescription.name,
       tag: this.serviceDescription.tag
@@ -36,7 +36,14 @@ export class ServiceConsumer {
     if(res.error) {
       throw res.error;
     }
-    const introspection: Introspection = res.data;
+    return res.data;
+  }
+
+  public async getProxy<T extends any>(): Promise<T> {
+    if(this.serviceProxy) {
+      return <any> this.serviceProxy;
+    }
+    const introspection = await this.introspect();
     this.serviceProxy = new DefaultServiceProxy(this, introspection);
     return <any> this.serviceProxy;
   }

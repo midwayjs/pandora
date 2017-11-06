@@ -1,4 +1,4 @@
-import {Location, ServiceDescription, ServiceObjectSpecial} from './domain';
+import {Location, ServiceDescription} from './domain';
 import {FacadeSetupOptions, HubClient} from './hub/HubClient';
 import {ProviderManager} from './service/ProviderManager';
 import {ConsumerManager} from './service/ConsumerManager';
@@ -15,6 +15,14 @@ export class Facade {
   setup (options: FacadeSetupOptions) {
     this.location = options.location;
     this.logger = options.logger || console;
+  }
+
+  async start () {
+    await this.getHubClient().start();
+  }
+
+  async stop () {
+    await this.getHubClient().stop();
   }
 
   getHubClient(): HubClient {
@@ -41,7 +49,7 @@ export class Facade {
     return this.consumerManager;
   }
 
-  publish (impl: ServiceObjectSpecial, serviceDescription?: ServiceDescription): Promise<void> {
+  publish (impl: any, serviceDescription?: ServiceDescription): Promise<void> {
     return this.getProviderManager().publish(impl, serviceDescription);
   }
 

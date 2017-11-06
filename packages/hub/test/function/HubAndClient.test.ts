@@ -66,7 +66,9 @@ describe('HubAndClient', () => {
     };
 
     const res = await clientB.invoke(selector, 'myAction', {
-      testData: '1234'
+      data: {
+        testData: '1234'
+      }
     });
 
     expect(res.data.echo.data.testData).to.be.equal('1234');

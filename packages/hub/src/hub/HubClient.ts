@@ -1,4 +1,3 @@
-///<reference path="../domain.ts"/>
 import {
   Location, Selector, MessagePackage, ReplyPackage, PublishPackage, LookupPackage, ForceReplyFn,
   DispatchHandler, HubMessage
@@ -200,12 +199,12 @@ export class HubClient {
    * Invoke a remote Service only from a random one of all selected clients
    * @return {Promise<any>}
    */
-  async invoke(remote: Selector, action, data): Promise<ReplyPackage> {
+  async invoke(remote: Selector, action, message): Promise<ReplyPackage> {
     const res = await this.sendToHubAndWaitReply<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
       action,
       broadcast: false,
-      data: data
+      ...message
     });
     return res;
   }
@@ -213,15 +212,15 @@ export class HubClient {
   /**
    * Invoke a remote Service from all selected clients
    * @param {Selector} remote
-   * @param data
+   * @param message
    * @return {Promise<Array<ReplyPackage>>}
    */
-  async multipleInvoke(remote: Selector, action, data): Promise<Array<ReplyPackage>> {
+  async multipleInvoke(remote: Selector, action, message): Promise<Array<ReplyPackage>> {
     const res = await this.sendToHubAndWaitReply<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
       action,
       broadcast: true,
-      data: data
+      ...message
     });
     return res.batchReply;
   }
@@ -232,27 +231,27 @@ export class HubClient {
    * @param data
    * @return {Promise<void>}
    */
-  send(remote: Selector, action, data): void {
+  send(remote: Selector, action, message): void {
     this.sendToHub<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
       action,
       broadcast: false,
-      data: data
+      ...message
     });
   }
 
   /**
    * Send a message to all selected clients
    * @param remote
-   * @param data
+   * @param message
    * @return {Promise<void>}
    */
-  multipleSend(remote: Selector, action, data): void {
+  multipleSend(remote: Selector, action, message): void {
     this.sendToHub<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
       remote: remote,
       action,
       broadcast: true,
-      data: data
+      ...message
     });
   }
 

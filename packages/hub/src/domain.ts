@@ -78,7 +78,7 @@ export interface ServiceDescription {
 }
 
 export interface ServiceObjectSpecial {
-  new();
+  new?();
   serviceName?: string;
   serviceTag?: string;
   getProxy?(autoBuild): any;

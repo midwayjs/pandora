@@ -1,4 +1,4 @@
-import {Selector, ServiceDescription, ServiceObjectSpecial} from '../domain';
+import {Selector, ServiceDescription} from '../domain';
 import {HubClient} from '../hub/HubClient';
 import {format} from 'util';
 import {ServiceDispatchHandler} from './ServiceDispatchHandler';
@@ -14,7 +14,7 @@ export class ProviderManager {
     this.hubClient.setDispatchHandler(new ServiceDispatchHandler(this));
   }
 
-  async getPublishedService (serviceDescription?: ServiceDescription): Promise<any> {
+  getPublishedService (serviceDescription?: ServiceDescription): Promise<any> {
     const idWithTag = ServiceUtils.serviceDescriptionToId(serviceDescription);
     if(this.serviceMap.has(idWithTag)) {
       return this.serviceMap.get(idWithTag);
@@ -22,13 +22,7 @@ export class ProviderManager {
     return this.serviceMap.get(serviceDescription.name);
   }
 
-  async publish (impl: ServiceObjectSpecial, serviceDescription?: ServiceDescription): Promise<void> {
-
-    serviceDescription = <any> serviceDescription || {};
-    serviceDescription = {
-      name: serviceDescription.name || impl.serviceName,
-      tag: serviceDescription.tag || impl.serviceTag
-    };
+  async publish (impl: any, serviceDescription?: ServiceDescription): Promise<void> {
 
     const id = ServiceUtils.serviceDescriptionToId(serviceDescription);
 
