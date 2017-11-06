@@ -1,4 +1,5 @@
 import {MessengerClient} from 'pandora-messenger';
+import {ServiceConsumer} from './service/ServiceConsumer';
 
 export interface Location {
   unknown?: boolean;
@@ -92,4 +93,14 @@ export interface Introspection {
     name: string;
     length: number;
   }>;
+}
+
+export interface ServiceProxyBehaviour {
+  host: {
+    invoke (host: any, method: string, params: any[]): Promise<any>;
+    introspect(host: any): Introspection;
+  };
+  proxy: {
+    invoke (proxy: any, consumer: ServiceConsumer, method: string, params: any[]): Promise<any>
+  };
 }

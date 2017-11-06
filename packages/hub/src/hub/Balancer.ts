@@ -1,7 +1,5 @@
 import {SelectedInfo} from '../domain';
 
-
-
 export class Balancer {
 
   protected clients: Array<SelectedInfo>;

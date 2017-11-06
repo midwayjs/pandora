@@ -18,6 +18,9 @@ export interface ClientOptions {
   logger?: any;
 }
 
+export interface FacadeSetupOptions extends ClientOptions {
+}
+
 export class HubClient {
 
   protected location: Location;

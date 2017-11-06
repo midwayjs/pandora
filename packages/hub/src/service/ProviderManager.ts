@@ -2,19 +2,20 @@ import {Selector, ServiceDescription, ServiceObjectSpecial} from '../domain';
 import {HubClient} from '../hub/HubClient';
 import {format} from 'util';
 import {ServiceDispatchHandler} from './ServiceDispatchHandler';
+import {ServiceUtils} from './ServiceUtils';
 
-export class ServiceManager {
+export class ProviderManager {
 
   protected hubClient: HubClient;
   protected serviceMap: Map<string, any> = new Map();
 
-  protected constructor (hubClient) {
+  constructor (hubClient) {
     this.hubClient = hubClient;
     this.hubClient.setDispatchHandler(new ServiceDispatchHandler(this));
   }
 
-  async getService (serviceDescription?: ServiceDescription): any {
-    const idWithTag = serviceDescription.name + serviceDescription.tag ? ( ':' + serviceDescription.tag ) : '';
+  async getPublishedService (serviceDescription?: ServiceDescription): Promise<any> {
+    const idWithTag = ServiceUtils.serviceDescriptionToId(serviceDescription);
     if(this.serviceMap.has(idWithTag)) {
       return this.serviceMap.get(idWithTag);
     }
@@ -29,7 +30,7 @@ export class ServiceManager {
       tag: serviceDescription.tag || impl.serviceTag
     };
 
-    const id = serviceDescription.name + serviceDescription.tag ? ( ':' + serviceDescription.tag ) : '';
+    const id = ServiceUtils.serviceDescriptionToId(serviceDescription);
 
     if(this.serviceMap.has(id)) {
       throw new Error(format('service called %j already exist', id));
@@ -53,14 +54,6 @@ export class ServiceManager {
 
     await this.hubClient.publish(selector);
 
-  }
-
-  private static instance: ServiceManager;
-  static getInstance () {
-    if(!ServiceManager.instance) {
-      ServiceManager.instance = new ServiceManager();
-    }
-    return ServiceManager.instance;
   }
 
 }
