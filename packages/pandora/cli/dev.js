@@ -2,7 +2,7 @@
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {DebugApplicationLoader} = require(path.join(PANDORA_LIB_HOME, 'debug/DebugApplicationLoader'));
-const {calcAppName} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
+const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 
 exports.command = 'dev <targetPath>';
 exports.desc = 'Debug an application';
@@ -40,12 +40,12 @@ exports.handler = function (argv) {
   const appName = argv.name ? argv.name : calcAppName(targetPathResolved);
   const mode = argv.mode ? argv.mode : 'procfile.js';
 
-  runApplication({
+  runApplication(attachEntryParams('dev', {
     mode: mode,
     appName: appName,
     appDir: mode === 'procfile.js' ? targetPathResolved : process.cwd(),
     entryFile: mode !== 'procfile.js' ? targetPathResolved : null
-  }).catch(console.error);
+  })).catch(console.error);
 };
 
 function runApplication(opts) {

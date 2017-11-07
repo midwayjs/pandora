@@ -1,5 +1,7 @@
 'use strict';
 import {join} from 'path';
+import {PANDORA_GLOBAL_CONFIG} from '../const';
+import {GlobalConfigProcessor} from './GlobalConfigProcessor';
 
 export function calcAppName(dir?) {
   let ret;
@@ -15,13 +17,16 @@ export function calcAppName(dir?) {
   return ret;
 }
 
-export function mergeEntryParams(data) {
+export function attachEntryParams(command, data) {
   const currentPath = process.cwd();
   let pandoraConfig;
   try {
-    pandoraConfig = require(`${currentPath}/package.json`)['pandora'];
-    // alias name
-    pandoraConfig.appName = pandoraConfig.appName || pandoraConfig.name;
+    const pandoraAttachConfig = require(`${currentPath}/package.json`)['pandora'];
+    pandoraConfig = pandoraAttachConfig[command] || {};
+
+    // set global config to environment
+    pandoraConfig['config'].push(process.env[PANDORA_GLOBAL_CONFIG] || '');
+    process.env[PANDORA_GLOBAL_CONFIG] = pandoraConfig['config'].join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
   } catch (err) {
     pandoraConfig = {};
   }

@@ -2,7 +2,7 @@
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
-const {calcAppName, mergeEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
+const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 
 exports.command = 'start <targetPath>';
 exports.desc = 'Start an application';
@@ -46,7 +46,7 @@ exports.handler = function (argv) {
   const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
   consoleLogger.info('Starting ' + appName + ' at ' + targetPathResolved);
 
-  send('start', mergeEntryParams({
+  send('start', attachEntryParams('start', {
     mode: mode,
     appName: appName,
     appDir: mode === 'procfile.js' ? targetPathResolved : process.cwd(),
