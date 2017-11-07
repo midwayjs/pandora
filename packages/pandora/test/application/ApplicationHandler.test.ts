@@ -4,8 +4,8 @@ import {ApplicationHandler} from '../../src/application/ApplicationHandler';
 import urllib = require('urllib');
 import {State} from '../../src/const';
 
-const pathProjectMaster = join(__dirname, '../fixtrues/project/master');
-const pathSimpleForkApp = join(__dirname, '../fixtrues/project/simple_fork/app.js');
+const pathProjectMaster = join(__dirname, '../fixtures/project/master');
+const pathSimpleForkApp = join(__dirname, '../fixtures/project/simple_fork/app.js');
 
 describe('ApplicationHandler', function () {
 

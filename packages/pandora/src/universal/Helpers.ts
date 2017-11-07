@@ -23,11 +23,18 @@ export function attachEntryParams(command, data) {
   try {
     const pandoraAttachConfig = require(`${currentPath}/package.json`)['pandora'];
     pandoraConfig = pandoraAttachConfig[command] || {};
+    pandoraConfig['config'] = pandoraConfig['config'] || [];
 
     // set global config to environment
     pandoraConfig['config'].push(process.env[PANDORA_GLOBAL_CONFIG] || '');
-    process.env[PANDORA_GLOBAL_CONFIG] = pandoraConfig['config'].join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
+    console.log(pandoraConfig['config'].filter((text) => {
+      return !!text;
+    }));
+    process.env[PANDORA_GLOBAL_CONFIG] = pandoraConfig['config'].filter((text) => {
+      return !!text;
+    }).join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
   } catch (err) {
+    console.log(err);
     pandoraConfig = {};
   }
   return Object.assign(pandoraConfig || {}, data);

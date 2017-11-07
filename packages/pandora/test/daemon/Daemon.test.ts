@@ -7,7 +7,7 @@ import {DefaultEnvironment, EnvironmentUtil} from 'pandora-env';
 import {MetricsConstants} from 'pandora-metrics';
 import {State} from '../../src/const';
 
-const pathProjectMaster = join(__dirname, '../fixtrues/project/master');
+const pathProjectMaster = join(__dirname, '../fixtures/project/master');
 
 describe('Daemon', function () {
 

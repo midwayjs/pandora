@@ -171,7 +171,7 @@ describe('ServiceReconciler', function () {
     const srAgent = new TestServiceReconciler(prAgent, ctxAgent);
     const srWorker = new TestServiceReconciler(prWorker, ctxWorker);
 
-    const AgentWorkerTest1 = require('../fixtrues/service/AgentWorkerTest1');
+    const AgentWorkerTest1 = require('../fixtures/service/AgentWorkerTest1');
     const agentWorkerTest1Representation = {
       serviceEntry: AgentWorkerTest1,
       serviceName: 'agentWorkerTest1',

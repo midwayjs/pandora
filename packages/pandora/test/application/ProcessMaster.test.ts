@@ -4,8 +4,8 @@ import {expect} from 'chai';
 import urllib = require('urllib');
 import {defaultWorkerCount, ProcessMaster} from '../../src/application/ProcessMaster';
 
-const pathProjectMaster = join(__dirname, '../fixtrues/project/master');
-const pathSimpleClusterApp = join(__dirname, '../fixtrues/project/simple_cluster/app.js');
+const pathProjectMaster = join(__dirname, '../fixtures/project/master');
+const pathSimpleClusterApp = join(__dirname, '../fixtures/project/simple_cluster/app.js');
 
 describe('ProcessMaster', function () {
 

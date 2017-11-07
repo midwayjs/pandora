@@ -1,0 +1,17 @@
+{
+  "name": "test-app",
+  "pandora": {
+    "start": {
+      "mode": "fork",
+      "entryFile": "./bin/server.js",
+      "config": [
+        "pandora-taobao",
+        "pandora-ali"
+      ]
+    },
+    "dev": {
+      "mode": "cluster",
+      "entryFile": "./bin/server.js"
+    }
+  }
+}
