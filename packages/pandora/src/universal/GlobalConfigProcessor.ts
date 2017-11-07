@@ -4,8 +4,6 @@ import {PANDORA_CWD, PANDORA_GLOBAL_CONFIG} from '../const';
 import {consoleLogger} from './LoggerBroker';
 import extend = require('extend');
 
-const GLOBAL_PACKAGE_SPLIT = ':';
-
 export class GlobalConfigProcessor {
 
   private globalConfig = {};
@@ -13,6 +11,8 @@ export class GlobalConfigProcessor {
   static instance;
 
   private initialized = false;
+
+  static GLOBAL_PACKAGE_SPLIT = ':';
 
   static getInstance() {
     if (!this.instance) {
@@ -25,7 +25,7 @@ export class GlobalConfigProcessor {
     if (!this.initialized) {
       const cwd = process.env[PANDORA_CWD] || process.cwd();
       const cwdRequire = makeRequire(cwd);
-      const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GLOBAL_PACKAGE_SPLIT) : [];
+      const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT) : [];
       let globalConfig = require('../default').default;
       this.mergeProperties(globalConfig);
       for (const configPath of configPaths) {

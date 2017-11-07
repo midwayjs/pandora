@@ -8,7 +8,7 @@ describe('DefaultConfigurator', function () {
 
   const prWorker: ProcessRepresentation = {
     appName: 'xxx',
-    appDir: join(__dirname, '../fixtrues/universal/test-test1'),
+    appDir: join(__dirname, '../fixtures/universal/test-test1'),
     processName: 'worker',
   };
   const ctxWorker = new WorkerContext(prWorker);

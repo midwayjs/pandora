@@ -3,7 +3,7 @@ import {join} from 'path';
 import {expect} from 'chai';
 import assert = require('assert');
 
-const pathProjectSimple1 = join(__dirname, '../fixtrues/project/simple_1');
+const pathProjectSimple1 = join(__dirname, '../fixtures/project/simple_1');
 
 describe('WorkerProcessBootstrap', function () {
 

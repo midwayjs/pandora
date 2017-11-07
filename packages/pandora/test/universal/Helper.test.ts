@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import Helpers = require('../../src/universal/Helpers');
 import mm = require('mm');
 import {join} from 'path';
+import {PANDORA_GLOBAL_CONFIG} from '../../src/const';
 
 describe('Helpers', function () {
   it('should calcAppName() by dirname be ok', () => {
@@ -18,6 +19,26 @@ describe('Helpers', function () {
     });
     const name = Helpers.calcAppName(__dirname);
     expect(name).to.be.equal('pandora');
+    mm.restore();
+  });
+
+
+  it('should attach entry config from outside', () => {
+    mm(process, 'cwd', function () {
+      return join(__dirname, '../fixtures/universal/test-test2');
+    });
+    const forkEntryConfig = Helpers.attachEntryParams('start', {
+      appName: 'test-app3',
+    });
+    const devEntryConfig = Helpers.attachEntryParams('dev', {
+      appName: 'test-app3',
+    });
+    expect(forkEntryConfig.mode).to.be.equal('fork');
+    expect(devEntryConfig.mode).to.be.equal('cluster');
+    expect(forkEntryConfig.entryFile).to.be.equal('./bin/server.js');
+    expect(forkEntryConfig.appName).to.be.equal('test-app3');
+    expect(process.env[PANDORA_GLOBAL_CONFIG]).to.be.equal('pandora-taobao:pandora-ali');
+
     mm.restore();
   });
 });

@@ -4,7 +4,7 @@ import {AppletReconciler} from '../../src/application/AppletReconciler';
 import {WorkerContext} from '../../src/application/WorkerContext';
 import {AppletRepresentation, ProcessRepresentation} from '../../src/domain';
 
-const SampleHTTPServer = require('../fixtrues/applet/SimpleHTTPServer');
+const SampleHTTPServer = require('../fixtures/applet/SimpleHTTPServer');
 
 describe('AppletReconciler', function () {
   const processRepresentation: ProcessRepresentation = {

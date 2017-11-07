@@ -1,8 +1,9 @@
 import {expect} from 'chai';
 import {GlobalConfigProcessor} from '../../src/universal/GlobalConfigProcessor';
 import {join} from 'path';
+import mm = require('mm');
 
-const pathToGlobalConfigExt = join(__dirname, '../fixtrues/universal/globalConfigExt.js');
+const pathToGlobalConfigExt = join(__dirname, '../fixtures/universal/globalConfigExt.js');
 
 describe('GlobalConfigProcessor', function () {
 
@@ -20,18 +21,18 @@ describe('GlobalConfigProcessor', function () {
 
   it('should getAllProperties() extend config from PANDORA_CONFIG be ok', () => {
     globalConfigProcessor.clearProperties();
-    process.env.PANDORA_CONFIG = pathToGlobalConfigExt;
+    mm(process.env, 'PANDORA_CONFIG', pathToGlobalConfigExt);
     const properties = globalConfigProcessor.getAllProperties();
     expect((<any>properties).testKey).to.be.equal('testValue');
-    process.env.PANDORA_CONFIG = null;
+    mm.restore();
   });
 
   it('should getAllProperties() ignore error when given a wrong PANDORA_CONFIG', () => {
     globalConfigProcessor.clearProperties();
-    process.env.PANDORA_CONFIG = pathToGlobalConfigExt + ':/sdf/dsfsdf/dsf';
+    mm(process.env, 'PANDORA_CONFIG', pathToGlobalConfigExt + ':/sdf/dsfsdf/dsf');
     const properties = globalConfigProcessor.getAllProperties();
     expect((<any>properties).testKey).to.be.equal('testValue');
-    process.env.PANDORA_CONFIG = null;
+    mm.restore();
   });
 
   it('shoud merge properties after global config initialized', () => {

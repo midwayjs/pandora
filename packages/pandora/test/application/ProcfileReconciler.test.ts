@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import {Service} from '../../src/domain';
 
 import globalConfig from '../../src/default';
-const pathProjectSimple1 = join(__dirname, '../fixtrues/project/simple_1');
+const pathProjectSimple1 = join(__dirname, '../fixtures/project/simple_1');
 
 class TestApplet {
   start() {

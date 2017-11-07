@@ -3,8 +3,8 @@ import {join} from 'path';
 import {ProcessBootstrap} from '../../src/application/ProcessBootstrap';
 import {promise} from 'pandora-dollar';
 
-const pathToProcessBootstrapForkTimeMark = join(__dirname, '../fixtrues/application/processBootstrapForkTimeMark.js');
-const pathToProcessBootstrapEntryFnTimeMark = join(__dirname, '../fixtrues/application/processBootstrapEntryFnTimeMark.js');
+const pathToProcessBootstrapForkTimeMark = join(__dirname, '../fixtures/application/processBootstrapForkTimeMark.js');
+const pathToProcessBootstrapEntryFnTimeMark = join(__dirname, '../fixtures/application/processBootstrapEntryFnTimeMark.js');
 
 describe('ProcessBootstrap', function () {
 
