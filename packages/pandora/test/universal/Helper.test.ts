@@ -41,4 +41,44 @@ describe('Helpers', function () {
 
     mm.restore();
   });
+
+  it('test merge config with default mode and outside property', () => {
+    mm(process, 'cwd', function () {
+      return join(__dirname, '../fixtures/universal/test-fork');
+    });
+
+    // pandora start --name test
+    const forkEntryConfig = Helpers.attachEntryParams('start', {
+      appName: 'test',
+    }, {
+        mode: 'procfile.js',
+        appDir: process.cwd(),
+        appName: Helpers.calcAppName(process.cwd())
+    });
+    expect(forkEntryConfig.mode).to.be.equal('procfile.js');
+    expect(forkEntryConfig.appName).to.be.equal('test');
+    expect(forkEntryConfig.appDir).to.be.equal(process.cwd());
+    expect(forkEntryConfig.entryFile).to.be.equal('./bin/server.js');
+
+    mm.restore();
+  });
+
+  it('test merge config with entry', () => {
+    mm(process, 'cwd', function () {
+      return join(__dirname, '../fixtures/universal/test-fork-1');
+    });
+
+    // pandora start --name test
+    const forkEntryConfig = Helpers.attachEntryParams('start', {
+      entry: '../../',
+    }, {
+      mode: 'procfile.js',
+      appDir: process.cwd(),
+    });
+    expect(forkEntryConfig.mode).to.be.equal('fork');
+    expect(forkEntryConfig.appDir).to.be.equal('../../');
+    expect(forkEntryConfig.entryFile).to.be.equal(undefined);
+
+    mm.restore();
+  });
 });

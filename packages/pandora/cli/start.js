@@ -36,24 +36,25 @@ exports.builder = (yargs) => {
  * @param argv
  */
 exports.handler = function (argv) {
-  const targetPathResolved = path.resolve(argv.targetPath) || process.cwd();
-  const appName = argv.name ? argv.name : calcAppName(targetPathResolved);
-
-  const mode = argv.mode ? argv.mode : 'procfile.js';
-  const scale = argv.scale ? argv.scale : null;
+  const targetPathResolved = path.resolve(argv.targetPath);
   const injectMonitoring = argv.hasOwnProperty('inject-monitoring');
 
-  const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
-  consoleLogger.info('Starting ' + appName + ' at ' + targetPathResolved);
+  const sendParams = attachEntryParams('start', {
+    mode,
+    appName: argv.name,
+    entry: targetPathResolved,
+    scale,
+    injectMonitoring
+  }, {
+    mode: 'procfile.js',
+    appDir: process.cwd(),
+    appName: calcAppName(process.cwd())
+  });
 
-  send('start', attachEntryParams('start', {
-    mode: mode,
-    appName: appName,
-    appDir: mode === 'procfile.js' ? targetPathResolved : process.cwd(),
-    entryFile: mode !== 'procfile.js' ? targetPathResolved : null,
-    scale: scale,
-    injectMonitoring: injectMonitoring
-  }), (err, data) => {
+  const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
+  consoleLogger.info('Starting ' + sendParams.appName + ' at ' + sendParams.appDir);
+
+  send('start', sendParams, (err, data) => {
     if (err) {
       consoleLogger.error(data);
       process.exit(1);
