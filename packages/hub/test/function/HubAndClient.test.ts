@@ -70,8 +70,28 @@ describe('HubAndClient', () => {
         testData: '1234'
       }
     });
-
     expect(res.data.echo.data.testData).to.be.equal('1234');
+  });
+
+  it('should unpublish selector to Hub be ok', async () => {
+    const location = clientA.getLocation();
+    const selector: Selector = {
+      ...location,
+      serviceName: 'service1'
+    };
+    const unpublishRes = await clientA.unpublish(selector);
+    expect(unpublishRes.success).to.be.equal(true);
+
+    const routeTable = hub.getRouteTable();
+    const client = routeTable.selectClients(location)[0].client;
+    const selectors = routeTable.getSelectorsByClient(client);
+    expect(selectors.length).to.be.equal(2);
+
+    const clients = routeTable.selectClients({
+      serviceName: 'service1'
+    });
+
+    expect(clients.length).to.be.equal(0);
 
   });
 

@@ -1,6 +1,7 @@
+import uuid = require('uuid');
 import {
   Location, Selector, MessagePackage, ReplyPackage, PublishPackage, LookupPackage, ForceReplyFn,
-  DispatchHandler, HubMessage
+  DispatchHandler, HubMessage, ClientOptions
 } from '../domain';
 import {MessengerClient} from 'pandora-messenger';
 import {
@@ -12,13 +13,6 @@ import {SelectorUtils} from './SelectorUtils';
 import {format} from 'util';
 import {DefaultDispatchHandler} from './DefaultDispatchHandler';
 
-export interface ClientOptions {
-  location: Location;
-  logger?: any;
-}
-
-export interface FacadeSetupOptions extends ClientOptions {
-}
 
 export class HubClient {
 
@@ -29,7 +23,10 @@ export class HubClient {
   protected dispatchHandler: DispatchHandler;
 
   constructor (options: ClientOptions) {
-    this.location = options.location;
+    this.location = {
+      ...options.location,
+      clientId: uuid.v4()
+    };
     this.logger = options.logger || console;
   }
 
@@ -162,7 +159,7 @@ export class HubClient {
   protected async resendPublishedSelectors () {
     await this.sendOnline();
     for(const selector of this.publishedSelectors) {
-      await this.publish(selector);
+      await this.sendPublishToHub(selector);
     }
   }
 

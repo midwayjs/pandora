@@ -130,7 +130,7 @@ export class Hub {
 
   startListen() {
     this.messengerServer.on('connected', (client: MessengerClient) => {
-      this.routeTable.setRelation(client, {unknown: true});
+      this.routeTable.setRelation(client, {initialization: true});
     });
     this.messengerServer.on('disconnected', (client: MessengerClient) => {
       this.routeTable.forgetClient(client);

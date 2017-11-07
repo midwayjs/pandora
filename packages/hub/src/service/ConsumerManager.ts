@@ -1,6 +1,7 @@
 import {HubClient} from '../hub/HubClient';
 import {ServiceConsumer} from './ServiceConsumer';
 import {ServiceDescription} from '../domain';
+import {DefaultServiceProxy} from './DefaultServiceProxy';
 
 export class ConsumerManager {
 
@@ -15,7 +16,7 @@ export class ConsumerManager {
 
   }
 
-  public async getProxy <T> (serviceDescription: ServiceDescription): Promise<T> {
+  public async getProxy <T extends any> (serviceDescription: ServiceDescription): Promise<T & DefaultServiceProxy> {
     return this.getConsumer(serviceDescription).getProxy<T>();
   }
 

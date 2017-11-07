@@ -1,8 +1,9 @@
-import {Location, ServiceDescription} from './domain';
-import {FacadeSetupOptions, HubClient} from './hub/HubClient';
+import {FacadeSetupOptions, Location, ServiceDescription} from './domain';
+import {HubClient} from './hub/HubClient';
 import {ProviderManager} from './service/ProviderManager';
 import {ConsumerManager} from './service/ConsumerManager';
 import {ServiceConsumer} from './service/ServiceConsumer';
+import {DefaultServiceProxy} from './service/DefaultServiceProxy';
 
 export class Facade {
 
@@ -61,7 +62,7 @@ export class Facade {
     return this.getConsumerManager().getConsumer(serviceDescription);
   }
 
-  getProxy <T> (serviceDescription: ServiceDescription): Promise<T> {
+  getProxy <T extends any> (serviceDescription: ServiceDescription): Promise<T & DefaultServiceProxy> {
     return this.getConsumerManager().getProxy<T>(serviceDescription);
   }
 

@@ -52,7 +52,7 @@ export class ServiceConsumer {
     return res.data;
   }
 
-  public async getProxy<T extends any>(): Promise<T> {
+  public async getProxy<T extends any>(): Promise<T & DefaultServiceProxy> {
     if(this.serviceProxy) {
       return <any> this.serviceProxy;
     }
@@ -62,3 +62,5 @@ export class ServiceConsumer {
   }
 
 }
+
+

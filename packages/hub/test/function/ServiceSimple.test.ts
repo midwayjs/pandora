@@ -1,7 +1,6 @@
 import {Facade} from '../../src/Facade';
 import {Hub} from '../../src/hub/Hub';
 import {expect} from 'chai';
-import {DefaultServiceProxy} from '../../src/service/DefaultServiceProxy';
 
 describe('ServiceSimple', function () {
 
@@ -55,7 +54,7 @@ describe('ServiceSimple', function () {
   });
 
   it('should invoke through proxy be ok', async () => {
-    const proxy: Math = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
+    const proxy = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
     const val = await proxy.abs(-1234);
     expect(val).to.be.equal(1234);
   });
@@ -67,14 +66,13 @@ describe('ServiceSimple', function () {
   });
 
   it('should getProperty through proxy be ok', async () => {
-    interface Proxy extends DefaultServiceProxy, Math {}
-    const proxy: Proxy = await facade.getProxy<Proxy>({name: 'math', tag: 'latest'});
+    const proxy = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
     const PI = await proxy.getProperty('PI');
     expect(PI).to.be.equal(Math.PI);
   });
 
   it('should throw an error when access a property directly', async () => {
-    const proxy: Math = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
+    const proxy = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
     // Will throw an error > Error: Use 'await proxy.getProperty('PI')' to replace 'proxy.PI' when using IPC Object Proxy
     expect(() => proxy.PI).to.throw('proxy.getProperty(\'PI\')');
   });

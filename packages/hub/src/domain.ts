@@ -2,10 +2,11 @@ import {MessengerClient} from 'pandora-messenger';
 import {ServiceConsumer} from './service/ServiceConsumer';
 
 export interface Location {
-  unknown?: boolean;
+  initialization?: boolean;
   appName?: string;
   processName?: string;
   pid?: string;
+  clientId?: string;
 }
 
 export interface Selector extends Location {
@@ -14,6 +15,7 @@ export interface Selector extends Location {
 }
 
 export const selectorSchema  = [
+  'clientId',
   'appName',
   'processName',
   'pid',
@@ -105,4 +107,12 @@ export interface ServiceProxyBehaviour {
     invoke (proxy: any, consumer: ServiceConsumer, method: string, params: any[]): Promise<any>
     getProperty (proxy: any, consumer: ServiceConsumer, name: string): Promise<any>;
   };
+}
+
+export interface ClientOptions {
+  location: Location;
+  logger?: any;
+}
+
+export interface FacadeSetupOptions extends ClientOptions {
 }
