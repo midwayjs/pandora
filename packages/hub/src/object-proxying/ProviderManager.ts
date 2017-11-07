@@ -11,7 +11,7 @@ export class ProviderManager {
 
   constructor (hubClient) {
     this.hubClient = hubClient;
-    this.hubClient.setDispatchHandler(new ObjectDispatchHandler(this));
+    this.hubClient.pushDispatchHandler(new ObjectDispatchHandler(this));
   }
 
   getPublishedObject (objectDescription?: ObjectDescription): Promise<any> {

@@ -12,37 +12,45 @@ import {
 import {SelectorUtils} from './SelectorUtils';
 import {format} from 'util';
 import {DefaultDispatchHandler} from './DefaultDispatchHandler';
+import {EventEmitter} from 'events';
 
 
-export class HubClient {
+export class HubClient extends EventEmitter {
 
   protected location: Location;
   protected messengerClient: MessengerClient = null;
   protected publishedSelectors: Array<Selector> = [];
   protected logger;
-  protected dispatchHandler: DispatchHandler;
+  protected dispatchHandlers: DispatchHandler[];
 
   constructor (options: ClientOptions) {
+    super();
     this.location = {
       ...options.location,
       clientId: uuid.v4()
     };
     this.logger = options.logger || console;
+    this.dispatchHandlers = [
+      new DefaultDispatchHandler(this)
+    ];
   }
 
   /**
    * Set a handler to hand HUB Dispatching message
    * @param {DispatchHandler} dispatchHandler
    */
-  public setDispatchHandler(dispatchHandler: DispatchHandler) {
-    this.dispatchHandler = dispatchHandler;
+  public pushDispatchHandler(dispatchHandler: DispatchHandler) {
+    this.dispatchHandlers.push(dispatchHandler);
   }
 
   protected async handleHubDispatch(message: HubMessage): Promise<any> {
-    if(!this.dispatchHandler) {
-      this.dispatchHandler = new DefaultDispatchHandler(this);
+    for(const dispatchHandler of this.dispatchHandlers) {
+      const ret = await dispatchHandler.dispatch(message);
+      if(ret) {
+        return ret;
+      }
     }
-    return this.dispatchHandler.dispatch(message);
+    this.emit(message.action, message);
   }
 
   /**

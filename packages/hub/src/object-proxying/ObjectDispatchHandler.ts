@@ -24,7 +24,6 @@ export class ObjectDispatchHandler implements DispatchHandler {
     if(message.action === OBJECT_ACTION_INTROSPECT) {
       return this.introspect(message);
     }
-    throw new Error('unknown action ' + message.action);
   }
 
   async invoke (message: ObjectMessage) {

@@ -66,6 +66,7 @@ describe('HubAndClient', () => {
     };
 
     const res = await clientB.invoke(selector, 'myAction', {
+      action: 'echo',
       data: {
         testData: '1234'
       }

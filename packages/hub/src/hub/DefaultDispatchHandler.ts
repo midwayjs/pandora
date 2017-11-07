@@ -8,10 +8,12 @@ export class DefaultDispatchHandler implements DispatchHandler {
     this.hubClient = hubClient;
   }
 
-  async dispatch(message: HubMessage) {
-    return {
-      echo: message
-    };
+  async dispatch(message: HubMessage): Promise<any> {
+    if(message.action === 'echo') {
+      return {
+        echo: message
+      };
+    }
   }
 
 }
