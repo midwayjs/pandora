@@ -1,6 +1,6 @@
 {
   "name": "pandora-messenger",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "pandora.js messenger module",
   "main": "dist/index",
   "typings": "src/index",
