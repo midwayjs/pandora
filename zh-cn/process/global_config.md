@@ -2,6 +2,9 @@
 
 Pandora.js 设计了一套配置文件，希望能和应用的配置进行隔离，毕竟 Pandora.js 可能会在全局场景下应用，导致不一样的情况发生。
 
+
+## 默认的全局配置
+
 Pandora.js 提供了一组默认的配置来保证基础脚本的运行，一般指定了几项标准的内容：
 
 - process 进程描述内容
@@ -129,7 +132,7 @@ PANDORA_CONFIG=./index.js pandora start .
 
 文件的内容**只需要写覆盖的部分**
 
-## 多配置支持
+## 通过命令行加载多配置
 
 本质上，配置的覆盖就只是配置文件内容的覆盖，所以只需要做好分割就好。
 
@@ -138,3 +141,28 @@ PANDORA_CONFIG=./index.js pandora start .
 ```sh
 PANDORA_CONFIG=pandora-ali:./index.js pandora start .
 ```
+
+## 通过 package.json 加载多配置
+
+另一方面，pandora 提供了在 `package.json` 文件中增加配置的功能，只要增加 `pandora` 文本段即可，示例如下：
+
+```json
+{
+  "name": "xxx",
+    "pandora": {
+      "start": {
+        "config": [
+          "pandora-taobao",
+          "./pandora.js"
+        ]
+      },
+      "dev": {
+        "mode": "fork",
+        "entryFile": "./bin/server.js"
+      }
+    }
+    //xxxx
+}
+```
+
+每个命令可以分开进行设置，同时配置是以 `config` 作为子 key，和命令行不同的是使用了数组的形式。
