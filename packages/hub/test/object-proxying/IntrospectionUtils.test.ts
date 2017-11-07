@@ -1,5 +1,5 @@
 import {Hub} from '../../src/hub/Hub';
-import {IntrospectionUtils} from '../../src/service/IntrospectionUtils';
+import {IntrospectionUtils} from '../../src/object-proxying/IntrospectionUtils';
 
 
 describe('IntrospectionUtils', () => {

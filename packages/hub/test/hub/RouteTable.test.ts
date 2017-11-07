@@ -12,28 +12,28 @@ describe('RouteMap', function () {
       <MessengerClient> <any> { client: '1' },
       {
         appName: 'testApp', processName: 'processA', pid: '1',
-        serviceName: 'serviceA', tag: 'tagA'
+        objectName: 'objectA', objectTag: 'tagA'
       }
     ],
     [
       <MessengerClient> <any> { client: '2' },
       {
         appName: 'testApp', processName: 'processB', pid: '2',
-        serviceName: 'serviceA', tag: 'tagA'
+        objectName: 'objectA', objectTag: 'tagA'
       }
     ],
     [
       <MessengerClient> <any> { client: '3' },
       {
         appName: 'testApp2', processName: 'processA', pid: '3',
-        serviceName: 'serviceA', tag: 'tagA'
+        objectName: 'objectA', objectTag: 'tagA'
       }
     ],
     [
       <MessengerClient> <any> { client: '4' },
       {
         appName: 'testApp2', processName: 'processB', pid: '4',
-        serviceName: 'serviceA', tag: 'tagA'
+        objectName: 'objectA', objectTag: 'tagA'
       }
     ]
   ];

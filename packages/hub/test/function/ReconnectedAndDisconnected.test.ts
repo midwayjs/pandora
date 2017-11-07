@@ -26,7 +26,7 @@ describe('ReconnectedAndDisconnected', () => {
 
     client.publish({
       ...client.getLocation(),
-      serviceName: 'testService'
+      objectName: 'testObject'
     });
 
     const routeTable = hub.getRouteTable();
@@ -62,7 +62,7 @@ describe('ReconnectedAndDisconnected', () => {
 
     await client.publish({
       ...client.getLocation(),
-      serviceName: 'testService'
+      objectName: 'testObject'
     });
 
     const routeTable1 = hub1.getRouteTable();

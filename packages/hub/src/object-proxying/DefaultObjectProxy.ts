@@ -1,18 +1,18 @@
-import {ServiceConsumer} from './ServiceConsumer';
+import {ObjectConsumer} from './ObjectConsumer';
 import {Introspection} from '../domain';
-import {ServiceProxyBehaviourManager} from './ServiceProxyBehaviourManager';
+import {ObjectProxyBehaviourManager} from './ObjectProxyBehaviourManager';
 
-const SERVICE_CONSUMER = Symbol();
+const OBJECT_CONSUMER = Symbol();
 const BEHAVIOUR = Symbol();
 
-export class DefaultServiceProxy {
-  constructor(serviceConsumer: ServiceConsumer, introspection: Introspection) {
-    this[SERVICE_CONSUMER] = serviceConsumer;
-    this[BEHAVIOUR] = ServiceProxyBehaviourManager.getInstance().getBehaviour(serviceConsumer.serviceDescription);
+export class DefaultObjectProxy {
+  constructor(objectConsumer: ObjectConsumer, introspection: Introspection) {
+    this[OBJECT_CONSUMER] = objectConsumer;
+    this[BEHAVIOUR] = ObjectProxyBehaviourManager.getInstance().getBehaviour(objectConsumer.objectDescription);
     const methods = introspection.methods;
     for (const method of methods) {
       this[method.name] = (...params) => {
-        return this[BEHAVIOUR].proxy.invoke(this, serviceConsumer, method.name, params);
+        return this[BEHAVIOUR].proxy.invoke(this, objectConsumer, method.name, params);
       };
     }
 
@@ -29,6 +29,6 @@ export class DefaultServiceProxy {
     }
   }
   getProperty(name: string) {
-    return this[BEHAVIOUR].proxy.getProperty(this, this[SERVICE_CONSUMER], name);
+    return this[BEHAVIOUR].proxy.getProperty(this, this[OBJECT_CONSUMER], name);
   }
 }

@@ -44,7 +44,7 @@ describe('HubAndClient', () => {
     const location = clientA.getLocation();
     const selector: Selector = {
       ...location,
-      serviceName: 'service1'
+      objectName: 'object1'
     };
     const publishRes = await clientA.publish(selector);
     expect(publishRes.success).to.be.equal(true);
@@ -55,14 +55,14 @@ describe('HubAndClient', () => {
     const client = routeTable.selectClients(location)[0].client;
     const selectors = routeTable.getSelectorsByClient(client);
     expect(selectors.length).to.be.equal(3);
-    expect(selectors[2].serviceName).to.be.equal('service1');
+    expect(selectors[2].objectName).to.be.equal('object1');
   });
 
   it('should invoke be ok', async () => {
     const location = clientA.getLocation();
     const selector: Selector = {
       ...location,
-      serviceName: 'service1'
+      objectName: 'object1'
     };
 
     const res = await clientB.invoke(selector, 'myAction', {
@@ -77,7 +77,7 @@ describe('HubAndClient', () => {
     const location = clientA.getLocation();
     const selector: Selector = {
       ...location,
-      serviceName: 'service1'
+      objectName: 'object1'
     };
     const unpublishRes = await clientA.unpublish(selector);
     expect(unpublishRes.success).to.be.equal(true);
@@ -88,7 +88,7 @@ describe('HubAndClient', () => {
     expect(selectors.length).to.be.equal(2);
 
     const clients = routeTable.selectClients({
-      serviceName: 'service1'
+      objectName: 'object1'
     });
 
     expect(clients.length).to.be.equal(0);

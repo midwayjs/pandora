@@ -1,9 +1,9 @@
-import {FacadeSetupOptions, Location, ServiceDescription} from './domain';
+import {FacadeSetupOptions, Location, ObjectDescription} from './domain';
 import {HubClient} from './hub/HubClient';
-import {ProviderManager} from './service/ProviderManager';
-import {ConsumerManager} from './service/ConsumerManager';
-import {ServiceConsumer} from './service/ServiceConsumer';
-import {DefaultServiceProxy} from './service/DefaultServiceProxy';
+import {ProviderManager} from './object-proxying/ProviderManager';
+import {ConsumerManager} from './object-proxying/ConsumerManager';
+import {ObjectConsumer} from './object-proxying/ObjectConsumer';
+import {DefaultObjectProxy} from './object-proxying/DefaultObjectProxy';
 
 export class Facade {
 
@@ -50,20 +50,20 @@ export class Facade {
     return this.consumerManager;
   }
 
-  publish (impl: any, serviceDescription?: ServiceDescription): Promise<void> {
-    return this.getProviderManager().publish(impl, serviceDescription);
+  publish (impl: any, objectDescription?: ObjectDescription): Promise<void> {
+    return this.getProviderManager().publish(impl, objectDescription);
   }
 
-  getPublishedService(serviceDescription?: ServiceDescription): Promise<any> {
-    return this.getProviderManager().getPublishedService(serviceDescription);
+  getPublishedObject(objectDescription?: ObjectDescription): Promise<any> {
+    return this.getProviderManager().getPublishedObject(objectDescription);
   }
 
-  getConsumer(serviceDescription: ServiceDescription): ServiceConsumer {
-    return this.getConsumerManager().getConsumer(serviceDescription);
+  getConsumer(objectDescription: ObjectDescription): ObjectConsumer {
+    return this.getConsumerManager().getConsumer(objectDescription);
   }
 
-  getProxy <T extends any> (serviceDescription: ServiceDescription): Promise<T & DefaultServiceProxy> {
-    return this.getConsumerManager().getProxy<T>(serviceDescription);
+  getProxy <T extends any> (objectDescription: ObjectDescription): Promise<T & DefaultObjectProxy> {
+    return this.getConsumerManager().getProxy<T>(objectDescription);
   }
 
 }

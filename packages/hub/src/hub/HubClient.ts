@@ -193,7 +193,7 @@ export class HubClient {
   }
 
   /**
-   * Invoke a remote Service only from a random one of all selected clients
+   * Invoke a remote Object only from a random one of all selected clients
    * @return {Promise<any>}
    */
   async invoke(remote: Selector, action, message): Promise<ReplyPackage> {
@@ -207,7 +207,7 @@ export class HubClient {
   }
 
   /**
-   * Invoke a remote Service from all selected clients
+   * Invoke a remote Object from all selected clients
    * @param {Selector} remote
    * @param message
    * @return {Promise<Array<ReplyPackage>>}

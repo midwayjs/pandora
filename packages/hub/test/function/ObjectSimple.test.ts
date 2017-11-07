@@ -2,7 +2,7 @@ import {Facade} from '../../src/Facade';
 import {Hub} from '../../src/hub/Hub';
 import {expect} from 'chai';
 
-describe('ServiceSimple', function () {
+describe('ObjectSimple', function () {
 
   class TestHub extends Hub {
     getRouteTable () {
@@ -32,14 +32,14 @@ describe('ServiceSimple', function () {
   });
 
 
-  it('should publish service be ok', async () => {
+  it('should publish object be ok', async () => {
     await facade.publish(Math, {
       name: 'math',
       tag: 'latest'
     });
     const selectedClients = hub.getRouteTable().selectClients({
-      serviceName: 'math',
-      tag: 'latest'
+      objectName: 'math',
+      objectTag: 'latest'
     });
     expect(selectedClients.length).to.be.equal(1);
   });

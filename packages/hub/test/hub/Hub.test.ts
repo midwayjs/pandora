@@ -88,7 +88,7 @@ describe('Hub', function () {
           expect(action).to.equal(PANDORA_HUB_ACTION_MSG_DOWN);
           expect(message.remote.appName).to.be.ok;
           expect(message.remote.processName).to.be.ok;
-          expect(message.remote.serviceName).to.be.ok;
+          expect(message.remote.objectName).to.be.ok;
           expect(message.data.test).to.be.ok;
           sendCalledTimes++;
           if (message.needReply) {
@@ -104,7 +104,7 @@ describe('Hub', function () {
         selectClients: (selector: Selector) => {
           expect(selector.appName).to.be.ok;
           expect(selector.processName).to.be.ok;
-          expect(selector.serviceName).to.be.ok;
+          expect(selector.objectName).to.be.ok;
           const shimSelectedInfo = {
             client: shimClient,
             selector: selector
@@ -129,7 +129,7 @@ describe('Hub', function () {
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          serviceName: 'dfsdf.sdf'
+          objectName: 'dfsdf.sdf'
         },
         data: {
           test: 'Call me GuangWong, i am an engineer from Alibaba.'
@@ -160,7 +160,7 @@ describe('Hub', function () {
           expect(action).to.equal(PANDORA_HUB_ACTION_MSG_DOWN);
           expect(message.remote.appName).to.be.ok;
           expect(message.remote.processName).to.be.ok;
-          expect(message.remote.serviceName).to.be.ok;
+          expect(message.remote.objectName).to.be.ok;
           expect(message.data.test).to.be.ok;
           sendCalledTimes++;
           if (message.needReply) {
@@ -175,7 +175,7 @@ describe('Hub', function () {
         selectClients: (selector: Selector) => {
           expect(selector.appName).to.be.ok;
           expect(selector.processName).to.be.ok;
-          expect(selector.serviceName).to.be.ok;
+          expect(selector.objectName).to.be.ok;
           const shimSelectedInfo = {
             client: shimClient,
             selector: selector
@@ -200,7 +200,7 @@ describe('Hub', function () {
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          serviceName: 'dfsdf.sdf'
+          objectName: 'dfsdf.sdf'
         },
         data: {
           test: 'Call me GuangWong, i am an engineer from Alibaba.'

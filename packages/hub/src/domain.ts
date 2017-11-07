@@ -1,5 +1,5 @@
 import {MessengerClient} from 'pandora-messenger';
-import {ServiceConsumer} from './service/ServiceConsumer';
+import {ObjectConsumer} from './object-proxying/ObjectConsumer';
 
 export interface Location {
   initialization?: boolean;
@@ -10,8 +10,8 @@ export interface Location {
 }
 
 export interface Selector extends Location {
-  serviceName?: string;
-  tag?: string;
+  objectName?: string;
+  objectTag?: string;
 }
 
 export const selectorSchema  = [
@@ -19,11 +19,11 @@ export const selectorSchema  = [
   'appName',
   'processName',
   'pid',
-  'serviceName',
+  'objectName',
   'tag'
 ];
 
-export interface ServiceMessage extends HubMessage {
+export interface ObjectMessage extends HubMessage {
   propertyName: string;
 }
 
@@ -74,16 +74,9 @@ export interface DispatchHandler {
   dispatch(message: HubMessage): Promise<any> | any
 }
 
-export interface ServiceDescription {
+export interface ObjectDescription {
   name: string;
   tag?: string;
-}
-
-export interface ServiceObjectSpecial {
-  new?();
-  serviceName?: string;
-  serviceTag?: string;
-  getProxy?(autoBuild): any;
 }
 
 export interface Introspection {
@@ -97,15 +90,15 @@ export interface Introspection {
   }>;
 }
 
-export interface ServiceProxyBehaviour {
+export interface ObjectProxyBehaviour {
   host: {
     invoke (host: any, method: string, params: any[]): Promise<any>;
     getProperty (host: any, name: string): Promise<any>;
     introspect(host: any): Introspection;
   };
   proxy: {
-    invoke (proxy: any, consumer: ServiceConsumer, method: string, params: any[]): Promise<any>
-    getProperty (proxy: any, consumer: ServiceConsumer, name: string): Promise<any>;
+    invoke (proxy: any, consumer: ObjectConsumer, method: string, params: any[]): Promise<any>
+    getProperty (proxy: any, consumer: ObjectConsumer, name: string): Promise<any>;
   };
 }
 

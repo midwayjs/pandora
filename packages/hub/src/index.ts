@@ -7,14 +7,14 @@ export * from './hub/HubClient';
 export * from './hub/DefaultDispatchHandler';
 export * from './hub/SelectorUtils';
 
-export * from './service/ProviderManager';
-export * from './service/ServiceDispatchHandler';
-export * from './service/ConsumerManager';
-export * from './service/ServiceConsumer';
-export * from './service/ServiceProxyBehaviourManager';
-export * from './service/DefaultServiceProxyBehaviour';
-export * from './service/DefaultServiceProxy';
-export * from './service/IntrospectionUtils';
-export * from './service/ServiceUtils';
+export * from './object-proxying/ProviderManager';
+export * from './object-proxying/ObjectDispatchHandler';
+export * from './object-proxying/ConsumerManager';
+export * from './object-proxying/ObjectConsumer';
+export * from './object-proxying/ObjectProxyBehaviourManager';
+export * from './object-proxying/DefaultObjectProxyBehaviour';
+export * from './object-proxying/DefaultObjectProxy';
+export * from './object-proxying/IntrospectionUtils';
+export * from './object-proxying/ObjectUtils';
 
 export * from './domain';
