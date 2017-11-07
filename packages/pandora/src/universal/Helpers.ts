@@ -15,3 +15,15 @@ export function calcAppName(dir?) {
   return ret;
 }
 
+export function mergeEntryParams(data) {
+  const currentPath = process.cwd();
+  let pandoraConfig;
+  try {
+    pandoraConfig = require(`${currentPath}/package.json`)['pandora'];
+    // alias name
+    pandoraConfig.appName = pandoraConfig.appName || pandoraConfig.name;
+  } catch (err) {
+    pandoraConfig = {};
+  }
+  return Object.assign(pandoraConfig || {}, data);
+}
