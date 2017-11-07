@@ -26,6 +26,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "pandora-hub": "^0.1.15",
     "cfork": "^1.6.1",
     "chalk": "^2.1.0",
     "commander": "^2.11.0",

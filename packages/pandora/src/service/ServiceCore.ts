@@ -103,7 +103,9 @@ export class ServiceCore {
    */
   async publish(): Promise<void> {
     const objectNameInHub = SERVICE_PREFIX_IN_HUB + this.getServiceId();
-    console.log('TODO: Publish this service upon IPC HUB ,', objectNameInHub);
+    await this.context.ipcHub.publish(this.impl, {
+      name: objectNameInHub
+    });
   }
 
   /**
