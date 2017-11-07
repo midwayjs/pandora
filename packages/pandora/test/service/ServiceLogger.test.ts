@@ -14,7 +14,7 @@ describe('ServiceLogger', function () {
         appName: 'testApp',
         processName: 'worker',
       },
-      genServiceId: () => {
+      getServiceId: () => {
         return 'lala';
       }
     });

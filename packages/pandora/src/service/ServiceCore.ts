@@ -1,24 +1,21 @@
 'use strict';
 import assert = require('assert');
 import {ServiceOptions, ServiceRepresentation} from '../domain';
-import {MessengerClient, MessengerServer} from 'pandora-messenger';
 import ServiceLogger from './ServiceLogger';
 import {Service} from '../domain';
 import {WorkerContextAccessor} from '../application/WorkerContextAccessor';
+import {SERVICE_PREFIX_IN_HUB} from '../const';
 
 const debug = require('debug')('pandora:SimpleServiceCore');
 
 /**
  * Class SimpleServiceCore
  */
-export class SimpleServiceCore {
+export class ServiceCore {
 
   protected ImplClass;
   protected impl: Service;
   protected options: ServiceOptions;
-
-  protected messengerClient: MessengerClient;
-  protected messengerServer: MessengerServer;
 
   protected subscribeHandler: (name: string, listener: any) => Promise<any>;
   protected unsubscribeHandler: (name: string, listener?: any) => Promise<any>;
@@ -27,10 +24,6 @@ export class SimpleServiceCore {
 
   get context(): WorkerContextAccessor {
     return this.options.context;
-  }
-
-  get workMode() {
-    return this.options.workMode;
   }
 
   get deps() {
@@ -58,8 +51,6 @@ export class SimpleServiceCore {
   constructor(options: ServiceOptions, ImplClass) {
     this.options = options;
     this.ImplClass = ImplClass;
-    this.messengerClient = options.messengerClient;
-    this.messengerServer = options.messengerServer;
     this.logger = new ServiceLogger(this);
   };
 
@@ -107,24 +98,12 @@ export class SimpleServiceCore {
   }
 
   /**
-   * Invoke a method
-   * @param {string} name
-   * @param {any[]} args
-   * @return {Promise<any>}
+   * Publish this service to IPC HUB
+   * @return {Promise<void>}
    */
-  async invoke(name: string, args?: any[]): Promise<any> {
-    args = args || [];
-    debug('invoke() %s $s', name, args);
-    const ret = this.impl[name].apply(this.impl, args);
-    // May return this, that over ipc is meaningless.
-    if (ret === this.impl) {
-      return null;
-    }
-    if (ret instanceof Promise) {
-      return await ret;
-    } else {
-      return ret;
-    }
+  async publish(): Promise<void> {
+    const objectNameInHub = SERVICE_PREFIX_IN_HUB + this.getServiceId();
+    console.log('TODO: Publish this service upon IPC HUB ,', objectNameInHub);
   }
 
   /**
@@ -152,22 +131,6 @@ export class SimpleServiceCore {
   }
 
   /**
-   * Get MessengerClient
-   * @return {MessengerClient}
-   */
-  getMessengerClient(): MessengerClient {
-    return this.messengerClient;
-  }
-
-  /**
-   * Get MessengerServer
-   * @return {MessengerServer}
-   */
-  getMessengerServer(): MessengerServer {
-    return this.messengerServer;
-  }
-
-  /**
    * Get service's implementation object
    * @return {Service}
    */
@@ -176,10 +139,10 @@ export class SimpleServiceCore {
   }
 
   /**
-   * Generate service's identify, equal service's name now
+   * Get service's identify, equal service's name now
    * @return {string}
    */
-  public genServiceId() {
+  public getServiceId() {
     return this.serviceName;
   }
 
