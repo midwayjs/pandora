@@ -55,4 +55,13 @@ export class ServiceRepresentationChainModifier {
     this.representation.dependencies.push(servicesName);
     return this;
   }
+
+  /**
+   * Publish this service upon IPC-Hub
+   * @param {boolean} enable
+   */
+  publish(enable: boolean = true) {
+    this.representation.publishToHub = enable;
+  }
+
 }

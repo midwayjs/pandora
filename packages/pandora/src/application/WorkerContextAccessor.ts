@@ -4,6 +4,7 @@
 import {WorkerContext} from './WorkerContext';
 import {Environment} from 'pandora-env';
 import {Applet, Configurator, Service} from '../domain';
+import {Facade} from 'pandora-hub';
 
 /**
  * Class WorkerContextAccessor
@@ -78,6 +79,8 @@ export class WorkerContextAccessor {
   get environment(): Environment {
     return this.context.getEnvironment();
   }
+
+  ipcHub: Facade;
 
   /**
    * Get applet by applet's name
