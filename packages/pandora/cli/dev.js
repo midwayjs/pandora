@@ -4,7 +4,7 @@ const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {DebugApplicationLoader} = require(path.join(PANDORA_LIB_HOME, 'debug/DebugApplicationLoader'));
 const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 
-exports.command = 'dev <targetPath>';
+exports.command = 'dev [targetPath]';
 exports.desc = 'Debug an application';
 
 
@@ -17,8 +17,7 @@ exports.builder = (yargs) => {
 
   yargs.option('mode', {
     alias: 'm',
-    describe: 'The start mode, options: procfile.js or cluster or fork',
-    default: 'procfile.js'
+    describe: 'The start mode, options: procfile.js or cluster or fork'
   });
 
   yargs.option('inspector', {
@@ -35,18 +34,9 @@ exports.handler = function (argv) {
     console.log('Inspector coming soon...');
     process.exit(0);
   }
-
-  const targetPathResolved = path.resolve(argv.targetPath);
-
-  const sendParams = attachEntryParams('dev', {
-    mode,
-    appName: argv.name,
-    entry: targetPathResolved,
-    scale,
-    injectMonitoring
-  }, {
+  argv.entry = argv.targetPath;
+  const sendParams = attachEntryParams('dev', argv, {
     mode: 'procfile.js',
-    appDir: process.cwd(),
     appName: calcAppName(process.cwd())
   });
 

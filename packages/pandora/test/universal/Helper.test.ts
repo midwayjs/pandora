@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import Helpers = require('../../src/universal/Helpers');
 import mm = require('mm');
-import {join} from 'path';
+import {join, resolve} from 'path';
 import {PANDORA_GLOBAL_CONFIG} from '../../src/const';
 
 describe('Helpers', function () {
@@ -51,14 +51,13 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       appName: 'test',
     }, {
-        mode: 'procfile.js',
-        appDir: process.cwd(),
-        appName: Helpers.calcAppName(process.cwd())
+      mode: 'procfile.js',
+      appName: Helpers.calcAppName(process.cwd())
     });
     expect(forkEntryConfig.mode).to.be.equal('procfile.js');
     expect(forkEntryConfig.appName).to.be.equal('test');
     expect(forkEntryConfig.appDir).to.be.equal(process.cwd());
-    expect(forkEntryConfig.entryFile).to.be.equal('./bin/server.js');
+    expect(forkEntryConfig.entryFile).to.be.equal(resolve('./bin/server.js'));
 
     mm.restore();
   });
@@ -72,11 +71,10 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       entry: '../../',
     }, {
-      mode: 'procfile.js',
-      appDir: process.cwd(),
+      mode: 'procfile.js'
     });
     expect(forkEntryConfig.mode).to.be.equal('fork');
-    expect(forkEntryConfig.appDir).to.be.equal('../../');
+    expect(forkEntryConfig.appDir).to.be.equal(resolve('../../'));
     expect(forkEntryConfig.entryFile).to.be.equal(undefined);
 
     mm.restore();

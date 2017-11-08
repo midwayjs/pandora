@@ -4,7 +4,7 @@ const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
 const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 
-exports.command = 'start <targetPath>';
+exports.command = 'start [targetPath]';
 exports.desc = 'Start an application';
 exports.builder = (yargs) => {
 
@@ -15,8 +15,7 @@ exports.builder = (yargs) => {
 
   yargs.option('mode', {
     alias: 'm',
-    describe: 'The start mode, options: procfile.js or cluster or fork',
-    default: 'procfile.js'
+    describe: 'The start mode, options: procfile.js or cluster or fork'
   });
 
   yargs.option('scale', {
@@ -36,18 +35,9 @@ exports.builder = (yargs) => {
  * @param argv
  */
 exports.handler = function (argv) {
-  const targetPathResolved = path.resolve(argv.targetPath);
-  const injectMonitoring = argv.hasOwnProperty('inject-monitoring');
-
-  const sendParams = attachEntryParams('start', {
-    mode,
-    appName: argv.name,
-    entry: targetPathResolved,
-    scale,
-    injectMonitoring
-  }, {
+  argv.entry = argv.targetPath;
+  const sendParams = attachEntryParams('start', argv, {
     mode: 'procfile.js',
-    appDir: process.cwd(),
     appName: calcAppName(process.cwd())
   });
 
