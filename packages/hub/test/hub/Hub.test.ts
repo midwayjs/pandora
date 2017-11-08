@@ -80,7 +80,7 @@ describe('Hub', function () {
       };
 
       await new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve();
           } else {
@@ -121,7 +121,7 @@ describe('Hub', function () {
       };
 
       await expect(new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve();
           } else {
@@ -156,7 +156,7 @@ describe('Hub', function () {
           throw new Error('a fake error');
         }
       });
-      hub.handleMessageIn(messagePackage);
+      (<any> hub).handleMessageIn(messagePackage);
       mm.restore();
 
       await hub.stop();
@@ -184,7 +184,7 @@ describe('Hub', function () {
           calledBroadcast = true;
         }
       });
-      hub.handleMessageIn(messagePackage);
+      (<any> hub).handleMessageIn(messagePackage);
 
       expect(calledBroadcast).to.be.true;
 
@@ -252,7 +252,7 @@ describe('Hub', function () {
       };
 
       await new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve(resp);
           } else {
@@ -311,7 +311,7 @@ describe('Hub', function () {
       };
 
       const {batchReply} = await <Promise<any>> new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve(resp);
           } else {
@@ -372,7 +372,7 @@ describe('Hub', function () {
           test: 'fakeMsg'
         }
       };
-      hub.handleMessageIn(messagePackage);
+      (<any> hub).handleMessageIn(messagePackage);
       expect(sendCalledTimes).to.be.equal(4);
 
       mm.restore();
@@ -440,7 +440,7 @@ describe('Hub', function () {
       };
 
       await new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve();
           } else {
@@ -500,7 +500,7 @@ describe('Hub', function () {
       };
 
       await expect(new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve(resp);
           } else {
@@ -555,7 +555,7 @@ describe('Hub', function () {
           test: 'fakeMsg'
         }
       };
-      hub.handleMessageIn(messagePackage);
+      (<any> hub).handleMessageIn(messagePackage);
       expect(sendCalledTimes).to.be.equal(1);
 
       mm.restore();
@@ -588,7 +588,7 @@ describe('Hub', function () {
       };
 
       await expect(new Promise((resolve, reject) => {
-        hub.handleMessageIn(messagePackage, (resp) => {
+        (<any> hub).handleMessageIn(messagePackage, (resp) => {
           if (resp.success) {
             resolve();
           } else {
@@ -618,7 +618,7 @@ describe('Hub', function () {
         data: null
       };
 
-      hub.handleMessageIn(messagePackage);
+      (<any> hub).handleMessageIn(messagePackage);
       mm.restore();
       await hub.stop();
 
@@ -635,7 +635,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client, selector) {
             expect(client).to.be.equal(client);
@@ -656,7 +656,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetClient (client) {
             expect(client).to.be.equal(client);
@@ -677,7 +677,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client, ownSelector) {
             expect(client).to.be.equal(client);
@@ -709,7 +709,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client) {
             throw new Error('fake error');
@@ -739,7 +739,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetClient (client) {
             expect(client).to.be.equal(client);
@@ -768,7 +768,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetClient () {
             throw new Error('fake error');
@@ -798,7 +798,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client, ownSelector) {
             expect(client).to.be.equal(client);
@@ -830,7 +830,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation () {
             throw new Error('fake error');
@@ -862,7 +862,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetRelation (client, ownSelector) {
             expect(client).to.be.equal(client);
@@ -894,7 +894,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: Hub.prototype.startListen,
+        startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetRelation () {
             throw new Error('fake error');

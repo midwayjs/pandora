@@ -14,6 +14,12 @@ export class ObjectConsumer {
     this.hubClient = hubClient;
   }
 
+  /**
+   * Invoke a method from Remote Object
+   * @param {string} method
+   * @param {any[]} params
+   * @return {Promise<any>}
+   */
   public async invoke(method: string, params: any[]): Promise<any> {
     const res = await this.hubClient.invoke({
       objectName: this.objectDescription.name,
@@ -28,6 +34,11 @@ export class ObjectConsumer {
     return res.data;
   }
 
+  /**
+   * Get a property from Remote Object
+   * @param {string} name
+   * @return {Promise<any>}
+   */
   public async getProperty(name: string) {
     const res = await this.hubClient.invoke({
       objectName: this.objectDescription.name,
@@ -41,6 +52,10 @@ export class ObjectConsumer {
     return res.data;
   }
 
+  /**
+   * Get Introspection from Remote Object
+   * @return {Promise<Introspection>}
+   */
   public async introspect(): Promise<Introspection> {
     const res = await this.hubClient.invoke({
       objectName: this.objectDescription.name,
@@ -52,6 +67,10 @@ export class ObjectConsumer {
     return res.data;
   }
 
+  /**
+   * Get Object Proxy
+   * @return {Promise<T & DefaultObjectProxy>}
+   */
   public async getProxy<T extends any>(): Promise<T & DefaultObjectProxy> {
     if(this.objectProxy) {
       return <any> this.objectProxy;

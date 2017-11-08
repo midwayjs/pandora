@@ -9,13 +9,24 @@ import {RouteTable} from './RouteTable';
 import {Balancer} from './Balancer';
 import {format} from 'util';
 
+/**
+ * IPC-Hub
+ */
 export class Hub {
 
   protected messengerServer: MessengerServer;
   protected routeTable: RouteTable = new RouteTable;
 
+  /**
+   * Count of pending reply transactions
+   * @type {number}
+   */
   public pendingReplyCount = 0;
 
+  /**
+   * Start Hub
+   * @return {Promise<void>}
+   */
   async start(): Promise<void> {
     if(this.messengerServer) {
       throw new Error('Hub already started');
@@ -30,7 +41,12 @@ export class Hub {
     });
   }
 
-  handleMessageIn(message: MessagePackage, reply?: ForceReplyFn) {
+  /**
+   * Handle message from clients
+   * @param {MessagePackage} message
+   * @param {ForceReplyFn} reply
+   */
+  protected handleMessageIn(message: MessagePackage, reply?: ForceReplyFn) {
 
     if(message.needReply) {
       this.pendingReplyCount++;
@@ -75,6 +91,12 @@ export class Hub {
 
   }
 
+  /**
+   * Handle kind of message as {remote: {}, broadcast: false}
+   * @param clients
+   * @param message
+   * @param reply
+   */
   protected balanceToClients(clients, message, reply) {
 
     const balancer = new Balancer(clients);
@@ -96,6 +118,12 @@ export class Hub {
 
   }
 
+  /**
+   * Handle kind of message as {remote: {}, broadcast: true}
+   * @param clients
+   * @param message
+   * @param reply
+   */
   protected broadcastToClients(clients, message, reply) {
 
     const expectFoundNumber = clients.length;
@@ -128,7 +156,10 @@ export class Hub {
 
   }
 
-  startListen() {
+  /**
+   * Start listen on this.messengerServer
+   */
+  protected startListen() {
     this.messengerServer.on('connected', (client: MessengerClient) => {
       // this.messengerServer will ignore error
       this.routeTable.setRelation(client, {initialization: true});
@@ -175,7 +206,10 @@ export class Hub {
     this.messengerServer.on(PANDORA_HUB_ACTION_MSG_UP, this.handleMessageIn.bind(this));
   }
 
-  stopListen() {
+  /**
+   * Stop listen on this.messengerServer
+   */
+  protected stopListen() {
     this.messengerServer.removeAllListeners('connected');
     this.messengerServer.removeAllListeners('disconnected');
     this.messengerServer.removeAllListeners(PANDORA_HUB_ACTION_ONLINE_UP);
@@ -183,6 +217,10 @@ export class Hub {
     this.messengerServer.removeAllListeners(PANDORA_HUB_ACTION_MSG_UP);
   }
 
+  /**
+   * Stop Hub
+   * @return {Promise<void>}
+   */
   async stop (): Promise<void> {
     if(!this.messengerServer) {
       throw new Error('Hub has not started yet');

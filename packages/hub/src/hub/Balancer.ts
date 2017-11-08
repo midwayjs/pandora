@@ -1,5 +1,8 @@
 import {SelectedInfo} from '../domain';
 
+/**
+ * Balancer
+ */
 export class Balancer {
 
   protected clients: Array<SelectedInfo>;
@@ -7,6 +10,10 @@ export class Balancer {
     this.clients = clients;
   }
 
+  /**
+   * Pick a random client
+   * @return {SelectedInfo}
+   */
   pick(): SelectedInfo {
     if(this.clients.length === 1) {
       return this.clients[0];

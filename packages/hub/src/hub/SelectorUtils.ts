@@ -2,6 +2,12 @@ import {Selector, selectorSchema} from '../domain';
 
 export class SelectorUtils {
 
+  /**
+   * Decide Equivalence of Selector
+   * @param {Selector} selector
+   * @param {Selector} targetSelector
+   * @return {boolean}
+   */
   static match (selector: Selector, targetSelector: Selector) {
 
     let found = 0;
@@ -17,6 +23,5 @@ export class SelectorUtils {
     return shouldFound === found;
 
   }
-
 
 }

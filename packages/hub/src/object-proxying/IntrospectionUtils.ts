@@ -4,6 +4,11 @@ export class IntrospectionUtils {
 
   private static namesOfObject = getAllNames({});
 
+  /**
+   * Introspect an Object, get the Definition of that Object
+   * @param obj
+   * @return {Introspection}
+   */
   public static introspect(obj): Introspection {
 
     const allNames = getAllNames(obj);
@@ -31,6 +36,11 @@ export class IntrospectionUtils {
 
   }
 
+  /**
+   * decide a function is a generator function
+   * @param fn
+   * @return {boolean}
+   */
   public static isGenerator(fn) {
     return fn.constructor.name === 'GeneratorFunction';
   }

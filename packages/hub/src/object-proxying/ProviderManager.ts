@@ -14,6 +14,11 @@ export class ProviderManager {
     this.hubClient.pushDispatchHandler(new ObjectDispatchHandler(this));
   }
 
+  /**
+   * Get an published Object by an ObjectDescription
+   * @param {ObjectDescription} objectDescription
+   * @return {Promise<any>}
+   */
   getPublishedObject (objectDescription?: ObjectDescription): Promise<any> {
     const idWithTag = ObjectUtils.objectDescriptionToId(objectDescription);
     if(this.objectMap.has(idWithTag)) {
@@ -22,6 +27,12 @@ export class ProviderManager {
     return this.objectMap.get(objectDescription.name);
   }
 
+  /**
+   * Publish an Object to Hub
+   * @param impl
+   * @param {ObjectDescription} objectDescription
+   * @return {Promise<void>}
+   */
   async publish (impl: any, objectDescription?: ObjectDescription): Promise<void> {
 
     const id = ObjectUtils.objectDescriptionToId(objectDescription);

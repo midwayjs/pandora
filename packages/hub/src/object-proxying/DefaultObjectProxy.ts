@@ -5,6 +5,10 @@ import {ObjectProxyBehaviourManager} from './ObjectProxyBehaviourManager';
 const OBJECT_CONSUMER = Symbol();
 const BEHAVIOUR = Symbol();
 
+/**
+ * DefaultObjectProxy
+ * To make a Object Proxy by Introspection for Remote Object
+ */
 export class DefaultObjectProxy {
   constructor(objectConsumer: ObjectConsumer, introspection: Introspection) {
     this[OBJECT_CONSUMER] = objectConsumer;
@@ -28,6 +32,12 @@ export class DefaultObjectProxy {
       });
     }
   }
+
+  /**
+   * Get a property from Remote Object
+   * @param {string} name
+   * @return {Promise<any>}
+   */
   getProperty(name: string) {
     return this[BEHAVIOUR].proxy.getProperty(this, this[OBJECT_CONSUMER], name);
   }
