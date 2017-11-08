@@ -1,6 +1,6 @@
 {
   "name": "pandora-env",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "Common environment abstract",
   "main": "dist/index",
   "typings": "src/index",
