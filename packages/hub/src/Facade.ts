@@ -54,10 +54,6 @@ export class Facade {
     return this.getProviderManager().publish(impl, objectDescription);
   }
 
-  getPublishedObject(objectDescription?: ObjectDescription): Promise<any> {
-    return this.getProviderManager().getPublishedObject(objectDescription);
-  }
-
   getConsumer(objectDescription: ObjectDescription): ObjectConsumer {
     return this.getConsumerManager().getConsumer(objectDescription);
   }

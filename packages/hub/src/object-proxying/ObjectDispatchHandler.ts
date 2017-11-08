@@ -36,7 +36,7 @@ export class ObjectDispatchHandler implements DispatchHandler {
     if(obj[targetMethod]) {
       return this.objectProxyBehaviourManager.getBehaviour(objectDescription).host.invoke(obj, targetMethod, message.data);
     }
-    throw new Error(format('can not found method called %s within object %j', targetMethod, objectDescription));
+    throw new Error(format('Cannot found method called %s within object %j', targetMethod, objectDescription));
   }
 
   private getProperty(message: ObjectMessage) {

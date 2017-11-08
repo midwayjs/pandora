@@ -1,11 +1,11 @@
 import uuid = require('uuid');
 import {
-  Location, Selector, MessagePackage, ReplyPackage, PublishPackage, LookupPackage, ForceReplyFn,
+  Location, Selector, MessagePackage, ReplyPackage, PublishPackage, ForceReplyFn,
   DispatchHandler, HubMessage, ClientOptions
 } from '../domain';
 import {MessengerClient} from 'pandora-messenger';
 import {
-  HUB_SOCKET_NAME, PANDORA_HUB_ACTION_DISCOVER_UP, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_PUBLISH_UP,
+  HUB_SOCKET_NAME, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_PUBLISH_UP,
   PANDORA_HUB_ACTION_UNPUBLISH_UP, PANDORA_HUB_ACTION_MSG_DOWN, PANDORA_HUB_ACTION_ONLINE_UP,
   PANDORA_HUB_ACTION_OFFLINE_UP, TIMEOUT_OF_RESPONSE
 } from '../const';
@@ -43,7 +43,7 @@ export class HubClient extends EventEmitter {
     this.dispatchHandlers.push(dispatchHandler);
   }
 
-  protected async handleHubDispatch(message: HubMessage): Promise<any> {
+  async handleHubDispatch(message: HubMessage): Promise<any> {
     for(const dispatchHandler of this.dispatchHandlers) {
       const ret = await dispatchHandler.dispatch(message);
       if(ret) {
@@ -60,7 +60,7 @@ export class HubClient extends EventEmitter {
   async start() {
 
     if(this.messengerClient) {
-      throw new Error('A messengerClient already exist');
+      throw new Error('HubClient already started');
     }
 
     this.messengerClient = new MessengerClient({
@@ -69,33 +69,7 @@ export class HubClient extends EventEmitter {
       responseTimeout: TIMEOUT_OF_RESPONSE
     });
 
-    this.messengerClient.on(PANDORA_HUB_ACTION_MSG_DOWN, async (message: HubMessage, reply: ForceReplyFn) => {
-      try {
-        let replyPkg: ReplyPackage = null;
-        try {
-          const data = await this.handleHubDispatch(message);
-          replyPkg = {
-            host: this.location,
-            remote: message.host,
-            success: true,
-            data: data
-          };
-        } catch (error) {
-          replyPkg = {
-            host: this.location,
-            remote: message.host,
-            success: false,
-            error: error
-          };
-        }
-        if(message.needReply) {
-          reply(replyPkg);
-        }
-      } catch (err) {
-        this.logger.error('handing PANDORA_HUB_ACTION_MSG_DOWN went wrong, remote message: %j', message);
-        this.logger.error(err);
-      }
-    });
+    this.startListen();
 
     await new Promise(resolve => {
       this.messengerClient.ready(resolve);
@@ -112,6 +86,7 @@ export class HubClient extends EventEmitter {
     });
 
   }
+
 
   protected async sendOnline () {
     await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_ONLINE_UP);
@@ -150,7 +125,7 @@ export class HubClient extends EventEmitter {
       });
       batchReply.push(res);
       if(!res.success) {
-        throw new Error(format('unpublish selector %j went wrong, cause from Hub: %j', selector, res.error));
+        throw new Error(format('Unpublish selector %j went wrong, cause from Hub: %s', selector, res.error));
       }
     }
     this.publishedSelectors = filteredSelectors;
@@ -171,34 +146,34 @@ export class HubClient extends EventEmitter {
     }
   }
 
-  /**
-   * Get all route relations within Hub
-   * @return {Promise<any>}
-   */
-  async discover() {
-    const res = await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_DISCOVER_UP);
-    if(!res.success) {
-      throw new Error(format('discover whole hub went wrong, cause from Hub: %j', res.error));
-    }
-    return res.data;
-  }
-
-  /**
-   * Lookup route relations by a certain selector
-   * @param {Selector} selector
-   * @return {Promise<any>}
-   */
-  async lookup(selector: Selector) {
-    const res = await this.sendToHubAndWaitReply<LookupPackage>(PANDORA_HUB_ACTION_DISCOVER_UP, {
-      data: {
-        selector: selector
-      }
-    });
-    if(!res.success) {
-      throw new Error(format('lookup selector %j went wrong, cause from Hub: %j', selector, res.error));
-    }
-    return res.data;
-  }
+  // /**
+  //  * Get all route relations within Hub
+  //  * @return {Promise<any>}
+  //  */
+  // async discover() {
+  //   const res = await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_DISCOVER_UP);
+  //   if(!res.success) {
+  //     throw new Error(format('discover whole hub went wrong, cause from Hub: %j', res.error));
+  //   }
+  //   return res.data;
+  // }
+  //
+  // /**
+  //  * Lookup route relations by a certain selector
+  //  * @param {Selector} selector
+  //  * @return {Promise<any>}
+  //  */
+  // async lookup(selector: Selector) {
+  //   const res = await this.sendToHubAndWaitReply<LookupPackage>(PANDORA_HUB_ACTION_DISCOVER_UP, {
+  //     data: {
+  //       selector: selector
+  //     }
+  //   });
+  //   if(!res.success) {
+  //     throw new Error(format('lookup selector %j went wrong, cause from Hub: %j', selector, res.error));
+  //   }
+  //   return res.data;
+  // }
 
   /**
    * Invoke a remote Object only from a random one of all selected clients
@@ -310,7 +285,7 @@ export class HubClient extends EventEmitter {
       }
     });
     if(!res.success) {
-      throw new Error(format('publish selector %j went wrong, cause from Hub: %j', selector, res.error));
+      throw new Error(format('Publish selector %j went wrong, cause from Hub: %s', selector, res.error));
     }
     return res;
   }
@@ -327,10 +302,48 @@ export class HubClient extends EventEmitter {
     }
   }
 
+
+  startListen() {
+
+    this.messengerClient.on(PANDORA_HUB_ACTION_MSG_DOWN, async (message: HubMessage, reply: ForceReplyFn) => {
+      try {
+        let replyPkg: ReplyPackage = null;
+        try {
+          const data = await this.handleHubDispatch(message);
+          replyPkg = {
+            host: this.location,
+            remote: message.host,
+            success: true,
+            data: data
+          };
+        } catch (error) {
+          replyPkg = {
+            host: this.location,
+            remote: message.host,
+            success: false,
+            error: error
+          };
+        }
+        if(message.needReply) {
+          reply(replyPkg);
+        }
+      } catch (err) {
+        this.logger.error(err);
+        this.logger.error(format('Handing PANDORA_HUB_ACTION_MSG_DOWN went wrong, remote message: %j', message));
+      }
+    });
+
+  }
+
   /**
    * Close this client
    */
   async stop() {
+
+    if(!this.messengerClient) {
+      throw new Error('HubClient has not started yet');
+    }
+
     await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_OFFLINE_UP);
     this.messengerClient.close();
     this.messengerClient = null;
