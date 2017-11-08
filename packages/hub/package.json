@@ -21,15 +21,17 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "node-ipc": "^9.1.1",
     "pandora-messenger": "^0.1.10",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "@types/chai": "^3.5.2",
+    "@types/chai": "^4.0.4",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.41",
     "@types/node": "0.0.2",
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mm": "^2.2.0",
     "mocha": "^3.5.0",
     "nyc": "^11.2.1"
   },

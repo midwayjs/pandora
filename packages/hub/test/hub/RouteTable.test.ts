@@ -44,6 +44,13 @@ describe('RouteMap', function () {
     }
   });
 
+  it('should throw error when setRelation(client, null) be ok', () => {
+    expect(() => {
+      routeTable.setRelation(<MessengerClient> {}, null);
+    }).throw('Selector is required, but got');
+  });
+
+
   it('should getAllClients() be ok', () => {
     const clients = routeTable.getAllClients();
     expect(clients.length).to.be.equal(pairs.length);
@@ -79,11 +86,11 @@ describe('RouteMap', function () {
       appName: 'testApp2',
       processName: 'processA'
     });
-
     expect(clients.length).to.be.equal(1);
     expect((<any> clients[0].client).client).to.be.equal('3');
 
   });
+
 
   it('should forgetClient() be ok', () => {
 
@@ -95,6 +102,41 @@ describe('RouteMap', function () {
       routeTable.forgetClient(client);
       expect(routeTable.getAllClients().length).to.be.equal(total - times);
     }
+
+  });
+
+  it('should forgetRelation be ok', () => {
+
+    const client = <MessengerClient> <any> { client: 'x' };
+    const selector1 = {
+      appName: 'testApp1', processName: 'processX', pid: '1',
+      objectName: 'objectX', objectTag: 'tagX'
+    };
+
+    routeTable.setRelation(client, selector1);
+    const selector2 = {
+      appName: 'testApp2', processName: 'processX', pid: '1',
+      objectName: 'objectX', objectTag: 'tagX'
+    };
+
+    routeTable.setRelation(client, selector2);
+    expect(routeTable.getSelectorsByClient(client).length).to.be.equal(2);
+
+    routeTable.forgetRelation(client, {
+      appName: 'testApp1'
+    });
+    expect(routeTable.getSelectorsByClient(client).length).to.be.equal(1);
+
+    routeTable.forgetRelation(client, {
+      appName: 'testApp2'
+    });
+    expect(routeTable.getSelectorsByClient(client)).to.be.not.ok;
+
+    expect(() => {
+      routeTable.forgetRelation(client, {
+        appName: 'testApp2'
+      });
+    }).throw('Can not found client when forgetRelation');
 
   });
 

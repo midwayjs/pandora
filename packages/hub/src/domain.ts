@@ -85,6 +85,7 @@ export interface Introspection {
     type: string;
   }>;
   methods: Array<{
+    type: string;
     name: string;
     length: number;
   }>;

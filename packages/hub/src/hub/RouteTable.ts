@@ -10,7 +10,7 @@ export class RouteTable {
 
   setRelation(client: MessengerClient, selector: Selector) {
     if(!selector) {
-      throw new Error(format( 'selector is required, but got %j', selector));
+      throw new Error(format( 'Selector is required, but got %j', selector));
     }
     if(!this.mapClientToSelector.has(client)) {
       this.mapClientToSelector.set(client, []);

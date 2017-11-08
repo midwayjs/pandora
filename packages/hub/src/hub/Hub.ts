@@ -18,7 +18,7 @@ export class Hub {
 
   async start(): Promise<void> {
     if(this.messengerServer) {
-      throw new Error('this.messengerServer already exist');
+      throw new Error('Hub already started');
     }
     this.messengerServer = new MessengerServer({
       name: HUB_SOCKET_NAME,
@@ -30,7 +30,7 @@ export class Hub {
     });
   }
 
-  handleMessageIn(message: MessagePackage, reply: ForceReplyFn) {
+  handleMessageIn(message: MessagePackage, reply?: ForceReplyFn) {
 
     if(message.needReply) {
       this.pendingReplyCount++;
@@ -60,7 +60,7 @@ export class Hub {
     try {
       const clients = this.routeTable.selectClients(message.remote);
       if(!clients.length) {
-        throw new Error(format('can not found any clients by remote selector: %js', message.remote));
+        throw new Error(format('Cannot found any clients by selector: %js', message.remote));
       }
       if(message.broadcast) {
         this.broadcastToClients(clients, message, reply);
@@ -130,28 +130,46 @@ export class Hub {
 
   startListen() {
     this.messengerServer.on('connected', (client: MessengerClient) => {
+      // this.messengerServer will ignore error
       this.routeTable.setRelation(client, {initialization: true});
     });
     this.messengerServer.on('disconnected', (client: MessengerClient) => {
+      // this.messengerServer will ignore error
       this.routeTable.forgetClient(client);
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_ONLINE_UP, (message: MessagePackage, reply: ForceReplyFn, client: MessengerClient) => {
-      this.routeTable.setRelation(client, message.host);
-      reply(<ReplyPackage> {success: true});
+      try {
+        this.routeTable.setRelation(client, message.host);
+        reply(<ReplyPackage> {success: true});
+      } catch (error) {
+        reply(<ReplyPackage> {success: false, error});
+      }
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_OFFLINE_UP, (message: MessagePackage, reply: ForceReplyFn, client: MessengerClient) => {
-      this.routeTable.forgetClient(client);
-      reply(<ReplyPackage> {success: true});
+      try {
+        this.routeTable.forgetClient(client);
+        reply(<ReplyPackage> {success: true});
+      } catch (error) {
+        reply(<ReplyPackage> {success: false, error});
+      }
     });
 
     this.messengerServer.on(PANDORA_HUB_ACTION_PUBLISH_UP, (message: PublishPackage, reply: ForceReplyFn, client: MessengerClient) => {
-      this.routeTable.setRelation(client, message.data.selector);
-      reply(<ReplyPackage> {success: true});
+      try {
+        this.routeTable.setRelation(client, message.data.selector);
+        reply(<ReplyPackage> {success: true});
+      } catch (error) {
+        reply(<ReplyPackage> {success: false, error});
+      }
     });
 
     this.messengerServer.on(PANDORA_HUB_ACTION_UNPUBLISH_UP, (message: PublishPackage, reply: ForceReplyFn, client: MessengerClient) => {
-      this.routeTable.forgetRelation(client, message.data.selector);
-      reply(<ReplyPackage> {success: true});
+      try {
+        this.routeTable.forgetRelation(client, message.data.selector);
+        reply(<ReplyPackage> {success: true});
+      } catch (error) {
+        reply(<ReplyPackage> {success: false, error});
+      }
     });
 
     this.messengerServer.on(PANDORA_HUB_ACTION_MSG_UP, this.handleMessageIn.bind(this));
@@ -166,19 +184,20 @@ export class Hub {
   }
 
   async stop (): Promise<void> {
-    if(this.messengerServer) {
-      await new Promise((resolve, reject) => {
-        this.stopListen();
-        this.messengerServer.close((err) => {
-          this.messengerServer = null;
-          if(err) {
-            reject(err);
-            return;
-          }
-          resolve();
-        });
-      });
+    if(!this.messengerServer) {
+      throw new Error('Hub has not started yet');
     }
+    await new Promise((resolve, reject) => {
+      this.stopListen();
+      this.messengerServer.close((err) => {
+        this.messengerServer = null;
+        if(err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
   }
 
 }

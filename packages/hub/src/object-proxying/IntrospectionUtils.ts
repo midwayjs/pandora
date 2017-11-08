@@ -17,7 +17,8 @@ export class IntrospectionUtils {
       if(typeof obj[name] === 'function') {
         methods.push({
           name: name,
-          length: obj[name].length
+          length: obj[name].length,
+          type: IntrospectionUtils.isGenerator(obj[name]) ? 'generator' : 'function'
         });
       } else {
         properties.push({
@@ -28,6 +29,10 @@ export class IntrospectionUtils {
     }
     return {properties, methods};
 
+  }
+
+  public static isGenerator(fn) {
+    return fn.constructor.name === 'GeneratorFunction';
   }
 }
 

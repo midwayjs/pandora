@@ -31,7 +31,7 @@ export class HubClient extends EventEmitter {
     };
     this.logger = options.logger || console;
     this.dispatchHandlers = [
-      new DefaultDispatchHandler(this)
+      new DefaultDispatchHandler()
     ];
   }
 
