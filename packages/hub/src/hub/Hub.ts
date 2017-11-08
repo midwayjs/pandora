@@ -78,11 +78,11 @@ export class Hub {
   protected balanceToClients(clients, message, reply) {
 
     const balancer = new Balancer(clients);
-    const {client, selector: hintedSelector} = balancer.pick();
+    const {client, selector: hitSelector} = balancer.pick();
     const callback = message.needReply ? (error, res: ReplyPackage) => {
       if(error) {
         reply({
-          host: hintedSelector,
+          host: hitSelector,
           success: false,
           error: error
         });
@@ -101,12 +101,12 @@ export class Hub {
     const expectFoundNumber = clients.length;
     const batchReply: Array<ReplyPackage> = [];
 
-    for (const {selector: hintedSelector, client} of clients) {
+    for (const {selector: hitSelector, client} of clients) {
 
       const callback = message.needReply ? (error, res: ReplyPackage) => {
         if(error) {
           batchReply.push({
-            host: hintedSelector,
+            host: hitSelector,
             success: false,
             error: error
           });

@@ -8,6 +8,9 @@ export class Balancer {
   }
 
   pick(): SelectedInfo {
+    if(this.clients.length === 1) {
+      return this.clients[0];
+    }
     const randomInt = getRandomInt(0, this.clients.length - 1);
     return this.clients[randomInt];
   }
