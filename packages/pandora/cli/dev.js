@@ -36,16 +36,21 @@ exports.handler = function (argv) {
     process.exit(0);
   }
 
-  const targetPathResolved = path.resolve(argv.targetPath) || process.cwd();
-  const appName = argv.name ? argv.name : calcAppName(targetPathResolved);
-  const mode = argv.mode ? argv.mode : 'procfile.js';
+  const targetPathResolved = path.resolve(argv.targetPath);
 
-  runApplication(attachEntryParams('dev', {
-    mode: mode,
-    appName: appName,
-    appDir: mode === 'procfile.js' ? targetPathResolved : process.cwd(),
-    entryFile: mode !== 'procfile.js' ? targetPathResolved : null
-  })).catch(console.error);
+  const sendParams = attachEntryParams('dev', {
+    mode,
+    appName: argv.name,
+    entry: targetPathResolved,
+    scale,
+    injectMonitoring
+  }, {
+    mode: 'procfile.js',
+    appDir: process.cwd(),
+    appName: calcAppName(process.cwd())
+  });
+
+  runApplication(sendParams).catch(console.error);
 };
 
 function runApplication(opts) {

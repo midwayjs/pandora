@@ -158,7 +158,7 @@ PANDORA_CONFIG=pandora-ali:./index.js pandora start .
       },
       "dev": {
         "mode": "fork",
-        "entryFile": "./bin/server.js"
+        "entry": "./bin/server.js"
       }
     }
     //xxxx
