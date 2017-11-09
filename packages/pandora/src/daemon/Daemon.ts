@@ -8,6 +8,16 @@ import messenger from 'pandora-messenger';
 import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {Monitor} from './Monitor';
+import wrap = require('spawn-wrap');
+import path = require('path');
+import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+const globalConfigProcessor = GlobalConfigProcessor.getInstance();
+const globalConfig = globalConfigProcessor.getAllProperties();
+if (globalConfig.pandora_hook) {
+  process.env.__pandora_hook = globalConfig.pandora_hook;
+}
+const wrapFile = path.join(__dirname, './wrap.js');
+wrap([wrapFile]);
 
 const daemonLogger = getDaemonLogger();
 
