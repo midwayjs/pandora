@@ -13,7 +13,9 @@ import path = require('path');
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 const globalConfigProcessor = GlobalConfigProcessor.getInstance();
 const globalConfig = globalConfigProcessor.getAllProperties();
-process.env.__pandora_hook = globalConfig.pandora_hook;
+if (globalConfig.pandora_hook) {
+  process.env.__pandora_hook = globalConfig.pandora_hook;
+}
 const wrapFile = path.join(__dirname, './wrap.js');
 wrap([wrapFile]);
 

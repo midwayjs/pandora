@@ -69,4 +69,3 @@ describe('ApplicationHandler', function () {
   });
 
 });
-
