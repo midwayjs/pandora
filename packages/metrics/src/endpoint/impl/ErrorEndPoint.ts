@@ -35,7 +35,7 @@ export class ErrorEndPoint extends DuplexEndPoint {
   }) {
     let cache = this.cacheMap.get(appName);
     // 如果只有一个应用，直接返回该应用信息
-    if(!appName && this.cacheMap.size == 1) {
+    if(!appName && this.cacheMap.size === 1) {
       cache = Array.from(this.cacheMap.values())[0];
     }
 
