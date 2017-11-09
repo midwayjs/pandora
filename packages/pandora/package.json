@@ -44,7 +44,8 @@
     "source-map-support": "^0.4.15",
     "table": "^4.0.1",
     "tail": "^1.2.2",
-    "yargs": "^6.6.0"
+    "yargs": "^6.6.0",
+    "spawn-wrap": "^1.4.0"
   },
   "devDependencies": {
     "@types/chai": "^3.5.2",
