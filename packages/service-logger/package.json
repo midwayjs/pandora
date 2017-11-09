@@ -1,6 +1,6 @@
 {
   "name": "pandora-service-logger",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "pandora service logger",
   "main": "dist/index",
   "typings": "src/index",
@@ -33,9 +33,9 @@
     "humanize-ms": "^1.2.1",
     "moment": "^2.18.1",
     "mz": "^2.6.0",
-    "pandora-dollar": "^0.1.20",
-    "pandora-env": "^0.1.20",
-    "pandora-messenger": "^0.1.20"
+    "pandora-dollar": "^0.1.21",
+    "pandora-env": "^0.1.21",
+    "pandora-messenger": "^0.1.21"
   },
   "nyc": {
     "include": [

@@ -22,7 +22,7 @@
     "next": "sh scripts/publish.sh --npm-tag next",
     "publish": "rm -f ./packages/.DS*; sh scripts/publish.sh",
     "bootstrap": "rm -f ./packages/.DS*; lerna bootstrap",
-    "clean": "lerna clean --yes",
+    "clean": "lerna clean --yes; rm -rf ./packages/**/package-lock.json",
     "updated": "lerna updated",
     "li": "lerna init",
     "build": "sh scripts/build.sh",
