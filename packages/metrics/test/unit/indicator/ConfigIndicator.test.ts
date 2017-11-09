@@ -1,7 +1,14 @@
 import {expect} from 'chai';
 import {ConfigIndicator} from '../../../src/indicator/impl/ConfigIndicator';
-import {Configurator} from 'pandora';
 import {IndicatorBuilder} from '../../../src/indicator/IndicatorBuilder';
+
+export interface ConfiguratorLoadOptions {
+  force: boolean;
+}
+
+export interface Configurator {
+  getAllProperties(options?: ConfiguratorLoadOptions): Promise<any> | any;
+}
 
 class MyConfigurator implements Configurator {
   getAllProperties() {
