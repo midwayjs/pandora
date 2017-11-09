@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import mm = require('mm');
 import DaemonHandler = require('../../src/daemon/DaemonHandler');
 
-describe('DaemonHandler', function () {
+describe.only('DaemonHandler', function () {
 
   after(async () => {
     const isRunning = await DaemonHandler.isDaemonRunning();

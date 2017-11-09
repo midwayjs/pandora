@@ -15,6 +15,7 @@ const {
   MetricsActuatorServer
 } = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
+const hooks = require('pandora-hook');
 
 export default {
   process: {
@@ -107,7 +108,10 @@ export default {
       }
     },
   },
-  hooks: require.resolve('pandora-hook'),
+  hooks: {
+    eggLogger: hooks.eggLogger,
+    urllib: hooks.urllib,
+  },
   reporter: {
     file: {
       enabled: true,
