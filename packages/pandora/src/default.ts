@@ -13,7 +13,7 @@ const {
   HealthResource,
   FileMetricManagerReporter,
   MetricsActuatorServer
-} = require("pandora-metrics");
+} = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
 
 export default {
@@ -107,6 +107,7 @@ export default {
       }
     },
   },
+  hooks: require.resolve('pandora-hook'),
   reporter: {
     file: {
       enabled: true,
