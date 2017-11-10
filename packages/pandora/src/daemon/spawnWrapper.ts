@@ -14,9 +14,9 @@ const hooks = globalConfig['hooks'];
  *   logger: Hooks.logger
  * }
  */
-for(let {hookName, detail} in hooks) {
-  if(!!detail) {
-    const m = require(resolve(detail));
+for(let hookName in hooks) {
+  if(!!hooks[hookName]) {
+    const m = require(resolve(hooks[hookName]));
     m(hook, shimmer);
     console.log(`${hookName} hook enabled`);
   } else {
