@@ -2,7 +2,7 @@ import {WorkerContextAccessor} from './application/WorkerContextAccessor';
 import {ServiceCore} from './service/ServiceCore';
 
 export type ProcessScale = number | 'auto';
-export type CategoryReg = string | 'all';
+export type CategoryReg = string | 'all' | 'weak-all';
 export type Entry = string | {
   new(...x): any;
 };
@@ -11,6 +11,9 @@ export interface EntryClass {
   new(...x): any;
 }
 
+// ************************
+// Application and Process
+
 export interface ApplicationRepresentation {
   appName: string;
   appDir: string;
@@ -18,6 +21,31 @@ export interface ApplicationRepresentation {
   scale?: ProcessScale;
   mode?: string;
 }
+
+export interface ProcessRepresentation extends ApplicationRepresentation {
+  processName: string;
+  order?: number;
+  scale?: ProcessScale;
+  env?: any;
+  argv?: any[];
+  applet?: Array<AppletRepresentation>;
+  service?: Array<ServiceRepresentation>;
+}
+
+// For ProcessMaster
+export interface ApplicationStructureRepresentation extends ApplicationRepresentation {
+  process: Array<ProcessRepresentation>;
+}
+
+export type MountRepresentation = ApplicationStructureRepresentation | ProcessRepresentation;
+
+// For Daemon
+export interface ComplexApplicationStructureRepresentation {
+  mount: Array<MountRepresentation>;
+}
+
+// ************************
+// Applet
 
 export interface AppletOptions {
   appletName: string;
@@ -43,19 +71,9 @@ export interface AppletRepresentation {
   configResolver?: (context: any, oldConfig?: any) => any;
 }
 
-export interface ProcessRepresentation extends ApplicationRepresentation {
-  processName: string;
-  order?: number;
-  scale?: ProcessScale;
-  env?: any;
-  argv?: any[];
-  applet?: Array<AppletRepresentation>;
-}
 
-export interface ApplicationStructureRepresentation {
-  debug?: boolean;
-  process: Array<ProcessRepresentation>;
-}
+// ************************
+// Service
 
 export interface ServiceRepresentation {
   serviceEntry: Entry;
@@ -105,6 +123,9 @@ export interface Service {
   handleUnsubscribe?(reg, fn): Promise<void> | void;
 
 }
+
+// ************************
+// Other
 
 export {Environment} from 'pandora-env';
 export {LoggerService, LoggerConfig, ILogger} from 'pandora-service-logger';

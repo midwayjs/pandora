@@ -1,6 +1,7 @@
 import {ApplicationRepresentation} from '../domain';
 import {ProcfileReconciler} from './ProcfileReconciler';
 import assert = require('assert');
+import {ProcfileReconcilerAccessor} from './ProcfileReconcilerAccessor';
 
 /**
  * Class ClusterSupport
@@ -13,17 +14,14 @@ export class ClusterSupport {
    */
   static attachShimProcfile(appRepresentation: ApplicationRepresentation, procfileReconciler: ProcfileReconciler) {
     assert(appRepresentation.mode === 'cluster', 'Only mode === cluster can call static method attachShimProcfile()');
-    procfileReconciler.callProcfile((pandora) => {
+    procfileReconciler.callProcfile((pandora: ProcfileReconcilerAccessor) => {
       class UserEntryWrapper {
         async start() {
           require(appRepresentation.entryFile);
         }
       }
+      pandora.process('worker').scale(appRepresentation.scale);
       pandora.applet(UserEntryWrapper).process('worker');
-      const workerProcess = pandora.getProcess('worker');
-      if (appRepresentation.scale) {
-        workerProcess.scale = appRepresentation.scale;
-      }
     });
 
   }

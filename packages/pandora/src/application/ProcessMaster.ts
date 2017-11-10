@@ -79,7 +79,7 @@ export class ProcessMaster extends Base {
     this.listenEvents();
 
     // Start process
-    const appStructRepresent: ApplicationStructureRepresentation = this.procfileReconciler.getApplicationStructureRepresentation();
+    const appStructRepresent: ApplicationStructureRepresentation = this.procfileReconciler.getApplicationStructure();
     const {process: processRepresentSet} = appStructRepresent;
     for (const processRepresent of processRepresentSet) {
       await this.forkWorker({
@@ -140,7 +140,7 @@ export class ProcessMaster extends Base {
       return;
     }
     const appStructRepresent: ApplicationStructureRepresentation =
-      this.procfileReconciler.getApplicationStructureRepresentation();
+      this.procfileReconciler.getApplicationStructure();
     const {process: processRepresentSet} = appStructRepresent;
     for (const processRepresent of processRepresentSet) {
       await this.reloadNamedWorkers(workers[processRepresent.processName]);

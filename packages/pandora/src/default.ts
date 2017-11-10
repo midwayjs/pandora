@@ -1,4 +1,5 @@
 import {DefaultConfigurator} from './universal/DefaultConfigurator';
+import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
 
 const {DefaultEnvironment} = require("pandora-env");
 const {
@@ -18,47 +19,38 @@ const {LoggerService} = require('pandora-service-logger');
 const hooks = require('pandora-hook');
 
 export default {
-  process: {
-    defaultCategory: 'worker',
-    category: {
-      agent: {
-        order: 0,
-        scale: 1,
-        argv: [],
-        env: {
-          agent: 'true'
-        }
-      },
-      worker: {
-        order: 1,
-        argv: [],
-        scale: 'auto',
-        env: {}
-      },
-      background: {
-        order: 2,
-        scale: 1,
-        argv: [],
-        env: {
-          background: 'true'
-        }
-      }
-    }
+
+  procfile (pandora: ProcfileReconcilerAccessor) {
+
+    pandora.defaultAppletCategory('worker');
+    pandora.defaultServiceCategory('weak-all');
+
+    pandora.environment(DefaultEnvironment);
+    pandora.configurator(DefaultConfigurator);
+
+    pandora.process('agent')
+      .scale(1)
+      .env({agent: 'true'});
+
+    pandora.process('worker')
+      .scale('auto')
+      .env({worker: 'true'});
+
+    pandora.process('background')
+      .scale(1)
+      .env({background: 'true'});
+
+    pandora.service(LoggerService)
+      .name('logger')
+      .process('weak-all')
+      .config((ctx) => {
+        return ctx.config.loggerService;
+      });
+
   },
-  environment: DefaultEnvironment,
-  configurator: DefaultConfigurator,
-  service: {
-    defaultCategory: 'all',
-    injection: {
-      'logger': {
-        entry: LoggerService,
-        config: (ctx) => {
-          return ctx.config.loggerService;
-        }
-      }
-    }
-  },
+
   actuatorServer: MetricsActuatorServer,
+
   actuator: {
     http: {
       enabled: true,
@@ -108,6 +100,7 @@ export default {
       }
     },
   },
+
   hooks: {
     eggLogger: hooks.eggLogger,
     urllib: hooks.urllib,
