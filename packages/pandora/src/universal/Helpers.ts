@@ -33,7 +33,7 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}) {
       return !!text;
     }).join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     pandoraConfig = {};
   }
 
