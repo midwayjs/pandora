@@ -53,6 +53,7 @@ export class ProcessBootstrap {
   }
 
   static cmd() {
+    console.log(process.argv);
     program
       .option('--entry [entry]')
       .option('--params [params]')
@@ -95,6 +96,8 @@ export function cmd() {
   ProcessBootstrap.cmd();
 }
 
-if (require.main === module) {
+// require.main === module maybe be 'false' after patched spawn wrap
+if (require.main === module || process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE) {
+  delete process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE;
   cmd();
 }

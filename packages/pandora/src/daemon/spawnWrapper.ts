@@ -14,11 +14,16 @@ const hooks = globalConfig['hooks'];
  *   logger: Hooks.logger
  * }
  */
-for(let hookName in hooks) {
-  if(!!hooks[hookName]) {
-    const m = require(resolve(hooks[hookName]));
-    m(hook, shimmer);
-    console.log(`${hookName} hook enabled`);
+for(const hookName in hooks) {
+  if(hooks[hookName]) {
+    try {
+      const m = require(resolve(hooks[hookName]));
+      m(hook, shimmer);
+      console.log(`${hookName} hook enabled`);
+    } catch (err) {
+      console.log(err);
+      console.log(`enable ${hookName} hook went wrong`);
+    }
   } else {
     console.log(`${hookName} hook disabled`);
   }

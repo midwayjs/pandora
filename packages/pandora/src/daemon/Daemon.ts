@@ -8,7 +8,6 @@ import messenger from 'pandora-messenger';
 import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {Monitor} from './Monitor';
-import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 
 const daemonLogger = getDaemonLogger();
 
@@ -38,7 +37,6 @@ export class Daemon extends Base {
    * @return {Promise<any>}
    */
   async start() {
-    SpawnWrapperUtils.wrap();
     if(this.state === State.complete) {
       return;
     }
