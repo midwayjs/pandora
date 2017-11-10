@@ -16,7 +16,6 @@ export interface ApplicationRepresentation {
   appDir: string;
   entryFile?: string;
   scale?: ProcessScale;
-  injectMonitoring?: boolean;
   mode?: string;
 }
 

@@ -19,7 +19,7 @@ export class ClusterSupport {
           require(appRepresentation.entryFile);
         }
       }
-      pandora.applet(UserEntryWrapper).category('worker');
+      pandora.applet(UserEntryWrapper).process('worker');
       const workerProcess = pandora.getProcess('worker');
       if (appRepresentation.scale) {
         workerProcess.scale = appRepresentation.scale;

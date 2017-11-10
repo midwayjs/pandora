@@ -22,11 +22,11 @@ export class AppletRepresentationChainModifier {
 
   /**
    * Modify applet's category
-   * @param category
+   * @param processName
    * @return {AppletRepresentationChainModifier}
    */
-  category(category): AppletRepresentationChainModifier {
-    this.representation.category = category;
+  process(processName): AppletRepresentationChainModifier {
+    this.representation.category = processName;
     return this;
   }
 

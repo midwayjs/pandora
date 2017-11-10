@@ -121,7 +121,7 @@ describe('ProcfileReconciler', function () {
         appDir: pathProjectSimple1
       });
       reconciler.callProcfile((pandora) => {
-        pandora.applet(TestApplet).name('myVeryOwnApplet').category('background');
+        pandora.applet(TestApplet).name('myVeryOwnApplet').process('background');
       });
       const allInjectedApplets = reconciler.getAppletsByCategory('all');
       expect(allInjectedApplets[0].appletEntry).equal(TestApplet);
@@ -208,7 +208,7 @@ describe('ProcfileReconciler', function () {
         appDir: pathProjectSimple1
       });
       reconciler.callProcfile((pandora) => {
-        pandora.service(TestService).name('myVeryOwnService').category('background');
+        pandora.service(TestService).name('myVeryOwnService').process('background');
       });
       const allInjectedService = reconciler.getServicesByCategory('all');
       expect(allInjectedService[0].serviceEntry).equal(TestService);

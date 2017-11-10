@@ -83,7 +83,7 @@ export class Daemon extends Base {
   }
 
   /**
-   * handing daemon's commands invocation
+   * Handle daemon's command invocations
    * @param message
    * @param reply
    */
