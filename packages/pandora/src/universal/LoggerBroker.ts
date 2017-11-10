@@ -26,6 +26,7 @@ export function getDaemonStdoutLoggerPath() {
   return join(DefaultLoggerManager.getPandoraLogsDir(), 'daemon_std.log');
 }
 
+// TODO: move those logger config into globalConfig
 export function createAppLogger(appName, logName) {
   const loggerManager = DefaultLoggerManager.getInstance();
   return loggerManager.createLogger(logName, {

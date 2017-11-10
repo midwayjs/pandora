@@ -9,6 +9,7 @@ import {existsSync} from 'fs';
 import assert = require('assert');
 import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
+import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const pathProcessMaster = require.resolve('./ProcessMaster');
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
@@ -51,10 +52,9 @@ export class ApplicationHandler extends Base {
    * Start application through fork
    * @return {Promise<void>}
    */
-  start(): Promise<void> {
+  async start(): Promise<void> {
 
     const {mode, entryFile} = this.appRepresentation;
-    const nodejsStdout = this.nodejsStdout;
     const args = [];
 
     if ('procfile.js' === mode || 'cluster' === mode) {
@@ -67,20 +67,35 @@ export class ApplicationHandler extends Base {
       throw new Error(`Unknown start mode ${mode} when start an application`);
     }
 
+    if('fork' === mode) {
+      // Only mode be fork, that will with spawn wrapper transaction
+      await SpawnWrapperUtils.transaction(this.doFork.bind(this, args));
+    } else {
+      await this.doFork(args);
+    }
+
+  }
+
+  protected doFork(args): Promise<void> {
+
+    const nodejsStdout = this.nodejsStdout;
+
     const execArgv: any = process.execArgv.slice(0);
-    const env = {
-      ...process.env,
-      [PANDORA_CWD]: process.cwd()
-    };
     // Handing typeScript file，just for testing
     if (/\.ts$/.test(module.filename) && execArgv.indexOf('ts-node/register') === -1) {
       execArgv.push('-r', 'ts-node/register', '-r', 'nyc-ts-patch');
     }
 
+    const env = {
+      ...process.env,
+      [PANDORA_CWD]: process.cwd(),
+      // require.main === module maybe be 'false' after patched spawn wrap
+      RUN_PROCESS_BOOTSTRAP_BY_FORCE: true
+    };
+
     return new Promise((resolve, reject) => {
-      /**
-       * Fork a new ProcessBootstrap and start master
-       */
+
+      // Fork it
       const proc = fork(pathProcessBootstrap, args, <any> {
         cwd: this.appRepresentation.appDir,
         execArgv,
@@ -135,9 +150,12 @@ export class ApplicationHandler extends Base {
             break;
         }
       });
+
       this.proc = proc;
     });
+
   }
+
 
   /**
    * Stop application through kill
