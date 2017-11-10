@@ -41,7 +41,7 @@ describe('ApplicationHandler', function () {
     });
   });
 
-  describe('mode fork', function () {
+  describe.only('mode fork', function () {
     let applicationHandler: ApplicationHandler = null;
     before(async () => {
       applicationHandler = new ApplicationHandler({

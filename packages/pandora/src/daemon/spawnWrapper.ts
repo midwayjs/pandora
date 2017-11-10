@@ -17,7 +17,8 @@ const hooks = globalConfig['hooks'];
 for(const hookName in hooks) {
   if(hooks[hookName]) {
     try {
-      const m = require(resolve(hooks[hookName]));
+      let module = hooks[hookName];
+      const m = typeof module === 'string' ? require(resolve(module)) : module;
       m(hook, shimmer);
       console.log(`${hookName} hook enabled`);
     } catch (err) {

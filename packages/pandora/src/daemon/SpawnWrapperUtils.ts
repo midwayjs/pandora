@@ -1,15 +1,18 @@
 import wrap = require('spawn-wrap');
+
 const wrapFile = require.resolve('./spawnWrapper');
 
 export class SpawnWrapperUtils {
   private static unwrapFn: () => void;
+
   static wrap() {
-    if(!SpawnWrapperUtils.unwrapFn) {
+    if (!SpawnWrapperUtils.unwrapFn) {
       SpawnWrapperUtils.unwrapFn = wrap([wrapFile]);
     }
   }
+
   static unwrap() {
-    if(SpawnWrapperUtils.unwrapFn) {
+    if (SpawnWrapperUtils.unwrapFn) {
       this.unwrapFn();
       this.unwrapFn = null;
     }
@@ -21,12 +24,12 @@ export class SpawnWrapperUtils {
     let caughtError;
     try {
       ret = await fn();
-    }  catch (error) {
+    } catch (error) {
       caughtError = error;
     } finally {
       SpawnWrapperUtils.unwrap();
     }
-    if(caughtError) {
+    if (caughtError) {
       throw caughtError;
     }
     return ret;
