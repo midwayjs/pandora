@@ -8,7 +8,7 @@ import {
 import {existsSync} from 'fs';
 import assert = require('assert');
 import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
-import {MountRepresentation, ProcessRepresentation} from '../domain';
+import {ApplicationRepresentation, ProcessRepresentation} from '../domain';
 import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const pathProcessMaster = require.resolve('./ProcessMaster');
@@ -20,7 +20,7 @@ const daemonLogger = getDaemonLogger();
  */
 export class ApplicationHandler extends Base {
   public state: State;
-  public appRepresentation: MountRepresentation;
+  public appRepresentation: ApplicationRepresentation | ApplicationRepresentation;
   private nodejsStdout: any;
   private proc: any;
 
@@ -40,7 +40,8 @@ export class ApplicationHandler extends Base {
     return this.proc && this.proc.pid;
   }
 
-  constructor(applicationRepresentation: MountRepresentation) {
+  constructor(applicationRepresentation: ApplicationRepresentation)
+  constructor(applicationRepresentation: ProcessRepresentation) {
 
     super();
     this.state = State.pending;
