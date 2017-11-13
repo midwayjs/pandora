@@ -257,5 +257,35 @@ describe('ProcfileReconciler', function () {
 
   });
 
+
+
+  describe('complex', function () {
+
+    it('should echoComplex() be ok', () => {
+
+      ProcfileReconciler.echoComplex({
+        appName: 'test',
+        appDir: pathProjectSimple1
+      });
+
+    });
+
+    it('should getComplexViaNewProcess() be ok', async () => {
+
+      const ar = {
+        appName: 'test',
+        appDir: pathProjectSimple1
+      };
+
+      const complex = await ProcfileReconciler.getComplexViaNewProcess(ar);
+      const reconcile = new ProcfileReconciler(ar);
+      reconcile.discover();
+      const complexExpect = reconcile.getComplexApplicationStructureRepresentation();
+      expect(complex).to.deep.equal(complexExpect);
+
+    });
+
+  });
+
 });
 

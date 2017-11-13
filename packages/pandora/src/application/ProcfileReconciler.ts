@@ -12,6 +12,7 @@ import {existsSync} from 'fs';
 import {PROCFILE_NAMES} from '../const';
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ProcfileReconcilerAccessor} from './ProcfileReconcilerAccessor';
+import {exec} from 'child_process';
 
 const foundAll = Symbol();
 
@@ -421,7 +422,7 @@ export class ProcfileReconciler {
         continue;
       }
       const process = this.getProcessByName(service.category);
-      if (process) {
+      if (!process) {
         throw new Error(`Can't allocate service ${service.serviceName} at category ${service.category} to any process.`);
       }
       availableProcessMap[service.category] = true;
@@ -468,7 +469,7 @@ export class ProcfileReconciler {
    */
   getComplexApplicationStructureRepresentation(): ComplexApplicationStructureRepresentation {
 
-    const processes: ProcessRepresentation[] = null;
+    const processes: ProcessRepresentation[] = this.processes;
     const mount: MountRepresentation[] = [];
 
     const applicationStructure = this.getApplicationStructure();
@@ -476,13 +477,40 @@ export class ProcfileReconciler {
       mount.push(applicationStructure);
     }
 
-    for(const process of processes ) {
+    for(const process of processes) {
       if( process.mode === 'fork' ) {
         mount.push(process);
       }
     }
 
     return { mount };
+  }
+
+  public static echoComplex(appRepresentation: ApplicationRepresentation) {
+    const procfileReconciler = new ProcfileReconciler(appRepresentation);
+    procfileReconciler.discover();
+    const complex = procfileReconciler.getComplexApplicationStructureRepresentation();
+    console.log(JSON.stringify(complex, null, 2));
+  }
+
+  public static async getComplexViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ComplexApplicationStructureRepresentation> {
+
+
+    return <Promise<ComplexApplicationStructureRepresentation>> new Promise((resolve, reject) => {
+      exec(`${process.execPath} ${/\.ts$/.test(__filename) ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoComplex(${JSON.stringify(appRepresentation)})'`,
+        (error, stdout) => {
+          if(error) {
+            reject(error);
+            return;
+          }
+          try {
+            const complex: ComplexApplicationStructureRepresentation = JSON.parse(stdout.toString());
+            resolve(complex);
+          } catch (err) {
+            reject(err);
+          }
+        });
+    });
   }
 
 }

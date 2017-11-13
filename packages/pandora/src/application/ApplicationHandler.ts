@@ -33,7 +33,7 @@ export class ApplicationHandler extends Base {
     return this.appRepresentation.mode;
   }
 
-  public get appId() {
+  public get pid() {
     return this.proc && this.proc.pid;
   }
 
