@@ -17,6 +17,7 @@ export interface EntryClass {
 export interface ApplicationRepresentation {
   appName: string;
   appDir: string;
+  entryFileBaseDir?: string;
   entryFile?: string;
   scale?: ProcessScale;
   mode?: string;

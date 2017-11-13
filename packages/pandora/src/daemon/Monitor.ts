@@ -69,7 +69,6 @@ export class Monitor {
    * @return {Promise<void>}
    */
   async stop() {
-    console.log(this.ipcHub);
     await this.ipcHub.stop();
     await this.server.destroy();
   }

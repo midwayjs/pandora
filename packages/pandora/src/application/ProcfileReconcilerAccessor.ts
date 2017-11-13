@@ -3,6 +3,7 @@ import {CategoryReg, Entry} from '../domain';
 import {AppletRepresentationChainModifier} from './AppletRepresentationChainModifier';
 import {ServiceRepresentationChainModifier} from './ServiceRepresentationChainModifier';
 import {ProcessRepresentationChainModifier} from './ProcessRepresentationChainModifier';
+import {makeRequire} from 'pandora-dollar';
 
 /**
  * Class ProcfileReconcilerAccessor
@@ -63,16 +64,18 @@ export class ProcfileReconcilerAccessor {
   }
 
   /**
-   * define to fork a process
+   * Define fork a process
+   * @param entryFile
    * @param processName
    * @return {ProcessRepresentationChainModifier}
    */
-  fork(processName): ProcessRepresentationChainModifier {
+  fork(entryFile, processName): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
     if(savedRepresentation) {
       return new ProcessRepresentationChainModifier(savedRepresentation);
     }
     const representation = this.procfileReconciler.defineProcess({
+      entryFile,
       processName,
       mode: 'fork'
     });
@@ -80,7 +83,7 @@ export class ProcfileReconcilerAccessor {
   }
 
   /**
-   * inject applet class
+   * Inject applet class
    * @param appletEntry
    * @return {AppletRepresentationChainModifier}
    */
@@ -94,7 +97,7 @@ export class ProcfileReconcilerAccessor {
   }
 
   /**
-   * inject service class
+   * Inject service class
    * @param serviceEntry
    * @return {ServiceRepresentationChainModifier}
    */
@@ -105,6 +108,29 @@ export class ProcfileReconcilerAccessor {
     }
     const representation = this.procfileReconciler.injectService({serviceEntry});
     return new ServiceRepresentationChainModifier(representation);
+  }
+
+  /**
+   * An alias to applet()
+   * @param path
+   * @return {AppletRepresentationChainModifier}
+   */
+  cluster(path): AppletRepresentationChainModifier {
+
+    const baseDir = this.procfileReconciler.procfileBasePath;
+
+    class ClusterApplet {
+      async start() {
+        if(baseDir) {
+          makeRequire(baseDir)(path);
+        } else {
+          require(path);
+        }
+      }
+    }
+
+    return this.applet(ClusterApplet);
+
   }
 
 }

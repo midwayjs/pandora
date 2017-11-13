@@ -71,8 +71,17 @@ export class ComplexHandler {
     if(!this.mountedApplications.length) {
       throw new Error('Start failed, looks like not a pandora project, in appDir ' + this.appDir);
     }
+    const startedHandlers = [];
     for(const appHandler of this.mountedApplications) {
-      await appHandler.start();
+      try {
+        await appHandler.start();
+      } catch (error) {
+        for(const started of startedHandlers) {
+          await started.stop();
+        }
+        throw error;
+      }
+      startedHandlers.push(appHandler);
     }
     this.state = State.complete;
   }

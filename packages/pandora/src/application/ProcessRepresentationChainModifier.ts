@@ -13,6 +13,11 @@ export class ProcessRepresentationChainModifier {
     return this;
   }
 
+  entry(entry): ProcessRepresentationChainModifier {
+    this.representation.entryFile = entry;
+    return this;
+  }
+
   scale(scale): ProcessRepresentationChainModifier {
     this.representation.scale = scale;
     return this;

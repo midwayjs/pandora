@@ -5,6 +5,7 @@ import {APP_START_SUCCESS, APP_START_ERROR} from '../const';
 import assert = require('assert');
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
+import {makeRequire} from 'pandora-dollar';
 
 const program = require('commander');
 
@@ -14,7 +15,7 @@ const program = require('commander');
 export class ProcessBootstrap {
 
   entry: string;
-  options: any;
+  options: ApplicationRepresentation;
 
   constructor(entry: string, options: ApplicationRepresentation) {
     this.entry = entry;
@@ -26,7 +27,10 @@ export class ProcessBootstrap {
    * @returns {Promise<void>}
    */
   async start(): Promise<void> {
-    const entryMod = require(this.entry);
+
+    const entryFileBaseDir = this.options.entryFileBaseDir;
+    const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
+    const entryMod = ownRequire(this.entry);
 
     // Only require that entry if the mode be fork
     if ('fork' === this.options.mode) {
@@ -53,7 +57,6 @@ export class ProcessBootstrap {
   }
 
   static cmd() {
-    console.log(process.argv);
     program
       .option('--entry [entry]')
       .option('--params [params]')

@@ -23,7 +23,8 @@ const foundAll = Symbol();
 export class ProcfileReconciler {
 
   public appRepresentation: ApplicationRepresentation = null;
-  protected procfileBasePath: string = null;
+  public procfileBasePath: string = null;
+
   protected discovered = false;
 
   protected procfileReconcilerAccessor: ProcfileReconcilerAccessor = null;
@@ -229,7 +230,8 @@ export class ProcfileReconciler {
   defineProcess(processRepresentation): ProcessRepresentation {
     processRepresentation = {
       ...this.appRepresentation,
-      ...processRepresentation
+      ...processRepresentation,
+      entryFileBaseDir: this.procfileBasePath
     };
     this.processes.push(processRepresentation);
     return processRepresentation;
@@ -490,6 +492,7 @@ export class ProcfileReconciler {
     const procfileReconciler = new ProcfileReconciler(appRepresentation);
     procfileReconciler.discover();
     const complex = procfileReconciler.getComplexApplicationStructureRepresentation();
+    // PLS Keep console.log below, it is useful
     console.log(JSON.stringify(complex, null, 2));
   }
 
