@@ -28,4 +28,6 @@ export interface EnvironmentManager {
 
   setCurrentEnvironment(env: Environment): void;
 
+  isReady(): boolean;
+
 }

@@ -8,6 +8,7 @@ import {
 } from 'pandora-metrics';
 import {DefaultLoggerManager} from 'pandora-service-logger';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+import {EnvironmentUtil} from 'pandora-env';
 const hook = require('module-hook');
 const shimmer = require('shimmer');
 import {resolve} from 'path';
@@ -19,6 +20,11 @@ export class MonitorManager {
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
     const hooks = globalConfig['hooks'];
+
+    // init environment
+    if(!EnvironmentUtil.getInstance().isReady()) {
+      EnvironmentUtil.getInstance().setCurrentEnvironment(new globalConfig['environment']());
+    }
 
     // inject patch
 

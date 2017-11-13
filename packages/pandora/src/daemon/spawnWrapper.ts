@@ -6,6 +6,6 @@ import {MonitorManager} from '../monitor/MonitorManager';
 try {
   MonitorManager.injectProcessMonitor();
 } catch (err) {
-  console.log(err);
+  console.error(err);
 }
 wrap.runMain();
