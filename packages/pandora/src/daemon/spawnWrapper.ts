@@ -8,4 +8,5 @@ try {
 } catch (err) {
   console.error(err);
 }
+
 wrap.runMain();

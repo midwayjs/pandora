@@ -22,7 +22,7 @@ describe('ApplicationHandler', function () {
     it('should start be ok', async () => {
       await applicationHandler.start();
       expect(applicationHandler.state).equal(State.complete);
-      expect(applicationHandler.appId).to.be.ok;
+      expect(applicationHandler.pid).to.be.ok;
       expect(applicationHandler.name).equal('test');
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
@@ -37,7 +37,7 @@ describe('ApplicationHandler', function () {
     it('should stop be ok', async () => {
       await applicationHandler.stop();
       expect(applicationHandler.state).equal(State.stopped);
-      expect(applicationHandler.appId).to.equal(null);
+      expect(applicationHandler.pid).to.equal(null);
     });
   });
 
@@ -55,7 +55,7 @@ describe('ApplicationHandler', function () {
     it('should start be ok', async () => {
       await applicationHandler.start();
       expect(applicationHandler.state).equal(State.complete);
-      expect(applicationHandler.appId).to.be.ok;
+      expect(applicationHandler.pid).to.be.ok;
       expect(applicationHandler.name).equal('test');
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('simple_fork');
@@ -64,7 +64,7 @@ describe('ApplicationHandler', function () {
     it('should stop be ok', async () => {
       await applicationHandler.stop();
       expect(applicationHandler.state).equal(State.stopped);
-      expect(applicationHandler.appId).to.equal(null);
+      expect(applicationHandler.pid).to.equal(null);
     });
   });
 

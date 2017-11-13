@@ -57,7 +57,6 @@ describe('Daemon', function () {
     it('should stopApp() be ok', async () => {
       const applicationHandler = await daemon.stopApp('test');
       expect(applicationHandler.state).equal(State.stopped);
-      expect(applicationHandler.appId).to.equal(null);
     });
 
     it('should startApp() error if appDir does not exists', async function () {
@@ -93,7 +92,12 @@ describe('Daemon', function () {
     });
 
     after(async () => {
-      await daemon.stop();
+      try {
+        await daemon.stop();
+      } catch (error) {
+        // Ignore stop error, be course of command 'exit' has already exited Daemon
+        // Stop again just in case
+      }
       EnvironmentUtil.getInstance().setCurrentEnvironment(beforeCurEnv);
     });
 

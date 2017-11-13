@@ -15,7 +15,7 @@ describe('AppletRepresentationChainModifier', function () {
   });
 
   it('should modify category be ok', () => {
-    expect(modifier.category('worker')).to.be.equal(modifier);
+    expect(modifier.process('worker')).to.be.equal(modifier);
     expect(representation.category).to.be.equal('worker');
   });
 

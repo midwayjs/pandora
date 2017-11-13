@@ -8,7 +8,7 @@ import {
 import {existsSync} from 'fs';
 import assert = require('assert');
 import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
-import {ApplicationRepresentation} from '../domain';
+import {ApplicationRepresentation, ProcessRepresentation} from '../domain';
 import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const pathProcessMaster = require.resolve('./ProcessMaster');
@@ -20,32 +20,36 @@ const daemonLogger = getDaemonLogger();
  */
 export class ApplicationHandler extends Base {
   public state: State;
-  public appRepresentation: any;
+  public appRepresentation: ApplicationRepresentation | ApplicationRepresentation;
   private nodejsStdout: any;
   private proc: any;
-  public appDir: string;
 
   public get name() {
     return this.appRepresentation.appName;
+  }
+
+  public get appDir() {
+    return this.appRepresentation.appDir;
   }
 
   public get mode() {
     return this.appRepresentation.mode;
   }
 
-  public get appId() {
+  public get pid() {
     return this.proc && this.proc.pid;
   }
 
-  constructor(applicationRepresentation: ApplicationRepresentation) {
-    const appDir = applicationRepresentation.appDir;
-    assert(existsSync(appDir), `AppDir[${appDir}] does not exist!`);
+  constructor(applicationRepresentation: ApplicationRepresentation)
+  constructor(applicationRepresentation: ProcessRepresentation) {
 
     super();
-    this.appDir = appDir;
     this.state = State.pending;
     this.appRepresentation = applicationRepresentation;
+    assert(existsSync(this.appDir), `AppDir ${this.appDir} does not exist`);
+
     this.nodejsStdout = createAppLogger(applicationRepresentation.appName, 'nodejs_stdout');
+
   }
 
   /**
@@ -86,6 +90,11 @@ export class ApplicationHandler extends Base {
       execArgv.push('-r', 'ts-node/register', '-r', 'nyc-ts-patch');
     }
 
+    const userArgv = (<ProcessRepresentation> this.appRepresentation).argv;
+    if(userArgv && userArgv.length) {
+      execArgv.push.apply(execArgv, userArgv);
+    }
+
     const env = {
       ...process.env,
       [PANDORA_CWD]: process.cwd(),
@@ -105,7 +114,7 @@ export class ApplicationHandler extends Base {
 
       proc.once('message', (message) => {
         if (message.action === APP_START_SUCCESS) {
-          const msg = `Application [name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
+          const msg = `Application [appName = ${this.appRepresentation.appName}, processName = ${(<ProcessRepresentation> this.appRepresentation).processName || 'null'} dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
           daemonLogger.info(msg);
           nodejsStdout.info(msg);
           this.state = State.complete;

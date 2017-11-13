@@ -19,11 +19,11 @@ export class ServiceRepresentationChainModifier {
 
   /**
    * Modify service's category
-   * @param category
+   * @param processName
    * @return {ServiceRepresentationChainModifier}
    */
-  category(category): ServiceRepresentationChainModifier {
-    this.representation.category = category;
+  process(processName): ServiceRepresentationChainModifier {
+    this.representation.category = processName;
     return this;
   }
 

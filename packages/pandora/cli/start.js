@@ -23,12 +23,6 @@ exports.builder = (yargs) => {
     describe: 'Only when the start mode be cluster, to specify the worker numbers of cluster'
   });
 
-  yargs.option('inject-monitoring', {
-    alias: 'i',
-    describe: 'Only when the start mode be fork, inject the monitoring automatically before each child process started',
-    boolean: true
-  });
-
 };
 /**
  * start an app
