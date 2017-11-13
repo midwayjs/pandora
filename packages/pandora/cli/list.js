@@ -39,7 +39,7 @@ exports.handler = function () {
         tableData.push([
           app.name,
           app.mode,
-          app.appId,
+          app.pids.join(','),
           app.appDir,
           state,
         ]);

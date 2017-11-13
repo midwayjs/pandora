@@ -136,6 +136,7 @@ export class Daemon extends Base {
           return {
             name: complex.name,
             appId: complex.appId,
+            pids: complex.pids,
             mode: complex.mode,
             appDir: complex.appDir,
             state: complex.state

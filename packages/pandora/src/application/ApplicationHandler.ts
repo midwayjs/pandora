@@ -23,10 +23,13 @@ export class ApplicationHandler extends Base {
   public appRepresentation: any;
   private nodejsStdout: any;
   private proc: any;
-  public appDir: string;
 
   public get name() {
     return this.appRepresentation.appName;
+  }
+
+  public get appDir() {
+    return this.appRepresentation.appDir;
   }
 
   public get mode() {
@@ -38,14 +41,14 @@ export class ApplicationHandler extends Base {
   }
 
   constructor(applicationRepresentation: ApplicationRepresentation) {
-    const appDir = applicationRepresentation.appDir;
-    assert(existsSync(appDir), `AppDir[${appDir}] does not exist!`);
 
     super();
-    this.appDir = appDir;
     this.state = State.pending;
     this.appRepresentation = applicationRepresentation;
+    assert(existsSync(this.appDir), `AppDir ${this.appDir} does not exist`);
+
     this.nodejsStdout = createAppLogger(applicationRepresentation.appName, 'nodejs_stdout');
+
   }
 
   /**

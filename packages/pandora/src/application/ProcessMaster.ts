@@ -69,7 +69,7 @@ export class ProcessMaster extends Base {
     }
 
     if (!this.procfileReconciler.getAppletsByCategory('all').length) {
-      throw new Error(`Can't found any applet in appdir ${this.appRepresentation.appDir}`);
+      throw new Error(`Can't found any applet in appDir ${this.appRepresentation.appDir}`);
     }
 
     // Pass appId to child process through process.env

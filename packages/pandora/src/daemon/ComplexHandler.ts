@@ -3,6 +3,7 @@ import uuid = require('uuid');
 import {State} from '../const';
 import {ProcfileReconciler} from '../application/ProcfileReconciler';
 import {ApplicationHandler} from '../application/ApplicationHandler';
+import {existsSync} from 'fs';
 
 export class ComplexHandler {
 
@@ -41,6 +42,9 @@ export class ComplexHandler {
     this.state = State.pending;
     this.appId = uuid.v4();
     this.appRepresentation = appRepresentation;
+    if(!existsSync(this.appDir)) {
+      new Error(`AppDir ${this.appDir} does not exist`);
+    }
   }
 
   protected async getComplex(): Promise<ComplexApplicationStructureRepresentation> {
@@ -64,6 +68,9 @@ export class ComplexHandler {
 
   async start () {
     await this.fillMounted();
+    if(!this.mountedApplications.length) {
+      throw new Error('Start failed, looks like not a pandora project, in appDir ' + this.appDir);
+    }
     for(const appHandler of this.mountedApplications) {
       await appHandler.start();
     }
