@@ -228,7 +228,7 @@ export class ProcfileReconciler {
   defineProcess(processRepresentation): ProcessRepresentation {
     processRepresentation = {
       ...this.appRepresentation,
-      processRepresentation
+      ...processRepresentation
     };
     this.processes.push(processRepresentation);
     return processRepresentation;
