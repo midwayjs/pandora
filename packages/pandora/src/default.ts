@@ -1,5 +1,7 @@
 import {DefaultConfigurator} from './universal/DefaultConfigurator';
 import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
+import {join} from 'path';
+import {homedir} from 'os';
 
 const {DefaultEnvironment} = require('pandora-env');
 const {
@@ -20,13 +22,19 @@ const hooks = require('pandora-hook');
 
 export default {
 
+  environment: DefaultEnvironment,
+  configurator: DefaultConfigurator,
+
   procfile (pandora: ProcfileReconcilerAccessor) {
+
+    const globalConfig = require('./universal/GlobalConfigProcessor')
+      .GlobalConfigProcessor.getInstance().getAllProperties();
 
     pandora.defaultAppletCategory('worker');
     pandora.defaultServiceCategory('weak-all');
 
-    pandora.environment(DefaultEnvironment);
-    pandora.configurator(DefaultConfigurator);
+    pandora.environment(globalConfig.environment);
+    pandora.configurator(globalConfig.configurator);
 
     pandora.process('agent')
       .scale(1)
@@ -47,6 +55,18 @@ export default {
         return ctx.config.loggerService;
       });
 
+  },
+
+  logger: {
+    logsDir: join(homedir(), 'logs'),
+    appLogger: {
+      stdoutLevel: 'NONE',
+      level: 'INFO'
+    },
+    daemonLogger: {
+      stdoutLevel: 'ERROR',
+      level: 'INFO',
+    }
   },
 
   actuatorServer: MetricsActuatorServer,

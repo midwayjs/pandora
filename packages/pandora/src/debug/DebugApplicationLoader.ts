@@ -1,8 +1,10 @@
 'use strict';
 import {ApplicationRepresentation} from '../domain';
-import {ProcessMaster} from '../application/ProcessMaster';
+import {ComplexHandler} from '../daemon/ComplexHandler';
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ProcessBootstrap} from '../application/ProcessBootstrap';
+import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+const globalConfigProcessor = GlobalConfigProcessor.getInstance();
 
 /**
  * Class DebugApplicationLoader
@@ -10,7 +12,7 @@ import {ProcessBootstrap} from '../application/ProcessBootstrap';
  */
 export class DebugApplicationLoader {
   protected options: ApplicationRepresentation;
-  protected master: ProcessMaster | ProcessBootstrap;
+  protected master: ComplexHandler | ProcessBootstrap;
 
   constructor(options: ApplicationRepresentation) {
     this.options = options;
@@ -21,6 +23,17 @@ export class DebugApplicationLoader {
    * @return {Promise<void>}
    */
   async start() {
+
+    globalConfigProcessor.getAllProperties();
+    globalConfigProcessor.mergeProperties({
+      logger: {
+        appLogger: {
+          stdoutLevel: 'ALL',
+          level: 'NONE'
+        }
+      }
+    });
+
     process.env.NODE_ENV = process.env.NODE_ENV || 'local';
     const mode = this.options.mode || 'procfile.js';
     const appName = this.options.appName || 'debug';
@@ -32,7 +45,7 @@ export class DebugApplicationLoader {
       if('fork' === mode) {
         this.master = new ProcessBootstrap(options.entryFile, options);
       } else {
-        this.master = new ProcessMaster(options);
+        this.master = new ComplexHandler(options);
       }
     }
     this.master.start().then(() => {

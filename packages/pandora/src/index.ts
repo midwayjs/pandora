@@ -9,7 +9,7 @@ export * from './const';
  */
 export * from './daemon/Daemon';
 export * from './daemon/DaemonHandler';
-export * from './daemon/Monitor';
+export * from './monitor/Monitor';
 export {DaemonBootstrap} from './daemon/DaemonBootstrap';
 
 /**

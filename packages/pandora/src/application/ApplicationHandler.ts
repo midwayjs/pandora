@@ -9,7 +9,6 @@ import {existsSync} from 'fs';
 import assert = require('assert');
 import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
 import {ApplicationRepresentation, ProcessRepresentation} from '../domain';
-import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const pathProcessMaster = require.resolve('./ProcessMaster');
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
@@ -71,12 +70,7 @@ export class ApplicationHandler extends Base {
       throw new Error(`Unknown start mode ${mode} when start an application`);
     }
 
-    if('fork' === mode) {
-      // Only mode be fork, that will with spawn wrapper transaction
-      await SpawnWrapperUtils.transaction(this.doFork.bind(this, args));
-    } else {
-      await this.doFork(args);
-    }
+    await this.doFork(args);
 
   }
 

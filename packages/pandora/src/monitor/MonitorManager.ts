@@ -12,6 +12,8 @@ import {EnvironmentUtil} from 'pandora-env';
 const hook = require('module-hook');
 const shimmer = require('shimmer');
 import {resolve} from 'path';
+import {PANDORA_APPLICATION} from '../const';
+import {ProcessRepresentation} from '../domain';
 
 export class MonitorManager {
 
@@ -23,7 +25,21 @@ export class MonitorManager {
 
     // init environment
     if(!EnvironmentUtil.getInstance().isReady()) {
-      EnvironmentUtil.getInstance().setCurrentEnvironment(new globalConfig['environment']());
+
+      // cast PANDORA_APPLICATION to type ProcessRepresentation, need processName
+      let processRepresentation: ProcessRepresentation = <any> {};
+
+      try {
+        processRepresentation = JSON.parse(process.env[PANDORA_APPLICATION]);
+      } catch (err) {
+        // ignore
+      }
+
+      EnvironmentUtil.getInstance().setCurrentEnvironment(new globalConfig['environment']({
+        appDir: processRepresentation.appDir,
+        appName: processRepresentation.appName,
+        processName: processRepresentation.processName
+      }));
     }
 
     // inject patch

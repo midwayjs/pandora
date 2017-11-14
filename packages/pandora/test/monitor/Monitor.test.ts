@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import urllib = require('urllib');
-import {Monitor} from '../../src/daemon/Monitor';
+import {Monitor} from '../../src/monitor/Monitor';
 import {DefaultEnvironment, EnvironmentUtil} from 'pandora-env';
 import {MetricsConstants} from 'pandora-metrics';
 

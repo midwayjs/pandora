@@ -7,7 +7,7 @@ import assert = require('assert');
 import messenger from 'pandora-messenger';
 import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
-import {Monitor} from './Monitor';
+import {Monitor} from '../monitor/Monitor';
 
 const daemonLogger = getDaemonLogger();
 
@@ -96,21 +96,21 @@ export class Daemon extends Base {
         this.startApp(args).then(() => {
           reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
         }).catch(err => {
-          reply({error: true, data: `${args.appName} started failed, ${err && err.toString()}`});
+          reply({error: `${args.appName} started failed, ${err && err.toString()}`});
         });
         break;
       case 'stopAll':
         this.stopAllApps().then(() => {
           reply({data: `all apps stopped successfully!`});
         }).catch(err => {
-          reply({error: true, data: `all apps stopped failed, ${err && err.toString()}`});
+          reply({error: `all apps stopped failed, ${err && err.toString()}`});
         });
         break;
       case 'stopApp':
         this.stopApp(args.appName).then(() => {
           reply({data: `${args.appName} stopped successfully!`});
         }).catch(err => {
-          reply({error: true, data: `${args.appName} stopped failed, ${err && err.toString()}`});
+          reply({error: `${args.appName} stopped failed, ${err && err.toString()}`});
         });
         break;
       case 'restart':
@@ -119,7 +119,7 @@ export class Daemon extends Base {
         }).then(() => {
           reply({data: `${args.appName} restarted successfully!`});
         }).catch(err => {
-          reply({error: true, data: `${args.appName} restarted failed, ${err && err.toString()}`});
+          reply({error: `${args.appName} restarted failed, ${err && err.toString()}`});
         });
         break;
 

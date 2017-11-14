@@ -1,11 +1,12 @@
 'use strict';
 require('source-map-support').install();
 
-import {APP_START_SUCCESS, APP_START_ERROR} from '../const';
+import {APP_START_SUCCESS, APP_START_ERROR, PANDORA_APPLICATION} from '../const';
 import assert = require('assert');
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {makeRequire} from 'pandora-dollar';
+import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const program = require('commander');
 
@@ -27,6 +28,11 @@ export class ProcessBootstrap {
    * @returns {Promise<void>}
    */
   async start(): Promise<void> {
+
+    if ('fork' === this.options.mode) {
+      process.env[PANDORA_APPLICATION] = JSON.stringify(this.options);
+      SpawnWrapperUtils.wrap();
+    }
 
     const entryFileBaseDir = this.options.entryFileBaseDir;
     const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
