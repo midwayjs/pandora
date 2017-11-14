@@ -54,7 +54,7 @@ export default {
   actuator: {
     http: {
       enabled: true,
-      port: 8006,
+      port: 7002,
     },
 
     endPoints: {
