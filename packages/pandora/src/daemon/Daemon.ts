@@ -7,7 +7,7 @@ import assert = require('assert');
 import messenger from 'pandora-messenger';
 import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
-import {Monitor} from './Monitor';
+import {Monitor} from '../monitor/Monitor';
 
 const daemonLogger = getDaemonLogger();
 

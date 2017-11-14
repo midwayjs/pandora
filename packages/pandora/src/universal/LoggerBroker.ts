@@ -46,7 +46,8 @@ export function createAppLogger(appName, logName) {
 }
 
 export function getAppLogPath(appName, logName) {
-  return join(appName, appName, logName + '.log');
+  const {logger: loggerConfig} = lazyGetGlobalConfig();
+  return join(loggerConfig.logsDir, appName, logName + '.log');
 }
 
 const eolReg = new RegExp(EOL + '$');
