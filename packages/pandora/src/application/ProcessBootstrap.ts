@@ -6,6 +6,7 @@ import assert = require('assert');
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {makeRequire} from 'pandora-dollar';
+import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const program = require('commander');
 
@@ -27,6 +28,10 @@ export class ProcessBootstrap {
    * @returns {Promise<void>}
    */
   async start(): Promise<void> {
+
+    if ('fork' === this.options.mode) {
+      SpawnWrapperUtils.wrap();
+    }
 
     const entryFileBaseDir = this.options.entryFileBaseDir;
     const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;

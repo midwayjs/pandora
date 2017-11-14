@@ -21,7 +21,7 @@ exports.handler = function () {
       });
       send('exit', (err, data) => {
         if (err) {
-          consoleLogger.error(data);
+          consoleLogger.error(err);
           process.exit(1);
           return;
         }

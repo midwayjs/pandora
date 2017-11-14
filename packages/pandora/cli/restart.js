@@ -17,7 +17,7 @@ exports.handler = function (argv) {
       appName: argv.appName,
     }, (err, data) => {
       if (err) {
-        consoleLogger.error(data);
+        consoleLogger.error(err);
         process.exit(1);
         return;
       }
