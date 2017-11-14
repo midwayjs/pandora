@@ -1,7 +1,7 @@
 import {DefaultConfigurator} from './universal/DefaultConfigurator';
 import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
 
-const {DefaultEnvironment} = require("pandora-env");
+const {DefaultEnvironment} = require('pandora-env');
 const {
   ErrorEndPoint,
   HealthEndPoint,
