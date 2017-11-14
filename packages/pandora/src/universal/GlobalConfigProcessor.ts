@@ -29,7 +29,7 @@ export class GlobalConfigProcessor {
       let globalConfig = require('../default').default;
       this.mergeProperties(globalConfig);
       for (const configPath of configPaths) {
-        if (configPath) {
+        if (configPath && configPath !== 'undefined') {
           try {
             let extendConfig = cwdRequire(configPath);
             extendConfig = extendConfig.default ? extendConfig.default : extendConfig;
