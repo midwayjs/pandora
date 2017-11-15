@@ -122,8 +122,14 @@ export default {
   },
 
   hooks: {
-    eggLogger: hooks.eggLogger,
-    urllib: hooks.urllib,
+    eggLogger: {
+      enabled: true,
+      target: hooks.eggLogger,
+    },
+    urllib: {
+      enabled: true,
+      target: hooks.urllib
+    },
   },
   reporter: {
     file: {

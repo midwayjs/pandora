@@ -13,3 +13,8 @@ export const MetricsConstants = {
   GLOBAL_METRICS_KEY: 'GLOBAL_METRICS_CLIENT', // 放在 global 上的 key
   CLIENT_TIME_OUT: 3000,  // client 调用超时时间
 };
+
+export const MessageConstants = {
+  LOGGER: 'LOGGER',
+  TRACE: 'TRACE'
+};
