@@ -58,8 +58,8 @@ export class MonitorManager {
         try {
           let module = hooks[hookName].target;
           const m = typeof module === 'string' ? require(resolve(module)) : module;
-          if(hooks['initConfig']) {
-            m(hooks['initConfig'])({hook, shimmer, tracer: new TraceManager(), sender});
+          if(hooks[hookName]['initConfig']) {
+            m(hooks[hookName]['initConfig'])({hook, shimmer, tracer: new TraceManager(), sender});
           } else {
             m({hook, shimmer, tracer: new TraceManager(), sender});
           }
