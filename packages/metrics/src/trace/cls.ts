@@ -1,6 +1,6 @@
 'use strict';
 process.env.NODE_ASYNC_HOOK_NO_WARNING = true;
-const asyncWrap = process.binding('async_wrap');
+const asyncWrap = (<any>process).binding('async_wrap');
 const shimmer = require('shimmer');
 
 shimmer.wrap(asyncWrap, 'setupHooks', function(setupHooks) {
