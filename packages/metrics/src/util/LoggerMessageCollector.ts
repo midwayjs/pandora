@@ -11,7 +11,7 @@ export class LoggerMessageCollector extends MessengerSender {
       method,
       args
     }) => {
-      for (let method of this.collectMap) {
+      for (let method in this.collectMap) {
         if (data.method === method) {
           this.collectMap[method].call(this, data);
         }
