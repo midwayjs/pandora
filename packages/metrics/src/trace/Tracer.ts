@@ -1,8 +1,8 @@
 'use strict';
 import {Tracer as OpenTrancer} from 'opentracing';
 import {PandoraSpan} from './PandoraSpan';
+import SpanContext from './SpanContext';
 const EventEmitter = require('super-event-emitter');
-
 
 export class Tracer extends OpenTrancer {
 
@@ -20,7 +20,7 @@ export class Tracer extends OpenTrancer {
     // allocSpan is given it's own method so that derived classes can
     // allocate any type of object they want, but not have to duplicate
     // the other common logic in startSpan().
-    const span = this._allocSpan();
+    const span = this._allocSpan(new SpanContext(fields.ctx));
     span.setOperationName(name);
     this.spans.push(span);
 
@@ -35,8 +35,8 @@ export class Tracer extends OpenTrancer {
     return span;
   }
 
-  private _allocSpan() {
-    return new PandoraSpan(this);
+  private _allocSpan(ctx) {
+    return new PandoraSpan(this, ctx);
   }
 
   finish() {

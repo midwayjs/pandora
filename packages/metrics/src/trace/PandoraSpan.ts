@@ -12,10 +12,13 @@ export class PandoraSpan extends OpenTraceSpan {
   tags = {};
   logs = [];
   startStack;
+  _spanContext;
 
-  constructor(tracer) {
+  constructor(tracer, spanContext) {
     super();
     this.__tracer = tracer;
+    spanContext.spanId = this.uuid;
+    this._spanContext = spanContext;
   }
 
   _setOperationName(name) {
@@ -36,7 +39,7 @@ export class PandoraSpan extends OpenTraceSpan {
   _log(fields, timestamp) {
     this.logs.push({
       fields,
-      timestamp
+      timestamp: timestamp || Date.now()
     });
   }
 
@@ -46,10 +49,15 @@ export class PandoraSpan extends OpenTraceSpan {
   }
 
   addReference(ref) {
+    this._spanContext.parentId = ref.referencedContext().spanId;
   }
 
-  _tracer() {
+  tracer() {
     return this.__tracer;
+  }
+
+  context() {
+    return this._spanContext;
   }
 
   /**
