@@ -21,8 +21,8 @@ describe('LoggerBroker', function () {
     expect(daemonLogger.error).to.ok;
   });
 
-  it('should getDaemonStdoutLoggerPath() be ok', () => {
-    const daemonStdoutLoggerPath = LoggerBroker.getDaemonStdoutLoggerPath();
+  it('should getDaemonStdoutLogPath() be ok', () => {
+    const daemonStdoutLoggerPath = LoggerBroker.getDaemonStdoutLogPath();
     expect(daemonStdoutLoggerPath).to.be.equal(homedir() + '/logs/pandorajs/daemon_std.log');
   });
 

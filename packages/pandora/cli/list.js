@@ -1,9 +1,10 @@
 'use strict';
 const path = require('path');
+const chalk = require('chalk');
+const debug = require('debug')('pandora:cli:list');
 const table = require('table').table;
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
-const chalk = require('chalk');
 const {send, isDaemonRunning} = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler'));
 const CONST = require(path.join(PANDORA_LIB_HOME, './const'));
 const State = CONST.State;
@@ -14,7 +15,7 @@ exports.handler = function () {
 
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
-      consoleLogger.info('Daemon has not running yet');
+      consoleLogger.info('Daemon is not running yet');
       process.exit(0);
       return;
     }
@@ -33,6 +34,7 @@ exports.handler = function () {
           'State',
         ]
       ];
+      debug(data);
       for (const app of data) {
         let state = State[app.state];
         state = (state === 'complete' ? chalk.green('Running') : chalk.red(state)).replace(/^.{1}/, (firstChar) => firstChar.toUpperCase());
