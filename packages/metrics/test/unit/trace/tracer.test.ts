@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Tracer } from '../../../src/trace/Tracer';
 
-describe.only('/test/unit/tracer.test.ts', () => {
+describe('/test/unit/tracer.test.ts', () => {
   let tracer;
   let span;
 
