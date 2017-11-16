@@ -1,5 +1,5 @@
 'use strict';
-const createNamespace = require('./cls').createNamespace;
+const cls = require('./cls');
 const TRACEID = 'traceId';
 const uuid = require('uuid');
 import {Tracer} from './Tracer';
@@ -7,7 +7,7 @@ import {Tracer} from './Tracer';
 export class TraceManager {
 
   traceContainer = {};
-  ns = createNamespace('pandora_tracer');
+  ns = cls.createNamespace('pandora_tracer');
   finished = {};
 
   constructor() {
