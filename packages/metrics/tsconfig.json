@@ -18,6 +18,7 @@
     "test"
   ],
   "files": [
-    "src/index"
+    "src/index",
+    "src/trace/cls"
   ]
 }

@@ -15,6 +15,7 @@ describe('/test/unit/reporter/reporter.test.ts', () => {
         debug('call custom report once');
         expect(counters.size).to.be.equal(1);
         expect(Array.from(counters.keys()).length).to.be.equal(1);
+        reporter.stop();
         done();
       }
     }
