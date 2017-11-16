@@ -1,6 +1,6 @@
 {
   "name": "pandora",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "Pandora.js",
   "main": "dist/index.js",
   "typings": "src/index",
@@ -41,7 +41,7 @@
     "pandora-hook": "^1.1.1",
     "pandora-hub": "^0.1.26",
     "pandora-messenger": "^0.1.26",
-    "pandora-metrics": "^0.1.26",
+    "pandora-metrics": "^0.1.27",
     "pandora-service-logger": "^0.1.26",
     "sdk-base": "^2.0.1",
     "shimmer": "^1.1.0",
