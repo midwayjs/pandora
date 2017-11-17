@@ -16,6 +16,7 @@ export * from './endpoint/impl/InfoEndPoint';
 export * from './endpoint/impl/MetricsEndPoint';
 export * from './endpoint/impl/ProcessEndPoint';
 export * from './endpoint/impl/RuntimeEndPoint';
+export * from './endpoint/impl/TraceEndPoint';
 
 /**
  * indicator
@@ -27,6 +28,7 @@ export * from './indicator/impl/ErrorIndicator';
 export * from './indicator/impl/ProcessIndicator';
 export * from './indicator/impl/health/DiskSpaceHealthIndicator';
 export * from './indicator/impl/health/PortHealthIndicator';
+export * from './indicator/impl/TraceIndicator';
 
 /**
  * reporter

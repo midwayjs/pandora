@@ -6,7 +6,8 @@ import {
   MetricsConstants,
   V8GaugeSet,
   MessengerSender,
-  TraceManager
+  TraceManager,
+  TraceIndicator
 } from 'pandora-metrics';
 import {DefaultLoggerManager} from 'pandora-service-logger';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
@@ -48,6 +49,8 @@ export class MonitorManager {
     // inject patch
 
     let sender = new MessengerSender();
+    let traceIndicator = new TraceIndicator();
+    traceIndicator.initialize();
     /**
      * hooks: {
      *   logger: Hooks.logger
@@ -59,7 +62,7 @@ export class MonitorManager {
           let module = hooks[hookName].target;
           const m = typeof module === 'string' ? require(resolve(module)) : module;
           if(hooks[hookName]['initConfig']) {
-            m(hooks[hookName]['initConfig'])({hook, shimmer, tracer: new TraceManager(), sender});
+            m(hooks[hookName]['initConfig'])({hook, shimmer, tracer: traceIndicator.getTraceManager(), sender});
           } else {
             m({hook, shimmer, tracer: new TraceManager(), sender});
           }
