@@ -3,6 +3,7 @@ import {Tracer as OpenTrancer} from 'opentracing';
 import {PandoraSpan} from './PandoraSpan';
 import SpanContext from './SpanContext';
 const EventEmitter = require('super-event-emitter');
+const CURRENT_SPAN = 'CURRENT_SPAN';
 
 export class Tracer extends OpenTrancer {
 
@@ -13,6 +14,10 @@ export class Tracer extends OpenTrancer {
     super();
     EventEmitter.mixin(this);
     this.options = options;
+  }
+
+  get ns() {
+    return this.options.ns;
   }
 
   protected _startSpan(name: string, fields) {
@@ -32,7 +37,12 @@ export class Tracer extends OpenTrancer {
 
     // Capture the stack at the time the span started
     span.startStack = new Error().stack;
+    this.ns.set(CURRENT_SPAN, span);
     return span;
+  }
+
+  getCurrentSpan() {
+    return this.ns.get(CURRENT_SPAN);
   }
 
   private _allocSpan(ctx) {
