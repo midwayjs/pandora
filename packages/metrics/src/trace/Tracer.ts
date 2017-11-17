@@ -11,11 +11,13 @@ export class Tracer extends OpenTrancer {
   options;
   spans = [];
   namespace;
+  traceId;
 
-  constructor(options: { ns? } = {}) {
+  constructor(options: { ns?, traceId? } = {}) {
     super();
     EventEmitter.mixin(this);
     this.options = options;
+    this.traceId = options.traceId;
     this.namespace = options.ns;
   }
 

@@ -16,5 +16,6 @@ export const MetricsConstants = {
 
 export const MessageConstants = {
   LOGGER: 'LOGGER',
-  TRACE: 'TRACE'
+  TRACE: 'TRACE',
+  TRACENODE: 'TRACENODE'
 };
