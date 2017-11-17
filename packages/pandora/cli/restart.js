@@ -9,7 +9,7 @@ exports.desc = 'Restart a running application';
 exports.handler = function (argv) {
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
-      consoleLogger.info('Daemon is not running');
+      consoleLogger.info('Daemon has not running yet');
       process.exit(0);
       return;
     }
@@ -17,7 +17,7 @@ exports.handler = function (argv) {
       appName: argv.appName,
     }, (err, data) => {
       if (err) {
-        consoleLogger.error(data);
+        consoleLogger.error(err);
         process.exit(1);
         return;
       }

@@ -9,7 +9,7 @@ exports.desc = 'Stop all applications and exit the pandora daemon process';
 exports.handler = function () {
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
-      consoleLogger.info('Daemon is not running');
+      consoleLogger.info('Daemon has not running yet');
       process.exit(0);
       return;
     }
@@ -21,7 +21,7 @@ exports.handler = function () {
       });
       send('exit', (err, data) => {
         if (err) {
-          consoleLogger.error(data);
+          consoleLogger.error(err);
           process.exit(1);
           return;
         }

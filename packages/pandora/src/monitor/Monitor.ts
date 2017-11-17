@@ -8,6 +8,7 @@ import {
   SystemLoadGaugeSet
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+import {Hub} from 'pandora-hub';
 
 const debug = require('debug')('pandora:cluster:monitor');
 
@@ -18,6 +19,7 @@ export class Monitor {
   private daemonLogger = getDaemonLogger();
   private globalConfigProcesser = GlobalConfigProcessor.getInstance();
   private globalConfig = this.globalConfigProcesser.getAllProperties();
+  private ipcHub = new Hub();
   private server;
 
   /**
@@ -25,6 +27,9 @@ export class Monitor {
    * @return {Promise<void>}
    */
   async start() {
+
+    await this.ipcHub.start();
+
     // start logger rotator serivce
     debug('start a monitor logger rotator service');
     const loggerRotator = new LoggerRotator({
@@ -64,6 +69,7 @@ export class Monitor {
    * @return {Promise<void>}
    */
   async stop() {
+    await this.ipcHub.stop();
     await this.server.destroy();
   }
 

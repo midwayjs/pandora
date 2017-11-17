@@ -1,13 +1,10 @@
 'use strict';
-import * as $ from 'pandora-dollar';
 import {
-  ServiceWorkMode, ServiceRepresentation, ServiceInstanceReference,
+  ServiceRepresentation, ServiceInstanceReference,
   DepInstances, Service, ProcessRepresentation
 } from '../domain';
 import assert = require('assert');
-import {MessengerClient, MessengerServer, default as Messenger} from 'pandora-messenger';
-import {SOCKET_FILE_NAME} from '../const';
-import {ServiceCoreFactory} from './ServiceCoreFactory';
+import {ServiceCore} from './ServiceCore';
 import {WorkerContext} from '../application/WorkerContext';
 
 const debug = require('debug')('pandora:ServiceReconciler');
@@ -22,35 +19,14 @@ export class ServiceReconciler {
   protected services: Map<string, ServiceInstanceReference> = new Map;
   protected state: 'notBoot' | 'booting' | 'booted' | 'stoping' = 'notBoot';
 
-  protected messengerServer: MessengerServer;
-  protected messengerClient: MessengerClient;
   protected processRepresentation: ProcessRepresentation;
   protected workModeByForce;
 
-  get workMode(): ServiceWorkMode {
-    if (this.workModeByForce !== undefined) {
-      return this.workModeByForce;
-    }
-    return this.processRepresentation.processName === 'agent' ? 'agent' : 'worker';
-  }
 
   constructor(processRepresentation: ProcessRepresentation, context, workModeByForce?) {
     this.workModeByForce = workModeByForce;
     this.processRepresentation = processRepresentation;
     this.context = context;
-    if (this.workMode === 'agent') {
-      this.messengerServer = Messenger.getServer({
-        name: SOCKET_FILE_NAME
-      });
-    } else if (this.workMode === 'worker') {
-      this.messengerClient = Messenger.getClient({
-        name: SOCKET_FILE_NAME
-      });
-    } else if (this.workMode === null) {
-      this.messengerServer = Messenger.getServer({
-        name: $.genereateUUID()
-      });
-    }
   }
 
   /**
@@ -142,10 +118,7 @@ export class ServiceReconciler {
         serviceRepresentation.config = serviceRepresentation.configResolver ?
           serviceRepresentation.configResolver(this.context.workerContextAccessor, serviceRepresentation.config)
           : serviceRepresentation.config;
-        const serviceCoreInstance = new ServiceCoreFactory({
-          messengerClient: this.messengerClient,
-          messengerServer: this.messengerServer,
-          workMode: this.workMode,
+        const serviceCoreInstance = new ServiceCore({
           context: this.context.workerContextAccessor,
           representation: serviceRepresentation,
           depInstances: depInstances

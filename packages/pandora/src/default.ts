@@ -1,6 +1,9 @@
 import {DefaultConfigurator} from './universal/DefaultConfigurator';
+import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
+import {join} from 'path';
+import {homedir} from 'os';
 
-const {DefaultEnvironment} = require("pandora-env");
+const {DefaultEnvironment} = require('pandora-env');
 const {
   ErrorEndPoint,
   HealthEndPoint,
@@ -13,55 +16,65 @@ const {
   HealthResource,
   FileMetricManagerReporter,
   MetricsActuatorServer
-} = require("pandora-metrics");
+} = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
+const hooks = require('pandora-hook');
 
 export default {
-  process: {
-    defaultCategory: 'worker',
-    category: {
-      agent: {
-        order: 0,
-        scale: 1,
-        argv: [],
-        env: {
-          agent: 'true'
-        }
-      },
-      worker: {
-        order: 1,
-        argv: [],
-        scale: 'auto',
-        env: {}
-      },
-      background: {
-        order: 2,
-        scale: 1,
-        argv: [],
-        env: {
-          background: 'true'
-        }
-      }
-    }
-  },
+
   environment: DefaultEnvironment,
   configurator: DefaultConfigurator,
-  service: {
-    defaultCategory: 'all',
-    injection: {
-      'logger': {
-        entry: LoggerService,
-        config: (ctx) => {
-          return ctx.config.loggerService;
-        }
-      }
+
+  procfile (pandora: ProcfileReconcilerAccessor) {
+
+    const globalConfig = require('./universal/GlobalConfigProcessor')
+      .GlobalConfigProcessor.getInstance().getAllProperties();
+
+    pandora.defaultAppletCategory('worker');
+    pandora.defaultServiceCategory('weak-all');
+
+    pandora.environment(globalConfig.environment);
+    pandora.configurator(globalConfig.configurator);
+
+    pandora.process('agent')
+      .scale(1)
+      .env({agent: 'true'});
+
+    pandora.process('worker')
+      .scale('auto')
+      .env({worker: 'true'});
+
+    pandora.process('background')
+      .scale(1)
+      .env({background: 'true'});
+
+    pandora.service(LoggerService)
+      .name('logger')
+      .process('weak-all')
+      .config((ctx) => {
+        return ctx.config.loggerService;
+      });
+
+  },
+
+  logger: {
+    logsDir: join(homedir(), 'logs'),
+    appLogger: {
+      stdoutLevel: 'NONE',
+      level: 'INFO'
+    },
+    daemonLogger: {
+      stdoutLevel: 'ERROR',
+      level: 'INFO',
     }
   },
+
   actuatorServer: MetricsActuatorServer,
+
   actuator: {
     http: {
       enabled: true,
-      port: 8006,
+      port: 7002,
     },
 
     endPoints: {
@@ -105,6 +118,17 @@ export default {
         target: MetricsEndPoint,
         resource: MetricsResource
       }
+    },
+  },
+
+  hooks: {
+    eggLogger: {
+      enabled: true,
+      target: hooks.eggLogger,
+    },
+    urllib: {
+      enabled: true,
+      target: hooks.urllib
     },
   },
   reporter: {

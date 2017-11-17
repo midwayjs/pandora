@@ -11,32 +11,43 @@ export const consoleLogger = new ConsoleLogger({
 let daemonLogger = null;
 
 export function getDaemonLogger(): ILogger {
+
+  const {logger: loggerConfig} = lazyGetGlobalConfig();
+
   if (!daemonLogger) {
     const loggerManager = DefaultLoggerManager.getInstance();
     daemonLogger = loggerManager.createLogger('daemon', {
-      stdoutLevel: 'ERROR',
-      level: 'INFO',
-      dir: DefaultLoggerManager.getPandoraLogsDir()
+      ...loggerConfig.daemonLogger,
+      dir: join(loggerConfig.logsDir, 'pandorajs')
     });
   }
+
   return daemonLogger;
+
 }
 
 export function getDaemonStdoutLoggerPath() {
-  return join(DefaultLoggerManager.getPandoraLogsDir(), 'daemon_std.log');
+
+  const {logger: loggerConfig} = lazyGetGlobalConfig();
+
+  return join(loggerConfig.logsDir, 'pandorajs/daemon_std.log');
 }
 
 export function createAppLogger(appName, logName) {
+
+  const {logger: loggerConfig} = lazyGetGlobalConfig();
   const loggerManager = DefaultLoggerManager.getInstance();
+
   return loggerManager.createLogger(logName, {
-    stdoutLevel: 'NONE',
-    level: 'INFO',
-    dir: DefaultLoggerManager.getAppLogDir(appName)
+    ...loggerConfig.appLogger,
+    dir: join(loggerConfig.logsDir, appName)
   });
+
 }
 
 export function getAppLogPath(appName, logName) {
-  return join(DefaultLoggerManager.getAppLogDir(appName), logName + '.log');
+  const {logger: loggerConfig} = lazyGetGlobalConfig();
+  return join(loggerConfig.logsDir, appName, logName + '.log');
 }
 
 const eolReg = new RegExp(EOL + '$');
@@ -44,4 +55,13 @@ const eolReg = new RegExp(EOL + '$');
 export function removeEOL(str: string): string {
   eolReg.lastIndex = 0;
   return str.replace(eolReg, '');
+}
+
+/**
+ * Prevent cycle dependencies
+ * @return {any}
+ */
+function lazyGetGlobalConfig () {
+  const globalConfigProcessor = require('./GlobalConfigProcessor').GlobalConfigProcessor.getInstance();
+  return globalConfigProcessor.getAllProperties();
 }

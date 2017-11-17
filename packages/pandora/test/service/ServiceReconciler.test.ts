@@ -1,4 +1,3 @@
-import * as $ from 'pandora-dollar';
 import {ProcessRepresentation, Service, ServiceRepresentation} from '../../src/domain';
 import {WorkerContext} from '../../src/application/WorkerContext';
 import {ServiceReconciler} from '../../src/service/ServiceReconciler';
@@ -145,101 +144,6 @@ describe('ServiceReconciler', function () {
       expect(serviceReconciler.testGetService(sd.serviceName).state).equal('instanced');
       expect(stopCnt).equal(4);
       expect(serviceReconciler.getState()).equal('notBoot');
-    });
-
-  });
-
-  describe('agent/worker model', () => {
-    class TestServiceReconciler extends ServiceReconciler {
-      testGetService(name) {
-        return this.services.get(name);
-      }
-    }
-
-    const prAgent: ProcessRepresentation = {
-      appName: 'xxx',
-      appDir: 'aaa',
-      processName: 'agent',
-    };
-    const prWorker: ProcessRepresentation = {
-      appName: 'xxx',
-      appDir: 'aaa',
-      processName: 'worker',
-    };
-    const ctxAgent = new WorkerContext(prAgent);
-    const ctxWorker = new WorkerContext(prWorker);
-    const srAgent = new TestServiceReconciler(prAgent, ctxAgent);
-    const srWorker = new TestServiceReconciler(prWorker, ctxWorker);
-
-    const AgentWorkerTest1 = require('../fixtures/service/AgentWorkerTest1');
-    const agentWorkerTest1Representation = {
-      serviceEntry: AgentWorkerTest1,
-      serviceName: 'agentWorkerTest1',
-      category: 'all'
-    };
-
-    it('should receiveServiceRepresentation() be ok', () => {
-      srAgent.receiveServiceRepresentation(agentWorkerTest1Representation);
-      srWorker.receiveServiceRepresentation(agentWorkerTest1Representation);
-      expect(srAgent.testGetService(agentWorkerTest1Representation.serviceName).state).equal('noinstance');
-      expect(srWorker.testGetService(agentWorkerTest1Representation.serviceName).state).equal('noinstance');
-    });
-
-    it('should instantiate() be ok', () => {
-      srAgent.instantiate();
-      srWorker.instantiate();
-      expect(srAgent.testGetService(agentWorkerTest1Representation.serviceName).state).equal('instanced');
-      expect(srWorker.testGetService(agentWorkerTest1Representation.serviceName).state).equal('instanced');
-      expect(
-        srAgent.testGetService(agentWorkerTest1Representation.serviceName).serviceCoreInstance.constructor.name
-      ).equal('AgentServiceCore');
-      expect(
-        srWorker.testGetService(agentWorkerTest1Representation.serviceName).serviceCoreInstance.constructor.name
-      ).equal('ProxyServiceCore');
-    });
-
-    it('should start() be ok', async () => {
-      await srAgent.start();
-      await srWorker.start();
-      expect(
-        srAgent.testGetService(agentWorkerTest1Representation.serviceName).serviceInstance.constructor.name
-      ).equal('AgentWorkerTest1');
-      expect(
-        srWorker.testGetService(agentWorkerTest1Representation.serviceName).serviceInstance.constructor.name
-      ).equal('AgentWorkerTest1Proxy');
-    });
-
-    it('should invoke() be ok', async () => {
-      const serviceAtAgent: any = srAgent.get(agentWorkerTest1Representation.serviceName);
-      const serviceAtWorker: any = srWorker.get(agentWorkerTest1Representation.serviceName);
-      expect(await serviceAtAgent.abs(-55)).equal(55);
-      expect(await serviceAtWorker.abs(-32)).equal(32);
-    });
-
-    it('should subscribe / unsubscribe be ok', async () => {
-      const serviceAtAgent: any = srAgent.get(agentWorkerTest1Representation.serviceName);
-      const serviceAtWorker: any = srWorker.get(agentWorkerTest1Representation.serviceName);
-      let emited = false;
-
-      function fn(msg) {
-        if (msg.test1) {
-          emited = true;
-        }
-      };
-
-      await serviceAtWorker.subscribe('testEvName1', fn);
-      await $.promise.delay(100);
-      serviceAtAgent.emit('testEvName1', {test1: true});
-      await $.promise.delay(100);
-      expect(emited).to.be.ok;
-
-      emited = false;
-      await serviceAtWorker.unsubscribe('testEvName1', fn);
-      await $.promise.delay(100);
-      serviceAtAgent.emit('testEvName1', {test1: true});
-      await $.promise.delay(100);
-      expect(emited).to.be.not.ok;
-
     });
 
   });

@@ -9,7 +9,7 @@ export * from './const';
  */
 export * from './daemon/Daemon';
 export * from './daemon/DaemonHandler';
-export * from './daemon/Monitor';
+export * from './monitor/Monitor';
 export {DaemonBootstrap} from './daemon/DaemonBootstrap';
 
 /**
@@ -44,13 +44,9 @@ export {WorkerProcessBootstrap} from './application/WorkerProcessBootstrap';
 /**
  * Service
  */
-export * from './service/AgentServiceCore';
-export * from './service/ProxyServiceCore';
-export * from './service/ServiceCoreFactory';
 export * from './service/ServiceLogger';
 export * from './service/ServiceReconciler';
-export * from './service/SharedEventListenerStore';
-export * from './service/SimpleServiceCore';
+export * from './service/ServiceCore';
 
 /**
  * Universal

@@ -14,7 +14,7 @@ exports.handler = function () {
 
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
-      consoleLogger.info('Daemon is not running');
+      consoleLogger.info('Daemon has not running yet');
       process.exit(0);
       return;
     }
@@ -39,7 +39,7 @@ exports.handler = function () {
         tableData.push([
           app.name,
           app.mode,
-          app.appId,
+          app.pids.join(','),
           app.appDir,
           state,
         ]);

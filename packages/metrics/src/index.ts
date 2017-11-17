@@ -76,3 +76,14 @@ export * from './common/MetricFilter'
  */
 export * from './collect/CompactMetricsCollector';
 export * from './collect/NormalMetricsCollector';
+
+/**
+ * util
+ */
+export * from './util/MessengerSender';
+
+
+/**
+ * trace
+ */
+export * from './trace/TraceManager';
