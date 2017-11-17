@@ -84,8 +84,8 @@ export * from './collect/NormalMetricsCollector';
  */
 export * from './util/MessengerSender';
 
-
 /**
  * trace
  */
 export * from './trace/TraceManager';
+export * from './trace/Patcher';

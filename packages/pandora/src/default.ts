@@ -124,11 +124,11 @@ export default {
   hooks: {
     eggLogger: {
       enabled: true,
-      target: hooks.eggLogger,
+      target: hooks.EggLoggerPatcher,
     },
     urllib: {
       enabled: true,
-      target: hooks.urllib
+      target: hooks.UrllibPatcher
     },
   },
   reporter: {

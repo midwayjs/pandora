@@ -148,3 +148,13 @@ export interface ActuatorService {
   start();
   stop();
 }
+
+export interface IPatcher {
+  hook(version: string, reply: () => {});
+  getShimmer();
+  getHook();
+  getTraceManager();
+  getModuleName();
+  getSender();
+  run();
+}
