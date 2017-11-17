@@ -5,7 +5,6 @@ import {
   MetricName,
   MetricsConstants,
   V8GaugeSet,
-  MessengerSender,
   TraceIndicator,
   IPatcher
 } from 'pandora-metrics';
@@ -44,7 +43,6 @@ export class MonitorManager {
 
     // inject patch
 
-    let sender = new MessengerSender();
     let traceIndicator = new TraceIndicator();
     traceIndicator.initialize();
     /**
