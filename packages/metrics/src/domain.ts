@@ -158,3 +158,7 @@ export interface IPatcher {
   getSender();
   run();
 }
+
+export interface LoggerCollector {
+  collect(method, reply: (paload: LoggerOptions) => {}): void;
+}

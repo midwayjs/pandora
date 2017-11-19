@@ -1,26 +1,17 @@
 import {expect} from 'chai';
 import {ErrorEndPoint} from '../../../src/endpoint/impl/ErrorEndPoint';
-import EventEmitter = require('events');
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
 import {MetricsConstants} from '../../../src/MetricsConstants';
-
-class LoggerManager extends EventEmitter {
-}
-
+import {LoggerMessageCollector} from '../../../src/util/LoggerMessageCollector';
 
 describe('/test/unit/endpoint/ErrorEndPoint.test.ts', () => {
 
   let endpoint = new ErrorEndPoint();
   endpoint.initialize();
 
-  let loggerManager = new LoggerManager();
-  let indicator = new ErrorIndicator(loggerManager);
+  let loggerCollector = new LoggerMessageCollector();
+  let indicator = new ErrorIndicator(loggerCollector);
   indicator.initialize();
-
-  after(() => {
-    //endpoint.destory();
-    //indicator.destory();
-  });
 
   it('invoke empty Error endpoint', async () => {
     expect(endpoint.indicators.length).to.be.equal(1);
@@ -30,7 +21,7 @@ describe('/test/unit/endpoint/ErrorEndPoint.test.ts', () => {
 
   it('invoke Error endpoint with error', (done) => {
 
-    loggerManager.emit('message', {
+    loggerCollector.report({
       method: 'error',
       from: 'worker',
       errType: 'Error',
@@ -38,7 +29,7 @@ describe('/test/unit/endpoint/ErrorEndPoint.test.ts', () => {
       stack: ''
     });
 
-    loggerManager.emit('message', {
+    loggerCollector.report({
       method: 'info',
       from: 'worker',
       errType: 'Error',

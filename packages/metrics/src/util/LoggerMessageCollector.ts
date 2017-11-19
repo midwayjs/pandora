@@ -1,7 +1,8 @@
 import {MessengerSender} from './MessengerSender';
 import {MessageConstants} from '../MetricsConstants';
+import {LoggerCollector, LoggerOptions} from '../domain';
 
-export class LoggerMessageCollector extends MessengerSender {
+export class LoggerMessageCollector extends MessengerSender implements LoggerCollector {
 
   private collectMap = {};
 
@@ -19,8 +20,12 @@ export class LoggerMessageCollector extends MessengerSender {
     });
   }
 
-  collect(method, reply: (data) => {}) {
+  collect(method, reply: (payload: LoggerOptions) => {}) {
     this.collectMap[method] = reply;
+  }
+
+  report(payload) {
+    this.send(MessageConstants.LOGGER, payload);
   }
 
 }

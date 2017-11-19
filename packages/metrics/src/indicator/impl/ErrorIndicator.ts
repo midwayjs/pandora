@@ -2,8 +2,9 @@
  * 日志记录指标
  */
 
-import {IBuilder, IndicatorType, LoggerOptions} from '../../domain';
+import {IBuilder, IndicatorType, LoggerCollector, LoggerOptions} from '../../domain';
 import {DuplexIndicator} from '../DuplexIndicator';
+import {LoggerMessageCollector} from '../../util/LoggerMessageCollector';
 const util = require('util');
 
 function getDate() {
@@ -21,16 +22,16 @@ function getDate() {
 
 export class ErrorIndicator extends DuplexIndicator {
   group: string = 'error';
-  loggerMannager: any;
   type: IndicatorType = 'multiton';
+  collector: LoggerCollector;
 
-  constructor(loggerMannager) {
+  constructor(collector = new LoggerMessageCollector()) {
     super();
-    this.loggerMannager = loggerMannager;
+    this.collector = collector;
   }
 
   registerUplink() {
-    this.loggerMannager.on('message', (payload: LoggerOptions) => {
+    this.collector.collect('error', (payload: LoggerOptions) => {
       if('error' === payload.method) {
         this.report(Object.assign(payload, {
           date: getDate(),
