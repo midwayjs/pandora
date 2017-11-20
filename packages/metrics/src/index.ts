@@ -60,6 +60,7 @@ export * from './metrics/node/V8GaugeSet';
 export * from './rest/ErrorResource';
 export * from './rest/MetricsResource';
 export * from './rest/HealthResource';
+export * from './rest/TraceResource';
 
 /**
  * client

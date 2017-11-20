@@ -15,6 +15,7 @@ const {
   ErrorResource,
   MetricsResource,
   HealthResource,
+  TraceResource,
   FileMetricManagerReporter,
   MetricsActuatorServer
 } = require('pandora-metrics');
@@ -122,6 +123,7 @@ export default {
       trace: {
         enabled: true,
         target: TraceEndPoint,
+        resource: TraceResource,
         initConfig: {
           cacheSize: 1000,
           rate: 10
