@@ -20,7 +20,7 @@ export class LoggerMessageCollector extends MessengerSender implements LoggerCol
     });
   }
 
-  collect(method, reply: (payload: LoggerOptions) => {}) {
+  collect(method, reply: (payload: LoggerOptions) => void) {
     this.collectMap[method] = reply;
   }
 

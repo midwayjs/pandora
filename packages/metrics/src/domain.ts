@@ -160,5 +160,5 @@ export interface IPatcher {
 }
 
 export interface LoggerCollector {
-  collect(method, reply: (paload: LoggerOptions) => {}): void;
+  collect(method, reply: (paload: LoggerOptions) => void);
 }
