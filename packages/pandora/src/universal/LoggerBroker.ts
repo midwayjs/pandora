@@ -26,12 +26,17 @@ export function getDaemonLogger(): ILogger {
 
 }
 
-export function getDaemonStdoutLoggerPath() {
-
+export function getDaemonStdoutLogPath() {
   const {logger: loggerConfig} = lazyGetGlobalConfig();
-
   return join(loggerConfig.logsDir, 'pandorajs/daemon_std.log');
 }
+
+
+export function getDaemonLogPath() {
+  const {logger: loggerConfig} = lazyGetGlobalConfig();
+  return join(loggerConfig.logsDir, 'pandorajs/daemon.log');
+}
+
 
 export function createAppLogger(appName, logName) {
 
