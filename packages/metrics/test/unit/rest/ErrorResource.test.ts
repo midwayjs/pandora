@@ -6,7 +6,7 @@ import {expect} from 'chai';
 import {ErrorEndPoint} from '../../../src/endpoint/impl/ErrorEndPoint';
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
 import {ErrorResource} from '../../../src/rest/ErrorResource';
-import {LoggerMessageCollector} from '../../../src/util/LoggerMessageCollector';
+import {LoggerMessageCollector} from '../../../src/util/MessageCollector';
 
 describe('/test/unit/ErrorResource.test.ts', () => {
 

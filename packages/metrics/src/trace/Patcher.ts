@@ -2,7 +2,7 @@ import {IPatcher} from '../domain';
 const hookModule = require('module-hook');
 const shimmer = require('shimmer');
 import {TraceManager} from './TraceManager';
-import {MessengerSender} from '../util/MessengerSender';
+import {MessageSender} from '../util/MessageSender';
 const assert = require('assert');
 
 export class Patcher implements IPatcher {
@@ -41,7 +41,7 @@ export class Patcher implements IPatcher {
   }
 
   getSender() {
-    return new MessengerSender();
+    return new MessageSender();
   }
 
 }

@@ -4,7 +4,7 @@
 
 import {IBuilder, IndicatorType, LoggerCollector, LoggerOptions} from '../../domain';
 import {DuplexIndicator} from '../DuplexIndicator';
-import {LoggerMessageCollector} from '../../util/LoggerMessageCollector';
+import {LoggerMessageCollector} from '../../util/MessageCollector';
 const util = require('util');
 
 function getDate() {

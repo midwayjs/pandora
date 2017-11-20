@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
-import {LoggerMessageCollector} from '../../../src/util/LoggerMessageCollector';
+import {LoggerMessageCollector} from '../../../src/util/MessageCollector';
 
 let lastData;
 

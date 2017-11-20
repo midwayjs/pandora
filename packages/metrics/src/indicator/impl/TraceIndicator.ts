@@ -1,26 +1,18 @@
 import {IBuilder, IndicatorType} from '../../domain';
 import {TraceManager} from '../../trace/TraceManager';
-import {MessengerSender} from '../../util/MessengerSender';
-import {MessageConstants} from '../../MetricsConstants';
 import {DuplexIndicator} from '../DuplexIndicator';
-
-class TraceMessengerCollector extends MessengerSender {
-  collect(reply) {
-    this.on(MessageConstants.TRACE, reply);
-  }
-}
+import {TraceMessageCollector} from '../../util/MessageCollector';
 
 export class TraceIndicator extends DuplexIndicator {
 
   group: string = 'trace';
   type: IndicatorType = 'multiton';
   private traceManager = TraceManager.getInstance();
-  collector;
+  private collector;
 
-  constructor() {
+  constructor(collector = new TraceMessageCollector()) {
     super();
-    this.collector = new TraceMessengerCollector();
-    this.collector.on();
+    this.collector = collector;
   }
 
   async invoke(data: any, builder: IBuilder) {
@@ -30,7 +22,6 @@ export class TraceIndicator extends DuplexIndicator {
   registerUplink() {
     this.collector.collect(data => {
       this.report(Object.assign(data, {
-        date: Date.now(),
         appName: this.getAppName()
       }));
     });

@@ -1,4 +1,4 @@
-export class MessengerSender {
+export class MessageSender {
 
   static MESSAGE_KEY_PREFIX = 'PANDORA_PROCESS_MESSAGE_';
 
@@ -13,10 +13,10 @@ export class MessengerSender {
    * @param args
    */
   send(categoryKey, args: any) {
-    this.client.emit(`${MessengerSender.MESSAGE_KEY_PREFIX}${categoryKey}`, args);
+    this.client.emit(`${MessageSender.MESSAGE_KEY_PREFIX}${categoryKey}`, args);
   }
 
   on(categoryKey, reply) {
-    this.client.on(`${MessengerSender.MESSAGE_KEY_PREFIX}${categoryKey}`, reply);
+    this.client.on(`${MessageSender.MESSAGE_KEY_PREFIX}${categoryKey}`, reply);
   }
 }
