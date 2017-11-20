@@ -8,7 +8,6 @@ import {
   TraceIndicator,
   IPatcher
 } from 'pandora-metrics';
-import {DefaultLoggerManager} from 'pandora-service-logger';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_APPLICATION} from '../const';
@@ -67,10 +66,9 @@ export class MonitorManager {
     }
 
     // init indicators
-    const loggerManager = DefaultLoggerManager.getInstance();
     [
       new ProcessIndicator(),
-      new ErrorIndicator(loggerManager),
+      new ErrorIndicator(),
     ].forEach((ins) => {
       ins.initialize();
     });
