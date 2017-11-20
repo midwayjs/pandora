@@ -10,6 +10,7 @@ export * from './MetricsServerManager';
  */
 export * from './endpoint/EndPoint';
 export * from './endpoint/DuplexEndPoint';
+export * from './endpoint/CacheDuplexEndPoint';
 export * from './endpoint/impl/ErrorEndPoint';
 export * from './endpoint/impl/HealthEndPoint';
 export * from './endpoint/impl/InfoEndPoint';

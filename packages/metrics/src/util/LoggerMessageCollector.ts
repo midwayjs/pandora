@@ -8,10 +8,7 @@ export class LoggerMessageCollector extends MessengerSender implements LoggerCol
 
   constructor() {
     super();
-    this.on(MessageConstants.LOGGER, (data: {
-      method,
-      args
-    }) => {
+    this.on(MessageConstants.LOGGER, (data: LoggerOptions) => {
       for (let method in this.collectMap) {
         if (data.method === method) {
           this.collectMap[method].call(this, data);

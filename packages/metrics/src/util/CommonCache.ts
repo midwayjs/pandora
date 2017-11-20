@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events';
 const defaultCapacity = 100;
 
-export class LogCache extends EventEmitter {
+export class CommonCache extends EventEmitter {
 
   private innerCache = [];
 

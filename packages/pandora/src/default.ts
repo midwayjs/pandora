@@ -11,6 +11,7 @@ const {
   ProcessEndPoint,
   RuntimeEndPoint,
   MetricsEndPoint,
+  TraceEndPoint,
   ErrorResource,
   MetricsResource,
   HealthResource,
@@ -83,7 +84,7 @@ export default {
         target: ErrorEndPoint,
         resource: ErrorResource,
         initConfig: {
-          maxErrorCount: 100
+          cacheSize: 100
         }
       },
       health: {
@@ -117,6 +118,14 @@ export default {
         enabled: true,
         target: MetricsEndPoint,
         resource: MetricsResource
+      },
+      trace: {
+        enabled: true,
+        target: TraceEndPoint,
+        initConfig: {
+          cacheSize: 1000,
+          rate: 10
+        }
       }
     },
   },
