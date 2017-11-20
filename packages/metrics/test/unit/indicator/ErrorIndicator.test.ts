@@ -1,11 +1,8 @@
 import {expect} from 'chai';
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
-import EventEmitter = require('events');
+import {LoggerMessageCollector} from '../../../src/util/LoggerMessageCollector';
 
 let lastData;
-
-class LoggerManager extends EventEmitter {
-}
 
 class MyErrorIndicator extends ErrorIndicator {
   report(data) {
@@ -16,8 +13,8 @@ class MyErrorIndicator extends ErrorIndicator {
 
 describe('/test/unit/indicator/ErrorIndicator.test.ts', () => {
 
-  let loggerManager = new LoggerManager();
-  let indicator = new MyErrorIndicator(loggerManager);
+  let loggerCollector = new LoggerMessageCollector();
+  let indicator = new MyErrorIndicator(loggerCollector);
 
   it('instance of correct', () => {
     expect(indicator).to.be.instanceOf(ErrorIndicator);
@@ -27,7 +24,7 @@ describe('/test/unit/indicator/ErrorIndicator.test.ts', () => {
 
     indicator.initialize();
 
-    loggerManager.emit('message', {
+    loggerCollector.report({
       method: 'error',
       from: 'worker',
       errType: 'Error',

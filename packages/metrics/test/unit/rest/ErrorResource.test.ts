@@ -1,14 +1,12 @@
 import {ActuatorRestService} from '../../../src/service/ActuatorRestService';
 import {EndPointService} from '../../../src/service/EndPointService';
+
 const request = require('supertest');
 import {expect} from 'chai';
 import {ErrorEndPoint} from '../../../src/endpoint/impl/ErrorEndPoint';
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
-import EventEmitter = require('events');
 import {ErrorResource} from '../../../src/rest/ErrorResource';
-
-class LoggerManager extends EventEmitter {
-}
+import {LoggerMessageCollector} from '../../../src/util/LoggerMessageCollector';
 
 describe('/test/unit/ErrorResource.test.ts', () => {
 
@@ -18,14 +16,14 @@ describe('/test/unit/ErrorResource.test.ts', () => {
   ]);
 
   endPointService.start();
-  let loggerManager = new LoggerManager();
+  let loggerCollector = new LoggerMessageCollector();
 
   it('query error http api from error resource', (done) => {
 
-    let indicator = new ErrorIndicator(loggerManager);
+    let indicator = new ErrorIndicator(loggerCollector);
     indicator.initialize();
 
-    loggerManager.emit('message', {
+    loggerCollector.report({
       method: 'error',
       from: 'worker',
       errType: 'Error',
@@ -33,7 +31,7 @@ describe('/test/unit/ErrorResource.test.ts', () => {
       stack: ''
     });
 
-    loggerManager.emit('message', {
+    loggerCollector.report({
       method: 'info',
       from: 'worker',
       errType: 'Error',

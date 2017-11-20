@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {CommonCache} from '../../../src/util/LogCache';
+import {CommonCache} from '../../../src/util/CommonCache';
 
 describe('/test/unit/util/CommonCache.test.ts', () => {
   it('test CommonCache init without capacity', () => {

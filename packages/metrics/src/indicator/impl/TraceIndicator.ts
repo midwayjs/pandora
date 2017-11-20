@@ -30,7 +30,7 @@ export class TraceIndicator extends DuplexIndicator {
   registerUplink() {
     this.collector.collect(data => {
       this.report(Object.assign(data, {
-        date: getDate(),
+        date: Date.now(),
         appName: this.getAppName()
       }));
     });
