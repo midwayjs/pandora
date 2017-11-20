@@ -9,6 +9,14 @@ export class TraceManager {
   traceContainer = {};
   ns = cls.createNamespace('pandora_tracer');
   finished = {};
+  private static instance;
+
+  static getInstance() {
+    if(!this.instance) {
+      this.instance = new TraceManager();
+    }
+    return this.instance;
+  }
 
   constructor() {
     const contexts = this.ns._contexts;
@@ -53,6 +61,7 @@ export class TraceManager {
     options.traceId = options.traceId || uuid();
     const traceId = options.traceId;
     this.ns.set(TRACEID, traceId);
+    options.ns = this.ns;
     const tracer = new Tracer(options);
     this.traceContainer[traceId] = tracer;
     (<any>tracer).once('finish', () => {

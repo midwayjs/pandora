@@ -11,9 +11,11 @@ const {
   ProcessEndPoint,
   RuntimeEndPoint,
   MetricsEndPoint,
+  TraceEndPoint,
   ErrorResource,
   MetricsResource,
   HealthResource,
+  TraceResource,
   FileMetricManagerReporter,
   MetricsActuatorServer
 } = require('pandora-metrics');
@@ -83,7 +85,7 @@ export default {
         target: ErrorEndPoint,
         resource: ErrorResource,
         initConfig: {
-          maxErrorCount: 100
+          cacheSize: 100
         }
       },
       health: {
@@ -117,6 +119,15 @@ export default {
         enabled: true,
         target: MetricsEndPoint,
         resource: MetricsResource
+      },
+      trace: {
+        enabled: true,
+        target: TraceEndPoint,
+        resource: TraceResource,
+        initConfig: {
+          cacheSize: 1000,
+          rate: 10
+        }
       }
     },
   },
@@ -124,11 +135,11 @@ export default {
   hooks: {
     eggLogger: {
       enabled: true,
-      target: hooks.eggLogger,
+      target: hooks.EggLoggerPatcher,
     },
     urllib: {
       enabled: true,
-      target: hooks.urllib
+      target: hooks.UrllibPatcher
     },
   },
   reporter: {

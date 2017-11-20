@@ -5,16 +5,11 @@ import {
   MetricName,
   MetricsConstants,
   V8GaugeSet,
-  MessengerSender,
-  TraceManager
+  TraceIndicator,
+  IPatcher
 } from 'pandora-metrics';
-import {DefaultLoggerManager} from 'pandora-service-logger';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
-
-const hook = require('module-hook');
-const shimmer = require('shimmer');
-import {resolve} from 'path';
 import {PANDORA_APPLICATION} from '../const';
 import {ProcessRepresentation} from '../domain';
 
@@ -47,7 +42,8 @@ export class MonitorManager {
 
     // inject patch
 
-    let sender = new MessengerSender();
+    let traceIndicator = new TraceIndicator();
+    traceIndicator.initialize();
     /**
      * hooks: {
      *   logger: Hooks.logger
@@ -56,13 +52,9 @@ export class MonitorManager {
     for (const hookName in hooks) {
       if (hooks[hookName] && hooks[hookName].enabled) {
         try {
-          let module = hooks[hookName].target;
-          const m = typeof module === 'string' ? require(resolve(module)) : module;
-          if(hooks[hookName]['initConfig']) {
-            m(hooks[hookName]['initConfig'])({hook, shimmer, tracer: new TraceManager(), sender});
-          } else {
-            m({hook, shimmer, tracer: new TraceManager(), sender});
-          }
+          let PatcherCls = hooks[hookName].target;
+          let patcher: IPatcher = new PatcherCls(hooks[hookName]['initConfig']);
+          patcher.run();
           console.log(`${hookName} hook enabled`);
         } catch (err) {
           console.log(err);
@@ -74,10 +66,9 @@ export class MonitorManager {
     }
 
     // init indicators
-    const loggerManager = DefaultLoggerManager.getInstance();
     [
       new ProcessIndicator(),
-      new ErrorIndicator(loggerManager),
+      new ErrorIndicator(),
     ].forEach((ins) => {
       ins.initialize();
     });

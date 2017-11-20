@@ -148,3 +148,41 @@ export interface ActuatorService {
   start();
   stop();
 }
+
+export interface IPatcher {
+  hook(version: string, reply: () => {});
+  getShimmer();
+  getHook();
+  getTraceManager();
+  getModuleName();
+  getSender();
+  run();
+}
+
+export interface LoggerCollector {
+  collect(method, reply: (paload: LoggerOptions) => void);
+}
+
+export interface SpanData {
+  traceId: string;
+  spanId: string;
+  operationName: string;
+  references: Array<{
+    refType: string;
+    traceId: string;
+    spanId: string;
+  }>;
+  flags: number;
+  startTime: number;
+  duration: number;
+  tags: Array<{
+    key: string;
+    type: string;
+    value: any;
+  }>;
+}
+
+export interface TraceData {
+  traceId: string;
+  spans: Array<SpanData>;
+}
