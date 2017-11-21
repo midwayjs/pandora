@@ -55,13 +55,12 @@ export class MonitorManager {
           let PatcherCls = hooks[hookName].target;
           let patcher: IPatcher = new PatcherCls(hooks[hookName]['initConfig']);
           patcher.run();
-          console.log(`${hookName} hook enabled`);
+          console.log(`Patcher(${process.pid}): ${hookName} hook enabled`);
         } catch (err) {
-          console.log(err);
-          console.log(`enable ${hookName} hook went wrong`);
+          console.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
         }
       } else {
-        console.log(`${hookName} hook disabled`);
+        console.log(`Patcher(${process.pid}): ${hookName} hook disabled`);
       }
     }
 
