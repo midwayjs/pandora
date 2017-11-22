@@ -24,6 +24,7 @@ yargs
   .command(require('../cli/reload'))
   .command(require('../cli/log'))
   .command(require('../cli/pid'))
+  .command(require('../cli/ps'))
   .command(require('../cli/list'))
   .command(require('../cli/dev'))
   .command(require('../cli/exit'))

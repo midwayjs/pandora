@@ -10,7 +10,7 @@ exports.handler = function(argv) {
 
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
-      consoleLogger.info('Daemon has not running yet');
+      consoleLogger.info('Daemon is not running yet');
       process.exit(0);
       return;
     }

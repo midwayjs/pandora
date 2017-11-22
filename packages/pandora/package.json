@@ -43,6 +43,8 @@
     "pandora-messenger": "^0.1.29",
     "pandora-metrics": "^0.1.29",
     "pandora-service-logger": "^0.1.29",
+    "ps-node": "^0.1.6",
+    "ps-tree": "^1.1.0",
     "read-last-lines": "^1.2.0",
     "sdk-base": "^2.0.1",
     "shimmer": "^1.1.0",
@@ -50,6 +52,7 @@
     "spawn-wrap": "^1.4.0",
     "table": "^4.0.1",
     "tail": "^1.2.3",
+    "treeify": "^1.0.1",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
