@@ -2,6 +2,9 @@ import {Proxiable} from './domain';
 import {MetricsConstants} from '../MetricsConstants';
 import {MetricName} from '../common/MetricName';
 
+/**
+ * @deprecated
+ */
 export class MetricsProcessChannel {
 
   static instance;

@@ -17,7 +17,8 @@ const {
   HealthResource,
   TraceResource,
   FileMetricManagerReporter,
-  MetricsActuatorServer
+  MetricsActuatorServer,
+  MetricsClient,
 } = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
 const hooks = require('pandora-hook');
@@ -72,6 +73,7 @@ export default {
   },
 
   actuatorServer: MetricsActuatorServer,
+  MetricsClient: MetricsClient,
 
   actuator: {
     http: {

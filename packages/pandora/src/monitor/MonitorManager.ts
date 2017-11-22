@@ -1,7 +1,7 @@
 import {
   ProcessIndicator,
   ErrorIndicator,
-  MetricsClient,
+  MetricsClientUtil,
   MetricName,
   MetricsConstants,
   V8GaugeSet,
@@ -20,6 +20,12 @@ export class MonitorManager {
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
     const hooks = globalConfig['hooks'];
+    // init metrics client
+    let ClientCls = globalConfig['MetricsClient'];
+    let client = ClientCls.getInstance();
+    MetricsClientUtil.setMetricsClient(client);
+    // support old version
+    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
 
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
@@ -73,8 +79,6 @@ export class MonitorManager {
     });
 
     // init metrics
-    let client = MetricsClient.getInstance();
-    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
     client.register('node', MetricName.build('node.v8').tagged({
       pid: process.pid
     }), new V8GaugeSet());
