@@ -20,12 +20,6 @@ export class MonitorManager {
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
     const hooks = globalConfig['hooks'];
-    // init metrics client
-    let ClientCls = globalConfig['metricsClient'];
-    let client = ClientCls.getInstance();
-    MetricsClientUtil.setMetricsClient(client);
-    // support old version
-    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
 
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
@@ -45,6 +39,13 @@ export class MonitorManager {
         processName: processRepresentation.processName
       }));
     }
+
+    // init metrics client
+    let ClientCls = globalConfig['metricsClient'];
+    let client = ClientCls.getInstance();
+    MetricsClientUtil.setMetricsClient(client);
+    // support old version
+    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
 
     // inject patch
 
