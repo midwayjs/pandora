@@ -1,9 +1,8 @@
 {
-  "name": "pandora-metrics",
+  "name": "pandora-hook",
   "version": "0.1.29",
-  "description": "applicatoin metrics",
+  "description": "pandora module hook",
   "main": "dist/index",
-  "typings": "src/index",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -11,48 +10,36 @@
     "test": "npm run lint && TS_NODE_CACHE=true mocha -t 100000",
     "cov": "TS_NODE_CACHE=true nyc mocha -t 100000",
     "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/metrics src/"
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/hook src/"
   },
   "keywords": [
     "pandora",
-    "metrics"
+    "hook"
   ],
   "repository": {
     "type": "git",
     "url": "git://github.com/midwayjs/pandora.git"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/chai": "^3.5.2",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^6.0.85",
-    "chai": "^3.5.0",
-    "mm": "^2.1.0",
-    "mocha": "^3.5.0",
-    "node-df": "^0.1.1",
-    "nyc": "^11.2.1",
-    "supertest": "^3.0.0",
-    "yargs": "^6.6.0"
-  },
   "dependencies": {
-    "cls-hooked": "^4.2.2",
-    "cron-parser": "^2.4.1",
-    "debug": "^2.6.8",
-    "extend": "^3.0.1",
-    "koa": "^2.3.0",
-    "koa-router": "^7.2.1",
-    "module-hook": "^1.0.0",
-    "node-df": "^0.1.1",
-    "opentracing": "^0.14.1",
-    "pandora-env": "^0.1.29",
-    "pandora-messenger": "^0.1.29",
-    "pandora-service-logger": "^0.1.29",
-    "pidusage": "^1.1.6",
-    "shimmer": "^1.1.0",
-    "super-event-emitter": "^4.1.4",
-    "urllib": "^2.24.0",
-    "uuid": "^3.1.0"
+    "cls-bluebird": "^2.0.1",
+    "pandora-metrics": "^0.1.29",
+    "xorshift": "^1.1.1"
   },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "0.0.2",
+    "bluebird": "^3.5.1",
+    "egg-logger": "^1.6.0",
+    "globby": "^6.1.0",
+    "mocha": "^4.0.1",
+    "module-hook": "^1.0.0",
+    "nyc": "^11.3.0",
+    "pedding": "^1.1.0",
+    "shimmer": "^1.1.0",
+    "urllib": "^2.25.1"
+  },
+  "license": "MIT",
   "nyc": {
     "include": [
       "src/*.ts",
@@ -60,7 +47,8 @@
     ],
     "exclude": [
       "typings",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "src/index.ts"
     ],
     "extension": [
       ".ts"

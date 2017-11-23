@@ -38,7 +38,7 @@
     "moment": "^2.18.1",
     "pandora-dollar": "^0.1.29",
     "pandora-env": "^0.1.29",
-    "pandora-hook": "^1.2.0",
+    "pandora-hook": "^0.1.29",
     "pandora-hub": "^0.1.29",
     "pandora-messenger": "^0.1.29",
     "pandora-metrics": "^0.1.29",
