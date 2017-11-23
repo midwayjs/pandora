@@ -4,10 +4,14 @@ const childProcess = require('child_process');
 const fork = function(name, done) {
   const filePath = require.resolve(path.join(__dirname, `fixtures/${name}`));
   const worker = childProcess.fork(filePath, {
-    env: Object.assign(process.env, {
+    env: {
+      ...process.env,
       NODE_ENV: 'test',
-    }),
-    execArgv: ['-r', path.join(__dirname, 'TestHelper.ts')]
+    },
+    execArgv: [
+      '-r', 'ts-node/register',
+      '-r', 'nyc-ts-patch'
+    ]
   });
   worker.on('message', (data) => {
     if (data === 'done') {

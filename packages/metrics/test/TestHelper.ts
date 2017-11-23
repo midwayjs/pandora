@@ -8,4 +8,3 @@ EnvironmentUtil.getInstance().setCurrentEnvironment(new MockEnvironment());
 
 // install sinon-chai
 // require('chai').use(require('sinon-chai'));
-

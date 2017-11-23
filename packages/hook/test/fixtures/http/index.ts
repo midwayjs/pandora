@@ -1,9 +1,10 @@
 'use strict';
+import {RunUtil} from '../../RunUtil';
 const assert = require('assert');
-const HttpPatcher = require('../../../src/patch/http');
+const {HttpPatcher} = require('../../../src/patch/http');
 const httpPatcher = new HttpPatcher();
 
-run(function(done) {
+RunUtil.run(function(done) {
   httpPatcher.run();
   const http = require('http');
   const urllib = require('urllib');

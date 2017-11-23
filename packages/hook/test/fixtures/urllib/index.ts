@@ -1,9 +1,10 @@
 'use strict';
+import {RunUtil} from '../../RunUtil';
 const assert = require('assert');
-const UrllibPatcher = require('../../../src/patch/urllib');
+const {UrllibPatcher} = require('../../../src/patch/urllib');
 const urllibPatcher = new UrllibPatcher();
 
-run(function(done) {
+RunUtil.run(function(done) {
   urllibPatcher.run();
 
   const urllib = require('urllib');

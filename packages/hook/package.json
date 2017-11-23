@@ -3,6 +3,7 @@
   "version": "0.1.29",
   "description": "pandora module hook",
   "main": "dist/index",
+  "typings": "src/index",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -26,9 +27,9 @@
     "xorshift": "^1.1.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.4",
+    "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
-    "@types/node": "0.0.2",
+    "@types/node": "^6.0.85",
     "bluebird": "^3.5.1",
     "egg-logger": "^1.6.0",
     "globby": "^6.1.0",
@@ -47,8 +48,7 @@
     ],
     "exclude": [
       "typings",
-      "**/*.d.ts",
-      "src/index.ts"
+      "**/*.d.ts"
     ],
     "extension": [
       ".ts"
