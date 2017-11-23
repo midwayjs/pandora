@@ -1,5 +1,5 @@
 'use strict';
-const http = require('packages/hook/src/patch/http');
+const http = require('http');
 import {Patcher, MessageConstants} from 'pandora-metrics';
 import {generateTraceId} from '../utils/trace';
 

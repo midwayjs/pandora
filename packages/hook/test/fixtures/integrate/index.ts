@@ -1,17 +1,14 @@
 'use strict';
-
+import {RunUtil} from '../../RunUtil';
 const assert = require('assert');
-const EggLoggerPatcher = require('../../../src/patch/egg-logger');
-const HttpPatcher = require('../../../src/patch/http');
-const UrllibPatcher = require('../../../src/patch/urllib');
-const BluebirdPatcher = require('../../../src/patch/bluebird');
+const {EggLoggerPatcher, HttpPatcher, UrllibPatcher, BluebirdPatcher} = require('../../../src/index');
 const eggLoggerPatcher = new EggLoggerPatcher();
 const httpPatcher = new HttpPatcher();
 const urllibPatcher = new UrllibPatcher();
 const bluebirdPatcher = new BluebirdPatcher();
 const pedding = require('pedding');
 
-run(function(done) {
+RunUtil.run(function(done) {
   eggLoggerPatcher.run();
   httpPatcher.run();
   urllibPatcher.run();

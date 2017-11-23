@@ -1,10 +1,11 @@
 'use strict';
 const assert = require('assert');
-const BluebirdPatcher = require('../../../src/patch/bluebird');
+const {BluebirdPatcher} = require('../../../src/patch/bluebird');
 const bluebirdPatcher = new BluebirdPatcher();
 const TraceManager = require('pandora-metrics').TraceManager;
+import {RunUtil} from '../../RunUtil';
 
-run(function(done) {
+RunUtil.run(function(done) {
   bluebirdPatcher.run();
 
   const Promise = require('bluebird');
@@ -16,7 +17,7 @@ run(function(done) {
       traceId: '123456'
     });
 
-    const parent = tracer.startSpan('parent');
+    tracer.startSpan('parent');
 
     new Promise(function(resolve, reject) {
       const ct = traceManager.getCurrentTracer();
