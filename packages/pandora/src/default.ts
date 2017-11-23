@@ -73,7 +73,7 @@ export default {
   },
 
   actuatorServer: MetricsActuatorServer,
-  MetricsClient: MetricsClient,
+  metricsClient: MetricsClient,
 
   actuator: {
     http: {

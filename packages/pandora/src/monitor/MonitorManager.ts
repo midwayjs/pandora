@@ -21,7 +21,7 @@ export class MonitorManager {
     const globalConfig = globalConfigProcessor.getAllProperties();
     const hooks = globalConfig['hooks'];
     // init metrics client
-    let ClientCls = globalConfig['MetricsClient'];
+    let ClientCls = globalConfig['metricsClient'];
     let client = ClientCls.getInstance();
     MetricsClientUtil.setMetricsClient(client);
     // support old version
