@@ -4,11 +4,14 @@ const shimmer = require('shimmer');
 import {TraceManager} from './TraceManager';
 import {MessageSender} from '../util/MessageSender';
 const assert = require('assert');
+import {EnvironmentUtil} from 'pandora-env';
 
 export class Patcher implements IPatcher {
 
   hookStore = {};
   options;
+  env = EnvironmentUtil.getInstance().getCurrentEnvironment();
+  appName = this.getAppName();
 
   constructor(options = {}) {
     this.options = options;
@@ -42,6 +45,10 @@ export class Patcher implements IPatcher {
 
   getSender() {
     return new MessageSender();
+  }
+
+  getAppName() {
+    return this.env.get('appName');
   }
 
 }
