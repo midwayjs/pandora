@@ -54,7 +54,7 @@ const transformKeys = async tree => {
 };
 
 exports.command = 'ps';
-exports.desc = 'Get a tree composed of ';
+exports.desc = 'Get a tree composed of currently running apps';
 exports.handler = argv => {
   console.log('Gathering process tree information...');
   isDaemonRunning().then(isRunning => {
@@ -72,8 +72,9 @@ exports.handler = argv => {
           return;
         }
 
-        let ps = {};
         for (const app of data) {
+          let ps = {};
+          debug(`app.pids : ${app.pids}`)
           for (const pid of app.pids) {
             const children = await pstree(pid);
             if (children.length) {
@@ -83,9 +84,10 @@ exports.handler = argv => {
             }
             ps = await transformKeys(ps);
           }
+          ps = {[app.name]: ps};
+          const tree = treeify.asTree(ps, true);
+          console.log(tree);
         }
-        const tree = treeify.asTree(ps, true);
-        console.log(tree);
         process.exit(0);
       })(data).catch(err => {
         console.error(err);
