@@ -1,2 +1,3 @@
 --compilers ts:ts-node/register
+--require ./test/TestHelper.ts
 test/**/*.test.ts
