@@ -1,14 +1,16 @@
+[![GitHub tag](https://img.shields.io/github/tag/midwayjs/pandora.svg)]()
 [![Build Status](https://travis-ci.org/midwayjs/pandora.svg?branch=develop)](https://travis-ci.org/midwayjs/pandora)
 [![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora.svg?style=flat-square)](https://codecov.io/gh/midwayjs/pandora)
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
 Document: [https://midwayjs.gitbooks.io/pandora/content/zh-cn/](https://midwayjs.gitbooks.io/pandora/content/zh-cn/)
 
 ## Installation
 
-Please use tag `beta` before we release!
+Please use tag `next` before we release!
 
 ```bash
-$ npm install pandora@beta --save
+$ npm install pandora@next --save
 ```
 
 Node.js >= 6.0.0 required.
