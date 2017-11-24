@@ -21,7 +21,8 @@ RunUtil.run(function(done) {
 
     new Promise(function(resolve, reject) {
       const ct = traceManager.getCurrentTracer();
-      ct.startSpan('inPromise');
+      const span = ct.startSpan('inPromise');
+      ct.setCurrentSpan(span);
       assert(ct.spans.length === 2);
 
       resolve(Math.floor(Math.random() * 10));

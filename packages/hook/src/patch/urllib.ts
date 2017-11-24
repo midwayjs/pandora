@@ -25,6 +25,7 @@ export class UrllibPatcher extends Patcher {
 
           return request.call(this, url, args, (err, data, res) => {
             if (span) {
+              tracer.setCurrentSpan(span);
               span.setTag('error', err);
               span.setTag('response', res);
               span.finish();

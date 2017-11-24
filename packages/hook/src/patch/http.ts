@@ -25,7 +25,7 @@ export class HttpPatcher extends Patcher {
             });
 
             const span = self.createSpan(tracer, req);
-
+            tracer.setCurrentSpan(span);
             res.once('finish', () => {
               span.finish();
               tracer.finish();
