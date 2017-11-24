@@ -38,15 +38,19 @@ export class Tracer extends OpenTrancer {
 
     // Capture the stack at the time the span started
     span.startStack = new Error().stack;
-    if (this.namespace) {
-      this.namespace.set(CURRENT_SPAN, span);
-    }
+
     return span;
   }
 
   getCurrentSpan() {
     if (this.namespace) {
       return this.namespace.get(CURRENT_SPAN);
+    }
+  }
+
+  setCurrentSpan(span) {
+    if (this.namespace) {
+      return this.namespace.set(CURRENT_SPAN, span);
     }
   }
 
