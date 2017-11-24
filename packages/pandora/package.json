@@ -36,6 +36,7 @@
     "mkdirp": "^0.5.1",
     "module-hook": "^1.0.0",
     "moment": "^2.18.1",
+    "mz": "^2.7.0",
     "pandora-dollar": "^0.1.29",
     "pandora-env": "^0.1.29",
     "pandora-hook": "^1.2.0",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
+    "@types/mz": "^0.0.32",
     "@types/node": "0.0.2",
     "chai": "^3.5.0",
     "mm": "^2.1.0",

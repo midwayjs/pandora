@@ -2,6 +2,8 @@ import {ProcfileReconciler} from '../../src/application/ProcfileReconciler';
 import {join} from 'path';
 import {expect} from 'chai';
 import {Service} from '../../src/domain';
+import {tmpdir} from 'os';
+import {readFileSync, unlinkSync} from 'fs';
 
 const pathProjectSimple1 = join(__dirname, '../fixtures/project/simple_1');
 
@@ -263,10 +265,15 @@ describe('ProcfileReconciler', function () {
 
     it('should echoComplex() be ok', () => {
 
+      const tmpFile = join(tmpdir(), 'ProcfileReconciler.test.' + Date.now());
       ProcfileReconciler.echoComplex({
         appName: 'test',
         appDir: pathProjectSimple1
-      });
+      }, tmpFile);
+      const content = readFileSync(tmpFile).toString();
+      unlinkSync(tmpFile);
+      const rp = JSON.parse(content);
+      expect(rp).to.be.ok;
 
     });
 
