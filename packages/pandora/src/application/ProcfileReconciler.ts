@@ -8,11 +8,14 @@ import {
 } from '../domain';
 import assert = require('assert');
 import {join, dirname, basename, extname} from 'path';
-import {existsSync} from 'fs';
+import {existsSync, writeFileSync} from 'fs';
 import {PROCFILE_NAMES} from '../const';
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ProcfileReconcilerAccessor} from './ProcfileReconcilerAccessor';
 import {exec} from 'child_process';
+import {tmpdir} from 'os';
+import uuid = require('uuid');
+import mzFs = require('mz/fs');
 
 const foundAll = Symbol();
 
@@ -488,32 +491,37 @@ export class ProcfileReconciler {
     return { mount };
   }
 
-  public static echoComplex(appRepresentation: ApplicationRepresentation) {
+  public static echoComplex(appRepresentation: ApplicationRepresentation, writeTo: string) {
     const procfileReconciler = new ProcfileReconciler(appRepresentation);
     procfileReconciler.discover();
     const complex = procfileReconciler.getComplexApplicationStructureRepresentation();
-    // PLS Keep console.log below, it is useful
-    console.log(JSON.stringify(complex, null, 2));
+    writeFileSync(writeTo, JSON.stringify(complex));
   }
 
   public static async getComplexViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ComplexApplicationStructureRepresentation> {
 
+    const tmpFile = join(tmpdir(), uuid.v4());
+    const isTs = /\.ts$/.test(__filename);
 
-    return <Promise<ComplexApplicationStructureRepresentation>> new Promise((resolve, reject) => {
-      exec(`${process.execPath} ${/\.ts$/.test(__filename) ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoComplex(${JSON.stringify(appRepresentation)})'`,
-        (error, stdout) => {
+    await new Promise((resolve, reject) => {
+      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoComplex(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)})'`,
+        (error) => {
           if(error) {
             reject(error);
             return;
           }
-          try {
-            const complex: ComplexApplicationStructureRepresentation = JSON.parse(stdout.toString());
-            resolve(complex);
-          } catch (err) {
-            reject(err);
-          }
+          resolve();
         });
     });
+
+    const fileBuffer = await mzFs.readFile(tmpFile);
+    await mzFs.unlink(tmpFile);
+
+    const fileContent = fileBuffer.toString();
+    const complex: ComplexApplicationStructureRepresentation = JSON.parse(fileContent);
+
+    return complex;
+
   }
 
 }
