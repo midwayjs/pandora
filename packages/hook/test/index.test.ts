@@ -10,7 +10,8 @@ const fork = function(name, done) {
     },
     execArgv: [
       '-r', 'ts-node/register',
-      '-r', 'nyc-ts-patch'
+      '-r', 'nyc-ts-patch',
+      '-r', path.join(__dirname, './TestHelper.ts')
     ]
   });
   worker.on('message', (data) => {
