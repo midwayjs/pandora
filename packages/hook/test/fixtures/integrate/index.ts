@@ -25,9 +25,9 @@ RunUtil.run(function(done) {
 
   process.on('PANDORA_PROCESS_MESSAGE_TRACE', tracer => {
     assert(tracer.spans.length === 3);
-    const parent = tracer.spans[0].context();
-    const child = tracer.spans[1].context();
-    const last = tracer.spans[2].context();
+    const parent = tracer.spans[0].context;
+    const child = tracer.spans[1].context;
+    const last = tracer.spans[2].context;
     assert(parent.spanId === child.parentId);
     assert(child.spanId === last.parentId);
     done();

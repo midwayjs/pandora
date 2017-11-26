@@ -86,6 +86,7 @@ export * from './collect/NormalMetricsCollector';
  */
 export * from './util/MessageSender';
 export * from './util/MetricsClientUtil';
+export * from './util/TraceUtil';
 
 /**
  * trace

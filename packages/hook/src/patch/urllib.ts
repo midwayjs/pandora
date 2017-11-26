@@ -1,54 +1,12 @@
 'use strict';
-import {Patcher, MessageConstants} from 'pandora-metrics';
+import { Patcher } from 'pandora-metrics';
 
 export class UrllibPatcher extends Patcher {
 
   constructor() {
     super();
 
-    const self = this;
-    this.hook('^2.x', (loadModule) => {
-      const urllib = loadModule('lib/urllib');
-      self.getShimmer().wrap(urllib, 'requestWithCallback', (request) => {
-        return function wrapped(url, args, callback) {
-          if (arguments.length === 2 && typeof args === 'function') {
-            callback = args;
-            args = null;
-          }
-
-          args = args || {};
-          const startTime = Date.now();
-
-          const tracer = self.getTraceManager().getCurrentTracer();
-          const tags = self.buildTags(url, args);
-          const span = self.createSpan(tracer, tags);
-
-          return request.call(this, url, args, (err, data, res) => {
-            if (span) {
-              tracer.setCurrentSpan(span);
-              span.setTag('error', err);
-              span.setTag('response', res);
-              span.finish();
-            } else {
-              // TODO: 完善以 urllib 为链路起点的操作跟踪
-              process.nextTick(() => {
-                self.getSender().send(MessageConstants.TRACENODE, {
-                  name: 'urllib',
-                  data: Object.assign({
-                    startTime,
-                    endTime: Date.now(),
-                    error: err,
-                    res: res
-                  }, tags)
-                });
-              });
-            }
-
-            callback(err, data, res);
-          });
-        };
-      });
-    });
+    this.shimmer();
   }
 
   getModuleName() {
@@ -56,34 +14,34 @@ export class UrllibPatcher extends Patcher {
   }
 
   buildTags(url, args) {
+
     return {
-      method: (args.method || 'GET').toLowerCase(),
-      url,
-      data: args.data,
-      content: args.content,
-      contentType: args.contentType,
-      dataType: args.dataType,
-      headers: args.headers,
-      timeout: args.timeout,
+      'http.method': {
+        value: (args.method || 'GET').toLowerCase(),
+        type: 'string'
+      },
+      'http.url': {
+        value: url,
+        type: 'string'
+      },
+      'http.client': {
+        value: true,
+        type: 'bool'
+      }
     };
   }
 
   createSpan(tracer, tags) {
     let span;
+    const currentSpan = tracer.getCurrentSpan();
 
-    if (tracer) {
-      const currentSpan = tracer.getCurrentSpan();
+    if (currentSpan) {
+      const traceId = tracer.getAttr('traceId');
 
-      if (currentSpan) {
-        const traceId = currentSpan.context().traceId;
-
-        span = tracer.startSpan('urllib', {
-          childOf: currentSpan,
-          ctx: {
-            traceId
-          }
-        });
-      }
+      span = tracer.startSpan('urllib', {
+        childOf: currentSpan,
+        traceId
+      });
     }
 
     if (span) {
@@ -91,5 +49,58 @@ export class UrllibPatcher extends Patcher {
     }
 
     return span;
+  }
+
+  shimmer() {
+    const self = this;
+    const traceManager = this.getTraceManager();
+
+    this.hook('^2.x', (loadModule) => {
+
+      const urllib = loadModule('lib/urllib');
+
+      this.getShimmer().wrap(urllib, 'requestWithCallback', function wrapRequestWithCallback(request) {
+
+        return function wrappedRequestWithCallback(url, args, callback) {
+
+          if (arguments.length === 2 && typeof args === 'function') {
+            callback = args;
+            args = null;
+          }
+
+          args = args || {};
+          const tracer = traceManager.getCurrentTracer();
+
+          if (tracer) {
+            const tags = self.buildTags(url, args);
+            const span = self.createSpan(tracer, tags);
+
+            if (!span) {
+              return request.call(this, url, args, callback);
+            }
+
+            return request.call(this, url, args, function(err, data, res) {
+              tracer.setCurrentSpan(span);
+
+              span.setTag('error', {
+                type: 'bool',
+                value: !!err
+              });
+
+              span.setTag('http.status_code', {
+                type: 'number',
+                value: res.statusCode
+              });
+
+              span.finish();
+
+              callback(err, data, res);
+            });
+          }
+
+          return request.call(this, url, args, callback);
+        };
+      });
+    });
   }
 }
