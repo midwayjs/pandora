@@ -51,7 +51,7 @@
     "shimmer": "^1.1.0",
     "super-event-emitter": "^4.1.4",
     "urllib": "^2.24.0",
-    "uuid": "^3.1.0"
+    "xorshift": "^1.1.1"
   },
   "nyc": {
     "include": [

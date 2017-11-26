@@ -1,7 +1,7 @@
 'use strict';
-import {RunUtil} from '../../RunUtil';
+import { RunUtil } from '../../RunUtil';
 const assert = require('assert');
-const {HttpPatcher} = require('../../../src/patch/http');
+const { HttpPatcher } = require('../../../src/patch/http');
 const httpPatcher = new HttpPatcher();
 
 RunUtil.run(function(done) {

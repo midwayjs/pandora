@@ -1,6 +1,6 @@
 'use strict';
-import {RunUtil} from '../../RunUtil';
-const {EggLoggerPatcher} = require('../../../src/patch/egg-logger');
+import { RunUtil } from '../../RunUtil';
+const { EggLoggerPatcher } = require('../../../src/patch/egg-logger');
 const eggLoggerPatcher = new EggLoggerPatcher();
 
 RunUtil.run(function(done) {
