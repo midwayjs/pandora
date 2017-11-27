@@ -1,5 +1,3 @@
-import {MetricsServerManager} from './MetricsServerManager';
-
 const debug = require('debug')('pandora:metrics:service');
 import actuatorConfig from './conf/default';
 import {MetricsActuatorManager} from './MetricsActuatorManager';
@@ -16,6 +14,7 @@ export class MetricsActuatorServer implements ActuatorServer {
 
   constructor(options: {
     logger
+    metricsServer,
     config?,
   }) {
     this.logger = options.logger;
@@ -24,7 +23,7 @@ export class MetricsActuatorServer implements ActuatorServer {
 
     // 初始化 metrics server
     // 理论上这个应该在 metricsEndPoint 里初始化，这里提前，因为 reporter 要用
-    this.metricManager = MetricsServerManager.getInstance();
+    this.metricManager = options.metricsServer;
     this.metricManager.setLogger(this.logger);
 
     debug('init actuator manager');
