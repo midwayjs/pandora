@@ -29,9 +29,7 @@ export class Tracer extends OpenTrancer {
     // allocSpan is given it's own method so that derived classes can
     // allocate any type of object they want, but not have to duplicate
     // the other common logic in startSpan().
-    const ctx = new SpanContext({
-      traceId: fields.traceId
-    });
+    const ctx = new SpanContext(fields);
     const span = this._allocSpan(name, ctx);
     this.spans.push(span);
 
