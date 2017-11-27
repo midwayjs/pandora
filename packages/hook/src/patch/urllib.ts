@@ -13,7 +13,7 @@ export class UrllibPatcher extends Patcher {
     return 'urllib';
   }
 
-  buildTags(url, args) {
+  buildTags(url, args): any {
 
     return {
       'http.method': {
