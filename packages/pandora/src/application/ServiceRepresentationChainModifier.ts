@@ -1,4 +1,5 @@
 import {ServiceRepresentation} from '../domain';
+import {ServiceUtils} from '../service/ServiceUtils';
 
 export class ServiceRepresentationChainModifier {
   representation: ServiceRepresentation;
@@ -13,6 +14,7 @@ export class ServiceRepresentationChainModifier {
    * @return {ServiceRepresentationChainModifier}
    */
   name(serviceName): ServiceRepresentationChainModifier {
+    ServiceUtils.checkName(serviceName);
     this.representation.serviceName = serviceName;
     return this;
   }

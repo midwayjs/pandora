@@ -4,7 +4,7 @@ import {DefaultEnvironment, EnvironmentUtil} from 'pandora-env';
 import {DAEMON_READY, PANDORA_GLOBAL_CONFIG} from '../const';
 import {MetricsConstants} from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
-import {getDaemonLogger} from '../universal/LoggerBroker';
+import {getDaemonLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
 
 /**
  * Class DaemonBootstrap
@@ -25,7 +25,8 @@ export class DaemonBootstrap {
     // Register a default env for daemon process
     const daemonEnvironment = new DefaultEnvironment({
       processName: 'daemon',
-      appName: MetricsConstants.METRICS_DEFAULT_APP
+      appName: MetricsConstants.METRICS_DEFAULT_APP,
+      pandoraLogsDir: getPandoraLogsDir()
     });
     daemonEnvironment.set(PANDORA_GLOBAL_CONFIG, this.globalConfig);
     EnvironmentUtil.getInstance().setCurrentEnvironment(daemonEnvironment);

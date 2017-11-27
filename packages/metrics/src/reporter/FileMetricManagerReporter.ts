@@ -1,3 +1,4 @@
+import {EnvironmentUtil, Environment} from 'pandora-env';
 import {DefaultLoggerManager} from 'pandora-service-logger';
 import {ScheduledMetricsReporter} from './ScheduledMetricsReporter';
 import {MetricName} from '../common/index';
@@ -11,6 +12,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
   durationFactor;
   rateFactor;
   collectorCls;
+  environment: Environment;
 
   constructor(actuatorManager, options: {
     rateFactor?: number,
@@ -21,6 +23,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
     super(actuatorManager);
     this.globalTags = options.globalTags || {};
     this.collectorCls = options.collector || CompactMetricsCollector;
+    this.environment = EnvironmentUtil.getInstance().getCurrentEnvironment();
     this.initFileAppender();
   }
 
@@ -28,7 +31,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
     this.logger = DefaultLoggerManager.getInstance().createLogger('metrics', {
       type: 'size',
       maxFiles: 200 * 1024 * 1024,
-      dir: DefaultLoggerManager.getPandoraLogsDir(),
+      dir: this.environment.get('pandoraLogsDir'),
       stdoutLevel: 'NONE',
       level: 'ALL'
     });

@@ -75,6 +75,12 @@ export class ServiceReconciler {
     chain = Array.from(chain || []);
     assert(-1 === chain.indexOf(id), `Service name: ${id} in a cyclic dependency chain: ${chain.join(' -> ')} -> ${id}`);
     chain.push(id);
+    if(chain.length > 1 && id === 'all') {
+      throw new Error(`Reserved service name 'all' not allowed to contains within a dependency chain: ${chain.join(' -> ')} -> ${id}`);
+    }
+    if(id === 'all') {
+      return Infinity;
+    }
     assert(this.services.has(id), `Could not found service id: ${id}`);
     const ref = this.services.get(id);
     const {serviceRepresentation} = ref;

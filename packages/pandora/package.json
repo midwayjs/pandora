@@ -30,6 +30,7 @@
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
     "debug": "^2.6.8",
+    "delegates": "^1.0.0",
     "egg-logger": "^1.6.0",
     "extend": "^3.0.1",
     "is-type-of": "^1.2.0",

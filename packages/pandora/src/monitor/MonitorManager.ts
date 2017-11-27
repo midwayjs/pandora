@@ -12,6 +12,7 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_APPLICATION} from '../const';
 import {ProcessRepresentation} from '../domain';
+import {getPandoraLogsDir} from '../universal/LoggerBroker';
 const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
@@ -37,7 +38,8 @@ export class MonitorManager {
       EnvironmentUtil.getInstance().setCurrentEnvironment(new globalConfig['environment']({
         appDir: processRepresentation.appDir,
         appName: processRepresentation.appName,
-        processName: processRepresentation.processName
+        processName: processRepresentation.processName,
+        pandoraLogsDir: getPandoraLogsDir()
       }));
     }
 

@@ -11,7 +11,6 @@ import {
   READY, WORKER_READY, APP_START_SUCCESS, RELOAD, SHUTDOWN, WORKER_EXIT, ERROR,
   RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN
 } from '../const';
-import {ClusterSupport} from './ClusterSupport';
 
 const cFork = require('../../3rd/fork');
 const PathWorkerProcessBootstrap = require.resolve('./WorkerProcessBootstrap');
@@ -64,12 +63,10 @@ export class ProcessMaster extends Base {
 
     if ('procfile.js' === mode) {
       this.procfileReconciler.discover();
-    } else if ('cluster' === mode) {
-      ClusterSupport.attachShimProcfile(this.appRepresentation, this.procfileReconciler);
     }
 
-    if (!this.procfileReconciler.getAppletsByCategory('all').length) {
-      throw new Error(`Can't found any applet in appDir ${this.appRepresentation.appDir}`);
+    if (!this.procfileReconciler.getComplexApplicationStructureRepresentation().mount.length) {
+      throw new Error(`Can't get any process at ${this.appRepresentation.appDir}`);
     }
 
     // Pass appId to child process through process.env

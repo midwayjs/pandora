@@ -1,9 +1,9 @@
 import {ProcfileReconciler} from './ProcfileReconciler';
 import {CategoryReg, Entry} from '../domain';
-import {AppletRepresentationChainModifier} from './AppletRepresentationChainModifier';
 import {ServiceRepresentationChainModifier} from './ServiceRepresentationChainModifier';
 import {ProcessRepresentationChainModifier} from './ProcessRepresentationChainModifier';
 import {makeRequire} from 'pandora-dollar';
+import {ServiceUtils} from '../service/ServiceUtils';
 
 /**
  * Class ProcfileReconcilerAccessor
@@ -12,6 +12,10 @@ import {makeRequire} from 'pandora-dollar';
 export class ProcfileReconcilerAccessor {
 
   private procfileReconciler: ProcfileReconciler = null;
+
+  get dev() {
+    return process.env.PANDORA_DEV === 'true';
+  }
 
   get appName() {
     return this.procfileReconciler.appRepresentation.appName;
@@ -23,10 +27,6 @@ export class ProcfileReconcilerAccessor {
 
   constructor(procfileReconciler: ProcfileReconciler) {
     this.procfileReconciler = procfileReconciler;
-  }
-
-  defaultAppletCategory(name: CategoryReg) {
-    this.procfileReconciler.setDefaultAppletCategory(name);
   }
 
   defaultServiceCategory(name: CategoryReg) {
@@ -42,19 +42,11 @@ export class ProcfileReconcilerAccessor {
   }
 
   /**
-   * inject configurator class
-   * @param {Entry} entry
-   */
-  configurator(entry: Entry) {
-    this.procfileReconciler.injectConfigurator(entry);
-  }
-
-  /**
    * define process
    * @param processName
    * @return {ProcessRepresentationChainModifier}
    */
-  process(processName): ProcessRepresentationChainModifier {
+  process(processName: string): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
     if(this.procfileReconciler.getProcessByName(processName)) {
       return new ProcessRepresentationChainModifier(savedRepresentation);
@@ -69,7 +61,7 @@ export class ProcfileReconcilerAccessor {
    * @param processName
    * @return {ProcessRepresentationChainModifier}
    */
-  fork(entryFile, processName): ProcessRepresentationChainModifier {
+  fork(processName: string, entryFile): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
     if(savedRepresentation) {
       return new ProcessRepresentationChainModifier(savedRepresentation);
@@ -83,43 +75,36 @@ export class ProcfileReconcilerAccessor {
   }
 
   /**
-   * Inject applet class
-   * @param appletEntry
-   * @return {AppletRepresentationChainModifier}
-   */
-  applet(appletEntry): AppletRepresentationChainModifier {
-    const savedRepresentation = this.procfileReconciler.getAppletByEntry(appletEntry);
-    if(savedRepresentation) {
-      return new AppletRepresentationChainModifier(savedRepresentation);
-    }
-    const representation = this.procfileReconciler.injectApplet({appletEntry});
-    return new AppletRepresentationChainModifier(representation);
-  }
-
-  /**
    * Inject service class
    * @param serviceEntry
    * @return {ServiceRepresentationChainModifier}
    */
-  service(serviceEntry): ServiceRepresentationChainModifier {
-    const savedRepresentation = this.procfileReconciler.getServiceByEntry(serviceEntry);
+  service(serviceName: string, serviceEntry): ServiceRepresentationChainModifier {
+    ServiceUtils.checkName(serviceName);
+    const savedRepresentation = this.procfileReconciler.getServiceByName(serviceName);
+    if(savedRepresentation && serviceEntry) {
+      throw new Error(`Service already exist! Use pandora.service('${serviceName}').entry('a new place') to change the entry.`);
+    }
     if(savedRepresentation) {
       return new ServiceRepresentationChainModifier(savedRepresentation);
     }
-    const representation = this.procfileReconciler.injectService({serviceEntry});
+    const representation = this.procfileReconciler.injectService({
+      serviceName, serviceEntry
+    });
     return new ServiceRepresentationChainModifier(representation);
   }
 
+  private clusterCount = 0;
+
   /**
-   * An alias to applet()
+   * An alias to service()
    * @param path
-   * @return {AppletRepresentationChainModifier}
+   * @return {ServiceRepresentationChainModifier}
    */
-  cluster(path): AppletRepresentationChainModifier {
-
+  cluster(path): ServiceRepresentationChainModifier {
     const baseDir = this.procfileReconciler.procfileBasePath;
-
-    class ClusterApplet {
+    class ClusterService {
+      static dependencies = ['all'];
       async start() {
         if(baseDir) {
           makeRequire(baseDir)(path);
@@ -128,9 +113,7 @@ export class ProcfileReconcilerAccessor {
         }
       }
     }
-
-    return this.applet(ClusterApplet);
-
+    return this.service('cluster' + this.clusterCount++, ClusterService);
   }
 
 }
