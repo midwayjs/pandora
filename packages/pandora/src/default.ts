@@ -134,7 +134,7 @@ export default {
     },
   },
 
-  hooks: {
+  hook: {
     eggLogger: {
       enabled: true,
       target: hooks.EggLoggerPatcher,

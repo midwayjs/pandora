@@ -19,7 +19,7 @@ export class MonitorManager {
 
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
-    const hooks = globalConfig['hooks'];
+    const hooks = globalConfig['hook'];
 
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
