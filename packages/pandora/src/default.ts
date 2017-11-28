@@ -119,10 +119,6 @@ export default {
         target: ProcessEndPoint,
         resource: ProcessEndPoint,
       },
-      runtime: {
-        enabled: true,
-        target: RuntimeEndPoint
-      },
       metrics: {
         enabled: true,
         target: MetricsEndPoint,
