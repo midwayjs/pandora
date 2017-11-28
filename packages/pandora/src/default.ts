@@ -16,11 +16,13 @@ const {
   MetricsResource,
   HealthResource,
   TraceResource,
+  InfoResource,
+  ProcessEndPoint,
   FileMetricManagerReporter,
   MetricsClient,
   MetricsServerManager,
   CompactMetricsCollector,
-  NormalMetricsCollector
+  NormalMetricsCollector,
 } = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
 const hooks = require('pandora-hook');
@@ -110,10 +112,12 @@ export default {
       info: {
         enabled: true,
         target: InfoEndPoint,
+        resource: InfoResource,
       },
       process: {
         enabled: true,
         target: ProcessEndPoint,
+        resource: ProcessEndPoint,
       },
       runtime: {
         enabled: true,

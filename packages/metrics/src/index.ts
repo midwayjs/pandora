@@ -60,6 +60,8 @@ export * from './rest/ErrorResource';
 export * from './rest/MetricsResource';
 export * from './rest/HealthResource';
 export * from './rest/TraceResource';
+export * from './rest/InfoResource';
+export * from './rest/ProcessResource';
 
 /**
  * client
