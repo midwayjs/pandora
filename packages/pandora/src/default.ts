@@ -17,8 +17,10 @@ const {
   HealthResource,
   TraceResource,
   FileMetricManagerReporter,
-  MetricsActuatorServer,
   MetricsClient,
+  MetricsServerManager,
+  CompactMetricsCollector,
+  NormalMetricsCollector
 } = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
 const hooks = require('pandora-hook');
@@ -72,8 +74,8 @@ export default {
     }
   },
 
-  actuatorServer: MetricsActuatorServer,
-  MetricsClient: MetricsClient,
+  metricsServer: MetricsServerManager,
+  metricsClient: MetricsClient,
 
   actuator: {
     http: {
@@ -120,7 +122,10 @@ export default {
       metrics: {
         enabled: true,
         target: MetricsEndPoint,
-        resource: MetricsResource
+        resource: MetricsResource,
+        initConfig: {
+          collector: NormalMetricsCollector
+        }
       },
       trace: {
         enabled: true,
@@ -134,7 +139,7 @@ export default {
     },
   },
 
-  hooks: {
+  hook: {
     eggLogger: {
       enabled: true,
       target: hooks.EggLoggerPatcher,
@@ -143,12 +148,23 @@ export default {
       enabled: true,
       target: hooks.UrllibPatcher
     },
+    bluebird: {
+      enabled: true,
+      target: hooks.BluebirdPatcher
+    },
+    http: {
+      enabled: true,
+      target: hooks.HttpPatcher
+    }
   },
   reporter: {
     file: {
       enabled: true,
       target: FileMetricManagerReporter,
-      interval: 5
+      interval: 5,
+      initConfig: {
+        collector: CompactMetricsCollector
+      }
     }
   }
 };

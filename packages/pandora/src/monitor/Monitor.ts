@@ -5,7 +5,8 @@ import {
   CpuUsageGaugeSet,
   NetTrafficGaugeSet,
   SystemMemoryGaugeSet,
-  SystemLoadGaugeSet
+  SystemLoadGaugeSet,
+  MetricsActuatorServer
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {Hub} from 'pandora-hub';
@@ -39,9 +40,10 @@ export class Monitor {
 
     // start metrics server
     debug('start a metrics server');
-    this.server = new this.globalConfig['actuatorServer']({
+    this.server = new MetricsActuatorServer({
       config: this.globalConfig['actuator'],
-      logger: this.daemonLogger
+      logger: this.daemonLogger,
+      metricsServer: new this.globalConfig['metricsServer']()
     });
 
     // register some default metrics

@@ -40,7 +40,6 @@ export * from './reporter/FileMetricManagerReporter';
 export * from './reporter/CustomReporter';
 export * from './collect/MetricObject';
 export * from './collect/MetricsCollector';
-export * from './collect/MetricsCollectorFactory';
 
 /**
  * metrics
@@ -86,6 +85,7 @@ export * from './collect/NormalMetricsCollector';
  */
 export * from './util/MessageSender';
 export * from './util/MetricsClientUtil';
+export * from './util/TraceUtil';
 
 /**
  * trace

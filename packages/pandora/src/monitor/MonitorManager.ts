@@ -12,6 +12,7 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_APPLICATION} from '../const';
 import {ProcessRepresentation} from '../domain';
+const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
 
@@ -19,13 +20,7 @@ export class MonitorManager {
 
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
-    const hooks = globalConfig['hooks'];
-    // init metrics client
-    let ClientCls = globalConfig['MetricsClient'];
-    let client = ClientCls.getInstance();
-    MetricsClientUtil.setMetricsClient(client);
-    // support old version
-    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
+    const hooks = globalConfig['hook'];
 
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
@@ -46,6 +41,13 @@ export class MonitorManager {
       }));
     }
 
+    // init metrics client
+    let ClientCls = globalConfig['metricsClient'];
+    let client = ClientCls.getInstance();
+    MetricsClientUtil.setMetricsClient(client);
+    // support old version
+    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
+
     // inject patch
 
     let traceIndicator = new TraceIndicator();
@@ -61,7 +63,7 @@ export class MonitorManager {
           let PatcherCls = hooks[hookName].target;
           let patcher: IPatcher = new PatcherCls(hooks[hookName]['initConfig']);
           patcher.run();
-          console.log(`Patcher(${process.pid}): ${hookName} hook enabled`);
+          debug(`Patcher(${process.pid}): ${hookName} hook enabled`);
         } catch (err) {
           console.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
         }

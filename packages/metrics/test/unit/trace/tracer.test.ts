@@ -67,7 +67,7 @@ describe('/test/unit/tracer.test.ts', () => {
           const report = tracer.report();
 
           expect(report.spans.length).to.equal(3);
-          expect(report.spans[2].context().parentId).to.equal(report.spans[1].context().spanId);
+          expect(report.spans[2].context.parentId).to.equal(report.spans[1].context.spanId);
           done();
         }, 500);
       }, 1000);

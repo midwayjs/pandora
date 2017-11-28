@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {MetricsActuatorServer} from '../../src/MetricsActuatorServer';
+import {MetricsServerManager} from '../../src/MetricsServerManager';
 
 describe('/test/unit/MetricsActuatorServer.test.ts', () => {
 
@@ -7,7 +8,8 @@ describe('/test/unit/MetricsActuatorServer.test.ts', () => {
 
     expect(() => {
       let server = new MetricsActuatorServer({
-        logger: console
+        logger: console,
+        metricsServer: new MetricsServerManager()
       });
       expect(server.getMetricsManager()).to.exist;
     }).to.not.throw(TypeError);

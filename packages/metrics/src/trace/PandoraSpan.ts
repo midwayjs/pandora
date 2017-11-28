@@ -1,44 +1,59 @@
 'use strict';
-import {Span as OpenTraceSpan} from 'opentracing';
-const uuid = require('uuid');
+import { Span as OpenTraceSpan } from 'opentracing';
+import { getRandom64, convertObjectToTags } from '../util/TraceUtil';
 
 export class PandoraSpan extends OpenTraceSpan {
 
   __tracer;
-  uuid = this._generateUUID();
   startMs = Date.now();
   finishMs = 0;
-  operationName = '';
+  duration = 0;
   tags = {};
   logs = [];
   startStack;
+  operationName = '';
   _spanContext;
+  _references = [];
 
-  constructor(tracer, spanContext) {
+  constructor(tracer, operationName, spanContext) {
     super();
     this.__tracer = tracer;
-    spanContext.spanId = this.uuid;
+
+    if (!spanContext.spanId) {
+      spanContext.spanId = getRandom64();
+    }
+
     this._spanContext = spanContext;
+    this.operationName = operationName;
+  }
+
+  setStartMs(timestamp) {
+    this.startMs = timestamp;
+  }
+
+  _tracer() {
+    return this.__tracer;
+  }
+
+  _context() {
+    return this._spanContext;
   }
 
   _setOperationName(name) {
     this.operationName = name;
   }
 
-  _generateUUID() {
-    return uuid();
-  }
+  _addTags(tags) {
+    const keys = Object.keys(tags);
 
-  _addTags(set) {
-    const keys = Object.keys(set);
     for (const key of keys) {
-      this.tags[key] = set[key];
+      this.tags[key] = tags[key];
     }
   }
 
   _log(fields, timestamp) {
     this.logs.push({
-      fields,
+      fields: convertObjectToTags(fields),
       timestamp: timestamp || Date.now()
     });
   }
@@ -46,30 +61,26 @@ export class PandoraSpan extends OpenTraceSpan {
   _finish(finishTime) {
     finishTime = finishTime || Date.now();
     this.finishMs = finishTime;
+    this.duration = finishTime - this.startMs;
   }
 
-  addReference(ref) {
-    this._spanContext.parentId = ref.referencedContext().spanId;
+  addReferences(references) {
+    this._references = references;
+    this._context().parentId = this._references[0].referencedContext().spanId;
   }
 
-  tracer() {
-    return this.__tracer;
-  }
-
-  context() {
-    return this._spanContext;
-  }
-
-  /**
-   * Returns a simplified object better for console.log()'ing.
-   */
-  debug() {
+  toJSON() {
     return {
-      uuid: this.uuid,
-      operation: this.operationName,
-      millis: [this.finishMs - this.startMs, this.startMs, this.finishMs],
+      name: this.operationName,
+      startMs: this.startMs,
+      duration: this.duration,
+      context: this._context().toJSON(),
+      references: this._references.map((reference) => {
+        return reference.referencedContext().toJSON();
+      }),
       tags: this.tags,
       logs: this.logs,
+      startStack: this.startStack
     };
   }
 }
