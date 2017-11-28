@@ -1,9 +1,9 @@
 import {EndPoint} from '../EndPoint';
 import {MetricsServerManager} from '../../MetricsServerManager';
 import {MetricFilter, MetricName, IMetricsRegistry}  from '../../common/index';
-import {CollectLevel, MetricsCollectorFactory} from '../../collect/MetricsCollectorFactory';
 import {MetricObject} from '../../collect/MetricObject';
 import {MetricsManager} from '../../common/MetricsManager';
+import {NormalMetricsCollector} from '../../collect/NormalMetricsCollector';
 const debug = require('debug')('pandora:metrics:MetricEndPoint');
 
 export class MetricsEndPoint extends EndPoint {
@@ -35,8 +35,8 @@ export class MetricsEndPoint extends EndPoint {
   }
 
   protected buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
-    let collector =
-      MetricsCollectorFactory.create(CollectLevel.NORMAL, {}, this.rateFactor, this.durationFactor, filter);
+    let collectorCls = this.getCollector();
+    let collector = new collectorCls({}, this.rateFactor, this.durationFactor, filter);
 
     const timestamp = Date.now();
 
@@ -78,6 +78,10 @@ export class MetricsEndPoint extends EndPoint {
 
   hasMetricsGroup(groupName: string): boolean {
     return (<MetricsServerManager>this.manager).hasMetricRegistryByGroup(groupName);
+  }
+
+  private getCollector() {
+    return this.config['initConfig']['collector'] || NormalMetricsCollector;
   }
 
 }

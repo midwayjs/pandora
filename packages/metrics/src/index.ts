@@ -40,7 +40,6 @@ export * from './reporter/FileMetricManagerReporter';
 export * from './reporter/CustomReporter';
 export * from './collect/MetricObject';
 export * from './collect/MetricsCollector';
-export * from './collect/MetricsCollectorFactory';
 
 /**
  * metrics

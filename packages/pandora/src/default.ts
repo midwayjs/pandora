@@ -19,6 +19,8 @@ const {
   FileMetricManagerReporter,
   MetricsClient,
   MetricsServerManager,
+  CompactMetricsCollector,
+  NormalMetricsCollector
 } = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
 const hooks = require('pandora-hook');
@@ -120,7 +122,10 @@ export default {
       metrics: {
         enabled: true,
         target: MetricsEndPoint,
-        resource: MetricsResource
+        resource: MetricsResource,
+        initConfig: {
+          collector: NormalMetricsCollector
+        }
       },
       trace: {
         enabled: true,
@@ -148,7 +153,10 @@ export default {
     file: {
       enabled: true,
       target: FileMetricManagerReporter,
-      interval: 5
+      interval: 5,
+      initConfig: {
+        collector: CompactMetricsCollector
+      }
     }
   }
 };
