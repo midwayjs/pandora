@@ -238,16 +238,19 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
       return;
     }
 
+    let newName;
     if(typeof name === 'string') {
-      name = MetricName.build(name);
+      newName = MetricName.build(name);
+    } else {
+      newName = name;
     }
 
     // register to all first
-    this.allMetricsRegistry.register(name, metric);
+    this.allMetricsRegistry.register(newName, metric);
 
     // register to name second
     const metricRegistry: IMetricsRegistry = this.getMetricRegistryByGroup(group);
-    metricRegistry.register(name, metric);
+    metricRegistry.register(newName, metric);
   }
 
   getMetricRegistryByGroup(group: string): IMetricsRegistry {
