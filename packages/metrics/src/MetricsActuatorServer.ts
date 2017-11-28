@@ -31,7 +31,7 @@ export class MetricsActuatorServer implements ActuatorServer {
     // 初始化 actuators
     this.actuatorManager = new MetricsActuatorManager({
       logger: this.logger,
-      config: extend(actuatorConfig, options.config || {}),
+      config: extend(true, {}, actuatorConfig, options.config || {}),
     });
   }
 

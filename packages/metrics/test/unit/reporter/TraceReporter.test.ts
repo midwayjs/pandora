@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { stub } from 'sinon';
 import { InfoEndPoint } from '../../../src/endpoint/impl/InfoEndPoint';
 import { TraceEndPoint } from '../../../src/endpoint/impl/TraceEndPoint';
 import { MetricsActuatorServer } from '../../../src/MetricsActuatorServer';
@@ -7,6 +6,7 @@ import { mockTrace } from '../../fixtures/reporter/MockTrace';
 import { TraceReporter } from '../../../src/reporter/TraceReporter';
 import { MetricsServerManager } from '../../../src/MetricsServerManager';
 import { BaseInfoIndicator } from '../../../src/indicator/impl/BaseInfoIndicator';
+const stub = require('sinon').stub;
 
 describe('/test/unit/reporter/TraceReporter.test.ts', () => {
   let server;
@@ -43,6 +43,11 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
 
     reporter = new TraceReporter(server);
     reporter.start(1);
+  });
+
+  after(() => {
+    server.stop();
+    server.destroy();
   });
 
   it('should collect and write trace data', (done) => {

@@ -19,7 +19,7 @@ describe('/test/unit/HealthResource.test.ts', () => {
 
   class MyHealthIndicator extends HealthIndicator {
 
-    doCheck(builder, initConfig?: any) {
+    doCheck(builder: any, initConfig?: any) {
       builder.up();
     }
 
