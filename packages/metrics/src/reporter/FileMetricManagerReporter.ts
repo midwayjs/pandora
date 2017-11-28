@@ -60,7 +60,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
       // 只显示 metrics 的 report
       for (let metricObject of collector.build()) {
         if(metricObject && metricObject.toJSON) {
-          this.logger.info(JSON.stringify(metricObject.toJSON()));
+          this.logger.write(JSON.stringify(metricObject.toJSON()));
         }
       }
     } catch (err) {

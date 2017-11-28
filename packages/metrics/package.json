@@ -31,10 +31,12 @@
     "mocha": "^3.5.0",
     "node-df": "^0.1.1",
     "nyc": "^11.2.1",
+    "sinon": "^4.1.2",
     "supertest": "^3.0.0",
     "yargs": "^6.6.0"
   },
   "dependencies": {
+    "address": "^1.0.3",
     "cls-hooked": "^4.2.2",
     "cron-parser": "^2.4.1",
     "debug": "^2.6.8",
