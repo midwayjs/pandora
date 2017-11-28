@@ -24,7 +24,6 @@ export * from './endpoint/impl/TraceEndPoint';
  */
 export * from './indicator/Indicator';
 export * from './indicator/DuplexIndicator';
-export * from './indicator/impl/ConfigIndicator';
 export * from './indicator/impl/ErrorIndicator';
 export * from './indicator/impl/ProcessIndicator';
 export * from './indicator/impl/health/DiskSpaceHealthIndicator';

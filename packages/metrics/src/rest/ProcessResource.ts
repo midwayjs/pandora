@@ -16,14 +16,6 @@ export class ProcessResource implements ActuatorResource {
     const processEndPoint = this.endPointService.getEndPoint('process');
 
     router.get('/', async (ctx, next) => {
-      /**
-       * [
-       *  {
-       *    "appName": "DEFAULT_APP",
-       *    "appDir": "/Users/harry/project/pandora/pandora/packages/metrics/test"
-       *  }
-       * ]
-       */
       try {
         const processInfos = await processEndPoint.invoke(ctx.query['appName']);
         ctx.ok(processInfos.map(info => {
