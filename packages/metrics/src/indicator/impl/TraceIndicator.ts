@@ -22,7 +22,8 @@ export class TraceIndicator extends DuplexIndicator {
   registerUplink() {
     this.collector.collect(data => {
       this.report(Object.assign(data, {
-        appName: this.getAppName()
+        appName: this.getAppName(),
+        pid: process.pid
       }));
     });
   }

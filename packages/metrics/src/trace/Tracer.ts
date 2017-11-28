@@ -37,9 +37,6 @@ export class Tracer extends OpenTrancer {
       span.addReferences(fields.references);
     }
 
-    // Capture the stack at the time the span started
-    span.startStack = new Error().stack;
-
     return span;
   }
 
