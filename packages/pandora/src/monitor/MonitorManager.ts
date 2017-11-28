@@ -12,6 +12,7 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_APPLICATION} from '../const';
 import {ProcessRepresentation} from '../domain';
+const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
 
@@ -62,7 +63,7 @@ export class MonitorManager {
           let PatcherCls = hooks[hookName].target;
           let patcher: IPatcher = new PatcherCls(hooks[hookName]['initConfig']);
           patcher.run();
-          console.log(`Patcher(${process.pid}): ${hookName} hook enabled`);
+          debug(`Patcher(${process.pid}): ${hookName} hook enabled`);
         } catch (err) {
           console.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
         }

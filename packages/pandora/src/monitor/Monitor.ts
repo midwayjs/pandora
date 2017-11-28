@@ -5,11 +5,11 @@ import {
   CpuUsageGaugeSet,
   NetTrafficGaugeSet,
   SystemMemoryGaugeSet,
-  SystemLoadGaugeSet
+  SystemLoadGaugeSet,
+  MetricsActuatorServer
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {Hub} from 'pandora-hub';
-import {MetricsActuatorServer} from '../../../metrics/src/MetricsActuatorServer';
 
 const debug = require('debug')('pandora:cluster:monitor');
 
