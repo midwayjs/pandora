@@ -148,6 +148,14 @@ export default {
       enabled: true,
       target: hooks.UrllibPatcher
     },
+    bluebird: {
+      enabled: true,
+      target: hooks.BluebirdPatcher
+    },
+    http: {
+      enabled: true,
+      target: hooks.HttpPatcher
+    }
   },
   reporter: {
     file: {
