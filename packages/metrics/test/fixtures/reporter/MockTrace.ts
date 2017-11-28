@@ -1,8 +1,10 @@
 export function mockTrace(now) {
   return {
     "date": now,
+    "appName": "DEFAULT_APP",
     "traceId": "1e084d5515118598316151001dd73d",
     "duration": 139,
+    "pid": process.pid,
     "ip": "127.0.0.1",
     "spans": [{
         "name": "http",

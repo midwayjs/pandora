@@ -1,12 +1,6 @@
 {
   "name": "pandora-metrics",
-  <<
-  << << < HEAD "version": "0.1.33",
-  ===
-  === =
-  "version": "0.1.31",
-  >>>
-  >>> > migrate_hook "description": "applicatoin metrics",
+  "version": "0.1.33",
   "main": "dist/index",
   "typings": "src/index",
   "scripts": {

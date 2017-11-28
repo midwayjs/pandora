@@ -1,10 +1,6 @@
 {
   "name": "pandora",
-<<<<<<< HEAD
   "version": "0.1.33",
-=======
-  "version": "0.1.31",
->>>>>>> migrate_hook
   "description": "Pandora.js",
   "main": "dist/index.js",
   "typings": "src/index",
@@ -40,7 +36,6 @@
     "mkdirp": "^0.5.1",
     "module-hook": "^1.0.0",
     "moment": "^2.18.1",
-<<<<<<< HEAD
     "mz": "^2.7.0",
     "pandora-dollar": "^0.1.33",
     "pandora-env": "^0.1.33",
@@ -51,15 +46,6 @@
     "pandora-service-logger": "^0.1.33",
     "ps-node": "^0.1.6",
     "ps-tree": "^1.1.0",
-=======
-    "pandora-dollar": "^0.1.31",
-    "pandora-env": "^0.1.31",
-    "pandora-hook": "^0.1.31",
-    "pandora-hub": "^0.1.31",
-    "pandora-messenger": "^0.1.31",
-    "pandora-metrics": "^0.1.31",
-    "pandora-service-logger": "^0.1.31",
->>>>>>> migrate_hook
     "read-last-lines": "^1.2.0",
     "sdk-base": "^2.0.1",
     "shimmer": "^1.1.0",

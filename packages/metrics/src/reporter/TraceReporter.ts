@@ -5,7 +5,6 @@ import { DefaultLoggerManager } from 'pandora-service-logger';
 
 export class TraceReporter extends CustomReporter {
 
-  pid = process.pid;
   host = os.hostname();
   ip = address.ip();
   vernier = {};
@@ -27,18 +26,18 @@ export class TraceReporter extends CustomReporter {
     });
   }
 
-  async collectTraces() {
+  async collectTraces(): Promise<any> {
     const infoEndPoint = this.endPointService.getEndPoint('info');
     const info = await infoEndPoint.invoke();
     const traceEndPoint = this.endPointService.getEndPoint('trace');
     const appNames = info.reduce((result, item) => {
-      if (item.key === 'application' && item.scope === 'scope') {
+      if (item.key === 'application' && item.scope === 'APP') {
         result.push(item.data.appName);
       }
       return result;
     }, []);
-    console.log('===> appNames: ', appNames);
-    let traces = await appNames.map(async (appName) => {
+
+    const traces = await Promise.all(appNames.map(async (appName) => {
       try {
         const data = await traceEndPoint.invoke(appName, {
           value: this.vernier[appName] || 0,
@@ -47,7 +46,7 @@ export class TraceReporter extends CustomReporter {
         });
 
         if (data && data.length > 0) {
-          this.vernier[appName] = data[0].time + 1000;
+          this.vernier[appName] = data[0].date + 1000;
         }
 
         return data || [];
@@ -56,13 +55,11 @@ export class TraceReporter extends CustomReporter {
 
         return [];
       }
-    });
+    }));
 
-    traces = traces.reduce((result, trace) => {
+    return traces.reduce((result: object[], trace) => {
       return result.concat(trace);
     }, []);
-
-    return traces;
   }
 
   async report() {
@@ -70,6 +67,8 @@ export class TraceReporter extends CustomReporter {
 
     try {
       traces.forEach((trace) => {
+        trace.ip = this.ip;
+        trace.hostname = this.host;
         this.logger.write(JSON.stringify(trace));
       });
     } catch(err) {

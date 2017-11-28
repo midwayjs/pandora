@@ -7,7 +7,7 @@ import {ProcessIndicator} from '../../../src/indicator/impl/ProcessIndicator';
 import {ProcessResource} from '../../../src/rest/ProcessResource';
 import {ProcessEndPoint} from '../../../src/endpoint/impl/ProcessEndPoint';
 
-describe.only('/test/unit/ProcessResource.test.ts', () => {
+describe('/test/unit/ProcessResource.test.ts', () => {
 
   let endPointService = new EndPointService();
   endPointService.setEndPointIns([
