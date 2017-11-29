@@ -46,8 +46,8 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
   });
 
   after(() => {
-    server.stop();
-    server.destroy();
+    // server.stop();
+    // server.destroy();
   });
 
   it('should collect and write trace data', (done) => {
