@@ -46,6 +46,7 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
   });
 
   after(() => {
+    reporter.stop();
     // server.stop();
     // server.destroy();
   });
