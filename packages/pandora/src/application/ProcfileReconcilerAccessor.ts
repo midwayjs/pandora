@@ -49,10 +49,10 @@ export class ProcfileReconcilerAccessor {
   process(processName: string): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
     if(this.procfileReconciler.getProcessByName(processName)) {
-      return new ProcessRepresentationChainModifier(savedRepresentation);
+      return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
     }
     const representation = this.procfileReconciler.defineProcess({processName});
-    return new ProcessRepresentationChainModifier(representation);
+    return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }
 
   /**
@@ -64,14 +64,14 @@ export class ProcfileReconcilerAccessor {
   fork(processName: string, entryFile): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
     if(savedRepresentation) {
-      return new ProcessRepresentationChainModifier(savedRepresentation);
+      return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
     }
     const representation = this.procfileReconciler.defineProcess({
       entryFile,
       processName,
       mode: 'fork'
     });
-    return new ProcessRepresentationChainModifier(representation);
+    return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }
 
   /**
@@ -86,12 +86,12 @@ export class ProcfileReconcilerAccessor {
       throw new Error(`Service already exist! Use pandora.service('${serviceName}').entry('a new place') to change the entry.`);
     }
     if(savedRepresentation) {
-      return new ServiceRepresentationChainModifier(savedRepresentation);
+      return new ServiceRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
     }
     const representation = this.procfileReconciler.injectService({
       serviceName, serviceEntry
     });
-    return new ServiceRepresentationChainModifier(representation);
+    return new ServiceRepresentationChainModifier(representation, this.procfileReconciler);
   }
 
   private clusterCount = 0;

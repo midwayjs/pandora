@@ -1,11 +1,14 @@
 import {ProcessRepresentation, ProcessScale} from '../domain';
+import {ProcfileReconciler} from './ProcfileReconciler';
 
 export class ProcessRepresentationChainModifier {
 
   representation: ProcessRepresentation;
+  procfileReconciler: ProcfileReconciler;
 
-  constructor(representation: ProcessRepresentation) {
+  constructor(representation: ProcessRepresentation, procfileReconciler: ProcfileReconciler) {
     this.representation = representation;
+    this.procfileReconciler = procfileReconciler;
   }
 
   name(): string;
@@ -77,6 +80,10 @@ export class ProcessRepresentationChainModifier {
     }
     this.representation.order = order;
     return this;
+  }
+
+  drop() {
+    this.procfileReconciler.dropProcessByName(this.representation.processName);
   }
 
 }

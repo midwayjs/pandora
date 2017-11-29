@@ -195,16 +195,30 @@ export class ProcfileReconciler {
 
   /**
    * Get a process representation by name
-   * @param processName
+   * @param lookingFor
    * @return {ProcessRepresentation}
    */
-  getProcessByName(processName): ProcessRepresentation {
+  getProcessByName(lookingFor): ProcessRepresentation {
     for(const process of this.processes) {
-      if(process.processName === processName) {
+      if(process.processName === lookingFor) {
         return process;
       }
     }
     return null;
+  }
+
+  /**
+   * Drop a process representation by name
+   */
+  dropProcessByName (lookingFor) {
+    for(let idx = 0, len = this.processes.length; idx < len; idx++) {
+      const process = this.processes[idx];
+      if(lookingFor === process.processName) {
+        this.processes.splice(idx, 1);
+        return;
+      }
+    }
+    throw new Error(`Can\'t drop a process named ${lookingFor} it not exist`);
   }
 
   /**
@@ -256,6 +270,20 @@ export class ProcfileReconciler {
       }
     }
     return null;
+  }
+
+  /**
+   * Drop a service representation by name
+   */
+  dropServiceByName (lookingFor) {
+    for(let idx = 0, len = this.services.length; idx < len; idx++) {
+      const service = this.services[idx];
+      if(lookingFor === service.serviceName) {
+        this.services.splice(idx, 1);
+        return;
+      }
+    }
+    throw new Error(`Can\'t drop a service named ${lookingFor} it not exist`);
   }
 
   /**

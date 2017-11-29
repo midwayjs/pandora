@@ -108,7 +108,7 @@ export class ApplicationHandler extends Base {
 
       proc.once('message', (message) => {
         if (message.action === APP_START_SUCCESS) {
-          const msg = `Application [appName = ${this.appRepresentation.appName}, processName = ${(<ProcessRepresentation> this.appRepresentation).processName || 'null'} dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
+          const msg = `Application [appName = ${this.appRepresentation.appName}, processName = ${(<ProcessRepresentation> this.appRepresentation).processName || 'null'}, dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
           daemonLogger.info(msg);
           nodejsStdout.info(msg);
           this.state = State.complete;
@@ -123,6 +123,7 @@ export class ApplicationHandler extends Base {
         }
       });
 
+      // TODO: enhance performance
       proc.stdout.on('data', (data) => {
         nodejsStdout.write(removeEOL(data.toString()));
       });
