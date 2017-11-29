@@ -29,6 +29,7 @@ export * from './indicator/impl/ProcessIndicator';
 export * from './indicator/impl/health/DiskSpaceHealthIndicator';
 export * from './indicator/impl/health/PortHealthIndicator';
 export * from './indicator/impl/TraceIndicator';
+export * from './indicator/impl/BaseInfoIndicator';
 
 /**
  * reporter
