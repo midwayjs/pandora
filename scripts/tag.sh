@@ -9,7 +9,9 @@ do
       cd $pkg
       echo ">>>>>> Tag Clean"
       echo ">>>>>>" $pkg
-      npm dist-tag rm pandora-`basename "$PWD"` $2
+      SHH="npm dist-tag add `node -e "console.log(require('./package.json').name)"`@$1 $2"
+      echo $SHH
+      $SHH
     fi
 done
 cd $cwd

@@ -3,6 +3,7 @@
 set -e
 pkgs=`find packages -maxdepth 1 -mindepth 1`
 cwd=`pwd`
+cp ./README.md ./packages/pandora/README.md
 for pkg in $pkgs
 do
     cd $cwd

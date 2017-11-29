@@ -7,19 +7,18 @@ Document: [https://midwayjs.gitbooks.io/pandora/content/zh-cn/](https://midwayjs
 
 ## Installation
 
-Please use tag `next` before we release!
-
 ```bash
-$ npm install pandora@next --save
+$ npm install pandora@latest --save
 ```
 
-Node.js >= 6.0.0 required.
+Node.js >= 8.0.0 required.
 
 ## Features
 
 - ✔︎ Built-in application model
 - ✔︎ Built-in process management
 - ✔︎ Dev Ops customization
+- ✔︎ Provide Metrics and Standard Open-Trace Implementation
 - ✔︎ Support lots of web framework
 
 ## How to Contribute
