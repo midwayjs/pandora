@@ -2,7 +2,9 @@ import {
   ProcessIndicator,
   ErrorIndicator,
   MetricsClientUtil,
+  MetricName,
   MetricsConstants,
+  V8GaugeSet,
   TraceIndicator,
   IPatcher
 } from 'pandora-metrics';
@@ -78,6 +80,10 @@ export class MonitorManager {
       ins.initialize();
     });
 
+    // init metrics
+    client.register('node', MetricName.build('node.v8').tagged({
+      pid: process.pid
+    }), new V8GaugeSet());
   }
 
 
