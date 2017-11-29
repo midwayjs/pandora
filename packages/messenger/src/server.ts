@@ -69,8 +69,8 @@ export default class Server extends MessengerBase {
       client.close();
       this.clients.delete(sock);
     }
-    this.server.close(callback);
     this.server.removeAllListeners();
+    this.server.close(callback);
     return this;
   }
 
@@ -80,8 +80,9 @@ export default class Server extends MessengerBase {
 
   _handleDisconnect(socket) {
     debug(`[server] server lost a connection!`);
+    const client = this.clients.get(socket);
     this.clients.delete(socket);
-    this.emit('disconnected');
+    this.emit('disconnected', client);
   }
 
   _handleConnection(socket) {

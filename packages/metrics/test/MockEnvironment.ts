@@ -5,7 +5,8 @@ export class MockEnvironment extends BaseEnvironment {
 
   constructor() {
     super({
-      appName: MetricsConstants.METRICS_DEFAULT_APP
+      appName: MetricsConstants.METRICS_DEFAULT_APP,
+      appDir: __dirname
     });
   }
 

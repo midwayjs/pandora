@@ -41,7 +41,7 @@ export const SHUTDOWN = 'shutdown';
 export const FINISH_SHUTDOWN = 'finish_shutdown';
 export const SHUTDOWN_TIMEOUT = 5000;
 
-// reload进程
+// reload 进程
 export const RELOAD = 'reload';
 export const RELOAD_SUCCESS = 'reload_success';
 export const RELOAD_ERROR = 'reload_error';
@@ -51,6 +51,8 @@ export const PANDORA_GLOBAL_CONFIG = 'PANDORA_CONFIG';
 export const PANDORA_CWD = 'PANDORA_CWD';
 
 
-// Service 相关
-export const MESSENGER_ACTION_SERVICE = 'SERVICE_INTERNAL';
-export const SOCKET_FILE_NAME = 'PANDORA_SERVICE_INTERNAL';
+// service
+export const SERVICE_PREFIX_IN_HUB = 'PandoraService.';
+
+// env names
+export const PANDORA_APPLICATION = 'PANDORA_APPLICATION';

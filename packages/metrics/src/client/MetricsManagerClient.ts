@@ -3,6 +3,9 @@ import {Counter, Histogram, Meter, Timer} from './MetricsProxy';
 import {MetricsProcessChannel} from './MetricsProcessChannel';
 import {Proxiable} from './domain';
 
+/**
+ * @deprecated
+ */
 export class MetricsManagerClient {
 
   static metricsProcessChannel = MetricsProcessChannel.getInstance();

@@ -10,23 +10,25 @@ export * from './MetricsServerManager';
  */
 export * from './endpoint/EndPoint';
 export * from './endpoint/DuplexEndPoint';
+export * from './endpoint/CacheDuplexEndPoint';
 export * from './endpoint/impl/ErrorEndPoint';
 export * from './endpoint/impl/HealthEndPoint';
 export * from './endpoint/impl/InfoEndPoint';
 export * from './endpoint/impl/MetricsEndPoint';
 export * from './endpoint/impl/ProcessEndPoint';
 export * from './endpoint/impl/RuntimeEndPoint';
+export * from './endpoint/impl/TraceEndPoint';
 
 /**
  * indicator
  */
 export * from './indicator/Indicator';
 export * from './indicator/DuplexIndicator';
-export * from './indicator/impl/ConfigIndicator';
 export * from './indicator/impl/ErrorIndicator';
 export * from './indicator/impl/ProcessIndicator';
 export * from './indicator/impl/health/DiskSpaceHealthIndicator';
 export * from './indicator/impl/health/PortHealthIndicator';
+export * from './indicator/impl/TraceIndicator';
 
 /**
  * reporter
@@ -37,7 +39,6 @@ export * from './reporter/FileMetricManagerReporter';
 export * from './reporter/CustomReporter';
 export * from './collect/MetricObject';
 export * from './collect/MetricsCollector';
-export * from './collect/MetricsCollectorFactory';
 
 /**
  * metrics
@@ -57,6 +58,9 @@ export * from './metrics/node/V8GaugeSet';
 export * from './rest/ErrorResource';
 export * from './rest/MetricsResource';
 export * from './rest/HealthResource';
+export * from './rest/TraceResource';
+export * from './rest/InfoResource';
+export * from './rest/ProcessResource';
 
 /**
  * client
@@ -76,3 +80,16 @@ export * from './common/MetricFilter'
  */
 export * from './collect/CompactMetricsCollector';
 export * from './collect/NormalMetricsCollector';
+
+/**
+ * util
+ */
+export * from './util/MessageSender';
+export * from './util/MetricsClientUtil';
+export * from './util/TraceUtil';
+
+/**
+ * trace
+ */
+export * from './trace/TraceManager';
+export * from './trace/Patcher';

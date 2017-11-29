@@ -8,16 +8,8 @@ import {ProcfileReconciler} from './ProcfileReconciler';
 import assert = require('assert');
 import {EnvironmentUtil} from 'pandora-env';
 import {consoleLogger} from '../universal/LoggerBroker';
-import {
-  ProcessIndicator,
-  ErrorIndicator,
-  MetricsClient,
-  MetricName,
-  MetricsConstants,
-  V8GaugeSet
-} from 'pandora-metrics';
-import {DefaultLoggerManager} from 'pandora-service-logger';
 import {ClusterSupport} from './ClusterSupport';
+import {MonitorManager} from '../monitor/MonitorManager';
 
 /**
  * class WorkerProcessBootstrap
@@ -105,7 +97,7 @@ export class WorkerProcessBootstrap {
     await this.context.start();
 
     // To start worker process monitoring
-    this.startMonitor();
+    MonitorManager.injectProcessMonitor();
   }
 
   /**
@@ -125,28 +117,6 @@ export class WorkerProcessBootstrap {
       });
     });
   }
-
-  /**
-   * Open some monitoring by default
-   */
-  startMonitor() {
-    // init indicators
-    const loggerManager = DefaultLoggerManager.getInstance();
-    [
-      new ProcessIndicator(),
-      new ErrorIndicator(loggerManager),
-    ].forEach((ins) => {
-      ins.initialize();
-    });
-
-    // init metrics
-    let client = MetricsClient.getInstance();
-    global[MetricsConstants.GLOBAL_METRICS_KEY] = client;
-    client.register('node', MetricName.build('node.v8').tagged({
-      pid: process.pid
-    }), new V8GaugeSet());
-  }
-
 
   /**
    * A static method to handing the CLI

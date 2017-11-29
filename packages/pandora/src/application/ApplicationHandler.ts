@@ -8,7 +8,7 @@ import {
 import {existsSync} from 'fs';
 import assert = require('assert');
 import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
-import {ApplicationRepresentation} from '../domain';
+import {ApplicationRepresentation, ProcessRepresentation} from '../domain';
 
 const pathProcessMaster = require.resolve('./ProcessMaster');
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
@@ -19,42 +19,45 @@ const daemonLogger = getDaemonLogger();
  */
 export class ApplicationHandler extends Base {
   public state: State;
-  public appRepresentation: any;
+  public appRepresentation: ApplicationRepresentation | ApplicationRepresentation;
   private nodejsStdout: any;
   private proc: any;
-  public appDir: string;
 
   public get name() {
     return this.appRepresentation.appName;
+  }
+
+  public get appDir() {
+    return this.appRepresentation.appDir;
   }
 
   public get mode() {
     return this.appRepresentation.mode;
   }
 
-  public get appId() {
+  public get pid() {
     return this.proc && this.proc.pid;
   }
 
-  constructor(applicationRepresentation: ApplicationRepresentation) {
-    const appDir = applicationRepresentation.appDir;
-    assert(existsSync(appDir), `AppDir[${appDir}] does not exist!`);
+  constructor(applicationRepresentation: ApplicationRepresentation)
+  constructor(applicationRepresentation: ProcessRepresentation) {
 
     super();
-    this.appDir = appDir;
     this.state = State.pending;
     this.appRepresentation = applicationRepresentation;
+    assert(existsSync(this.appDir), `AppDir ${this.appDir} does not exist`);
+
     this.nodejsStdout = createAppLogger(applicationRepresentation.appName, 'nodejs_stdout');
+
   }
 
   /**
    * Start application through fork
    * @return {Promise<void>}
    */
-  start(): Promise<void> {
+  async start(): Promise<void> {
 
     const {mode, entryFile} = this.appRepresentation;
-    const nodejsStdout = this.nodejsStdout;
     const args = [];
 
     if ('procfile.js' === mode || 'cluster' === mode) {
@@ -67,20 +70,35 @@ export class ApplicationHandler extends Base {
       throw new Error(`Unknown start mode ${mode} when start an application`);
     }
 
+    await this.doFork(args);
+
+  }
+
+  protected doFork(args): Promise<void> {
+
+    const nodejsStdout = this.nodejsStdout;
+
     const execArgv: any = process.execArgv.slice(0);
-    const env = {
-      ...process.env,
-      [PANDORA_CWD]: process.cwd()
-    };
     // Handing typeScript file，just for testing
     if (/\.ts$/.test(module.filename) && execArgv.indexOf('ts-node/register') === -1) {
       execArgv.push('-r', 'ts-node/register', '-r', 'nyc-ts-patch');
     }
 
+    const userArgv = (<ProcessRepresentation> this.appRepresentation).argv;
+    if(userArgv && userArgv.length) {
+      execArgv.push.apply(execArgv, userArgv);
+    }
+
+    const env = {
+      ...process.env,
+      [PANDORA_CWD]: process.cwd(),
+      // require.main === module maybe be 'false' after patched spawn wrap
+      RUN_PROCESS_BOOTSTRAP_BY_FORCE: true
+    };
+
     return new Promise((resolve, reject) => {
-      /**
-       * Fork a new ProcessBootstrap and start master
-       */
+
+      // Fork it
       const proc = fork(pathProcessBootstrap, args, <any> {
         cwd: this.appRepresentation.appDir,
         execArgv,
@@ -90,7 +108,7 @@ export class ApplicationHandler extends Base {
 
       proc.once('message', (message) => {
         if (message.action === APP_START_SUCCESS) {
-          const msg = `Application [name = ${this.appRepresentation.appName}, dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
+          const msg = `Application [appName = ${this.appRepresentation.appName}, processName = ${(<ProcessRepresentation> this.appRepresentation).processName || 'null'} dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
           daemonLogger.info(msg);
           nodejsStdout.info(msg);
           this.state = State.complete;
@@ -135,9 +153,12 @@ export class ApplicationHandler extends Base {
             break;
         }
       });
+
       this.proc = proc;
     });
+
   }
+
 
   /**
    * Stop application through kill

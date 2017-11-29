@@ -1,6 +1,6 @@
 'use strict';
 import Messenger, {MessengerClient} from 'pandora-messenger';
-import {consoleLogger, getDaemonStdoutLoggerPath} from '../universal/LoggerBroker';
+import {consoleLogger, getDaemonStdoutLogPath} from '../universal/LoggerBroker';
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -144,7 +144,7 @@ function startDaemonReal(options, resolve, reject) {
   }
   args.push(pathDaemonBootstrap);
 
-  const daemonStdoutPath = getDaemonStdoutLoggerPath();
+  const daemonStdoutPath = getDaemonStdoutLogPath();
   const daemonStdoutDir = dirname(daemonStdoutPath);
   mkdirp.sync(daemonStdoutDir);
   const stdout = fs.openSync(daemonStdoutPath, 'a');

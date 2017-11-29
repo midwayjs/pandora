@@ -50,7 +50,7 @@ export class ProcessIndicator extends Indicator {
       return {
         cpu: (<any> process).cpuUsage(),
         memory: process.memoryUsage()
-      }
+      };
     }
   }
 }

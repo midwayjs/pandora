@@ -59,7 +59,7 @@ const CpuInfo = {
    * Total time
    */
   totalTime: 0
-}
+};
 
 
 const getUsage = (current: number, last: number, currentInfo, lastInfo) => {
@@ -98,8 +98,6 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
 
   interruptsRate: number;
 
-  // lastCollectTime: number = +new Date();
-
   totalContextSwitches: number;
 
   contextSwitchesRate: number;
@@ -108,38 +106,39 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
 
   processBlocked: number;
 
+  names = [
+    'cpu.user',
+    'cpu.nice',
+    'cpu.system',
+    'cpu.idle',
+    'cpu.iowait',
+    'cpu.irq',
+    'cpu.softirq',
+    'cpu.steal',
+    'cpu.guest'
+  ];
+
+  nameIdx = {};
+
   constructor(filePath = CpuUsageGaugeSet.DEFAULT_FILE_PATH) {
     super();
     this.filePath = filePath;
+    for(let idx in this.names) {
+      this.nameIdx[idx] = this.names[idx];
+    }
   }
 
   getMetrics() {
     let self = this;
     let gauges = [];
 
-    const names = [
-      'cpu.user',
-      'cpu.nice',
-      'cpu.system',
-      'cpu.idle',
-      'cpu.iowait',
-      'cpu.irq',
-      'cpu.softirq',
-      'cpu.steal',
-      'cpu.guest'
-    ];
-
-    let index = 0;
-
-
-
-    for (let name of names) {
+    for (let name of this.names) {
       gauges.push({
         name: MetricName.build(name),
         metric: <Gauge<number>> {
           getValue() {
             self.refreshIfNecessary();
-            return self.cpuUsage[index++];
+            return self.cpuUsage[name];
           }
         }
       });
@@ -209,7 +208,7 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
 
         for (const key in cpuInfo) {
           if (key === 'totalTime') continue;
-          this.cpuUsage[index++] = getUsage(cpuInfo[key], lastCollectedCpuInfo[key], cpuInfo, lastCollectedCpuInfo);
+          this.cpuUsage[this.nameIdx[index++]] = getUsage(cpuInfo[key], lastCollectedCpuInfo[key], cpuInfo, lastCollectedCpuInfo);
         }
 
         lastCollectedCpuInfo = cpuInfo;

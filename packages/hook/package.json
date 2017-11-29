@@ -1,0 +1,72 @@
+{
+  "name": "pandora-hook",
+  "version": "0.1.33",
+  "description": "pandora module hook",
+  "main": "dist/index",
+  "typings": "src/index",
+  "scripts": {
+    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run lint && TS_NODE_CACHE=true mocha -t 100000",
+    "cov": "TS_NODE_CACHE=true nyc mocha -t 100000",
+    "ci": "npm run test",
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/hook src/"
+  },
+  "keywords": [
+    "pandora",
+    "hook"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/midwayjs/pandora.git"
+  },
+  "dependencies": {
+    "cls-bluebird": "^2.0.1",
+    "pandora-metrics": "^0.1.33",
+    "xorshift": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^6.0.85",
+    "bluebird": "^3.5.1",
+    "egg-logger": "^1.6.0",
+    "globby": "^6.1.0",
+    "mocha": "^3.5.0",
+    "module-hook": "^1.0.0",
+    "nyc": "^11.3.0",
+    "pandora-env": "^0.1.33",
+    "pedding": "^1.1.0",
+    "shimmer": "^1.1.0",
+    "urllib": "^2.25.1"
+  },
+  "license": "MIT",
+  "nyc": {
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "typings",
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "json",
+      "html",
+      "lcovonly"
+    ],
+    "all": true
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}

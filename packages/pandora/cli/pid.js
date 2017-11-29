@@ -10,7 +10,7 @@ exports.handler = function(argv) {
 
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
-      consoleLogger.info('Daemon is not running');
+      consoleLogger.info('Daemon is not running yet');
       process.exit(0);
       return;
     }
@@ -23,7 +23,7 @@ exports.handler = function(argv) {
       }
       for(const app of data) {
         if(app.name === argv.appName) {
-          console.log('PID: ' + app.appId);
+          console.log('PID: ' + app.pids.join(','));
           process.exit(0);
           return;
         }

@@ -29,7 +29,7 @@ describe('/test/unit/reporter/FileMetricManagerReporter.test.ts', () => {
     manager.register('test', MetricName.build('reporter.register.histogram'), new BaseHistogram());
     manager.register('test', MetricName.build('reporter.register.timer'), new BaseTimer());
     manager.register('test', MetricName.build('reporter.register.meter'), new BaseMeter());
-    const reporter = new FileMetricManagerReporter(null);
+    const reporter = new FileMetricManagerReporter(null , {});
     reporter.setMetricManager(manager);
     reporter.start(0.4);
 

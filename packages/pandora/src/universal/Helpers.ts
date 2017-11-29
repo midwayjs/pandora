@@ -33,22 +33,24 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}) {
       return !!text;
     }).join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     pandoraConfig = {};
   }
 
   const sendConfig = extend(true, defaultConfig, pandoraConfig || {}, cliConfig);
-  if (sendConfig['entry']) {
-    try {
-      let fd = statSync(resolve(sendConfig['entry']));
-      if (fd.isDirectory()) {
-        sendConfig['appDir'] = sendConfig['entry'];
-      } else if (fd.isFile()) {
-        sendConfig['entryFile'] = sendConfig['entry'];
-      }
-    } catch (err) {
-      console.error(err);
+  sendConfig['entry'] = sendConfig['entry'] || currentPath;
+
+  try {
+    const p = resolve(sendConfig['entry']);
+    let fd = statSync(p);
+    if (fd.isDirectory()) {
+      sendConfig['appDir'] = p;
+    } else if (fd.isFile()) {
+      sendConfig['entryFile'] = p;
+      sendConfig['appDir'] = currentPath;
     }
+  } catch (err) {
+    console.error(err);
   }
 
   return sendConfig;

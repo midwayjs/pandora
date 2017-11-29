@@ -1,9 +1,8 @@
 import {DefaultLoggerManager} from 'pandora-service-logger';
 import {ScheduledMetricsReporter} from './ScheduledMetricsReporter';
-import {
-  MetricName
-} from '../common/index';
-import {CollectLevel, MetricsCollectorFactory} from '../collect/MetricsCollectorFactory';
+import {MetricName} from '../common/index';
+import {MetricsCollector} from '../collect/MetricsCollector';
+import {CompactMetricsCollector} from '../collect/CompactMetricsCollector';
 
 export class FileMetricManagerReporter extends ScheduledMetricsReporter {
 
@@ -11,11 +10,17 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
   logger;
   durationFactor;
   rateFactor;
+  collectorCls;
 
-  constructor(actuatorManager, globalTags = {}) {
+  constructor(actuatorManager, options: {
+    rateFactor?: number,
+    durationFactor?: number
+    globalTags?: {},
+    collector?: MetricsCollector
+  }) {
     super(actuatorManager);
-
-    this.globalTags = globalTags;
+    this.globalTags = options.globalTags || {};
+    this.collectorCls = options.collector || CompactMetricsCollector;
     this.initFileAppender();
   }
 
@@ -33,8 +38,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
     let {gauges, counters, histograms, meters, timers} = metricsData;
     const timestamp = Date.now();
 
-    const collector =
-      MetricsCollectorFactory.create(CollectLevel.COMPACT, this.globalTags, this.rateFactor, this.durationFactor);
+    const collector = new this.collectorCls(this.globalTags, this.rateFactor, this.durationFactor);
 
     for (let [key, gauge] of gauges.entries()) {
       await collector.collectGauge(MetricName.parseKey(key), gauge, timestamp);
@@ -59,8 +63,8 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
     try {
       // 只显示 metrics 的 report
       for (let metricObject of collector.build()) {
-        if(metricObject && metricObject.toJSON) {
-          this.logger.info(JSON.stringify(metricObject.toJSON()));
+        if (metricObject && metricObject.toJSON) {
+          this.logger.write(JSON.stringify(metricObject.toJSON()));
         }
       }
     } catch (err) {

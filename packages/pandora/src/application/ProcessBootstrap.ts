@@ -1,10 +1,12 @@
 'use strict';
 require('source-map-support').install();
 
-import {APP_START_SUCCESS, APP_START_ERROR} from '../const';
+import {APP_START_SUCCESS, APP_START_ERROR, PANDORA_APPLICATION} from '../const';
 import assert = require('assert');
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
+import {makeRequire} from 'pandora-dollar';
+import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 
 const program = require('commander');
 
@@ -14,7 +16,7 @@ const program = require('commander');
 export class ProcessBootstrap {
 
   entry: string;
-  options: any;
+  options: ApplicationRepresentation;
 
   constructor(entry: string, options: ApplicationRepresentation) {
     this.entry = entry;
@@ -26,7 +28,15 @@ export class ProcessBootstrap {
    * @returns {Promise<void>}
    */
   async start(): Promise<void> {
-    const entryMod = require(this.entry);
+
+    if ('fork' === this.options.mode) {
+      process.env[PANDORA_APPLICATION] = JSON.stringify(this.options);
+      SpawnWrapperUtils.wrap();
+    }
+
+    const entryFileBaseDir = this.options.entryFileBaseDir;
+    const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
+    const entryMod = ownRequire(this.entry);
 
     // Only require that entry if the mode be fork
     if ('fork' === this.options.mode) {
@@ -95,6 +105,8 @@ export function cmd() {
   ProcessBootstrap.cmd();
 }
 
-if (require.main === module) {
+// require.main === module maybe be 'false' after patched spawn wrap
+if (require.main === module || process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE) {
+  delete process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE;
   cmd();
 }

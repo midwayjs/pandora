@@ -1,6 +1,6 @@
 import {HealthBuilder} from './HealthBuilder';
 import {Indicator} from '../../Indicator';
-import {IBuilder, IndicatorBuilderResult} from "../../../domain";
+import {IBuilder, IndicatorBuilderResult} from '../../../domain';
 
 export abstract class HealthIndicator extends Indicator {
 

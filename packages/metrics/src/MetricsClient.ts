@@ -3,7 +3,7 @@ import {ProxyCreateMessage, ProxyUpdateMessage} from './domain';
 import {MetricsConstants} from './MetricsConstants';
 import {EnvironmentUtil, Environment} from 'pandora-env';
 import {MetricsMessengerClient} from './util/MessengerUtil';
-import {Proxiable, Gauge} from './client/index';
+import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
 const debug = require('debug')('pandora:metrics:client');
 
@@ -62,25 +62,26 @@ export class MetricsClient extends AbstractIndicator {
    * @param {} name
    * @param {Proxiable} metric
    */
-  register(group: string, name: MetricName, metric: Proxiable | Metric ) {
+  register(group: string, name: MetricName | string, metric: Proxiable | Metric ) {
+    let newName = this.buildName(name);
     // 把应用名加上
-    name = name.tagged('appName', this.getAppName());
+    newName = newName.tagged('appName', this.getAppName());
 
     if(!metric.type) {
       metric.type = MetricType.GAUGE;
     }
 
     // 这边暂时不做去重
-    this.allMetricsRegisty.register(name, <Metric> <any> metric);
+    this.allMetricsRegisty.register(newName, <Metric> <any> metric);
 
     // Gauge 比较特殊，是实际的类，而服务端才是一个代理，和其他 metric 都不同，不需要 proxy
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
       for (let method of (<Proxiable>metric).proxyMethod) {
         metric[method] = (data) => {
-          debug(`${this.clientId} invoke name = ${name.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
+          debug(`${this.clientId} invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
           this.report({
             action: MetricsConstants.EVT_METRIC_UPDATE,
-            name: name.getNameKey(),
+            name: newName.getNameKey(),
             method: method,
             value: data,
             type: metric.type,
@@ -91,7 +92,7 @@ export class MetricsClient extends AbstractIndicator {
 
     this.report({
       action: MetricsConstants.EVT_METRIC_CREATE,
-      name: name.getNameKey(),
+      name: newName.getNameKey(),
       type: metric.type,
       group: group,
     });
@@ -102,7 +103,7 @@ export class MetricsClient extends AbstractIndicator {
       this.categoryMetrisMap.set(group, metricMap);
     }
 
-    metricMap.register(name, <Metric> <any> metric);
+    metricMap.register(newName, <Metric> <any> metric);
   }
 
   /**
@@ -142,6 +143,38 @@ export class MetricsClient extends AbstractIndicator {
 
   protected getAppName() {
     return this.environment.get('appName');
+  }
+
+  getCounter(group: string, name: MetricName | string) {
+    const counter = new Counter();
+    this.register(group, name, counter);
+    return counter;
+  }
+
+  getTimer(group: string, name: MetricName | string) {
+    const timer = new Timer();
+    this.register(group, name, timer);
+    return timer;
+  }
+
+  getMeter(group: string, name: MetricName | string) {
+    const meter = new Meter();
+    this.register(group, name, meter);
+    return meter;
+  }
+
+  getHistogram(group: string, name: MetricName | string) {
+    const histogram = new Histogram();
+    this.register(group, name, histogram);
+    return histogram;
+  }
+
+  private buildName(name: MetricName | string): MetricName {
+    if(typeof name === 'string') {
+      name = MetricName.build(<string>name);
+    }
+
+    return <MetricName>name;
   }
 
 }

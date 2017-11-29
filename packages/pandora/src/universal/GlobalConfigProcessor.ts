@@ -14,14 +14,14 @@ export class GlobalConfigProcessor {
 
   static GLOBAL_PACKAGE_SPLIT = ':';
 
-  static getInstance() {
+  static getInstance(): GlobalConfigProcessor {
     if (!this.instance) {
       this.instance = new GlobalConfigProcessor();
     }
     return this.instance;
   }
 
-  getAllProperties() {
+  getAllProperties(): any {
     if (!this.initialized) {
       const cwd = process.env[PANDORA_CWD] || process.cwd();
       const cwdRequire = makeRequire(cwd);
@@ -29,7 +29,7 @@ export class GlobalConfigProcessor {
       let globalConfig = require('../default').default;
       this.mergeProperties(globalConfig);
       for (const configPath of configPaths) {
-        if (configPath) {
+        if (configPath && configPath !== 'undefined') {
           try {
             let extendConfig = cwdRequire(configPath);
             extendConfig = extendConfig.default ? extendConfig.default : extendConfig;

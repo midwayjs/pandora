@@ -3,8 +3,9 @@ const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
 const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
+const cliUtils = require('./util/cliUtils');
 
-exports.command = 'start <targetPath>';
+exports.command = 'start [targetPath]';
 exports.desc = 'Start an application';
 exports.builder = (yargs) => {
 
@@ -15,19 +16,12 @@ exports.builder = (yargs) => {
 
   yargs.option('mode', {
     alias: 'm',
-    describe: 'The start mode, options: procfile.js or cluster or fork',
-    default: 'procfile.js'
+    describe: 'The start mode, options: procfile.js or cluster or fork'
   });
 
   yargs.option('scale', {
     alias: 's',
     describe: 'Only when the start mode be cluster, to specify the worker numbers of cluster'
-  });
-
-  yargs.option('inject-monitoring', {
-    alias: 'i',
-    describe: 'Only when the start mode be fork, inject the monitoring automatically before each child process started',
-    boolean: true
   });
 
 };
@@ -36,27 +30,21 @@ exports.builder = (yargs) => {
  * @param argv
  */
 exports.handler = function (argv) {
-  const targetPathResolved = path.resolve(argv.targetPath);
-  const injectMonitoring = argv.hasOwnProperty('inject-monitoring');
 
-  const sendParams = attachEntryParams('start', {
-    mode,
-    appName: argv.name,
-    entry: targetPathResolved,
-    scale,
-    injectMonitoring
-  }, {
+  argv.entry = argv.targetPath;
+  const sendParams = attachEntryParams('start', argv, {
     mode: 'procfile.js',
-    appDir: process.cwd(),
     appName: calcAppName(process.cwd())
   });
+
+  cliUtils.preCheck(sendParams.entry, sendParams.appName);
 
   const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
   consoleLogger.info('Starting ' + sendParams.appName + ' at ' + sendParams.appDir);
 
   send('start', sendParams, (err, data) => {
     if (err) {
-      consoleLogger.error(data);
+      consoleLogger.error(err);
       process.exit(1);
       return;
     }

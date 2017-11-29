@@ -1,25 +1,25 @@
 import {expect} from 'chai';
-import {LogCache} from '../../../src/util/LogCache';
+import {CommonCache} from '../../../src/util/CommonCache';
 
-describe('/test/unit/util/LogCache.test.ts', () => {
-  it('test LogCache init without capacity', () => {
-    let cache = new LogCache();
+describe('/test/unit/util/CommonCache.test.ts', () => {
+  it('test CommonCache init without capacity', () => {
+    let cache = new CommonCache();
     expect(cache.getCapacity()).to.be.equal(100);
   });
 
-  it('test LogCache init use capacity', () => {
-    let cache = new LogCache(200);
+  it('test CommonCache init use capacity', () => {
+    let cache = new CommonCache(200);
     expect(cache.getCapacity()).to.be.equal(200);
   });
 
-  it('test LogCache update capacity', () => {
-    let cache = new LogCache();
+  it('test CommonCache update capacity', () => {
+    let cache = new CommonCache();
     cache.updateCapacity(300);
     expect(cache.getCapacity()).to.be.equal(300);
   });
 
-  it('test LogCache push data', () => {
-    let cache = new LogCache();
+  it('test CommonCache push data', () => {
+    let cache = new CommonCache();
     for (let i of ('0'.repeat(10))) {
       cache.push(i);
     }
@@ -29,8 +29,8 @@ describe('/test/unit/util/LogCache.test.ts', () => {
     expect(cache.getSize()).to.be.equal(0);
   });
 
-  it('test LogCache push data over max capacity', () => {
-    let cache = new LogCache(10);
+  it('test CommonCache push data over max capacity', () => {
+    let cache = new CommonCache(10);
     for (let i of ('0'.repeat(20))) {
       cache.push(i);
     }
@@ -39,8 +39,8 @@ describe('/test/unit/util/LogCache.test.ts', () => {
     expect(cache.getSize()).to.be.equal(10);
   });
 
-  it('test LogCache query data use default value', () => {
-    let cache = new LogCache(100);
+  it('test CommonCache query data use default value', () => {
+    let cache = new CommonCache(100);
     for (let i of ('12345'.repeat(10))) {
       cache.push({
         data: i,
@@ -50,8 +50,8 @@ describe('/test/unit/util/LogCache.test.ts', () => {
     expect(cache.query().length).to.be.equal(50);
   });
 
-  it('test LogCache query data use size', () => {
-    let cache = new LogCache(100);
+  it('test CommonCache query data use size', () => {
+    let cache = new CommonCache(100);
     for (let i of ('12345'.repeat(10))) {
       cache.push({
         data: i,
@@ -70,8 +70,8 @@ describe('/test/unit/util/LogCache.test.ts', () => {
     expect(results[2].data).to.be.equal('5');
   });
 
-  it('test LogCache query data use size and order by desc', () => {
-    let cache = new LogCache(100);
+  it('test CommonCache query data use size and order by desc', () => {
+    let cache = new CommonCache(100);
     for (let i of ('12345'.repeat(10))) {
       cache.push({
         data: i,
@@ -92,9 +92,9 @@ describe('/test/unit/util/LogCache.test.ts', () => {
   });
 
 
-  it('test LogCache query data use time', () => {
+  it('test CommonCache query data use time', () => {
     let baseTime = 1483243200000;  // 2017-01-01 12:00:00
-    let cache = new LogCache(100);
+    let cache = new CommonCache(100);
     for (let i of ('12345'.repeat(10))) {
       cache.push({
         data: i,
@@ -112,9 +112,9 @@ describe('/test/unit/util/LogCache.test.ts', () => {
     expect(results[9].data).to.be.equal('5');
   });
 
-  it('test LogCache query data use time and order by desc', () => {
+  it('test CommonCache query data use time and order by desc', () => {
     let baseTime = 1483243200000;  // 2017-01-01 12:00:00
-    let cache = new LogCache(100);
+    let cache = new CommonCache(100);
     for (let i of ('12345'.repeat(10))) {
       cache.push({
         data: i,
@@ -134,8 +134,8 @@ describe('/test/unit/util/LogCache.test.ts', () => {
     expect(results[19].data).to.be.equal('4');
   });
 
-  it('test LogCache query data use time but date without date key', () => {
-    let cache = new LogCache(100);
+  it('test CommonCache query data use time but date without date key', () => {
+    let cache = new CommonCache(100);
     for (let i of ('12345'.repeat(10))) {
       cache.push({
         data: i

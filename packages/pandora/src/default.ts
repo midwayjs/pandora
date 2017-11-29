@@ -1,67 +1,87 @@
 import {DefaultConfigurator} from './universal/DefaultConfigurator';
+import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
+import {join} from 'path';
+import {homedir} from 'os';
 
-const {DefaultEnvironment} = require("pandora-env");
+const {DefaultEnvironment} = require('pandora-env');
 const {
   ErrorEndPoint,
   HealthEndPoint,
   InfoEndPoint,
   ProcessEndPoint,
-  RuntimeEndPoint,
   MetricsEndPoint,
+  TraceEndPoint,
   ErrorResource,
   MetricsResource,
   HealthResource,
+  TraceResource,
+  InfoResource,
+  ProcessResource,
   FileMetricManagerReporter,
-  MetricsActuatorServer
-} = require("pandora-metrics");
+  MetricsClient,
+  MetricsServerManager,
+  CompactMetricsCollector,
+  NormalMetricsCollector,
+} = require('pandora-metrics');
 const {LoggerService} = require('pandora-service-logger');
+const hooks = require('pandora-hook');
 
 export default {
-  process: {
-    defaultCategory: 'worker',
-    category: {
-      agent: {
-        order: 0,
-        scale: 1,
-        argv: [],
-        env: {
-          agent: 'true'
-        }
-      },
-      worker: {
-        order: 1,
-        argv: [],
-        scale: 'auto',
-        env: {}
-      },
-      background: {
-        order: 2,
-        scale: 1,
-        argv: [],
-        env: {
-          background: 'true'
-        }
-      }
-    }
-  },
+
   environment: DefaultEnvironment,
   configurator: DefaultConfigurator,
-  service: {
-    defaultCategory: 'all',
-    injection: {
-      'logger': {
-        entry: LoggerService,
-        config: (ctx) => {
-          return ctx.config.loggerService;
-        }
-      }
+
+  procfile (pandora: ProcfileReconcilerAccessor) {
+
+    const globalConfig = require('./universal/GlobalConfigProcessor')
+      .GlobalConfigProcessor.getInstance().getAllProperties();
+
+    pandora.defaultAppletCategory('worker');
+    pandora.defaultServiceCategory('weak-all');
+
+    pandora.environment(globalConfig.environment);
+    pandora.configurator(globalConfig.configurator);
+
+    pandora.process('agent')
+      .scale(1)
+      .env({agent: 'true'});
+
+    pandora.process('worker')
+      .scale('auto')
+      .env({worker: 'true'});
+
+    pandora.process('background')
+      .scale(1)
+      .env({background: 'true'});
+
+    pandora.service(LoggerService)
+      .name('logger')
+      .process('weak-all')
+      .config((ctx) => {
+        return ctx.config.loggerService;
+      });
+
+  },
+
+  logger: {
+    logsDir: join(homedir(), 'logs'),
+    appLogger: {
+      stdoutLevel: 'NONE',
+      level: 'INFO'
+    },
+    daemonLogger: {
+      stdoutLevel: 'ERROR',
+      level: 'INFO',
     }
   },
-  actuatorServer: MetricsActuatorServer,
+
+  metricsServer: MetricsServerManager,
+  metricsClient: MetricsClient,
+
   actuator: {
     http: {
       enabled: true,
-      port: 8006,
+      port: 7002,
     },
 
     endPoints: {
@@ -70,7 +90,7 @@ export default {
         target: ErrorEndPoint,
         resource: ErrorResource,
         initConfig: {
-          maxErrorCount: 100
+          cacheSize: 100
         }
       },
       health: {
@@ -91,27 +111,59 @@ export default {
       info: {
         enabled: true,
         target: InfoEndPoint,
+        resource: InfoResource,
       },
       process: {
         enabled: true,
         target: ProcessEndPoint,
-      },
-      runtime: {
-        enabled: true,
-        target: RuntimeEndPoint
+        resource: ProcessResource,
       },
       metrics: {
         enabled: true,
         target: MetricsEndPoint,
-        resource: MetricsResource
+        resource: MetricsResource,
+        initConfig: {
+          collector: NormalMetricsCollector
+        }
+      },
+      trace: {
+        enabled: true,
+        target: TraceEndPoint,
+        resource: TraceResource,
+        initConfig: {
+          cacheSize: 1000,
+          rate: 10
+        }
       }
     },
+  },
+
+  hook: {
+    eggLogger: {
+      enabled: true,
+      target: hooks.EggLoggerPatcher,
+    },
+    urllib: {
+      enabled: true,
+      target: hooks.UrllibPatcher
+    },
+    bluebird: {
+      enabled: true,
+      target: hooks.BluebirdPatcher
+    },
+    http: {
+      enabled: true,
+      target: hooks.HttpPatcher
+    }
   },
   reporter: {
     file: {
       enabled: true,
       target: FileMetricManagerReporter,
-      interval: 5
+      interval: 5,
+      initConfig: {
+        collector: CompactMetricsCollector
+      }
     }
   }
 };

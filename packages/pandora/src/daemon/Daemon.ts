@@ -1,5 +1,5 @@
 'use strict';
-import {ApplicationHandler} from '../application/ApplicationHandler';
+import {ComplexHandler} from './ComplexHandler';
 import Base = require('sdk-base');
 import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE} from '../const';
 import * as fs from 'fs';
@@ -7,7 +7,7 @@ import assert = require('assert');
 import messenger from 'pandora-messenger';
 import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
-import {Monitor} from './Monitor';
+import {Monitor} from '../monitor/Monitor';
 
 const daemonLogger = getDaemonLogger();
 
@@ -22,7 +22,7 @@ enum State {
  */
 export class Daemon extends Base {
   private state: State;
-  private apps: Map<any, ApplicationHandler>;
+  private apps: Map<any, ComplexHandler>;
   private messengerServer: any;
   private monitor: Monitor;
 
@@ -83,7 +83,7 @@ export class Daemon extends Base {
   }
 
   /**
-   * handing daemon's commands invocation
+   * Handle daemon's command invocations
    * @param message
    * @param reply
    */
@@ -96,21 +96,21 @@ export class Daemon extends Base {
         this.startApp(args).then(() => {
           reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
         }).catch(err => {
-          reply({error: true, data: `${args.appName} started failed, ${err && err.toString()}`});
+          reply({error: `${args.appName} started failed, ${err && err.toString()}`});
         });
         break;
       case 'stopAll':
         this.stopAllApps().then(() => {
           reply({data: `all apps stopped successfully!`});
         }).catch(err => {
-          reply({error: true, data: `all apps stopped failed, ${err && err.toString()}`});
+          reply({error: `all apps stopped failed, ${err && err.toString()}`});
         });
         break;
       case 'stopApp':
         this.stopApp(args.appName).then(() => {
           reply({data: `${args.appName} stopped successfully!`});
         }).catch(err => {
-          reply({error: true, data: `${args.appName} stopped failed, ${err && err.toString()}`});
+          reply({error: `${args.appName} stopped failed, ${err && err.toString()}`});
         });
         break;
       case 'restart':
@@ -119,7 +119,7 @@ export class Daemon extends Base {
         }).then(() => {
           reply({data: `${args.appName} restarted successfully!`});
         }).catch(err => {
-          reply({error: true, data: `${args.appName} restarted failed, ${err && err.toString()}`});
+          reply({error: `${args.appName} restarted failed, ${err && err.toString()}`});
         });
         break;
 
@@ -132,13 +132,14 @@ export class Daemon extends Base {
       case 'list':
         const keySet = Array.from(this.apps.keys());
         const data = keySet.map((key) => {
-          const app = this.apps.get(key);
+          const complex = this.apps.get(key);
           return {
-            name: app.name,
-            appId: app.appId,
-            mode: app.mode,
-            appDir: app.appDir,
-            state: app.state
+            name: complex.name,
+            appId: complex.appId,
+            pids: complex.pids,
+            mode: complex.mode,
+            appDir: complex.appDir,
+            state: complex.state
           };
         });
         reply({data: data});
@@ -151,9 +152,9 @@ export class Daemon extends Base {
    * Start an application
    *
    * @param {ApplicationRepresentation} applicationRepresentation
-   * @returns {Promise<ApplicationHandler>}
+   * @returns {Promise<ComplexHandler>}
    */
-  async startApp(applicationRepresentation: ApplicationRepresentation): Promise<ApplicationHandler> {
+  async startApp(applicationRepresentation: ApplicationRepresentation): Promise<ComplexHandler> {
     // require appName and appDir when app start
     const appName = applicationRepresentation.appName;
     const appDir = applicationRepresentation.appDir;
@@ -161,40 +162,40 @@ export class Daemon extends Base {
     assert(appDir, `options.appDir is required!`);
     assert(fs.existsSync(appDir), `${appDir} does not exists!`);
     assert(!this.apps.has(appName), `app[${appName}]  has been initialized!`);
-    const applicationHandler = new ApplicationHandler(applicationRepresentation);
-    await applicationHandler.start();
-    this.apps.set(appName, applicationHandler);
-    return applicationHandler;
+    const complexHandler = new ComplexHandler(applicationRepresentation);
+    await complexHandler.start();
+    this.apps.set(appName, complexHandler);
+    return complexHandler;
   }
 
   /**
    * Reload an application
    * @param appName
    * @param processName
-   * @return {Promise<ApplicationHandler>}
+   * @return {Promise<ComplexHandler>}
    */
-  async reloadApp(appName, processName?): Promise<ApplicationHandler> {
-    const app = this.apps.get(appName);
-    if (!app) {
+  async reloadApp(appName, processName?): Promise<ComplexHandler> {
+    const complex = this.apps.get(appName);
+    if (!complex) {
       throw new Error(`${appName} does not exists!`);
     }
-    await app.reload(processName);
-    return app;
+    await complex.reload(processName);
+    return complex;
   }
 
   /**
    * stop an application
    * @param appName
-   * @return {Promise<ApplicationHandler>}
+   * @return {Promise<ComplexHandler>}
    */
-  async stopApp(appName): Promise<ApplicationHandler> {
-    const app = this.apps.get(appName);
-    if (!app) {
+  async stopApp(appName): Promise<ComplexHandler> {
+    const complex = this.apps.get(appName);
+    if (!complex) {
       throw new Error(`${appName} does not exists!`);
     }
-    await app.stop();
+    await complex.stop();
     this.apps.delete(appName);
-    return app;
+    return complex;
   }
 
   /**

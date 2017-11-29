@@ -9,7 +9,7 @@ export default class ServiceLogger implements ILogger {
   protected logger: ILogger;
 
   constructor(serviceCore) {
-    const serviceId: string = serviceCore.genServiceId();
+    const serviceId: string = serviceCore.getServiceId();
     this.prefix = `[appName: ${serviceCore.context.appName}, processName: ${serviceCore.context.processName}, workMode: ${serviceCore.workMode}] `;
     const defaultLoggerManager = DefaultLoggerManager.getInstance();
     this.logger = defaultLoggerManager.createLogger(serviceId, {
