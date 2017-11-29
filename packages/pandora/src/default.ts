@@ -16,6 +16,7 @@ const {
   HealthResource,
   TraceResource,
   InfoResource,
+  ProcessResource,
   FileMetricManagerReporter,
   MetricsClient,
   MetricsServerManager,
@@ -115,7 +116,7 @@ export default {
       process: {
         enabled: true,
         target: ProcessEndPoint,
-        resource: ProcessEndPoint,
+        resource: ProcessResource,
       },
       metrics: {
         enabled: true,
