@@ -57,8 +57,8 @@ export class ProcfileReconcilerAccessor {
 
   /**
    * Define fork a process
-   * @param entryFile
    * @param processName
+   * @param entryFile
    * @return {ProcessRepresentationChainModifier}
    */
   fork(processName: string, entryFile): ProcessRepresentationChainModifier {
@@ -76,6 +76,7 @@ export class ProcfileReconcilerAccessor {
 
   /**
    * Inject service class
+   * @param serviceName
    * @param serviceEntry
    * @return {ServiceRepresentationChainModifier}
    */
