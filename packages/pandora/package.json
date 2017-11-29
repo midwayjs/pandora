@@ -44,8 +44,6 @@
     "pandora-messenger": "^0.1.33",
     "pandora-metrics": "^0.1.33",
     "pandora-service-logger": "^0.1.33",
-    "ps-node": "^0.1.6",
-    "ps-tree": "^1.1.0",
     "read-last-lines": "^1.2.0",
     "sdk-base": "^2.0.1",
     "shimmer": "^1.1.0",

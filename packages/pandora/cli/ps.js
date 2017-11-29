@@ -1,10 +1,7 @@
 'use strict';
 const path = require('path');
-const {promisify} = require('util');
-const pstree = promisify(require('ps-tree'));
-const lookup = promisify(require('ps-node').lookup);
+const spawn = require('child_process').spawn;
 const treeify = require('treeify');
-const debug = require('debug')('pandora:cli:ps');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
 const {send, isDaemonRunning} = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler'));
@@ -15,8 +12,8 @@ const populateSubTree = (ppid, children) => {
   const remoteChildren = [];
 
   for (const child of children) {
-    if (child.PPID === ppid.toString()) {
-      childrenMap[child.PID] = null;
+    if (child.ppid === ppid) {
+      childrenMap[child.pid] = null;
     } else {
       remoteChildren.push(child);
     }
@@ -32,25 +29,68 @@ const populateSubTree = (ppid, children) => {
   return null;
 };
 
-const transformKey = async pid => {
-  let info = (await lookup({pid}))[0];
-  if (info && info.arguments) {
-    return `[${pid}] ${info.arguments.join(' ')}`;
+const transformKey = (pid, procs) => {
+  let info = procs[pid];
+  if (info && info.command) {
+    return `[${pid}] ${info.command}`;
   }
   return `[${pid}] [UNKNOWN COMMAND]`
 };
 
-const transformKeys = async tree => {
+const transformKeys = (tree, procs) => {
   for (const key in tree) {
-    const newKey = await transformKey(key);
+    const newKey = transformKey(key, procs);
     if (tree[key] === null) {
       tree[newKey] = null;
     } else {
-      tree[newKey] = await transformKeys(tree[key]);
+      tree[newKey] = transformKeys(tree[key], procs);
     }
     delete tree[key];
   }
   return tree;
+};
+
+const spawnPs = () => {
+  // ps -A -o pid,ppid,args
+  return new Promise(resolve => {
+    let output = '';
+    const child = spawn('ps', ['-A', '-o', 'pid,ppid,args']);
+    child.stdout.on('data', data => {
+      output += data.toString();
+    });
+    child.stdout.on('end', () => {
+      resolve(output);
+    })
+  })
+};
+
+const getProcesses = async () => {
+  const procs = {};
+  let ps = await spawnPs();
+  ps = ps.split('\n');
+  ps.shift();   // get rid of the header
+  ps.pop();     // get rid of the last empty line
+
+  ps.forEach(line => {
+    line = line.trim();
+    const matches = line.match(/(\d+)\s+(\d+)\s+(.+)/);
+    matches.shift();
+    const [pid, ppid, command] = matches;
+    procs[pid] = {
+      pid, ppid, command
+    };
+  });
+  return procs;
+};
+
+const getChildren = (ppid, procs) => {
+  const children = [];
+  for (const pid in procs) {
+    if (procs[pid].ppid === ppid) {
+      children.push(procs[pid]);
+    }
+  }
+  return children;
 };
 
 exports.command = 'ps';
@@ -72,18 +112,21 @@ exports.handler = argv => {
           return;
         }
 
+        const procs = await getProcesses();
+
         let ps = {};
         for (const app of data) {
-          for (const pid of app.pids) {
-            const children = await pstree(pid);
+          for (let pid of app.pids) {
+            pid += '';
+            const children = getChildren(pid, procs);
             if (children.length) {
-              ps[pid] = await populateSubTree(pid, children);
+              ps[pid] = populateSubTree(pid, children);
             } else {
               ps[pid] = null;
             }
-            ps = await transformKeys(ps);
           }
         }
+        ps = transformKeys(ps, procs);
         const tree = treeify.asTree(ps, true);
         console.log(tree);
         process.exit(0);
