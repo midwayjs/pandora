@@ -1,4 +1,4 @@
-import {Daemon} from '../../../pandora/src/daemon/Daemon';
+import {Daemon} from 'pandora';
 
 export class DaemonUtil {
 

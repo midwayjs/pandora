@@ -102,7 +102,7 @@ export interface Service {
 export interface ApplicationIntrospectionResult {
   state: State;
   mode: string;
-  name: string;
+  appName: string;
   appDir: string;
   appId: string;
   pids: number[];

@@ -63,6 +63,7 @@ export * from './rest/HealthResource';
 export * from './rest/TraceResource';
 export * from './rest/InfoResource';
 export * from './rest/ProcessResource';
+export * from './rest/DaemonResource';
 
 /**
  * client

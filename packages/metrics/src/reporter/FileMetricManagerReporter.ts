@@ -4,6 +4,7 @@ import {ScheduledMetricsReporter} from './ScheduledMetricsReporter';
 import {MetricName} from '../common/index';
 import {MetricsCollector} from '../collect/MetricsCollector';
 import {CompactMetricsCollector} from '../collect/CompactMetricsCollector';
+import {join} from 'path';
 
 export class FileMetricManagerReporter extends ScheduledMetricsReporter {
 
@@ -31,7 +32,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
     this.logger = DefaultLoggerManager.getInstance().createLogger('metrics', {
       type: 'size',
       maxFiles: 200 * 1024 * 1024,
-      dir: this.environment.get('pandoraLogsDir') + '/metrics.log',
+      dir: join(this.environment.get('pandoraLogsDir'), 'pandorajs'),
       stdoutLevel: 'NONE',
       level: 'ALL'
     });

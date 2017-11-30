@@ -32,7 +32,8 @@
     "nyc": "^11.2.1",
     "sinon": "^4.1.2",
     "supertest": "^3.0.0",
-    "yargs": "^6.6.0"
+    "yargs": "^6.6.0",
+    "pandora": "^1.1.1"
   },
   "dependencies": {
     "address": "^1.0.3",

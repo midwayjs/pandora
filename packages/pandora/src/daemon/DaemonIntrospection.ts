@@ -55,7 +55,7 @@ async function complexToIntrospection(complex): Promise<ApplicationIntrospection
   return {
     state: complex.state,
     mode: complex.mode,
-    name: complex.name,
+    appName: complex.name,
     appDir: complex.appDir,
     appId: complex.appId,
     pids: complex.pids,
