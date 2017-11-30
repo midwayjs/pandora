@@ -5,25 +5,15 @@
 import {IBuilder, IndicatorType, LoggerCollector, LoggerOptions} from '../../domain';
 import {DuplexIndicator} from '../DuplexIndicator';
 import {LoggerMessageCollector} from '../../util/MessageCollector';
-const util = require('util');
-
-function getDate() {
-  let d = new Date();
-  return util.format(
-    '%s-%s-%s %s:%s:%s',
-    d.getFullYear(),
-    d.getMonth() + 1,
-    d.getDate(),
-    d.getHours(),
-    d.getMinutes(),
-    d.getSeconds()
-  );
-}
+import * as address from 'address';
+import * as os from 'os';
 
 export class ErrorIndicator extends DuplexIndicator {
   group: string = 'error';
   type: IndicatorType = 'multiton';
   collector: LoggerCollector;
+  ip: string = address.ip();
+  host: string  = os.hostname();
 
   constructor(collector = new LoggerMessageCollector()) {
     super();
@@ -33,10 +23,13 @@ export class ErrorIndicator extends DuplexIndicator {
   registerUplink() {
     this.collector.collect('error', (payload: LoggerOptions) => {
       if('error' === payload.method) {
-        this.report(Object.assign(payload, {
-          date: getDate(),
-          appName: this.getAppName()
-        }));
+        this.report(Object.assign({
+          date: Date.now(),
+          appName: this.getAppName(),
+          ip: this.ip,
+          host: this.host,
+          pid: process.pid
+        }, payload));
       }
     });
   }

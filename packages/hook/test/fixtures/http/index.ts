@@ -10,7 +10,11 @@ RunUtil.run(function(done) {
   const urllib = require('urllib');
 
   process.on('PANDORA_PROCESS_MESSAGE_TRACE', tracer => {
+    assert(tracer.name === 'HTTP-GET:/');
     assert(tracer.spans.length > 0);
+    assert(tracer.host);
+    assert(tracer.ip);
+    assert(tracer.pid);
     done();
   });
 

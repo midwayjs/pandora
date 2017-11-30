@@ -51,6 +51,10 @@ export class UrllibPatcher extends Patcher {
     return span;
   }
 
+  transformArgs(args) {
+    return args;
+  }
+
   shimmer() {
     const self = this;
     const traceManager = this.getTraceManager();
@@ -69,6 +73,7 @@ export class UrllibPatcher extends Patcher {
           }
 
           args = args || {};
+          args = self.transformArgs(args);
           const tracer = traceManager.getCurrentTracer();
 
           if (tracer) {
