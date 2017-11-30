@@ -74,13 +74,13 @@ export class ServiceReconciler {
   public getWeight(id, chain?: string[]) {
     chain = Array.from(chain || []);
     assert(-1 === chain.indexOf(id), `Service name: ${id} in a cyclic dependency chain: ${chain.join(' -> ')} -> ${id}`);
-    chain.push(id);
     if(chain.length > 1 && id === 'all') {
       throw new Error(`Reserved service name 'all' not allowed to contains within a dependency chain: ${chain.join(' -> ')} -> ${id}`);
     }
     if(id === 'all') {
       return Infinity;
     }
+    chain.push(id);
     assert(this.services.has(id), `Could not found service id: ${id}`);
     const ref = this.services.get(id);
     const {serviceRepresentation} = ref;
@@ -114,6 +114,9 @@ export class ServiceReconciler {
 
         if (deps) {
           for (let depId of deps) {
+            if(depId === 'all') {
+              continue;
+            }
             depInstances[depId] = this.services.get(depId).serviceCoreInstance;
           }
         }

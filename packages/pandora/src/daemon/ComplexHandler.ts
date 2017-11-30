@@ -64,7 +64,7 @@ export class ComplexHandler {
     if(!this.startTime) {
       return 0;
     }
-    return Date.now() - this.startTime;
+    return (Date.now() - this.startTime) / 1000;
   }
 
   public async getComplex(): Promise<ComplexApplicationStructureRepresentation> {
