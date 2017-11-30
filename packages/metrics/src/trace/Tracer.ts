@@ -104,7 +104,10 @@ export class Tracer extends OpenTrancer {
     };
 
     for (let [key, value] of this.attrs.entries()) {
-      result[key] = value.report();
+      const v = value.report();
+      if (v === false) {
+        result[key] = v;
+      }
     }
 
     return result;
