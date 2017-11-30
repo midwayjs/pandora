@@ -26,7 +26,7 @@ export class DaemonIntrospection {
     const daemon = this.daemon;
     const complex = daemon.apps.get(appName);
     if(!complex) {
-      throw new Error(`Can\t found a Application it named ${appName}`);
+      throw new Error(`Can\'t found a Application it named ${appName}`);
     }
     return complexToIntrospection(complex);
   }

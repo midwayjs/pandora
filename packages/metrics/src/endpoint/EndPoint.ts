@@ -42,9 +42,10 @@ export class EndPoint implements IEndPoint {
       }
 
       return Promise.all(querys).then((results) => {
-        return this.processQueryResults(results);
+        return this.processQueryResults(results, appName, args);
       }).catch((err) => {
         this.logger.error(err);
+        throw err;
       });
     }
   }
@@ -55,7 +56,7 @@ export class EndPoint implements IEndPoint {
     this.messengerServer.discovery(this.registerIndicator.bind(this));
   }
 
-  processQueryResults(results: Array<IndicatorResult>): any {
+  processQueryResults(results: Array<IndicatorResult>, appName?: string, args?: any): any {
     debug('Return: get callback from Indicators');
 
     let allResults = [];

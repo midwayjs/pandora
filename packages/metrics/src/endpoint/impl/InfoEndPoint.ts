@@ -4,10 +4,24 @@ import {DaemonUtil} from '../../util/DaemonUtil';
 export class InfoEndPoint extends EndPoint {
   group: string = 'info';
 
-  async processQueryResults(results) {
+  async processQueryResults(results, appName) {
+
+    const daemon = DaemonUtil.getDaemon();
+    if(!daemon) {
+      return null;
+    }
+    const introspection = daemon.getIntrospection();
+
     results = super.processQueryResults(results);
-    console.log(results);
-    const appList = await DaemonUtil.getDaemon().getIntrospection().listApplication();
+
+    let appList;
+    if(appName) {
+      const app = await introspection.getApplictaionByName(appName);
+      appList = [app];
+    } else {
+      appList = await introspection.listApplication();
+    }
+
     const appList2nd = [];
     for(const app of appList) {
       let found;
@@ -19,7 +33,9 @@ export class InfoEndPoint extends EndPoint {
       }
       appList2nd.push({...found, ...app});
     }
+
     return appList2nd;
+
   }
 
 }
