@@ -5,6 +5,8 @@ export class InfoEndPoint extends EndPoint {
   group: string = 'info';
 
   async processQueryResults(results) {
+    results = super.processQueryResults(results);
+    console.log(results);
     const appList = await DaemonUtil.getDaemon().getIntrospection().listApplication();
     const appList2nd = [];
     for(const app of appList) {

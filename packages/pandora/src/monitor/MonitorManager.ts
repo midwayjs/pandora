@@ -1,4 +1,6 @@
 import {
+  BaseInfoIndicator,
+  NodeIndicator,
   ProcessIndicator,
   ErrorIndicator,
   MetricsClientUtil,
@@ -76,6 +78,8 @@ export class MonitorManager {
 
     // init indicators
     [
+      new BaseInfoIndicator(),
+      new NodeIndicator(),
       new ProcessIndicator(),
       new ErrorIndicator(),
     ].forEach((ins) => {
