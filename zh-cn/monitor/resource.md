@@ -104,7 +104,7 @@ GET /error
 [
   {
     "method": "error",
-    "date": 1346846400,
+    "timestamp": 1346846400,
     "errType": "TypeError",
     "message": "Cannot read property 'name' of null",
     "stack": "2017-11-29 15:01:20   Error: read ECONNRESET",
@@ -206,7 +206,7 @@ GET /trace
 
 [
   {
-    "date": "1511977377963",
+    "timestamp": "1511977377963",
     "appName": "DEFAULT_APP",
     "traceId": "1e084d5515118598316151001dd73d",
     "duration": 139,
