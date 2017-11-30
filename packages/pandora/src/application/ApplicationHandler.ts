@@ -39,6 +39,8 @@ export class ApplicationHandler extends Base {
     return this.proc && this.proc.pid;
   }
 
+  public startCount: number = 0;
+
   constructor(applicationRepresentation: ApplicationRepresentation)
   constructor(applicationRepresentation: ProcessRepresentation) {
 
@@ -70,6 +72,7 @@ export class ApplicationHandler extends Base {
       throw new Error(`Unknown start mode ${mode} when start an application`);
     }
 
+    this.startCount++;
     await this.doFork(args);
 
   }

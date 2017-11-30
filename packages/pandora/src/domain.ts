@@ -1,6 +1,7 @@
 import {WorkerContextAccessor} from './application/WorkerContextAccessor';
 import {ServiceCore} from './service/ServiceCore';
 import {ServiceContextAccessor} from './service/ServiceContextAccessor';
+import {State} from './const';
 
 export type ProcessScale = number | 'auto';
 export type CategoryReg = string | 'all' | 'weak-all';
@@ -94,9 +95,41 @@ export interface Service {
 
 }
 
+
+// ************************
+// Daemon Introspection
+
+export interface ApplicationIntrospectionResult {
+  state: State;
+  mode: string;
+  name: string;
+  appDir: string;
+  appId: string;
+  pids: number[];
+  startCount: number;
+  uptime: number;
+  representation?: ApplicationRepresentation;
+  complex?: ComplexApplicationStructureRepresentation;
+}
+
+export type VersionsIntrospectionResult = typeof process.versions & {
+  pandora: string;
+};
+
+export interface DaemonIntrospectionResult {
+  versions: VersionsIntrospectionResult;
+  cwd: string;
+  pid: number;
+  uptime: number;
+  loadedGlobalConfigPaths: string[];
+}
+
+
+
 // ************************
 // Other
 
 export {Environment} from 'pandora-env';
 export {LoggerService, LoggerConfig, ILogger} from 'pandora-service-logger';
+
 
