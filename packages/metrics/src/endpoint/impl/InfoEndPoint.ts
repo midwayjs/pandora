@@ -5,14 +5,13 @@ export class InfoEndPoint extends EndPoint {
   group: string = 'info';
 
   async processQueryResults(results, appName) {
+    results = super.processQueryResults(results);
 
     const daemon = DaemonUtil.getDaemon();
     if(!daemon) {
-      return null;
+      return results;
     }
     const introspection = daemon.getIntrospection();
-
-    results = super.processQueryResults(results);
 
     let appList;
     if(appName) {
