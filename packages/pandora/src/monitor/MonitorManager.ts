@@ -19,7 +19,13 @@ const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
 
+  static injected: boolean = false;
+
   static injectProcessMonitor() {
+
+    if(MonitorManager.injected) {
+      return;
+    }
 
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
@@ -90,6 +96,9 @@ export class MonitorManager {
     client.register('node', MetricName.build('node.v8').tagged({
       pid: process.pid
     }), new V8GaugeSet());
+
+    MonitorManager.injected = true;
+
   }
 
 

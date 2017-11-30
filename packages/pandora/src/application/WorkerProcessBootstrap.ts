@@ -67,15 +67,20 @@ export class WorkerProcessBootstrap {
       throw new Error(`Unknown mode ${mode}`);
     }
 
-    // Handing the environment object injecting
-    const Environment = this.procfileReconciler.getEnvironment();
-    const environment = new Environment({
-      appDir: this.processRepresentation.appDir,
-      appName: this.processRepresentation.appName,
-      processName: this.processRepresentation.processName,
-      pandoraLogsDir: getPandoraLogsDir()
-    });
-    EnvironmentUtil.getInstance().setCurrentEnvironment(environment);
+    if(!EnvironmentUtil.getInstance().isReady()) {
+      // Handing the environment object injecting
+      const Environment = this.procfileReconciler.getEnvironment();
+      const environment = new Environment({
+        appDir: this.processRepresentation.appDir,
+        appName: this.processRepresentation.appName,
+        processName: this.processRepresentation.processName,
+        pandoraLogsDir: getPandoraLogsDir()
+      });
+      EnvironmentUtil.getInstance().setCurrentEnvironment(environment);
+    }
+
+    // To start worker process monitoring
+    MonitorManager.injectProcessMonitor();
 
     // Handing the services injecting
     const servicesByCurrentCategory = this.procfileReconciler.getServicesByCategory(this.processRepresentation.processName);
@@ -84,8 +89,6 @@ export class WorkerProcessBootstrap {
     // To start process by WorkerContext
     await this.context.start();
 
-    // To start worker process monitoring
-    MonitorManager.injectProcessMonitor();
   }
 
   /**
