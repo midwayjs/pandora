@@ -105,9 +105,9 @@ GET /error
   {
     "method": "error",
     "date": 1346846400,
-    "errType": "myError",
-    "message": "",
-    "stack": "",
+    "errType": "TypeError",
+    "message": "Cannot read property 'name' of null",
+    "stack": "2017-11-29 15:01:20   Error: read ECONNRESET",
     "traceId": "1231455",
     "path": "/xxx/xx.log"
   }
