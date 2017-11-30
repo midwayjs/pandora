@@ -10,12 +10,14 @@ const {
   ProcessEndPoint,
   MetricsEndPoint,
   TraceEndPoint,
+  DaemonEndPoint,
   ErrorResource,
   MetricsResource,
   HealthResource,
   TraceResource,
   InfoResource,
   ProcessResource,
+  DaemonResource,
   FileMetricManagerReporter,
   MetricsClient,
   MetricsServerManager,
@@ -79,6 +81,11 @@ export default {
     },
 
     endPoints: {
+      daemon: {
+        enabled: true,
+        target: DaemonEndPoint,
+        resource: DaemonResource,
+      },
       error: {
         enabled: true,
         target: ErrorEndPoint,

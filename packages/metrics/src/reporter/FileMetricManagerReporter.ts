@@ -31,7 +31,7 @@ export class FileMetricManagerReporter extends ScheduledMetricsReporter {
     this.logger = DefaultLoggerManager.getInstance().createLogger('metrics', {
       type: 'size',
       maxFiles: 200 * 1024 * 1024,
-      dir: this.environment.get('pandoraLogsDir'),
+      dir: this.environment.get('pandoraLogsDir') + '/metrics.log',
       stdoutLevel: 'NONE',
       level: 'ALL'
     });

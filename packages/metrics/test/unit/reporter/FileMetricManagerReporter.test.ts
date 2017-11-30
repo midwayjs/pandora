@@ -7,7 +7,7 @@ const os = require('os');
 
 describe('/test/unit/reporter/FileMetricManagerReporter.test.ts', () => {
 
-  const metricsPath = os.homedir() + '/logs/pandorajs/metrics.log';
+  const metricsPath = os.tmpdir() + '/metrics.log';
 
   before(() => {
     if(fs.existsSync(metricsPath)) {

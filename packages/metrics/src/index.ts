@@ -18,6 +18,7 @@ export * from './endpoint/impl/MetricsEndPoint';
 export * from './endpoint/impl/ProcessEndPoint';
 export * from './endpoint/impl/RuntimeEndPoint';
 export * from './endpoint/impl/TraceEndPoint';
+export * from './endpoint/impl/DaemonEndPoint';
 
 /**
  * indicator
