@@ -1,6 +1,6 @@
 {
   "name": "pandora",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "Pandora.js",
   "main": "dist/index.js",
   "typings": "src/index",
@@ -39,7 +39,7 @@
     "mz": "^2.7.0",
     "pandora-dollar": "^1.0.0",
     "pandora-env": "^1.0.0",
-    "pandora-hook": "^1.2.0",
+    "pandora-hook": "^1.2.3",
     "pandora-hub": "^1.0.0",
     "pandora-messenger": "^1.0.0",
     "pandora-metrics": "^1.2.0",
