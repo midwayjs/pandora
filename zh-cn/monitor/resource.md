@@ -101,7 +101,17 @@ GET /health
 ```javascript
 GET /error
 
-
+[
+  {
+    "method": "error",
+    "date": 1346846400,
+    "errType": "myError",
+    "message": "",
+    "stack": "",
+    "traceId": "1231455",
+    "path": "/xxx/xx.log"
+  }
+]
 ```
 
 
