@@ -34,6 +34,27 @@ Pandora.js 中埋入了一些默认的 EndPoint 和Resource，具体可以参考
 
 > 注意，下面所有列举的 Resource 都去除了外面的包装，只展示 data 字段的部分
 
+## DaemonResource
+
+暴露 Daemon 的一些数据。
+
+```javascript
+GET /daemon
+
+[
+  {
+    "cwd": "xxx",
+    "pid": 12321,
+    "uptime": 232,
+    "loadedGlobalConfigPaths": [
+      "/xxx/xxx/xxx"
+    ]
+  }
+]
+```
+
+
+
 ### InfoResource
 
 暴露 InfoEndPoint 的数据，返回应用名等信息。
