@@ -24,7 +24,7 @@ export class ErrorIndicator extends DuplexIndicator {
     this.collector.collect('error', (payload: LoggerOptions) => {
       if('error' === payload.method) {
         this.report(Object.assign({
-          date: Date.now(),
+          timestamp: Date.now(),
           appName: this.getAppName(),
           ip: this.ip,
           host: this.host,

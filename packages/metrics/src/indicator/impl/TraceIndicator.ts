@@ -26,7 +26,7 @@ export class TraceIndicator extends DuplexIndicator {
   registerUplink() {
     this.collector.collect(data => {
       this.report(Object.assign({
-        date: Date.now(),
+        timestamp: Date.now(),
         appName: this.getAppName(),
         pid: process.pid,
         ip: this.ip,

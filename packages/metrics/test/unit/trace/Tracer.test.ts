@@ -1,12 +1,15 @@
 import {expect} from 'chai';
 import {Tracer} from '../../../src/trace/Tracer';
 
-describe('/test/unit/tracer.test.ts', () => {
+describe('/test/unit/Tracer.test.ts', () => {
   let tracer;
   let span;
 
   beforeEach(() => {
-    tracer = new Tracer();
+    tracer = new Tracer({
+      traceId: '123456'
+    });
+    tracer.setAttr('name', 'TestTracer');
     span = tracer.startSpan('test-span');
   });
 
@@ -60,7 +63,7 @@ describe('/test/unit/tracer.test.ts', () => {
 
           const report = tracer.report();
 
-          expect(report.name).to.equal('Unlabeled');
+          expect(report.name).to.equal('TestTracer');
           expect(report.spans.length).to.equal(3);
           expect(report.spans[2].context.parentId).to.equal(report.spans[1].context.spanId);
           done();

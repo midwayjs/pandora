@@ -2,6 +2,7 @@
 import { Tracer as OpenTrancer } from 'opentracing';
 import { PandoraSpan } from './PandoraSpan';
 import SpanContext from './SpanContext';
+import {TraceData, TracerReport} from '../domain';
 
 const EventEmitter = require('super-event-emitter');
 const CURRENT_SPAN = 'CURRENT_SPAN';
@@ -15,7 +16,7 @@ export class Tracer extends OpenTrancer {
   finishMs = 0;
   duration = 0;
 
-  private attrs: Map<string, any> = new Map();
+  private attrs: Map<string, TracerReport> = new Map();
 
   constructor(options: { ns?, traceId? } = {}) {
     super();
@@ -40,12 +41,28 @@ export class Tracer extends OpenTrancer {
     return span;
   }
 
-  setAttr(key, value) {
-    this.attrs.set(key, value);
+  setAttr(key, value: TracerReport | string) {
+    if (typeof value === 'string') {
+      this.attrs.set(key, {
+        report() {
+          return value;
+        },
+        getValue() {
+          return value;
+        }
+      });
+    } else {
+      this.attrs.set(key, value);
+    }
+
   }
 
-  getAttr(key) {
+  getAttr(key): TracerReport {
     return this.attrs.get(key);
+  }
+
+  getAttrValue(key, defaultValue?) {
+    return this.attrs.get(key).getValue() || defaultValue;
   }
 
   hasAttr(key) {
@@ -75,18 +92,22 @@ export class Tracer extends OpenTrancer {
     (<any>this).emit('finish', this);
   }
 
-  report() {
+  report(): TraceData {
     const spans = this.spans;
 
-    return {
-      name: this.getAttr('name') || 'Unlabeled',
-      date: this.startMs,
-      traceId: this.getAttr('traceId'),
+    const result = {
+      timestamp: this.startMs,
       duration: this.duration,
       spans: spans.map((span) => {
         return span.toJSON();
       })
     };
+
+    for (let [key, value] of this.attrs.entries()) {
+      result[key] = value.report();
+    }
+
+    return result;
   }
 
 }

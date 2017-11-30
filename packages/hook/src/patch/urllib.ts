@@ -36,7 +36,7 @@ export class UrllibPatcher extends Patcher {
     const currentSpan = tracer.getCurrentSpan();
 
     if (currentSpan) {
-      const traceId = tracer.getAttr('traceId');
+      const traceId = tracer.getAttrValue('traceId');
 
       span = tracer.startSpan('urllib', {
         childOf: currentSpan,

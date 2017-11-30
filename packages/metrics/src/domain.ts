@@ -164,25 +164,28 @@ export interface LoggerCollector {
 }
 
 export interface SpanData {
-  traceId: string;
-  spanId: string;
-  operationName: string;
+  name: string;
   references: Array<{
     refType: string;
     traceId: string;
     spanId: string;
   }>;
-  flags: number;
-  startTime: number;
+  context: object;
+  timestamp: number;
   duration: number;
-  tags: Array<{
-    key: string;
-    type: string;
-    value: any;
+  logs: Array<{
+    timestamp: string;
+    fields: any;
   }>;
+  tags: object;
 }
 
 export interface TraceData {
-  traceId: string;
+  duration: number;
   spans: Array<SpanData>;
+}
+
+export interface TracerReport {
+  report();
+  getValue();
 }

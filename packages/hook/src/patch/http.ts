@@ -18,7 +18,7 @@ export class HttpPatcher extends Patcher {
 
   createSpan(tracer, tags) {
     const span = tracer.startSpan('http', {
-      traceId: tracer.getAttr('traceId')
+      traceId: tracer.getAttrValue('traceId')
     });
 
     span.addTags(tags);

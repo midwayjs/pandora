@@ -1,6 +1,7 @@
 'use strict';
 import { Span as OpenTraceSpan } from 'opentracing';
 import { getRandom64, convertObjectToTags } from '../util/TraceUtil';
+import { SpanData } from '../domain';
 
 export class PandoraSpan extends OpenTraceSpan {
 
@@ -10,7 +11,6 @@ export class PandoraSpan extends OpenTraceSpan {
   duration = 0;
   tags = {};
   logs = [];
-  startStack;
   operationName = '';
   _spanContext;
   _references = [];
@@ -69,18 +69,17 @@ export class PandoraSpan extends OpenTraceSpan {
     this._context().parentId = this._references[0].referencedContext().spanId;
   }
 
-  toJSON() {
+  toJSON(): SpanData {
     return {
       name: this.operationName,
-      startMs: this.startMs,
+      timestamp: this.startMs,
       duration: this.duration,
       context: this._context().toJSON(),
       references: this._references.map((reference) => {
         return reference.referencedContext().toJSON();
       }),
       tags: this.tags,
-      logs: this.logs,
-      startStack: this.startStack
+      logs: this.logs
     };
   }
 }

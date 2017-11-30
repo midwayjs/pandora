@@ -40,11 +40,11 @@ export class EggLoggerPatcher extends Patcher {
                 }
                 const tracer = traceManager.getCurrentTracer();
                 if (tracer) {
-                  traceId = tracer.getAttr('traceId');
+                  traceId = tracer.getAttrValue('traceId');
                 }
                 const data = {
                   method,
-                  date: Date.now(),
+                  timestamp: Date.now(),
                   errType: err.name,
                   message: err.message,
                   stack: err.stack,
