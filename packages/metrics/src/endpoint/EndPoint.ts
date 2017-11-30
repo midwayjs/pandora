@@ -2,7 +2,6 @@ import {IEndPoint, IIndicator} from '../domain';
 import {MetricsMessengerServer} from '../util/MessengerUtil';
 import {IndicatorProxy} from '../indicator/IndicatorProxy';
 import {IndicatorResult} from '../indicator/IndicatorResult';
-import {MetricsConstants} from '../MetricsConstants';
 const assert = require('assert');
 const debug = require('debug')('pandora:metrics:EndPoint');
 
@@ -26,12 +25,13 @@ export class EndPoint implements IEndPoint {
    * @param appName
    * @param args
    */
-  invoke(appName: string = MetricsConstants.METRICS_DEFAULT_APP, args?: any) {
+  invoke(appName?: string, args?: any) {
 
     debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}`);
 
     // query Indicator
     let indicators: IIndicator[] = this.indicators.filter((indicator: IndicatorProxy) => {
+      if(!appName) return true;
       return indicator.match(appName);
     });
 
