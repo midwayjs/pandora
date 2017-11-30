@@ -40,10 +40,7 @@ describe('/test/unit/tracer.test.ts', () => {
   describe('Tracer Integrate Test', () => {
     it('should record spans', (done) => {
       span = tracer.startSpan('http', {
-        ctx: {
-          traceId: '123456',
-          rpcId: '0.1'
-        }
+        traceId: '123456'
       });
 
       span.setTag('url', '/test');
@@ -51,10 +48,7 @@ describe('/test/unit/tracer.test.ts', () => {
       setTimeout(() => {
         const child = tracer.startSpan('hsf', {
           childOf: span,
-          ctx: {
-            traceId: '123456',
-            rpcId: '0.0.1'
-          }
+          traceId: '123456'
         });
         child.setTag('service', 'com.taobao.hsf.test');
         child.log({state: 'waiting'});
@@ -66,6 +60,7 @@ describe('/test/unit/tracer.test.ts', () => {
 
           const report = tracer.report();
 
+          expect(report.name).to.equal('Unlabeled');
           expect(report.spans.length).to.equal(3);
           expect(report.spans[2].context.parentId).to.equal(report.spans[1].context.spanId);
           done();

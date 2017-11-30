@@ -79,6 +79,7 @@ export class Tracer extends OpenTrancer {
     const spans = this.spans;
 
     return {
+      name: this.getAttr('name') || 'Unlabeled',
       date: this.startMs,
       traceId: this.getAttr('traceId'),
       duration: this.duration,
