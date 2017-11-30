@@ -75,7 +75,7 @@ export class HttpPatcher extends Patcher {
             const tracer = self.createTracer(req);
             const tags = self.buildTags(req);
             const span = self.createSpan(tracer, tags);
-            tracer.setAttr('name', `HTTP-${tags['http.method']}:${tags['http.url']}`);
+            tracer.setAttr('name', `HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
 
             tracer.setCurrentSpan(span);
 
