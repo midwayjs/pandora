@@ -15,16 +15,25 @@ export class TraceResource implements ActuatorResource {
   route(router) {
 
     const traceEndPoint = <TraceEndPoint>this.endPointService.getEndPoint('trace');
+
     router.get('/', async (ctx, next) => {
       try {
         const { by, value, order, offset, limit } = ctx.query;
-        ctx.ok(await traceEndPoint.invoke(ctx.query['appName'], {
+        const items = await traceEndPoint.invoke(ctx.query['appName'], {
           by,
           value: Number(value),
-          order,
-          offset: Number(offset) || undefined,
-          limit: Number(limit) || undefined
-        }));
+          order
+        });
+        const count = items.length;
+        let ret = items;
+        if(offset != null && limit != null) {
+          const nOffset = Number(offset);
+          const nLimit = Number(limit);
+          ret = ret.slice(nOffset, nOffset + nLimit);
+        }
+        ctx.ok({
+          count, offset, limit, items: ret
+        });
       } catch (err) {
         ctx.fail(err.message);
       }
@@ -33,9 +42,15 @@ export class TraceResource implements ActuatorResource {
 
     router.get('/:traceId', async (ctx, next) => {
       try {
-        ctx.ok(await traceEndPoint.invoke(ctx.query['appName'], {
-          traceId: ctx.params.traceId
-        }));
+        const traceId = ctx.params.traceId;
+        const res = await traceEndPoint.invoke(ctx.query['appName'], {
+          traceId: traceId
+        });
+        const ret = res[0];
+        if(!ret) {
+          throw new Error('Can\'t got a trace, it maybe already has been clean. Trace Id: ' + traceId);
+        }
+        ctx.ok(ret);
       } catch (err) {
         ctx.fail(err.message);
       }

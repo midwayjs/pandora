@@ -26,7 +26,6 @@ export class InfoResource implements ActuatorResource {
        */
       try {
         const appInfos = await infoEndPoint.invoke(ctx.query['appName']);
-        console.log(appInfos);
         ctx.ok(appInfos);
       } catch (err) {
         ctx.fail(err.message);

@@ -63,11 +63,10 @@ export class CommonCache extends EventEmitter {
       results = this.innerCache.slice();
     }
 
-    if (options.offset !== undefined) {
+    if (options.offset != null && options.limit != null) {
       const offset = options.offset;
       const limit = options.limit;
-
-      results = this.innerCache.slice(offset, limit);
+      results = this.innerCache.slice(offset, offset + limit);
     }
 
     if (options.order === 'DESC') {
