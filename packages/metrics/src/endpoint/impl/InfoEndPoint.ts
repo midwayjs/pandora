@@ -5,7 +5,7 @@ export class InfoEndPoint extends EndPoint {
   group: string = 'info';
 
   async processQueryResults(results, appName) {
-    results = super.processQueryResults(results);
+    results = super.processQueryResults(results, appName);
 
     const daemon = DaemonUtil.getDaemon();
     if(!daemon) {
@@ -13,28 +13,34 @@ export class InfoEndPoint extends EndPoint {
     }
     const introspection = daemon.getIntrospection();
 
-    let appList;
     if(appName) {
       const app = await introspection.getApplictaionByName(appName);
-      appList = [app];
-    } else {
-      appList = await introspection.listApplication();
+      let ret = [{
+        key: 'introspection',
+        data: app
+      }];
+      if(results) {
+        ret = ret.concat(results);
+      }
+      return ret;
     }
 
-    const appList2nd = [];
+    const ret = {};
+    const appList = await introspection.listApplication();
     for(const app of appList) {
       let found;
-      for(const appFromEndpoint of results) {
-        if(app.appName === appFromEndpoint.appName) {
-          found = appFromEndpoint;
-          break;
-        }
+      if(results.hasOwnProperty(app.appName)) {
+        found = results[app.appName];
       }
-      appList2nd.push({...found, ...app});
+      ret[app.appName] = [{
+        key: 'introspection',
+        data: app
+      }];
+      if(found) {
+        ret[app.appName] = ret[app.appName].concat(found);
+      }
     }
-
-    return appList2nd;
-
+    return ret;
   }
 
 }
