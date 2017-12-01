@@ -30,9 +30,11 @@ export class CommonCache extends EventEmitter {
    * @returns {any}
    */
   query(options: {
-    by: 'size' | 'time',
-    value: number,
-    order?: 'ASC' | 'DESC'
+    by?: 'size' | 'time',
+    value?: number,
+    order?: 'ASC' | 'DESC',
+    offset?: number,
+    limit?: number
   } = {
     by: 'size',
     value: 0,
@@ -59,6 +61,13 @@ export class CommonCache extends EventEmitter {
 
     if (!results) {
       results = this.innerCache.slice();
+    }
+
+    if (options.offset !== undefined) {
+      const offset = options.offset;
+      const limit = options.limit;
+
+      results = this.innerCache.slice(offset, limit);
     }
 
     if (options.order === 'DESC') {

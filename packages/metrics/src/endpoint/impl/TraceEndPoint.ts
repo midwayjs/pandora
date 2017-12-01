@@ -18,6 +18,28 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
     }
   }
 
+  async invoke(appName: string, args: {
+    by?: 'size' | 'time',
+    value?: number,
+    order?: 'ASC' | 'DESC',
+    offset?: number,
+    limit?: number,
+    traceId?: string
+  } = {
+    by: 'size',
+    value: 0
+  }) {
+    const results = await super.invoke(appName, args);
+
+    if (args.traceId) {
+      return results.filter((item) => {
+        return item.traceId === args.traceId;
+      });
+    }
+
+    return results;
+  }
+
   getRate() {
     return this.config['rate'];
   }

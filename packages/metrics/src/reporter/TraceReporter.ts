@@ -33,12 +33,17 @@ export class TraceReporter extends CustomReporter {
     const infoEndPoint = this.endPointService.getEndPoint('info');
     const info = await infoEndPoint.invoke();
     const traceEndPoint = this.endPointService.getEndPoint('trace');
-    const appNames = info.reduce((result, item) => {
-      if (item.key === 'application' && item.scope === 'APP') {
-        result.push(item.data.appName);
-      }
-      return result;
-    }, []);
+    const appNames = [];
+
+    Object.keys(info).forEach((app) => {
+      const item = info[app];
+
+      item.forEach((it) => {
+        if (it.key === 'application' && it.scope === 'APP') {
+          appNames.push(it.data.appName);
+        }
+      });
+    });
 
     const traces = await Promise.all(appNames.map(async (appName) => {
       try {

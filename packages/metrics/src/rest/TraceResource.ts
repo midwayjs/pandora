@@ -17,10 +17,29 @@ export class TraceResource implements ActuatorResource {
     const traceEndPoint = <TraceEndPoint>this.endPointService.getEndPoint('trace');
     router.get('/', async (ctx, next) => {
       try {
-        ctx.ok(await traceEndPoint.invoke(ctx.query['appName']));
+        const { by, value, order, offset, limit } = ctx.query;
+        ctx.ok(await traceEndPoint.invoke(ctx.query['appName'], {
+          by,
+          value: Number(value),
+          order,
+          offset: Number(offset) || undefined,
+          limit: Number(limit) || undefined
+        }));
       } catch (err) {
         ctx.fail(err.message);
       }
+      await next();
+    });
+
+    router.get('/:traceId', async (ctx, next) => {
+      try {
+        ctx.ok(await traceEndPoint.invoke(ctx.query['appName'], {
+          traceId: ctx.params.traceId
+        }));
+      } catch (err) {
+        ctx.fail(err.message);
+      }
+
       await next();
     });
   }
