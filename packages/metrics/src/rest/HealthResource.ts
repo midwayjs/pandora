@@ -16,19 +16,38 @@ export class HealthResource implements ActuatorResource {
     const healthEndPoint = <HealthEndPoint>this.endPointService.getEndPoint('health');
 
     router.get('/', async (ctx, next) => {
-      let queryResults = await healthEndPoint.invoke();
-      let healthRet = {status: 'UP'};
+      let appName = ctx.query['appName'];
+      let queryResults = await healthEndPoint.invoke(appName);
 
-      for(let queryResult of queryResults) {
-        healthRet[queryResult.key] = {status: queryResult.data};
-        if(queryResult.data === 'DOWN') {
-          healthRet.status = 'DOWN';
+      if(appName) {
+        let healthRet = {status: 'UP'};
+        for(let queryResult of queryResults) {
+          healthRet[queryResult.key] = {status: queryResult.data};
+          if(queryResult.data === 'DOWN') {
+            healthRet.status = 'DOWN';
+          }
         }
-      }
-      try {
-        ctx.ok(healthRet);
-      } catch (err) {
-        ctx.fail(err.message);
+        try {
+          ctx.ok(healthRet);
+        } catch (err) {
+          ctx.fail(err.message);
+        }
+      } else {
+        let healthRet = {};
+        for(let appName in queryResults) {
+          healthRet[appName] = {status: 'UP'};
+          for( let queryResult of queryResults[appName]) {
+            healthRet[appName][queryResult.key] = {status: queryResult.data};
+            if(queryResult.data === 'DOWN') {
+              healthRet[appName].status = 'DOWN';
+            }
+          }
+        }
+        try {
+          ctx.ok(healthRet);
+        } catch (err) {
+          ctx.fail(err.message);
+        }
       }
     });
   }

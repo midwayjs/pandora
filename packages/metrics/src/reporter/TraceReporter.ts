@@ -2,6 +2,8 @@ import * as os from 'os';
 import * as address from 'address';
 import { CustomReporter } from './CustomReporter';
 import { DefaultLoggerManager } from 'pandora-service-logger';
+import {EnvironmentUtil, Environment} from 'pandora-env';
+import {join} from 'path';
 
 export class TraceReporter extends CustomReporter {
 
@@ -9,10 +11,11 @@ export class TraceReporter extends CustomReporter {
   ip = address.ip();
   vernier = {};
   logger;
+  environment: Environment;
 
   constructor(actuatorManager, options?) {
     super(actuatorManager, options);
-
+    this.environment = EnvironmentUtil.getInstance().getCurrentEnvironment();
     this.initFileAppender();
   }
 
@@ -20,7 +23,7 @@ export class TraceReporter extends CustomReporter {
     this.logger = DefaultLoggerManager.getInstance().createLogger('traces', {
       type: 'size',
       maxFiles: 200 * 1024 * 1024,
-      dir: DefaultLoggerManager.getPandoraLogsDir(),
+      dir: join(this.environment.get('pandoraLogsDir'), 'pandorajs'),
       stdoutLevel: 'NONE',
       level: 'ALL'
     });
