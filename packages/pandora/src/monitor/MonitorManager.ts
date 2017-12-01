@@ -1,4 +1,6 @@
 import {
+  BaseInfoIndicator,
+  NodeIndicator,
   ProcessIndicator,
   ErrorIndicator,
   MetricsClientUtil,
@@ -12,11 +14,18 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_APPLICATION} from '../const';
 import {ProcessRepresentation} from '../domain';
+import {getPandoraLogsDir} from '../universal/LoggerBroker';
 const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
 
+  static injected: boolean = false;
+
   static injectProcessMonitor() {
+
+    if(MonitorManager.injected) {
+      return;
+    }
 
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
@@ -37,7 +46,8 @@ export class MonitorManager {
       EnvironmentUtil.getInstance().setCurrentEnvironment(new globalConfig['environment']({
         appDir: processRepresentation.appDir,
         appName: processRepresentation.appName,
-        processName: processRepresentation.processName
+        processName: processRepresentation.processName,
+        pandoraLogsDir: getPandoraLogsDir()
       }));
     }
 
@@ -74,6 +84,8 @@ export class MonitorManager {
 
     // init indicators
     [
+      new BaseInfoIndicator(),
+      new NodeIndicator(),
       new ProcessIndicator(),
       new ErrorIndicator(),
     ].forEach((ins) => {
@@ -84,6 +96,9 @@ export class MonitorManager {
     client.register('node', MetricName.build('node.v8').tagged({
       pid: process.pid
     }), new V8GaugeSet());
+
+    MonitorManager.injected = true;
+
   }
 
 

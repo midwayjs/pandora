@@ -1,7 +1,7 @@
 {
   "name": "pandora",
   "version": "1.2.3",
-  "description": "Pandora.js",
+  "description": "A powerful and lightweight application manager for Node.js applications powered by TypeScript.",
   "main": "dist/index.js",
   "typings": "src/index",
   "bin": {
@@ -30,6 +30,7 @@
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
     "debug": "^2.6.8",
+    "delegates": "^1.0.0",
     "egg-logger": "^1.6.0",
     "extend": "^3.0.1",
     "is-type-of": "^1.2.0",

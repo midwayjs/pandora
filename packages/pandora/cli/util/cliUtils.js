@@ -48,3 +48,4 @@ module.exports = (pandora) => {
     console.log(`pandora: procfile.js was auto generator at ${procFilePath}`);
   }
 };
+

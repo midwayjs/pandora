@@ -1,3 +1,5 @@
+import {join} from 'path';
+import {homedir} from 'os';
 import {BaseEnvironment} from './BaseEnvironment';
 export class DefaultEnvironment extends BaseEnvironment {
   constructor(variables?: any) {
@@ -18,6 +20,9 @@ export class DefaultEnvironment extends BaseEnvironment {
           variables.env = 'development';
           break;
       }
+    }
+    if(!variables.pandoraLogsDir) {
+      variables.pandoraLogsDir = join(homedir(), 'logs');
     }
     super(variables);
   }

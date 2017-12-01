@@ -14,7 +14,7 @@ export class NodeIndicator extends Indicator {
       node: process.version,
       alinode: (<any> process).alinode || '',
       path: process.argv[0],
-      modules: process.versions,
+      versions: process.versions,
       features: (<any> process).features,
     }, IndicatorScope.SYSTEM);
 

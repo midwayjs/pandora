@@ -48,4 +48,8 @@ export class IndicatorResult implements IIndicatorResult {
   getIndicatorGroup() {
     return this.indicator.group;
   }
+
+  getAppName() {
+    return this.indicator.appName;
+  }
 }

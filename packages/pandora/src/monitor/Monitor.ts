@@ -43,7 +43,7 @@ export class Monitor {
     this.server = new MetricsActuatorServer({
       config: this.globalConfig['actuator'],
       logger: this.daemonLogger,
-      metricsServer: new this.globalConfig['metricsServer']()
+      metricsManager: new this.globalConfig['metricsManager']()
     });
 
     // register some default metrics
@@ -53,7 +53,6 @@ export class Monitor {
     metricsManager.register('system', 'system', new SystemMemoryGaugeSet());
     metricsManager.register('system', 'system', new SystemLoadGaugeSet());
     // metricsManager.register('system', 'system', new DiskStatGaugeSet());
-
     debug('start a metrics reporter');
     for (let reporterName in this.globalConfig['reporter']) {
       const reporterObj = this.globalConfig['reporter'][reporterName];

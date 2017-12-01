@@ -29,6 +29,7 @@ export interface IEndPoint {
  * 单个指标
  */
 export interface IIndicator {
+  appName: string;
   group: string;
   invoke(data?: any, builder?: IBuilder);
   destory();

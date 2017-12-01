@@ -6,6 +6,7 @@ import {expect} from 'chai';
 import {InfoEndPoint} from '../../../src/endpoint/impl/InfoEndPoint';
 import {BaseInfoIndicator} from '../../../src/indicator/impl/BaseInfoIndicator';
 import {InfoResource} from '../../../src/rest/InfoResource';
+import {MetricsConstants} from '../../../src/MetricsConstants';
 
 describe('/test/unit/InfoResource.test.ts', () => {
 
@@ -38,6 +39,9 @@ describe('/test/unit/InfoResource.test.ts', () => {
 
     request(app.listen())
       .get('/info')
+      .query({
+        appName: MetricsConstants.METRICS_DEFAULT_APP
+      })
       .expect(200)
       .then(res => {
         expect(res.body.data.length >= 0).to.be.true;

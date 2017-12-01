@@ -1,4 +1,3 @@
-import {DefaultConfigurator} from './universal/DefaultConfigurator';
 import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
 import {join} from 'path';
 import {homedir} from 'os';
@@ -11,12 +10,14 @@ const {
   ProcessEndPoint,
   MetricsEndPoint,
   TraceEndPoint,
+  DaemonEndPoint,
   ErrorResource,
   MetricsResource,
   HealthResource,
   TraceResource,
   InfoResource,
   ProcessResource,
+  DaemonResource,
   FileMetricManagerReporter,
   MetricsClient,
   MetricsServerManager,
@@ -29,37 +30,31 @@ const hooks = require('pandora-hook');
 export default {
 
   environment: DefaultEnvironment,
-  configurator: DefaultConfigurator,
 
   procfile (pandora: ProcfileReconcilerAccessor) {
 
     const globalConfig = require('./universal/GlobalConfigProcessor')
       .GlobalConfigProcessor.getInstance().getAllProperties();
 
-    pandora.defaultAppletCategory('worker');
-    pandora.defaultServiceCategory('weak-all');
+    pandora.defaultServiceCategory('worker');
 
     pandora.environment(globalConfig.environment);
-    pandora.configurator(globalConfig.configurator);
 
     pandora.process('agent')
       .scale(1)
       .env({agent: 'true'});
 
     pandora.process('worker')
-      .scale('auto')
+      .scale(pandora.dev ? 1 : 'auto')
       .env({worker: 'true'});
 
     pandora.process('background')
       .scale(1)
       .env({background: 'true'});
 
-    pandora.service(LoggerService)
+    pandora.service('logger', LoggerService)
       .name('logger')
-      .process('weak-all')
-      .config((ctx) => {
-        return ctx.config.loggerService;
-      });
+      .process('weak-all');
 
   },
 
@@ -72,10 +67,11 @@ export default {
     daemonLogger: {
       stdoutLevel: 'ERROR',
       level: 'INFO',
-    }
+    },
+    isolatedServiceLogger: false
   },
 
-  metricsServer: MetricsServerManager,
+  metricsManager: MetricsServerManager,
   metricsClient: MetricsClient,
 
   actuator: {
@@ -85,6 +81,11 @@ export default {
     },
 
     endPoints: {
+      daemon: {
+        enabled: true,
+        target: DaemonEndPoint,
+        resource: DaemonResource,
+      },
       error: {
         enabled: true,
         target: ErrorEndPoint,

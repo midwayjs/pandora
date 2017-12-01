@@ -67,9 +67,8 @@ describe('ProcessMaster', function () {
     let processMaster: ProcessMaster = null;
     before(async () => {
       processMaster = new ProcessMaster({
-        mode: 'cluster',
+        mode: 'procfile.js',
         appName: 'test',
-        entryFile: pathSimpleClusterApp,
         appDir: dirname(pathSimpleClusterApp)
       });
     });
@@ -100,14 +99,12 @@ describe('ProcessMaster', function () {
 
     it('should be ok when given a scale option', async () => {
       const ownProcessMaster = new ProcessMaster({
-        mode: 'cluster',
+        mode: 'procfile.js',
         appName: 'test',
-        scale: 1,
-        entryFile: pathSimpleClusterApp,
         appDir: dirname(pathSimpleClusterApp)
       });
       await ownProcessMaster.start();
-      expect(ownProcessMaster.getWorkers().length).equal(1);
+      expect(ownProcessMaster.getWorkers().length).equal(2);
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
       await processMaster.stop();

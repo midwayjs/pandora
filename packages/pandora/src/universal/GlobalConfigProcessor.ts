@@ -14,6 +14,8 @@ export class GlobalConfigProcessor {
 
   static GLOBAL_PACKAGE_SPLIT = ':';
 
+  public loadedConfigPath: string[] = [require.resolve('../default')];
+
   static getInstance(): GlobalConfigProcessor {
     if (!this.instance) {
       this.instance = new GlobalConfigProcessor();
@@ -34,6 +36,7 @@ export class GlobalConfigProcessor {
             let extendConfig = cwdRequire(configPath);
             extendConfig = extendConfig.default ? extendConfig.default : extendConfig;
             this.mergeProperties(extendConfig);
+            this.loadedConfigPath.push(configPath);
           } catch (err) {
             // info
             consoleLogger.info(`Can't find config from ${configPath}`);

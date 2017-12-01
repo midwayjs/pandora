@@ -18,7 +18,7 @@ describe('ServiceLogger', function () {
         return 'lala';
       }
     });
-    expect((<any> logger).logger.options.file).to.be.equal(homedir() + '/logs/pandorajs/lala.log');
+    expect((<any> logger).logger.options.file).to.be.equal(homedir() + '/logs/testApp/service.log');
   });
 
   it('should doPrefix() be ok', () => {

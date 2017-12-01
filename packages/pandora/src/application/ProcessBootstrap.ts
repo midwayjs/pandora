@@ -3,10 +3,12 @@ require('source-map-support').install();
 
 import {APP_START_SUCCESS, APP_START_ERROR, PANDORA_APPLICATION} from '../const';
 import assert = require('assert');
-import {consoleLogger} from '../universal/LoggerBroker';
+import {consoleLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {makeRequire} from 'pandora-dollar';
 import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
+import {MonitorManager} from '../monitor/MonitorManager';
+import {EnvironmentUtil, DefaultEnvironment} from 'pandora-env';
 
 const program = require('commander');
 
@@ -15,12 +17,14 @@ const program = require('commander');
  */
 export class ProcessBootstrap {
 
+  static processName = 'scalableMaster';
+
   entry: string;
-  options: ApplicationRepresentation;
+  applicationRepresentation: ApplicationRepresentation;
 
   constructor(entry: string, options: ApplicationRepresentation) {
     this.entry = entry;
-    this.options = options;
+    this.applicationRepresentation = options;
   }
 
   /**
@@ -29,17 +33,19 @@ export class ProcessBootstrap {
    */
   async start(): Promise<void> {
 
-    if ('fork' === this.options.mode) {
-      process.env[PANDORA_APPLICATION] = JSON.stringify(this.options);
+    this.injectMonitor();
+
+    if ('fork' === this.applicationRepresentation.mode) {
+      process.env[PANDORA_APPLICATION] = JSON.stringify(this.applicationRepresentation);
       SpawnWrapperUtils.wrap();
     }
 
-    const entryFileBaseDir = this.options.entryFileBaseDir;
+    const entryFileBaseDir = this.applicationRepresentation.entryFileBaseDir;
     const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
     const entryMod = ownRequire(this.entry);
 
     // Only require that entry if the mode be fork
-    if ('fork' === this.options.mode) {
+    if ('fork' === this.applicationRepresentation.mode) {
       return;
     }
 
@@ -47,7 +53,7 @@ export class ProcessBootstrap {
     const entryFn = 'function' === typeof entryMod ? entryMod : entryMod.default;
     assert('function' === typeof entryFn, 'The entry should export a function, during loading ' + this.entry);
     await new Promise((resolve, reject) => {
-      const options = {...this.options || {}};
+      const options = {...this.applicationRepresentation || {}};
       if (entryFn.length >= 2) {
         entryFn(options, (err) => {
           if (err) {
@@ -60,6 +66,24 @@ export class ProcessBootstrap {
         resolve();
       }
     });
+  }
+
+  injectMonitor() {
+
+    if(!EnvironmentUtil.getInstance().isReady()) {
+      // Handing the environment object injecting
+      const environment = new DefaultEnvironment({
+        appDir: this.applicationRepresentation.appDir,
+        appName: this.applicationRepresentation.appName,
+        processName: (<any> this.applicationRepresentation).processName || ProcessBootstrap.processName,
+        pandoraLogsDir: getPandoraLogsDir()
+      });
+      EnvironmentUtil.getInstance().setCurrentEnvironment(environment);
+    }
+
+    // To start worker process monitoring
+    MonitorManager.injectProcessMonitor();
+
   }
 
   static cmd() {

@@ -17,7 +17,7 @@ export class MetricsResource implements ActuatorResource {
     const metricsEndPoint = <MetricsEndPoint>this.endPointService.getEndPoint('metrics');
     router.get('/list', async (ctx, next) => {
       try {
-        ctx.ok(metricsEndPoint.listMetrics());
+        ctx.ok(metricsEndPoint.listMetrics(ctx.query['appName']));
       } catch (err) {
         ctx.fail(err.message);
       }

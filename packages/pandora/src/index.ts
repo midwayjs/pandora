@@ -20,18 +20,10 @@ export * from './application/ProcessMaster';
 export {ProcessBootstrap} from './application/ProcessBootstrap';
 
 /**
- * Applet
- */
-export * from './application/AppletReconciler';
-export * from './application/built-in-applet/HTTPApplet';
-
-/**
  * Procfile
  */
 export * from './application/ProcfileReconciler';
 export * from './application/ProcfileReconcilerAccessor';
-export * from './application/ClusterSupport';
-export * from './application/AppletRepresentationChainModifier';
 export * from './application/ServiceRepresentationChainModifier';
 
 /**
@@ -54,7 +46,6 @@ export * from './service/ServiceCore';
 export * from './universal/GlobalConfigProcessor';
 export * from './universal/Helpers';
 export * from './universal/LoggerBroker';
-export * from './universal/DefaultConfigurator';
 
 /**
  * Debug

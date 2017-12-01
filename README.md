@@ -18,8 +18,8 @@ Node.js >= 8.0.0 required.
 - ✔︎ Built-in application model
 - ✔︎ Built-in process management
 - ✔︎ Dev Ops customization
-- ✔︎ Provide Metrics and Standard Open-Trace Implementation
-- ✔︎ Support lots of web framework
+- ✔︎ Provide Metrics and Standard OpenTracing Implementation
+- ✔︎ Support lots of web frameworks
 
 ## How to Contribute
 
