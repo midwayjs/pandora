@@ -1,30 +1,28 @@
 'use strict';
 import {ComplexHandler} from './ComplexHandler';
 import Base = require('sdk-base');
-import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE} from '../const';
+import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE, State} from '../const';
 import * as fs from 'fs';
 import assert = require('assert');
 import messenger from 'pandora-messenger';
 import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {Monitor} from '../monitor/Monitor';
+import {DaemonIntrospection} from './DaemonIntrospection';
 
 const daemonLogger = getDaemonLogger();
-
-enum State {
-  pending = 1,
-  complete,
-  stopped,
-}
 
 /**
  * Class Daemon
  */
 export class Daemon extends Base {
-  private state: State;
-  private apps: Map<any, ComplexHandler>;
+
   private messengerServer: any;
   private monitor: Monitor;
+  private introspection: DaemonIntrospection;
+
+  public state: State;
+  public apps: Map<any, ComplexHandler>;
 
   constructor() {
     super();
@@ -82,71 +80,6 @@ export class Daemon extends Base {
     });
   }
 
-  /**
-   * Handle daemon's command invocations
-   * @param message
-   * @param reply
-   */
-  handleCommand(message, reply) {
-    const command = message.command;
-    const args = message.args;
-
-    switch (command) {
-      case 'start':
-        this.startApp(args).then(() => {
-          reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
-        }).catch(err => {
-          reply({error: `${args.appName} started failed, ${err && err.toString()}`});
-        });
-        break;
-      case 'stopAll':
-        this.stopAllApps().then(() => {
-          reply({data: `all apps stopped successfully!`});
-        }).catch(err => {
-          reply({error: `all apps stopped failed, ${err && err.toString()}`});
-        });
-        break;
-      case 'stopApp':
-        this.stopApp(args.appName).then(() => {
-          reply({data: `${args.appName} stopped successfully!`});
-        }).catch(err => {
-          reply({error: `${args.appName} stopped failed, ${err && err.toString()}`});
-        });
-        break;
-      case 'restart':
-        this.stopApp(args.appName).then(diedApp => {
-          return this.startApp(diedApp.appRepresentation);
-        }).then(() => {
-          reply({data: `${args.appName} restarted successfully!`});
-        }).catch(err => {
-          reply({error: `${args.appName} restarted failed, ${err && err.toString()}`});
-        });
-        break;
-
-      case 'exit':
-        this.stop().then(() => {
-          process.exit(0);
-        });
-        break;
-
-      case 'list':
-        const keySet = Array.from(this.apps.keys());
-        const data = keySet.map((key) => {
-          const complex = this.apps.get(key);
-          return {
-            name: complex.name,
-            appId: complex.appId,
-            pids: complex.pids,
-            mode: complex.mode,
-            appDir: complex.appDir,
-            state: complex.state
-          };
-        });
-        reply({data: data});
-        break;
-    }
-
-  }
 
   /**
    * Start an application
@@ -240,6 +173,69 @@ export class Daemon extends Base {
     if (this.monitor) {
       return this.monitor.stop();
     }
+  }
+
+  /**
+   * Handle daemon's command invocations
+   * @param message
+   * @param reply
+   */
+  handleCommand(message, reply) {
+    const command = message.command;
+    const args = message.args;
+
+    switch (command) {
+      case 'start':
+        this.startApp(args).then(() => {
+          reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
+        }).catch(err => {
+          reply({error: `${args.appName} started failed, ${err && err.toString()}`});
+        });
+        break;
+      case 'stopAll':
+        this.stopAllApps().then(() => {
+          reply({data: `all apps stopped successfully!`});
+        }).catch(err => {
+          reply({error: `all apps stopped failed, ${err && err.toString()}`});
+        });
+        break;
+      case 'stopApp':
+        this.stopApp(args.appName).then(() => {
+          reply({data: `${args.appName} stopped successfully!`});
+        }).catch(err => {
+          reply({error: `${args.appName} stopped failed, ${err && err.toString()}`});
+        });
+        break;
+      case 'restart':
+        this.stopApp(args.appName).then(diedApp => {
+          return this.startApp(diedApp.appRepresentation);
+        }).then(() => {
+          reply({data: `${args.appName} restarted successfully!`});
+        }).catch(err => {
+          reply({error: `${args.appName} restarted failed, ${err && err.toString()}`});
+        });
+        break;
+      case 'exit':
+        this.stop().then(() => {
+          process.exit(0);
+        });
+        break;
+      case 'list':
+        const introspection = this.getIntrospection();
+        return introspection.listApplication().then((data) => {
+          reply({data});
+        }).catch((error) => {
+          reply({error});
+        });
+    }
+
+  }
+
+  public getIntrospection(): DaemonIntrospection {
+    if(!this.introspection) {
+      this.introspection = new DaemonIntrospection(this);
+    }
+    return this.introspection;
   }
 
 }

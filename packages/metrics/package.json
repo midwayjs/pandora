@@ -24,12 +24,13 @@
   "devDependencies": {
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^6.0.85",
+    "@types/node": "^6.0.92",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "node-df": "^0.1.1",
     "nyc": "^11.2.1",
+    "pandora": "^1.1.1",
     "sinon": "^4.1.2",
     "supertest": "^3.0.0",
     "yargs": "^6.6.0"

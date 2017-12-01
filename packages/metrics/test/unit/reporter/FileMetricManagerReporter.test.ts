@@ -2,12 +2,13 @@ import {expect} from 'chai';
 import {BaseCounter, MetricName, BaseHistogram, BaseTimer, BaseMeter, BaseGauge} from '../../../src/common/index';
 import {MetricsServerManager} from '../../../src/MetricsServerManager';
 import {FileMetricManagerReporter} from '../../../src/reporter/FileMetricManagerReporter';
+import {join} from 'path';
 const fs = require('fs');
 const os = require('os');
 
 describe('/test/unit/reporter/FileMetricManagerReporter.test.ts', () => {
 
-  const metricsPath = os.homedir() + '/logs/pandorajs/metrics.log';
+  const metricsPath = join(os.tmpdir(), 'pandorajs/metrics.log');
 
   before(() => {
     if(fs.existsSync(metricsPath)) {

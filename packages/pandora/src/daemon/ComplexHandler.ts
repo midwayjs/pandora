@@ -11,6 +11,17 @@ export class ComplexHandler {
   public appId: string = null;
   public appRepresentation: ApplicationRepresentation = null;
   public mountedApplications: ApplicationHandler[];
+  private startTime: number;
+  private complexStructure: ComplexApplicationStructureRepresentation;
+
+  constructor(appRepresentation: ApplicationRepresentation) {
+    this.state = State.pending;
+    this.appId = uuid.v4();
+    this.appRepresentation = appRepresentation;
+    if(!existsSync(this.appDir)) {
+      new Error(`AppDir ${this.appDir} does not exist`);
+    }
+  }
 
   public get name() {
     return this.appRepresentation.appName;
@@ -36,18 +47,27 @@ export class ComplexHandler {
     return ret;
   }
 
-  private complexStructure: ComplexApplicationStructureRepresentation;
+  public get startCount(): number {
 
-  constructor(appRepresentation: ApplicationRepresentation) {
-    this.state = State.pending;
-    this.appId = uuid.v4();
-    this.appRepresentation = appRepresentation;
-    if(!existsSync(this.appDir)) {
-      new Error(`AppDir ${this.appDir} does not exist`);
+    let ret = 0;
+    if(this.mountedApplications) {
+      for(const app of this.mountedApplications) {
+        ret += app.startCount;
+      }
     }
+
+    return ret;
+
   }
 
-  protected async getComplex(): Promise<ComplexApplicationStructureRepresentation> {
+  public get uptime(): number {
+    if(!this.startTime) {
+      return 0;
+    }
+    return (Date.now() - this.startTime) / 1000;
+  }
+
+  public async getComplex(): Promise<ComplexApplicationStructureRepresentation> {
     if(!this.complexStructure) {
       this.complexStructure = await ProcfileReconciler.getComplexViaNewProcess(this.appRepresentation);
     }
@@ -84,6 +104,7 @@ export class ComplexHandler {
       startedHandlers.push(appHandler);
     }
     this.state = State.complete;
+    this.startTime = Date.now();
   }
 
   async stop () {

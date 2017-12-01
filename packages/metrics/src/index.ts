@@ -18,6 +18,7 @@ export * from './endpoint/impl/MetricsEndPoint';
 export * from './endpoint/impl/ProcessEndPoint';
 export * from './endpoint/impl/RuntimeEndPoint';
 export * from './endpoint/impl/TraceEndPoint';
+export * from './endpoint/impl/DaemonEndPoint';
 
 /**
  * indicator
@@ -30,6 +31,7 @@ export * from './indicator/impl/health/DiskSpaceHealthIndicator';
 export * from './indicator/impl/health/PortHealthIndicator';
 export * from './indicator/impl/TraceIndicator';
 export * from './indicator/impl/BaseInfoIndicator';
+export * from './indicator/impl/NodeIndicator';
 
 /**
  * reporter
@@ -62,6 +64,7 @@ export * from './rest/HealthResource';
 export * from './rest/TraceResource';
 export * from './rest/InfoResource';
 export * from './rest/ProcessResource';
+export * from './rest/DaemonResource';
 
 /**
  * client
@@ -88,6 +91,7 @@ export * from './collect/NormalMetricsCollector';
 export * from './util/MessageSender';
 export * from './util/MetricsClientUtil';
 export * from './util/TraceUtil';
+export * from './util/DaemonUtil';
 
 /**
  * trace

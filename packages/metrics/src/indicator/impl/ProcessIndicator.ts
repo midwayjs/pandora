@@ -31,6 +31,8 @@ export class ProcessIndicator extends Indicator {
     }
 
     builder.withDetail(String(process.pid), {
+      processName: this.environment.get('processName'),
+      ppid: (<any> process).ppid,
       pid: process.pid,
       title: process.title,
       argv: process.argv,

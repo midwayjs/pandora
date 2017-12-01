@@ -1,5 +1,7 @@
 import {WorkerContextAccessor} from './application/WorkerContextAccessor';
 import {ServiceCore} from './service/ServiceCore';
+import {ServiceContextAccessor} from './service/ServiceContextAccessor';
+import {State} from './const';
 
 export type ProcessScale = number | 'auto';
 export type CategoryReg = string | 'all' | 'weak-all';
@@ -29,7 +31,6 @@ export interface ProcessRepresentation extends ApplicationRepresentation {
   scale?: ProcessScale;
   env?: any;
   argv?: any[];
-  applet?: Array<AppletRepresentation>;
   service?: Array<ServiceRepresentation>;
 }
 
@@ -43,33 +44,6 @@ export type MountRepresentation = ApplicationStructureRepresentation | ProcessRe
 // For Daemon
 export interface ComplexApplicationStructureRepresentation {
   mount: Array<MountRepresentation>;
-}
-
-// ************************
-// Applet
-
-export interface AppletOptions {
-  appletName: string;
-  category: string;
-  config: any;
-  context: WorkerContextAccessor;
-}
-
-export interface AppletConstructor {
-  new(options: AppletOptions): Applet;
-}
-
-export interface Applet {
-  start(): Promise<void>;
-  stop(): Promise<void>;
-}
-
-export interface AppletRepresentation {
-  appletEntry: Entry;
-  appletName: string;
-  category?: CategoryReg;
-  config?: any;
-  configResolver?: (context: any, oldConfig?: any) => any;
 }
 
 
@@ -113,17 +87,44 @@ export interface ServiceConstructor {
 
 export interface Service {
 
-  core?: ServiceCore;
+  context?: ServiceContextAccessor;
 
   start?(): Promise<void> | void;
 
   stop?(): Promise<void> | void;
 
-  handleSubscribe?(reg, fn): Promise<void> | void;
-
-  handleUnsubscribe?(reg, fn): Promise<void> | void;
-
 }
+
+
+// ************************
+// Daemon Introspection
+
+export interface ApplicationIntrospectionResult {
+  state: State;
+  mode: string;
+  appName: string;
+  appDir: string;
+  appId: string;
+  pids: number[];
+  startCount: number;
+  uptime: number;
+  representation?: ApplicationRepresentation;
+  complex?: ComplexApplicationStructureRepresentation;
+}
+
+export type VersionsIntrospectionResult = typeof process.versions & {
+  pandora: string;
+};
+
+export interface DaemonIntrospectionResult {
+  versions: VersionsIntrospectionResult;
+  cwd: string;
+  pid: number;
+  uptime: number;
+  loadedGlobalConfigPaths: string[];
+}
+
+
 
 // ************************
 // Other
@@ -131,11 +132,4 @@ export interface Service {
 export {Environment} from 'pandora-env';
 export {LoggerService, LoggerConfig, ILogger} from 'pandora-service-logger';
 
-export interface ConfiguratorLoadOptions {
-  force: boolean;
-}
-
-export interface Configurator {
-  getAllProperties(options?: ConfiguratorLoadOptions): Promise<any> | any;
-}
 

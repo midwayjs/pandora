@@ -93,7 +93,7 @@ const getChildren = (ppid, procs) => {
   return children;
 };
 
-exports.command = 'ps';
+exports.command = 'ps <appName>';
 exports.desc = 'Get a tree composed of ';
 exports.handler = argv => {
   console.log('Gathering process tree information...');
@@ -116,6 +116,9 @@ exports.handler = argv => {
 
         let ps = {};
         for (const app of data) {
+          if(app.appName !== argv.appName) {
+            continue;
+          }
           for (let pid of app.pids) {
             pid += '';
             const children = getChildren(pid, procs);

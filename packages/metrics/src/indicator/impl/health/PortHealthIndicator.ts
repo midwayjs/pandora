@@ -18,7 +18,7 @@ export class PortHealthIndicator extends HealthIndicator {
         builder.down();
       }
     } catch (err) {
-      //TODO logger
+      // TODO logger
       builder.down();
     }
 

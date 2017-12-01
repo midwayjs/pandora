@@ -1,5 +1,7 @@
 'use strict';
 import {ILogger, DefaultLoggerManager} from 'pandora-service-logger';
+import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+import {getAppLogDir} from '../universal/LoggerBroker';
 
 /**
  * Class ServiceLogger
@@ -9,15 +11,39 @@ export default class ServiceLogger implements ILogger {
   protected logger: ILogger;
 
   constructor(serviceCore) {
-    const serviceId: string = serviceCore.getServiceId();
     this.prefix = `[appName: ${serviceCore.context.appName}, processName: ${serviceCore.context.processName}, workMode: ${serviceCore.workMode}] `;
+    this.setupLogger(serviceCore);
+  }
+
+  static commonServiceLogger: ILogger;
+
+  setupLogger (serviceCore) {
+
+    const serviceId: string = serviceCore.getServiceId();
+    const globalConfig = GlobalConfigProcessor.getInstance().getAllProperties();
     const defaultLoggerManager = DefaultLoggerManager.getInstance();
+
+    if(!globalConfig.logger.isolatedServiceLogger && !ServiceLogger.commonServiceLogger) {
+      ServiceLogger.commonServiceLogger = defaultLoggerManager.createLogger('service', {
+        stdoutLevel: 'NONE',
+        level: 'INFO',
+        type: 'date',
+        dir: getAppLogDir(serviceCore.context.appName)
+      });
+    }
+
+    if(ServiceLogger.commonServiceLogger) {
+      this.logger = ServiceLogger.commonServiceLogger;
+      return;
+    }
+
     this.logger = defaultLoggerManager.createLogger(serviceId, {
       stdoutLevel: 'NONE',
       level: 'INFO',
       type: 'date',
-      dir: DefaultLoggerManager.getPandoraLogsDir()
+      dir: getAppLogDir(serviceCore.context.appName)
     });
+
   }
 
   debug(...args) {

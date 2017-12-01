@@ -34,6 +34,7 @@ export class DebugApplicationLoader {
       }
     });
 
+    process.env.PANDORA_DEV = 'true';
     process.env.NODE_ENV = process.env.NODE_ENV || 'local';
     const mode = this.options.mode || 'procfile.js';
     const appName = this.options.appName || 'debug';

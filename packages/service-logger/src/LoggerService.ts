@@ -4,16 +4,17 @@ import {DefaultLoggerManager} from './DefaultLoggerManager';
 
 export class LoggerService {
 
-  core: any;
+  context: any;
   protected loggerMap: Map<string, any> = new Map;
   protected defaultLoggerManager: DefaultLoggerManager;
 
-  constructor() {
+  constructor(context) {
+    this.context = context;
     this.defaultLoggerManager = DefaultLoggerManager.getInstance();
   }
 
   async start(): Promise<void> {
-    const config: ConfigInterface = this.core.config;
+    const config: ConfigInterface = this.context.config;
     const loggers = <{ [loggerName: string]: LoggerConfig }> config.loggers || {};
     for(let loggerName of Object.keys(loggers)) {
       if(!this.loggerMap.has(loggerName)) {

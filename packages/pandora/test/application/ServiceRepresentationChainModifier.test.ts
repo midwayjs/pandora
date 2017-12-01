@@ -8,7 +8,7 @@ describe('ServiceRepresentationChainModifier', function () {
     serviceEntry: null,
     serviceName: null
   };
-  const modifier = new ServiceRepresentationChainModifier(representation);
+  const modifier = new ServiceRepresentationChainModifier(representation, null);
 
   it('should modify name be ok', () => {
     expect(modifier.name('baba')).to.be.equal(modifier);

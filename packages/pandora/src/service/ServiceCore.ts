@@ -1,12 +1,10 @@
 'use strict';
-import assert = require('assert');
 import {ServiceOptions, ServiceRepresentation} from '../domain';
 import ServiceLogger from './ServiceLogger';
 import {Service} from '../domain';
 import {WorkerContextAccessor} from '../application/WorkerContextAccessor';
 import {SERVICE_PREFIX_IN_HUB} from '../const';
-
-const debug = require('debug')('pandora:SimpleServiceCore');
+import {ServiceContextAccessor} from './ServiceContextAccessor';
 
 /**
  * Class SimpleServiceCore
@@ -17,22 +15,36 @@ export class ServiceCore {
   protected impl: Service;
   protected options: ServiceOptions;
 
-  protected subscribeHandler: (name: string, listener: any) => Promise<any>;
-  protected unsubscribeHandler: (name: string, listener?: any) => Promise<any>;
+  constructor(options: ServiceOptions, ImplClass) {
+    this.options = options;
+    this.ImplClass = ImplClass;
+  };
 
-  public logger: ServiceLogger;
+  _logger: ServiceLogger;
+  get logger() {
+    if(!this._logger) {
+      this._logger = new ServiceLogger(this);
+    }
+    return this._logger;
+
+  }
 
   get context(): WorkerContextAccessor {
     return this.options.context;
   }
 
-  get deps() {
+  private _dependencies;
+  get dependencies() {
+    if(this._dependencies) {
+      return this._dependencies;
+    }
     const ret = {};
     for (const id in this.options.depInstances) {
       if (this.options.depInstances.hasOwnProperty(id)) {
         ret[id] = this.options.depInstances[id].getService();
       }
     }
+    this._dependencies = ret;
     return ret;
   }
 
@@ -48,12 +60,6 @@ export class ServiceCore {
     return this.representation.config || {};
   }
 
-  constructor(options: ServiceOptions, ImplClass) {
-    this.options = options;
-    this.ImplClass = ImplClass;
-    this.logger = new ServiceLogger(this);
-  };
-
   /**
    * Get Class of implementation
    * @return {any}
@@ -68,14 +74,9 @@ export class ServiceCore {
    */
   instantiate() {
     if (!this.impl) {
-      this.impl = new (this.getImplClass())(this);
-      this.impl.core = this;
-      if (this.impl.handleSubscribe) {
-        this.subscribeHandler = <any> this.impl.handleSubscribe.bind(this.impl);
-      }
-      if (this.impl.handleUnsubscribe) {
-        this.unsubscribeHandler = <any> this.impl.handleUnsubscribe.bind(this.impl);
-      }
+      const serviceContextAccessor = new ServiceContextAccessor(this);
+      const Klass = this.getImplClass();
+      this.impl = new (Klass)(serviceContextAccessor);
     }
     return this.impl;
   }
@@ -103,33 +104,9 @@ export class ServiceCore {
    */
   async publish(): Promise<void> {
     const objectNameInHub = SERVICE_PREFIX_IN_HUB + this.getServiceId();
-    await this.context.ipcHub.publish(this.impl, {
+    await this.context.hub.publish(this.impl, {
       name: objectNameInHub
     });
-  }
-
-  /**
-   * Subscribe a event
-   * @param reg
-   * @param listener
-   * @return {Promise<any>}
-   */
-  async subscribe(reg, listener) {
-    assert(this.subscribeHandler, 'could not found subscribeHandler when subscribe event');
-    debug('subscribe() %j', reg);
-    return await this.subscribeHandler(reg, listener);
-  }
-
-  /**
-   * Cancel subscribe a event
-   * @param reg
-   * @param listener
-   * @return {Promise<any>}
-   */
-  async unsubscribe(reg, listener?) {
-    assert(this.unsubscribeHandler, 'could not found unsubscribeHandler when unsubscribe event');
-    debug('unsubscribe() %j', reg);
-    return await this.unsubscribeHandler(reg, listener);
   }
 
   /**
@@ -154,7 +131,7 @@ export class ServiceCore {
    * @return {any}
    */
   public getDependency(name) {
-    return this.deps[name];
+    return this.dependencies[name];
   }
 
 }

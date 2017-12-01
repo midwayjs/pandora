@@ -32,6 +32,8 @@ exports.handler = function () {
           'PID',
           'AppDir',
           'State',
+          'Uptime',
+          'Restart Count',
         ]
       ];
       debug(data);
@@ -39,11 +41,13 @@ exports.handler = function () {
         let state = State[app.state];
         state = (state === 'complete' ? chalk.green('Running') : chalk.red(state)).replace(/^.{1}/, (firstChar) => firstChar.toUpperCase());
         tableData.push([
-          app.name,
+          app.appName,
           app.mode,
           app.pids.join(','),
           app.appDir,
           state,
+          app.uptime,
+          Math.max(0, app.startCount - 1)
         ]);
       }
       console.log(table(tableData));
