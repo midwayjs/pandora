@@ -1,7 +1,12 @@
 'use strict';
 import { RunUtil } from '../../RunUtil';
 const assert = require('assert');
+import * as url from 'url';
 const { HttpPatcher } = require('../../../src/patch/http');
+HttpPatcher.prototype.requestFilter = function(req) {
+  const urlParsed = url.parse(req.url, true);
+  return urlParsed.pathname.indexOf('ignore') > -1;
+};
 const httpPatcher = new HttpPatcher();
 
 RunUtil.run(function(done) {
@@ -9,12 +14,11 @@ RunUtil.run(function(done) {
   const http = require('http');
   const urllib = require('urllib');
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', tracer => {
-    assert(tracer.name === 'HTTP-GET:/');
-    assert(tracer.spans.length > 0);
-    assert(tracer.host);
-    assert(tracer.ip);
-    assert(tracer.pid);
+  process.on('PANDORA_PROCESS_MESSAGE_TRACE', report => {
+
+    assert(report.name === 'HTTP-GET:/');
+    assert(report.spans.length > 0);
+
     done();
   });
 
@@ -27,7 +31,12 @@ RunUtil.run(function(done) {
     const port = server.address().port;
 
     setTimeout(function() {
-      urllib.request(`http://localhost:${port}`);
+      // should be ignore
+      urllib.request(`http://localhost:${port}/ignore`);
     }, 500);
+
+    setTimeout(function() {
+      urllib.request(`http://localhost:${port}`);
+    }, 1000);
   });
 });
