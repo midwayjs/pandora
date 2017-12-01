@@ -53,7 +53,6 @@ describe('/test/unit/EndPoint.test.ts', () => {
 
   it('query custom EndPoint with appName', (done) => {
     myEndPoint.invoke(MetricsConstants.METRICS_DEFAULT_APP).then((results) => {
-      console.log(results);
       expect(results[0].key).to.be.equal('my.during');
       expect(results[1].key).to.be.equal('my.start');
       expect(results[2].key).to.be.equal('my.end');
@@ -65,7 +64,6 @@ describe('/test/unit/EndPoint.test.ts', () => {
 
   it('query custom EndPoint without appName', (done) => {
     myEndPoint.invoke().then((results) => {
-      console.log(results);
       expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.be.equal('my.during');
       expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.be.equal('my.start');
       expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.be.equal('my.end');
