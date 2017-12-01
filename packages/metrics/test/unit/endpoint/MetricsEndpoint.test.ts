@@ -2,13 +2,16 @@ import {expect} from 'chai';
 import {MetricsEndPoint} from '../../../src/endpoint/impl/MetricsEndPoint';
 import {MetricsServerManager} from '../../../src/MetricsServerManager';
 import {MetricName, BaseCounter} from '../../../src/common/index';
+import {MetricsInjectionBridge} from '../../../src/util/MetricsInjectionBridge';
 
 describe('/test/unit/endpoint/MetricsEndPoint.test.ts', () => {
+
+  let server = MetricsServerManager.getInstance();
+  MetricsInjectionBridge.setMetricsManager(server);
 
   let endpoint = new MetricsEndPoint();
   endpoint.initialize();
 
-  let server = MetricsServerManager.getInstance();
   server.register('test1', MetricName.build('reporter.register.pv'), new BaseCounter());
   server.register('test2', MetricName.build('reporter.register.mem'), {
     getValue() {

@@ -9,7 +9,7 @@ describe('/test/unit/MetricsActuatorServer.test.ts', () => {
     expect(() => {
       let server = new MetricsActuatorServer({
         logger: console,
-        metricsServer: new MetricsServerManager()
+        metricsManager: new MetricsServerManager()
       });
       expect(server.getMetricsManager()).to.exist;
     }).to.not.throw(TypeError);
