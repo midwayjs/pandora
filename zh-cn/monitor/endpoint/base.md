@@ -65,6 +65,12 @@ export interface IIndicator {
 
 ## 关于 Resource
 
+
+
+在 Pandora.js 中，我们提供了一批将内置的 EndPoint  汇聚的数据通过 Http 对外暴露的能力，每一个 EndPoint 都可以有配套的 Resource 资源对外输出，这里的数据格式是通过 `koa` 和 `koa-router` 来简单扩展的。
+
+Pandora.js 中埋入了一些默认的 EndPoint 和Resource，具体可以参考 Pandora.js 的默认配置文件，这些 Resource 列举的数据并不一定完全一致，所有的 key 会根据应用当前执行的 Indicator 变化。
+
 ## 配置 EndPoint
 
 不同版本的配置可能会有些增减，但是大致的配置如下：

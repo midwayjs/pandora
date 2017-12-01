@@ -53,10 +53,10 @@ describe('/test/unit/EndPoint.test.ts', () => {
 
   it('query custom EndPoint', (done) => {
     myEndPoint.invoke(MetricsConstants.METRICS_DEFAULT_APP).then((results) => {
-      expect(results[0].key).to.be.equal('my.during');
-      expect(results[1].key).to.be.equal('my.start');
-      expect(results[2].key).to.be.equal('my.end');
-      expect(results[3].key).to.be.equal('my.count');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.be.equal('my.during');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.be.equal('my.start');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.be.equal('my.end');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][3].key).to.be.equal('my.count');
       done();
     });
   });

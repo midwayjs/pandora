@@ -3,7 +3,7 @@ import {InfoEndPoint} from '../../../src/endpoint/impl/InfoEndPoint';
 import {NodeIndicator} from '../../../src/indicator/impl/NodeIndicator';
 import {BaseInfoIndicator} from '../../../src/indicator/impl/BaseInfoIndicator';
 
-describe.only('/test/unit/endpoint/InfoEndpoint.test.ts', () => {
+describe('/test/unit/endpoint/InfoEndpoint.test.ts', () => {
 
   it('invoke node endpoint', async () => {
     let endpoint = new InfoEndPoint();

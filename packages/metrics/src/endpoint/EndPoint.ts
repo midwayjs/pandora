@@ -2,6 +2,7 @@ import {IEndPoint, IIndicator} from '../domain';
 import {MetricsMessengerServer} from '../util/MessengerUtil';
 import {IndicatorProxy} from '../indicator/IndicatorProxy';
 import {IndicatorResult} from '../indicator/IndicatorResult';
+
 const assert = require('assert');
 const debug = require('debug')('pandora:metrics:EndPoint');
 
@@ -31,7 +32,7 @@ export class EndPoint implements IEndPoint {
 
     // query Indicator
     let indicators: IIndicator[] = this.indicators.filter((indicator: IndicatorProxy) => {
-      if(!appName) return true;
+      if (!appName) return true;
       return indicator.match(appName);
     });
 
@@ -65,7 +66,7 @@ export class EndPoint implements IEndPoint {
     for (let result of results) {
       if (result.isSuccess()) {
         let currentAppResults = allResults[result.getAppName()];
-        if(!currentAppResults) {
+        if (!currentAppResults) {
           currentAppResults = allResults[result.getAppName()] = [];
         }
         allResults[result.getAppName()] = currentAppResults.concat(result.getResults());
@@ -73,7 +74,7 @@ export class EndPoint implements IEndPoint {
         this.logger.error(`Query group(${result.getIndicatorGroup()}) IPC results error, message = ${result.getErrorMessage()}`);
       }
     }
-    return allResults;
+    return appName ? allResults[appName] : allResults;
   }
 
   /**
@@ -88,13 +89,13 @@ export class EndPoint implements IEndPoint {
       return;
     }
 
-    if(data.type === 'singleton') {
+    if (data.type === 'singleton') {
       // 单例下，每个应用只允许一个实例存在
       let indicators = this.indicators.filter((indicator: IndicatorProxy) => {
         return indicator.match(data.appName, data.indicatorName);
       });
 
-      if(indicators.length) {
+      if (indicators.length) {
         debug('indicator type singleton=' + data.appName, data.indicatorName);
         return;
       }
@@ -128,7 +129,7 @@ export class EndPoint implements IEndPoint {
 
   destory(callback?) {
     // clean all indicator
-    for(let indicator of this.indicators) {
+    for (let indicator of this.indicators) {
       indicator.destory();
     }
     this.messengerServer.close(callback);
