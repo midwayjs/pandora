@@ -1,6 +1,27 @@
 const http = require('http');
-const HTTPApplet = require('../../../../dist/application/built-in-applet/HTTPApplet').HTTPApplet;
-module.exports = class SomeApplet extends HTTPApplet {
+
+module.exports = class SimpleHTTPServer {
+
+  start() {
+    const {port, host} = this.getPort();
+    return new Promise((resolve) => {
+      this.getServer().listen({ port, host }, resolve);
+    });
+  }
+
+  stop() {
+    return new Promise((resolve) => {
+      this.getServer().close(resolve);
+    });
+  }
+
+  getServer() {
+    if(!this.server) {
+      this.server = this.createServer();
+    }
+    return this.server;
+  }
+
   createServer() {
     return http.createServer((req, res) => {
       res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -9,6 +30,7 @@ module.exports = class SomeApplet extends HTTPApplet {
   }
 
   getPort() {
-    return 1338;
+    return {port: 1338, host: '127.0.0.1'};
   }
+
 };

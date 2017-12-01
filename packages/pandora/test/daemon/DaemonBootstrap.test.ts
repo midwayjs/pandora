@@ -16,6 +16,5 @@ describe('DaemonBootstrap', function () {
     await daemonBootstrap.stop();
   });
 
-
 });
 

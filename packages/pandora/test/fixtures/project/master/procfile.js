@@ -1,4 +1,3 @@
 module.exports = function (pandora) {
-  pandora.configurator('./FakeConfigurator');
-  pandora.applet('./SimpleHTTPServer').process('worker');
+  pandora.service('simpleHTTPServer', './SimpleHTTPServer').process('worker');
 };

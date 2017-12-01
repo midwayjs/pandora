@@ -19,7 +19,7 @@ export function calcAppName(dir?) {
   return ret;
 }
 
-export function attachEntryParams(command, cliConfig, defaultConfig = {}) {
+export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
   const currentPath = process.cwd();
   let pandoraConfig;
   try {

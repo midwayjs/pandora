@@ -36,7 +36,7 @@ export class DaemonBootstrap {
     // Start daemon
     return this.daemon.start().then(() => {
       // Set daemon to metrics
-      MetricsDaemonUtil.setDaemon(this.daemon);
+      MetricsDaemonUtil.setDaemon(<any> this.daemon);
       if (process.send) {
         process.send(DAEMON_READY);
       }

@@ -10,16 +10,6 @@ describe('WorkerContextAccessor', function () {
     appName: 'test',
     appDir: 'test'
   };
-  const myVeryOwnProperties = {
-    a: 1,
-    b: 'test'
-  };
-
-  class MyVeryOwnConfigurator {
-    getAllProperties() {
-      return myVeryOwnProperties;
-    }
-  }
 
   it('should get appName be ok', () => {
     const workerContext = new WorkerContext(precessRepresentation);
@@ -45,42 +35,10 @@ describe('WorkerContextAccessor', function () {
     expect(accessor.env).to.be.equal('test');
   });
 
-  it('should get config be ok', async () => {
-    const workerContext = new WorkerContext(precessRepresentation);
-    const accessor = new WorkerContextAccessor(workerContext);
-    await workerContext.setConfigurator(new MyVeryOwnConfigurator());
-    expect(accessor.config).to.be.deep.equal(myVeryOwnProperties);
-  });
-
-  it('should get configurator be ok', async () => {
-    const workerContext = new WorkerContext(precessRepresentation);
-    const accessor = new WorkerContextAccessor(workerContext);
-    const configurator = new MyVeryOwnConfigurator();
-    await workerContext.setConfigurator(configurator);
-    expect(accessor.configurator).to.be.equal(configurator);
-  });
-
   it('should get environment be ok', async () => {
     const workerContext = new WorkerContext(precessRepresentation);
     const accessor = new WorkerContextAccessor(workerContext);
     expect(accessor.environment).to.be.ok;
-  });
-
-  it('should getApplet() be ok', async () => {
-    const workerContext = new WorkerContext(precessRepresentation);
-    const accessor = new WorkerContextAccessor(workerContext);
-    mm(workerContext, 'appletReconciler', {
-      getAppletInstance: function (name) {
-        if (name === 'applet-test') {
-          return {
-            appletTest: true
-          };
-        }
-      }
-    });
-    const instance = accessor.getApplet<any>('applet-test');
-    expect(instance.appletTest).to.be.equal(true);
-    mm.restore();
   });
 
   it('should getService() be ok', async () => {

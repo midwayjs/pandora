@@ -59,14 +59,10 @@ export class ProcessMaster extends Base {
    */
   async start() {
 
-    const {mode} = this.appRepresentation;
-
-    if ('procfile.js' === mode) {
-      this.procfileReconciler.discover();
-    }
+    this.procfileReconciler.discover();
 
     if (!this.procfileReconciler.getComplexApplicationStructureRepresentation().mount.length) {
-      throw new Error(`Can't get any process at ${this.appRepresentation.appDir}`);
+      throw new Error(`Can't got any process at ${this.appRepresentation.appDir}`);
     }
 
     // Pass appId to child process through process.env
@@ -97,12 +93,12 @@ export class ProcessMaster extends Base {
    * @return {Promise<void>}
    */
   async stop() {
+    const promises = [];
     for(const id of Object.keys(cluster.workers)) {
       const worker = cluster.workers[id];
-      (<any> worker)._refork = false;
+      promises.push(this.sendWorkerShutdown(worker));
     }
-    this.notify(SHUTDOWN, {});
-    await $.promise.delay(3000);
+    await Promise.all(promises);
     await Promise.all(Object.keys(cluster.workers).map(async (id) => {
       const worker = cluster.workers[id];
       await this.killWorkerSop(worker);
@@ -164,21 +160,7 @@ export class ProcessMaster extends Base {
    * @return {Promise<any>}
    */
   private reloadWorker(worker): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let timer = setTimeout(() => {
-        resolve();
-      }, SHUTDOWN_TIMEOUT);
-      // Mark it doesn't want to refork by 3rd lib cfork
-      worker._refork = false;
-      worker.send({action: SHUTDOWN});
-      worker.on('message', message => {
-        if (message.action === FINISH_SHUTDOWN) {
-          clearTimeout(timer);
-          timer = null;
-          resolve();
-        }
-      });
-    }).then(() => {
+    return this.sendWorkerShutdown(worker).then(() => {
       return new Promise((resolve) => {
         let setting = worker._clusterSettings;
         if (setting) {
@@ -193,6 +175,24 @@ export class ProcessMaster extends Base {
           resolve(this.killWorkerSop(worker));
         });
         newWorker._clusterSettings = setting;
+      });
+    });
+  }
+
+  private sendWorkerShutdown(worker): Promise<any> {
+    return new Promise((resolve) => {
+      let timer = setTimeout(() => {
+        resolve();
+      }, SHUTDOWN_TIMEOUT);
+      // Mark it doesn't want to refork by 3rd lib cfork
+      worker._refork = false;
+      worker.send({action: SHUTDOWN});
+      worker.on('message', message => {
+        if (message.action === FINISH_SHUTDOWN) {
+          clearTimeout(timer);
+          timer = null;
+          resolve();
+        }
       });
     });
   }

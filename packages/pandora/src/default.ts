@@ -36,7 +36,7 @@ export default {
     const globalConfig = require('./universal/GlobalConfigProcessor')
       .GlobalConfigProcessor.getInstance().getAllProperties();
 
-    pandora.defaultServiceCategory('weak-all');
+    pandora.defaultServiceCategory('worker');
 
     pandora.environment(globalConfig.environment);
 
