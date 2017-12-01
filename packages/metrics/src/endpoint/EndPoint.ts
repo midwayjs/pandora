@@ -59,12 +59,16 @@ export class EndPoint implements IEndPoint {
   processQueryResults(results: Array<IndicatorResult>, appName?: string, args?: any): any {
     debug('Return: get callback from Indicators');
 
-    let allResults = [];
+    let allResults = {};
 
-    // 循环每个指标的结果
+    // loop indicators and get results
     for (let result of results) {
       if (result.isSuccess()) {
-        allResults = allResults.concat(result.getResults());
+        let currentAppResults = allResults[result.getAppName()];
+        if(!currentAppResults) {
+          currentAppResults = allResults[result.getAppName()] = [];
+        }
+        allResults[result.getAppName()] = currentAppResults.concat(result.getResults());
       } else {
         this.logger.error(`Query group(${result.getIndicatorGroup()}) IPC results error, message = ${result.getErrorMessage()}`);
       }

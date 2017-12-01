@@ -15,6 +15,7 @@ export class IndicatorProxy extends AbstractIndicator {
   client: MessengerClient;
   group: string;
   clientId: string;
+  appName: string;
 
   constructor(client) {
     super();
