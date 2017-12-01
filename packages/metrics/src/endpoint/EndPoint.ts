@@ -28,7 +28,7 @@ export class EndPoint implements IEndPoint {
    */
   invoke(appName?: string, args?: any) {
 
-    debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}`);
+    debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}, clientNum = ${this.indicators.length}`);
 
     // query Indicator
     let indicators: IIndicator[] = this.indicators.filter((indicator: IndicatorProxy) => {
@@ -59,7 +59,6 @@ export class EndPoint implements IEndPoint {
 
   processQueryResults(results: Array<IndicatorResult>, appName?: string, args?: any): any {
     debug('Return: get callback from Indicators');
-
     let allResults = {};
 
     // loop indicators and get results
@@ -74,6 +73,7 @@ export class EndPoint implements IEndPoint {
         this.logger.error(`Query group(${result.getIndicatorGroup()}) IPC results error, message = ${result.getErrorMessage()}`);
       }
     }
+
     return appName ? allResults[appName] : allResults;
   }
 
