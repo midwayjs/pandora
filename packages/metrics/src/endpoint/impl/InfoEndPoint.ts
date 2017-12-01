@@ -1,5 +1,5 @@
 import {EndPoint} from '../EndPoint';
-import {DaemonUtil} from '../../util/DaemonUtil';
+import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
 
 export class InfoEndPoint extends EndPoint {
   group: string = 'info';
@@ -7,7 +7,7 @@ export class InfoEndPoint extends EndPoint {
   async processQueryResults(results, appName) {
     results = super.processQueryResults(results, appName);
 
-    const daemon = DaemonUtil.getDaemon();
+    const daemon = MetricsInjectionBridge.getDaemon();
     if(!daemon) {
       return results;
     }

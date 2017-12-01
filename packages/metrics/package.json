@@ -1,7 +1,7 @@
 {
   "name": "pandora-metrics",
   "version": "1.2.0",
-  "main": "dist/index",
+  "main": "src/index",
   "typings": "src/index",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",

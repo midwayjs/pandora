@@ -5,7 +5,7 @@ import {DAEMON_READY, PANDORA_GLOBAL_CONFIG} from '../const';
 import {MetricsConstants} from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {getDaemonLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
-import {DaemonUtil as MetricsDaemonUtil} from 'pandora-metrics';
+import {MetricsInjectionBridge as MetricsDaemonUtil} from 'pandora-metrics';
 
 /**
  * Class DaemonBootstrap

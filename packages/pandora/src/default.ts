@@ -71,7 +71,7 @@ export default {
     isolatedServiceLogger: false
   },
 
-  metricsServer: MetricsServerManager,
+  metricsManager: MetricsServerManager,
   metricsClient: MetricsClient,
 
   actuator: {

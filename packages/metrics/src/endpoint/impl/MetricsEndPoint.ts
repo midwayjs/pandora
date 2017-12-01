@@ -4,18 +4,17 @@ import {MetricFilter, MetricName, IMetricsRegistry}  from '../../common/index';
 import {MetricObject} from '../../collect/MetricObject';
 import {MetricsManager} from '../../common/MetricsManager';
 import {NormalMetricsCollector} from '../../collect/NormalMetricsCollector';
+import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
 const debug = require('debug')('pandora:metrics:MetricEndPoint');
 
 export class MetricsEndPoint extends EndPoint {
 
   group: string = 'metrics';
-
-  manager: MetricsManager = MetricsServerManager.getInstance();
-
+  manager: MetricsManager = MetricsInjectionBridge.getMetricsManager();
   rateFactor = 1;
   durationFactor = 1.0;
 
-  listMetrics(): {} {
+  listMetrics(appName?: string): {} {
     if (this.manager.isEnabled()) {
       let resultMap = {};
       for (let groupName of this.manager.listMetricGroups()) {
