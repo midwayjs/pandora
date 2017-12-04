@@ -19,7 +19,7 @@ const daemonLogger = getDaemonLogger();
  */
 export class ApplicationHandler extends Base {
   public state: State;
-  public appRepresentation: ApplicationRepresentation | ApplicationRepresentation;
+  public appRepresentation: ApplicationRepresentation & ProcessRepresentation;
   private nodejsStdout: any;
   private proc: any;
 
@@ -94,6 +94,7 @@ export class ApplicationHandler extends Base {
 
     const env = {
       ...process.env,
+      ...this.appRepresentation.env,
       [PANDORA_CWD]: process.cwd(),
       // require.main === module maybe be 'false' after patched spawn wrap
       RUN_PROCESS_BOOTSTRAP_BY_FORCE: true
