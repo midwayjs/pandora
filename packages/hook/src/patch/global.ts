@@ -8,6 +8,15 @@ import {getPandoraConsoleLogger} from 'pandora-dollar';
 const pandoraConsoleLogger = getPandoraConsoleLogger();
 import { Patcher, MessageConstants } from 'pandora-metrics';
 import * as util from 'util';
+import * as events from 'events';
+
+function listenerCount(emitter, evnt) {
+  if (emitter.listenerCount) {
+    return emitter.listenerCount(evnt);
+  }
+
+  return events.EventEmitter.listenerCount(emitter, evnt);
+}
 
 export class GlobalPatcher extends Patcher {
 
@@ -21,11 +30,16 @@ export class GlobalPatcher extends Patcher {
     const self = this;
     const traceManager = this.getTraceManager();
 
-    this.getShimmer().massWrap(console, ['log', 'info', 'warn', 'error'], function wrapLog(log, name) {
+    this.getShimmer().wrap(console, 'error', function wrapLog(log) {
       return function wrappedLog() {
         process.nextTick(() => {
           let args = arguments;
           let err = args[0];
+
+          // 因为已经被 process.unhandledRejection 采集，故不再采集
+          if (typeof err === 'string' && err.indexOf('Unhandled promise rejection') > -1) {
+            return;
+          }
 
           try {
             if (!(err instanceof Error)) {
@@ -40,7 +54,7 @@ export class GlobalPatcher extends Patcher {
             }
 
             const data = {
-              method: name,
+              method: 'error',
               timestamp: Date.now(),
               errType: err.name,
               message: err.message,
@@ -60,7 +74,74 @@ export class GlobalPatcher extends Patcher {
     });
   }
 
+  _shimmerUnhandledRejection() {
+    const self = this;
+    const traceManager = this.getTraceManager();
+
+    this.getShimmer().wrap(process, 'emit', function wrapProcessEmit(original) {
+
+      return function wrappedProcessEmit(event, error) {
+        if (event === 'unhandledRejection' && error) {
+          if (listenerCount(process, 'unhandledRejection') === 0) {
+            let traceId = '';
+            const tracer = traceManager.getCurrentTracer();
+            if (tracer) {
+              traceId = tracer.getAttrValue('traceId');
+            }
+
+            // 在这里采集 unhandledRejection，不在 console.error 里，为了更好的堆栈信息
+            const data = {
+              method: 'unhandledRejection',
+              timestamp: Date.now(),
+              errType: error.name,
+              message: error.message,
+              stack: error.stack,
+              traceId: traceId,
+              path: 'unhandledRejection'
+            };
+
+            self.getSender().send(MessageConstants.LOGGER, data);
+          }
+        }
+
+        return original.apply(this, arguments);
+      };
+    });
+  }
+
+  _shimmerFatalException() {
+    const self = this;
+    const traceManager = this.getTraceManager();
+
+    this.getShimmer().wrap(process, '_fatalException', function wrapProcessFatalException(original) {
+
+      return function wrappedProcessFatalException(error) {
+        let traceId = '';
+        const tracer = traceManager.getCurrentTracer();
+        if (tracer) {
+          traceId = tracer.getAttrValue('traceId');
+        }
+
+        const data = {
+          method: 'uncaughtException',
+          timestamp: Date.now(),
+          errType: error.name,
+          message: error.message,
+          stack: error.stack,
+          traceId: traceId,
+          path: 'uncaughtException'
+        };
+
+        self.getSender().send(MessageConstants.LOGGER, data);
+
+        return original.apply(this, arguments);
+      };
+    });
+  }
+
   shimmer() {
     this._shimmerConsole();
+    this._shimmerUnhandledRejection();
+    this._shimmerFatalException();
   }
 }
