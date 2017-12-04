@@ -30,7 +30,7 @@ export class GlobalPatcher extends Patcher {
     const self = this;
     const traceManager = this.getTraceManager();
 
-    this.getShimmer().wrap(console, 'error', function wrapLog(log) {
+    this.getShimmer().massWrap(console, ['error', 'warn'], function wrapLog(log, name) {
       return function wrappedLog() {
         process.nextTick(() => {
           let args = arguments;
@@ -54,7 +54,7 @@ export class GlobalPatcher extends Patcher {
             }
 
             const data = {
-              method: 'error',
+              method: name,
               timestamp: Date.now(),
               errType: err.name,
               message: err.message,
