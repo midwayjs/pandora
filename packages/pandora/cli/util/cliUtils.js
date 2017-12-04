@@ -49,3 +49,19 @@ module.exports = (pandora) => {
   }
 };
 
+
+exports.dirnameUntilPkgJson = function (targetPath) {
+
+  let cur = targetPath;
+
+  while (true) {
+    if(fs.existsSync(path.join(cur, 'package.json'))) {
+      return cur;
+    }
+    cur = path.dirname(cur);
+    if(cur === '/') {
+      return null;
+    }
+  }
+
+};

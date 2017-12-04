@@ -1,6 +1,7 @@
 import {Daemon} from './Daemon';
 import {ApplicationIntrospectionResult, DaemonIntrospectionResult} from '../domain';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+import {getAppLogPath} from '../universal/LoggerBroker';
 
 export class DaemonIntrospection {
 
@@ -62,7 +63,8 @@ async function complexToIntrospection(complex): Promise<ApplicationIntrospection
     uptime: complex.uptime,
     startCount: complex.startCount,
     representation: complex.appRepresentation,
-    complex: await complex.getComplex()
+    complex: await complex.getComplex(),
+    stdoutLogPath: getAppLogPath(complex.name, 'nodejs_stdout')
   };
 
 }

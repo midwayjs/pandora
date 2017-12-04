@@ -354,7 +354,7 @@ export class ProcfileReconciler {
         process.mode === 'profile.js' &&
         foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
       ) {
-        processRepresentations.push(process);
+        processRepresentations.push(this.processGlobalForProcess(process));
       }
     }
 
@@ -386,7 +386,7 @@ export class ProcfileReconciler {
 
     for(const process of processes) {
       if( process.mode === 'fork' ) {
-        mount.push(process);
+        mount.push(this.processGlobalForProcess(process));
       }
     }
 
@@ -424,6 +424,15 @@ export class ProcfileReconciler {
 
     return complex;
 
+  }
+
+  private processGlobalForProcess (process): ProcessRepresentation {
+    const argv = process.globalArgv ? (process.argv || []).concat(process.globalArgv) : process.argv;
+    const env = process.globalEnv ? {...process.env, ...process.globalEnv} : process.env;
+    return {
+      ...process,
+      argv, env
+    };
   }
 
 }

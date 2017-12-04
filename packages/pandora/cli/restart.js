@@ -3,10 +3,15 @@ const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
 const {send, isDaemonRunning} = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler'));
+const {calcAppName} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 
-exports.command = 'restart <appName>';
+exports.command = 'restart [appName]';
 exports.desc = 'Restart a running application';
 exports.handler = function (argv) {
+
+
+  const appName = argv.appName || calcAppName(process.cwd());
+
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
       consoleLogger.info('Daemon is not running yet');
@@ -14,7 +19,7 @@ exports.handler = function (argv) {
       return;
     }
     send('restart', {
-      appName: argv.appName,
+      appName: appName,
     }, (err, data) => {
       if (err) {
         consoleLogger.error(err);

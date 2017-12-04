@@ -3,10 +3,13 @@ const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
 const {send, clearCliExit, isDaemonRunning} = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler'));
+const {calcAppName} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 
-exports.command = 'stop <appName>';
+exports.command = 'stop [appName]';
 exports.desc = 'Stop an application';
 exports.handler = function (argv) {
+
+  const appName = argv.appName || calcAppName(process.cwd());
 
   isDaemonRunning().then((isRunning) => {
     if (!isRunning) {
@@ -15,7 +18,7 @@ exports.handler = function (argv) {
       return;
     }
     send('stopApp', {
-      appName: argv.appName,
+      appName: appName,
     }, (err, data) => {
       if (err) {
         consoleLogger.error(err);

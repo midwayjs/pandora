@@ -23,6 +23,8 @@ export interface ApplicationRepresentation {
   entryFile?: string;
   scale?: ProcessScale;
   mode?: string;
+  globalEnv?: any;
+  globalArgv?: any[];
 }
 
 export interface ProcessRepresentation extends ApplicationRepresentation {
@@ -110,6 +112,7 @@ export interface ApplicationIntrospectionResult {
   uptime: number;
   representation?: ApplicationRepresentation;
   complex?: ComplexApplicationStructureRepresentation;
+  stdoutLogPath?: string;
 }
 
 export type VersionsIntrospectionResult = typeof process.versions & {
