@@ -2,6 +2,7 @@
 import {DefaultLoggerManager, ILogger} from 'pandora-service-logger';
 import {join} from 'path';
 import {EOL} from 'os';
+import mzFs = require('mz/fs');
 
 const ConsoleLogger = require('egg-logger').EggConsoleLogger;
 export const consoleLogger = new ConsoleLogger({
@@ -61,6 +62,11 @@ export function removeEOL(str: string): string {
   return str.replace(eolReg, '');
 }
 
+export async function backupLog(file, newName?) {
+  newName = newName || file + '.' + yyyymmdd(new Date, '-') + '-' + Date.now();
+  await mzFs.rename(file, newName);
+}
+
 /**
  * Prevent cycle dependencies
  * @return {any}
@@ -69,3 +75,13 @@ function lazyGetGlobalConfig () {
   const globalConfigProcessor = require('./GlobalConfigProcessor').GlobalConfigProcessor.getInstance();
   return globalConfigProcessor.getAllProperties();
 }
+
+export function yyyymmdd (date, sp) {
+  const mm = date.getMonth() + 1;
+  const dd = date.getDate();
+  return [date.getFullYear(),
+    (mm > 9 ? '' : '0') + mm,
+    (dd > 9 ? '' : '0') + dd
+  ].join(sp || '');
+};
+

@@ -3,7 +3,8 @@ import uuid = require('uuid');
 import {State} from '../const';
 import {ProcfileReconciler} from '../application/ProcfileReconciler';
 import {ApplicationHandler} from '../application/ApplicationHandler';
-import {existsSync} from 'fs';
+import {exists} from 'mz/fs';
+import {backupLog, getAppLogPath} from '../universal/LoggerBroker';
 
 export class ComplexHandler {
 
@@ -18,9 +19,6 @@ export class ComplexHandler {
     this.state = State.pending;
     this.appId = uuid.v4();
     this.appRepresentation = appRepresentation;
-    if(!existsSync(this.appDir)) {
-      new Error(`AppDir ${this.appDir} does not exist`);
-    }
   }
 
   public get name() {
@@ -87,10 +85,18 @@ export class ComplexHandler {
   }
 
   async start () {
+
+    if(!await exists(this.appDir)) {
+      new Error(`AppDir ${this.appDir} does not exist`);
+    }
+
+    await this.backupStdoutLogFile();
+
     await this.fillMounted();
     if(!this.mountedApplications.length) {
       throw new Error('Start failed, looks like not a pandora project, in appDir ' + this.appDir);
     }
+
     const startedHandlers = [];
     for(const appHandler of this.mountedApplications) {
       try {
@@ -120,6 +126,13 @@ export class ComplexHandler {
   async reload (processName: string) {
     for(const appHandler of this.mountedApplications) {
       await appHandler.reload(processName);
+    }
+  }
+
+  async backupStdoutLogFile() {
+    const targetPath = getAppLogPath(this.name, 'nodejs_stdout');
+    if(await exists(targetPath)) {
+      await backupLog(targetPath);
     }
   }
 
