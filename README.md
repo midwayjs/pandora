@@ -3,6 +3,7 @@
 [![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora.svg?style=flat-square)](https://codecov.io/gh/midwayjs/pandora)
 [![Package Quality](http://npm.packagequality.com/shield/pandora.svg)](http://packagequality.com/#?package=pandora)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
+[![Known Vulnerabilities](https://snyk.io/test/npm/pandora/badge.svg)](https://snyk.io/test/npm/pandora)
 
 Document: [https://midwayjs.gitbooks.io/pandora/content/zh-cn/](https://midwayjs.gitbooks.io/pandora/content/zh-cn/)
 
