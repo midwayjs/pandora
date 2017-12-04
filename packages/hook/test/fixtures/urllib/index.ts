@@ -32,10 +32,10 @@ RunUtil.run(function(done) {
   });
 
   const server = http.createServer((req, res) => {
-    urllib.request('http://www.taobao.com/').then(() => {
+    urllib.request('https://www.taobao.com/tbhome/page/about/home').then(() => {
 
       return Promise.all([
-        urllib.request(`http://www.taobao.com/${Date.now()}`),
+        urllib.request(`https://www.taobao.com/tbhome/page/about/home/${Date.now()}`),
         urllib.request(`http://www.${Date.now()}notfound.com/`).catch((err) => {})
       ]).then(() => {
         res.end('hello');
