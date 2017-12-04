@@ -37,6 +37,7 @@
     "mocha": "^3.5.0",
     "module-hook": "^1.0.0",
     "nyc": "^11.3.0",
+    "nyc-ts-patch": "^1.0.0",
     "pandora-env": "^1.0.0",
     "pedding": "^1.1.0",
     "shimmer": "^1.1.0",
