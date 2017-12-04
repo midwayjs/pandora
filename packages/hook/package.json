@@ -24,6 +24,7 @@
   "dependencies": {
     "cls-bluebird": "^2.0.1",
     "pandora-metrics": "^1.2.0",
+    "pandora-dollar": "^1.0.0",
     "xorshift": "^1.1.1"
   },
   "devDependencies": {

@@ -34,10 +34,7 @@ RunUtil.run(function(done) {
   });
 
   process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
-    const args = info.args;
-    const err = args[0];
-    assert(info.method === 'error');
-    assert(err.message === 'hello');
+    assert(info.message === 'hello');
     done();
   });
 

@@ -140,6 +140,10 @@ export default {
   },
 
   hook: {
+    global: {
+      enabled: true,
+      target: hooks.GlobalPatcher
+    },
     eggLogger: {
       enabled: true,
       target: hooks.EggLoggerPatcher,

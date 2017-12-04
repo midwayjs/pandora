@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as uuid from 'uuid';
 import {join, dirname} from 'path';
 import {lstatSync, readlinkSync} from 'fs';
+import {Console} from 'console';
 const Module = require('module');
 
 export const TemplatePattern = /{{([\s\S]+?)}}/g;
@@ -82,4 +83,12 @@ export function resolveSymlink(targetPath) {
     return resolveSymlink(linkTo);
   }
   return targetPath;
+}
+
+export function getPandoraConsoleLogger() {
+  if (!global['_pandoraConsoleLogger']) {
+    global['_pandoraConsoleLogger'] = new Console(process.stdout, process.stderr);
+  }
+
+  return global['_pandoraConsoleLogger'];
 }
