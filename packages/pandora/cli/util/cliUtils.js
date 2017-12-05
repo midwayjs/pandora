@@ -22,7 +22,7 @@ module.exports = (pandora) => {
    * default is fork mode
    */
   pandora
-    .fork('${targetPath}', '${appName}');
+    .fork('${appName}', '${targetPath}');
 
   /**
    * you can use cluster mode to start application
