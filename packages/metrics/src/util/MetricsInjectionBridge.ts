@@ -1,10 +1,10 @@
-import {Daemon} from 'pandora';
 import {MetricsManager} from '../common/MetricsManager';
 const assert = require('assert');
 
 export class MetricsInjectionBridge {
 
-  static daemon: Daemon = null;
+  // FIXME: import {Daemon} from 'pandora'; will occurs a cycle deps
+  static daemon: any = null;
   static metricsManager;
 
   static getMetricsManager(): MetricsManager {
@@ -18,7 +18,7 @@ export class MetricsInjectionBridge {
     this.metricsManager = metricsServer;
   }
 
-  static setDaemon(daemon: Daemon) {
+  static setDaemon(daemon) {
     this.daemon = daemon;
   }
 
