@@ -28,7 +28,7 @@ describe('/test/unit/InfoResource.test.ts', () => {
         enabled: false,
         port: 8006,
       },
-      endPoints: {
+      endPoint: {
         error: {
           enabled: true,
           target: InfoEndPoint,

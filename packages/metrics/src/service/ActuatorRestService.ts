@@ -15,10 +15,10 @@ export class ActuatorRestService implements ActuatorService {
 
   start(actuatorConfig?: {
     http,
-    endPoints
+    endPoint
   }) {
     const httpConfig = actuatorConfig['http'];
-    const endPointConfig = actuatorConfig['endPoints'];
+    const endPointConfig = actuatorConfig['endPoint'];
 
     let app = new KOA();
     let homeRouter = new Router();

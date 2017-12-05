@@ -8,7 +8,7 @@ export class MetricsActuatorManager {
   actuatorRestService;
 
   actuatorConfig = {
-    endPoints: {}
+    endPoint: {}
   };
 
   logger;
@@ -17,7 +17,7 @@ export class MetricsActuatorManager {
     logger,
     config: {
       http,
-      endPoints,
+      endPoint,
     }
   }) {
     this.logger = options.logger;
