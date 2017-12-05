@@ -125,6 +125,8 @@ export interface DaemonIntrospectionResult {
   pid: number;
   uptime: number;
   loadedGlobalConfigPaths: string[];
+  loadedEndPoints: string[];
+  loadedReporters: string[];
 }
 
 

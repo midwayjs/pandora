@@ -7,6 +7,8 @@ export class DaemonIntrospection {
 
   daemon: Daemon;
 
+  globalProperties = GlobalConfigProcessor.getInstance().getAllProperties();
+
   constructor(daemon: Daemon) {
     this.daemon = daemon;
   }
@@ -36,6 +38,26 @@ export class DaemonIntrospection {
     return GlobalConfigProcessor.getInstance().loadedConfigPath;
   }
 
+  getLoadedEndPointNames() {
+    let loadedEndPoints = [];
+    for(let endPointName in this.globalProperties['actuator']['endPoint']) {
+      if(this.globalProperties['actuator']['endPoint'][endPointName].enabled) {
+        loadedEndPoints.push(endPointName);
+      }
+    }
+    return loadedEndPoints;
+  }
+
+  getLoadedReporterNames() {
+    let loadedReporters = [];
+    for(let reporterName in this.globalProperties['reporter']) {
+      if(this.globalProperties['reporter'][reporterName].enabled) {
+        loadedReporters.push(reporterName);
+      }
+    }
+    return loadedReporters;
+  }
+
   introspectDaemon (): DaemonIntrospectionResult {
     return  {
       versions: {
@@ -45,7 +67,9 @@ export class DaemonIntrospection {
       cwd: process.cwd(),
       pid: process.pid,
       uptime: process.uptime(),
-      loadedGlobalConfigPaths: this.getLoadedGlobalConfigPaths()
+      loadedGlobalConfigPaths: this.getLoadedGlobalConfigPaths(),
+      loadedEndPoints: this.getLoadedEndPointNames(),
+      loadedReporters: this.getLoadedReporterNames(),
     };
   }
 

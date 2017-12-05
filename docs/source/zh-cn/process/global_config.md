@@ -66,7 +66,7 @@ export default {
       port: 8006,
     },
 
-    endPoints: {
+    endPoint: {
       error: {
         enabled: true,
         target: ErrorEndPoint,

@@ -78,7 +78,7 @@ Pandora.js 中埋入了一些默认的 EndPoint 和Resource，具体可以参考
 ```javascript
 export default {
   actuator: {
-    endPoints: {
+    endPoint: {
       error: {
         enabled: true,
         target: ErrorEndPoint,

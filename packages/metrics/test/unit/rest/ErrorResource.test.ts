@@ -45,7 +45,7 @@ describe('/test/unit/ErrorResource.test.ts', () => {
         enabled: false,
         port: 8006,
       },
-      endPoints: {
+      endPoint: {
         error: {
           enabled: true,
           target: ErrorEndPoint,
@@ -58,7 +58,7 @@ describe('/test/unit/ErrorResource.test.ts', () => {
       .get('/error')
       .expect(200)
       .then(res => {
-        expect(res.body.data.length >= 0).to.be.true;
+        expect(res.body.data.count >= 0).to.be.true;
         expect(res.body.success).to.true;
         done();
       })

@@ -80,7 +80,7 @@ export default {
       port: 7002,
     },
 
-    endPoints: {
+    endPoint: {
       daemon: {
         enabled: true,
         target: DaemonEndPoint,

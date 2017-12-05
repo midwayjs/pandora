@@ -57,7 +57,6 @@ describe('/test/unit/HealthResource.test.ts', () => {
       .get('/health')
       .expect(200)
       .then(res => {
-        console.log(res.body);
         expect(res.body.data['DEFAULT_APP']['MyHealthIndicator']['status']).to.equal('UP');
         expect(res.body.success).to.true;
         done();

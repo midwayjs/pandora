@@ -27,7 +27,7 @@ describe('/test/unit/ProcessResource.test.ts', () => {
         enabled: false,
         port: 8006,
       },
-      endPoints: {
+      endPoint: {
         error: {
           enabled: true,
           target: ProcessEndPoint,
