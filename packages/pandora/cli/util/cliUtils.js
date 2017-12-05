@@ -45,7 +45,7 @@ module.exports = (pandora) => {
 };`;
 
     fs.writeFileSync(procFilePath, template);
-    console.log(`pandora: procfile.js was auto generator at ${procFilePath}`);
+    console.log(`pandora: procfile.js was auto generated at ${procFilePath}`);
   }
 };
 
