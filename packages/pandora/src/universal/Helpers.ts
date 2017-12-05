@@ -53,6 +53,10 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
     console.error(err);
   }
 
+  if(cliConfig.name) {
+    sendConfig.appName = cliConfig.name;
+  }
+
   if(sendConfig.env) {
     try {
       const envMap = {};

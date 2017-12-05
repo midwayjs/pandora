@@ -16,15 +16,14 @@ exports.builder = (yargs) => {
     describe: 'App name, it will get a name from the <targetPath> by default'
   });
 
-  yargs.option('mode', {
-    alias: 'm',
-    describe: 'The start mode, options: procfile.js or cluster or fork'
+  yargs.option('env', {
+    alias: 'E',
+    describe: 'Environment Variables, such as --env="A=1 B=2"'
   });
 
-  yargs.option('inspector', {
-    alias: 'i',
-    describe: 'Debug Application with node-inspector',
-    boolean: true
+  yargs.option('argv', {
+    alias: 'A',
+    describe: 'Node.js argv, such as --argv="--expose-gc --max_old_space_size=500"'
   });
 
 };
