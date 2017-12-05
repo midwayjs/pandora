@@ -14,7 +14,6 @@ export class V8GaugeSet extends CachedMetricSet {
     this.refreshIfNecessary();
   }
 
-
   getMetrics() {
 
     const self = this;
@@ -25,18 +24,24 @@ export class V8GaugeSet extends CachedMetricSet {
 
     for (const stats of self.heapSpaceStats) {
       const spaceName = stats['space_name'];
-      delete stats['space_name'];
-      for (const key in stats) {
-        gauges.push({
-          name: MetricName.build(`${spaceName}.${key}`),
-          metric: <Gauge<number>> {
-            getValue() {
-              self.refreshIfNecessary();
-              return stats[key];
-            }
+      if(spaceName) {
+        for (const key in stats) {
+          if(key !== 'space_name') {
+            gauges.push({
+              name: MetricName.build(`${spaceName}.${key}`),
+              metric: <Gauge<number>> {
+                getValue() {
+                  self.refreshIfNecessary();
+                  return stats[key];
+                }
+              }
+            });
           }
-        });
+        }
+      } else {
+        // if don't have space_name just ignore now....
       }
+
     }
 
     for (const key in self.heapStats) {
