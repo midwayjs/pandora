@@ -79,7 +79,7 @@ export class MetricsEndPoint extends EndPoint {
     return (<MetricsServerManager>this.manager).hasMetricRegistryByGroup(groupName);
   }
 
-  private getCollector() {
+  protected getCollector() {
     return this.config['initConfig']['collector'] || NormalMetricsCollector;
   }
 
