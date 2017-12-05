@@ -21,7 +21,7 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
         http: {
           enabled: false
         },
-        endPoints: {
+        endPoint: {
           trace: {
             enabled: true,
             target: TraceEndPoint,

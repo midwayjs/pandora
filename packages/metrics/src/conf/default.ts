@@ -15,7 +15,7 @@ export default {
     enabled: true,
     port: 8006,
   },
-  endPoints: {
+  endPoint: {
     daemon: {
       enabled: true,
       target: DaemonEndPoint,

@@ -113,7 +113,7 @@ export interface IIndicator {
 ```javascript
 export default {
   actuator: {
-    endPoints: {
+    endPoint: {
       error: {
         enabled: true,
         target: ErrorEndPoint,

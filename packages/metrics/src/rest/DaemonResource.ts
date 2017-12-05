@@ -17,9 +17,7 @@ export class DaemonResource implements ActuatorResource {
     const daemonEndPoint = <DaemonEndPoint>this.endPointService.getEndPoint('daemon');
     router.get('/', async (ctx, next) => {
       try {
-        let daemonResults = (await daemonEndPoint.invoke(ctx.query['appName'])) || {};
-        daemonResults['loadedEndPoints'] = this.endPointService.getEndPointNames();
-        ctx.ok(daemonResults);
+        ctx.ok(await daemonEndPoint.invoke(ctx.query['appName']) || {});
       } catch (err) {
         ctx.fail(err.message);
       }
