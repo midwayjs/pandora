@@ -1,13 +1,14 @@
 import {CachedMetricSet} from '../../client/CachedMetricSet';
 import {MetricName} from '../../common/MetricName';
 import {Gauge} from '../../client/MetricsProxy';
+
 const debug = require('debug')('metrics:v8');
 const v8 = require('v8');
 
 export class V8GaugeSet extends CachedMetricSet {
 
-  heapSpaceStats;
-  heapStats;
+  heapSpaceStats = {};
+  heapStats = {};
 
   constructor() {
     super();
@@ -21,30 +22,22 @@ export class V8GaugeSet extends CachedMetricSet {
 
     debug(self.heapSpaceStats);
     debug(self.heapStats);
+    // exec first
+    self.refreshIfNecessary();
 
-    for (const stats of self.heapSpaceStats) {
-      const spaceName = stats['space_name'];
-      if(spaceName) {
-        for (const key in stats) {
-          if(key !== 'space_name') {
-            gauges.push({
-              name: MetricName.build(`${spaceName}.${key}`),
-              metric: <Gauge<number>> {
-                getValue() {
-                  self.refreshIfNecessary();
-                  return stats[key];
-                }
-              }
-            });
+    for (const key of Object.keys(self.heapSpaceStats)) {
+      gauges.push({
+        name: MetricName.build(`${key}`),
+        metric: <Gauge<number>> {
+          getValue() {
+            self.refreshIfNecessary();
+            return self.heapSpaceStats[key];
           }
         }
-      } else {
-        // if don't have space_name just ignore now....
-      }
-
+      });
     }
 
-    for (const key in self.heapStats) {
+    for (const key of Object.keys(self.heapStats)) {
       gauges.push({
         name: MetricName.build(key),
         metric: <Gauge<number>> {
@@ -60,7 +53,22 @@ export class V8GaugeSet extends CachedMetricSet {
   }
 
   getValueInternal() {
-    this.heapSpaceStats = v8.getHeapSpaceStatistics();
-    this.heapStats = v8.getHeapStatistics();
+    let heapSpaceStats = v8.getHeapSpaceStatistics();
+    let heapStats = v8.getHeapStatistics();
+
+    for (const stats of heapSpaceStats) {
+      const spaceName = stats['space_name'];
+      if (spaceName) {
+        for (const key in stats) {
+          if (key !== 'space_name') {
+            this.heapSpaceStats[`${spaceName}.${key}`] = stats[key];
+          }
+        }
+      }
+    }
+
+    for (const key in heapStats) {
+      this.heapStats[key] = heapStats[key];
+    }
   }
 }

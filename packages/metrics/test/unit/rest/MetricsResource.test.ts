@@ -8,6 +8,7 @@ import {expect} from 'chai';
 import {MetricsServerManager} from '../../../src/MetricsServerManager';
 import {MetricSet, MetricName, BaseGauge} from '../../../src/common/index';
 import {V8GaugeSet} from '../../../src/metrics/node/V8GaugeSet';
+import {MetricsClient} from '../../../src/MetricsClient';
 
 describe('/test/unit/MetricsResource.test.ts', () => {
 
@@ -54,8 +55,10 @@ describe('/test/unit/MetricsResource.test.ts', () => {
 
     }
 
+    const client = new MetricsClient();
+
     manager.register('system', MetricName.build('test.a.b'), new TestMetricSet());
-    manager.register('system', MetricName.build('node.v8'), new V8GaugeSet());
+    client.register('system', MetricName.build('node.v8'), new V8GaugeSet());
 
     request(app.listen())
       .get('/metrics/system')

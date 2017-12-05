@@ -25,7 +25,7 @@ describe('/test/unit/endpoint/MetricsEndPoint.test.ts', () => {
   });
 
   it('invoke empty metrics endpoint', async () => {
-    const metricResults = endpoint.listMetrics();
+    const metricResults = await endpoint.listMetrics();
     // key is group
     expect(Object.keys(metricResults).length).to.be.equal(2);
   });

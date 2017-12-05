@@ -184,7 +184,6 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
         return results;
       }
     };
-
     self.allMetricsRegistry.register(metricName, metric);
     return metric;
   }

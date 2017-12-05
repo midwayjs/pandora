@@ -14,12 +14,12 @@ export class MetricsEndPoint extends EndPoint {
   rateFactor = 1;
   durationFactor = 1.0;
 
-  listMetrics(appName?: string): {} {
+  async listMetrics(appName?: string): Promise<{}> {
     if (this.manager.isEnabled()) {
       let resultMap = {};
       for (let groupName of this.manager.listMetricGroups()) {
         let registry = this.manager.getMetricRegistryByGroup(groupName);
-        let results: Array<MetricObject> = this.buildMetricRegistry(registry);
+        let results: Array<MetricObject> = await this.buildMetricRegistry(registry);
         resultMap[groupName] = results.map((o) => {
           let result = o.toJSON();
           // list 接口过滤掉 value 和 timestamp
@@ -33,7 +33,7 @@ export class MetricsEndPoint extends EndPoint {
     }
   }
 
-  protected buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
+  protected async buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
     let collectorCls = this.getCollector();
     let collector = new collectorCls({}, this.rateFactor, this.durationFactor, filter);
 
@@ -41,7 +41,7 @@ export class MetricsEndPoint extends EndPoint {
 
     for (let [key, gauge] of registry.getGauges().entries()) {
       debug(`collect gauge key = ${key}`);
-      collector.collectGauge(MetricName.parseKey(key), gauge, timestamp);
+      await collector.collectGauge(MetricName.parseKey(key), gauge, timestamp);
     }
 
     for (let [key, counter] of registry.getCounters().entries()) {
@@ -67,9 +67,9 @@ export class MetricsEndPoint extends EndPoint {
     return collector.build();
   }
 
-  getMetricsByGroup(groupName: string): Array<any> {
+  async getMetricsByGroup(groupName: string): Promise<Array<any>> {
     let registry = this.manager.getMetricRegistryByGroup(groupName);
-    let results: Array<MetricObject> = this.buildMetricRegistry(registry);
+    let results: Array<MetricObject> = await this.buildMetricRegistry(registry);
     return results.map((o) => {
       return o.toJSON();
     });

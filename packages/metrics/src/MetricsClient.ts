@@ -5,11 +5,20 @@ import {EnvironmentUtil, Environment} from 'pandora-env';
 import {MetricsMessengerClient} from './util/MessengerUtil';
 import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
+import {MetricSet} from './common/MetricSet';
 const debug = require('debug')('pandora:metrics:client');
 
 export class MetricsClient extends AbstractIndicator {
 
   environment: Environment = EnvironmentUtil.getInstance().getCurrentEnvironment();
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new MetricsClient();
+    }
+
+    return this.instance;
+  }
 
   appName: string = this.getAppName();
 
@@ -24,14 +33,6 @@ export class MetricsClient extends AbstractIndicator {
   group = 'metrics';
 
   static instance: MetricsClient;
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new MetricsClient();
-    }
-
-    return this.instance;
-  }
 
   constructor() {
     super();
@@ -90,6 +91,17 @@ export class MetricsClient extends AbstractIndicator {
       }
     }
 
+
+    if (metric instanceof MetricSet) {
+      // report metricSet
+      // TODO 暂时忽略 metricSet 套 metricSet 的情况
+      for (let subMetric of metric.getMetrics()) {
+        this.reportMetric(MetricName.join(newName, subMetric.name), subMetric.metric, group);
+      }
+    } else {
+      this.reportMetric(newName, metric, group);
+    }
+
     this.report({
       action: MetricsConstants.EVT_METRIC_CREATE,
       name: newName.getNameKey(),
@@ -106,6 +118,15 @@ export class MetricsClient extends AbstractIndicator {
     metricMap.register(newName, <Metric> <any> metric);
   }
 
+  reportMetric(name: MetricName, metric: Metric, group: string) {
+    this.report({
+      action: MetricsConstants.EVT_METRIC_CREATE,
+      name: name.getNameKey(),
+      type: metric.type,
+      group: group,
+    });
+  }
+
   /**
    * 发送上行消息
    * @param data
@@ -118,7 +139,7 @@ export class MetricsClient extends AbstractIndicator {
     metricKey,
     type,
   }) {
-    debug(`Invoke: MetricsClient(${this.clientId}) invoked `);
+    debug(`Invoke: MetricsClient(${this.clientId}) invoked, key = ${args.metricKey} `);
     let metric = this.allMetricsRegisty.getMetric(MetricName.parseKey(args.metricKey));
     if(metric && metric.type === args.type) {
       return await Promise.resolve((<Gauge<any>>metric).getValue());
