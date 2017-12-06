@@ -42,7 +42,7 @@ describe('/test/unit/metrics/node/V8GaugeSet', function () {
     for (const gauge of gauges) {
       data[gauge.name.key] = gauge.metric.getValue();
     }
-    expect(Object.keys(data).length > 28).to.be.true;
+    expect(Object.keys(data).length >= 26).to.be.true;
     for (const key of Object.keys(data)) {
       expect(data[key]).to.be.a('number');
     }
