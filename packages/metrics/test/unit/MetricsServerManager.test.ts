@@ -4,14 +4,15 @@ import {expect} from 'chai';
 import {Counter as CounterProxy, Gauge as GaugeProxy, Timer as TimerProxy, Histogram as HistogramProxy, Meter as MeterProxy} from '../../src/client/index';
 import {MetricName, BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer} from '../../src/common/index';
 import {MetricsConstants} from '../../src/MetricsConstants';
-const debug = require('debug')('pandora:metrics:test');
 
 describe('/test/unit/MetricsServerManager.test.ts', () => {
 
-  let server = new MetricsServerManager();
-  let client = new MetricsClient();
+  let server;
+  let client;
 
   before((done) => {
+    server = new MetricsServerManager();
+    client = new MetricsClient();
     setTimeout(done, 100);
   });
 
@@ -51,7 +52,6 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     counter.inc(5);
 
     setTimeout(() => {
-      debug('invoke');
       expect((<BaseCounter>server.getMetric(name.tagged({
         appName: MetricsConstants.METRICS_DEFAULT_APP,
       }))).getCount()).to.be.equal(20);
@@ -59,8 +59,8 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     }, 10);
   });
 
-  it('register gauge metric', async () => {
-    let name = MetricName.build('test.qps.qps');
+  it('register gauge metric',  (done) => {
+    let name = MetricName.build('test.qps.gauge.value');
     client.register('test', name, <GaugeProxy<number>> {
       getValue() {
         return 100;
@@ -68,13 +68,12 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     });
 
     setTimeout(async () => {
-      debug('invoke');
-
       let result = await (<BaseGauge<any>>server.getMetric(name.tagged({
         appName: MetricsConstants.METRICS_DEFAULT_APP,
       }))).getValue();
 
       expect(result).to.be.equal(100);
+      done();
     }, 10);
   });
 
@@ -106,9 +105,7 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     });
 
     setTimeout(() => {
-      debug(server.listMetricGroups());
       expect(server.listMetricGroups().length > 2).to.be.true;
-      debug(server.getCategoryMetrics('test1'));
       expect(server.getCounters('test1').size).to.be.equal(2);
       done();
     }, 10);

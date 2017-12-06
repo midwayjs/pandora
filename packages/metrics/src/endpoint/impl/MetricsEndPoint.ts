@@ -5,7 +5,26 @@ import {MetricObject} from '../../collect/MetricObject';
 import {MetricsManager} from '../../common/MetricsManager';
 import {NormalMetricsCollector} from '../../collect/NormalMetricsCollector';
 import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
+import {Metric} from '../../common/Metric';
 const debug = require('debug')('pandora:metrics:MetricEndPoint');
+
+export class AppNameFilter implements MetricFilter {
+
+  appName;
+
+  constructor(appName) {
+    this.appName = appName;
+  }
+
+  matches(name: MetricName, metric: Metric): boolean {
+    let tags = name.getTags() || {};
+    if(!tags['appName']) {
+      return true;
+    } else {
+      return tags['appName'] === this.appName;
+    }
+  }
+}
 
 export class MetricsEndPoint extends EndPoint {
 
@@ -15,11 +34,15 @@ export class MetricsEndPoint extends EndPoint {
   durationFactor = 1.0;
 
   async listMetrics(appName?: string): Promise<{}> {
+    let filter;
+    if(appName) {
+      filter = new AppNameFilter(appName);
+    }
     if (this.manager.isEnabled()) {
       let resultMap = {};
       for (let groupName of this.manager.listMetricGroups()) {
         let registry = this.manager.getMetricRegistryByGroup(groupName);
-        let results: Array<MetricObject> = await this.buildMetricRegistry(registry);
+        let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
         resultMap[groupName] = results.map((o) => {
           let result = o.toJSON();
           // list 接口过滤掉 value 和 timestamp
@@ -67,9 +90,13 @@ export class MetricsEndPoint extends EndPoint {
     return collector.build();
   }
 
-  async getMetricsByGroup(groupName: string): Promise<Array<any>> {
+  async getMetricsByGroup(groupName: string, appName?: string): Promise<Array<any>> {
+    let filter;
+    if(appName) {
+      filter = new AppNameFilter(appName);
+    }
     let registry = this.manager.getMetricRegistryByGroup(groupName);
-    let results: Array<MetricObject> = await this.buildMetricRegistry(registry);
+    let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
     return results.map((o) => {
       return o.toJSON();
     });

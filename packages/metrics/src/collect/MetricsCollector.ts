@@ -33,7 +33,7 @@ export class MetricsCollector {
       .withInterval(interval)
       .build();
 
-    if ((!this.filter || this.filter.matches(MetricName.build(o.metric), null))
+    if ((!this.filter || this.filter.matches(fullName, null))
       && o.value != null) {
       this.metrics.push(o);
     }

@@ -26,7 +26,7 @@ export class MetricsResource implements ActuatorResource {
     router.get('/:group', async (ctx, next) => {
       try {
         if(metricsEndPoint.hasMetricsGroup(ctx.params.group)) {
-          ctx.ok(await metricsEndPoint.getMetricsByGroup(ctx.params.group));
+          ctx.ok(await metricsEndPoint.getMetricsByGroup(ctx.params.group, ctx.query['appName']));
         } else {
           ctx.fail('The specified group is not found!');
         }

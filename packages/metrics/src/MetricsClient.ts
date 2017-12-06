@@ -6,7 +6,6 @@ import {MetricsMessengerClient} from './util/MessengerUtil';
 import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
 import {MetricSet} from './common/MetricSet';
-const debug = require('debug')('pandora:metrics:client');
 
 export class MetricsClient extends AbstractIndicator {
 
@@ -32,11 +31,12 @@ export class MetricsClient extends AbstractIndicator {
 
   group = 'metrics';
 
+  debug = require('debug')('pandora:metrics:client:' + this.clientId);
+
   static instance: MetricsClient;
 
   constructor() {
     super();
-    debug(`start register client(${this.clientId})`);
     this.registerClient();
     this.registerDownlink();
   }
@@ -64,6 +64,7 @@ export class MetricsClient extends AbstractIndicator {
    * @param {Proxiable} metric
    */
   register(group: string, name: MetricName | string, metric: Proxiable | Metric ) {
+    this.debug(`Register: wait register a metrics name = ${name}`);
     let newName = this.buildName(name);
     // 把应用名加上
     newName = newName.tagged('appName', this.getAppName());
@@ -79,7 +80,7 @@ export class MetricsClient extends AbstractIndicator {
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
       for (let method of (<Proxiable>metric).proxyMethod) {
         metric[method] = (data) => {
-          debug(`${this.clientId} invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
+          this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
           this.report({
             action: MetricsConstants.EVT_METRIC_UPDATE,
             name: newName.getNameKey(),
@@ -139,10 +140,12 @@ export class MetricsClient extends AbstractIndicator {
     metricKey,
     type,
   }) {
-    debug(`Invoke: MetricsClient(${this.clientId}) invoked, key = ${args.metricKey} `);
+    this.debug(`Invoke: invoked, key = ${args.metricKey} `);
     let metric = this.allMetricsRegisty.getMetric(MetricName.parseKey(args.metricKey));
     if(metric && metric.type === args.type) {
       return await Promise.resolve((<Gauge<any>>metric).getValue());
+    } else {
+      this.debug(`Invoke: can not find metric(${args.metricKey}) or type different`);
     }
   }
 
@@ -150,13 +153,13 @@ export class MetricsClient extends AbstractIndicator {
    * 注册下行链路
    */
   protected registerDownlink() {
-    debug(`Listen: MetricsClient(${this.clientId}), eventKey = ${this.getClientDownlinkKey()}`);
+    this.debug(`Register: down link eventKey = ${this.getClientDownlinkKey()}`);
     this.messengerClient.query(this.getClientDownlinkKey(), async(message, reply) => {
       try {
         reply && reply(await this.invoke(message));
       } catch (err) {
         // error
-        debug(`Error: err = ${err}`);
+        this.debug(`Error: err = ${err}`);
         reply && reply();
       }
     });
