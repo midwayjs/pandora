@@ -51,7 +51,7 @@ export class UrllibPatcher extends Patcher {
     return span;
   }
 
-  transformArgs(args) {
+  transformArgs(tracer, args) {
     return args;
   }
 
@@ -73,10 +73,10 @@ export class UrllibPatcher extends Patcher {
           }
 
           args = args || {};
-          args = self.transformArgs(args);
           const tracer = traceManager.getCurrentTracer();
 
           if (tracer) {
+            args = self.transformArgs(tracer, args);
             const tags = self.buildTags(url, args);
             const span = self.createSpan(tracer, tags);
 
