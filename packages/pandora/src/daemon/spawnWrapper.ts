@@ -1,6 +1,6 @@
 'use strict';
 
-const wrap = require('spawn-wrap');
+const wrap = require('pandora-spawn-wrap');
 import {MonitorManager} from '../monitor/MonitorManager';
 
 try {

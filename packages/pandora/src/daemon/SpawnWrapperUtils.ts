@@ -1,4 +1,4 @@
-import wrap = require('spawn-wrap');
+import wrap = require('pandora-spawn-wrap');
 
 const wrapFile = require.resolve('./spawnWrapper');
 
