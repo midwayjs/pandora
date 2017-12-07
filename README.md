@@ -25,7 +25,7 @@ Node.js >= 8.0.0 required.
 
 ## Docs
 
-> We are still preparing the document and you can visit [here](https://github.com/midwayjs/pandora/tree/next/docs/source/zh-cn) now.
+> We are still preparing the document and you can visit [here](https://github.com/midwayjs/pandora/tree/master/docs/source/zh-cn) now.
 
 ## How to Contribute
 
