@@ -63,7 +63,7 @@ module.exports = function (pandora) {
   pandora.environment(ANewImplAboutEnvironment);
 }
 ```
-关于 Environment 的默认行为与如何实现，详细参见：[Environment 标准](environment_std.md)
+关于 Environment 的默认行为与如何实现，详细参见：[Environment 标准](process/environment_std.md)
 
 ### **configurator()**
 
@@ -188,7 +188,7 @@ pandora.service(CalculatorService)
 .category('worker')
 ```
 
-关于 Service 的实现，详细参见：[Service 标准](service_std.md)
+关于 Service 的实现，详细参见：[Service 标准](process/service_std.md)
 
 
 ## 进阶接口

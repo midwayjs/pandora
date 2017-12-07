@@ -23,9 +23,8 @@ process:
     - process_std: "定义 Process"
     - service_std: "定义 Service"
     - environment_std: "定义 Environment"
-    - process_model: "进程模型"
     - applicationl_life_cycle: "应用生命周期"
-    - service_with_ipc-hub: "进程间通信 IPC-Hub"
+    - service_with_ipc-hub: "Service 与进程间通信 IPC-Hub"
 
 monitor:
     - index: "监控体系介绍"

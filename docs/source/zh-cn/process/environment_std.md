@@ -15,6 +15,9 @@
 > 保留意义的变量名：
 > 
 > 1. env -> 当前环境的标识字符串，如 production 、development
+> 1. appName -> 当前应用名
+> 1. appDir -> 当前应用路径
+> 1. pandoraLogsDir -> Pandora 日志路径，默认为 `~/logs`
   
 **match(name: string): boolean**
 
