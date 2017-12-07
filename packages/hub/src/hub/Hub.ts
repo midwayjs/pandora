@@ -76,7 +76,7 @@ export class Hub {
     try {
       const clients = this.routeTable.selectClients(message.remote);
       if(!clients.length) {
-        throw new Error(format('Cannot found any clients by selector: %js', message.remote));
+        throw new Error(format('Cannot found any clients by selector: %j', message.remote));
       }
       if(message.broadcast) {
         this.broadcastToClients(clients, message, reply);

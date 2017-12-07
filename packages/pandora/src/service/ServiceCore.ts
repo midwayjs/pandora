@@ -104,7 +104,7 @@ export class ServiceCore {
    */
   async publish(): Promise<void> {
     const objectNameInHub = SERVICE_PREFIX_IN_HUB + this.getServiceId();
-    await this.context.hub.publish(this.impl, {
+    await this.context.getHub().publish(this.impl, {
       name: objectNameInHub
     });
   }

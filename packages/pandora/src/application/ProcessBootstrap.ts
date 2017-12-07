@@ -37,7 +37,9 @@ export class ProcessBootstrap {
 
     if ('fork' === this.applicationRepresentation.mode) {
       process.env[PANDORA_APPLICATION] = JSON.stringify(this.applicationRepresentation);
+      // TODO: unwrap it on this process exit
       SpawnWrapperUtils.wrap();
+      await SpawnWrapperUtils.shimWorkerContext().start();
     }
 
     const entryFileBaseDir = this.applicationRepresentation.entryFileBaseDir;

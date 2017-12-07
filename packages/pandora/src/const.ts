@@ -52,7 +52,7 @@ export const PANDORA_CWD = 'PANDORA_CWD';
 
 
 // service
-export const SERVICE_PREFIX_IN_HUB = 'PandoraService.';
+export const SERVICE_PREFIX_IN_HUB = '';
 export const SERVICE_RESERVE_NAME = ['all'];
 
 // env names

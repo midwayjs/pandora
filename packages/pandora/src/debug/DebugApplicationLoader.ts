@@ -4,6 +4,8 @@ import {ComplexHandler} from '../daemon/ComplexHandler';
 import {consoleLogger} from '../universal/LoggerBroker';
 import {ProcessBootstrap} from '../application/ProcessBootstrap';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
+import {isDaemonRunning} from '../daemon/DaemonHandler';
+import {Hub} from 'pandora-hub';
 const globalConfigProcessor = GlobalConfigProcessor.getInstance();
 
 /**
@@ -23,6 +25,14 @@ export class DebugApplicationLoader {
    * @return {Promise<void>}
    */
   async start() {
+
+     const daemonRunning = await isDaemonRunning();
+
+     // start a IPC-Hub when no daemon
+     if(!daemonRunning) {
+         const ipcHub = new Hub();
+         await ipcHub.start();
+     }
 
     globalConfigProcessor.getAllProperties();
     globalConfigProcessor.mergeProperties({

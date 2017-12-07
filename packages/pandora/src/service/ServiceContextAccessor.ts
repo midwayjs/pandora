@@ -18,7 +18,9 @@ export class ServiceContextAccessor {
       .access('environment')
       .access('hub')
       .method('getService')
-      .method('getServiceClass');
+      .method('getServiceClass')
+      .method('getHub')
+      .method('getProxy');
 
     delegate(this, 'serviceCore')
       .access('logger')
@@ -36,9 +38,10 @@ export class ServiceContextAccessor {
   processName: typeof WorkerContextAccessor.prototype.processName;
   env: typeof WorkerContextAccessor.prototype.env;
   environment: typeof WorkerContextAccessor.prototype.environment;
-  hub: typeof WorkerContextAccessor.prototype.hub;
   getService: typeof WorkerContextAccessor.prototype.getService;
   getServiceClass: typeof WorkerContextAccessor.prototype.getServiceClass;
+  getHub: typeof WorkerContextAccessor.prototype.getHub;
+  getProxy: typeof WorkerContextAccessor.prototype.getProxy;
 
   // ServiceCore
   logger: typeof ServiceCore.prototype.logger;

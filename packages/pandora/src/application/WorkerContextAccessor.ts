@@ -4,7 +4,8 @@
 import {WorkerContext} from './WorkerContext';
 import {Environment} from 'pandora-env';
 import {Service} from '../domain';
-import {Facade} from 'pandora-hub';
+import {Facade as HubFacade} from 'pandora-hub';
+import {DefaultObjectProxy, ObjectDescription} from 'pandora-hub';
 
 /**
  * Class WorkerContextAccessor
@@ -64,8 +65,6 @@ export class WorkerContextAccessor {
     return this.context.getEnvironment();
   }
 
-  hub: Facade;
-
   /**
    * Get service instance by service's name
    * @param {string} name - Name of service
@@ -82,6 +81,25 @@ export class WorkerContextAccessor {
    */
   getServiceClass(name: string) {
     return this.context.serviceReconciler.getServiceClass(name);
+  }
+
+  getHub(): HubFacade {
+    return this.context.getIPCHub();
+  }
+
+  async getProxy <T extends any> (name: string): Promise<T & DefaultObjectProxy>;
+  async getProxy <T extends any> (objectDescription: ObjectDescription): Promise<T & DefaultObjectProxy>;
+  async getProxy(target: string | ObjectDescription): Promise<any> {
+    let objDesc = null;
+    if(typeof target === 'string') {
+      objDesc = {
+        name: target
+      };
+    } else {
+      objDesc = target;
+    }
+    const hub = this.context.getIPCHub();
+    return hub.getProxy(objDesc);
   }
 
 }

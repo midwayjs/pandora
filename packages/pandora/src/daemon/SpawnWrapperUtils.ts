@@ -1,4 +1,8 @@
 import wrap = require('pandora-spawn-wrap');
+import {PANDORA_APPLICATION} from '../const';
+import {ProcessRepresentation} from '../domain';
+import {WorkerContext} from '../application/WorkerContext';
+import {Facade} from '../Facade';
 
 const wrapFile = require.resolve('./spawnWrapper');
 
@@ -18,21 +22,16 @@ export class SpawnWrapperUtils {
     }
   }
 
-  static async transaction(fn) {
-    SpawnWrapperUtils.wrap();
-    let ret;
-    let caughtError;
+  static shimWorkerContext() {
+    let processRepresentation: ProcessRepresentation = <any> {};
     try {
-      ret = await fn();
-    } catch (error) {
-      caughtError = error;
-    } finally {
-      SpawnWrapperUtils.unwrap();
+      processRepresentation = JSON.parse(process.env[PANDORA_APPLICATION]);
+    } catch (err) {
+      // ignore
     }
-    if (caughtError) {
-      throw caughtError;
-    }
-    return ret;
+    const context = new WorkerContext(processRepresentation);
+    Facade.set('workerContext', context.workerContextAccessor);
+    return context;
   }
 
 }

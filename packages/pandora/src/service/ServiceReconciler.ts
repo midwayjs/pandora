@@ -165,6 +165,9 @@ export class ServiceReconciler {
         // midwayClassicPluginService 中需要在启动过程中，通过 getService 获得到启动过程中的自己，提早实例产生时机
         ref.serviceInstance = serviceCore.instantiate();
         await serviceCore.start();
+        if(ref.serviceRepresentation.publishToHub) {
+          await serviceCore.publish();
+        }
         ref.state = 'booted';
         debug('startOne() booted %s', id);
       }
@@ -189,6 +192,10 @@ export class ServiceReconciler {
         ref.state = 'stopping';
         const serviceCore = ref.serviceCoreInstance;
         await serviceCore.stop();
+        // TODO: impl unpublish
+        // if(ref.serviceRepresentation.publishToHub) {
+        //   await serviceCore.unpublish();
+        // }
         ref.serviceInstance = serviceCore.getService();
         ref.state = 'instanced';
         debug('startOne() stopped %s', id);

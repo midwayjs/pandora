@@ -37,6 +37,7 @@ describe('/test/monitor/MonitorManager.test.ts', () => {
 
   after(() => {
     delete process.env[PANDORA_APPLICATION];
+    SpawnWrapperUtils.unwrap();
   });
 
   it('shoud load monitorManager ok', (done) => {
