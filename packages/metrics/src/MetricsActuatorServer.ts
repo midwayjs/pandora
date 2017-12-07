@@ -10,7 +10,7 @@ export class MetricsActuatorServer implements ActuatorServer {
 
   logger;
 
-  metricManager;
+  metricsManager;
 
   actuatorManager;
 
@@ -25,10 +25,10 @@ export class MetricsActuatorServer implements ActuatorServer {
 
     // 初始化 metrics server
     // 理论上这个应该在 metricsEndPoint 里初始化，这里提前，因为 reporter 要用
-    this.metricManager = options.metricsManager;
-    this.metricManager.setLogger(this.logger);
-    // set metricsmanager for some endPoint
-    MetricsInjectionBridge.setMetricsManager(this.metricManager);
+    this.metricsManager = options.metricsManager;
+    this.metricsManager.setLogger(this.logger);
+    // set metricsManager for some endPoint
+    MetricsInjectionBridge.setMetricsManager(this.metricsManager);
 
     debug('init actuator manager');
 
@@ -40,7 +40,7 @@ export class MetricsActuatorServer implements ActuatorServer {
   }
 
   getMetricsManager() {
-    return this.metricManager;
+    return this.metricsManager;
   }
 
   getEndPointService() {
@@ -52,15 +52,15 @@ export class MetricsActuatorServer implements ActuatorServer {
   }
 
   stop() {
-    this.metricManager.setEnabled(false);
+    this.metricsManager.setEnabled(false);
   }
 
   restart() {
-    this.metricManager.setEnabled(true);
+    this.metricsManager.setEnabled(true);
   }
 
   destroy() {
-    this.metricManager.destory();
+    this.metricsManager.destory();
     this.actuatorManager.destory();
   }
 
