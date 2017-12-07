@@ -8,7 +8,7 @@ Pandora.js 提供了进程间的对象代理功能，Service 可以便捷的发�
 `procfile.js` 
 ```javascript
 module.exports = function (pandora) {
-  
+
   // 定义两个进程
   pandora
     .process('a')
@@ -16,11 +16,11 @@ module.exports = function (pandora) {
   pandora
     .process('b')
     .scale(1);
-  
+
   // 定义两个 Service （该例子 Service 实现全部写在 procfile.js 中了，这不是一个好的实践）
   class ServiceA {
-    async getTime() {
-      return Date.now();
+    async getPid() {
+      return process.pid;
     }
   }
   class ServiceB {
@@ -30,8 +30,13 @@ module.exports = function (pandora) {
     async start() {
       // 或者 require('pandora').getProxy();
       const serviceA = await this.context.getProxy('serviceA');
-      const ts = await serviceA.getTime();
-      console.log('ts from serviceA', ts);
+      const pid = await serviceA.getPid();
+      console.log();
+      console.log();
+      console.log('pid from serviceA', pid);
+      console.log('pid from self', process.pid);
+      console.log();
+      console.log();
     }
   }
 
@@ -40,12 +45,12 @@ module.exports = function (pandora) {
     .service('serviceA', ServiceA)
     .process('a')
     .publish();
-  
+
   // 定义 ServiceB 在进程 b
   pandora
     .service('serviceB', ServiceB)
     .process('b');
-  
+
 }
 ```
 
