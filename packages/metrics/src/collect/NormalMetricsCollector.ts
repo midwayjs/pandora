@@ -13,8 +13,8 @@ export class NormalMetricsCollector extends MetricsCollector {
     // this.addMetricWithSuffix(name, 'mean', snapshot.getMean(), timestamp);
   }
 
-  collectGauge(name: MetricName, gauge: BaseGauge<any>, timestamp: number) {
-    this.addMetric(name, gauge.getValue(), timestamp, MetricObject.MetricType.GAUGE, -1);
+  async collectGauge(name: MetricName, gauge: BaseGauge<any>, timestamp: number) {
+    this.addMetric(name, await gauge.getValue(), timestamp, MetricObject.MetricType.GAUGE, -1);
   }
 
   collectCounter(name: MetricName, counter: ICounter, timestamp: number) {

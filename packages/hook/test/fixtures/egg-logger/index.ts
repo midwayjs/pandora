@@ -18,9 +18,6 @@ RunUtil.run(function(done) {
   process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
     assert(info.message === 'test');
     assert(info.path === './test.log');
-    assert(info.ip);
-    assert(info.host);
-    assert(info.pid);
     done();
   });
 

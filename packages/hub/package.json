@@ -1,6 +1,6 @@
 {
   "name": "pandora-hub",
-  "version": "1.0.0",
+  "version": "1.2.4",
   "description": "pandora.js messenge hub",
   "main": "dist/index",
   "typings": "src/index",
@@ -25,8 +25,6 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.41",
     "@types/node": "^6.0.85",
     "chai": "^4.1.2",

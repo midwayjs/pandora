@@ -5,11 +5,19 @@ import {EnvironmentUtil, Environment} from 'pandora-env';
 import {MetricsMessengerClient} from './util/MessengerUtil';
 import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
-const debug = require('debug')('pandora:metrics:client');
+import {MetricSet} from './common/MetricSet';
 
 export class MetricsClient extends AbstractIndicator {
 
   environment: Environment = EnvironmentUtil.getInstance().getCurrentEnvironment();
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new MetricsClient();
+    }
+
+    return this.instance;
+  }
 
   appName: string = this.getAppName();
 
@@ -23,19 +31,12 @@ export class MetricsClient extends AbstractIndicator {
 
   group = 'metrics';
 
+  debug = require('debug')('pandora:metrics:client:' + this.clientId);
+
   static instance: MetricsClient;
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new MetricsClient();
-    }
-
-    return this.instance;
-  }
 
   constructor() {
     super();
-    debug(`start register client(${this.clientId})`);
     this.registerClient();
     this.registerDownlink();
   }
@@ -63,6 +64,7 @@ export class MetricsClient extends AbstractIndicator {
    * @param {Proxiable} metric
    */
   register(group: string, name: MetricName | string, metric: Proxiable | Metric ) {
+    this.debug(`Register: wait register a metrics name = ${name}`);
     let newName = this.buildName(name);
     // 把应用名加上
     newName = newName.tagged('appName', this.getAppName());
@@ -78,7 +80,7 @@ export class MetricsClient extends AbstractIndicator {
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
       for (let method of (<Proxiable>metric).proxyMethod) {
         metric[method] = (data) => {
-          debug(`${this.clientId} invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
+          this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
           this.report({
             action: MetricsConstants.EVT_METRIC_UPDATE,
             name: newName.getNameKey(),
@@ -88,6 +90,17 @@ export class MetricsClient extends AbstractIndicator {
           });
         };
       }
+    }
+
+
+    if (metric instanceof MetricSet) {
+      // report metricSet
+      // TODO 暂时忽略 metricSet 套 metricSet 的情况
+      for (let subMetric of metric.getMetrics()) {
+        this.reportMetric(MetricName.join(newName, subMetric.name), subMetric.metric, group);
+      }
+    } else {
+      this.reportMetric(newName, metric, group);
     }
 
     this.report({
@@ -106,6 +119,15 @@ export class MetricsClient extends AbstractIndicator {
     metricMap.register(newName, <Metric> <any> metric);
   }
 
+  reportMetric(name: MetricName, metric: Metric, group: string) {
+    this.report({
+      action: MetricsConstants.EVT_METRIC_CREATE,
+      name: name.getNameKey(),
+      type: metric.type,
+      group: group,
+    });
+  }
+
   /**
    * 发送上行消息
    * @param data
@@ -118,10 +140,12 @@ export class MetricsClient extends AbstractIndicator {
     metricKey,
     type,
   }) {
-    debug(`Invoke: MetricsClient(${this.clientId}) invoked `);
+    this.debug(`Invoke: invoked, key = ${args.metricKey} `);
     let metric = this.allMetricsRegisty.getMetric(MetricName.parseKey(args.metricKey));
     if(metric && metric.type === args.type) {
       return await Promise.resolve((<Gauge<any>>metric).getValue());
+    } else {
+      this.debug(`Invoke: can not find metric(${args.metricKey}) or type different`);
     }
   }
 
@@ -129,13 +153,13 @@ export class MetricsClient extends AbstractIndicator {
    * 注册下行链路
    */
   protected registerDownlink() {
-    debug(`Listen: MetricsClient(${this.clientId}), eventKey = ${this.getClientDownlinkKey()}`);
+    this.debug(`Register: down link eventKey = ${this.getClientDownlinkKey()}`);
     this.messengerClient.query(this.getClientDownlinkKey(), async(message, reply) => {
       try {
         reply && reply(await this.invoke(message));
       } catch (err) {
         // error
-        debug(`Error: err = ${err}`);
+        this.debug(`Error: err = ${err}`);
         reply && reply();
       }
     });

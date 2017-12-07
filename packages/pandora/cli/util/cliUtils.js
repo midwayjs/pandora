@@ -22,7 +22,7 @@ module.exports = (pandora) => {
    * default is fork mode
    */
   pandora
-    .fork('${targetPath}', '${appName}');
+    .fork('${appName}', '${targetPath}');
 
   /**
    * you can use cluster mode to start application
@@ -45,6 +45,23 @@ module.exports = (pandora) => {
 };`;
 
     fs.writeFileSync(procFilePath, template);
-    console.log(`pandora: procfile.js was auto generator at ${procFilePath}`);
+    console.log(`pandora: procfile.js was auto generated at ${procFilePath}`);
   }
+};
+
+
+exports.dirnameUntilPkgJson = function (targetPath) {
+
+  let cur = targetPath;
+
+  while (true) {
+    if(fs.existsSync(path.join(cur, 'package.json'))) {
+      return cur;
+    }
+    cur = path.dirname(cur);
+    if(cur === '/') {
+      return null;
+    }
+  }
+
 };

@@ -23,6 +23,10 @@ const fork = function(name, done) {
 };
 
 describe('unit test', () => {
+  it('should global work', done => {
+    fork('global', done);
+  });
+
   it('should egg-logger work ok', done => {
     fork('egg-logger', done);
   });

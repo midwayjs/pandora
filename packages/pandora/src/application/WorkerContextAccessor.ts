@@ -3,7 +3,7 @@
  */
 import {WorkerContext} from './WorkerContext';
 import {Environment} from 'pandora-env';
-import {Applet, Configurator, Service} from '../domain';
+import {Service} from '../domain';
 import {Facade} from 'pandora-hub';
 
 /**
@@ -57,22 +57,6 @@ export class WorkerContextAccessor {
   }
 
   /**
-   * Properties from configurator.getProperties(), that should injected by procfile.js or globalConfig
-   * @returns {any}
-   */
-  get config(): any {
-    return this.context.getProperties();
-  }
-
-  /**
-   * Configurator object, that should injected by procfile.js or globalConfig
-   * @returns {Configurator}
-   */
-  get configurator(): Configurator {
-    return this.context.getConfigurator();
-  }
-
-  /**
    * Environment object, that should injected by procfile.js or globalConfig
    * @returns {Environment}
    */
@@ -80,16 +64,7 @@ export class WorkerContextAccessor {
     return this.context.getEnvironment();
   }
 
-  ipcHub: Facade;
-
-  /**
-   * Get applet by applet's name
-   * @param {string} name - Name of applet
-   * @returns {Applet}
-   */
-  getApplet<T extends Applet>(name: string): T {
-    return this.context.appletReconciler.getAppletInstance(name);
-  }
+  hub: Facade;
 
   /**
    * Get service instance by service's name

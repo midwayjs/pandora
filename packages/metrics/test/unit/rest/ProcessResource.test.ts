@@ -27,7 +27,7 @@ describe('/test/unit/ProcessResource.test.ts', () => {
         enabled: false,
         port: 8006,
       },
-      endPoints: {
+      endPoint: {
         error: {
           enabled: true,
           target: ProcessEndPoint,
@@ -38,6 +38,9 @@ describe('/test/unit/ProcessResource.test.ts', () => {
 
     request(app.listen())
       .get('/process')
+      .query({
+        appName: 'DEFAULT_APP'
+      })
       .expect(200)
       .then(res => {
         expect(res.body.data.length >= 0).to.be.true;

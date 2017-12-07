@@ -19,7 +19,7 @@ const daemonLogger = getDaemonLogger();
  */
 export class ApplicationHandler extends Base {
   public state: State;
-  public appRepresentation: ApplicationRepresentation | ApplicationRepresentation;
+  public appRepresentation: ApplicationRepresentation & ProcessRepresentation;
   private nodejsStdout: any;
   private proc: any;
 
@@ -38,6 +38,8 @@ export class ApplicationHandler extends Base {
   public get pid() {
     return this.proc && this.proc.pid;
   }
+
+  public startCount: number = 0;
 
   constructor(applicationRepresentation: ApplicationRepresentation)
   constructor(applicationRepresentation: ProcessRepresentation) {
@@ -70,6 +72,7 @@ export class ApplicationHandler extends Base {
       throw new Error(`Unknown start mode ${mode} when start an application`);
     }
 
+    this.startCount++;
     await this.doFork(args);
 
   }
@@ -91,6 +94,7 @@ export class ApplicationHandler extends Base {
 
     const env = {
       ...process.env,
+      ...this.appRepresentation.env,
       [PANDORA_CWD]: process.cwd(),
       // require.main === module maybe be 'false' after patched spawn wrap
       RUN_PROCESS_BOOTSTRAP_BY_FORCE: true
@@ -108,7 +112,7 @@ export class ApplicationHandler extends Base {
 
       proc.once('message', (message) => {
         if (message.action === APP_START_SUCCESS) {
-          const msg = `Application [appName = ${this.appRepresentation.appName}, processName = ${(<ProcessRepresentation> this.appRepresentation).processName || 'null'} dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
+          const msg = `Application [appName = ${this.appRepresentation.appName}, processName = ${(<ProcessRepresentation> this.appRepresentation).processName || 'null'}, dir = ${this.appDir}, pid = ${proc.pid}] started successfully!`;
           daemonLogger.info(msg);
           nodejsStdout.info(msg);
           this.state = State.complete;
@@ -123,6 +127,7 @@ export class ApplicationHandler extends Base {
         }
       });
 
+      // TODO: enhance performance
       proc.stdout.on('data', (data) => {
         nodejsStdout.write(removeEOL(data.toString()));
       });

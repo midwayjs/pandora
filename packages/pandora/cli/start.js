@@ -14,14 +14,19 @@ exports.builder = (yargs) => {
     describe: 'App name, it will get a name from the <targetPath> by default'
   });
 
-  yargs.option('mode', {
-    alias: 'm',
-    describe: 'The start mode, options: procfile.js or cluster or fork'
+  yargs.option('env', {
+    alias: 'E',
+    describe: 'Environment Variables, such as --env="A=1 B=2"'
   });
 
-  yargs.option('scale', {
-    alias: 's',
-    describe: 'Only when the start mode be cluster, to specify the worker numbers of cluster'
+  yargs.option('argv', {
+    alias: 'A',
+    describe: 'Node.js argv, such as --argv="--expose-gc --max_old_space_size=500"'
+  });
+
+  yargs.option('npm', {
+    describe: 'Find the Application by require.resolve()',
+    boolean: true
   });
 
 };
@@ -31,13 +36,35 @@ exports.builder = (yargs) => {
  */
 exports.handler = function (argv) {
 
+  if(argv.npm) {
+    if(!argv.targetPath) {
+      console.error('[targetPath] is required when --npm flag enabled');
+      process.exit(1);
+      return;
+    }
+    if(!argv.name) {
+      console.error('option --name is required when --npm flag enabled');
+      process.exit(1);
+      return;
+    }
+    const resolveTarget = cliUtils.dirnameUntilPkgJson(require.resolve(argv.targetPath));
+    if(!resolveTarget) {
+      console.error('Can\'t found ' + argv.targetPath + ' from ' + __dirname);
+    }
+    console.log('Resolve ' + argv.targetPath + ' to ' + resolveTarget);
+    argv.targetPath = resolveTarget;
+  }
+
   argv.entry = argv.targetPath;
+
   const sendParams = attachEntryParams('start', argv, {
     mode: 'procfile.js',
     appName: calcAppName(process.cwd())
   });
 
-  cliUtils.preCheck(sendParams.entry, sendParams.appName);
+  if(argv.entry) {
+    cliUtils.preCheck(argv.entry, sendParams.appName);
+  }
 
   const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
   consoleLogger.info('Starting ' + sendParams.appName + ' at ' + sendParams.appDir);

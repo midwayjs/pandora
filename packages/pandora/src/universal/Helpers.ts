@@ -19,7 +19,7 @@ export function calcAppName(dir?) {
   return ret;
 }
 
-export function attachEntryParams(command, cliConfig, defaultConfig = {}) {
+export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
   const currentPath = process.cwd();
   let pandoraConfig;
   try {
@@ -53,5 +53,38 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}) {
     console.error(err);
   }
 
-  return sendConfig;
+  if(cliConfig.name) {
+    sendConfig.appName = cliConfig.name;
+  }
+
+  if(sendConfig.env) {
+    try {
+      const envMap = {};
+      const splitEnv = sendConfig.env.split(' ');
+      for(const item of splitEnv) {
+        const execRes = /^(.*?)=(.*)$/.exec(item);
+        const key = execRes[1];
+        const value = execRes[2];
+        envMap[key] = value;
+      }
+      sendConfig.globalEnv = envMap;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  if(sendConfig['argv']) {
+    sendConfig.globalArgv = sendConfig.argv.split(' ');
+  }
+
+  const sendConfig2nd = {};
+  for(const key of ['appName', 'appDir', 'entryFileBaseDir', 'entryFile',
+    'scale', 'mode', 'globalEnv', 'globalArgv']) {
+    if(sendConfig.hasOwnProperty(key)) {
+      sendConfig2nd[key] = sendConfig[key];
+    }
+  }
+
+  return sendConfig2nd;
+
 }

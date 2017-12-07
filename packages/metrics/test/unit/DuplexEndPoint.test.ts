@@ -72,11 +72,11 @@ describe('/test/unit/DuplexEndPoint.test.ts', () => {
   });
 
   it('query custom EndPoint', (done) => {
-    myEndPoint.invoke(MetricsConstants.METRICS_DEFAULT_APP).then((results) => {
-      expect(results[0].key).to.be.equal('my_duplex.during');
-      expect(results[1].key).to.be.equal('my_duplex.start');
-      expect(results[2].key).to.be.equal('my_duplex.end');
-      expect(results[3].key).to.be.equal('my_duplex.count');
+    myEndPoint.invoke().then((results) => {
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.be.equal('my_duplex.during');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.be.equal('my_duplex.start');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.be.equal('my_duplex.end');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][3].key).to.be.equal('my_duplex.count');
       done();
     });
   });

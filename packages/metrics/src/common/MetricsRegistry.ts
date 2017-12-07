@@ -39,8 +39,10 @@ export class MetricsRegistry implements IMetricsRegistry {
 
   register(name: MetricName, metric: Metric): Metric {
     if (metric instanceof MetricSet) {
+      debug('------------> metrics is set:', name, metric);
       this.registerAll(name, <MetricSet> metric);
     } else {
+      debug('------------> metrics is normal:', name.getNameKey());
       if(!metric.type) {
         metric.type = MetricType.GAUGE;
       }
@@ -58,7 +60,6 @@ export class MetricsRegistry implements IMetricsRegistry {
       metrics = <any>prefix;
       prefix = MetricName.EMPTY;
     }
-
     for (let {name, metric} of metrics.getMetrics()) {
       if(typeof name === 'string') {
         name = MetricName.parseKey(name);

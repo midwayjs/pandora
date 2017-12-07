@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "1.2.0",
+  "version": "1.2.7",
   "main": "dist/index",
   "typings": "src/index",
   "scripts": {
@@ -23,8 +23,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.5.2",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^6.0.85",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^6.0.92",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
@@ -45,9 +45,9 @@
     "module-hook": "^1.0.0",
     "node-df": "^0.1.1",
     "opentracing": "^0.14.1",
-    "pandora-env": "^1.0.0",
+    "pandora-env": "^1.2.4",
     "pandora-messenger": "^1.0.0",
-    "pandora-service-logger": "^1.0.0",
+    "pandora-service-logger": "^1.2.4",
     "pidusage": "^1.1.6",
     "shimmer": "^1.1.0",
     "super-event-emitter": "^4.1.4",

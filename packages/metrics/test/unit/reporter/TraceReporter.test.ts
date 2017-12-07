@@ -13,15 +13,15 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
   let reporter;
 
   before(() => {
-    const metricsServer = new MetricsServerManager();
+    const metricsManager = new MetricsServerManager();
 
     server = new MetricsActuatorServer({
-      metricsServer,
+      metricsManager,
       config: {
         http: {
           enabled: false
         },
-        endPoints: {
+        endPoint: {
           trace: {
             enabled: true,
             target: TraceEndPoint,

@@ -69,14 +69,18 @@ export class HttpPatcher extends Patcher {
         if (requestListener) {
 
           const listener = traceManager.bind(function(req, res) {
+            if (self.requestFilter(req)) {
+              return requestListener(req, res);
+            }
+
             traceManager.bindEmitter(req);
             traceManager.bindEmitter(res);
 
             const tracer = self.createTracer(req);
             const tags = self.buildTags(req);
             const span = self.createSpan(tracer, tags);
-            tracer.setAttr('name', `HTTP-${tags['http.method']}:${tags['http.url']}`);
 
+            tracer.setAttr('name', `HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
             tracer.setCurrentSpan(span);
 
             res.once('finish', () => {
@@ -91,6 +95,7 @@ export class HttpPatcher extends Patcher {
 
             return requestListener(req, res);
           });
+
           return createServer.call(this, listener);
         }
         return createServer.call(this, requestListener);

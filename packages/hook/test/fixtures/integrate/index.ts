@@ -20,7 +20,7 @@ RunUtil.run(function(done) {
   const urllib = require('urllib');
   const Logger = require('egg-logger').Logger;
   const Promise = require('bluebird');
-  const url = 'https://www.taobao.com/';
+  const url = 'https://www.baidu.com/';
   const logger = new Logger();
 
   process.on('PANDORA_PROCESS_MESSAGE_TRACE', tracer => {
@@ -34,10 +34,7 @@ RunUtil.run(function(done) {
   });
 
   process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
-    const args = info.args;
-    const err = args[0];
-    assert(info.method === 'error');
-    assert(err.message === 'hello');
+    assert(info.message === 'hello');
     done();
   });
 

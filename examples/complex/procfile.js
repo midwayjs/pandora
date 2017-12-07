@@ -9,17 +9,15 @@ module.exports = function (pandora) {
     .argv(['--expose-gc']);
 
   pandora
-    .fork('./forkApp.js', 'forkApp')
+    .fork('forkApp', './forkApp.js')
     .argv(['--expose-gc']);
 
   pandora
     .cluster('./cluster.js');
 
   pandora
-    .applet('./backgroundTask')
+    .service('backgroundTask', './backgroundTask')
     .process('background')
-    .config((ctx) => {
-      return ctx.config.background;
-    });
+    .config({ loopInterval: 1000 });
 
 };

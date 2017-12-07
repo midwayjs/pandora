@@ -1,6 +1,7 @@
 import actuatorConfig from '../../../src/conf/default';
 import {ActuatorRestService} from '../../../src/service/ActuatorRestService';
 import {EndPointService} from '../../../src/service/EndPointService';
+
 const request = require('supertest');
 import {expect} from 'chai';
 import {HealthEndPoint} from '../../../src/endpoint/impl/HealthEndPoint';
@@ -25,19 +26,38 @@ describe('/test/unit/HealthResource.test.ts', () => {
 
   }
 
+  let app;
+
   it('test heath router', (done) => {
 
     let healthIndicator = new MyHealthIndicator();
     healthIndicator.initialize();
 
     let restService = new ActuatorRestService(endPointService);
-    let app = restService.start(actuatorConfig);
+    app = restService.start(actuatorConfig);
 
+    request(app.listen())
+      .get('/health')
+      .query({
+        appName: 'DEFAULT_APP'
+      })
+      .expect(200)
+      .then(res => {
+        expect(res.body.data['MyHealthIndicator']['status']).to.equal('UP');
+        expect(res.body.success).to.true;
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
+  });
+
+  it('test heath router without appName', (done) => {
     request(app.listen())
       .get('/health')
       .expect(200)
       .then(res => {
-        expect(res.body.data['MyHealthIndicator']['status']).to.equal('UP');
+        expect(res.body.data['DEFAULT_APP']['MyHealthIndicator']['status']).to.equal('UP');
         expect(res.body.success).to.true;
         done();
       })

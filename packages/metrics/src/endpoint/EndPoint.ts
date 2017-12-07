@@ -2,7 +2,7 @@ import {IEndPoint, IIndicator} from '../domain';
 import {MetricsMessengerServer} from '../util/MessengerUtil';
 import {IndicatorProxy} from '../indicator/IndicatorProxy';
 import {IndicatorResult} from '../indicator/IndicatorResult';
-import {MetricsConstants} from '../MetricsConstants';
+
 const assert = require('assert');
 const debug = require('debug')('pandora:metrics:EndPoint');
 
@@ -26,12 +26,13 @@ export class EndPoint implements IEndPoint {
    * @param appName
    * @param args
    */
-  invoke(appName: string = MetricsConstants.METRICS_DEFAULT_APP, args?: any) {
+  invoke(appName?: string, args?: any) {
 
-    debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}`);
+    debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}, clientNum = ${this.indicators.length}`);
 
     // query Indicator
     let indicators: IIndicator[] = this.indicators.filter((indicator: IndicatorProxy) => {
+      if (!appName) return true;
       return indicator.match(appName);
     });
 
@@ -42,9 +43,10 @@ export class EndPoint implements IEndPoint {
       }
 
       return Promise.all(querys).then((results) => {
-        return this.processQueryResults(results);
+        return this.processQueryResults(results, appName, args);
       }).catch((err) => {
         this.logger.error(err);
+        throw err;
       });
     }
   }
@@ -55,20 +57,24 @@ export class EndPoint implements IEndPoint {
     this.messengerServer.discovery(this.registerIndicator.bind(this));
   }
 
-  processQueryResults(results: Array<IndicatorResult>): any {
+  processQueryResults(results: Array<IndicatorResult>, appName?: string, args?: any): any {
     debug('Return: get callback from Indicators');
+    let allResults = {};
 
-    let allResults = [];
-
-    // 循环每个指标的结果
+    // loop indicators and get results
     for (let result of results) {
       if (result.isSuccess()) {
-        allResults = allResults.concat(result.getResults());
+        let currentAppResults = allResults[result.getAppName()];
+        if (!currentAppResults) {
+          currentAppResults = allResults[result.getAppName()] = [];
+        }
+        allResults[result.getAppName()] = currentAppResults.concat(result.getResults());
       } else {
         this.logger.error(`Query group(${result.getIndicatorGroup()}) IPC results error, message = ${result.getErrorMessage()}`);
       }
     }
-    return allResults;
+
+    return appName ? allResults[appName] : allResults;
   }
 
   /**
@@ -83,13 +89,13 @@ export class EndPoint implements IEndPoint {
       return;
     }
 
-    if(data.type === 'singleton') {
+    if (data.type === 'singleton') {
       // 单例下，每个应用只允许一个实例存在
       let indicators = this.indicators.filter((indicator: IndicatorProxy) => {
         return indicator.match(data.appName, data.indicatorName);
       });
 
-      if(indicators.length) {
+      if (indicators.length) {
         debug('indicator type singleton=' + data.appName, data.indicatorName);
         return;
       }
@@ -123,7 +129,7 @@ export class EndPoint implements IEndPoint {
 
   destory(callback?) {
     // clean all indicator
-    for(let indicator of this.indicators) {
+    for (let indicator of this.indicators) {
       indicator.destory();
     }
     this.messengerServer.close(callback);

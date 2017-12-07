@@ -9,7 +9,16 @@ import {IMeter} from '../common/metrics/Meter';
 export class CompactMetricsCollector extends MetricsCollector {
 
   collectTimer(name: MetricName, timer: ITimer, timestamp: number) {
+    let snapshot = timer.getSnapshot();
+    this.addMetricWithSuffix(name, 'count', timer.getCount(), timestamp, MetricObject.MetricType.COUNTER)
+    // convert rate
+      .addMetricWithSuffix(name, 'm1', this.convertRate(timer.getOneMinuteRate()), timestamp)
+      // convert duration
+      .addMetricWithSuffix(name, 'rt', this.convertDuration(snapshot.getMean()), timestamp)
+      .addMetricWithSuffix(name, 'mean', this.convertDuration(snapshot.getMean()), timestamp);
 
+    // instant count
+    this.addInstantCountMetric(timer.getInstantCount(), name, timer.getInstantCountInterval(), timestamp);
   }
 
   collectHistogram(name: MetricName, histogram: IHistogram, timestamp: number) {
@@ -28,7 +37,7 @@ export class CompactMetricsCollector extends MetricsCollector {
     if (counter instanceof BucketCounter) {
       let countInterval = (<BucketCounter> counter).getBucketInterval();
       // bucket count
-      this.addInstantCountMetric((<BucketCounter>counter).getBucketCounts(), name, countInterval);
+      this.addInstantCountMetric((<BucketCounter>counter).getBucketCounts(), name, countInterval, timestamp);
     }
   }
 
@@ -38,7 +47,4 @@ export class CompactMetricsCollector extends MetricsCollector {
       .addMetricWithSuffix(name, 'm1', this.convertRate(meter.getOneMinuteRate()), timestamp);
   }
 
-  private addInstantCountMetric(bucketCounts: Map<number, number>, name: MetricName, countInterval: any) {
-
-  }
 }

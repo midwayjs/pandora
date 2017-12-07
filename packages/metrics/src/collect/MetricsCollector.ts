@@ -33,7 +33,7 @@ export class MetricsCollector {
       .withInterval(interval)
       .build();
 
-    if ((!this.filter || this.filter.matches(MetricName.build(o.metric), null))
+    if ((!this.filter || this.filter.matches(fullName, null))
       && o.value != null) {
       this.metrics.push(o);
     }
@@ -46,5 +46,34 @@ export class MetricsCollector {
 
   convertRate(rate) {
     return rate * this.rateFactor;
+  }
+
+  convertDuration(duration) {
+    return duration * this.durationFactor;
+  }
+
+  protected addInstantCountMetric(instantCount: Map<number, number>, name: MetricName, countInterval: number, timestamp: number) {
+    let start = this.getNormalizedStartTime(timestamp, countInterval);
+    // only the latest instant rate, for compatibility
+    if (instantCount.has(start)) {
+      this.addMetricWithSuffix(name, 'bucket_count', instantCount.get(start), start,
+        MetricObject.MetricType.DELTA, countInterval);
+      this.addMetricWithSuffix(name, 'qps', this.rate(instantCount.get(start), countInterval),
+        start, MetricObject.MetricType.GAUGE, countInterval);
+    } else {
+      this.addMetricWithSuffix(name, 'bucket_count', 0, start,
+        MetricObject.MetricType.DELTA, countInterval);
+      this.addMetricWithSuffix(name, 'qps', 0.0,
+        start, MetricObject.MetricType.GAUGE, countInterval);
+    }
+  }
+
+  private getNormalizedStartTime(current: number, interval: number) {
+    return (current - interval) / interval * interval * 1000;
+  }
+
+  protected rate(data, interval) {
+    if (interval === 0) return 0.0;
+    return data / interval;
   }
 }

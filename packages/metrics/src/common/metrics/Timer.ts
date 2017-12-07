@@ -1,17 +1,17 @@
-import {Metered} from '../Metered';
-import {Metric} from '../Metric';
 import {MetricType} from '../MetricType';
 import {IReservoir, ReservoirType} from '../Reservoir';
 import {BaseMeter, IMeter} from './Meter';
 import {BaseHistogram, IHistogram} from './Histogram';
 import {Snapshot} from '../snapshot/Snapshot';
+import {Sampling} from '../Sampling';
+import {Metered} from '../Metered';
 
 /**
  * A timer metric which aggregates timing durations and provides duration statistics, plus
  * throughput statistics via {@link BaseMeter}.
  * Timer相当于Meter+Histogram的组合，同时统计一段代码，一个方法的qps，以及执行时间的分布情况
  */
-export interface ITimer extends Metric, Metered {
+export interface ITimer extends Metered, Sampling {
 
   /**
    * Adds a recorded duration.

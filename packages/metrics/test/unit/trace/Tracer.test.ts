@@ -43,7 +43,8 @@ describe('/test/unit/Tracer.test.ts', () => {
   describe('Tracer Integrate Test', () => {
     it('should record spans', (done) => {
       span = tracer.startSpan('http', {
-        traceId: '123456'
+        traceId: '123456',
+        customCtx: 'test'
       });
 
       span.setTag('url', '/test');
@@ -66,6 +67,7 @@ describe('/test/unit/Tracer.test.ts', () => {
           expect(report.name).to.equal('TestTracer');
           expect(report.spans.length).to.equal(3);
           expect(report.spans[2].context.parentId).to.equal(report.spans[1].context.spanId);
+          expect(report.spans[1].context.customCtx).to.equal('test');
           done();
         }, 500);
       }, 1000);
