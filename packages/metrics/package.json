@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "1.2.7",
+  "version": "1.2.9",
   "main": "dist/index",
   "typings": "src/index",
   "scripts": {
@@ -45,9 +45,9 @@
     "module-hook": "^1.0.0",
     "node-df": "^0.1.1",
     "opentracing": "^0.14.1",
-    "pandora-env": "^1.2.4",
-    "pandora-messenger": "^1.0.0",
-    "pandora-service-logger": "^1.2.4",
+    "pandora-env": "^1.2.9",
+    "pandora-messenger": "^1.2.9",
+    "pandora-service-logger": "^1.2.9",
     "pidusage": "^1.1.6",
     "shimmer": "^1.1.0",
     "super-event-emitter": "^4.1.4",
