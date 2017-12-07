@@ -14,7 +14,6 @@ intro:
 
 base:
     - procfile_mode: "procfile.js 文件"
-    - start_and_stop: "启停应用"
     - debug: "调试应用"
     - logs: "日志管理"
     - global_config: "全局配置覆盖"

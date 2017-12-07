@@ -13,9 +13,9 @@
     - [Cluster 模式](base/cluster_mode.md) 
     - [Procfile.js 模式](base/procfile_mode.md)
     - [调试应用](base/debug.md) 
-    - [目录结构指南](base/dir.md)
+    - [目录结构指南](base/logs.md)
 - 进程管理进阶
-    - [全局配置覆盖](process/global_config.md)
+    - [全局配置覆盖](base/global_config.md)
     - [基于 Procfile.js 编排应用](custom_procfile.md) 
         - [Environment 标准](environment_std.md) 
         - [Configurator 标准](configurator_std.md) 
