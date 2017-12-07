@@ -22,8 +22,8 @@ class TestCachedMetricSet extends CachedMetricSet {
     results.push({
       name: MetricName.build('test.a'),
       metric: <BaseGauge<any>> {
-        getValue() {
-          self.refreshIfNecessary();
+        async getValue() {
+          await self.refreshIfNecessary();
           return self.caches['a'];
         }
       }
@@ -32,8 +32,8 @@ class TestCachedMetricSet extends CachedMetricSet {
     results.push({
       name: MetricName.build('test.b'),
       metric: <GaugeProxy<any>> {
-        getValue() {
-          self.refreshIfNecessary();
+        async getValue() {
+          await self.refreshIfNecessary();
           return self.caches['b'];
         }
       }
@@ -45,24 +45,22 @@ class TestCachedMetricSet extends CachedMetricSet {
 }
 
 describe('/test/unit/client/CachedMetricSet.test.ts', () => {
-  it('create a cached metric set and compare after cache timeout', (done) => {
+  it('create a cached metric set and compare after cache timeout', async () => {
 
     let metricSet = new TestCachedMetricSet(150);
     let metrics = metricSet.getMetrics();
 
-    let A = (<BaseGauge<any>>metrics[0].metric).getValue();
-    let B = (<BaseGauge<any>>metrics[1].metric).getValue();
+    let A = await (<BaseGauge<any>>metrics[0].metric).getValue();
+    let B = await (<BaseGauge<any>>metrics[1].metric).getValue();
 
-    setTimeout(() => {
-      expect(A === (<BaseGauge<any>>metrics[0].metric).getValue()).to.true;
-      expect(B === (<BaseGauge<any>>metrics[1].metric).getValue()).to.true;
+    setTimeout(async () => {
+      expect(A === await (<BaseGauge<any>>metrics[0].metric).getValue()).to.true;
+      expect(B === await (<BaseGauge<any>>metrics[1].metric).getValue()).to.true;
     }, 100);
 
-    setTimeout(() => {
-      expect(A !== (<BaseGauge<any>>metrics[0].metric).getValue()).to.true;
-      expect(B !== (<BaseGauge<any>>metrics[1].metric).getValue()).to.true;
-      done();
+    setTimeout(async () => {
+      expect(A !== await (<BaseGauge<any>>metrics[0].metric).getValue()).to.true;
+      expect(B !== await (<BaseGauge<any>>metrics[1].metric).getValue()).to.true;
     }, 200);
-
   });
 });
