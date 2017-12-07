@@ -1,23 +1,43 @@
 menu:
-  guide: 指南
-  api: API
-  tutorials: 教程
-  plugins: 插件
-  release: 发布日志
+  intro: 新手指南
+  base: 基础功能
+  process: 进程管理进阶
+  monitor: 标准监控体系
+  trace: Trace 链路监控体系
+  other: 扩展功能
 
-index:
-  slogan: "为企业级框架和应用而生"
-  feature11: "进程管理"
-  feature12: "内置的进程管理和负载均衡"
-  feature21: "自定义"
-  feature22: "基于 Egg 和插件系统可以为你的团队自定义框架"
-  feature31: "强大的插件系统"
-  feature32: "插件系统可插拔及可扩展随心所欲"
-  getstart: "开始使用"
-  readmore: "查看更多"
+intro:
+    - index: "Pandora.js 是什么"
+    - quickstart: "快速入门"
+    - command: "命令行介绍"
+    - keyword: "术语列表"
 
-header:
-  translations: "切换语言"
+base:
+    - procfile_mode: "procfile.js 文件"
+    - start_and_stop: "启停应用"
+    - debug: "调试应用"
+    - logs: "日志管理"
+    - global_config: "全局配置覆盖"
 
-guide_toc:
-  Intro: 新手指南
+process:
+    - fork_and_cluster: "Fork 和 Cluster"
+    - process_std: "定义 Process"
+    - service_std: "定义 Service"
+    - environment_std: "定义 Environment"
+    - process_model: "进程模型"
+    - applicationl_life_cycle: "应用生命周期"
+    - service_with_ipc-hub: "进程间通信 IPC-Hub"
+
+monitor:
+    - index: "监控体系介绍"
+    - endpoint: "使用和扩展 EndPoint"
+    - metrics: "使用和扩展 Metrics"
+    - monitor_inner: "内置的监控内容"
+    - restful: "Restful 接口"
+
+trace:
+    - index: "Trace 体系介绍"
+
+other:
+    - pandora-dashboard: "本地管理面板 Pandora-Dashboard"
+
