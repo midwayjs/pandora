@@ -7,8 +7,6 @@
 [![Known Vulnerabilities](https://snyk.io/test/npm/pandora/badge.svg)](https://snyk.io/test/npm/pandora)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/midwayjs/pandora/pulls)
 
-Document: [https://midwayjs.gitbooks.io/pandora/content/zh-cn/](https://midwayjs.gitbooks.io/pandora/content/zh-cn/)
-
 ## Installation
 
 ```bash
@@ -24,6 +22,10 @@ Node.js >= 8.0.0 required.
 - ✔︎ Dev Ops customization
 - ✔︎ Provide Metrics and Standard OpenTracing Implementation
 - ✔︎ Support lots of web frameworks
+
+## Docs
+
+> We are still preparing the document and you can visit [here](https://github.com/midwayjs/pandora/tree/master/docs/source/zh-cn) now.
 
 ## How to Contribute
 
