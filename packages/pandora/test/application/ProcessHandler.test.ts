@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {join, dirname} from 'path';
-import {ApplicationHandler} from '../../src/application/ApplicationHandler';
+import {ProcessHandler} from '../../src/application/ProcessHandler';
 import urllib = require('urllib');
 import {State} from '../../src/const';
 
@@ -10,11 +10,11 @@ const pathSimpleForkApp = join(__dirname, '../fixtures/project/simple_fork/app.j
 describe('ApplicationHandler', function () {
 
   describe('mode procfile.js', function () {
-    let applicationHandler: ApplicationHandler = null;
+    let applicationHandler: ProcessHandler = null;
     before(async () => {
-      applicationHandler = new ApplicationHandler({
-        mode: 'procfile.js',
+      applicationHandler = new ProcessHandler({
         appName: 'test',
+        processName: 'worker',
         appDir: pathProjectMaster
       });
     });
@@ -42,11 +42,11 @@ describe('ApplicationHandler', function () {
   });
 
   describe('mode fork', function () {
-    let applicationHandler: ApplicationHandler = null;
+    let applicationHandler: ProcessHandler = null;
     before(async () => {
-      applicationHandler = new ApplicationHandler({
-        mode: 'fork',
+      applicationHandler = new ProcessHandler({
         appName: 'test',
+        processName: 'worker',
         entryFile: pathSimpleForkApp,
         appDir: dirname(pathSimpleForkApp)
       });

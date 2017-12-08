@@ -178,12 +178,48 @@ describe('ProcfileReconciler', function () {
 
   });
 
+  describe('new standard', function () {
+
+
+    it('should be ok without fork()', async () => {
+      const reconciler = new ProcfileReconciler({
+        appName: 'test',
+        appDir: '-'
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.process('a');
+        pandora.process('b');
+        pandora.service('serviceA', class ServiceA {}).process('a');
+        pandora.service('serviceB', class ServiceA {}).process('b');
+      });
+      const appStruc = reconciler.getApplicationStructure();
+      expect(appStruc.process.length).to.be.eq(2);
+    });
+
+    it('should be ok with fork()', async () => {
+      const reconciler = new ProcfileReconciler({
+        appName: 'test',
+        appDir: '-'
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.process('a');
+        pandora.process('b');
+        pandora.fork('c', './true');
+        pandora.service('serviceA', class ServiceA {}).process('a');
+        pandora.service('serviceB', class ServiceA {}).process('b');
+      });
+      const appStruc = reconciler.getApplicationStructure();
+      expect(appStruc.process.length).to.be.eq(3);
+    });
+
+  });
+
   describe('complex', function () {
 
-    it('should echoComplex() be ok', () => {
+    it('should echoStructure() be ok', () => {
 
       const tmpFile = join(tmpdir(), 'ProcfileReconciler.test.' + Date.now());
-      ProcfileReconciler.echoComplex({
+      ProcfileReconciler.echoStructure({
         appName: 'test',
         appDir: pathProjectSimple1
       }, tmpFile);
@@ -201,12 +237,12 @@ describe('ProcfileReconciler', function () {
         appDir: pathProjectSimple1
       };
 
-      const complex = await ProcfileReconciler.getComplexViaNewProcess(ar);
+      const structureRepresentation = await ProcfileReconciler.getStructureViaNewProcess(ar);
       const reconcile = new ProcfileReconciler(ar);
       reconcile.discover();
-      const complexExpect = reconcile.getComplexApplicationStructureRepresentation();
-      expect(complex).to.deep.equal(complexExpect);
-      expect(complex.mount.length).to.be.gte(1);
+      const structureRepresentation2 = reconcile.getApplicationStructure();
+      expect(structureRepresentation).to.deep.equal(structureRepresentation2);
+      expect(structureRepresentation.process.length).to.be.gte(1);
 
     });
 

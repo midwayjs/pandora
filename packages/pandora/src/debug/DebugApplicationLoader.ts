@@ -1,8 +1,7 @@
 'use strict';
 import {ApplicationRepresentation} from '../domain';
-import {ComplexHandler} from '../daemon/ComplexHandler';
+import {ApplicationHandler} from '../application/ApplicationHandler';
 import {consoleLogger} from '../universal/LoggerBroker';
-import {ProcessBootstrap} from '../application/ProcessBootstrap';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {isDaemonRunning} from '../daemon/DaemonHandler';
 import {Hub} from 'pandora-hub';
@@ -13,11 +12,11 @@ const globalConfigProcessor = GlobalConfigProcessor.getInstance();
  * For a profile.js application to debugging
  */
 export class DebugApplicationLoader {
-  protected options: ApplicationRepresentation;
-  protected master: ComplexHandler | ProcessBootstrap;
+  protected representation: ApplicationRepresentation;
+  protected master: ApplicationHandler;
 
-  constructor(options: ApplicationRepresentation) {
-    this.options = options;
+  constructor(representation: ApplicationRepresentation) {
+    this.representation = representation;
   }
 
   /**
@@ -46,18 +45,13 @@ export class DebugApplicationLoader {
 
     process.env.PANDORA_DEV = 'true';
     process.env.NODE_ENV = process.env.NODE_ENV || 'local';
-    const mode = this.options.mode || 'procfile.js';
-    const appName = this.options.appName || 'debug';
+    const appName = this.representation.appName || 'debug';
     const options = {
-      ...this.options,
-      mode, appName
+      ...this.representation,
+      appName
     };
     if(!this.master) {
-      if('fork' === mode) {
-        this.master = new ProcessBootstrap(options.entryFile, options);
-      } else {
-        this.master = new ComplexHandler(options);
-      }
+        this.master = new ApplicationHandler(options);
     }
     this.master.start().then(() => {
       console.log('Debug application start successful.');

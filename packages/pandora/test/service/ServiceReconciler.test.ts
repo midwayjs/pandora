@@ -1,5 +1,5 @@
 import {ProcessRepresentation, Service, ServiceRepresentation} from '../../src/domain';
-import {WorkerContext} from '../../src/application/WorkerContext';
+import {ProcessContext} from '../../src/application/ProcessContext';
 import {ServiceReconciler} from '../../src/service/ServiceReconciler';
 import {expect} from 'chai';
 
@@ -39,9 +39,6 @@ describe('ServiceReconciler', function () {
   describe('simple', () => {
 
     class TestServiceReconciler extends ServiceReconciler {
-      get workerMode() {
-        return null;
-      }
 
       testGetService(name) {
         return this.services.get(name);
@@ -53,7 +50,7 @@ describe('ServiceReconciler', function () {
       appDir: 'aaa',
       processName: 'worker',
     };
-    const context = new WorkerContext(processRepresentation);
+    const context = new ProcessContext(processRepresentation);
     const serviceReconciler = new TestServiceReconciler(processRepresentation, context);
     const sa: ServiceRepresentation = {
       serviceName: 'testA',

@@ -3,18 +3,17 @@ import {makeRequire, resolveSymlink} from 'pandora-dollar';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {
   Entry, EntryClass, ApplicationRepresentation, ApplicationStructureRepresentation
-  , ProcessRepresentation, ServiceRepresentation, ComplexApplicationStructureRepresentation, MountRepresentation,
-  CategoryReg
+  , ProcessRepresentation, ServiceRepresentation, CategoryReg
 } from '../domain';
 import assert = require('assert');
 import {join, dirname, basename, extname} from 'path';
 import {existsSync, writeFileSync} from 'fs';
-import {PROCFILE_NAMES} from '../const';
+import {defaultWorkerCount, PROCFILE_NAMES} from '../const';
 import {ProcfileReconcilerAccessor} from './ProcfileReconcilerAccessor';
 import {exec} from 'child_process';
-import {tmpdir} from 'os';
 import uuid = require('uuid');
 import mzFs = require('mz/fs');
+import {tmpdir} from 'os';
 
 const foundAll = Symbol();
 
@@ -184,7 +183,7 @@ export class ProcfileReconciler {
    */
   defineProcess(processRepresentation): ProcessRepresentation {
     processRepresentation = {
-      env: {}, argv: [],
+      env: {}, argv: [], scale: 1,
       ...this.appRepresentation,
       ...processRepresentation,
       entryFileBaseDir: this.procfileBasePath
@@ -315,6 +314,10 @@ export class ProcfileReconciler {
     return retSet;
   }
 
+  /**
+   * Get all available processes
+   * @return {any}
+   */
   protected getAvailableProcessMap () {
 
     const availableProcessMap = {};
@@ -336,14 +339,19 @@ export class ProcfileReconciler {
       availableProcessMap[service.category] = true;
     }
 
+    for(const process of this.processes) {
+      if(process.entryFile && !availableProcessMap.hasOwnProperty(process.processName)) {
+        availableProcessMap[process.processName] = true;
+      }
+    }
+
     return availableProcessMap;
 
   }
 
-  // TODO: 将 getApplicationStructure 和 getComplexApplicationStructureRepresentation 彻底合并
   /**
-   * Get the application's structure
-   * @returns {ApplicationStructureRepresentation}
+   * Get the Static Structure of the Application
+   * @return {ApplicationStructureRepresentation}
    */
   getApplicationStructure(): ApplicationStructureRepresentation {
 
@@ -352,10 +360,9 @@ export class ProcfileReconciler {
 
     for(const process of this.processes) {
       if(
-        process.mode === 'procfile.js' &&
-        (foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName))
+        foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
       ) {
-        processRepresentations.push(this.processGlobalForProcess(process));
+        processRepresentations.push(this.makeupProcess(process));
       }
     }
 
@@ -365,49 +372,37 @@ export class ProcfileReconciler {
 
     return {
       ...this.appRepresentation,
-      mode: 'procfile.js',
       process: processRepresentationSet2nd
     };
 
   }
 
   /**
-   * Get the complex application's structure
-   * @returns {ApplicationStructureRepresentation}
+   * Echo the appRepresentation to a file
+   * For static getStructureViaNewProcess() read
+   * @param {ApplicationRepresentation} appRepresentation
+   * @param {string} writeTo
    */
-  getComplexApplicationStructureRepresentation(): ComplexApplicationStructureRepresentation {
-
-    const processes: ProcessRepresentation[] = this.processes;
-    const mount: MountRepresentation[] = [];
-
-    const applicationStructure = this.getApplicationStructure();
-    if(applicationStructure.process.length) {
-      mount.push(applicationStructure);
-    }
-
-    for(const process of processes) {
-      if( process.mode === 'fork' ) {
-        mount.push(this.processGlobalForProcess(process));
-      }
-    }
-
-    return { mount };
-  }
-
-  public static echoComplex(appRepresentation: ApplicationRepresentation, writeTo: string) {
+  public static echoStructure(appRepresentation: ApplicationRepresentation, writeTo: string) {
     const procfileReconciler = new ProcfileReconciler(appRepresentation);
     procfileReconciler.discover();
-    const complex = procfileReconciler.getComplexApplicationStructureRepresentation();
-    writeFileSync(writeTo, JSON.stringify(complex));
+    const structure = procfileReconciler.getApplicationStructure();
+    writeFileSync(writeTo, JSON.stringify(structure));
   }
 
-  public static async getComplexViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ComplexApplicationStructureRepresentation> {
+  /**
+   * Get the appRepresentation via a tmp process
+   * Make sure daemon will not got any we don\'t want to be included
+   * @param {ApplicationRepresentation} appRepresentation
+   * @return {Promise<ApplicationStructureRepresentation>}
+   */
+  public static async getStructureViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ApplicationStructureRepresentation> {
 
     const tmpFile = join(tmpdir(), uuid.v4());
     const isTs = /\.ts$/.test(__filename);
 
     await new Promise((resolve, reject) => {
-      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoComplex(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)})'`,
+      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoStructure(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)})'`,
         (error) => {
           if(error) {
             reject(error);
@@ -421,19 +416,31 @@ export class ProcfileReconciler {
     await mzFs.unlink(tmpFile);
 
     const fileContent = fileBuffer.toString();
-    const complex: ComplexApplicationStructureRepresentation = JSON.parse(fileContent);
+    const structure: ApplicationStructureRepresentation = JSON.parse(fileContent);
 
-    return complex;
+    return structure;
 
   }
 
-  private processGlobalForProcess (process): ProcessRepresentation {
+  /**
+   *
+   * @param process
+   * @return {ProcessRepresentation}
+   */
+  private makeupProcess(process): ProcessRepresentation {
+
+    // globalArgv and globalEnv passed from CLI, marge those to the related field
     const argv = process.globalArgv ? (process.argv || []).concat(process.globalArgv) : process.argv;
     const env = process.globalEnv ? {...process.env, ...process.globalEnv} : process.env;
+
+    // Resolve 'auto' to cpus().length
+    const scale = process.scale === 'auto' ? defaultWorkerCount : process.scale;
+
     return {
       ...process,
-      argv, env
+      argv, env, scale
     };
+
   }
 
 }

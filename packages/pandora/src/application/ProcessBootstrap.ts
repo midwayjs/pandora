@@ -1,83 +1,110 @@
 'use strict';
 require('source-map-support').install();
-
-import {APP_START_SUCCESS, APP_START_ERROR, PANDORA_APPLICATION} from '../const';
+import program = require('commander');
+import {PROCESS_ERROR, FINISH_SHUTDOWN, PROCESS_READY, SHUTDOWN, PANDORA_PROCESS} from '../const';
+import {ProcessContext} from './ProcessContext';
+import {ProcessRepresentation} from '../domain';
+import {ProcfileReconciler} from './ProcfileReconciler';
 import assert = require('assert');
+import {EnvironmentUtil} from 'pandora-env';
 import {consoleLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
-import {ApplicationRepresentation} from '../domain';
-import {makeRequire} from 'pandora-dollar';
-import {SpawnWrapperUtils} from '../daemon/SpawnWrapperUtils';
 import {MonitorManager} from '../monitor/MonitorManager';
-import {EnvironmentUtil, DefaultEnvironment} from 'pandora-env';
-
-const program = require('commander');
+import {Facade} from '../Facade';
+import {makeRequire} from 'pandora-dollar';
+import {ScalableMaster} from './ScalableMaster';
+import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 
 /**
- * Class ProcessBootstrap
+ * class ProcessBootstrap
+ * Bootstrap a worker process, handing all phases of an application stating
  */
 export class ProcessBootstrap {
 
-  static processName = 'scalableMaster';
+  public master: ScalableMaster;
+  public context: ProcessContext;
+  public processRepresentation: ProcessRepresentation;
+  private procfileReconciler: ProcfileReconciler;
 
-  entry: string;
-  applicationRepresentation: ApplicationRepresentation;
+  constructor(processRepresentation: ProcessRepresentation) {
 
-  constructor(entry: string, options: ApplicationRepresentation) {
-    this.entry = entry;
-    this.applicationRepresentation = options;
-  }
+    this.processRepresentation = processRepresentation;
+    this.procfileReconciler = new ProcfileReconciler(processRepresentation);
 
-  /**
-   * start process
-   * @returns {Promise<void>}
-   */
-  async start(): Promise<void> {
-
-    this.injectMonitor();
-
-    if ('fork' === this.applicationRepresentation.mode) {
-      process.env[PANDORA_APPLICATION] = JSON.stringify(this.applicationRepresentation);
-      // TODO: unwrap it on this process exit
-      SpawnWrapperUtils.wrap();
-      await SpawnWrapperUtils.shimWorkerContext().start();
-    }
-
-    const entryFileBaseDir = this.applicationRepresentation.entryFileBaseDir;
-    const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
-    const entryMod = ownRequire(this.entry);
-
-    // Only require that entry if the mode be fork
-    if ('fork' === this.applicationRepresentation.mode) {
+    if(this.processRepresentation.scale > 1) {
+      this.master = new ScalableMaster(processRepresentation);
       return;
     }
 
-    // Otherwise it needs the entire procedures.
-    const entryFn = 'function' === typeof entryMod ? entryMod : entryMod.default;
-    assert('function' === typeof entryFn, 'The entry should export a function, during loading ' + this.entry);
-    await new Promise((resolve, reject) => {
-      const options = {...this.applicationRepresentation || {}};
-      if (entryFn.length >= 2) {
-        entryFn(options, (err) => {
-          if (err) {
-            return reject(err);
-          }
-          resolve();
-        });
-      } else {
-        entryFn(options);
-        resolve();
-      }
-    });
+    this.context = new ProcessContext(processRepresentation);
+    Facade.set('processContext', this.context.processContextAccessor);
+
+  }
+
+  async start() {
+
+    if(this.master) {
+      await this.startAsMaster();
+      return;
+    }
+    await this.startAsWorker();
+
+  }
+
+  async stop() {
+
+    if(this.master) {
+      await this.master.stop();
+      return;
+    }
+
+    // Stop as worker
+    await this.context.stop();
+    SpawnWrapperUtils.unwrap();
+
+  }
+
+  async startAsMaster() {
+
+    this.injectMonitor();
+    await this.master.start();
+
+  }
+
+  async startAsWorker() {
+
+    SpawnWrapperUtils.wrap();
+
+    process.env[PANDORA_PROCESS] = JSON.stringify(this.processRepresentation);
+
+    this.procfileReconciler.discover();
+
+    this.injectMonitor();
+
+    // Handing the services injecting
+    const servicesByCurrentCategory = this.procfileReconciler.getServicesByCategory(this.processRepresentation.processName);
+    this.context.bindService(servicesByCurrentCategory);
+
+    // To start process by ProcessContext
+    await this.context.start();
+
+    // Require the entryFile if there given it, pandora.fork() dep on it
+    if(this.processRepresentation.entryFile) {
+      const entryFileBaseDir = this.processRepresentation.entryFileBaseDir;
+      const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
+      ownRequire(this.processRepresentation.entryFile);
+    }
+
   }
 
   injectMonitor() {
 
     if(!EnvironmentUtil.getInstance().isReady()) {
       // Handing the environment object injecting
-      const environment = new DefaultEnvironment({
-        appDir: this.applicationRepresentation.appDir,
-        appName: this.applicationRepresentation.appName,
-        processName: (<any> this.applicationRepresentation).processName || ProcessBootstrap.processName,
+      const Environment = this.procfileReconciler.getEnvironment();
+      const environment = new Environment({
+        appDir: this.processRepresentation.appDir,
+        appName: this.processRepresentation.appName,
+        processName: this.processRepresentation.processName,
         pandoraLogsDir: getPandoraLogsDir()
       });
       EnvironmentUtil.getInstance().setCurrentEnvironment(environment);
@@ -88,38 +115,72 @@ export class ProcessBootstrap {
 
   }
 
+
+  /**
+   * A static method to handing the CLI
+   */
   static cmd() {
+
     program
-      .option('--entry [entry]')
       .option('--params [params]')
       .parse(process.argv);
 
-    const entry = program.entry;
-    let options = program.params;
+    let options;
 
     try {
-      options = JSON.parse(options);
+      options = JSON.parse(program.params);
+      assert(options.appName, 'The field appName required by ProcessBootstrap');
+      assert(options.appDir, 'The field appDir required by ProcessBootstrap');
+      assert(options.processName, 'The field processName required by ProcessBootstrap');
     } catch (err) {
-      err.message = `Invalid options "${options}", ${err.message}`;
-      throw err;
+      err.message = `Invalid options "${program.params}", ${err.message}`;
+      consoleLogger.error(err);
+      if (process.send) {
+        process.send({action: PROCESS_ERROR, error: err});
+      }
+      return;
     }
 
-    const processBootstrap = new ProcessBootstrap(entry, options);
+    const processBootstrap = new ProcessBootstrap(options);
+
+    process.on('message', (message) => {
+      if (message.action === SHUTDOWN) {
+        processBootstrap.stop().then(() => {
+          if (process.send) {
+            process.send({action: FINISH_SHUTDOWN});
+          }
+        }).catch(consoleLogger.error);
+      }
+    });
+
+    const onProcessTerm = (sig) => {
+      consoleLogger.info(`Application's master receive a signal ${sig}, exit with code 0, pid ${process.pid}`);
+      processBootstrap.stop().then(() => {
+        process.exit(0);
+      }).catch((err) => {
+        consoleLogger.error(err);
+        process.exit(1);
+      });
+    };
+
+    process.once('SIGQUIT', onProcessTerm.bind('SIGQUIT'));
+    process.once('SIGTERM', onProcessTerm.bind('SIGTERM'));
+    process.once('SIGINT', onProcessTerm.bind('SIGINT'));
 
     processBootstrap.start().then(() => {
       if (process.send) {
-        process.send({action: APP_START_SUCCESS});
+        process.send({action: PROCESS_READY});
       }
     }).catch((err) => {
       consoleLogger.error(err);
       consoleLogger.error('An error occurred during the start of ProcessBootstrap.');
       if (process.send) {
-        process.send({action: APP_START_ERROR, error: err});
+        process.send({action: PROCESS_ERROR, error: err});
       }
     });
   }
-}
 
+}
 
 let cmdDid = false;
 
@@ -131,8 +192,7 @@ export function cmd() {
   ProcessBootstrap.cmd();
 }
 
-// require.main === module maybe be 'false' after patched spawn wrap
+// Handing CLI if this module be the main module
 if (require.main === module || process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE) {
-  delete process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE;
   cmd();
 }

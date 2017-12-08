@@ -53,7 +53,6 @@ describe('Daemon', function () {
 
     it('should startApp() be ok', async () => {
       const applicationHandler = await daemon.startApp({
-        mode: 'procfile.js',
         appName: 'test',
         appDir: pathProjectMaster
       });
@@ -79,7 +78,6 @@ describe('Daemon', function () {
       const appDir = '/tj';
       try {
         await daemon.startApp({
-          mode: 'procfile.js',
           appDir,
           appName: 'demo',
         });
@@ -122,7 +120,6 @@ describe('Daemon', function () {
         daemon.handleCommand({
           command: 'start',
           args: {
-            mode: 'procfile.js',
             appName: 'test',
             appDir: pathProjectMaster
           }

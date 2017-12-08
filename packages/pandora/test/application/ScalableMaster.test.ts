@@ -1,8 +1,8 @@
-import mm = require('mm');
 import {join, dirname} from 'path';
 import {expect} from 'chai';
 import urllib = require('urllib');
-import {defaultWorkerCount, ProcessMaster} from '../../src/application/ProcessMaster';
+import {ScalableMaster} from '../../src/application/ScalableMaster';
+import {defaultWorkerCount} from '../../src/const';
 
 const pathProjectMaster = join(__dirname, '../fixtures/project/master');
 const pathSimpleClusterApp = join(__dirname, '../fixtures/project/simple_cluster/app.js');
@@ -11,11 +11,11 @@ describe('ProcessMaster', function () {
 
   describe('mode procfile.js', function () {
 
-    let processMaster: ProcessMaster = null;
+    let processMaster: ScalableMaster = null;
     before(async () => {
-      processMaster = new ProcessMaster({
-        mode: 'procfile.js',
+      processMaster = new ScalableMaster({
         appName: 'test',
+        processName: 'worker',
         appDir: pathProjectMaster
       });
     });
@@ -37,22 +37,6 @@ describe('ProcessMaster', function () {
       expect(ret.res.data.toString()).equal('okay');
     });
 
-    it('should onProcessTerm be ok', async () => {
-      let did = false;
-      const promise = new Promise(resolve => {
-        mm(process, 'exit', function (code) {
-          if (0 === code) {
-            did = true;
-          }
-          resolve();
-        });
-      });
-      processMaster.onProcessTerm(2);
-      await promise;
-      mm.restore();
-      expect(did).to.be.equal(true);
-    });
-
     it('should stop be ok', async () => {
       await processMaster.stop();
       const workers = processMaster.getWorkers();
@@ -64,11 +48,11 @@ describe('ProcessMaster', function () {
 
   describe('mode cluster', function () {
 
-    let processMaster: ProcessMaster = null;
+    let processMaster: ScalableMaster = null;
     before(async () => {
-      processMaster = new ProcessMaster({
-        mode: 'procfile.js',
+      processMaster = new ScalableMaster({
         appName: 'test',
+        processName: 'worker',
         appDir: dirname(pathSimpleClusterApp)
       });
     });
@@ -98,9 +82,9 @@ describe('ProcessMaster', function () {
     });
 
     it('should be ok when given a scale option', async () => {
-      const ownProcessMaster = new ProcessMaster({
-        mode: 'procfile.js',
+      const ownProcessMaster = new ScalableMaster({
         appName: 'test',
+        processName: 'worker',
         appDir: dirname(pathSimpleClusterApp)
       });
       await ownProcessMaster.start();

@@ -52,16 +52,6 @@ export class ProcessRepresentationChainModifier {
     return this;
   }
 
-  mode(): string;
-  mode(mode: string): ProcessRepresentationChainModifier;
-  mode(mode?): any {
-    if(!mode) {
-      return this.representation.mode;
-    }
-    this.representation.mode = mode;
-    return this;
-  }
-
   argv(): any[];
   argv(argv: any[]): ProcessRepresentationChainModifier
   argv(argv?): any {

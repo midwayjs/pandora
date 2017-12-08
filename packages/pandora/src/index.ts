@@ -18,9 +18,8 @@ export {DaemonBootstrap} from './daemon/DaemonBootstrap';
 /**
  * Application
  */
-export * from './application/ApplicationHandler';
-export * from './application/ProcessMaster';
-export {ProcessBootstrap} from './application/ProcessBootstrap';
+export * from './application/ProcessHandler';
+export * from './application/ScalableMaster';
 
 /**
  * Procfile
@@ -30,10 +29,10 @@ export * from './application/ProcfileReconcilerAccessor';
 export * from './application/ServiceRepresentationChainModifier';
 
 /**
- * WorkerContext
+ * ProcessContext
  */
-export * from './application/WorkerContext';
-export {WorkerProcessBootstrap} from './application/WorkerProcessBootstrap';
+export * from './application/ProcessContext';
+export {ProcessBootstrap} from './application/ProcessBootstrap';
 
 /**
  * Service
@@ -60,7 +59,7 @@ export * from './debug/DebugServiceReconciler';
  */
 export const facade = Facade.getInstance();
 delegate(exports, 'facade')
-  .access('workerContext')
+  .access('processContext')
   .access('appName')
   .access('appDir')
   .access('processName')
@@ -73,7 +72,7 @@ delegate(exports, 'facade')
   .method('publishObject')
   .method('getProxy');
 
-export declare const workerContext: typeof Facade.prototype.workerContext;
+export declare const processContext: typeof Facade.prototype.processContext;
 export declare const appName: typeof Facade.prototype.appName;
 export declare const appDir: typeof Facade.prototype.appDir;
 export declare const processName: typeof Facade.prototype.processName;

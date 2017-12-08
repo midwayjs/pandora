@@ -1,16 +1,16 @@
 import {ServiceCore} from './ServiceCore';
-import {WorkerContextAccessor} from '../application/WorkerContextAccessor';
+import {ProcessContextAccessor} from '../application/ProcessContextAccessor';
 import delegate = require('delegates');
 
 export class ServiceContextAccessor {
   serviceCore: ServiceCore;
-  workerContext: WorkerContextAccessor;
+  processContext: ProcessContextAccessor;
 
   constructor(serviceCore: ServiceCore) {
     this.serviceCore = serviceCore;
-    this.workerContext = serviceCore.context;
+    this.processContext = serviceCore.context;
 
-    delegate(this, 'workerContext')
+    delegate(this, 'processContext')
       .access('appName')
       .access('appDir')
       .access('processName')
@@ -33,17 +33,17 @@ export class ServiceContextAccessor {
       .method('getDependency');
   }
 
-  // WorkerContextAccessor
-  appName: typeof WorkerContextAccessor.prototype.appName;
-  appDir: typeof WorkerContextAccessor.prototype.appDir;
-  processName: typeof WorkerContextAccessor.prototype.processName;
-  env: typeof WorkerContextAccessor.prototype.env;
-  environment: typeof WorkerContextAccessor.prototype.environment;
-  getService: typeof WorkerContextAccessor.prototype.getService;
-  getServiceClass: typeof WorkerContextAccessor.prototype.getServiceClass;
-  getHub: typeof WorkerContextAccessor.prototype.getHub;
-  getProxy: typeof WorkerContextAccessor.prototype.getProxy;
-  publishObject: typeof WorkerContextAccessor.prototype.publishObject;
+  // ProcessContextAccessor
+  appName: typeof ProcessContextAccessor.prototype.appName;
+  appDir: typeof ProcessContextAccessor.prototype.appDir;
+  processName: typeof ProcessContextAccessor.prototype.processName;
+  env: typeof ProcessContextAccessor.prototype.env;
+  environment: typeof ProcessContextAccessor.prototype.environment;
+  getService: typeof ProcessContextAccessor.prototype.getService;
+  getServiceClass: typeof ProcessContextAccessor.prototype.getServiceClass;
+  getHub: typeof ProcessContextAccessor.prototype.getHub;
+  getProxy: typeof ProcessContextAccessor.prototype.getProxy;
+  publishObject: typeof ProcessContextAccessor.prototype.publishObject;
 
   // ServiceCore
   logger: typeof ServiceCore.prototype.logger;

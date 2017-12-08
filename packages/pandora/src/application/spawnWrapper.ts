@@ -8,7 +8,7 @@ import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 async function main () {
   try {
     MonitorManager.injectProcessMonitor();
-    await SpawnWrapperUtils.shimWorkerContext().start();
+    await SpawnWrapperUtils.shimProcessContext().start();
   } catch (err) {
     console.error(err);
   }

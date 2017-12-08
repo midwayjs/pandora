@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path');
 const childProcess = require('child_process');
-import {SpawnWrapperUtils} from '../../src/daemon/SpawnWrapperUtils';
-import {PANDORA_APPLICATION} from '../../src/const';
+import {SpawnWrapperUtils} from '../../src/application/SpawnWrapperUtils';
+import {PANDORA_PROCESS} from '../../src/const';
 
 declare const global: {
   shimIpc: any;
@@ -38,7 +38,7 @@ describe('/test/monitor/MonitorManager.test.ts', () => {
     if(global.shimIpc) {
       await global.shimIpc.start();
     }
-    process.env[PANDORA_APPLICATION] = JSON.stringify({
+    process.env[PANDORA_PROCESS] = JSON.stringify({
       appName: 'test-app',
       appDir: path.join(__dirname, `../fixtures/monitor`),
       processName: ''
@@ -46,7 +46,7 @@ describe('/test/monitor/MonitorManager.test.ts', () => {
   });
 
   after(() => {
-    delete process.env[PANDORA_APPLICATION];
+    delete process.env[PANDORA_PROCESS];
     SpawnWrapperUtils.unwrap();
   });
 

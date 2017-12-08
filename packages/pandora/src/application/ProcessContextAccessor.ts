@@ -1,22 +1,22 @@
 /**
- * A proxy (or called accessor) of the WorkerContext, to provide a grace interface to use
+ * A proxy (or called accessor) of the ProcessContext, to provide a grace interface to use
  */
-import {WorkerContext} from './WorkerContext';
+import {ProcessContext} from './ProcessContext';
 import {Environment} from 'pandora-env';
 import {Service} from '../domain';
 import {Facade as HubFacade} from 'pandora-hub';
 import {DefaultObjectProxy, ObjectDescription} from 'pandora-hub';
 
 /**
- * Class WorkerContextAccessor
- * A easy way to access WorkerContext
+ * Class ProcessContextAccessor
+ * A easy way to access ProcessContext
  */
-export class WorkerContextAccessor {
+export class ProcessContextAccessor {
 
   /**
    * Original context object
    */
-  context: WorkerContext;
+  context: ProcessContext;
 
   /**
    * @param context - Original context object

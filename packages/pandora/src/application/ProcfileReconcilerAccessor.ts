@@ -52,8 +52,7 @@ export class ProcfileReconcilerAccessor {
       return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
     }
     const representation = this.procfileReconciler.defineProcess({
-      processName,
-      mode: 'procfile.js'
+      processName
     });
     return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }
@@ -71,8 +70,7 @@ export class ProcfileReconcilerAccessor {
     }
     const representation = this.procfileReconciler.defineProcess({
       entryFile,
-      processName,
-      mode: 'fork'
+      processName
     });
     return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }

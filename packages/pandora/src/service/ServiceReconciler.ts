@@ -5,7 +5,7 @@ import {
 } from '../domain';
 import assert = require('assert');
 import {ServiceCore} from './ServiceCore';
-import {WorkerContext} from '../application/WorkerContext';
+import {ProcessContext} from '../application/ProcessContext';
 
 const debug = require('debug')('pandora:ServiceReconciler');
 
@@ -14,17 +14,15 @@ const debug = require('debug')('pandora:ServiceReconciler');
  */
 export class ServiceReconciler {
 
-  protected context: WorkerContext;
+  protected context: ProcessContext;
 
   protected services: Map<string, ServiceInstanceReference> = new Map;
   protected state: 'notBoot' | 'booting' | 'booted' | 'stoping' = 'notBoot';
 
   protected processRepresentation: ProcessRepresentation;
-  protected workModeByForce;
 
 
-  constructor(processRepresentation: ProcessRepresentation, context, workModeByForce?) {
-    this.workModeByForce = workModeByForce;
+  constructor(processRepresentation: ProcessRepresentation, context) {
     this.processRepresentation = processRepresentation;
     this.context = context;
   }
@@ -125,10 +123,10 @@ export class ServiceReconciler {
           (<any> serviceRepresentation.serviceEntry).getLazyClass() : serviceRepresentation.serviceEntry;
 
         serviceRepresentation.config = serviceRepresentation.configResolver ?
-          serviceRepresentation.configResolver(this.context.workerContextAccessor, serviceRepresentation.config)
+          serviceRepresentation.configResolver(this.context.processContextAccessor, serviceRepresentation.config)
           : serviceRepresentation.config;
         const serviceCoreInstance = new ServiceCore({
-          context: this.context.workerContextAccessor,
+          context: this.context.processContextAccessor,
           representation: serviceRepresentation,
           depInstances: depInstances
         }, serviceEntry);

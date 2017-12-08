@@ -18,8 +18,8 @@ export class DaemonIntrospection {
     const keySet = Array.from(daemon.apps.keys());
     const ret: ApplicationIntrospectionResult[] = [];
     for (const key of keySet) {
-      const complex = daemon.apps.get(key);
-      const introspection = await complexToIntrospection(complex);
+      const handler = daemon.apps.get(key);
+      const introspection = await appToIntrospection(handler);
       ret.push(introspection);
     }
     return ret;
@@ -27,11 +27,11 @@ export class DaemonIntrospection {
 
   async getApplictaionByName(appName: string): Promise<ApplicationIntrospectionResult> {
     const daemon = this.daemon;
-    const complex = daemon.apps.get(appName);
-    if(!complex) {
+    const handler = daemon.apps.get(appName);
+    if(!handler) {
       throw new Error(`Can\'t found an Application it named ${appName}`);
     }
-    return complexToIntrospection(complex);
+    return appToIntrospection(handler);
   }
 
   getLoadedGlobalConfigPaths () {
@@ -75,20 +75,22 @@ export class DaemonIntrospection {
 
 }
 
-async function complexToIntrospection(complex): Promise<ApplicationIntrospectionResult> {
+async function appToIntrospection(handler): Promise<ApplicationIntrospectionResult> {
+
+  const structure = await handler.getStructure();
 
   return {
-    state: complex.state,
-    mode: complex.mode,
-    appName: complex.name,
-    appDir: complex.appDir,
-    appId: complex.appId,
-    pids: complex.pids,
-    uptime: complex.uptime,
-    startCount: complex.startCount,
-    representation: complex.appRepresentation,
-    complex: await complex.getComplex(),
-    stdoutLogPath: getAppLogPath(complex.name, 'nodejs_stdout')
+    state: handler.state,
+    appName: handler.name,
+    appDir: handler.appDir,
+    appId: handler.appId,
+    pids: handler.pids,
+    uptime: handler.uptime,
+    startCount: handler.startCount,
+    representation: handler.processRepresentation,
+    complex: structure,
+    structure: structure,
+    stdoutLogPath: getAppLogPath(handler.name, 'nodejs_stdout')
   };
 
 }
