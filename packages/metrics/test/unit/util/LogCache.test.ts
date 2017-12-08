@@ -104,7 +104,7 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
 
     // 取最后3条
     let results = cache.query({
-      by: 'time',
+      by: 'date',
       value: 1483243200000 + 5
     });
     expect(results.length).to.be.equal(10);
@@ -124,7 +124,7 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
 
     // 取最后3条
     let results = cache.query({
-      by: 'time',
+      by: 'date',
       value: 1483243200000 + 4,
       order: 'DESC'
     });

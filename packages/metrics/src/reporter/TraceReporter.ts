@@ -50,7 +50,7 @@ export class TraceReporter extends CustomReporter {
         const data = await traceEndPoint.invoke(appName, {
           value: this.vernier[appName] || 0,
           order: 'DESC',
-          by: 'time'
+          by: 'timestamp'
         });
 
         if (data && data.length > 0) {

@@ -18,7 +18,7 @@ export class CacheDuplexEndPoint extends DuplexEndPoint {
   }
 
   invoke(appName: string, args: {
-    by?: 'size' | 'time',
+    by?: 'size' | string,
     value?: number,
     order?: 'ASC' | 'DESC',
     offset?: number,
