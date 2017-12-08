@@ -206,6 +206,7 @@ describe('ProcfileReconciler', function () {
       reconcile.discover();
       const complexExpect = reconcile.getComplexApplicationStructureRepresentation();
       expect(complex).to.deep.equal(complexExpect);
+      expect(complex.mount.length).to.be.gte(1);
 
     });
 
