@@ -1,41 +1,32 @@
 menu:
-  intro: 新手指南
-  base: 基础功能
-  process: 进程管理进阶
-  monitor: 标准监控体系
-  trace: Trace 链路监控体系
-  other: 扩展功能
+  guide: 文档指南
+  api: API 接口
+  release: 发布日志
 
-intro:
-    - index: "Pandora.js 是什么"
-    - quickstart: "快速入门"
-    - command: "命令行介绍"
-    - keyword: "术语列表"
-
-base:
-    - procfile_mode: "procfile.js 文件"
-    - debug: "调试应用"
-    - logs: "日志管理"
-    - global_config: "全局配置覆盖"
-
-process:
-    - fork_and_cluster: "Fork 和 Cluster"
-    - process_std: "定义 Process"
-    - service_std: "定义 Service"
-    - environment_std: "定义 Environment"
-    - applicationl_life_cycle: "应用生命周期"
-    - service_with_ipc-hub: "Service 与 IPC-Hub（进程间通信）"
-
-monitor:
-    - index: "监控体系介绍"
-    - endpoint: "使用和扩展 EndPoint"
-    - metrics: "使用和扩展 Metrics"
-    - monitor_inner: "内置的监控内容"
-    - restful: "Restful 接口"
-
-trace:
-    - index: "Trace 体系介绍"
-
-other:
-    - pandora-dashboard: "本地管理面板 Pandora-Dashboard"
+guide_toc:
+  introduce: "Pandora.js"
+  quickstart: "快速入门"
+  glossary: "术语列表"
+  base: "基础功能"
+  command: "命令行介绍"
+  procfile_mode: "认识 procfile.js"
+  debug: "调试应用"
+  logs: "日志管理"
+  global_config: "配置文件"
+  monitor_inner: "默认监控数据"
+  process: "进程管理进阶"
+  fork_and_cluster: "Fork 和 Cluster"
+  process_std: "自定义进程"
+  service_std: "标准服务"
+  environment_std: "自定义环境"
+  applicationl_life_cycle: "应用生命周期"
+  service_with_ipc_hub: "进程间通信"
+  monitor: "标准监控体系"
+  monitor_std: "监控体系介绍"
+  endpoint: "使用和扩展 EndPoint"
+  restful: "Restful 接口"
+  metrics: "使用 Metrics"
+  trace: "Trace 体系"
+  other: "扩展功能"
+  dashboard: "本地 Dashboard"
 

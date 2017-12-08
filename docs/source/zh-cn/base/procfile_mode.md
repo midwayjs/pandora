@@ -1,4 +1,5 @@
-# Procfile.js 文件
+title: 认识 procfile.js
+---
 
 `procfile.js` 是应用进程结构的描述文件，用户可以基于 `procfile.js` 来编排应用，使用 Pandora.js 提供的各种强大功能。
 `procfile.js` 是一个普通的 js 文件，提供链式的语法定义应用。

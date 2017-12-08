@@ -1,11 +1,11 @@
-title: Egg.js
-subtitle: "Born to build better enterprise frameworks and apps"
-description: "Born to build better enterprise frameworks and apps"
+title: Pandora.js
+subtitle: "A powerful and lightweight application manager for Node.js applications powered by TypeScript."
+description: "A powerful and lightweight application manager for Node.js applications powered by TypeScript."
 language:
 - zh-cn
 - en
 timezone: UTC
-url: https://eggjs.org
+url: https://midwayjs.org
 root: /
 archive_dir: news
 permalink: news/:year/:month/:day/:title/
