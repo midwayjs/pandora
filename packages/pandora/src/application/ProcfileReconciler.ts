@@ -352,7 +352,7 @@ export class ProcfileReconciler {
     for(const process of this.processes) {
       if(
         process.mode === 'profile.js' &&
-        foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
+        (foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName))
       ) {
         processRepresentations.push(this.processGlobalForProcess(process));
       }
