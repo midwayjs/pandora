@@ -15,13 +15,13 @@ process:
   process_std: /process/process_std.html
   service_std: /process/service_std.html
   environment_std: /process/environment_std.html
-  applicationl_life_cycle: /process/applicationl_life_cycle.html
+  application_life_cycle: /process/application_life_cycle.html
   service_with_ipc_hub: /process/service_with_ipc_hub.html
 
 monitor:
   monitor_std: /monitor/monitor_std.html
   endpoint: /monitor/endpoint.html
-  restful: /monitor/restful.html
+  resource: /monitor/resource.html
   metrics: /monitor/metrics.html
   trace: /monitor/trace.html
 

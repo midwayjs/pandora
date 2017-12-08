@@ -1,4 +1,5 @@
-## Fork 和 Cluster
+title: Fork 和 Cluster
+---
 
 Pandora.js 提供了 Fork 和 Cluster 用于方便对接存量应用，基本是对现有能力的封装，关系简述如下：
 

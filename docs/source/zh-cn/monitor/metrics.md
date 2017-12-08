@@ -1,4 +1,5 @@
-# 使用和扩展 Metrics
+title: 使用和扩展 Metrics
+---
 
 Metrics 原本属于 EndPoint 的一部分，但是因为比较特殊，所以这个 EndPoint 拿出来单独讲解，在整个体系里面，Metrics 是一个非常重要的部分。
 

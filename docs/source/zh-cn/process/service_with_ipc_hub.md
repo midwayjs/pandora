@@ -3,7 +3,7 @@ title: Service 与 IPC-Hub（进程间通信）
 
 ## Service 使用 IPC-Hub
 
-Pandora.js 提供了进程间的对象代理功能，Service 可以便捷的发不到 IPC-Hub 中。
+Pandora.js 提供了进程间的对象代理功能，Service 可以便捷的发布到 IPC-Hub 中。
 
 `procfile.js` 
 ```javascript

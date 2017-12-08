@@ -1,6 +1,5 @@
-# Resource 资源
-
-
+title: 对外暴露 Resource 资源
+---
 
 在 Pandora.js 中，我们提供了一批将内置的 EndPoint  汇聚的数据通过 Http 对外暴露的能力，每一个 EndPoint 都可以有配套的 Resource 资源对外输出，这里的数据格式是通过 `koa` 和 `koa-router` 来简单扩展的。
 
