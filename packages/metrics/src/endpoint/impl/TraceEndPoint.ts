@@ -19,7 +19,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
   }
 
   async invoke(appName: string, args: {
-    by?: 'size' | 'time',
+    by?: 'size' | string,
     value?: number,
     order?: 'ASC' | 'DESC',
     offset?: number,
