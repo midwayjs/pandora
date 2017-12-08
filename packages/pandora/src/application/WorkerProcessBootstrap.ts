@@ -9,6 +9,7 @@ import assert = require('assert');
 import {EnvironmentUtil} from 'pandora-env';
 import {consoleLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
 import {MonitorManager} from '../monitor/MonitorManager';
+import {Facade} from '../Facade';
 
 /**
  * class WorkerProcessBootstrap
@@ -31,6 +32,7 @@ export class WorkerProcessBootstrap {
     this.processRepresentation = processRepresentation;
     this.procfileReconciler = new ProcfileReconciler(processRepresentation);
     this.context = new WorkerContext(processRepresentation);
+    Facade.set('workerContext', this.context.workerContextAccessor);
   }
 
   /**

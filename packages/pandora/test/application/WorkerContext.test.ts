@@ -55,26 +55,40 @@ describe('WorkerContext', function () {
   it('should start() be ok', async () => {
     const workerContext = new WorkerContext(precessRepresentation);
     let serviceDid = false;
+    let hubDid = false;
     mm(workerContext, 'serviceReconciler', {
       start: function () {
         serviceDid = true;
       }
     });
+    mm(workerContext, 'ipcHub', {
+      start: function () {
+        hubDid = true;
+      }
+    });
     await workerContext.start();
     expect(serviceDid).to.be.equal(true);
+    expect(hubDid).to.be.equal(true);
     mm.restore();
   });
 
   it('should stop() be ok', async () => {
     const workerContext = new WorkerContext(precessRepresentation);
     let serviceDid = false;
+    let hubDid = false;
     mm(workerContext, 'serviceReconciler', {
       stop: function () {
         serviceDid = true;
       }
     });
+    mm(workerContext, 'ipcHub', {
+      stop: function () {
+        hubDid = true;
+      }
+    });
     await workerContext.stop();
     expect(serviceDid).to.be.equal(true);
+    expect(hubDid).to.be.equal(true);
     mm.restore();
   });
 

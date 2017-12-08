@@ -340,6 +340,7 @@ export class ProcfileReconciler {
 
   }
 
+  // TODO: 将 getApplicationStructure 和 getComplexApplicationStructureRepresentation 彻底合并
   /**
    * Get the application's structure
    * @returns {ApplicationStructureRepresentation}
@@ -351,8 +352,8 @@ export class ProcfileReconciler {
 
     for(const process of this.processes) {
       if(
-        process.mode === 'profile.js' &&
-        foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
+        process.mode === 'procfile.js' &&
+        (foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName))
       ) {
         processRepresentations.push(this.processGlobalForProcess(process));
       }

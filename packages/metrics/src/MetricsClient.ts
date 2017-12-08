@@ -5,7 +5,7 @@ import {EnvironmentUtil, Environment} from 'pandora-env';
 import {MetricsMessengerClient} from './util/MessengerUtil';
 import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
-import {MetricSet} from './common/MetricSet';
+import {MetricSet} from './common';
 
 export class MetricsClient extends AbstractIndicator {
 

@@ -2,7 +2,17 @@ import {expect} from 'chai';
 import mm = require('mm');
 import DaemonHandler = require('../../src/daemon/DaemonHandler');
 
+declare const global: {
+  shimIpc: any;
+} & NodeJS.Global;
+
 describe('DaemonHandler', function () {
+
+  before(async () => {
+    if(global.shimIpc) {
+      await global.shimIpc.stop();
+    }
+  });
 
   after(async () => {
     const isRunning = await DaemonHandler.isDaemonRunning();
@@ -15,6 +25,9 @@ describe('DaemonHandler', function () {
       });
       setTimeout(resolve, 1000);
     });
+    if(global.shimIpc) {
+      await global.shimIpc.start();
+    }
   });
 
   it('should isDaemonRunning() be ok when no daemon running', async () => {

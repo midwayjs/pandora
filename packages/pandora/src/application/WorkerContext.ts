@@ -6,6 +6,8 @@ import {
 import {ServiceReconciler} from '../service/ServiceReconciler';
 import {EnvironmentUtil, Environment} from 'pandora-env';
 import {WorkerContextAccessor} from './WorkerContextAccessor';
+import {Facade as HubFacade} from 'pandora-hub';
+import {consoleLogger} from '../universal/LoggerBroker';
 
 /**
  * Class WorkerContext
@@ -18,6 +20,7 @@ export class WorkerContext {
   public processRepresentation: ProcessRepresentation;
   public serviceReconciler: ServiceReconciler;
   public workerContextAccessor: WorkerContextAccessor;
+  private ipcHub: HubFacade;
 
   constructor(processRepresentation: ProcessRepresentation) {
     this.processRepresentation = processRepresentation;
@@ -31,6 +34,22 @@ export class WorkerContext {
    */
   getEnvironment(): Environment {
     return EnvironmentUtil.getInstance().getCurrentEnvironment();
+  }
+
+  getIPCHub() {
+    if(!this.ipcHub) {
+      this.ipcHub = new HubFacade();
+      this.ipcHub.setup({
+        location: {
+          appName: this.processRepresentation.appName,
+          processName: this.processRepresentation.processName,
+          pid: process.pid.toString()
+        },
+        logger: consoleLogger
+      });
+
+    }
+   return this.ipcHub;
   }
 
   /**
@@ -53,6 +72,7 @@ export class WorkerContext {
    * @returns {Promise<void>}
    */
   async start() {
+    await this.getIPCHub().start();
     await this.serviceReconciler.start();
   }
 
@@ -61,6 +81,7 @@ export class WorkerContext {
    * @returns {Promise<void>}
    */
   async stop() {
+    await this.getIPCHub().stop();
     await this.serviceReconciler.stop();
   }
 }

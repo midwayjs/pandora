@@ -9,7 +9,23 @@ import {State} from '../../src/const';
 
 const pathProjectMaster = join(__dirname, '../fixtures/project/master');
 
+declare const global: {
+  shimIpc: any;
+} & NodeJS.Global;
+
 describe('Daemon', function () {
+
+  before(async () => {
+    if(global.shimIpc) {
+      await global.shimIpc.stop();
+    }
+  });
+
+  after(async () => {
+    if(global.shimIpc) {
+      await global.shimIpc.start();
+    }
+  });
 
   describe('method', function () {
 

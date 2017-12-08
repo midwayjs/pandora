@@ -2,11 +2,16 @@ import assert = require('assert');
 import {join} from 'path';
 import {ProcessBootstrap} from '../../src/application/ProcessBootstrap';
 import {promise} from 'pandora-dollar';
+import {SpawnWrapperUtils} from '../../src/daemon/SpawnWrapperUtils';
 
 const pathToProcessBootstrapForkTimeMark = join(__dirname, '../fixtures/application/processBootstrapForkTimeMark.js');
 const pathToProcessBootstrapEntryFnTimeMark = join(__dirname, '../fixtures/application/processBootstrapEntryFnTimeMark.js');
 
 describe('ProcessBootstrap', function () {
+
+  after(() => {
+    SpawnWrapperUtils.unwrap();
+  });
 
   it('should fork start be ok', async () => {
     const processBootstrap = new ProcessBootstrap(pathToProcessBootstrapForkTimeMark, {

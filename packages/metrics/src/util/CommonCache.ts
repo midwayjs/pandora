@@ -30,7 +30,7 @@ export class CommonCache extends EventEmitter {
    * @returns {any}
    */
   query(options: {
-    by?: 'size' | 'time',
+    by?: 'size' | string,
     value?: number,
     order?: 'ASC' | 'DESC',
     offset?: number,
@@ -41,19 +41,18 @@ export class CommonCache extends EventEmitter {
   }) {
     let results;
 
-    if (options.by === 'size') {
-      if (options.value && options.value > 0 && options.value < this.capacity) {
-        results = this.innerCache.slice(-1 * options.value);
-      }
-    }
-
-    if (options.by === 'time') {
-      if (options.value && options.value > 0) {
+    if (options.by && options.value && options.value > 0) {
+      if (options.by === 'size') {
+        if (options.value < this.capacity) {
+          results = this.innerCache.slice(-1 * options.value);
+        }
+      } else {
         results = this.innerCache.filter((data) => {
-          if (data.date) {
-            return data.date >= options.value;
-          }
+          let value = data[options.by];
 
+          if (value) {
+            return value >= options.value;
+          }
           return true;
         });
       }

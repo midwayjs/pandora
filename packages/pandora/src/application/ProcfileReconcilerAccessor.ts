@@ -51,7 +51,10 @@ export class ProcfileReconcilerAccessor {
     if(this.procfileReconciler.getProcessByName(processName)) {
       return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
     }
-    const representation = this.procfileReconciler.defineProcess({processName});
+    const representation = this.procfileReconciler.defineProcess({
+      processName,
+      mode: 'procfile.js'
+    });
     return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }
 

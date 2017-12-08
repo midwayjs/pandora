@@ -58,7 +58,9 @@ export class DaemonBootstrap {
 
 export function cmd(): Promise<void> {
   const daemonBootstrap = new DaemonBootstrap;
-  return daemonBootstrap.start();
+  return daemonBootstrap.start().catch(() => {
+    process.exit(1);
+  });
 }
 
 if (require.main === module) {
