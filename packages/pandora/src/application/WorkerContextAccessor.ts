@@ -102,4 +102,19 @@ export class WorkerContextAccessor {
     return hub.getProxy(objDesc);
   }
 
+  async publishObject(name: string, obj): Promise<void>;
+  async publishObject(objectDescription: ObjectDescription, obj): Promise<void>;
+  async publishObject(target: string | ObjectDescription, obj): Promise<void> {
+    let objDesc = null;
+    if(typeof target === 'string') {
+      objDesc = {
+        name: target
+      };
+    } else {
+      objDesc = target;
+    }
+    const hub = this.context.getIPCHub();
+    return hub.publish(objDesc, obj);
+  }
+
 }

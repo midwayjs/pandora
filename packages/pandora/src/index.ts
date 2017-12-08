@@ -70,6 +70,7 @@ delegate(exports, 'facade')
   .method('getService')
   .method('getServiceClass')
   .method('getHub')
+  .method('publishObject')
   .method('getProxy');
 
 export declare const workerContext: typeof Facade.prototype.workerContext;
@@ -81,4 +82,5 @@ export declare const environment: typeof Facade.prototype.environment;
 export declare const getService: typeof Facade.prototype.getService;
 export declare const getServiceClass: typeof Facade.prototype.getServiceClass;
 export declare const getHub: typeof Facade.prototype.getHub;
+export declare const publishObject: typeof Facade.prototype.publishObject;
 export declare const getProxy: typeof Facade.prototype.getProxy;

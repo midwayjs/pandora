@@ -76,7 +76,7 @@ export class Facade {
    * @param {ObjectDescription} objectDescription
    * @return {Promise<void>}
    */
-  publish (impl: any, objectDescription?: ObjectDescription): Promise<void> {
+  publish(impl: any, objectDescription?: ObjectDescription): Promise<void> {
     return this.getProviderManager().publish(impl, objectDescription);
   }
 
