@@ -1,6 +1,6 @@
 {
   "name": "pandora-hub",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "pandora.js messenge hub",
   "main": "dist/index",
   "typings": "src/index",
