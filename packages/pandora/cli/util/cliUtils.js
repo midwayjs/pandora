@@ -19,6 +19,11 @@ class MyConsole extends console.Console {
 const consoleLogger = exports.consoleLogger = new MyConsole();
 
 exports.preCheck = (targetPath, appName) => {
+
+  if(!targetPath || !appName) {
+    return;
+  }
+
   let appRoot = process.cwd();
   let pkgPath = path.join(appRoot, 'package.json');
 

@@ -61,9 +61,7 @@ exports.handler = function (argv) {
     appName: calcAppName(process.cwd())
   });
 
-  if(argv.entry) {
-    cliUtils.preCheck(argv.entry, sendParams.appName);
-  }
+  cliUtils.preCheck(argv.entry, sendParams.appName);
 
   const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
   consoleLogger.info('Starting ' + sendParams.appName + ' at ' + sendParams.appDir);

@@ -1,5 +1,5 @@
 module.exports = function (pandora) {
-  pandora.applet('./applet').config((ctx) => {
-    return ctx.config.http;
+  pandora.service('httpServer', './httpServer').config((ctx) => {
+    return { port: 1342 };
   });
 };
