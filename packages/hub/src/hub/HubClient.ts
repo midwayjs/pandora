@@ -53,6 +53,10 @@ export class HubClient extends EventEmitter {
     this.emit(message.action, message);
   }
 
+  isReady() {
+    return !!this.messengerClient;
+  }
+
   /**
    * Let this client online
    * @return {Promise<void>}

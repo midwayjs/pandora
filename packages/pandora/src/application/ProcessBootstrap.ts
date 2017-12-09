@@ -154,7 +154,7 @@ export class ProcessBootstrap {
     });
 
     const onProcessTerm = (sig) => {
-      consoleLogger.info(`Application's master receive a signal ${sig}, exit with code 0, pid ${process.pid}`);
+      consoleLogger.info(`Process [name = ${options.appName}, pid = ${process.pid}] receive a signal ${sig}, exit with code 0, pid ${process.pid}`);
       processBootstrap.stop().then(() => {
         process.exit(0);
       }).catch((err) => {

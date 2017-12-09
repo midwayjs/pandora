@@ -23,7 +23,9 @@ export class Facade {
    * @return {Promise<void>}
    */
   async start () {
-    await this.getHubClient().start();
+    if(!this.getHubClient().isReady()) {
+      await this.getHubClient().start();
+    }
   }
 
   /**
@@ -31,7 +33,9 @@ export class Facade {
    * @return {Promise<void>}
    */
   async stop () {
-    await this.getHubClient().stop();
+    if(this.getHubClient().isReady()) {
+      await this.getHubClient().stop();
+    }
   }
 
   /**
