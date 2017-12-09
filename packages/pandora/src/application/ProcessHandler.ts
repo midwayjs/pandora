@@ -2,7 +2,7 @@
 import {ChildProcess, fork} from 'child_process';
 import {
   RELOAD, RELOAD_SUCCESS, RELOAD_ERROR, PANDORA_CWD,
-  State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT
+  State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT
 } from '../const';
 import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
 import {ProcessRepresentation} from '../domain';
@@ -170,8 +170,6 @@ export class ProcessHandler {
    */
   stop(): Promise<void> {
 
-    // TODO: IMPL SHUTDOWN TIMEOUT
-
     if (this.state === State.stopped) {
       return Promise.resolve();
     }
@@ -179,10 +177,18 @@ export class ProcessHandler {
     this.state = State.stopped;
 
     return new Promise((resolve) => {
+      let resolved = false;
       this.forkedProcess.once('exit', () => {
         this.forkedProcess = null;
+        resolved = true;
         resolve();
       });
+      setTimeout(() => {
+        if(!resolved) {
+          this.forkedProcess.kill('SIGKILL');
+        }
+        resolve();
+      }, SHUTDOWN_TIMEOUT);
       this.forkedProcess.kill('SIGTERM');
     });
 
