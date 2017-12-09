@@ -22,7 +22,7 @@ exports.handler = function(argv) {
         return;
       }
       for(const app of data) {
-        if(app.name === argv.appName) {
+        if(app.appName === argv.appName) {
           console.log('PID: ' + app.pids.join(','));
           process.exit(0);
           return;
