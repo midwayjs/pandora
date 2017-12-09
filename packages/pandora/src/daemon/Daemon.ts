@@ -5,7 +5,7 @@ import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE, State} from '../const';
 import * as fs from 'fs';
 import assert = require('assert');
 import messenger from 'pandora-messenger';
-import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
+import {getDaemonLogger} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {Monitor} from '../monitor/Monitor';
 import {DaemonIntrospection} from './DaemonIntrospection';
@@ -187,7 +187,7 @@ export class Daemon extends Base {
     switch (command) {
       case 'start':
         this.startApp(args).then(() => {
-          reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
+          reply({data: `${args.appName} started successfully! Run command [ pandora log ${args.appName} ] to get more information`});
         }).catch(err => {
           reply({error: `${args.appName} started failed, ${err && err.toString()}`});
         });

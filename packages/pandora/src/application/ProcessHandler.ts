@@ -4,7 +4,7 @@ import {
   RELOAD, RELOAD_SUCCESS, RELOAD_ERROR, PANDORA_CWD,
   State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT
 } from '../const';
-import {getDaemonLogger, createAppLogger, getAppLogPath, removeEOL} from '../universal/LoggerBroker';
+import {getDaemonLogger, createAppLogger, removeEOL} from '../universal/LoggerBroker';
 import {ProcessRepresentation} from '../domain';
 import {ILogger} from 'pandora-service-logger/src/domain';
 
@@ -150,7 +150,7 @@ export class ProcessHandler {
             break;
           case State.pending:
           default:
-            const err = new Error('Start failed, log file: ' + getAppLogPath(this.appName, 'nodejs_stdout'));
+            const err = new Error(`Start failed! Run command [ pandora log ${this.appName} ] to get more information`);
             reject(err);
             break;
         }
