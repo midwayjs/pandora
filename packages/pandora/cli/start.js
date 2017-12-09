@@ -58,7 +58,6 @@ exports.handler = function (argv) {
   argv.entry = argv.targetPath;
 
   const sendParams = attachEntryParams('start', argv, {
-    mode: 'procfile.js',
     appName: calcAppName(process.cwd())
   });
 
