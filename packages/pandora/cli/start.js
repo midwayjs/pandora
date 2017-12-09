@@ -1,9 +1,9 @@
 'use strict';
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
-const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
 const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 const cliUtils = require('./util/cliUtils');
+const {consoleLogger} = cliUtils;
 
 exports.command = 'start [targetPath]';
 exports.desc = 'Start an application';
@@ -38,20 +38,20 @@ exports.handler = function (argv) {
 
   if(argv.npm) {
     if(!argv.targetPath) {
-      console.error('[targetPath] is required when --npm flag enabled');
+      consoleLogger.error('[targetPath] is required when --npm flag enabled');
       process.exit(1);
       return;
     }
     if(!argv.name) {
-      console.error('option --name is required when --npm flag enabled');
+      consoleLogger.error('option --name is required when --npm flag enabled');
       process.exit(1);
       return;
     }
     const resolveTarget = cliUtils.dirnameUntilPkgJson(require.resolve(argv.targetPath));
     if(!resolveTarget) {
-      console.error('Can\'t found ' + argv.targetPath + ' from ' + __dirname);
+      consoleLogger.error('Can\'t found ' + argv.targetPath + ' from ' + __dirname);
     }
-    console.log('Resolve ' + argv.targetPath + ' to ' + resolveTarget);
+    consoleLogger.important('Resolve ' + argv.targetPath + ' to ' + resolveTarget);
     argv.targetPath = resolveTarget;
   }
 

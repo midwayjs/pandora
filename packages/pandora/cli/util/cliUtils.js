@@ -2,7 +2,21 @@
 
 const path = require('path');
 const fs = require('fs');
+const colors = require('colors');
 
+class MyConsole extends console.Console {
+  constructor() {
+    super(process.stdout, process.stderr);
+  }
+  important(msg) {
+    this.log(colors.green(`** ${msg} **`));
+  }
+  error(msg) {
+    this.log(colors.red(`${msg}`));
+  }
+}
+
+const consoleLogger = exports.consoleLogger = new MyConsole();
 
 exports.preCheck = (targetPath, appName) => {
   let appRoot = process.cwd();
@@ -11,10 +25,11 @@ exports.preCheck = (targetPath, appName) => {
   // start path must be process.cwd()
   let procFilePath = path.join(appRoot, 'procfile.js');
 
+  targetPath = targetPath.startsWith('/') ? targetPath : './' + targetPath;
+
   if(fs.existsSync(pkgPath) && !fs.existsSync(procFilePath)) {
 
-    const template = `
-  'use strict';
+    const template = `'use strict';
 
 module.exports = (pandora) => {
 
@@ -45,7 +60,7 @@ module.exports = (pandora) => {
 };`;
 
     fs.writeFileSync(procFilePath, template);
-    console.log(`pandora: procfile.js was auto generated at ${procFilePath}`);
+    consoleLogger.important(`The procfile.js was auto generated at ${procFilePath}`);
   }
 };
 

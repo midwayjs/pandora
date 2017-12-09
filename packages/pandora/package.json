@@ -28,6 +28,7 @@
   "dependencies": {
     "cfork": "^1.6.1",
     "chalk": "^2.1.0",
+    "colors": "^1.1.2",
     "commander": "^2.11.0",
     "debug": "^2.6.8",
     "delegates": "^1.0.0",

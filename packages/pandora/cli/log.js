@@ -20,7 +20,7 @@ exports.builder = yargs => {
     'lines': {
       alias: 'l',
       demandOption: false,
-      default: 15,
+      default: 50,
       desc: 'lines of log to output, can be overridden by `--full`',
       type: 'number'
     },
