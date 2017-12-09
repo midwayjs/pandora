@@ -4,7 +4,8 @@ import {State} from '../const';
 import {ProcfileReconciler} from './ProcfileReconciler';
 import {ProcessHandler} from './ProcessHandler';
 import {exists} from 'mz/fs';
-import {backupLog, getAppLogPath} from '../universal/LoggerBroker';
+import {backupLog, createAppLogger, getAppLogPath} from '../universal/LoggerBroker';
+import {ILogger} from 'pandora-service-logger';
 
 export class ApplicationHandler {
 
@@ -14,6 +15,7 @@ export class ApplicationHandler {
   public mountedProcesses: ProcessHandler[];
   private startTime: number;
   private structure: ApplicationStructureRepresentation;
+  private nodejsStdout: ILogger;
 
   constructor(appRepresentation: ApplicationRepresentation) {
     this.state = State.pending;
@@ -76,13 +78,16 @@ export class ApplicationHandler {
   }
 
   public async fillMounted() {
+
+    this.nodejsStdout = createAppLogger(this.appRepresentation.appName, 'nodejs_stdout');
+
     if(this.mountedProcesses) {
       return;
     }
     this.mountedProcesses = [];
     const {process: mountList} = await this.getStructure();
     for(const mount of mountList) {
-      const appHandler = new ProcessHandler(mount);
+      const appHandler = new ProcessHandler(mount, this.nodejsStdout);
       this.mountedProcesses.push(appHandler);
     }
   }
@@ -122,6 +127,9 @@ export class ApplicationHandler {
     }
     for(const appHandler of this.mountedProcesses) {
       await appHandler.stop();
+    }
+    if(this.nodejsStdout) {
+      (<any> this.nodejsStdout).close();
     }
     this.state = State.stopped;
   }

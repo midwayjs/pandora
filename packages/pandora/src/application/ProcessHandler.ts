@@ -102,7 +102,7 @@ export class ProcessHandler {
 
         if (message.action === PROCESS_READY) {
 
-          const msg = `Process [name = ${this.processRepresentation.appName}, pid = ${forkedProcess.pid}] started successfully!`;
+          const msg = `Process [name = ${this.processRepresentation.processName}, pid = ${forkedProcess.pid}] Started successfully!`;
           this.state = State.complete;
           daemonLogger.info(msg);
           nodejsStdout.info(msg);
@@ -111,7 +111,7 @@ export class ProcessHandler {
         } else if (message.action === PROCESS_ERROR) {
 
           this.stop().catch((err) => {
-            const msg = `Process [name = ${this.processRepresentation.appName}, pid = ${forkedProcess.pid}] start error!`;
+            const msg = `Process [name = ${this.processRepresentation.processName}, pid = ${forkedProcess.pid}] Start error!`;
             daemonLogger.error(err);
             nodejsStdout.error(err);
             daemonLogger.error(msg);
@@ -134,7 +134,7 @@ export class ProcessHandler {
       // Here just to distinguish normal exits and exceptional exits, exceptional exits need to restart
       forkedProcess.once('exit', (code, signal) => {
 
-        const msg = `Process [name = ${this.processRepresentation.appName}, pid = ${forkedProcess.pid}] exit with code ${code} and signal ${signal}`;
+        const msg = `Process [name = ${this.processRepresentation.processName}, pid = ${forkedProcess.pid}] Exit with code ${code} and signal ${signal}`;
         daemonLogger.info(msg);
         nodejsStdout.info(msg);
 
