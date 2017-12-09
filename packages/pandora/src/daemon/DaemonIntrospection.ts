@@ -2,6 +2,7 @@ import {Daemon} from './Daemon';
 import {ApplicationIntrospectionResult, DaemonIntrospectionResult} from '../domain';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {getAppLogPath} from '../universal/LoggerBroker';
+import {ApplicationHandler} from '../application/ApplicationHandler';
 
 export class DaemonIntrospection {
 
@@ -75,23 +76,23 @@ export class DaemonIntrospection {
 
 }
 
-async function appToIntrospection(handler): Promise<ApplicationIntrospectionResult> {
+async function appToIntrospection(handler: ApplicationHandler): Promise<ApplicationIntrospectionResult> {
 
   const structure = await handler.getStructure();
 
   return {
     state: handler.state,
-    appName: handler.name,
+    appName: handler.appName,
     appDir: handler.appDir,
     appId: handler.appId,
     pids: handler.pids,
     uptime: handler.uptime,
     startCount: handler.startCount,
     restartCount: handler.restartCount,
-    representation: handler.processRepresentation,
+    representation: handler.appRepresentation,
     complex: structure,
     structure: structure,
-    stdoutLogPath: getAppLogPath(handler.name, 'nodejs_stdout')
+    stdoutLogPath: getAppLogPath(handler.appName, 'nodejs_stdout')
   };
 
 }

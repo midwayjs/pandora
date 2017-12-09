@@ -11,7 +11,7 @@ export default class ServiceLogger implements ILogger {
   protected logger: ILogger;
 
   constructor(serviceCore) {
-    this.prefix = `[appName: ${serviceCore.context.appName}, processName: ${serviceCore.context.processName}}] `;
+    this.prefix = `[appName: ${serviceCore.context.appName}, processName: ${serviceCore.context.processName}] `;
     this.setupLogger(serviceCore);
   }
 

@@ -29,7 +29,10 @@ export class ProcfileReconcilerAccessor {
     this.procfileReconciler = procfileReconciler;
   }
 
-  defaultServiceCategory(name: CategoryReg) {
+  defaultServiceCategory(name?: CategoryReg) {
+    if(!name) {
+      return this.procfileReconciler.getDefaultServiceCategory();
+    }
     this.procfileReconciler.setDefaultServiceCategory(name);
   }
 
@@ -37,7 +40,10 @@ export class ProcfileReconcilerAccessor {
    * Inject environment class
    * @param {Entry} entry
    */
-  environment(entry: Entry) {
+  environment(entry?: Entry): any {
+    if(!entry) {
+      return this.procfileReconciler.getEnvironment();
+    }
     this.procfileReconciler.injectEnvironment(entry);
   }
 
@@ -48,7 +54,7 @@ export class ProcfileReconcilerAccessor {
    */
   process(processName: string): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
-    if(this.procfileReconciler.getProcessByName(processName)) {
+    if(savedRepresentation) {
       return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
     }
     const representation = this.procfileReconciler.defineProcess({
@@ -63,7 +69,7 @@ export class ProcfileReconcilerAccessor {
    * @param entryFile
    * @return {ProcessRepresentationChainModifier}
    */
-  fork(processName: string, entryFile): ProcessRepresentationChainModifier {
+  fork(processName: string, entryFile?): ProcessRepresentationChainModifier {
     const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
     if(savedRepresentation) {
       return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
@@ -81,7 +87,7 @@ export class ProcfileReconcilerAccessor {
    * @param serviceEntry
    * @return {ServiceRepresentationChainModifier}
    */
-  service(serviceName: string, serviceEntry): ServiceRepresentationChainModifier {
+  service(serviceName: string, serviceEntry?): ServiceRepresentationChainModifier {
     ServiceUtils.checkName(serviceName);
     const savedRepresentation = this.procfileReconciler.getServiceByName(serviceName);
     if(savedRepresentation && serviceEntry) {

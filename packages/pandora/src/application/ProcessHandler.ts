@@ -170,6 +170,8 @@ export class ProcessHandler {
    */
   stop(): Promise<void> {
 
+    // TODO: IMPL SHUTDOWN TIMEOUT
+
     if (this.state === State.stopped) {
       return Promise.resolve();
     }

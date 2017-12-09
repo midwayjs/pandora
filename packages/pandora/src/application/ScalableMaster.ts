@@ -292,7 +292,7 @@ export class ScalableMaster extends Base {
       }).catch((err) => {
         consoleLogger.error(err);
         if (process.send) {
-          process.send({action: RELOAD_ERROR});
+          process.send({action: RELOAD_ERROR, error: err});
         }
       });
     }

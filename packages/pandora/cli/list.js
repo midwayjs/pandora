@@ -28,7 +28,6 @@ exports.handler = function () {
       const tableData = [
         [
           'AppName',
-          'Mode',
           'PID',
           'AppDir',
           'State',
@@ -42,12 +41,11 @@ exports.handler = function () {
         state = (state === 'complete' ? chalk.green('Running') : chalk.red(state)).replace(/^.{1}/, (firstChar) => firstChar.toUpperCase());
         tableData.push([
           app.appName,
-          app.mode,
           app.pids.join(','),
           app.appDir,
           state,
           app.uptime,
-          Math.max(0, app.startCount - 1)
+          app.restartCount
         ]);
       }
       console.log(table(tableData));

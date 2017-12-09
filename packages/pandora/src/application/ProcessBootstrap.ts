@@ -163,9 +163,9 @@ export class ProcessBootstrap {
       });
     };
 
-    process.once('SIGQUIT', onProcessTerm.bind('SIGQUIT'));
-    process.once('SIGTERM', onProcessTerm.bind('SIGTERM'));
-    process.once('SIGINT', onProcessTerm.bind('SIGINT'));
+    process.once('SIGQUIT', onProcessTerm.bind(null, 'SIGQUIT'));
+    process.once('SIGTERM', onProcessTerm.bind(null, 'SIGTERM'));
+    process.once('SIGINT', onProcessTerm.bind(null, 'SIGINT'));
 
     processBootstrap.start().then(() => {
       if (process.send) {
