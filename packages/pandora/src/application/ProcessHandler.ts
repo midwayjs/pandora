@@ -176,21 +176,25 @@ export class ProcessHandler {
 
     this.state = State.stopped;
 
+    const forkedProcess = this.forkedProcess;
+    this.forkedProcess = null;
+
     return new Promise((resolve) => {
-      let resolved = false;
-      this.forkedProcess.once('exit', () => {
-        this.forkedProcess = null;
-        resolved = true;
+
+      const timer = setTimeout(() => {
+        forkedProcess.kill('SIGKILL');
+        setTimeout(resolve, 2000);
+      }, SHUTDOWN_TIMEOUT);
+
+      forkedProcess.once('exit', () => {
+        clearTimeout(timer);
         resolve();
       });
-      setTimeout(() => {
-        if(!resolved) {
-          this.forkedProcess.kill('SIGKILL');
-        }
-        resolve();
-      }, SHUTDOWN_TIMEOUT);
-      this.forkedProcess.kill('SIGTERM');
+
+      forkedProcess.kill('SIGTERM');
+
     });
+
 
   }
 
