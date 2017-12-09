@@ -13,6 +13,7 @@ export class Facade {
       .method('getService')
       .method('getServiceClass')
       .method('getHub')
+      .method('publishObject')
       .method('getProxy');
   }
   get workerContext(): WorkerContextAccessor {
@@ -26,6 +27,7 @@ export class Facade {
   getService: typeof WorkerContextAccessor.prototype.getService;
   getServiceClass: typeof WorkerContextAccessor.prototype.getServiceClass;
   getHub: typeof WorkerContextAccessor.prototype.getHub;
+  publishObject: typeof WorkerContextAccessor.prototype.publishObject;
   getProxy: typeof WorkerContextAccessor.prototype.getProxy;
 
   // TODO: Make Facade be a simple Injection temporarily. refactor it: Bring IOC into Pandora.js

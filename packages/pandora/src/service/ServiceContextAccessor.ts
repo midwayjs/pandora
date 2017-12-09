@@ -20,6 +20,7 @@ export class ServiceContextAccessor {
       .method('getService')
       .method('getServiceClass')
       .method('getHub')
+      .method('publishObject')
       .method('getProxy');
 
     delegate(this, 'serviceCore')
@@ -42,6 +43,7 @@ export class ServiceContextAccessor {
   getServiceClass: typeof WorkerContextAccessor.prototype.getServiceClass;
   getHub: typeof WorkerContextAccessor.prototype.getHub;
   getProxy: typeof WorkerContextAccessor.prototype.getProxy;
+  publishObject: typeof WorkerContextAccessor.prototype.publishObject;
 
   // ServiceCore
   logger: typeof ServiceCore.prototype.logger;
