@@ -75,4 +75,39 @@ describe('ProcessContextAccessor', function () {
     mm.restore();
   });
 
+  it('should getHub() be ok', async () => {
+    const processContext = new ProcessContext(precessRepresentation);
+    const accessor = new ProcessContextAccessor(processContext);
+    let times = 0;
+    mm(processContext, 'getIPCHub', () => {
+      times++;
+    });
+    accessor.getHub();
+    expect(times).to.be.equal(1);
+    mm.restore();
+  });
+
+  it('should getProxy() be ok', async () => {
+
+    const processContext = new ProcessContext(precessRepresentation);
+    const accessor = new ProcessContextAccessor(processContext);
+    let times = 0;
+
+    mm(processContext, 'getIPCHub', () => {
+      return {
+        getProxy(objDesc) {
+          times++;
+          expect(objDesc.name).to.be.equal('nameValue');
+        }
+      };
+    });
+
+    await accessor.getProxy('nameValue');
+    await accessor.getProxy({name: 'nameValue'});
+    expect(times).to.be.equal(2);
+
+    mm.restore();
+
+  });
+
 });

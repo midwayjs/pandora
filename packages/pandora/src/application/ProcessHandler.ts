@@ -20,8 +20,12 @@ export class ProcessHandler {
   private daemonLogger: ILogger;
   private forkedProcess: ChildProcess;
 
-  public get name() {
+  public get appName() {
     return this.processRepresentation.appName;
+  }
+
+  public get processName() {
+    return this.processRepresentation.processName;
   }
 
   public get appDir() {
@@ -146,7 +150,7 @@ export class ProcessHandler {
             break;
           case State.pending:
           default:
-            const err = new Error('Start failed, log file: ' + getAppLogPath(this.name, 'nodejs_stdout'));
+            const err = new Error('Start failed, log file: ' + getAppLogPath(this.appName, 'nodejs_stdout'));
             reject(err);
             break;
         }
@@ -188,6 +192,14 @@ export class ProcessHandler {
    * @return {Promise<void>}
    */
   reload(processName?): Promise<void> {
+
+    if(processName !== this.processName && processName != null) {
+      return;
+    }
+
+    if(this.processRepresentation.scale === 1) {
+      return this.stop().then(this.start.bind(this));
+    }
 
     return new Promise((resolve, reject) => {
       this.forkedProcess.once('message', (message) => {

@@ -21,7 +21,7 @@ export class ApplicationHandler {
     this.appRepresentation = appRepresentation;
   }
 
-  public get name() {
+  public get appName() {
     return this.appRepresentation.appName;
   }
 
@@ -45,11 +45,18 @@ export class ApplicationHandler {
 
     let ret = 0;
     if(this.mountedProcesses) {
-      for(const app of this.mountedProcesses) {
-        ret += app.startCount;
+      for(const handler of this.mountedProcesses) {
+        ret += handler.startCount;
       }
     }
+    return ret;
 
+  }
+
+  public get restartCount(): number {
+
+    let ret = this.startCount;
+    ret = Math.max(0, ret - this.mountedProcesses.length);
     return ret;
 
   }
@@ -68,7 +75,7 @@ export class ApplicationHandler {
     return this.structure;
   }
 
-  protected async fillMounted () {
+  public async fillMounted() {
     if(this.mountedProcesses) {
       return;
     }
@@ -83,7 +90,7 @@ export class ApplicationHandler {
   async start () {
 
     if(!await exists(this.appDir)) {
-      new Error(`AppDir ${this.appDir} does not exist`);
+      throw new Error(`AppDir ${this.appDir} does not exist`);
     }
 
     await this.backupStdoutLogFile();
@@ -94,16 +101,16 @@ export class ApplicationHandler {
     }
 
     const startedHandlers = [];
-    for(const appHandler of this.mountedProcesses) {
+    for(const handler of this.mountedProcesses) {
       try {
-        await appHandler.start();
+        await handler.start();
       } catch (error) {
         for(const started of startedHandlers) {
           await started.stop();
         }
         throw error;
       }
-      startedHandlers.push(appHandler);
+      startedHandlers.push(handler);
     }
     this.state = State.complete;
     this.startTime = Date.now();
@@ -126,7 +133,7 @@ export class ApplicationHandler {
   }
 
   async backupStdoutLogFile() {
-    const targetPath = getAppLogPath(this.name, 'nodejs_stdout');
+    const targetPath = getAppLogPath(this.appName, 'nodejs_stdout');
     if(await exists(targetPath)) {
       await backupLog(targetPath);
     }

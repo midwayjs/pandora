@@ -72,7 +72,9 @@ export class ProcessContext {
    * @returns {Promise<void>}
    */
   async start() {
-    await this.getIPCHub().start();
+    if(!process.env.SKIP_IPC_HUB) {
+      await this.getIPCHub().start();
+    }
     await this.serviceReconciler.start();
   }
 
@@ -81,7 +83,9 @@ export class ProcessContext {
    * @returns {Promise<void>}
    */
   async stop() {
-    await this.getIPCHub().stop();
+    if(!process.env.SKIP_IPC_HUB) {
+      await this.getIPCHub().stop();
+    }
     await this.serviceReconciler.stop();
   }
 }

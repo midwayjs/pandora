@@ -93,6 +93,7 @@ export interface ApplicationIntrospectionResult {
   appId: string;
   pids: number[];
   startCount: number;
+  restartCount: number;
   uptime: number;
   representation?: ApplicationRepresentation;
   // the field complex for legacy, it is a alias of structure

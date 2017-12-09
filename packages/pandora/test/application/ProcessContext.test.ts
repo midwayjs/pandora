@@ -50,45 +50,38 @@ describe('ProcessContext', function () {
     mm.restore();
   });
 
+  it('should getIPCHub() be ok', () => {
+    const processContext = new ProcessContext(precessRepresentation);
+    const once = processContext.getIPCHub();
+    const twice = processContext.getIPCHub();
+    expect(once).to.be.ok;
+    expect(once).to.be.equal(twice);
+  });
 
 
   it('should start() be ok', async () => {
     const processContext = new ProcessContext(precessRepresentation);
     let serviceDid = false;
-    let hubDid = false;
     mm(processContext, 'serviceReconciler', {
       start: function () {
         serviceDid = true;
       }
     });
-    mm(processContext, 'ipcHub', {
-      start: function () {
-        hubDid = true;
-      }
-    });
     await processContext.start();
     expect(serviceDid).to.be.equal(true);
-    expect(hubDid).to.be.equal(true);
     mm.restore();
   });
 
   it('should stop() be ok', async () => {
     const processContext = new ProcessContext(precessRepresentation);
     let serviceDid = false;
-    let hubDid = false;
     mm(processContext, 'serviceReconciler', {
       stop: function () {
         serviceDid = true;
       }
     });
-    mm(processContext, 'ipcHub', {
-      stop: function () {
-        hubDid = true;
-      }
-    });
     await processContext.stop();
     expect(serviceDid).to.be.equal(true);
-    expect(hubDid).to.be.equal(true);
     mm.restore();
   });
 

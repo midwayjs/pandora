@@ -4,10 +4,6 @@ const childProcess = require('child_process');
 import {SpawnWrapperUtils} from '../../src/application/SpawnWrapperUtils';
 import {PANDORA_PROCESS} from '../../src/const';
 
-declare const global: {
-  shimIpc: any;
-} & NodeJS.Global;
-
 const fork = function (done) {
   const filePath = require.resolve(path.join(__dirname, `../fixtures/monitor/app.js`));
   const worker = childProcess.fork(filePath, {
@@ -35,9 +31,6 @@ describe('/test/monitor/MonitorManager.test.ts', () => {
 
   before(async() => {
     SpawnWrapperUtils.unwrap();
-    if(global.shimIpc) {
-      await global.shimIpc.start();
-    }
     process.env[PANDORA_PROCESS] = JSON.stringify({
       appName: 'test-app',
       appDir: path.join(__dirname, `../fixtures/monitor`),

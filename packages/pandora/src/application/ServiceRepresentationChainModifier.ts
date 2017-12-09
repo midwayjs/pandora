@@ -88,6 +88,7 @@ export class ServiceRepresentationChainModifier {
    */
   publish(enable: boolean = true) {
     this.representation.publishToHub = enable;
+    return this;
   }
 
   /**

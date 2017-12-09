@@ -7,64 +7,72 @@ import {State} from '../../src/const';
 const pathProjectMaster = join(__dirname, '../fixtures/project/master');
 const pathSimpleForkApp = join(__dirname, '../fixtures/project/simple_fork/app.js');
 
-describe('ApplicationHandler', function () {
+describe('ProcessHandler', function () {
 
-  describe('mode procfile.js', function () {
-    let applicationHandler: ProcessHandler = null;
+  describe('scale great than 1', function () {
+    let processHandler: ProcessHandler = null;
     before(async () => {
-      applicationHandler = new ProcessHandler({
+      processHandler = new ProcessHandler({
         appName: 'test',
         processName: 'worker',
-        appDir: pathProjectMaster
+        appDir: pathProjectMaster,
+        scale: 2
       });
     });
 
     it('should start be ok', async () => {
-      await applicationHandler.start();
-      expect(applicationHandler.state).equal(State.complete);
-      expect(applicationHandler.pid).to.be.ok;
-      expect(applicationHandler.name).equal('test');
+      await processHandler.start();
+      expect(processHandler.state).equal(State.complete);
+      expect(processHandler.pid).to.be.ok;
+      expect(processHandler.appName).equal('test');
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });
 
     it('should reload be ok', async () => {
-      await applicationHandler.reload();
+      await processHandler.reload();
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });
 
     it('should stop be ok', async () => {
-      await applicationHandler.stop();
-      expect(applicationHandler.state).equal(State.stopped);
-      expect(applicationHandler.pid).to.equal(null);
+      await processHandler.stop();
+      expect(processHandler.state).equal(State.stopped);
+      expect(processHandler.pid).to.equal(null);
     });
   });
 
-  describe('mode fork', function () {
-    let applicationHandler: ProcessHandler = null;
+  describe('scale equal 1', function () {
+    let processHandler: ProcessHandler = null;
     before(async () => {
-      applicationHandler = new ProcessHandler({
+      processHandler = new ProcessHandler({
         appName: 'test',
         processName: 'worker',
+        scale: 1,
         entryFile: pathSimpleForkApp,
         appDir: dirname(pathSimpleForkApp)
       });
     });
 
     it('should start be ok', async () => {
-      await applicationHandler.start();
-      expect(applicationHandler.state).equal(State.complete);
-      expect(applicationHandler.pid).to.be.ok;
-      expect(applicationHandler.name).equal('test');
+      await processHandler.start();
+      expect(processHandler.state).equal(State.complete);
+      expect(processHandler.pid).to.be.ok;
+      expect(processHandler.appName).equal('test');
+      const ret = await urllib.request('http://127.0.0.1:1338/');
+      expect(ret.res.data.toString()).equal('simple_fork');
+    });
+
+    it('should reload be ok', async () => {
+      await processHandler.reload();
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('simple_fork');
     });
 
     it('should stop be ok', async () => {
-      await applicationHandler.stop();
-      expect(applicationHandler.state).equal(State.stopped);
-      expect(applicationHandler.pid).to.equal(null);
+      await processHandler.stop();
+      expect(processHandler.state).equal(State.stopped);
+      expect(processHandler.pid).to.equal(null);
     });
   });
 

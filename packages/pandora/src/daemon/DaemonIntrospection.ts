@@ -87,6 +87,7 @@ async function appToIntrospection(handler): Promise<ApplicationIntrospectionResu
     pids: handler.pids,
     uptime: handler.uptime,
     startCount: handler.startCount,
+    restartCount: handler.restartCount,
     representation: handler.processRepresentation,
     complex: structure,
     structure: structure,

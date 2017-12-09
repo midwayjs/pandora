@@ -119,12 +119,14 @@ export class ServiceReconciler {
           }
         }
 
-        const serviceEntry = (<any> serviceRepresentation.serviceEntry).getLazyClass ?
-          (<any> serviceRepresentation.serviceEntry).getLazyClass() : serviceRepresentation.serviceEntry;
+        const serviceEntry = (<any> serviceRepresentation.serviceEntry).getLazyClass
+          ? (<any> serviceRepresentation.serviceEntry).getLazyClass()
+          : serviceRepresentation.serviceEntry;
 
-        serviceRepresentation.config = serviceRepresentation.configResolver ?
-          serviceRepresentation.configResolver(this.context.processContextAccessor, serviceRepresentation.config)
+        serviceRepresentation.config = serviceRepresentation.configResolver
+          ? serviceRepresentation.configResolver(this.context.processContextAccessor, serviceRepresentation.config)
           : serviceRepresentation.config;
+
         const serviceCoreInstance = new ServiceCore({
           context: this.context.processContextAccessor,
           representation: serviceRepresentation,
