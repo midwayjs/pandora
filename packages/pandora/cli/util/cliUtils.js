@@ -25,7 +25,13 @@ exports.preCheck = (targetPath, appName) => {
   // start path must be process.cwd()
   let procFilePath = path.join(appRoot, 'procfile.js');
 
-  targetPath = targetPath.startsWith('/') ? targetPath : './' + targetPath;
+  targetPath = targetPath.startsWith('/') ? targetPath : (
+    targetPath.startsWith('./') ? targetPath : './' + targetPath
+  );
+
+  if(targetPath.startsWith('/')) {
+    return;
+  }
 
   if(fs.existsSync(pkgPath) && !fs.existsSync(procFilePath)) {
 
