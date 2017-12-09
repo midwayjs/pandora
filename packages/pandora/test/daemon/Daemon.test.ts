@@ -9,23 +9,8 @@ import {State} from '../../src/const';
 
 const pathProjectMaster = join(__dirname, '../fixtures/project/master');
 
-declare const global: {
-  shimIpc: any;
-} & NodeJS.Global;
 
 describe('Daemon', function () {
-
-  before(async () => {
-    if(global.shimIpc) {
-      await global.shimIpc.stop();
-    }
-  });
-
-  after(async () => {
-    if(global.shimIpc) {
-      await global.shimIpc.start();
-    }
-  });
 
   describe('method', function () {
 
@@ -53,13 +38,12 @@ describe('Daemon', function () {
 
     it('should startApp() be ok', async () => {
       const applicationHandler = await daemon.startApp({
-        mode: 'procfile.js',
         appName: 'test',
         appDir: pathProjectMaster
       });
       expect(applicationHandler.state).equal(State.complete);
       expect(applicationHandler.appId).to.be.ok;
-      expect(applicationHandler.name).equal('test');
+      expect(applicationHandler.appName).equal('test');
       const ret = await urllib.request('http://127.0.0.1:1338/');
       expect(ret.res.data.toString()).equal('okay');
     });
@@ -79,7 +63,6 @@ describe('Daemon', function () {
       const appDir = '/tj';
       try {
         await daemon.startApp({
-          mode: 'procfile.js',
           appDir,
           appName: 'demo',
         });
@@ -122,7 +105,6 @@ describe('Daemon', function () {
         daemon.handleCommand({
           command: 'start',
           args: {
-            mode: 'procfile.js',
             appName: 'test',
             appDir: pathProjectMaster
           }

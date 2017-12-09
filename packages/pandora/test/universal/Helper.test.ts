@@ -30,11 +30,6 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       appName: 'test-app3',
     });
-    const devEntryConfig = Helpers.attachEntryParams('dev', {
-      appName: 'test-app3',
-    });
-    expect(forkEntryConfig.mode).to.be.equal('fork');
-    expect(devEntryConfig.mode).to.be.equal('cluster');
     expect(forkEntryConfig.entryFile).to.be.equal('./bin/server.js');
     expect(forkEntryConfig.appName).to.be.equal('test-app3');
     expect(process.env[PANDORA_GLOBAL_CONFIG]).to.be.equal('pandora-taobao:pandora-ali');
@@ -51,10 +46,8 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       appName: 'test',
     }, {
-      mode: 'procfile.js',
       appName: Helpers.calcAppName(process.cwd())
     });
-    expect(forkEntryConfig.mode).to.be.equal('procfile.js');
     expect(forkEntryConfig.appName).to.be.equal('test');
     expect(forkEntryConfig.appDir).to.be.equal(process.cwd());
     expect(forkEntryConfig.entryFile).to.be.equal(resolve('./bin/server.js'));
@@ -71,9 +64,7 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       entry: '../../',
     }, {
-      mode: 'procfile.js'
     });
-    expect(forkEntryConfig.mode).to.be.equal('fork');
     expect(forkEntryConfig.appDir).to.be.equal(resolve('../../'));
     expect(forkEntryConfig.entryFile).to.be.equal(undefined);
 

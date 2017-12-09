@@ -2,7 +2,7 @@
 import {ServiceOptions, ServiceRepresentation} from '../domain';
 import ServiceLogger from './ServiceLogger';
 import {Service} from '../domain';
-import {WorkerContextAccessor} from '../application/WorkerContextAccessor';
+import {ProcessContextAccessor} from '../application/ProcessContextAccessor';
 import {SERVICE_PREFIX_IN_HUB} from '../const';
 import {ServiceContextAccessor} from './ServiceContextAccessor';
 
@@ -29,7 +29,7 @@ export class ServiceCore {
 
   }
 
-  get context(): WorkerContextAccessor {
+  get context(): ProcessContextAccessor {
     return this.options.context;
   }
 

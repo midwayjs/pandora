@@ -1,9 +1,9 @@
 import delegate = require('delegates');
-import {WorkerContextAccessor} from './application/WorkerContextAccessor';
+import {ProcessContextAccessor} from './application/ProcessContextAccessor';
 
 export class Facade {
   constructor() {
-    delegate(this, 'workerContext')
+    delegate(this, 'processContext')
       .access('appName')
       .access('appDir')
       .access('processName')
@@ -16,19 +16,19 @@ export class Facade {
       .method('publishObject')
       .method('getProxy');
   }
-  get workerContext(): WorkerContextAccessor {
-    return Facade.get('workerContext');
+  get processContext(): ProcessContextAccessor {
+    return Facade.get('processContext');
   }
-  appName: typeof WorkerContextAccessor.prototype.appName;
-  appDir: typeof WorkerContextAccessor.prototype.appDir;
-  processName: typeof WorkerContextAccessor.prototype.processName;
-  env: typeof WorkerContextAccessor.prototype.env;
-  environment: typeof WorkerContextAccessor.prototype.environment;
-  getService: typeof WorkerContextAccessor.prototype.getService;
-  getServiceClass: typeof WorkerContextAccessor.prototype.getServiceClass;
-  getHub: typeof WorkerContextAccessor.prototype.getHub;
-  publishObject: typeof WorkerContextAccessor.prototype.publishObject;
-  getProxy: typeof WorkerContextAccessor.prototype.getProxy;
+  appName: typeof ProcessContextAccessor.prototype.appName;
+  appDir: typeof ProcessContextAccessor.prototype.appDir;
+  processName: typeof ProcessContextAccessor.prototype.processName;
+  env: typeof ProcessContextAccessor.prototype.env;
+  environment: typeof ProcessContextAccessor.prototype.environment;
+  getService: typeof ProcessContextAccessor.prototype.getService;
+  getServiceClass: typeof ProcessContextAccessor.prototype.getServiceClass;
+  getHub: typeof ProcessContextAccessor.prototype.getHub;
+  publishObject: typeof ProcessContextAccessor.prototype.publishObject;
+  getProxy: typeof ProcessContextAccessor.prototype.getProxy;
 
   // TODO: Make Facade be a simple Injection temporarily. refactor it: Bring IOC into Pandora.js
   private static map: Map<string, any> = new Map();

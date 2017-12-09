@@ -1,11 +1,11 @@
 'use strict';
-import {ComplexHandler} from './ComplexHandler';
+import {ApplicationHandler} from '../application/ApplicationHandler';
 import Base = require('sdk-base');
 import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE, State} from '../const';
 import * as fs from 'fs';
 import assert = require('assert');
 import messenger from 'pandora-messenger';
-import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
+import {getDaemonLogger} from '../universal/LoggerBroker';
 import {ApplicationRepresentation} from '../domain';
 import {Monitor} from '../monitor/Monitor';
 import {DaemonIntrospection} from './DaemonIntrospection';
@@ -22,7 +22,7 @@ export class Daemon extends Base {
   private introspection: DaemonIntrospection;
 
   public state: State;
-  public apps: Map<any, ComplexHandler>;
+  public apps: Map<any, ApplicationHandler>;
 
   constructor() {
     super();
@@ -85,9 +85,9 @@ export class Daemon extends Base {
    * Start an application
    *
    * @param {ApplicationRepresentation} applicationRepresentation
-   * @returns {Promise<ComplexHandler>}
+   * @returns {Promise<ApplicationHandler>}
    */
-  async startApp(applicationRepresentation: ApplicationRepresentation): Promise<ComplexHandler> {
+  async startApp(applicationRepresentation: ApplicationRepresentation): Promise<ApplicationHandler> {
     // require appName and appDir when app start
     const appName = applicationRepresentation.appName;
     const appDir = applicationRepresentation.appDir;
@@ -95,40 +95,40 @@ export class Daemon extends Base {
     assert(appDir, `options.appDir is required!`);
     assert(fs.existsSync(appDir), `${appDir} does not exists!`);
     assert(!this.apps.has(appName), `app[${appName}]  has been initialized!`);
-    const complexHandler = new ComplexHandler(applicationRepresentation);
-    await complexHandler.start();
-    this.apps.set(appName, complexHandler);
-    return complexHandler;
+    const applicationHandler = new ApplicationHandler(applicationRepresentation);
+    await applicationHandler.start();
+    this.apps.set(appName, applicationHandler);
+    return applicationHandler;
   }
 
   /**
    * Reload an application
    * @param appName
    * @param processName
-   * @return {Promise<ComplexHandler>}
+   * @return {Promise<ApplicationHandler>}
    */
-  async reloadApp(appName, processName?): Promise<ComplexHandler> {
-    const complex = this.apps.get(appName);
-    if (!complex) {
+  async reloadApp(appName, processName?): Promise<ApplicationHandler> {
+    const handler = this.apps.get(appName);
+    if (!handler) {
       throw new Error(`${appName} does not exists!`);
     }
-    await complex.reload(processName);
-    return complex;
+    await handler.reload(processName);
+    return handler;
   }
 
   /**
    * stop an application
    * @param appName
-   * @return {Promise<ComplexHandler>}
+   * @return {Promise<ApplicationHandler>}
    */
-  async stopApp(appName): Promise<ComplexHandler> {
-    const complex = this.apps.get(appName);
-    if (!complex) {
+  async stopApp(appName): Promise<ApplicationHandler> {
+    const handler = this.apps.get(appName);
+    if (!handler) {
       throw new Error(`${appName} does not exists!`);
     }
-    await complex.stop();
+    await handler.stop();
     this.apps.delete(appName);
-    return complex;
+    return handler;
   }
 
   /**
@@ -187,7 +187,7 @@ export class Daemon extends Base {
     switch (command) {
       case 'start':
         this.startApp(args).then(() => {
-          reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
+          reply({data: `${args.appName} started successfully! Run command [ pandora log ${args.appName} ] to get more information`});
         }).catch(err => {
           reply({error: `${args.appName} started failed, ${err && err.toString()}`});
         });

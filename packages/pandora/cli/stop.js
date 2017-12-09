@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
-const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
+const {consoleLogger} = require('./util/cliUtils');
 const {send, clearCliExit, isDaemonRunning} = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler'));
 const {calcAppName} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 

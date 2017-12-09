@@ -12,7 +12,7 @@ import {
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
-import {PANDORA_APPLICATION} from '../const';
+import {PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../domain';
 import {getPandoraLogsDir} from '../universal/LoggerBroker';
 import {getPandoraConsoleLogger} from 'pandora-dollar';
@@ -36,11 +36,11 @@ export class MonitorManager {
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
 
-      // cast PANDORA_APPLICATION to type ProcessRepresentation, need processName
+      // cast PANDORA_PROCESS to type ProcessRepresentation, need processName
       let processRepresentation: ProcessRepresentation = <any> {};
 
       try {
-        processRepresentation = JSON.parse(process.env[PANDORA_APPLICATION]);
+        processRepresentation = JSON.parse(process.env[PANDORA_PROCESS]);
       } catch (err) {
         // ignore
       }

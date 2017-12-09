@@ -5,27 +5,27 @@ import {
 } from '../domain';
 import {ServiceReconciler} from '../service/ServiceReconciler';
 import {EnvironmentUtil, Environment} from 'pandora-env';
-import {WorkerContextAccessor} from './WorkerContextAccessor';
+import {ProcessContextAccessor} from './ProcessContextAccessor';
 import {Facade as HubFacade} from 'pandora-hub';
 import {consoleLogger} from '../universal/LoggerBroker';
 
 /**
- * Class WorkerContext
+ * Class ProcessContext
  *  1. Inject the service
  *  2. manage the process's lifecycle, provide start() and stop()
  *  3. drive the lifecycle of the service
  */
-export class WorkerContext {
+export class ProcessContext {
 
   public processRepresentation: ProcessRepresentation;
   public serviceReconciler: ServiceReconciler;
-  public workerContextAccessor: WorkerContextAccessor;
+  public processContextAccessor: ProcessContextAccessor;
   private ipcHub: HubFacade;
 
   constructor(processRepresentation: ProcessRepresentation) {
     this.processRepresentation = processRepresentation;
     this.serviceReconciler = new ServiceReconciler(processRepresentation, this);
-    this.workerContextAccessor = new WorkerContextAccessor(this);
+    this.processContextAccessor = new ProcessContextAccessor(this);
   }
 
   /**
@@ -72,7 +72,9 @@ export class WorkerContext {
    * @returns {Promise<void>}
    */
   async start() {
-    await this.getIPCHub().start();
+    if(!process.env.SKIP_IPC_HUB) {
+      await this.getIPCHub().start();
+    }
     await this.serviceReconciler.start();
   }
 
@@ -81,7 +83,9 @@ export class WorkerContext {
    * @returns {Promise<void>}
    */
   async stop() {
-    await this.getIPCHub().stop();
+    if(!process.env.SKIP_IPC_HUB) {
+      await this.getIPCHub().stop();
+    }
     await this.serviceReconciler.stop();
   }
 }

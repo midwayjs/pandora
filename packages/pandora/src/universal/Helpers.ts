@@ -79,7 +79,7 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
 
   const sendConfig2nd = {};
   for(const key of ['appName', 'appDir', 'entryFileBaseDir', 'entryFile',
-    'scale', 'mode', 'globalEnv', 'globalArgv']) {
+    'scale', 'globalEnv', 'globalArgv']) {
     if(sendConfig.hasOwnProperty(key)) {
       sendConfig2nd[key] = sendConfig[key];
     }

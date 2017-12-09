@@ -13,6 +13,9 @@ module.exports = function (pandora) {
     async getPid() {
       return process.pid;
     }
+    async stop() {
+      console.log('ServiceA called stop');
+    }
   }
   class ServiceB {
     constructor(context) {
@@ -28,6 +31,9 @@ module.exports = function (pandora) {
       console.log('pid from self', process.pid);
       console.log();
       console.log();
+    }
+    async stop() {
+      console.log('ServiceB called stop');
     }
   }
 

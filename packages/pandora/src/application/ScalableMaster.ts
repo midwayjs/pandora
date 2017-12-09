@@ -1,31 +1,28 @@
 'use strict';
-import {ApplicationRepresentation, ApplicationStructureRepresentation, ProcessRepresentation} from '../domain';
+import {ProcessRepresentation} from '../domain';
 import cluster = require('cluster');
-import {cpus} from 'os';
 import {format} from 'util';
 import * as $ from 'pandora-dollar';
 import Base = require('sdk-base');
 import {consoleLogger} from '../universal/LoggerBroker';
-import {ProcfileReconciler} from './ProcfileReconciler';
 import {
-  READY, WORKER_READY, APP_START_SUCCESS, RELOAD, SHUTDOWN, WORKER_EXIT, ERROR,
-  RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN
+  PROCESS_READY, WORKER_READY, RELOAD, SHUTDOWN, WORKER_EXIT, PROCESS_ERROR,
+  RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN, defaultWorkerCount
 } from '../const';
 
 const cFork = require('../../3rd/fork');
-const PathWorkerProcessBootstrap = require.resolve('./WorkerProcessBootstrap');
+const pathToProcessBootstrap = require.resolve('./ProcessBootstrap');
 const $ProcessName = Symbol('ProcessName');
 
-export const defaultWorkerCount = process.env.DEFAULT_WORKER_COUNT ? parseInt(process.env.DEFAULT_WORKER_COUNT) : cpus().length;
-
 /**
- * Class Master
+ * Class ScalableMaster
+ * For kind of the process, that's field scale great than 1
  */
-export class ProcessMaster extends Base {
+export class ScalableMaster extends Base {
+
   public started: boolean = false;
   private workers: Map<any, any> = new Map();
-  private appRepresentation: ApplicationRepresentation = null;
-  private procfileReconciler: ProcfileReconciler = null;
+  private processRepresentation: ProcessRepresentation = null;
 
   private get workersSet() {
     const workers = [];
@@ -39,10 +36,9 @@ export class ProcessMaster extends Base {
     return workers;
   }
 
-  constructor(appRepresentation: ApplicationRepresentation) {
+  constructor(processRepresentation: ProcessRepresentation) {
     super();
-    this.appRepresentation = appRepresentation;
-    this.procfileReconciler = new ProcfileReconciler(appRepresentation);
+    this.processRepresentation = processRepresentation;
   }
 
   /**
@@ -59,33 +55,14 @@ export class ProcessMaster extends Base {
    */
   async start() {
 
-    this.procfileReconciler.discover();
-
-    if (!this.procfileReconciler.getComplexApplicationStructureRepresentation().mount.length) {
-      throw new Error(`Can't got any process at ${this.appRepresentation.appDir}`);
-    }
-
-    // Pass appId to child process through process.env
-    process.env.appId = process.pid;
-
-    // Listen the events of the cluster
+    // Listen the events of the module cluster
     this.listenEvents();
 
-    // Start process
-    const appStructRepresent: ApplicationStructureRepresentation = this.procfileReconciler.getApplicationStructure();
-    const {process: processRepresentSet} = appStructRepresent;
-    for (const processRepresent of processRepresentSet) {
-      await this.forkWorker({
-        ...this.appRepresentation,
-        ...processRepresent
-      });
-    }
+    // Start to cluster.fork()
+    await this.forkWorker(this.processRepresentation);
 
-    // Mark self started
+    // Mark self as started
     this.started = true;
-
-    // Notify all workers the application successful started
-    this.notify(APP_START_SUCCESS, {workers: this.workersSet});
   }
 
   /**
@@ -96,7 +73,7 @@ export class ProcessMaster extends Base {
     const promises = [];
     for(const id of Object.keys(cluster.workers)) {
       const worker = cluster.workers[id];
-      promises.push(this.sendWorkerShutdown(worker));
+      promises.push(this.sendShutdownToWorker(worker));
     }
     await Promise.all(promises);
     await Promise.all(Object.keys(cluster.workers).map(async (id) => {
@@ -112,33 +89,10 @@ export class ProcessMaster extends Base {
    * @return {Promise<void>}
    */
   public async reload(targetName?) {
-    /*
-     * The main logic is
-     * 1. Send a shutdown message to workers, the workers will to do some processing after receive that message
-     * 2. Refork the worker after receive reply message or timeout
-     * @param name {string} appName
-     * @return {Promise}
-     */
-    const workers = {};
-    for (let pid of this.workers.keys()) {
-      const worker = this.workers.get(pid);
-      const name = worker[$ProcessName];
-      if (!workers[name]) {
-        workers[name] = [];
-      }
-      workers[name].push(worker);
-    }
-    if (workers[targetName]) {
-      await this.reloadNamedWorkers(workers[targetName]);
+    if(targetName !== this.processRepresentation.processName && targetName != null) {
       return;
     }
-    const appStructRepresent: ApplicationStructureRepresentation =
-      this.procfileReconciler.getApplicationStructure();
-    const {process: processRepresentSet} = appStructRepresent;
-    for (const processRepresent of processRepresentSet) {
-      await this.reloadNamedWorkers(workers[processRepresent.processName]);
-    }
-
+    await this.reloadNamedWorkers(this.workers.values());
   }
 
   /**
@@ -160,7 +114,7 @@ export class ProcessMaster extends Base {
    * @return {Promise<any>}
    */
   private reloadWorker(worker): Promise<any> {
-    return this.sendWorkerShutdown(worker).then(() => {
+    return this.sendShutdownToWorker(worker).then(() => {
       return new Promise((resolve) => {
         let setting = worker._clusterSettings;
         if (setting) {
@@ -179,12 +133,12 @@ export class ProcessMaster extends Base {
     });
   }
 
-  private sendWorkerShutdown(worker): Promise<any> {
+  private sendShutdownToWorker(worker): Promise<any> {
     return new Promise((resolve) => {
       let timer = setTimeout(() => {
         resolve();
       }, SHUTDOWN_TIMEOUT);
-      // Mark it doesn't want to refork by 3rd lib cfork
+      // tell 3rd lib cfork, it do want to be reforked
       worker._refork = false;
       worker.send({action: SHUTDOWN});
       worker.on('message', message => {
@@ -198,7 +152,7 @@ export class ProcessMaster extends Base {
   }
 
   /**
-   * Kill a worker by in a SOP way
+   * Kill a worker by a SOP
    * @param worker
    * @return {Promise<void>}
    */
@@ -219,7 +173,7 @@ export class ProcessMaster extends Base {
 
 
   /**
-   * Send message to all the workers
+   * Send message to all workers
    * @param action
    * @param data
    */
@@ -233,13 +187,18 @@ export class ProcessMaster extends Base {
   }
 
   /**
-   * Fork a new worker, keep that live
+   * Fork a new worker, keep it live
    * @param {ProcessRepresentation} processRepresentation
    * @return {Promise<any>}
    */
   private forkWorker(processRepresentation: ProcessRepresentation): Promise<any> {
 
-    const workerArgs = ['--params', JSON.stringify(processRepresentation)];
+    const processRepresentationToWorker = {
+      ...processRepresentation,
+      // Set scale to 1, so ProcessBootstrap can see it is a worker not a master
+      scale: 1
+    };
+    const workerArgs = ['--params', JSON.stringify(processRepresentationToWorker)];
     const count = processRepresentation.scale === 'auto' ? defaultWorkerCount : (processRepresentation.scale || defaultWorkerCount);
     const execArgv = process.execArgv.concat(processRepresentation.argv || []);
 
@@ -250,12 +209,13 @@ export class ProcessMaster extends Base {
 
     cFork({
       env: processRepresentation.env,
-      exec: PathWorkerProcessBootstrap,
+      exec: pathToProcessBootstrap,
       execArgv,
       args: workerArgs,
       silent: false,
       count: count,
-      // TODO: Set the refork to be false in the local environment, it will not restart child process that exited by exception. It's easy to find bugs.
+      // TODO: Set field refork to be false when started by pandora dev, it will not be restarted.
+      // TODO: It will exited course by exception, easy to find bugs.
       refork: true
     });
 
@@ -265,7 +225,7 @@ export class ProcessMaster extends Base {
       const onFork = (worker) => {
         worker.once('message', (message) => {
           const action = message && message.action;
-          if (action === READY) {
+          if (action === PROCESS_READY) {
             successCount++;
             worker[$ProcessName] = processRepresentation.processName;
             this.workers.set(worker.process.pid, worker);
@@ -275,7 +235,7 @@ export class ProcessMaster extends Base {
               cluster.removeListener('fork', onFork);
               resolve();
             }
-          } else if (action === ERROR) {
+          } else if (action === PROCESS_ERROR) {
             const message = format(
               'web-worker#%s:%s start error (exitedAfterDisconnect: %s, state: %s), current workers: %j',
               worker.id, worker.process.pid,
@@ -317,23 +277,6 @@ export class ProcessMaster extends Base {
     cluster.on('exit', this.onWorkerDie.bind(this));
     cluster.on('fork', this.onClusterFork.bind(this));
     process.on('message', this.onProcessMessage.bind(this));
-    process.once('SIGQUIT', this.onProcessTerm.bind(this, 'SIGQUIT'));
-    process.once('SIGTERM', this.onProcessTerm.bind(this, 'SIGTERM'));
-    process.once('SIGINT', this.onProcessTerm.bind(this, 'SIGINT'));
-  }
-
-  /**
-   * Handing the process term signal
-   * @param sig
-   */
-  onProcessTerm(sig) {
-    consoleLogger.info(`Application's master receive a signal ${sig}, exit with code 0, pid ${process.pid}`);
-    this.stop().then(() => {
-      process.exit(0);
-    }).catch((err) => {
-      consoleLogger.error(err);
-      process.exit(1);
-    });
   }
 
   /**
@@ -349,7 +292,7 @@ export class ProcessMaster extends Base {
       }).catch((err) => {
         consoleLogger.error(err);
         if (process.send) {
-          process.send({action: RELOAD_ERROR});
+          process.send({action: RELOAD_ERROR, error: err});
         }
       });
     }
@@ -360,7 +303,7 @@ export class ProcessMaster extends Base {
     worker.once('message', (message) => {
       process.nextTick(() => {
         const action = message && message.action;
-        if (action === READY) {
+        if (action === PROCESS_READY) {
           const pid = worker.process.pid;
           this.notify(WORKER_READY, {
             pid: String(pid),
@@ -385,11 +328,3 @@ export class ProcessMaster extends Base {
   }
 }
 
-export default (appRepresentation: ApplicationRepresentation, done) => {
-  const master = new ProcessMaster(appRepresentation);
-  master.start().then(() => {
-    done();
-  }).catch(err => {
-    done(err);
-  });
-};

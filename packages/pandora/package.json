@@ -28,6 +28,7 @@
   "dependencies": {
     "cfork": "^1.6.1",
     "chalk": "^2.1.0",
+    "colors": "^1.1.2",
     "commander": "^2.11.0",
     "debug": "^2.6.8",
     "delegates": "^1.0.0",
@@ -57,10 +58,12 @@
   },
   "devDependencies": {
     "@types/chai": "^3.5.2",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.41",
     "@types/mz": "^0.0.32",
     "@types/node": "0.0.2",
     "chai": "^3.5.0",
+    "chai-as-promised": "^7.1.1",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^11.2.1",

@@ -1,6 +1,5 @@
-import {WorkerContextAccessor} from './application/WorkerContextAccessor';
+import {ProcessContextAccessor} from './application/ProcessContextAccessor';
 import {ServiceCore} from './service/ServiceCore';
-import {ServiceContextAccessor} from './service/ServiceContextAccessor';
 import {State} from './const';
 
 export type ProcessScale = number | 'auto';
@@ -19,10 +18,7 @@ export interface EntryClass {
 export interface ApplicationRepresentation {
   appName: string;
   appDir: string;
-  entryFileBaseDir?: string;
-  entryFile?: string;
   scale?: ProcessScale;
-  mode?: string;
   globalEnv?: any;
   globalArgv?: any[];
 }
@@ -34,18 +30,12 @@ export interface ProcessRepresentation extends ApplicationRepresentation {
   env?: any;
   argv?: any[];
   service?: Array<ServiceRepresentation>;
+  entryFileBaseDir?: string;
+  entryFile?: string;
 }
 
-// For ProcessMaster
 export interface ApplicationStructureRepresentation extends ApplicationRepresentation {
   process: Array<ProcessRepresentation>;
-}
-
-export type MountRepresentation = ApplicationStructureRepresentation | ProcessRepresentation;
-
-// For Daemon
-export interface ComplexApplicationStructureRepresentation {
-  mount: Array<MountRepresentation>;
 }
 
 
@@ -71,7 +61,7 @@ export interface ServiceInstanceReference {
 }
 
 export interface ServiceOptions {
-  context: WorkerContextAccessor;
+  context: ProcessContextAccessor;
   representation: ServiceRepresentation;
   depInstances: DepInstances;
 }
@@ -84,17 +74,12 @@ export {MessengerClient, MessengerServer} from 'pandora-messenger';
 
 export interface ServiceConstructor {
   dependencies: string[];
-  getProxy(): Service;
 }
 
 export interface Service {
-
-  context?: ServiceContextAccessor;
-
+  // new(context?: ServiceContextAccessor): Service;
   start?(): Promise<void> | void;
-
   stop?(): Promise<void> | void;
-
 }
 
 
@@ -103,15 +88,17 @@ export interface Service {
 
 export interface ApplicationIntrospectionResult {
   state: State;
-  mode: string;
   appName: string;
   appDir: string;
   appId: string;
   pids: number[];
   startCount: number;
+  restartCount: number;
   uptime: number;
   representation?: ApplicationRepresentation;
-  complex?: ComplexApplicationStructureRepresentation;
+  // the field complex for legacy, it is a alias of structure
+  complex?: ApplicationStructureRepresentation;
+  structure?: ApplicationStructureRepresentation;
   stdoutLogPath?: string;
 }
 

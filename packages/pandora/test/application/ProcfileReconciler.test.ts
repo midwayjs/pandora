@@ -176,14 +176,90 @@ describe('ProcfileReconciler', function () {
       expect(allInjectedService[0].category).equal('weak-all');
     });
 
+    it('should dropServiceByName() be ok', () => {
+
+      const reconciler = new ProcfileReconcilerNoDefaultService({
+        appName: 'test',
+        appDir: pathProjectSimple1
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.service('TestService', TestService).dependency('baba');
+      });
+      const allInjectedService = reconciler.getServicesByCategory('all');
+      expect(allInjectedService).to.deep.include({
+        config: {},
+        serviceName: 'TestService',
+        category: reconciler.getDefaultServiceCategory(),
+        serviceEntry: TestService,
+        dependencies: ['depServiceA', 'baba']
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.service('TestService').drop();
+      });
+      const allInjectedService2 = reconciler.getServicesByCategory('all');
+      expect(allInjectedService2.length).to.be.equal(allInjectedService.length - 1);
+
+    });
+
   });
 
-  describe('complex', function () {
+  describe('new standard ( process )', function () {
 
-    it('should echoComplex() be ok', () => {
+
+    it('should be ok without fork()', async () => {
+      const reconciler = new ProcfileReconciler({
+        appName: 'test',
+        appDir: '-'
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.process('a');
+        pandora.process('b');
+        pandora.service('serviceA', class ServiceA {}).process('a');
+        pandora.service('serviceB', class ServiceA {}).process('b');
+      });
+      const appStruc = reconciler.getApplicationStructure();
+      expect(appStruc.process.length).to.be.eq(2);
+    });
+
+    it('should be ok with fork()', async () => {
+      const reconciler = new ProcfileReconciler({
+        appName: 'test',
+        appDir: '-'
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.process('a');
+        pandora.process('b');
+        pandora.fork('c', './true');
+        pandora.service('serviceA', class ServiceA {}).process('a');
+        pandora.service('serviceB', class ServiceA {}).process('b');
+      });
+      const appStruc = reconciler.getApplicationStructure();
+      expect(appStruc.process.length).to.be.eq(3);
+    });
+
+    it('should dropProcess() be ok', async () => {
+      const reconciler = new ProcfileReconciler({
+        appName: 'test',
+        appDir: '-'
+      });
+      reconciler.callProcfile((pandora) => {
+        pandora.process('a');
+      });
+      expect(reconciler.getProcessByName('a')).to.be.ok;
+      reconciler.callProcfile((pandora) => {
+        pandora.process('a').drop();
+      });
+      expect(reconciler.getProcessByName('a')).to.be.not.ok;
+    });
+
+  });
+
+  describe('structure', function () {
+
+    it('should echoStructure() be ok', () => {
 
       const tmpFile = join(tmpdir(), 'ProcfileReconciler.test.' + Date.now());
-      ProcfileReconciler.echoComplex({
+      ProcfileReconciler.echoStructure({
         appName: 'test',
         appDir: pathProjectSimple1
       }, tmpFile);
@@ -201,12 +277,12 @@ describe('ProcfileReconciler', function () {
         appDir: pathProjectSimple1
       };
 
-      const complex = await ProcfileReconciler.getComplexViaNewProcess(ar);
+      const structureRepresentation = await ProcfileReconciler.getStructureViaNewProcess(ar);
       const reconcile = new ProcfileReconciler(ar);
       reconcile.discover();
-      const complexExpect = reconcile.getComplexApplicationStructureRepresentation();
-      expect(complex).to.deep.equal(complexExpect);
-      expect(complex.mount.length).to.be.gte(1);
+      const structureRepresentation2 = reconcile.getApplicationStructure();
+      expect(structureRepresentation).to.deep.equal(structureRepresentation2);
+      expect(structureRepresentation.process.length).to.be.gte(1);
 
     });
 

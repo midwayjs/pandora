@@ -1,7 +1,7 @@
 const http = require('http');
 module.exports = class HTTPServer {
-  constructor(options) {
-    this.config = options.config;
+  constructor(context) {
+    this.config = context.config;
   }
   start () {
     http.createServer((req, res) => {

@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
-const {consoleLogger} = require(path.join(PANDORA_LIB_HOME, 'universal/LoggerBroker'));
+const {consoleLogger} = require('./util/cliUtils');
 const {send, isDaemonRunning} = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler'));
 
 exports.command = 'pid <appName>';
@@ -22,7 +22,7 @@ exports.handler = function(argv) {
         return;
       }
       for(const app of data) {
-        if(app.name === argv.appName) {
+        if(app.appName === argv.appName) {
           console.log('PID: ' + app.pids.join(','));
           process.exit(0);
           return;

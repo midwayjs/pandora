@@ -9,7 +9,6 @@ describe('ServiceLogger', function () {
 
   it('should create logger be ok', () => {
     logger = new ServiceLogger({
-      workMode: 'worker',
       context: {
         appName: 'testApp',
         processName: 'worker',
@@ -23,7 +22,7 @@ describe('ServiceLogger', function () {
 
   it('should doPrefix() be ok', () => {
     const res = logger.doPrefix(['test string']);
-    expect(res[0]).to.be.equal('[appName: testApp, processName: worker, workMode: worker] test string');
+    expect(res[0]).to.be.equal('[appName: testApp, processName: worker] test string');
   });
 
   it('should debug() be ok', () => {

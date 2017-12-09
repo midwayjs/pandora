@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import {WorkerContext} from '../../src/application/WorkerContext';
+import {ProcessContext} from '../../src/application/ProcessContext';
 import mm = require('mm');
 
-describe('WorkerContext', function () {
+describe('ProcessContext', function () {
   const precessRepresentation = {
     processName: 'worker',
     appName: 'test',
@@ -10,19 +10,19 @@ describe('WorkerContext', function () {
   };
 
   it('should getEnvironment() be ok', () => {
-    const workerContext = new WorkerContext(precessRepresentation);
-    expect(workerContext.getEnvironment()).to.be.ok;
+    const processContext = new ProcessContext(precessRepresentation);
+    expect(processContext.getEnvironment()).to.be.ok;
   });
 
   it('should bindService() be ok', () => {
-    const workerContext = new WorkerContext(precessRepresentation);
+    const processContext = new ProcessContext(precessRepresentation);
     const receivedService = [];
-    mm(workerContext, 'serviceReconciler', {
+    mm(processContext, 'serviceReconciler', {
       receiveServiceRepresentation: function (service) {
         receivedService.push(service);
       }
     });
-    workerContext.bindService({
+    processContext.bindService({
       serviceEntry: null,
       serviceName: 'testService'
     });
@@ -31,14 +31,14 @@ describe('WorkerContext', function () {
   });
 
   it('should bindService() by array be ok', () => {
-    const workerContext = new WorkerContext(precessRepresentation);
+    const processContext = new ProcessContext(precessRepresentation);
     const receivedService = [];
-    mm(workerContext, 'serviceReconciler', {
+    mm(processContext, 'serviceReconciler', {
       receiveServiceRepresentation: function (service) {
         receivedService.push(service);
       }
     });
-    workerContext.bindService([{
+    processContext.bindService([{
       serviceEntry: null,
       serviceName: 'testService1'
     }, {
@@ -50,45 +50,38 @@ describe('WorkerContext', function () {
     mm.restore();
   });
 
+  it('should getIPCHub() be ok', () => {
+    const processContext = new ProcessContext(precessRepresentation);
+    const once = processContext.getIPCHub();
+    const twice = processContext.getIPCHub();
+    expect(once).to.be.ok;
+    expect(once).to.be.equal(twice);
+  });
 
 
   it('should start() be ok', async () => {
-    const workerContext = new WorkerContext(precessRepresentation);
+    const processContext = new ProcessContext(precessRepresentation);
     let serviceDid = false;
-    let hubDid = false;
-    mm(workerContext, 'serviceReconciler', {
+    mm(processContext, 'serviceReconciler', {
       start: function () {
         serviceDid = true;
       }
     });
-    mm(workerContext, 'ipcHub', {
-      start: function () {
-        hubDid = true;
-      }
-    });
-    await workerContext.start();
+    await processContext.start();
     expect(serviceDid).to.be.equal(true);
-    expect(hubDid).to.be.equal(true);
     mm.restore();
   });
 
   it('should stop() be ok', async () => {
-    const workerContext = new WorkerContext(precessRepresentation);
+    const processContext = new ProcessContext(precessRepresentation);
     let serviceDid = false;
-    let hubDid = false;
-    mm(workerContext, 'serviceReconciler', {
+    mm(processContext, 'serviceReconciler', {
       stop: function () {
         serviceDid = true;
       }
     });
-    mm(workerContext, 'ipcHub', {
-      stop: function () {
-        hubDid = true;
-      }
-    });
-    await workerContext.stop();
+    await processContext.stop();
     expect(serviceDid).to.be.equal(true);
-    expect(hubDid).to.be.equal(true);
     mm.restore();
   });
 
