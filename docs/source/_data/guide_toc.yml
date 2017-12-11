@@ -27,3 +27,4 @@ monitor:
 
 other:
   dashboard: /other/dashboard.html
+  typescript: /other/typescript.html

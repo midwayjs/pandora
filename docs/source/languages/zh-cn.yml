@@ -29,4 +29,5 @@ guide_toc:
   trace: "Trace 体系"
   other: "扩展功能"
   dashboard: "本地 Dashboard"
+  typescript: "启动 TypeScript 项目"
 
