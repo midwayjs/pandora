@@ -26,14 +26,19 @@ exports.builder = (yargs) => {
     describe: 'Node.js argv, such as --argv="--expose-gc --max_old_space_size=500"'
   });
 
+  yargs.option('inspect', {
+    describe: 'Activate inspector',
+    boolean: true
+  });
+
 };
 
 exports.handler = function (argv) {
 
-  if(argv.inspector) {
-    console.log('Inspector coming soon...');
-    process.exit(0);
+  if(argv['inspect']) {
+    argv.argv = (argv.argv ? argv.argv + ' ' : '') + '--inspect=0';
   }
+
   argv.entry = argv.targetPath;
   const sendParams = attachEntryParams('dev', argv, {
     appName: calcAppName(process.cwd())
