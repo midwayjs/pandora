@@ -22,7 +22,10 @@ Pandora.js 会在下述位置查找 `procfile.js`。
 
 <!--* ${appDir}/node_modules/.bin/procfile.js （为了框架注入默认行为，为未来保留接口，暂无应用）-->
 
+
 ## 启动一个简单的 Node.js 程序
+
+下文中 `pandora` 对象的类型为 `ProcfileReconcilerAccessor`，你可以点击查看详细 API。
 
 我们先看个例子：
 
