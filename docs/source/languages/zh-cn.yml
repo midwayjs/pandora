@@ -20,7 +20,7 @@ guide_toc:
   service_std: "自定义服务"
   environment_std: "自定义环境"
   application_life_cycle: "应用生命周期"
-  service_with_ipc_hub: "进程间通信"
+  ipc_hub: "进程间通信"
   monitor: "标准监控体系"
   monitor_std: "监控体系介绍"
   endpoint: "使用和扩展 EndPoint"

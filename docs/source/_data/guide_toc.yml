@@ -11,12 +11,12 @@ base:
   monitor_inner: /base/monitor_inner.html
 
 process:
-  fork_and_cluster: /process/fork_and_cluster.html
   process_std: /process/process_std.html
   service_std: /process/service_std.html
+  fork_and_cluster: /process/fork_and_cluster.html
   environment_std: /process/environment_std.html
   application_life_cycle: /process/application_life_cycle.html
-  service_with_ipc_hub: /process/service_with_ipc_hub.html
+  ipc_hub: /process/ipc_hub.html
 
 monitor:
   monitor_std: /monitor/monitor_std.html
