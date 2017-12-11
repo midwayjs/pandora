@@ -55,6 +55,18 @@ export class UrllibPatcher extends Patcher {
     return args;
   }
 
+  beforeFinish(span, err, data, res) {
+    span.setTag('error', {
+      type: 'bool',
+      value: !!err
+    });
+
+    span.setTag('http.status_code', {
+      type: 'number',
+      value: res.statusCode
+    });
+  }
+
   shimmer() {
     const self = this;
     const traceManager = this.getTraceManager();
@@ -87,16 +99,7 @@ export class UrllibPatcher extends Patcher {
             return request.call(this, url, args, function(err, data, res) {
               tracer.setCurrentSpan(span);
 
-              span.setTag('error', {
-                type: 'bool',
-                value: !!err
-              });
-
-              span.setTag('http.status_code', {
-                type: 'number',
-                value: res.statusCode
-              });
-
+              self.beforeFinish(span, err, data, res);
               span.finish();
 
               callback(err, data, res);
