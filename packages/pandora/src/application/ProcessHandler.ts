@@ -94,6 +94,7 @@ export class ProcessHandler {
       const forkedProcess = fork(pathProcessBootstrap, args, <any> {
         cwd: representation.appDir,
         execArgv,
+        detached: true,
         stdio: ['ipc', 'pipe', 'pipe'],
         env
       });
