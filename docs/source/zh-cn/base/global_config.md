@@ -8,10 +8,7 @@ Pandora.js 设计了一套配置文件，希望能和应用的配置进行隔离
 
 Pandora.js 提供了一组默认的配置来保证基础脚本的运行，一般指定了几项标准的内容：
 
-- process 进程描述内容
 - environment 标准的环境实现类
-- configurator 配置获取类
-- service 全局服务类
 - actuatorServer 监控实现类
 - actuator 监控描述内容
 - reporter 上报实现
@@ -20,46 +17,7 @@ Pandora.js 提供了一组默认的配置来保证基础脚本的运行，一般
 
 ```javascript
 export default {
-  process: {
-    defaultCategory: 'worker',
-    category: {
-      agent: {
-        order: 0,
-        scale: 1,
-        argv: [],
-        env: {
-          agent: 'true'
-        }
-      },
-      worker: {
-        order: 1,
-        argv: [],
-        scale: 'auto',
-        env: {}
-      },
-      background: {
-        order: 2,
-        scale: 1,
-        argv: [],
-        env: {
-          background: 'true'
-        }
-      }
-    }
-  },
   environment: DefaultEnvironment,
-  configurator: DefaultConfigurator,
-  service: {
-    defaultCategory: 'all',
-    injection: {
-      'logger': {
-        entry: LoggerService,
-        config: (ctx) => {
-          return ctx.config.loggerService;
-        }
-      }
-    }
-  },
   actuatorServer: MetricsActuatorServer,
   actuator: {
     http: {

@@ -3,9 +3,11 @@ title: 调试应用
 
 ## 在本地命令行启动项目
 
-如果是全局安装的 Pandora.js ，如下命令即可（如有启动参数，与 start 命令相同）
+如果是全局安装的 Pandora.js ，如下命令即可（如有启动参数，与 start 命令相同）。
 
-> pandora dev ./
+```bash
+pandora dev
+```
 
 如果是项目内安装的：
 
@@ -14,7 +16,7 @@ title: 调试应用
 ```
 {
   "script": {
-      "dev": "pandora dev ./",
+      "dev": "pandora dev",
   }
 }
 ```
@@ -22,28 +24,26 @@ title: 调试应用
 > 之后运行 `npm run dev` 即可本地启动应用。
 
 
-## WebStorm （IntelliJ） 中调试项目
 
-1. Working directory 设置为项目目录。
-2. JavaScript file 设置为 `node_modules/.bin/pandora` 。
-3. Application parameters 设置为 `dev ./` 。
+## Inspector
 
-下图为示例：
+执行如下命令
 
-![e3b7f22a-de16-40a6-857d-647dc2063744.png](https://img.alicdn.com/tfs/TB1bnKNkaagSKJjy0FaXXb0dpXa-2352-1556.png) 
+```bash
+pandora dev --inspect
+```
 
-## 使用自带的 node-inspector 调试项目 （TODO）
+观察命令行输出，类似如下：
 
-对 `pandora dev` 增加 `--inspector` 参数即可
+```bash
+Debugger listening on ws://127.0.0.1:60587/a8217114-d61a-4789-8426-da350a88c1da
+For help see https://nodejs.org/en/docs/inspector
+```
 
-> pandora dev --inspector ./
+使用 `node-inspect`、`Chrome DevTools` 等工具连接相关端口即可调试，这个例子中需要连接 `127.0.0.1:60587`。
 
-***Notice: 该功能还未从公司内部体系剥离出来，待下个版本提供***
+## IDE 集成调试
 
-## Watch 项目，自动重启
+IDE 集成调试暂时请通过 `pandora dev --inspect` 启动后，连接端口号的形式调试（比如 WebStorm 中的 Node.js Remote Debug）。
 
-对 `pandora dev` 增加 `--watch` 参数即可
-
-> pandora dev --watch ./
-
-***Notice: 该功能还未从公司内部体系剥离出来，待下个版本提供***
+未来将会提供工具优化这一体验。
