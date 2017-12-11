@@ -19,7 +19,6 @@ Node.js >= 8.0.0 required.
 
 ## Features
 
-- ✔︎ Built-in application model
 - ✔︎ Built-in process management
 - ✔︎ Dev Ops customization
 - ✔︎ Provide Metrics and Standard OpenTracing Implementation
