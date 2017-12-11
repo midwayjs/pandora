@@ -24,8 +24,8 @@ npm i pandora --save   // 安装在应用
 
 ## 生成 Procfile.js
 
-Pandora.js 通过项目根目录下 `procfile.js` 定义应用进程结构，所以你需要在项目根目录下增加一个 `procfile.js`。
-我们这章简单介绍最简单的 Fork 和 Cluster 方式，下面介绍的两种模式你只需要任选其一。
+Pandora.js 通过项目根目录下 `procfile.js` 定义应用进程结构，所以你需要在项目根目录下增加一个 `procfile.js` 文件。
+我们这章介绍最简单的 Fork 和 Cluster 方式，下面介绍的两种模式你只需要任选其一。
 
 #### Fork 方式
 
@@ -35,7 +35,7 @@ Fork 方式是最简单的方式，只是简单拉起应用，类似于直接  `
 在项目根目录下：
 
 ```bash
-pandora start app.js # app.js 是你的 Node.js 程序路径
+pandora start ./app.js # app.js 是你的 Node.js 程序路径
 ```
 
 然后你就会得到一个默认 `procfile.js` 你可以打开看一下，内容大致如下（隐去注释）：
@@ -57,12 +57,19 @@ Cluster 方式的 `procfile.js`：
 module.exports = (pandora) => {
 
   pandora
-    .cluster('./app.js'); // 默认启动到 worker 进程分组
+  
+    // 默认启动到 worker 进程分组
+    .cluster('./app.js'); 
  
   /* 自定义 Worker 数量
   pandora
     .process('worker')
-    .scale(2); // 修改 worker 进程分组启动 2 个 worker ，默认是 CPU 数量 （取值为字符串 'auto'）
+    
+    // 修改 worker 进程分组启动 2 个 worker 
+    // ，默认是 pandora.dev ? 1 : 'auto'。
+    // 意思就是 pandora dev 启动的话就不 Cluster 
+    // ，如果 pandora start 启动的话就 Cluster 到 CPU 数量。
+    .scale(2); 
   */
     
 }

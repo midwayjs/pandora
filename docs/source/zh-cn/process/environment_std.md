@@ -2,6 +2,24 @@
 
 用于抽象环境相关的内容，比如识别生产环境还是开发环境、以及其他扩展的环境相关变量（比如机房信息）。
 
+## 如何获取
+
+用户可以通过 `require('pandora').environment` 获得该对象。
+
+## 如何定义
+
+1. 可以在全局配置中设置，参考全局配置一章。
+2. 可以在 procfile.js 中设置，如：
+
+```javascript
+
+module.exports = function(pandora) {
+  // 不传参数则获取
+  pandora.environment(UrEnvironmentClass);
+}
+
+```
+
 ## 主要接口
 
 最基本的 Environment 对象是约束于 Interface [Environment](https://midwayjs.github.io/pandora/api-reference/env/interfaces/environment.html) 。

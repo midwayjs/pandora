@@ -1,5 +1,30 @@
-title: Service 与 IPC-Hub（进程间通信）
+title: 进程间通信 IPC-Hub
 ---
+
+Pandora.js 提供了一个进程间对象代理的功能，可以方便的实现跨进程访问、调用。
+
+## 直接发布对象和获取对象代理
+
+看下面的例子：
+
+```javascript
+const {getProxy, publishObject} = require('pandora');
+
+async function main() {
+
+  // 发布 Math 到 IPC-Hub
+  await publishObject(Math, 'math');
+
+  // 获得对象代理
+  const proxy = await getProxy('math');
+
+  // 所有方法直接 await 调用
+  const val = await proxy.abs(-1234);
+  console.log(val);
+
+}
+main().catch(console.error);
+```
 
 ## Service 使用 IPC-Hub
 
@@ -17,7 +42,8 @@ module.exports = function (pandora) {
     .process('b')
     .scale(1);
 
-  // 定义两个 Service （该例子 Service 实现全部写在 procfile.js 中了，这不是一个好的实践）
+  // 定义两个 Service 
+  // （该例子 Service 实现全部写在 procfile.js 中了，这不是一个好的实践）
   class ServiceA {
     async getPid() {
       return process.pid;
@@ -40,10 +66,11 @@ module.exports = function (pandora) {
     }
   }
 
-  // 定义 ServiceA 在 进程 a ，并且发布至 IPC-Hub
+  // 定义 ServiceA 在 进程 a
   pandora
     .service('serviceA', ServiceA)
     .process('a')
+    // 标识 serviceA 发布到 IPC-Hub 中
     .publish();
 
   // 定义 ServiceB 在进程 b
@@ -54,33 +81,8 @@ module.exports = function (pandora) {
 }
 ```
 
-## 直接使用 IPC-Hub
+## 获得 IPC-Hub 整体对象
 
-获得 IPC-Hub
+IPC-Hub 还有一些别的能力，可以通过 `require('pandora').getHub()` 获得。
 
-```javascript
-const ipcHub = require('pandora').getHub();
-```
-
-使用 IPC-Hub
-
-```javascript
-const ipcHub = require('pandora').getHub();
-async function main() {
-
-  // 发布 Math 到 IPC-Hub
-  await ipcHub.publish(Math, {
-    name: 'math',
-    tag: 'latest'
-  });
-
-  // 获得对象代理
-  const proxy = await ipcHub.getProxy>({name: 'math', tag: 'latest'});
-
-  // 所有方法直接 await 调用
-  const val = await proxy.abs(-1234);
-  console.log(val);
-
-}
-main().catch(console.error);
-```
+具体参考 `pandora-hub` 包下的 Facade 类的 API 。

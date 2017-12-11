@@ -11,6 +11,11 @@ Service 也是像 `process('x).entry('./y.js')` 一样，往进程里定义 Node
 3. 结构化的日志管理、配置能力。
 4. 进程内的启动顺序（依赖关系）管理。
 
+## 如何获取 Service
+
+1. 一般用户可以通过 `require('pandora).getService(serviceName)` 获得。
+2. Service 构造器中传入的 ServiceContext 亦有此方法。
+
 ## 如何定义 Service
 
 Process 在 procfile.js 中进行定义，依靠如下语法：

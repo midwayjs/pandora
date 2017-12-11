@@ -14,14 +14,12 @@ module.exports = function (pandora) {
   pandora
     .fork('forkProcess', './app.js');
   
-  // 其等价于 
+  // 等价于
   pandora
     // 新建一个进程定义
     .process('forkProcess')
     // 定义该进程的入口文件为 ./app.js
-    .entry('./app.js')
-    // 标记该进程为 fork 模式，标记 fork 模式后将无法使用 service 等机制 （未来版本中会进行改进）
-    .mode('fork');
+    .entry('./app.js');
     
     
   
@@ -33,14 +31,10 @@ module.exports = function (pandora) {
     .cluster('./app.js');
   
   // 等价于
-  
   pandora
     .service('clusterX', class ClusterService {
       start() {
         require('./app.js');
-      }
-      stop() {
-        // to do nothing
       }
     })
     // 不指定默认也是 worker
