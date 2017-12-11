@@ -59,6 +59,13 @@ export class HttpPatcher extends Patcher {
     return false;
   }
 
+  beforeFinish(span, res) {
+    span.setTag('http.status_code', {
+      type: 'number',
+      value: res.statusCode
+    });
+  }
+
   shimmer() {
     const self = this;
     const traceManager = this.getTraceManager();
@@ -84,10 +91,7 @@ export class HttpPatcher extends Patcher {
             tracer.setCurrentSpan(span);
 
             res.once('finish', () => {
-              span.setTag('http.status_code', {
-                type: 'number',
-                value: res.statusCode
-              });
+              self.beforeFinish(span, res);
               span.finish();
               tracer.finish();
               self.getSender().send(MessageConstants.TRACE, tracer.report());
