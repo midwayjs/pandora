@@ -1,11 +1,12 @@
 'use strict';
 import {ApplicationRepresentation} from '../domain';
 import {ApplicationHandler} from '../application/ApplicationHandler';
-import {consoleLogger} from '../universal/LoggerBroker';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {isDaemonRunning} from '../daemon/DaemonHandler';
 import {Hub} from 'pandora-hub';
 const globalConfigProcessor = GlobalConfigProcessor.getInstance();
+
+const {consoleLogger} = require('../../cli/util/cliUtils');
 
 /**
  * Class DebugApplicationLoader
@@ -50,14 +51,35 @@ export class DebugApplicationLoader {
       ...this.representation,
       appName
     };
-    if(!this.master) {
-        this.master = new ApplicationHandler(options);
-    }
+
+    this.master = new ApplicationHandler(options);
+
+    const onProcessTerm = (sig) => {
+      consoleLogger.log();
+      consoleLogger.important(`Receive a signal ${sig}, trying to stop...`);
+      this.stop().then(() => {
+        process.exit(0);
+      }).catch((err) => {
+        consoleLogger.error(err);
+        process.exit(1);
+      });
+    };
+
     this.master.start().then(() => {
-      console.log('Debug application start successful.');
+      consoleLogger.important('Application start successful.');
+      process.once('SIGQUIT', onProcessTerm.bind(null, 'SIGQUIT'));
+      process.once('SIGTERM', onProcessTerm.bind(null, 'SIGTERM'));
+      process.once('SIGINT', onProcessTerm.bind(null, 'SIGINT'));
     }).catch((err) => {
       consoleLogger.error(err);
     });
+
+  }
+
+  async stop() {
+    if(this.master) {
+      await this.master.stop();
+    }
   }
 
 }
