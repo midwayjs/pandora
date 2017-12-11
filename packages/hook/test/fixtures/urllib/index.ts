@@ -5,6 +5,7 @@ const { HttpPatcher } = require('../../../src/patch/http');
 const { UrllibPatcher } = require('../../../src/patch/urllib');
 const httpPatcher = new HttpPatcher();
 const urllibPatcher = new UrllibPatcher();
+const nock = require('nock');
 
 RunUtil.run(function(done) {
   httpPatcher.run();
@@ -31,11 +32,19 @@ RunUtil.run(function(done) {
     done();
   });
 
+  nock('https://www.taobao.com')
+    .get('/')
+    .reply(200);
+
+  nock('https://www.taobao.com')
+    .get(/\/\d{13}/)
+    .reply(302);
+
   const server = http.createServer((req, res) => {
-    urllib.request('https://www.baidu.com/').then(() => {
+    urllib.request('https://www.taobao.com/').then(() => {
 
       return Promise.all([
-        urllib.request(`https://www.baidu.com/${Date.now()}`),
+        urllib.request(`https://www.taobao.com/${Date.now()}`),
         urllib.request(`http://www.${Date.now()}notfound.com/`).catch((err) => {})
       ]).then(() => {
         res.end('hello');
