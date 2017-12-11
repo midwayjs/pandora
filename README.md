@@ -1,3 +1,5 @@
+![](https://user-images.githubusercontent.com/418820/33816754-3e528ad8-de76-11e7-8558-bfad8b75b4d9.png)
+
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/midwayjs/pandora/blob/master/LICENSE)
 [![GitHub tag](https://img.shields.io/github/tag/midwayjs/pandora.svg)]()
 [![Build Status](https://travis-ci.org/midwayjs/pandora.svg?branch=develop)](https://travis-ci.org/midwayjs/pandora)
