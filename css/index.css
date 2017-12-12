@@ -1368,8 +1368,8 @@ aside li {
 .banner {
   max-width: 1136px;
   margin: 70px auto;
-  margin-top: calc(-225vh) auto;
-  margin-bottom: calc(-225vh) auto;
+  margin-top: calc( ( 100vh - 550px ) / 2 );
+  margin-bottom: calc( ( 100vh - 550px ) / 2 );
   color: #fff;
 }
 .banner h1 {
