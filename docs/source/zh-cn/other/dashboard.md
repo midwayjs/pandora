@@ -1,4 +1,4 @@
-title: 本地管理面板 Pandora-Dashboard 
+title: 单机可视化管理面板（Pandora-Dashboard ）
 ---
 
 Pandora Dashboard 是一个本地的 Dashboard，用来查看管理 Pandora.js。Pandora Dashboard 亦是一个普通的 Pandora.js 项目。

@@ -1,4 +1,4 @@
-title: 使用 EndPoint
+title: 使用和扩展 EndPoint
 ---
 
 EndPoint 是预埋在 Daemon 端的一组接收器，用于接收每个进程的 Indicator 数据，这些数据按照应用来分组。

@@ -1,5 +1,5 @@
 index:
-  getstart: 快速上手
+  getstart: 快速入门
   slogan: Ready to boot
 
 menu:
@@ -8,9 +8,9 @@ menu:
   release: 发布日志
 
 guide_toc:
-  introduce: "Pandora.js"
+  introduce: "Pandora.js 是什么？"
   quickstart: "快速入门"
-  glossary: "术语列表"
+  glossary: "关键术语"
   base: "基础功能"
   command: "命令行介绍"
   procfile_mode: "认识 procfile.js"
@@ -21,7 +21,7 @@ guide_toc:
   process: "进程管理进阶"
   fork_and_cluster: "Fork 和 Cluster"
   process_std: "自定义进程"
-  service_std: "自定义服务"
+  service_std: "自定义 Service"
   environment_std: "自定义环境"
   application_life_cycle: "应用生命周期"
   ipc_hub: "进程间通信"
@@ -29,9 +29,9 @@ guide_toc:
   monitor_std: "监控体系介绍"
   endpoint: "使用和扩展 EndPoint"
   resource: "对外暴露 Resource"
-  metrics: "使用 Metrics"
-  trace: "Trace 体系"
+  metrics: "使用和扩展 Metrics"
+  trace: "链路监控"
   other: "扩展功能"
-  dashboard: "本地 Dashboard"
+  dashboard: "单机可视化管理面板"
   typescript: "启动 TypeScript 项目"
 
