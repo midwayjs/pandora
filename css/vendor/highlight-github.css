@@ -74,7 +74,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 .highlight .regexp,
 .highlight .link {
-  color: #009926;
+  color: #005099;
 }
 .highlight .symbol,
 .highlight .bullet {
@@ -92,7 +92,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   background: #fdd;
 }
 .highlight .addition {
-  background: #dfd;
+  background: #c5eaff;
 }
 .highlight .emphasis {
   font-style: italic;

@@ -395,7 +395,7 @@ textarea {
   color: #333;
 }
 .markdown-body .pl-ent {
-  color: #63a35c;
+  color: #4b8ca3;
 }
 .markdown-body .pl-k {
   color: #a71d5d;
@@ -421,7 +421,7 @@ textarea {
 }
 .markdown-body .pl-sr .pl-cce {
   font-weight: bold;
-  color: #63a35c;
+  color: #4787a3;
 }
 .markdown-body .pl-ml {
   color: #693a17;
@@ -448,7 +448,7 @@ textarea {
   background-color: #ffecec;
 }
 .markdown-body .pl-mi1 {
-  color: #55a532;
+  color: #1775a5;
   background-color: #eaffea;
 }
 .markdown-body .pl-mdr {
@@ -521,7 +521,7 @@ textarea {
   line-height: inherit;
 }
 .markdown-body a {
-  color: #22ab28;
+  color: #1e63ab;
   text-decoration: none;
 }
 .markdown-body a:hover,
@@ -1043,7 +1043,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 .highlight .regexp,
 .highlight .link {
-  color: #009926;
+  color: #005099;
 }
 .highlight .symbol,
 .highlight .bullet {
@@ -1061,7 +1061,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   background: #fdd;
 }
 .highlight .addition {
-  background: #dfd;
+  background: #c5eaff;
 }
 .highlight .emphasis {
   font-style: italic;
@@ -1079,7 +1079,7 @@ body {
   font-family: 'Helvetica Neue', 'Helvetica', tahoma, 'Hiragino Sans GB', 'PingFang SC', 'STHeitiSC-Light', 'Microsoft YaHei', Arial, sans-serif;
 }
 body a:hover {
-  color: #148a1a;
+  color: #008ce6;
 }
 h1,
 h2,
