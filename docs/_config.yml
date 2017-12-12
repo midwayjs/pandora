@@ -6,7 +6,7 @@ language:
 - en
 timezone: UTC
 url: https://midwayjs.org
-root: /
+root: /pandora/
 archive_dir: news
 permalink: news/:year/:month/:day/:title/
 new_post_name: :year-:month-:day-:title.md # File name of new posts
