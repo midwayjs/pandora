@@ -1,4 +1,4 @@
-title: Api Reference
+title: API Reference
 ---
 
 ### All Pandora.js built-in Node.js packages
