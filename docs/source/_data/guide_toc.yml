@@ -7,7 +7,7 @@ base:
   procfile_mode: /base/procfile_mode.html
   logs: /base/logs.html
   global_config: /base/global_config.html
-  monitor_inner: /base/monitor_inner.html
+  quick_monitor: /base/quick_monitor.html
   debug: /base/debug.html
 
 process:
@@ -24,6 +24,7 @@ monitor:
   resource: /monitor/resource.html
   metrics: /monitor/metrics.html
   trace: /monitor/trace.html
+  monitor_inner: /monitor/monitor_inner.html
 
 other:
   dashboard: /other/dashboard.html
