@@ -100,6 +100,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="metricsclient.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsclient.html#categorymetrismap" class="tsd-kind-icon">category<wbr>Metris<wbr>Map</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="metricsclient.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsclient.html#debug" class="tsd-kind-icon">debug</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsclient.html#environment" class="tsd-kind-icon">environment</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="metricsclient.html#group" class="tsd-kind-icon">group</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="metricsclient.html#messengerclient" class="tsd-kind-icon">messenger<wbr>Client</a></li>
@@ -110,16 +111,22 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="metricsclient.html#buildname" class="tsd-kind-icon">build<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="metricsclient.html#destory" class="tsd-kind-icon">destory</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="metricsclient.html#getappname" class="tsd-kind-icon">get<wbr>App<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="metricsclient.html#getclientdownlinkkey" class="tsd-kind-icon">get<wbr>Client<wbr>Downlink<wbr>Key</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="metricsclient.html#getclientuplinkkey" class="tsd-kind-icon">get<wbr>Client<wbr>Uplink<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#getcounter" class="tsd-kind-icon">get<wbr>Counter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#gethistogram" class="tsd-kind-icon">get<wbr>Histogram</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#getmeter" class="tsd-kind-icon">get<wbr>Meter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#gettimer" class="tsd-kind-icon">get<wbr>Timer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="metricsclient.html#invoke" class="tsd-kind-icon">invoke</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="metricsclient.html#issingleton" class="tsd-kind-icon">is<wbr>Singleton</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#register" class="tsd-kind-icon">register</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="metricsclient.html#registerclient" class="tsd-kind-icon">register<wbr>Client</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="metricsclient.html#registerdownlink" class="tsd-kind-icon">register<wbr>Downlink</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#report" class="tsd-kind-icon">report</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsclient.html#reportmetric" class="tsd-kind-icon">report<wbr>Metric</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="metricsclient.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a></li>
 							</ul>
 						</section>
@@ -138,7 +145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L34">MetricsClient.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L36">MetricsClient.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="metricsclient.html" class="tsd-signature-type">MetricsClient</a></h4>
@@ -154,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">all<wbr>Metrics<wbr>Registy<span class="tsd-signature-symbol">:</span> <a href="metricsregistry.html" class="tsd-signature-type">MetricsRegistry</a><span class="tsd-signature-symbol"> =&nbsp;new MetricsRegistry()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L16">MetricsClient.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L24">MetricsClient.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,9 +170,10 @@
 					<h3>app<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">app<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this.getAppName()</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#appname">appName</a></p>
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#appname">appName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L14">MetricsClient.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L22">MetricsClient.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">category<wbr>Metris<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="metricsregistry.html" class="tsd-signature-type">MetricsRegistry</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L18">MetricsClient.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L26">MetricsClient.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -186,7 +194,17 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#clientid">clientId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L22">MetricsClient.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L30">MetricsClient.ts:30</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="debug" class="tsd-anchor"></a>
+					<h3>debug</h3>
+					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;debug&#x27;)(&#x27;pandora:metrics:client:&#x27; + this.clientId)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L34">MetricsClient.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -196,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Environment</span><span class="tsd-signature-symbol"> =&nbsp;EnvironmentUtil.getInstance().getCurrentEnvironment()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L12">MetricsClient.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L12">MetricsClient.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +226,7 @@
 						<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#group">group</a></p>
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#group">group</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L24">MetricsClient.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L32">MetricsClient.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -218,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">messenger<wbr>Client<span class="tsd-signature-symbol">:</span> <a href="metricsmessengerclient.html" class="tsd-signature-type">MetricsMessengerClient</a><span class="tsd-signature-symbol"> =&nbsp;new MetricsMessengerClient(MetricsConstants.METRICS_PANDORA_KEY)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L20">MetricsClient.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L28">MetricsClient.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -229,7 +247,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L21">indicator/AbstractIndicator.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L21">indicator/AbstractIndicator.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,13 +267,36 @@
 					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <a href="metricsclient.html" class="tsd-signature-type">MetricsClient</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L26">MetricsClient.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L36">MetricsClient.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="buildname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> build<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L196">MetricsClient.ts:196</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="metricname.html" class="tsd-signature-type">MetricName</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="destory" class="tsd-anchor"></a>
 					<h3>destory</h3>
@@ -268,7 +309,7 @@
 								<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#destory">destory</a></p>
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#destory">destory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L53">indicator/AbstractIndicator.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L53">indicator/AbstractIndicator.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -285,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L143">MetricsClient.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L168">MetricsClient.ts:168</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -303,7 +344,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#getclientdownlinkkey">getClientDownlinkKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L30">indicator/AbstractIndicator.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L30">indicator/AbstractIndicator.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,7 +377,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#getclientuplinkkey">getClientUplinkKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L40">indicator/AbstractIndicator.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L40">indicator/AbstractIndicator.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,6 +399,110 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcounter" class="tsd-anchor"></a>
+					<h3>get<wbr>Counter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Counter<span class="tsd-signature-symbol">(</span>group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="counter.html" class="tsd-signature-type">Counter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L172">MetricsClient.ts:172</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>group: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="counter.html" class="tsd-signature-type">Counter</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gethistogram" class="tsd-anchor"></a>
+					<h3>get<wbr>Histogram</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Histogram<span class="tsd-signature-symbol">(</span>group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="histogram.html" class="tsd-signature-type">Histogram</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L190">MetricsClient.ts:190</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>group: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="histogram.html" class="tsd-signature-type">Histogram</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getmeter" class="tsd-anchor"></a>
+					<h3>get<wbr>Meter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Meter<span class="tsd-signature-symbol">(</span>group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="meter.html" class="tsd-signature-type">Meter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L184">MetricsClient.ts:184</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>group: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="meter.html" class="tsd-signature-type">Meter</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettimer" class="tsd-anchor"></a>
+					<h3>get<wbr>Timer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Timer<span class="tsd-signature-symbol">(</span>group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="timer.html" class="tsd-signature-type">Timer</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L178">MetricsClient.ts:178</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>group: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="timer.html" class="tsd-signature-type">Timer</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="invoke" class="tsd-anchor"></a>
 					<h3>invoke</h3>
@@ -369,7 +514,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#invoke">invoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L116">MetricsClient.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L139">MetricsClient.ts:139</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -401,7 +546,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#issingleton">isSingleton</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L49">indicator/AbstractIndicator.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L49">indicator/AbstractIndicator.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -417,13 +562,13 @@
 					<a name="register" class="tsd-anchor"></a>
 					<h3>register</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a>, metric<span class="tsd-signature-symbol">: </span><a href="../interfaces/proxiable.html" class="tsd-signature-type">Proxiable</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/metric.html" class="tsd-signature-type">Metric</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, metric<span class="tsd-signature-symbol">: </span><a href="../interfaces/proxiable.html" class="tsd-signature-type">Proxiable</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/metric.html" class="tsd-signature-type">Metric</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L65">MetricsClient.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L66">MetricsClient.ts:66</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -444,7 +589,7 @@
 									<h5>group: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a></h5>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>metric: <a href="../interfaces/proxiable.html" class="tsd-signature-type">Proxiable</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/metric.html" class="tsd-signature-type">Metric</a></h5>
@@ -466,7 +611,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L46">MetricsClient.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L47">MetricsClient.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -488,7 +633,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L130">MetricsClient.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L155">MetricsClient.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +655,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L112">MetricsClient.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L135">MetricsClient.ts:135</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -530,6 +675,35 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="reportmetric" class="tsd-anchor"></a>
+					<h3>report<wbr>Metric</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">report<wbr>Metric<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="metricname.html" class="tsd-signature-type">MetricName</a>, metric<span class="tsd-signature-symbol">: </span><a href="../interfaces/metric.html" class="tsd-signature-type">Metric</a>, group<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L122">MetricsClient.ts:122</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <a href="metricname.html" class="tsd-signature-type">MetricName</a></h5>
+								</li>
+								<li>
+									<h5>metric: <a href="../interfaces/metric.html" class="tsd-signature-type">Metric</a></h5>
+								</li>
+								<li>
+									<h5>group: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="getinstance" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Instance</h3>
@@ -540,7 +714,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsClient.ts#L28">MetricsClient.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsClient.ts#L14">MetricsClient.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="metricsclient.html" class="tsd-signature-type">MetricsClient</a></h4>
@@ -580,6 +754,9 @@
 								<a href="metricsclient.html#clientid" class="tsd-kind-icon">client<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="metricsclient.html#debug" class="tsd-kind-icon">debug</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="metricsclient.html#environment" class="tsd-kind-icon">environment</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
@@ -594,6 +771,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="metricsclient.html#instance" class="tsd-kind-icon">instance</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="metricsclient.html#buildname" class="tsd-kind-icon">build<wbr>Name</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="metricsclient.html#destory" class="tsd-kind-icon">destory</a>
 							</li>
@@ -605,6 +785,18 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="metricsclient.html#getclientuplinkkey" class="tsd-kind-icon">get<wbr>Client<wbr>Uplink<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="metricsclient.html#getcounter" class="tsd-kind-icon">get<wbr>Counter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="metricsclient.html#gethistogram" class="tsd-kind-icon">get<wbr>Histogram</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="metricsclient.html#getmeter" class="tsd-kind-icon">get<wbr>Meter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="metricsclient.html#gettimer" class="tsd-kind-icon">get<wbr>Timer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="metricsclient.html#invoke" class="tsd-kind-icon">invoke</a>
@@ -623,6 +815,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="metricsclient.html#report" class="tsd-kind-icon">report</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="metricsclient.html#reportmetric" class="tsd-kind-icon">report<wbr>Metric</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="metricsclient.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a>

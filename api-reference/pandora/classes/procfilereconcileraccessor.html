@@ -93,6 +93,7 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="procfilereconcileraccessor.html#clustercount" class="tsd-kind-icon">cluster<wbr>Count</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="procfilereconcileraccessor.html#procfilereconciler" class="tsd-kind-icon">procfile<wbr>Reconciler</a></li>
 							</ul>
 						</section>
@@ -101,15 +102,17 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#appdir" class="tsd-kind-icon">app<wbr>Dir</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#dev" class="tsd-kind-icon">dev</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#applet" class="tsd-kind-icon">applet</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#configurator" class="tsd-kind-icon">configurator</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#cluster" class="tsd-kind-icon">cluster</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#defaultservicecategory" class="tsd-kind-icon">default<wbr>Service<wbr>Category</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#environment" class="tsd-kind-icon">environment</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#getprocess" class="tsd-kind-icon">get<wbr>Process</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#fork" class="tsd-kind-icon">fork</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#process" class="tsd-kind-icon">process</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="procfilereconcileraccessor.html#service" class="tsd-kind-icon">service</a></li>
 							</ul>
 						</section>
@@ -128,7 +131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L20">application/ProcfileReconcilerAccessor.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L26">application/ProcfileReconcilerAccessor.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -145,12 +148,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="clustercount" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> cluster<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">cluster<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L105">application/ProcfileReconcilerAccessor.ts:105</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="procfilereconciler" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> procfile<wbr>Reconciler</h3>
 					<div class="tsd-signature tsd-kind-icon">procfile<wbr>Reconciler<span class="tsd-signature-symbol">:</span> <a href="procfilereconciler.html" class="tsd-signature-type">ProcfileReconciler</a><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L12">application/ProcfileReconcilerAccessor.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L14">application/ProcfileReconcilerAccessor.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -167,7 +180,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L18">application/ProcfileReconcilerAccessor.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L24">application/ProcfileReconcilerAccessor.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -184,10 +197,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L14">application/ProcfileReconcilerAccessor.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L20">application/ProcfileReconcilerAccessor.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="dev" class="tsd-anchor"></a>
+					<h3>dev</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> dev<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L16">application/ProcfileReconcilerAccessor.ts:16</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -195,60 +225,53 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="applet" class="tsd-anchor"></a>
-					<h3>applet</h3>
+					<a name="cluster" class="tsd-anchor"></a>
+					<h3>cluster</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">applet<span class="tsd-signature-symbol">(</span>appletEntry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="appletrepresentationchainmodifier.html" class="tsd-signature-type">AppletRepresentationChainModifier</a></li>
+						<li class="tsd-signature tsd-kind-icon">cluster<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L47">application/ProcfileReconcilerAccessor.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L112">application/ProcfileReconcilerAccessor.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>inject applet class</p>
+									<p>An alias to service()</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>appletEntry: <span class="tsd-signature-type">any</span></h5>
+									<h5>path: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="appletrepresentationchainmodifier.html" class="tsd-signature-type">AppletRepresentationChainModifier</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="configurator" class="tsd-anchor"></a>
-					<h3>configurator</h3>
+					<a name="defaultservicecategory" class="tsd-anchor"></a>
+					<h3>default<wbr>Service<wbr>Category</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">configurator<span class="tsd-signature-symbol">(</span>entry<span class="tsd-signature-symbol">: </span><a href="../globals.html#entry" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">default<wbr>Service<wbr>Category<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><a href="../globals.html#categoryreg" class="tsd-signature-type">CategoryReg</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L38">application/ProcfileReconcilerAccessor.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L32">application/ProcfileReconcilerAccessor.ts:32</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>inject configurator class</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>entry: <a href="../globals.html#entry" class="tsd-signature-type">Entry</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> name: <a href="../globals.html#categoryreg" class="tsd-signature-type">CategoryReg</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -256,13 +279,13 @@
 					<a name="environment" class="tsd-anchor"></a>
 					<h3>environment</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">(</span>entry<span class="tsd-signature-symbol">: </span><a href="../globals.html#entry" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">(</span>entry<span class="tsd-signature-symbol">?: </span><a href="../globals.html#entry" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L30">application/ProcfileReconcilerAccessor.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L43">application/ProcfileReconcilerAccessor.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -273,37 +296,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>entry: <a href="../globals.html#entry" class="tsd-signature-type">Entry</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> entry: <a href="../globals.html#entry" class="tsd-signature-type">Entry</a></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getprocess" class="tsd-anchor"></a>
-					<h3>get<wbr>Process</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Process<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L67">application/ProcfileReconcilerAccessor.ts:67</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get a process definition by processName</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>processName: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -311,27 +306,89 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="service" class="tsd-anchor"></a>
-					<h3>service</h3>
+					<a name="fork" class="tsd-anchor"></a>
+					<h3>fork</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">service<span class="tsd-signature-symbol">(</span>serviceEntry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
+						<li class="tsd-signature tsd-kind-icon">fork<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, entryFile<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="processrepresentationchainmodifier.html" class="tsd-signature-type">ProcessRepresentationChainModifier</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L57">application/ProcfileReconcilerAccessor.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L72">application/ProcfileReconcilerAccessor.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>inject service class</p>
+									<p>Define fork a process</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>serviceEntry: <span class="tsd-signature-type">any</span></h5>
+									<h5>processName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> entryFile: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="processrepresentationchainmodifier.html" class="tsd-signature-type">ProcessRepresentationChainModifier</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="process" class="tsd-anchor"></a>
+					<h3>process</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">process<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="processrepresentationchainmodifier.html" class="tsd-signature-type">ProcessRepresentationChainModifier</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L55">application/ProcfileReconcilerAccessor.ts:55</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>define process</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>processName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="processrepresentationchainmodifier.html" class="tsd-signature-type">ProcessRepresentationChainModifier</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="service" class="tsd-anchor"></a>
+					<h3>service</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">service<span class="tsd-signature-symbol">(</span>serviceName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serviceEntry<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ProcfileReconcilerAccessor.ts#L90">application/ProcfileReconcilerAccessor.ts:90</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Inject service class</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>serviceName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> serviceEntry: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></h4>
@@ -359,6 +416,9 @@
 								<a href="procfilereconcileraccessor.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="procfilereconcileraccessor.html#clustercount" class="tsd-kind-icon">cluster<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="procfilereconcileraccessor.html#procfilereconciler" class="tsd-kind-icon">procfile<wbr>Reconciler</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
@@ -367,17 +427,23 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="procfilereconcileraccessor.html#appname" class="tsd-kind-icon">app<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="procfilereconcileraccessor.html#applet" class="tsd-kind-icon">applet</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="procfilereconcileraccessor.html#dev" class="tsd-kind-icon">dev</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="procfilereconcileraccessor.html#configurator" class="tsd-kind-icon">configurator</a>
+								<a href="procfilereconcileraccessor.html#cluster" class="tsd-kind-icon">cluster</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="procfilereconcileraccessor.html#defaultservicecategory" class="tsd-kind-icon">default<wbr>Service<wbr>Category</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="procfilereconcileraccessor.html#environment" class="tsd-kind-icon">environment</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="procfilereconcileraccessor.html#getprocess" class="tsd-kind-icon">get<wbr>Process</a>
+								<a href="procfilereconcileraccessor.html#fork" class="tsd-kind-icon">fork</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="procfilereconcileraccessor.html#process" class="tsd-kind-icon">process</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="procfilereconcileraccessor.html#service" class="tsd-kind-icon">service</a>

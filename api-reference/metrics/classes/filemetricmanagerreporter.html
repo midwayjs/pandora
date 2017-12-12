@@ -96,7 +96,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filemetricmanagerreporter.html#collectorcls" class="tsd-kind-icon">collector<wbr>Cls</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filemetricmanagerreporter.html#durationfactor" class="tsd-kind-icon">duration<wbr>Factor</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filemetricmanagerreporter.html#environment" class="tsd-kind-icon">environment</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filemetricmanagerreporter.html#globaltags" class="tsd-kind-icon">global<wbr>Tags</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="filemetricmanagerreporter.html#interval" class="tsd-kind-icon">interval</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="filemetricmanagerreporter.html#intervalhandler" class="tsd-kind-icon">interval<wbr>Handler</a></li>
@@ -125,14 +127,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>File<wbr>Metric<wbr>Manager<wbr>Reporter<span class="tsd-signature-symbol">(</span>actuatorManager<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, globalTags<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filemetricmanagerreporter.html" class="tsd-signature-type">FileMetricManagerReporter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>File<wbr>Metric<wbr>Manager<wbr>Reporter<span class="tsd-signature-symbol">(</span>actuatorManager<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filemetricmanagerreporter.html" class="tsd-signature-type">FileMetricManagerReporter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L13">reporter/FileMetricManagerReporter.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L16">reporter/FileMetricManagerReporter.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,8 +143,20 @@
 									<h5>actuatorManager: <span class="tsd-signature-type">any</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> globalTags: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<h5>options: <span class="tsd-signature-type">object</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> collector<span class="tsd-signature-symbol">?: </span><a href="metricscollector.html" class="tsd-signature-type">MetricsCollector</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> duration<wbr>Factor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> global<wbr>Tags<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">__type</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> rate<wbr>Factor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -154,12 +168,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="collectorcls" class="tsd-anchor"></a>
+					<h3>collector<wbr>Cls</h3>
+					<div class="tsd-signature tsd-kind-icon">collector<wbr>Cls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L15">reporter/FileMetricManagerReporter.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="durationfactor" class="tsd-anchor"></a>
 					<h3>duration<wbr>Factor</h3>
 					<div class="tsd-signature tsd-kind-icon">duration<wbr>Factor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L12">reporter/FileMetricManagerReporter.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L13">reporter/FileMetricManagerReporter.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="environment" class="tsd-anchor"></a>
+					<h3>environment</h3>
+					<div class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Environment</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L16">reporter/FileMetricManagerReporter.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -169,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">global<wbr>Tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L10">reporter/FileMetricManagerReporter.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L11">reporter/FileMetricManagerReporter.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +214,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#interval">interval</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L15">reporter/ScheduledMetricsReporter.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L15">reporter/ScheduledMetricsReporter.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -191,7 +225,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#intervalhandler">intervalHandler</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L16">reporter/ScheduledMetricsReporter.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L16">reporter/ScheduledMetricsReporter.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +235,7 @@
 					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L11">reporter/FileMetricManagerReporter.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L12">reporter/FileMetricManagerReporter.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,7 +246,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#metricmanager">metricManager</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L17">reporter/ScheduledMetricsReporter.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L17">reporter/ScheduledMetricsReporter.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -223,7 +257,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L14">reporter/ScheduledMetricsReporter.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L14">reporter/ScheduledMetricsReporter.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -233,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">rate<wbr>Factor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L13">reporter/FileMetricManagerReporter.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L14">reporter/FileMetricManagerReporter.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L22">reporter/FileMetricManagerReporter.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L31">reporter/FileMetricManagerReporter.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -268,7 +302,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#report">report</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L32">reporter/FileMetricManagerReporter.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/FileMetricManagerReporter.ts#L41">reporter/FileMetricManagerReporter.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +326,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#setmetricmanager">setMetricManager</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L30">reporter/ScheduledMetricsReporter.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L30">reporter/ScheduledMetricsReporter.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -316,7 +350,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#start">start</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L34">reporter/ScheduledMetricsReporter.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L34">reporter/ScheduledMetricsReporter.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -341,7 +375,7 @@
 								<p>Implementation of <a href="../interfaces/reporter.html">Reporter</a>.<a href="../interfaces/reporter.html#stop">stop</a></p>
 								<p>Inherited from <a href="scheduledmetricsreporter.html">ScheduledMetricsReporter</a>.<a href="scheduledmetricsreporter.html#stop">stop</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L64">reporter/ScheduledMetricsReporter.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/reporter/ScheduledMetricsReporter.ts#L64">reporter/ScheduledMetricsReporter.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -369,7 +403,13 @@
 								<a href="filemetricmanagerreporter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="filemetricmanagerreporter.html#collectorcls" class="tsd-kind-icon">collector<wbr>Cls</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="filemetricmanagerreporter.html#durationfactor" class="tsd-kind-icon">duration<wbr>Factor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="filemetricmanagerreporter.html#environment" class="tsd-kind-icon">environment</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="filemetricmanagerreporter.html#globaltags" class="tsd-kind-icon">global<wbr>Tags</a>

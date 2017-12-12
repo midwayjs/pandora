@@ -84,7 +84,6 @@
 				<ul class="tsd-hierarchy">
 					<li><a href="../classes/abstractindicator.html" class="tsd-signature-type">AbstractIndicator</a></li>
 					<li><a href="../classes/baseinfoindicator.html" class="tsd-signature-type">BaseInfoIndicator</a></li>
-					<li><a href="../classes/configindicator.html" class="tsd-signature-type">ConfigIndicator</a></li>
 					<li><a href="../classes/diskspacehealthindicator.html" class="tsd-signature-type">DiskSpaceHealthIndicator</a></li>
 					<li><a href="../classes/duplexindicator.html" class="tsd-signature-type">DuplexIndicator</a></li>
 					<li><a href="../classes/duplexindicatorproxy.html" class="tsd-signature-type">DuplexIndicatorProxy</a></li>
@@ -97,6 +96,7 @@
 					<li><a href="../classes/nodeindicator.html" class="tsd-signature-type">NodeIndicator</a></li>
 					<li><a href="../classes/porthealthindicator.html" class="tsd-signature-type">PortHealthIndicator</a></li>
 					<li><a href="../classes/processindicator.html" class="tsd-signature-type">ProcessIndicator</a></li>
+					<li><a href="../classes/traceindicator.html" class="tsd-signature-type">TraceIndicator</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -106,6 +106,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iindicator.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iindicator.html#group" class="tsd-kind-icon">group</a></li>
 							</ul>
 						</section>
@@ -122,12 +123,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="appname" class="tsd-anchor"></a>
+					<h3>app<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">app<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/domain.ts#L32">domain.ts:32</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="group" class="tsd-anchor"></a>
 					<h3>group</h3>
 					<div class="tsd-signature tsd-kind-icon">group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/domain.ts#L32">domain.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/domain.ts#L33">domain.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +155,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/domain.ts#L34">domain.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/domain.ts#L35">domain.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -161,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/domain.ts#L33">domain.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/domain.ts#L34">domain.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -194,6 +205,9 @@
 					<li class="current tsd-kind-interface">
 						<a href="iindicator.html" class="tsd-kind-icon">IIndicator</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iindicator.html#appname" class="tsd-kind-icon">app<wbr>Name</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="iindicator.html#group" class="tsd-kind-icon">group</a>
 							</li>

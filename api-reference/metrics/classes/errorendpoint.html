@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="duplexendpoint.html" class="tsd-signature-type">DuplexEndPoint</a>
+						<a href="cacheduplexendpoint.html" class="tsd-signature-type">CacheDuplexEndPoint</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ErrorEndPoint</span>
@@ -90,20 +90,21 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="errorendpoint.html#cachemap" class="tsd-kind-icon">cache<wbr>Map</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#cachemap" class="tsd-kind-icon">cache<wbr>Map</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="errorendpoint.html#group" class="tsd-kind-icon">group</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#indicators" class="tsd-kind-icon">indicators</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#logger" class="tsd-kind-icon">logger</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="errorendpoint.html#default_cache_size" class="tsd-kind-icon">DEFAULT_<wbr>CACHE_<wbr>SIZE</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#destory" class="tsd-kind-icon">destory</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#initialize" class="tsd-kind-icon">initialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="errorendpoint.html#invoke" class="tsd-kind-icon">invoke</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="errorendpoint.html#invoke" class="tsd-kind-icon">invoke</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#processqueryresults" class="tsd-kind-icon">process<wbr>Query<wbr>Results</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="errorendpoint.html#processreporter" class="tsd-kind-icon">process<wbr>Reporter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="errorendpoint.html#processreporter" class="tsd-kind-icon">process<wbr>Reporter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected"><a href="errorendpoint.html#registerindicator" class="tsd-kind-icon">register<wbr>Indicator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="errorendpoint.html#removeclient" class="tsd-kind-icon">remove<wbr>Client</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="errorendpoint.html#setconfig" class="tsd-kind-icon">set<wbr>Config</a></li>
@@ -121,13 +122,14 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="cachemap" class="tsd-anchor"></a>
 					<h3>cache<wbr>Map</h3>
-					<div class="tsd-signature tsd-kind-icon">cache<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="logcache.html" class="tsd-signature-type">LogCache</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
+					<div class="tsd-signature tsd-kind-icon">cache<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="commoncache.html" class="tsd-signature-type">CommonCache</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="cacheduplexendpoint.html">CacheDuplexEndPoint</a>.<a href="cacheduplexendpoint.html#cachemap">cacheMap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/ErrorEndPoint.ts#L15">endpoint/impl/ErrorEndPoint.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/CacheDuplexEndPoint.ts#L6">endpoint/CacheDuplexEndPoint.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -139,7 +141,7 @@
 						<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#group">group</a></p>
 						<p>Overrides <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#group">group</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/ErrorEndPoint.ts#L13">endpoint/impl/ErrorEndPoint.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/ErrorEndPoint.ts#L9">endpoint/impl/ErrorEndPoint.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +153,7 @@
 						<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#indicators">indicators</a></p>
 						<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#indicators">indicators</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L20">endpoint/EndPoint.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L20">endpoint/EndPoint.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,12 +164,23 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#logger">logger</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L22">endpoint/EndPoint.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L22">endpoint/EndPoint.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="default_cache_size" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DEFAULT_<wbr>CACHE_<wbr>SIZE</h3>
+					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>CACHE_<wbr>SIZE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;100</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="cacheduplexendpoint.html">CacheDuplexEndPoint</a>.<a href="cacheduplexendpoint.html#default_cache_size">DEFAULT_CACHE_SIZE</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/CacheDuplexEndPoint.ts#L7">endpoint/CacheDuplexEndPoint.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="destory" class="tsd-anchor"></a>
@@ -180,7 +193,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#destory">destory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L124">endpoint/EndPoint.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L130">endpoint/EndPoint.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -205,25 +218,26 @@
 								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#initialize">initialize</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#initialize">initialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L52">endpoint/EndPoint.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L54">endpoint/EndPoint.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="invoke" class="tsd-anchor"></a>
 					<h3>invoke</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">invoke<span class="tsd-signature-symbol">(</span>appName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="cacheduplexendpoint.html">CacheDuplexEndPoint</a>.<a href="cacheduplexendpoint.html#invoke">invoke</a></p>
 								<p>Overrides <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#invoke">invoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/ErrorEndPoint.ts#L28">endpoint/impl/ErrorEndPoint.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/CacheDuplexEndPoint.ts#L20">endpoint/CacheDuplexEndPoint.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -232,16 +246,22 @@
 									<h5>appName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> args: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{by: &#x27;size&#x27;,value: 0,}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> args: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{by: &#x27;size&#x27;,value: 0}</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
-											<h5>by<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"size"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"time"</span></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> by<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"size"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> offset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> order<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"ASC"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DESC"</span></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
 										</li>
 									</ul>
 								</li>
@@ -254,15 +274,14 @@
 					<a name="processqueryresults" class="tsd-anchor"></a>
 					<h3>process<wbr>Query<wbr>Results</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Query<wbr>Results<span class="tsd-signature-symbol">(</span>results<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="indicatorresult.html" class="tsd-signature-type">IndicatorResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Query<wbr>Results<span class="tsd-signature-symbol">(</span>results<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="indicatorresult.html" class="tsd-signature-type">IndicatorResult</a><span class="tsd-signature-symbol">&gt;</span>, appName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#processqueryresults">processQueryResults</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#processqueryresults">processQueryResults</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L58">endpoint/EndPoint.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L60">endpoint/EndPoint.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -270,29 +289,39 @@
 								<li>
 									<h5>results: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="indicatorresult.html" class="tsd-signature-type">IndicatorResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> appName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="processreporter" class="tsd-anchor"></a>
 					<h3>process<wbr>Reporter</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Reporter<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Reporter<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, reply<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="cacheduplexendpoint.html">CacheDuplexEndPoint</a>.<a href="cacheduplexendpoint.html#processreporter">processReporter</a></p>
 								<p>Overrides <a href="duplexendpoint.html">DuplexEndPoint</a>.<a href="duplexendpoint.html#processreporter">processReporter</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/ErrorEndPoint.ts#L17">endpoint/impl/ErrorEndPoint.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/CacheDuplexEndPoint.ts#L9">endpoint/CacheDuplexEndPoint.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>data: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> reply: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -311,7 +340,7 @@
 								<p>Inherited from <a href="duplexendpoint.html">DuplexEndPoint</a>.<a href="duplexendpoint.html#registerindicator">registerIndicator</a></p>
 								<p>Overrides <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#registerindicator">registerIndicator</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/DuplexEndPoint.ts#L12">endpoint/DuplexEndPoint.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/DuplexEndPoint.ts#L12">endpoint/DuplexEndPoint.ts:12</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +377,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#removeclient">removeClient</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L110">endpoint/EndPoint.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L116">endpoint/EndPoint.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -372,7 +401,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#setconfig">setConfig</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L116">endpoint/EndPoint.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L122">endpoint/EndPoint.ts:122</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -397,7 +426,7 @@
 								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#setlogger">setLogger</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#setlogger">setLogger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L120">endpoint/EndPoint.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L126">endpoint/EndPoint.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -420,7 +449,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#config">config</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L11">endpoint/EndPoint.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L11">endpoint/EndPoint.ts:11</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -429,7 +458,7 @@
 						<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L12">endpoint/EndPoint.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L12">endpoint/EndPoint.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -439,7 +468,7 @@
 						<div class="tsd-signature tsd-kind-icon">init<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L13">endpoint/EndPoint.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L13">endpoint/EndPoint.ts:13</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-type-declaration">
@@ -466,7 +495,7 @@
 					<li class="current tsd-kind-class">
 						<a href="errorendpoint.html" class="tsd-kind-icon">Error<wbr>End<wbr>Point</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="errorendpoint.html#cachemap" class="tsd-kind-icon">cache<wbr>Map</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
@@ -478,19 +507,22 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="errorendpoint.html#logger" class="tsd-kind-icon">logger</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="errorendpoint.html#default_cache_size" class="tsd-kind-icon">DEFAULT_<wbr>CACHE_<wbr>SIZE</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="errorendpoint.html#destory" class="tsd-kind-icon">destory</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="errorendpoint.html#initialize" class="tsd-kind-icon">initialize</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="errorendpoint.html#invoke" class="tsd-kind-icon">invoke</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="errorendpoint.html#processqueryresults" class="tsd-kind-icon">process<wbr>Query<wbr>Results</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="errorendpoint.html#processreporter" class="tsd-kind-icon">process<wbr>Reporter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected">

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>Pandora.js - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="index">
+  <div class="banner block index-bg-light">
+    <div class="banner-info leftpadding">
+      <h1>
+      <p style="font-weight:bold;font-size:48px;">Pandora.js</p>
+      <p style="font-weight:bold;font-size:48px;">Ready to boot</p>
+      A powerful and lightweight application manager for Node.js applications</h1>
+      <p class="banner-button">
+        <a class="btn btn-primary" href="/zh-cn/intro/quickstart.html">快速入门</a>
+        <a class="btn btn-secondary" href="https://github.com/midwayjs/pandora" target="_blank" >GitHub</a>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="index-aside">
+<aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+<div class="footer">
+  <footer class="leftpadding">
+    <ul>
+    <li>
+      <dl>
+        <dt>Github</dt>
+        <dd><a href="https://github.com/midwayjs" target="_blank">Organization</a></dd>
+        <dd><a href="https://github.com/midwayjs/pandora/tree/master/examples" target="_blank">Examples</a></dd>
+      </dl>
+      </li><li>
+      <dl>
+        <dt>Community</dt>
+        <dd><a href="https://github.com/midwayjs/pandora/releases" target="_blank">Change log</a></dd>
+        <dd><a href="https://github.com/midwayjs/pandora/issues" target="_blank">Issues</a></dd>
+      </dl>
+      </li><li>
+      <dl>
+        <dt>Links</dt>
+        <dd><a href="http://www.typescriptlang.org/" target="_blank">TypeScript</a></dd>
+        <dd><a href="https://ant.design" target="_blank">Ant Design</a></dd>
+      </dl>
+      </li>
+    </ul>
+    <div class="right">
+      <div class="license">Released under the MIT License </div>
+      <a href="https://github.com/midwayjs/pandora" target="_blank" ><img src="/images/github.svg"/></a>
+    </div>
+  </footer>
+</div>
+
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

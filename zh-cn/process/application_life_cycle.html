@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>应用生命周期 - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>应用生命周期</h1>
+    <p>基于 Pandora.js 的开发的应用有如下的生命周期阶段。</p>
+<ul>
+<li>表示阶段</li>
+<li>创建阶段</li>
+<li>注入阶段</li>
+<li>启动阶段</li>
+<li>关闭阶段</li>
+</ul>
+<h2 id="表示阶段-procfilejs"><a class="markdown-anchor" href="#表示阶段-procfilejs">#</a> 表示阶段 - procfile.js</h2>
+<p>通过 <code>procfile.js</code> 表示整个应用的关系。</p>
+<h2 id="创建阶段"><a class="markdown-anchor" href="#创建阶段">#</a> 创建阶段</h2>
+<p>在 Pandora.js 中，可以同时部署多个不同的 Application，通过当前的目录，准备一些基础信息，包括但不限于环境准备，初始化资源加载器，初始化上下文等。</p>
+<h2 id="注入阶段"><a class="markdown-anchor" href="#注入阶段">#</a> 注入阶段</h2>
+<p>注入的方式包括：</p>
+<ol>
+<li>根据 PANDORA_CONFIG 全局变量中指定的基础配置包来默认注入。</li>
+<li>通过 procfile.js 的表示来进行注入。</li>
+</ol>
+<p>可以注入的实体有：</p>
+<ol>
+<li>Process：进程定义的注入等。</li>
+<li>Service：接受标准启停控制的 Service。</li>
+<li>Environment：处理环境相关的问题，判断是否生产环境。</li>
+</ol>
+<h2 id="启动阶段"><a class="markdown-anchor" href="#启动阶段">#</a> 启动阶段</h2>
+<p>创建 Pandora.js 上下文并启动，调用 Service 的 <code>start()</code> 方法，启动诸如 HTTP 服务等。</p>
+<h2 id="关闭阶段"><a class="markdown-anchor" href="#关闭阶段">#</a> 关闭阶段</h2>
+<p>通过调用 <code>stop()</code> 方法，将应用关闭，服务停止等。提供 5 秒时间窗口用于优雅停止。</p>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

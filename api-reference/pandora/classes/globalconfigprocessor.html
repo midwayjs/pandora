@@ -79,14 +79,19 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="globalconfigprocessor.html#globalconfig" class="tsd-kind-icon">global<wbr>Config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="globalconfigprocessor.html#globalconfig" class="tsd-kind-icon">global<wbr>Config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="globalconfigprocessor.html#initialized" class="tsd-kind-icon">initialized</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="globalconfigprocessor.html#loadedconfigpath" class="tsd-kind-icon">loaded<wbr>Config<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="globalconfigprocessor.html#global_package_split" class="tsd-kind-icon">GLOBAL_<wbr>PACKAGE_<wbr>SPLIT</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="globalconfigprocessor.html#instance" class="tsd-kind-icon">instance</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="globalconfigprocessor.html#clearproperties" class="tsd-kind-icon">clear<wbr>Properties</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="globalconfigprocessor.html#getallproperties" class="tsd-kind-icon">get<wbr>All<wbr>Properties</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="globalconfigprocessor.html#mergeproperties" class="tsd-kind-icon">merge<wbr>Properties</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="globalconfigprocessor.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a></li>
 							</ul>
 						</section>
@@ -95,13 +100,48 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="globalconfig" class="tsd-anchor"></a>
-					<h3>global<wbr>Config</h3>
-					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> global<wbr>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/universal/GlobalConfigProcessor.ts#L9">universal/GlobalConfigProcessor.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L9">universal/GlobalConfigProcessor.ts:9</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="initialized" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> initialized</h3>
+					<div class="tsd-signature tsd-kind-icon">initialized<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L13">universal/GlobalConfigProcessor.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="loadedconfigpath" class="tsd-anchor"></a>
+					<h3>loaded<wbr>Config<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">loaded<wbr>Config<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[require.resolve(&#x27;../default&#x27;)]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L17">universal/GlobalConfigProcessor.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="global_package_split" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GLOBAL_<wbr>PACKAGE_<wbr>SPLIT</h3>
+					<div class="tsd-signature tsd-kind-icon">GLOBAL_<wbr>PACKAGE_<wbr>SPLIT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;:&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L15">universal/GlobalConfigProcessor.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -111,13 +151,30 @@
 					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/universal/GlobalConfigProcessor.ts#L11">universal/GlobalConfigProcessor.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L11">universal/GlobalConfigProcessor.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clearproperties" class="tsd-anchor"></a>
+					<h3>clear<wbr>Properties</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clear<wbr>Properties<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L63">universal/GlobalConfigProcessor.ts:63</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getallproperties" class="tsd-anchor"></a>
 					<h3>get<wbr>All<wbr>Properties</h3>
@@ -128,10 +185,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/universal/GlobalConfigProcessor.ts#L20">universal/GlobalConfigProcessor.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L26">universal/GlobalConfigProcessor.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="mergeproperties" class="tsd-anchor"></a>
+					<h3>merge<wbr>Properties</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">merge<wbr>Properties<span class="tsd-signature-symbol">(</span>properties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L53">universal/GlobalConfigProcessor.ts:53</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>properties: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -139,16 +219,16 @@
 					<a name="getinstance" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Instance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Instance<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Instance<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globalconfigprocessor.html" class="tsd-signature-type">GlobalConfigProcessor</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/universal/GlobalConfigProcessor.ts#L13">universal/GlobalConfigProcessor.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/universal/GlobalConfigProcessor.ts#L19">universal/GlobalConfigProcessor.ts:19</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="globalconfigprocessor.html" class="tsd-signature-type">GlobalConfigProcessor</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -169,14 +249,29 @@
 					<li class="current tsd-kind-class">
 						<a href="globalconfigprocessor.html" class="tsd-kind-icon">Global<wbr>Config<wbr>Processor</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="globalconfigprocessor.html#globalconfig" class="tsd-kind-icon">global<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="globalconfigprocessor.html#initialized" class="tsd-kind-icon">initialized</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="globalconfigprocessor.html#loadedconfigpath" class="tsd-kind-icon">loaded<wbr>Config<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="globalconfigprocessor.html#global_package_split" class="tsd-kind-icon">GLOBAL_<wbr>PACKAGE_<wbr>SPLIT</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="globalconfigprocessor.html#instance" class="tsd-kind-icon">instance</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="globalconfigprocessor.html#clearproperties" class="tsd-kind-icon">clear<wbr>Properties</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="globalconfigprocessor.html#getallproperties" class="tsd-kind-icon">get<wbr>All<wbr>Properties</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="globalconfigprocessor.html#mergeproperties" class="tsd-kind-icon">merge<wbr>Properties</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="globalconfigprocessor.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a>

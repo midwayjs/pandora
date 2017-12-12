@@ -86,15 +86,16 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#appdir" class="tsd-kind-icon">app<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#applet" class="tsd-kind-icon">applet</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#argv" class="tsd-kind-icon">argv</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#entryfile" class="tsd-kind-icon">entry<wbr>File</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#entryfile" class="tsd-kind-icon">entry<wbr>File</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#entryfilebasedir" class="tsd-kind-icon">entry<wbr>File<wbr>Base<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#env" class="tsd-kind-icon">env</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#injectmonitoring" class="tsd-kind-icon">inject<wbr>Monitoring</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#globalargv" class="tsd-kind-icon">global<wbr>Argv</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="processrepresentation.html#globalenv" class="tsd-kind-icon">global<wbr>Env</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#order" class="tsd-kind-icon">order</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#processname" class="tsd-kind-icon">process<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="processrepresentation.html#scale" class="tsd-kind-icon">scale</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="processrepresentation.html#service" class="tsd-kind-icon">service</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,7 +110,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#appdir">appDir</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L16">domain.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L20">domain.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -120,17 +121,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#appname">appName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L15">domain.ts:15</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="applet" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> applet</h3>
-					<div class="tsd-signature tsd-kind-icon">applet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="appletrepresentation.html" class="tsd-signature-type">AppletRepresentation</a><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L55">domain.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L19">domain.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -140,18 +131,27 @@
 					<div class="tsd-signature tsd-kind-icon">argv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L54">domain.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L31">domain.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="entryfile" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> entry<wbr>File</h3>
 					<div class="tsd-signature tsd-kind-icon">entry<wbr>File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#entryfile">entryFile</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L17">domain.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L34">domain.ts:34</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="entryfilebasedir" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> entry<wbr>File<wbr>Base<wbr>Dir</h3>
+					<div class="tsd-signature tsd-kind-icon">entry<wbr>File<wbr>Base<wbr>Dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L33">domain.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -161,29 +161,29 @@
 					<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L53">domain.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L30">domain.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="injectmonitoring" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> inject<wbr>Monitoring</h3>
-					<div class="tsd-signature tsd-kind-icon">inject<wbr>Monitoring<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="globalargv" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> global<wbr>Argv</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Argv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#injectmonitoring">injectMonitoring</a></p>
+						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#globalargv">globalArgv</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L19">domain.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L23">domain.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="mode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mode</h3>
-					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="globalenv" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> global<wbr>Env</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#mode">mode</a></p>
+						<p>Inherited from <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#globalenv">globalEnv</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L20">domain.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L22">domain.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +193,7 @@
 					<div class="tsd-signature tsd-kind-icon">order<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L51">domain.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L28">domain.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">process<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L50">domain.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L27">domain.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +214,17 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="applicationrepresentation.html">ApplicationRepresentation</a>.<a href="applicationrepresentation.html#scale">scale</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/domain.ts#L52">domain.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L29">domain.ts:29</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="service" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> service</h3>
+					<div class="tsd-signature tsd-kind-icon">service<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="servicerepresentation.html" class="tsd-signature-type">ServiceRepresentation</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/domain.ts#L32">domain.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -242,22 +252,22 @@
 								<a href="processrepresentation.html#appname" class="tsd-kind-icon">app<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="processrepresentation.html#applet" class="tsd-kind-icon">applet</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="processrepresentation.html#argv" class="tsd-kind-icon">argv</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="processrepresentation.html#entryfile" class="tsd-kind-icon">entry<wbr>File</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="processrepresentation.html#entryfilebasedir" class="tsd-kind-icon">entry<wbr>File<wbr>Base<wbr>Dir</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="processrepresentation.html#env" class="tsd-kind-icon">env</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="processrepresentation.html#injectmonitoring" class="tsd-kind-icon">inject<wbr>Monitoring</a>
+								<a href="processrepresentation.html#globalargv" class="tsd-kind-icon">global<wbr>Argv</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="processrepresentation.html#mode" class="tsd-kind-icon">mode</a>
+								<a href="processrepresentation.html#globalenv" class="tsd-kind-icon">global<wbr>Env</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="processrepresentation.html#order" class="tsd-kind-icon">order</a>
@@ -267,6 +277,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="processrepresentation.html#scale" class="tsd-kind-icon">scale</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="processrepresentation.html#service" class="tsd-kind-icon">service</a>
 							</li>
 						</ul>
 					</li>

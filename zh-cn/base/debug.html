@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>调试应用 - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>调试应用</h1>
+    <h2 id="在本地命令行启动项目"><a class="markdown-anchor" href="#在本地命令行启动项目">#</a> 在本地命令行启动项目</h2>
+<p>如果是全局安装的 Pandora.js ，如下命令即可（如有启动参数，与 start 命令相同）。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev</span><br></pre></td></tr></table></figure>
+<p>如果是项目内安装的：</p>
+<blockquote>
+<p>增加（或修改） <code>package.json</code> 中 <code>script</code> 定义。对 <code>package.json</code> 做如下变更：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;script&quot;: &#123;</span><br><span class="line">      &quot;dev&quot;: &quot;pandora dev&quot;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>之后运行 <code>npm run dev</code> 即可本地启动应用。</p>
+</blockquote>
+<h2 id="inspector"><a class="markdown-anchor" href="#inspector">#</a> Inspector</h2>
+<p>执行如下命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev --inspect</span><br></pre></td></tr></table></figure>
+<p>观察命令行输出，类似如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Debugger listening on ws://127.0.0.1:60587/a8217114-d61a-4789-8426-da350a88c1da</span><br><span class="line">For <span class="built_in">help</span> see https://nodejs.org/en/docs/inspector</span><br></pre></td></tr></table></figure>
+<p>使用 <code>node-inspect</code>、<code>Chrome DevTools</code> 等工具连接相关端口即可调试，这个例子中需要连接 <code>127.0.0.1:60587</code>。</p>
+<h2 id="ide-集成调试"><a class="markdown-anchor" href="#ide-集成调试">#</a> IDE 集成调试</h2>
+<p>IDE 集成调试暂时请通过 <code>pandora dev --inspect</code> 启动后，连接端口号的形式调试（比如 WebStorm 中的 Node.js Remote Debug）。</p>
+<p>未来将会提供工具优化这一体验。</p>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>认识 procfile.js - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>认识 procfile.js</h1>
+    <p>procfile.js 是一个普通的 js 文件，提供链式的语法定义应用。</p>
+<p>procfile.js 是描述应用进程结构的文件，可以基于 procfile.js 来编排进程结构，使用 Pandora.js 提供的各种强大功能。</p>
+<p>当然把进程交给 Pandora.js 管理，不只是帮你创建进程这么简单，更是：</p>
+<blockquote>
+<p>Pandora.js 会守护创建出来的进程。</p>
+<p>小到自动重启、切割日志文件、重启次数计数。</p>
+<p>大到 30 多项 Metrics 指标采集、自动的全链路 Trace 追踪、对接现有 APM （比如 Open-Falcon）等等。</p>
+</blockquote>
+<h2 id="应该把-procfilejs-放在哪里"><a class="markdown-anchor" href="#应该把-procfilejs-放在哪里">#</a> 应该把 procfile.js 放在哪里？</h2>
+<p>Pandora.js 会在下述位置查找 <code>procfile.js</code>。</p>
+<ul>
+<li>${appDir}/procfile.js</li>
+</ul>
+<!--* ${appDir}/node_modules/.bin/procfile.js （为了框架注入默认行为，为未来保留接口，暂无应用）-->
+<h2 id="启动一个简单的-nodejs-程序"><a class="markdown-anchor" href="#启动一个简单的-nodejs-程序">#</a> 启动一个简单的 Node.js 程序</h2>
+<p>下文中 <code>pandora</code> 对象的类型为 <code>ProcfileReconcilerAccessor</code>，你可以点击查看详细 API。</p>
+<p>我们先看个例子：</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// procfile.js 是一个普通的 Node.js 模块，必须导出一个 function</span></span><br><span class="line"><span class="comment">// function(pandora) 的第一个参数是 pandora，这个对象用于定义我们的进程结构</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">pandora</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 定义一个进程，名字叫 processA</span></span><br><span class="line">    .process(<span class="string">'processA'</span>)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 如果 scale 大于 1 ，将使用 Node.js 的 Cluster 模块自动产生进程组</span></span><br><span class="line">    <span class="comment">// 默认值即是 1</span></span><br><span class="line">    .scale(<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 定义进程环境变量，创建出来的进程中可以通过 process.env 获得</span></span><br><span class="line">    .env(&#123;</span><br><span class="line">      ENV_VAR1: <span class="string">'VALUE_OF_ENV_VAR1'</span></span><br><span class="line">    &#125;)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 这个进程的入口文件地址</span></span><br><span class="line">	.entry(<span class="string">'./app.js'</span>);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>app.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">`Got the value of ENV_VAR1: <span class="subst">$&#123;process.env. ENV_VAR1&#125;</span> from Process [pid = <span class="subst">$&#123;process.pid&#125;</span>]`</span>);</span><br></pre></td></tr></table></figure>
+<p>然后我们运行命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora dev <span class="comment"># 通过 pandora dev 前台启动应用，多用于本地调试</span></span><br><span class="line">Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19766]</span><br><span class="line">2017-12-11 13:59:12,578 INFO 19530 Process [name = processA, pid = 19766] Started successfully!</span><br><span class="line">** Application start successful. **</span><br></pre></td></tr></table></figure>
+<h2 id="基于-scale-自动缩放进程"><a class="markdown-anchor" href="#基于-scale-自动缩放进程">#</a> 基于 Scale 自动缩放进程</h2>
+<p>尝试把上面例子中的 <code>.scale(1)</code> 改为 <code>.scale(4)</code>，然后前台启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora dev <span class="comment"># 通过 pandora dev 前台启动应用，多用于本地调试</span></span><br><span class="line">Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19913]</span><br><span class="line">Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19915]</span><br><span class="line">Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19916]</span><br><span class="line">Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19914]</span><br><span class="line">2017-12-11 14:04:57,836 INFO 19910 Process [name = processA, pid = 19912] Started successfully!</span><br><span class="line">** Application start successful. **</span><br></pre></td></tr></table></figure>
+<p>我们可以看到进程扩展到了 4 个，分别是 19913、19915、19916、19914。我们还可以看到 19912 ，这是四个进程的 Master 。</p>
+<p>下图可能更容易理解：</p>
+<p><img src="https://img.alicdn.com/tfs/TB1zC45hr_I8KJjy1XaXXbsxpXa-1768-916.png" alt="img"></p>
+<h2 id="两个便捷的-aliasfork-和-cluster"><a class="markdown-anchor" href="#两个便捷的-aliasfork-和-cluster">#</a> 两个便捷的 Alias：Fork 和 Cluster</h2>
+<p>为了方便用户使用，我们提供了两个简便 Alias ，Cluster 和 Fork。一方面是为了简便使用。更是为了兼容存量的 Node.js 应用，让存量 Node.js 也可以很方便的使用。</p>
+<p><strong>Fork</strong></p>
+<p>pandora.fork() 是 process.process() 的一个 Alias。</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">pandora</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 直接启动 ./app.js，等价于直接用 child_process.spawn 启动。</span></span><br><span class="line">  pandora.fork(<span class="string">'aForkedProcess'</span>, <span class="string">'./app.js'</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子等价于下面：</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">pandora</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 定义一个进程 aForkedApp</span></span><br><span class="line">    .process(<span class="string">'aForkedApp'</span>)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 指定只启动一个</span></span><br><span class="line">    .scale(<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 指定入口文件地址</span></span><br><span class="line">    .entry(<span class="string">'./app.js'</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Cluster</strong></p>
+<p>pandora.cluster() 是 process.service() 的一个 Alias。</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">pandora</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 用 Cluster 模块启动 app.js</span></span><br><span class="line">  <span class="comment">// 默认分配到 worker 进程</span></span><br><span class="line">  <span class="comment">// Pandora.js 内置了一个 process('worker').scale('auto') 的定义（ 'auto' 表示 CPU 数量 ）</span></span><br><span class="line">  pandora.cluster(<span class="string">'./app.js'</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子等价于下面：</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">pandora</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 定义 worker 进程，其实这个定义 Pandora.js 早已内置</span></span><br><span class="line">  pandora</span><br><span class="line">    .process(<span class="string">'worker'</span>)</span><br><span class="line">    .scale(<span class="string">'auto'</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 定义一个 Service，并分配到 worker 进程</span></span><br><span class="line">  <span class="comment">// 只做一件事情，引入 './app.js'</span></span><br><span class="line">  pandora</span><br><span class="line">    .service(<span class="string">'scalableService'</span>, <span class="class"><span class="keyword">class</span> <span class="title">ScalableService</span> </span>&#123;</span><br><span class="line">      start() &#123;</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">'./app.js'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .process(<span class="string">'worker'</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="service-机制"><a class="markdown-anchor" href="#service-机制">#</a> Service 机制</h2>
+<p>上面讲到了 pandora.cluster() 是 process.service() 的一个 Alias，那 Service 是什么呢？</p>
+<p>Service 也是往进程里定义 Node.js 程序，不过更结构化，提供下面的基础能力：</p>
+<ol>
+<li>标准的 <code>async start()</code> 接口，用户可以异步的启动 Node.js 程序。</li>
+<li>标准的 <code>async stop()</code> 接口，用户可以优雅的下线 Node.js 程序（比如优雅下线 RPC 服务，从而避免出现服务闪断）。</li>
+<li>结构化的日志管理、配置能力。</li>
+<li>进程内的启动顺序（依赖关系）管理。</li>
+</ol>
+<p>下面是一个简单的例子：</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">pandora</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 定义一个 Service ，名字叫 httpServer，实现在 ./httpServer</span></span><br><span class="line">    .service(<span class="string">'httpServer'</span>, <span class="string">'./httpServer'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 对其配置</span></span><br><span class="line">    .config(&#123;</span><br><span class="line">      port: <span class="number">1338</span></span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 分配到 worker 进程。这个其实不用写，默认就是分配到 worker 进程。</span></span><br><span class="line">    <span class="comment">// Pandora.js 内置一个 pandora.process('worker').scale('auto') 的定义。</span></span><br><span class="line">    .process(<span class="string">'worker'</span>);</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>httpServer.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="class"><span class="keyword">class</span> <span class="title">HTTPServer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 构造时会传递一个上下文对象</span></span><br><span class="line">  <span class="keyword">constructor</span>(serviceContext) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(serviceContext);</span><br><span class="line">    <span class="keyword">this</span>.config = serviceContext.config;</span><br><span class="line">    <span class="keyword">this</span>.logger = serviceContext.logger;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 标准的启动接口</span></span><br><span class="line">  <span class="keyword">async</span> start () &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">this</span>.server = http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 标准的日志对象，会记录在 $&#123;logsDir&#125;/$&#123;appName&#125;/service.log</span></span><br><span class="line">      <span class="keyword">this</span>.logger.info(<span class="string">'Got a request url: '</span> + req.url);</span><br><span class="line"></span><br><span class="line">      res.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>&#125;);</span><br><span class="line">      res.end(<span class="string">'Hello Pandora.js'</span>);</span><br><span class="line">      </span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 标准的启动接口，异步等待 Server 监听成功才算启动成功</span></span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.server.listen(<span class="keyword">this</span>.config.port, (err) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span>(err) &#123;</span><br><span class="line">          <span class="keyword">return</span> reject(err);</span><br><span class="line">        &#125;</span><br><span class="line">        resolve();</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Listens on http://127.0.0.1:'</span> + <span class="keyword">this</span>.config.port);</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 标准的停止接口，停止时会有 5 秒的时间窗口用于处理善后工作</span></span><br><span class="line">  <span class="keyword">async</span> stop () &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.server.close(resolve);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Service stopped'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>那我们就可以使用如下命令启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora dev</span><br><span class="line">Listens on http://127.0.0.1:1338</span><br><span class="line">2017-12-11 14:34:22,340 INFO 21481 Process [name = worker, pid = 21483] Started successfully!</span><br><span class="line">** Application start successful. **</span><br></pre></td></tr></table></figure>
+<p>我们看到 <code>Listens on http://127.0.0.1:1338</code>，服务已经成功启动。</p>
+<p>然后我们访问下 <code>http://127.0.0.1:1338</code>，然后查看 <code>${logsDir}/${appName}/service.log</code> 可以看到日志也已经写入了。</p>
+<p>然后 <code>Ctrl + c</code> 停止应用，我们可以看到同样有 <code>Service stopped</code> 的输出。</p>
+<h2 id="pandora-dev-与-pandora-start"><a class="markdown-anchor" href="#pandora-dev-与-pandora-start">#</a> Pandora dev 与 Pandora start</h2>
+<ol>
+<li>Pandora dev 多用于本地调试，不启动 Daemon，并前台启动应用。</li>
+<li>Pandora start 多用于生产环境启动，使用 Daemon 守护应用，后台启动应用。</li>
+</ol>
+<p>procfile.js 中可以使用如下判断启动来源：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (pandora.dev) &#123;</span><br><span class="line">  <span class="comment">// pandora dev 启动的</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// pandora start 启动的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="内置的默认定义"><a class="markdown-anchor" href="#内置的默认定义">#</a> 内置的默认定义</h2>
+<p><code>procfile.js</code> 为了方便使用有一些默认行为：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 定义默认 Service 的分配进程为 worker 进程</span></span><br><span class="line">pandora.defaultServiceCategory(<span class="string">'worker'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义上面说到的 worker 进程 </span></span><br><span class="line">pandora.process(<span class="string">'worker'</span>)</span><br><span class="line">  <span class="comment">// 进程进程的横向扩展，如果 dev 模式只启动 1 个，生产环境启动时启动 CPU 数量个</span></span><br><span class="line">  .scale(pandora.dev ? <span class="number">1</span> : <span class="string">'auto'</span>)</span><br><span class="line">  <span class="comment">// 定义一个环境变量</span></span><br><span class="line">  .env(&#123;<span class="attr">worker</span>: <span class="string">'true'</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个后台任务进程</span></span><br><span class="line">pandora.process(<span class="string">'background'</span>)</span><br><span class="line">  <span class="comment">// 强制只启动 1 个</span></span><br><span class="line">  .scale(<span class="number">1</span>)</span><br><span class="line">  .env(&#123;<span class="attr">background</span>: <span class="string">'true'</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义基础的 Logger Service</span></span><br><span class="line">pandora.service(<span class="string">'logger'</span>, LoggerService)</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 进程不是定义了就会启动，比如有向其分配 Service 后才会启动</span></span><br><span class="line"><span class="comment">  * 比如 .process('worker') 表示向 worker 进程分配</span></span><br><span class="line"><span class="comment">  * 比如 .process('all') 表示向所有进程分配</span></span><br><span class="line"><span class="comment">  * 比如 .process('weak-all') 表示向所有激活进程（有其他 Service 在这个进程的）分配</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  .process(<span class="string">'weak-all'</span>);</span><br></pre></td></tr></table></figure>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

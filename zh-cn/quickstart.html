@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>快速入门 - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>快速入门</h1>
+    <h2 id="环境依赖"><a class="markdown-anchor" href="#环境依赖">#</a> 环境依赖</h2>
+<p>操作系统：支持 macOS，Linux
+运行环境：建议选择 LTS 版本，最低要求 8.x</p>
+<h2 id="本节目标"><a class="markdown-anchor" href="#本节目标">#</a> 本节目标</h2>
+<ol>
+<li>
+<p>Pandora.js 最基础的 procfile.js 文件编写。</p>
+</li>
+<li>
+<p>了解 Pandora.js 最基础的 start, stop, dev, exit, list 命令</p>
+</li>
+</ol>
+<h2 id="安装"><a class="markdown-anchor" href="#安装">#</a> 安装</h2>
+<p>Pandora.js 可以直接安装在应用程序中，也可以安装在全局。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm i pandora -g  // 安装在全局</span><br><span class="line">npm i pandora --save   // 安装在应用</span><br></pre></td></tr></table></figure>
+<h2 id="生成-procfilejs"><a class="markdown-anchor" href="#生成-procfilejs">#</a> 生成 Procfile.js</h2>
+<p>Pandora.js 通过项目根目录下 <code>procfile.js</code> 定义应用进程结构，所以你需要在项目根目录下增加一个 <code>procfile.js</code> 文件。
+我们这章介绍最简单的 Fork 和 Cluster 方式，下面介绍的两种模式你只需要任选其一。</p>
+<h4 id="fork-方式"><a class="markdown-anchor" href="#fork-方式">#</a> Fork 方式</h4>
+<p>Fork 方式是最简单的方式，只是简单拉起应用，类似于直接  <code>node app.js</code>。
+为了方便新手入门，我们提供最简单的 Fork 方式的 <code>procfile.js</code> 的生成：</p>
+<p>在项目根目录下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start ./app.js <span class="comment"># app.js 是你的 Node.js 程序路径</span></span><br></pre></td></tr></table></figure>
+<p>然后你就会得到一个默认 <code>procfile.js</code> 你可以打开看一下，内容大致如下（隐去注释）：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line">  pandora</span><br><span class="line">    .fork(<span class="string">'appName'</span>, <span class="string">'./app.js'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="cluster-方式"><a class="markdown-anchor" href="#cluster-方式">#</a> Cluster 方式</h4>
+<p>Cluster 方式是 Node.js Web Server 最常用的，我们默认会启动 CPU 数量的 Worker（不过你也该可以改变这一默认值）。</p>
+<p>Cluster 方式的 <code>procfile.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 默认启动到 worker 进程分组</span></span><br><span class="line">    .cluster(<span class="string">'./app.js'</span>); </span><br><span class="line"> </span><br><span class="line">  <span class="comment">/* 自定义 Worker 数量</span></span><br><span class="line"><span class="comment">  pandora</span></span><br><span class="line"><span class="comment">    .process('worker')</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    // 修改 worker 进程分组启动 2 个 worker </span></span><br><span class="line"><span class="comment">    // ，默认是 pandora.dev ? 1 : 'auto'。</span></span><br><span class="line"><span class="comment">    // 意思就是 pandora dev 启动的话就不 Cluster </span></span><br><span class="line"><span class="comment">    // ，如果 pandora start 启动的话就 Cluster 到 CPU 数量。</span></span><br><span class="line"><span class="comment">    .scale(2); </span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="通过应用本身脚本启停"><a class="markdown-anchor" href="#通过应用本身脚本启停">#</a> 通过应用本身脚本启停</h2>
+<p>这种情况下， pandora 会进入应用的整个开发流程，一般情况下，我们会将 pandora 命令写到 scripts 段落中。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script"</span>: &#123;</span><br><span class="line">    <span class="attr">"dev"</span>: <span class="string">"pandora dev"</span>,</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"pandora start"</span>,</span><br><span class="line">    <span class="attr">"stop"</span>: <span class="string">"pandora stop"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个时候，你可以通过 ``scripts` 本身的机制来运行，比如</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run dev // 本地启动</span><br><span class="line">npm run start // 线上启动</span><br><span class="line">npm run stop // 线上停止</span><br></pre></td></tr></table></figure>
+<h2 id="全局模式下启停应用"><a class="markdown-anchor" href="#全局模式下启停应用">#</a> 全局模式下启停应用</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start [--name xxx] [path]</span><br></pre></td></tr></table></figure>
+<p>比如当前在应用根目录，应用为 <code>helloApp</code>。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start</span><br><span class="line">pandora start --name helloApp</span><br></pre></td></tr></table></figure>
+<p>第一个命令会以 package.json 中的 name 或目录最后一截作为应用名，这样，应用会按照 procfile.js 的定义默默启动，并在后台运行。</p>
+<p>如果希望在前台启动（仅本地调试），可以使用 dev 命令。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora dev</span><br></pre></td></tr></table></figure>
+<p>当应用启动之后，可以通过 list 命令查看。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora list</span><br></pre></td></tr></table></figure>
+<p>也可以将它停止运行。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora stop</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>因为 pandora 全局模式下一般在后台启动，所以最好是部署到服务器上才这么做。</p>
+</blockquote>
+<p>一般情况下，使用过 start 命令启动应用之后，Daemon 进程依旧会常驻在内存中，这个时候就需要手动 exit，将 Daemon 进程正常退出，注意，使用 kill 指令不一定能够有效的杀死 Daemon 进程。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

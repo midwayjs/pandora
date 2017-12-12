@@ -62,25 +62,35 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="pandora">pandora</h1>
-				<p>一个 Node.js 应用的服务容器。</p>
-				<h2 id="-">安装</h2>
-				<pre><code class="lang-bash">npm install pandora -g
+				<p><a href="https://github.com/midwayjs/pandora/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
+					<a href=""><img src="https://img.shields.io/github/tag/midwayjs/pandora.svg" alt="GitHub tag"></a>
+					<a href="https://travis-ci.org/midwayjs/pandora"><img src="https://travis-ci.org/midwayjs/pandora.svg?branch=develop" alt="Build Status"></a>
+					<a href="https://codecov.io/gh/midwayjs/pandora"><img src="https://img.shields.io/codecov/c/github/midwayjs/pandora.svg?style=flat-square" alt="Test Coverage"></a>
+					<a href="http://packagequality.com/#?package=pandora"><img src="http://npm.packagequality.com/shield/pandora.svg" alt="Package Quality"></a>
+					<a href="https://lernajs.io/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna"></a>
+					<a href="https://snyk.io/test/npm/pandora"><img src="https://snyk.io/test/npm/pandora/badge.svg" alt="Known Vulnerabilities"></a>
+				<a href="https://github.com/midwayjs/pandora/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a></p>
+				<h2 id="installation">Installation</h2>
+				<pre><code class="lang-bash">$ npm install pandora@latest --save
 </code></pre>
-				<p>全局安装 <code>pandora</code>，将会提供一个全局命令 <code>pandora</code> 。</p>
-				<h2 id="pandora-">pandora 命令详解</h2>
-				<h3 id="pandora-start">pandora start</h3>
-				<p>启动一个应用，默认使用项目路径的最后一段作为应用名。亦可通过 <code>--name giveAName</code> 。</p>
-				<pre><code class="lang-bash">pandora start ./pandora-project
-</code></pre>
-				<h3 id="pandora-stop">pandora stop</h3>
-				<p>停止一个应用。</p>
-				<pre><code class="lang-bash">pandora stop pandora-project
-</code></pre>
-				<h3 id="pandora-list">pandora list</h3>
-				<p>查看所有的应用。</p>
-				<pre><code class="lang-bash">pandora list
-</code></pre>
+				<p>Node.js &gt;= 8.0.0 required.</p>
+				<h2 id="features">Features</h2>
+				<ul>
+					<li>✔︎ Built-in application model</li>
+					<li>✔︎ Built-in process management</li>
+					<li>✔︎ Dev Ops customization</li>
+					<li>✔︎ Provide Metrics and Standard OpenTracing Implementation</li>
+					<li>✔︎ Support lots of web frameworks</li>
+				</ul>
+				<h2 id="docs">Docs</h2>
+				<blockquote>
+					<p>We are still preparing the document and you can visit <a href="https://github.com/midwayjs/pandora/tree/master/docs/source/zh-cn">here</a> now.</p>
+				</blockquote>
+				<h2 id="how-to-contribute">How to Contribute</h2>
+				<p>Please let us know how can we help. Do check out <a href="https://github.com/midwayjs/pandora/issues">issues</a> for bug reports or suggestions first.</p>
+				<p>To become a contributor, please follow our <a href="CONTRIBUTING.md">contributing guide</a>.</p>
+				<h2 id="license">License</h2>
+				<p><a href="LICENSE">MIT</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -97,19 +107,7 @@
 						<a href="enums/state.html" class="tsd-kind-icon">State</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/agentservicecore.html" class="tsd-kind-icon">Agent<wbr>Service<wbr>Core</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/appletreconciler.html" class="tsd-kind-icon">Applet<wbr>Reconciler</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/appletrepresentationchainmodifier.html" class="tsd-kind-icon">Applet<wbr>Representation<wbr>Chain<wbr>Modifier</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="classes/applicationhandler.html" class="tsd-kind-icon">Application<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/clustersupport.html" class="tsd-kind-icon">Cluster<wbr>Support</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/daemon.html" class="tsd-kind-icon">Daemon</a>
@@ -118,28 +116,40 @@
 						<a href="classes/daemonbootstrap.html" class="tsd-kind-icon">Daemon<wbr>Bootstrap</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/daemonintrospection.html" class="tsd-kind-icon">Daemon<wbr>Introspection</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/debugapplicationloader.html" class="tsd-kind-icon">Debug<wbr>Application<wbr>Loader</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/debugservicereconciler.html" class="tsd-kind-icon">Debug<wbr>Service<wbr>Reconciler</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/defaultconfigurator.html" class="tsd-kind-icon">Default<wbr>Configurator</a>
+						<a href="classes/facade.html" class="tsd-kind-icon">Facade</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/globalconfigprocessor.html" class="tsd-kind-icon">Global<wbr>Config<wbr>Processor</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/httpapplet.html" class="tsd-kind-icon">HTTPApplet</a>
+						<a href="classes/monitor.html" class="tsd-kind-icon">Monitor</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/monitor.html" class="tsd-kind-icon">Monitor</a>
+						<a href="classes/monitormanager.html" class="tsd-kind-icon">Monitor<wbr>Manager</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/processbootstrap.html" class="tsd-kind-icon">Process<wbr>Bootstrap</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/processmaster.html" class="tsd-kind-icon">Process<wbr>Master</a>
+						<a href="classes/processcontext.html" class="tsd-kind-icon">Process<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/processcontextaccessor.html" class="tsd-kind-icon">Process<wbr>Context<wbr>Accessor</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/processhandler.html" class="tsd-kind-icon">Process<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/processrepresentationchainmodifier.html" class="tsd-kind-icon">Process<wbr>Representation<wbr>Chain<wbr>Modifier</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/procfilereconciler.html" class="tsd-kind-icon">Procfile<wbr>Reconciler</a>
@@ -148,7 +158,13 @@
 						<a href="classes/procfilereconcileraccessor.html" class="tsd-kind-icon">Procfile<wbr>Reconciler<wbr>Accessor</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/proxyservicecore.html" class="tsd-kind-icon">Proxy<wbr>Service<wbr>Core</a>
+						<a href="classes/scalablemaster.html" class="tsd-kind-icon">Scalable<wbr>Master</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicecontextaccessor.html" class="tsd-kind-icon">Service<wbr>Context<wbr>Accessor</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicecore.html" class="tsd-kind-icon">Service<wbr>Core</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/servicelogger.html" class="tsd-kind-icon">Service<wbr>Logger</a>
@@ -160,31 +176,13 @@
 						<a href="classes/servicerepresentationchainmodifier.html" class="tsd-kind-icon">Service<wbr>Representation<wbr>Chain<wbr>Modifier</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/sharedeventlistenerstore.html" class="tsd-kind-icon">Shared<wbr>Event<wbr>Listener<wbr>Store</a>
+						<a href="classes/serviceutils.html" class="tsd-kind-icon">Service<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/simpleservicecore.html" class="tsd-kind-icon">Simple<wbr>Service<wbr>Core</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/workercontext.html" class="tsd-kind-icon">Worker<wbr>Context</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/workercontextaccessor.html" class="tsd-kind-icon">Worker<wbr>Context<wbr>Accessor</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/workerprocessbootstrap.html" class="tsd-kind-icon">Worker<wbr>Process<wbr>Bootstrap</a>
+						<a href="classes/spawnwrapperutils.html" class="tsd-kind-icon">Spawn<wbr>Wrapper<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/applet.html" class="tsd-kind-icon">Applet</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/appletconstructor.html" class="tsd-kind-icon">Applet<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/appletoptions.html" class="tsd-kind-icon">Applet<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/appletrepresentation.html" class="tsd-kind-icon">Applet<wbr>Representation</a>
+						<a href="interfaces/applicationintrospectionresult.html" class="tsd-kind-icon">Application<wbr>Introspection<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/applicationrepresentation.html" class="tsd-kind-icon">Application<wbr>Representation</a>
@@ -193,19 +191,13 @@
 						<a href="interfaces/applicationstructurerepresentation.html" class="tsd-kind-icon">Application<wbr>Structure<wbr>Representation</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/configurator.html" class="tsd-kind-icon">Configurator</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/configuratorloadoptions.html" class="tsd-kind-icon">Configurator<wbr>Load<wbr>Options</a>
+						<a href="interfaces/daemonintrospectionresult.html" class="tsd-kind-icon">Daemon<wbr>Introspection<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/depinstances.html" class="tsd-kind-icon">Dep<wbr>Instances</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/entryclass.html" class="tsd-kind-icon">Entry<wbr>Class</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/locallistener.html" class="tsd-kind-icon">Local<wbr>Listener</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/processrepresentation.html" class="tsd-kind-icon">Process<wbr>Representation</a>
@@ -217,25 +209,7 @@
 						<a href="interfaces/serviceconstructor.html" class="tsd-kind-icon">Service<wbr>Constructor</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/servicecore.html" class="tsd-kind-icon">Service<wbr>Core</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/serviceinstancereference.html" class="tsd-kind-icon">Service<wbr>Instance<wbr>Reference</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/servicemessagedispatchevent.html" class="tsd-kind-icon">Service<wbr>Message<wbr>Dispatch<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/servicemessageinvokemethod.html" class="tsd-kind-icon">Service<wbr>Message<wbr>Invoke<wbr>Method</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/servicemessagepkg.html" class="tsd-kind-icon">Service<wbr>Message<wbr>Pkg</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/servicemessagesubscribeevent.html" class="tsd-kind-icon">Service<wbr>Message<wbr>Subscribe<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/servicemessageunsubscribeevent.html" class="tsd-kind-icon">Service<wbr>Message<wbr>Unsubscribe<wbr>Event</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/serviceoptions.html" class="tsd-kind-icon">Service<wbr>Options</a>
@@ -253,40 +227,13 @@
 						<a href="globals.html#processscale" class="tsd-kind-icon">Process<wbr>Scale</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#remotelistener" class="tsd-kind-icon">Remote<wbr>Listener</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#serviceworkmode" class="tsd-kind-icon">Service<wbr>Work<wbr>Mode</a>
+						<a href="globals.html#versionsintrospectionresult" class="tsd-kind-icon">Versions<wbr>Introspection<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#_processname" class="tsd-kind-icon">$<wbr>Process<wbr>Name</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#agent_exit" class="tsd-kind-icon">AGENT_<wbr>EXIT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#agent_ready" class="tsd-kind-icon">AGENT_<wbr>READY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#app_exit" class="tsd-kind-icon">APP_<wbr>EXIT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#app_ready" class="tsd-kind-icon">APP_<wbr>READY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#app_start_error" class="tsd-kind-icon">APP_<wbr>START_<wbr>ERROR</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#app_start_success" class="tsd-kind-icon">APP_<wbr>START_<wbr>SUCCESS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#client" class="tsd-kind-icon">CLIENT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#client_command" class="tsd-kind-icon">CLIENT_<wbr>COMMAND</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#client_command_res" class="tsd-kind-icon">CLIENT_<wbr>COMMAND_<wbr>RES</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#compactmetricscollector" class="tsd-kind-icon">Compact<wbr>Metrics<wbr>Collector</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#consolelogger" class="tsd-kind-icon">Console<wbr>Logger</a>
@@ -298,10 +245,13 @@
 						<a href="globals.html#daemon_ready" class="tsd-kind-icon">DAEMON_<wbr>READY</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#defaultenvironment" class="tsd-kind-icon">Default<wbr>Environment</a>
+						<a href="globals.html#daemonendpoint" class="tsd-kind-icon">Daemon<wbr>End<wbr>Point</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#error" class="tsd-kind-icon">ERROR</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#daemonresource" class="tsd-kind-icon">Daemon<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#defaultenvironment" class="tsd-kind-icon">Default<wbr>Environment</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#errorendpoint" class="tsd-kind-icon">Error<wbr>End<wbr>Point</a>
@@ -324,26 +274,26 @@
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#infoendpoint" class="tsd-kind-icon">Info<wbr>End<wbr>Point</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#logger_reload" class="tsd-kind-icon">LOGGER_<wbr>RELOAD</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#inforesource" class="tsd-kind-icon">Info<wbr>Resource</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#loggerservice" class="tsd-kind-icon">Logger<wbr>Service</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#master" class="tsd-kind-icon">MASTER</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#messenger_action_service" class="tsd-kind-icon">MESSENGER_<wbr>ACTION_<wbr>SERVICE</a>
-					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#metricsactuatorserver" class="tsd-kind-icon">Metrics<wbr>Actuator<wbr>Server</a>
+						<a href="globals.html#metricsclient" class="tsd-kind-icon">Metrics<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#metricsendpoint" class="tsd-kind-icon">Metrics<wbr>End<wbr>Point</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#metricsresource" class="tsd-kind-icon">Metrics<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#metricsservermanager" class="tsd-kind-icon">Metrics<wbr>Server<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#normalmetricscollector" class="tsd-kind-icon">Normal<wbr>Metrics<wbr>Collector</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#pandora_cwd" class="tsd-kind-icon">PANDORA_<wbr>CWD</a>
@@ -352,28 +302,22 @@
 						<a href="globals.html#pandora_global_config" class="tsd-kind-icon">PANDORA_<wbr>GLOBAL_<wbr>CONFIG</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#procfile_names" class="tsd-kind-icon">PROCFILE_<wbr>NAMES</a>
+						<a href="globals.html#pandora_process" class="tsd-kind-icon">PANDORA_<wbr>PROCESS</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#publish_topic_message" class="tsd-kind-icon">PUBLISH_<wbr>TOPIC_<wbr>MESSAGE</a>
+						<a href="globals.html#process_error" class="tsd-kind-icon">PROCESS_<wbr>ERROR</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#pathworkerprocessbootstrap" class="tsd-kind-icon">Path<wbr>Worker<wbr>Process<wbr>Bootstrap</a>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#process_ready" class="tsd-kind-icon">PROCESS_<wbr>READY</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#procfile_names" class="tsd-kind-icon">PROCFILE_<wbr>NAMES</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#processendpoint" class="tsd-kind-icon">Process<wbr>End<wbr>Point</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#query_worker" class="tsd-kind-icon">QUERY_<wbr>WORKER</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#ready" class="tsd-kind-icon">READY</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#register_messenger_client" class="tsd-kind-icon">REGISTER_<wbr>MESSENGER_<wbr>CLIENT</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#register_messenger_client_ack" class="tsd-kind-icon">REGISTER_<wbr>MESSENGER_<wbr>CLIENT_<wbr>ACK</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#processresource" class="tsd-kind-icon">Process<wbr>Resource</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#reload" class="tsd-kind-icon">RELOAD</a>
@@ -384,20 +328,17 @@
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#reload_success" class="tsd-kind-icon">RELOAD_<wbr>SUCCESS</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#runtimeendpoint" class="tsd-kind-icon">Runtime<wbr>End<wbr>Point</a>
-					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#send_app_message" class="tsd-kind-icon">SEND_<wbr>APP_<wbr>MESSAGE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#send_broadcast_message" class="tsd-kind-icon">SEND_<wbr>BROADCAST_<wbr>MESSAGE</a>
+						<a href="globals.html#reload_timeout" class="tsd-kind-icon">RELOAD_<wbr>TIMEOUT</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#send_daemon_message" class="tsd-kind-icon">SEND_<wbr>DAEMON_<wbr>MESSAGE</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#send_monitor_message" class="tsd-kind-icon">SEND_<wbr>MONITOR_<wbr>MESSAGE</a>
+						<a href="globals.html#service_prefix_in_hub" class="tsd-kind-icon">SERVICE_<wbr>PREFIX_<wbr>IN_<wbr>HUB</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#service_reserve_name" class="tsd-kind-icon">SERVICE_<wbr>RESERVE_<wbr>NAME</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#shutdown" class="tsd-kind-icon">SHUTDOWN</a>
@@ -405,14 +346,11 @@
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#shutdown_timeout" class="tsd-kind-icon">SHUTDOWN_<wbr>TIMEOUT</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#socket_file_name" class="tsd-kind-icon">SOCKET_<wbr>FILE_<wbr>NAME</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#traceendpoint" class="tsd-kind-icon">Trace<wbr>End<wbr>Point</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#subscribe_top_message" class="tsd-kind-icon">SUBSCRIBE_<wbr>TOP_<wbr>MESSAGE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#servicecorefactory" class="tsd-kind-icon">Service<wbr>Core<wbr>Factory</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#traceresource" class="tsd-kind-icon">Trace<wbr>Resource</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#worker_exit" class="tsd-kind-icon">WORKER_<wbr>EXIT</a>
@@ -421,7 +359,10 @@
 						<a href="globals.html#worker_ready" class="tsd-kind-icon">WORKER_<wbr>READY</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#worker_reload" class="tsd-kind-icon">WORKER_<wbr>RELOAD</a>
+						<a href="globals.html#appdir" class="tsd-kind-icon">app<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#appname" class="tsd-kind-icon">app<wbr>Name</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#cfork" class="tsd-kind-icon">c<wbr>Fork</a>
@@ -441,11 +382,47 @@
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#defaultworkercount" class="tsd-kind-icon">default<wbr>Worker<wbr>Count</a>
 					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#env" class="tsd-kind-icon">env</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#environment" class="tsd-kind-icon">environment</a>
+					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#eolreg" class="tsd-kind-icon">eol<wbr>Reg</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#extend" class="tsd-kind-icon">extend</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#facade" class="tsd-kind-icon">facade</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#foundall" class="tsd-kind-icon">found<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#gethub" class="tsd-kind-icon">get<wbr>Hub</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#getproxy" class="tsd-kind-icon">get<wbr>Proxy</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#getservice" class="tsd-kind-icon">get<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#getserviceclass" class="tsd-kind-icon">get<wbr>Service<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#globalconfigprocessor" class="tsd-kind-icon">global<wbr>Config<wbr>Processor</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#hooks" class="tsd-kind-icon">hooks</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#is" class="tsd-kind-icon">is</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#pathdaemonbootstrap" class="tsd-kind-icon">path<wbr>Daemon<wbr>Bootstrap</a>
@@ -454,7 +431,7 @@
 						<a href="globals.html#pathprocessbootstrap" class="tsd-kind-icon">path<wbr>Process<wbr>Bootstrap</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#pathprocessmaster" class="tsd-kind-icon">path<wbr>Process<wbr>Master</a>
+						<a href="globals.html#pathtoprocessbootstrap" class="tsd-kind-icon">path<wbr>ToProcess<wbr>Bootstrap</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#pidfile" class="tsd-kind-icon">pid<wbr>File</a>
@@ -462,11 +439,32 @@
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#preparedclient" class="tsd-kind-icon">prepared<wbr>Client</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#program" class="tsd-kind-icon">program</a>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#processcontext" class="tsd-kind-icon">process<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#processname" class="tsd-kind-icon">process<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#publishobject" class="tsd-kind-icon">publish<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#tmpdir" class="tsd-kind-icon">tmp<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#wrap" class="tsd-kind-icon">wrap</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#wrapfile" class="tsd-kind-icon">wrap<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#apptointrospection" class="tsd-kind-icon">app<wbr>ToIntrospection</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#attachentryparams" class="tsd-kind-icon">attach<wbr>Entry<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#backuplog" class="tsd-kind-icon">backup<wbr>Log</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#barrierdaemon" class="tsd-kind-icon">barrier<wbr>Daemon</a>
@@ -484,25 +482,40 @@
 						<a href="globals.html#createapplogger" class="tsd-kind-icon">create<wbr>App<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getapplogdir" class="tsd-kind-icon">get<wbr>App<wbr>Log<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getapplogpath" class="tsd-kind-icon">get<wbr>App<wbr>Log<wbr>Path</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getdaemonclient" class="tsd-kind-icon">get<wbr>Daemon<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getdaemonlogpath" class="tsd-kind-icon">get<wbr>Daemon<wbr>Log<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getdaemonlogger" class="tsd-kind-icon">get<wbr>Daemon<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getdaemonstdoutloggerpath" class="tsd-kind-icon">get<wbr>Daemon<wbr>Stdout<wbr>Logger<wbr>Path</a>
+						<a href="globals.html#getdaemonstdoutlogpath" class="tsd-kind-icon">get<wbr>Daemon<wbr>Stdout<wbr>Log<wbr>Path</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#getmessengerclient" class="tsd-kind-icon">get<wbr>Messenger<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getpandoralogsdir" class="tsd-kind-icon">get<wbr>Pandora<wbr>Logs<wbr>Dir</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#getprocfilebasepath" class="tsd-kind-icon">get<wbr>Procfile<wbr>Base<wbr>Path</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#isdaemonrunning" class="tsd-kind-icon">is<wbr>Daemon<wbr>Running</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#lazygetglobalconfig" class="tsd-kind-icon">lazy<wbr>Get<wbr>Global<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#main" class="tsd-kind-icon">main</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#removeeol" class="tsd-kind-icon">removeEOL</a>
@@ -512,6 +525,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#startdaemonreal" class="tsd-kind-icon">start<wbr>Daemon<wbr>Real</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#yyyymmdd" class="tsd-kind-icon">yyyymmdd</a>
 					</li>
 				</ul>
 			</nav>

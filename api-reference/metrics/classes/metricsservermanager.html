@@ -100,6 +100,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsservermanager.html#allmetricsregistry" class="tsd-kind-icon">all<wbr>Metrics<wbr>Registry</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="metricsservermanager.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="metricsservermanager.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsservermanager.html#debug" class="tsd-kind-icon">debug</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsservermanager.html#enabled" class="tsd-kind-icon">enabled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="metricsservermanager.html#group" class="tsd-kind-icon">group</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="metricsservermanager.html#logger" class="tsd-kind-icon">logger</a></li>
@@ -168,7 +169,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L48">MetricsServerManager.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L49">MetricsServerManager.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="metricsservermanager.html" class="tsd-signature-type">MetricsServerManager</a></h4>
@@ -184,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">all<wbr>Metrics<wbr>Registry<span class="tsd-signature-symbol">:</span> <a href="../interfaces/imetricsregistry.html" class="tsd-signature-type">IMetricsRegistry</a><span class="tsd-signature-symbol"> =&nbsp;this.getNewMetricRegistry()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L29">MetricsServerManager.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L28">MetricsServerManager.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,9 +194,10 @@
 					<h3>app<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">app<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#appname">appName</a></p>
 						<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#appname">appName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L11">indicator/AbstractIndicator.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L11">indicator/AbstractIndicator.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +208,17 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#clientid">clientId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L33">MetricsServerManager.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L32">MetricsServerManager.ts:32</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="debug" class="tsd-anchor"></a>
+					<h3>debug</h3>
+					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;debug&#x27;)(&#x27;pandora:metrics:server:&#x27; + this.clientId)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L40">MetricsServerManager.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L37">MetricsServerManager.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L36">MetricsServerManager.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -228,7 +240,7 @@
 						<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#group">group</a></p>
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#group">group</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L39">MetricsServerManager.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L38">MetricsServerManager.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -238,7 +250,7 @@
 					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;&lt;any&gt;console</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L35">MetricsServerManager.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L34">MetricsServerManager.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -248,7 +260,7 @@
 					<div class="tsd-signature tsd-kind-icon">messenger<wbr>Server<span class="tsd-signature-symbol">:</span> <a href="metricsmessengerserver.html" class="tsd-signature-type">MetricsMessengerServer</a><span class="tsd-signature-symbol"> =&nbsp;new MetricsMessengerServer(MetricsConstants.METRICS_PANDORA_KEY)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L25">MetricsServerManager.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L24">MetricsServerManager.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -258,7 +270,7 @@
 					<div class="tsd-signature tsd-kind-icon">metric<wbr>Registry<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/imetricsregistry.html" class="tsd-signature-type">IMetricsRegistry</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L31">MetricsServerManager.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L30">MetricsServerManager.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -268,7 +280,7 @@
 					<div class="tsd-signature tsd-kind-icon">metrics<wbr>Clients<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MessengerClient</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L27">MetricsServerManager.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L26">MetricsServerManager.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -279,7 +291,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L21">indicator/AbstractIndicator.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L21">indicator/AbstractIndicator.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -299,7 +311,7 @@
 					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L41">MetricsServerManager.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L42">MetricsServerManager.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -316,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L95">MetricsServerManager.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L95">MetricsServerManager.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -339,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L84">MetricsServerManager.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L84">MetricsServerManager.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -362,7 +374,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L173">MetricsServerManager.ts:173</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L170">MetricsServerManager.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +404,7 @@
 								<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#destory">destory</a></p>
 								<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#destory">destory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L368">MetricsServerManager.ts:368</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L367">MetricsServerManager.ts:367</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -409,7 +421,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L229">MetricsServerManager.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L225">MetricsServerManager.ts:225</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -427,7 +439,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getallcategorymetrics">getAllCategoryMetrics</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L310">MetricsServerManager.ts:310</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L309">MetricsServerManager.ts:309</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -450,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L225">MetricsServerManager.ts:225</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L221">MetricsServerManager.ts:221</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/imetricsregistry.html" class="tsd-signature-type">IMetricsRegistry</a></h4>
@@ -468,7 +480,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getcategorymetrics">getCategoryMetrics</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L297">MetricsServerManager.ts:297</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L296">MetricsServerManager.ts:296</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -494,7 +506,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L217">MetricsServerManager.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L213">MetricsServerManager.ts:213</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -518,7 +530,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#getclientdownlinkkey">getClientDownlinkKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L30">indicator/AbstractIndicator.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L30">indicator/AbstractIndicator.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -551,7 +563,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#getclientuplinkkey">getClientUplinkKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L40">indicator/AbstractIndicator.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L40">indicator/AbstractIndicator.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -583,7 +595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L213">MetricsServerManager.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L209">MetricsServerManager.ts:209</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">MessengerClient</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -601,7 +613,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getcounter">getCounter</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L356">MetricsServerManager.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L355">MetricsServerManager.ts:355</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -628,7 +640,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getcounters">getCounters</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L269">MetricsServerManager.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L268">MetricsServerManager.ts:268</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -655,7 +667,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getgauges">getGauges</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L264">MetricsServerManager.ts:264</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L263">MetricsServerManager.ts:263</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -682,7 +694,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#gethistogram">getHistogram</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L360">MetricsServerManager.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L359">MetricsServerManager.ts:359</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -709,7 +721,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#gethistograms">getHistograms</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L274">MetricsServerManager.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L273">MetricsServerManager.ts:273</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -736,7 +748,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getmeter">getMeter</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L352">MetricsServerManager.ts:352</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L351">MetricsServerManager.ts:351</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -763,7 +775,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getmeters">getMeters</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L279">MetricsServerManager.ts:279</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L278">MetricsServerManager.ts:278</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -789,7 +801,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L221">MetricsServerManager.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L217">MetricsServerManager.ts:217</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -813,7 +825,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getmetricregistrybygroup">getMetricRegistryByGroup</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L253">MetricsServerManager.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L252">MetricsServerManager.ts:252</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -837,7 +849,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getmetrics">getMetrics</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L289">MetricsServerManager.ts:289</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L288">MetricsServerManager.ts:288</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -861,7 +873,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#getnewmetricregistry">getNewMetricRegistry</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L375">MetricsServerManager.ts:375</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L375">MetricsServerManager.ts:375</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/imetricsregistry.html" class="tsd-signature-type">IMetricsRegistry</a></h4>
@@ -879,7 +891,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#gettimer">getTimer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L364">MetricsServerManager.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L363">MetricsServerManager.ts:363</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -906,7 +918,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#gettimers">getTimers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L284">MetricsServerManager.ts:284</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L283">MetricsServerManager.ts:283</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -932,7 +944,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L260">MetricsServerManager.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L259">MetricsServerManager.ts:259</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -956,7 +968,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#invoke">invoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L197">MetricsServerManager.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L193">MetricsServerManager.ts:193</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -985,7 +997,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#isenabled">isEnabled</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L327">MetricsServerManager.ts:327</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L326">MetricsServerManager.ts:326</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1003,7 +1015,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#issingleton">isSingleton</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/indicator/AbstractIndicator.ts#L49">indicator/AbstractIndicator.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/indicator/AbstractIndicator.ts#L49">indicator/AbstractIndicator.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1026,7 +1038,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#listmetricgroups">listMetricGroups</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L323">MetricsServerManager.ts:323</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L322">MetricsServerManager.ts:322</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -1044,7 +1056,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/metricsmanager.html">MetricsManager</a>.<a href="../interfaces/metricsmanager.html#listmetricnamesbygroup">listMetricNamesByGroup</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L339">MetricsServerManager.ts:339</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L338">MetricsServerManager.ts:338</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1061,7 +1073,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L236">MetricsServerManager.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L232">MetricsServerManager.ts:232</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1090,7 +1102,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L62">MetricsServerManager.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L63">MetricsServerManager.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1134,7 +1146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L110">MetricsServerManager.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L110">MetricsServerManager.ts:110</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1164,7 +1176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L331">MetricsServerManager.ts:331</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L330">MetricsServerManager.ts:330</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1187,7 +1199,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L335">MetricsServerManager.ts:335</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L334">MetricsServerManager.ts:334</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1210,7 +1222,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L151">MetricsServerManager.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L148">MetricsServerManager.ts:148</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1233,7 +1245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/MetricsServerManager.ts#L43">MetricsServerManager.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/MetricsServerManager.ts#L44">MetricsServerManager.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -1268,6 +1280,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="metricsservermanager.html#clientid" class="tsd-kind-icon">client<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="metricsservermanager.html#debug" class="tsd-kind-icon">debug</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="metricsservermanager.html#enabled" class="tsd-kind-icon">enabled</a>

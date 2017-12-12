@@ -85,16 +85,19 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#procfilereconciler" class="tsd-kind-icon">procfile<wbr>Reconciler</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#representation" class="tsd-kind-icon">representation</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#category" class="tsd-kind-icon">category</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#config" class="tsd-kind-icon">config</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#dependency" class="tsd-kind-icon">dependency</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#drop" class="tsd-kind-icon">drop</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#process" class="tsd-kind-icon">process</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="servicerepresentationchainmodifier.html#publish" class="tsd-kind-icon">publish</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,19 +109,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Service<wbr>Representation<wbr>Chain<wbr>Modifier<span class="tsd-signature-symbol">(</span>representation<span class="tsd-signature-symbol">: </span><a href="../interfaces/servicerepresentation.html" class="tsd-signature-type">ServiceRepresentation</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Service<wbr>Representation<wbr>Chain<wbr>Modifier<span class="tsd-signature-symbol">(</span>representation<span class="tsd-signature-symbol">: </span><a href="../interfaces/servicerepresentation.html" class="tsd-signature-type">ServiceRepresentation</a>, procfileReconciler<span class="tsd-signature-symbol">: </span><a href="procfilereconciler.html" class="tsd-signature-type">ProcfileReconciler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L4">application/ServiceRepresentationChainModifier.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L8">application/ServiceRepresentationChainModifier.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>representation: <a href="../interfaces/servicerepresentation.html" class="tsd-signature-type">ServiceRepresentation</a></h5>
+								</li>
+								<li>
+									<h5>procfileReconciler: <a href="procfilereconciler.html" class="tsd-signature-type">ProcfileReconciler</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></h4>
@@ -129,12 +135,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="procfilereconciler" class="tsd-anchor"></a>
+					<h3>procfile<wbr>Reconciler</h3>
+					<div class="tsd-signature tsd-kind-icon">procfile<wbr>Reconciler<span class="tsd-signature-symbol">:</span> <a href="procfilereconciler.html" class="tsd-signature-type">ProcfileReconciler</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L7">application/ServiceRepresentationChainModifier.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="representation" class="tsd-anchor"></a>
 					<h3>representation</h3>
 					<div class="tsd-signature tsd-kind-icon">representation<span class="tsd-signature-symbol">:</span> <a href="../interfaces/servicerepresentation.html" class="tsd-signature-type">ServiceRepresentation</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L4">application/ServiceRepresentationChainModifier.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L8">application/ServiceRepresentationChainModifier.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -142,44 +158,17 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="category" class="tsd-anchor"></a>
-					<h3>category</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">category<span class="tsd-signature-symbol">(</span>category<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L25">application/ServiceRepresentationChainModifier.ts:25</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Modify service&#39;s category</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>category: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="config" class="tsd-anchor"></a>
 					<h3>config</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 						<li class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">(</span>configResolver<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L35">application/ServiceRepresentationChainModifier.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L51">application/ServiceRepresentationChainModifier.ts:51</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -187,6 +176,14 @@
 									<p>Modify service&#39;s config</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L52">application/ServiceRepresentationChainModifier.ts:52</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -201,13 +198,14 @@
 					<a name="dependency" class="tsd-anchor"></a>
 					<h3>dependency</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dependency<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
 						<li class="tsd-signature tsd-kind-icon">dependency<span class="tsd-signature-symbol">(</span>servicesName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L49">application/ServiceRepresentationChainModifier.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L70">application/ServiceRepresentationChainModifier.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -215,6 +213,14 @@
 									<p>modify service&#39;s dependencies</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L71">application/ServiceRepresentationChainModifier.ts:71</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -226,16 +232,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="drop" class="tsd-anchor"></a>
+					<h3>drop</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">drop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L97">application/ServiceRepresentationChainModifier.ts:97</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Drop this service like never happened</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="name" class="tsd-anchor"></a>
 					<h3>name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 						<li class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">(</span>serviceName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L15">application/ServiceRepresentationChainModifier.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L20">application/ServiceRepresentationChainModifier.ts:20</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,6 +272,14 @@
 									<p>Modify service&#39;s name</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L21">application/ServiceRepresentationChainModifier.ts:21</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -250,6 +287,73 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="process" class="tsd-anchor"></a>
+					<h3>process</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">process<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L36">application/ServiceRepresentationChainModifier.ts:36</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Modify service&#39;s category</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L37">application/ServiceRepresentationChainModifier.ts:37</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>processName: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="servicerepresentationchainmodifier.html" class="tsd-signature-type">ServiceRepresentationChainModifier</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="publish" class="tsd-anchor"></a>
+					<h3>publish</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">publish<span class="tsd-signature-symbol">(</span>enable<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/application/ServiceRepresentationChainModifier.ts#L89">application/ServiceRepresentationChainModifier.ts:89</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Publish this service upon IPC-Hub</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> enable: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -274,10 +378,10 @@
 								<a href="servicerepresentationchainmodifier.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="servicerepresentationchainmodifier.html#representation" class="tsd-kind-icon">representation</a>
+								<a href="servicerepresentationchainmodifier.html#procfilereconciler" class="tsd-kind-icon">procfile<wbr>Reconciler</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="servicerepresentationchainmodifier.html#category" class="tsd-kind-icon">category</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="servicerepresentationchainmodifier.html#representation" class="tsd-kind-icon">representation</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="servicerepresentationchainmodifier.html#config" class="tsd-kind-icon">config</a>
@@ -286,7 +390,16 @@
 								<a href="servicerepresentationchainmodifier.html#dependency" class="tsd-kind-icon">dependency</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="servicerepresentationchainmodifier.html#drop" class="tsd-kind-icon">drop</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="servicerepresentationchainmodifier.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="servicerepresentationchainmodifier.html#process" class="tsd-kind-icon">process</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="servicerepresentationchainmodifier.html#publish" class="tsd-kind-icon">publish</a>
 							</li>
 						</ul>
 					</li>

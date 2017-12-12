@@ -103,6 +103,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="metricsendpoint.html#buildmetricregistry" class="tsd-kind-icon">build<wbr>Metric<wbr>Registry</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="metricsendpoint.html#destory" class="tsd-kind-icon">destory</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="metricsendpoint.html#getcollector" class="tsd-kind-icon">get<wbr>Collector</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsendpoint.html#getmetricsbygroup" class="tsd-kind-icon">get<wbr>Metrics<wbr>ByGroup</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="metricsendpoint.html#hasmetricsgroup" class="tsd-kind-icon">has<wbr>Metrics<wbr>Group</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="metricsendpoint.html#initialize" class="tsd-kind-icon">initialize</a></li>
@@ -132,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">duration<wbr>Factor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L16">endpoint/impl/MetricsEndPoint.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L34">endpoint/impl/MetricsEndPoint.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +145,7 @@
 						<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#group">group</a></p>
 						<p>Overrides <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#group">group</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L11">endpoint/impl/MetricsEndPoint.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L31">endpoint/impl/MetricsEndPoint.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,7 +157,7 @@
 						<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#indicators">indicators</a></p>
 						<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#indicators">indicators</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L20">endpoint/EndPoint.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L20">endpoint/EndPoint.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -167,17 +168,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#logger">logger</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L22">endpoint/EndPoint.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L22">endpoint/EndPoint.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="manager" class="tsd-anchor"></a>
 					<h3>manager</h3>
-					<div class="tsd-signature tsd-kind-icon">manager<span class="tsd-signature-symbol">:</span> <a href="../interfaces/metricsmanager.html" class="tsd-signature-type">MetricsManager</a><span class="tsd-signature-symbol"> =&nbsp;MetricsServerManager.getInstance()</span></div>
+					<div class="tsd-signature tsd-kind-icon">manager<span class="tsd-signature-symbol">:</span> <a href="../interfaces/metricsmanager.html" class="tsd-signature-type">MetricsManager</a><span class="tsd-signature-symbol"> =&nbsp;MetricsInjectionBridge.getMetricsManager()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L13">endpoint/impl/MetricsEndPoint.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L32">endpoint/impl/MetricsEndPoint.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -187,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">rate<wbr>Factor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L15">endpoint/impl/MetricsEndPoint.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L33">endpoint/impl/MetricsEndPoint.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -198,13 +199,13 @@
 					<a name="buildmetricregistry" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> build<wbr>Metric<wbr>Registry</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">build<wbr>Metric<wbr>Registry<span class="tsd-signature-symbol">(</span>registry<span class="tsd-signature-symbol">: </span><a href="../interfaces/imetricsregistry.html" class="tsd-signature-type">IMetricsRegistry</a>, filter<span class="tsd-signature-symbol">?: </span><a href="metricfilter.html" class="tsd-signature-type">MetricFilter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="metricobject.html" class="tsd-signature-type">MetricObject</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Metric<wbr>Registry<span class="tsd-signature-symbol">(</span>registry<span class="tsd-signature-symbol">: </span><a href="../interfaces/imetricsregistry.html" class="tsd-signature-type">IMetricsRegistry</a>, filter<span class="tsd-signature-symbol">?: </span><a href="metricfilter.html" class="tsd-signature-type">MetricFilter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L37">endpoint/impl/MetricsEndPoint.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L59">endpoint/impl/MetricsEndPoint.ts:59</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -216,7 +217,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> filter: <a href="metricfilter.html" class="tsd-signature-type">MetricFilter</a><span class="tsd-signature-symbol"> =&nbsp;MetricFilter.ALL</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="metricobject.html" class="tsd-signature-type">MetricObject</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -231,7 +232,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#destory">destory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L124">endpoint/EndPoint.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L130">endpoint/EndPoint.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -244,17 +245,34 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getmetricsbygroup" class="tsd-anchor"></a>
-					<h3>get<wbr>Metrics<wbr>ByGroup</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Metrics<wbr>ByGroup<span class="tsd-signature-symbol">(</span>groupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="getcollector" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Collector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Collector<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L71">endpoint/impl/MetricsEndPoint.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L109">endpoint/impl/MetricsEndPoint.ts:109</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getmetricsbygroup" class="tsd-anchor"></a>
+					<h3>get<wbr>Metrics<wbr>ByGroup</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Metrics<wbr>ByGroup<span class="tsd-signature-symbol">(</span>groupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, appName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L93">endpoint/impl/MetricsEndPoint.ts:93</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,8 +280,11 @@
 								<li>
 									<h5>groupName: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> appName: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -277,7 +298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L79">endpoint/impl/MetricsEndPoint.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L105">endpoint/impl/MetricsEndPoint.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -302,7 +323,7 @@
 								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#initialize">initialize</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#initialize">initialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L52">endpoint/EndPoint.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L54">endpoint/EndPoint.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -321,7 +342,7 @@
 								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#invoke">invoke</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#invoke">invoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L29">endpoint/EndPoint.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L29">endpoint/EndPoint.ts:29</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +353,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> appName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;MetricsConstants.METRICS_DEFAULT_APP</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> appName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span></h5>
@@ -348,16 +369,22 @@
 					<a name="listmetrics" class="tsd-anchor"></a>
 					<h3>list<wbr>Metrics</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">list<wbr>Metrics<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">__type</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Metrics<span class="tsd-signature-symbol">(</span>appName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">__type</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L18">endpoint/impl/MetricsEndPoint.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/impl/MetricsEndPoint.ts#L36">endpoint/impl/MetricsEndPoint.ts:36</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">__type</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> appName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">__type</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -365,21 +392,26 @@
 					<a name="processqueryresults" class="tsd-anchor"></a>
 					<h3>process<wbr>Query<wbr>Results</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Query<wbr>Results<span class="tsd-signature-symbol">(</span>results<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="indicatorresult.html" class="tsd-signature-type">IndicatorResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Query<wbr>Results<span class="tsd-signature-symbol">(</span>results<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="indicatorresult.html" class="tsd-signature-type">IndicatorResult</a><span class="tsd-signature-symbol">&gt;</span>, appName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#processqueryresults">processQueryResults</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#processqueryresults">processQueryResults</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L58">endpoint/EndPoint.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L60">endpoint/EndPoint.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>results: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="indicatorresult.html" class="tsd-signature-type">IndicatorResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> appName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -397,7 +429,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#registerindicator">registerIndicator</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L80">endpoint/EndPoint.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L86">endpoint/EndPoint.ts:86</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -434,7 +466,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#removeclient">removeClient</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L110">endpoint/EndPoint.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L116">endpoint/EndPoint.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -458,7 +490,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#setconfig">setConfig</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L116">endpoint/EndPoint.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L122">endpoint/EndPoint.ts:122</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -483,7 +515,7 @@
 								<p>Implementation of <a href="../interfaces/iendpoint.html">IEndPoint</a>.<a href="../interfaces/iendpoint.html#setlogger">setLogger</a></p>
 								<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#setlogger">setLogger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L120">endpoint/EndPoint.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L126">endpoint/EndPoint.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -506,7 +538,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="endpoint.html">EndPoint</a>.<a href="endpoint.html#config">config</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L11">endpoint/EndPoint.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L11">endpoint/EndPoint.ts:11</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -515,7 +547,7 @@
 						<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L12">endpoint/EndPoint.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L12">endpoint/EndPoint.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -525,7 +557,7 @@
 						<div class="tsd-signature tsd-kind-icon">init<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/metrics/src/endpoint/EndPoint.ts#L13">endpoint/EndPoint.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/metrics/src/endpoint/EndPoint.ts#L13">endpoint/EndPoint.ts:13</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-type-declaration">
@@ -575,6 +607,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="metricsendpoint.html#destory" class="tsd-kind-icon">destory</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="metricsendpoint.html#getcollector" class="tsd-kind-icon">get<wbr>Collector</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="metricsendpoint.html#getmetricsbygroup" class="tsd-kind-icon">get<wbr>Metrics<wbr>ByGroup</a>

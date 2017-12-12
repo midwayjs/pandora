@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>单机可视化管理面板（Pandora-Dashboard ） - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>单机可视化管理面板（Pandora-Dashboard ）</h1>
+    <p>Pandora Dashboard 是一个本地的 Dashboard，用来查看管理 Pandora.js。Pandora Dashboard 亦是一个普通的 Pandora.js 项目。</p>
+<p>项目地址：</p>
+<p><a href="https://github.com/midwayjs/pandora-dashboard" target="_blank" rel="noopener">https://github.com/midwayjs/pandora-dashboard</a></p>
+<h2 id="使用方法"><a class="markdown-anchor" href="#使用方法">#</a> 使用方法</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 或者其他其他全局可以 require 到的地方</span></span><br><span class="line"><span class="built_in">cd</span> ~ </span><br><span class="line">npm i pandora-dashboard</span><br><span class="line"></span><br><span class="line"><span class="comment"># --npm 参数的意思是，使用 require.resolve() 全局查找</span></span><br><span class="line">pandora start --name dashboard --npm pandora-dashboard</span><br></pre></td></tr></table></figure>
+<p>然后，打开 <code>http://127.0.0.1:9081</code> 就能看到了。</p>
+<p><img src="https://img.alicdn.com/tfs/TB1pIfEeOqAXuNjy1XdXXaYcVXa-1906-1450.png" alt="dashboard"></p>
+<h2 id="自定义-tcp-端口号和-ip-地址"><a class="markdown-anchor" href="#自定义-tcp-端口号和-ip-地址">#</a> 自定义 TCP 端口号和 IP 地址</h2>
+<p>默认，Dashboard 监听在 <code>http://127.0.0.1:9081</code>，你也可以改变这一默认行为。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start --name dashboard --env <span class="string">"DASHBORAD_PORT=9081 DASHBOARD_HOST=0.0.0.0"</span> --npm pandora-dashboard</span><br></pre></td></tr></table></figure>
+<h2 id="美图赏析"><a class="markdown-anchor" href="#美图赏析">#</a> 美图赏析</h2>
+<p><img src="https://img.alicdn.com/tfs/TB1P44yh2DH8KJjy1XcXXcpdXXa-2536-1992.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB1ZmRBh_vI8KJjSspjXXcgjXXa-2528-1998.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB1k04KhY_I8KJjy1XaXXbsxpXa-2540-1996.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB1tcXih4rI8KJjy0FpXXb5hVXa-2534-2006.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB14pXfh8TH8KJjy0FiXXcRsXXa-2536-1998.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB17t0ih4rI8KJjy0FpXXb5hVXa-2542-1996.png" alt="img"></p>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

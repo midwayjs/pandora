@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>配置文件 - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>配置文件</h1>
+    <p>Pandora.js 设计了一套配置文件，希望能和应用的配置进行隔离，毕竟 Pandora.js 可能会在全局场景下应用，导致不一样的情况发生。</p>
+<h2 id="默认的全局配置"><a class="markdown-anchor" href="#默认的全局配置">#</a> 默认的全局配置</h2>
+<p>Pandora.js 提供了一组默认的配置来保证基础脚本的运行，一般指定了几项标准的内容：</p>
+<ul>
+<li>environment 标准的环境实现类</li>
+<li>actuatorServer 监控实现类</li>
+<li>actuator 监控描述内容</li>
+<li>reporter 上报实现</li>
+</ul>
+<p>在这些key的基础删，进行覆盖，增加操作，默认配置如下，可能有变化，具体见代码详情。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  environment: DefaultEnvironment,</span><br><span class="line">  actuatorServer: MetricsActuatorServer,</span><br><span class="line">  actuator: &#123;</span><br><span class="line">    http: &#123;</span><br><span class="line">      enabled: <span class="literal">true</span>,</span><br><span class="line">      port: <span class="number">8006</span>,</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    endPoint: &#123;</span><br><span class="line">      error: &#123;</span><br><span class="line">        enabled: <span class="literal">true</span>,</span><br><span class="line">        target: ErrorEndPoint,</span><br><span class="line">        resource: ErrorResource,</span><br><span class="line">        initConfig: &#123;</span><br><span class="line">          maxErrorCount: <span class="number">100</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      health: &#123;</span><br><span class="line">        enabled: <span class="literal">true</span>,</span><br><span class="line">        target: HealthEndPoint,</span><br><span class="line">        resource: HealthResource,</span><br><span class="line">        initConfig: &#123;</span><br><span class="line">          port: &#123;</span><br><span class="line">            enabled: <span class="literal">true</span>,</span><br><span class="line">            checkUrl: <span class="string">`http://127.1:6001`</span></span><br><span class="line">          &#125;,</span><br><span class="line">          disk_space: &#123;</span><br><span class="line">            enabled: <span class="literal">true</span>,</span><br><span class="line">            rate: <span class="number">80</span>,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      info: &#123;</span><br><span class="line">        enabled: <span class="literal">true</span>,</span><br><span class="line">        target: InfoEndPoint,</span><br><span class="line">      &#125;,</span><br><span class="line">      process: &#123;</span><br><span class="line">        enabled: <span class="literal">true</span>,</span><br><span class="line">        target: ProcessEndPoint,</span><br><span class="line">      &#125;,</span><br><span class="line">      runtime: &#123;</span><br><span class="line">        enabled: <span class="literal">true</span>,</span><br><span class="line">        target: RuntimeEndPoint</span><br><span class="line">      &#125;,</span><br><span class="line">      metrics: &#123;</span><br><span class="line">        enabled: <span class="literal">true</span>,</span><br><span class="line">        target: MetricsEndPoint,</span><br><span class="line">        resource: MetricsResource</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  reporter: &#123;</span><br><span class="line">    file: &#123;</span><br><span class="line">      enabled: <span class="literal">true</span>,</span><br><span class="line">      target: FileMetricManagerReporter,</span><br><span class="line">      interval: <span class="number">5</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Pandora.js 设计了一套简单有效的配置覆盖机制，用户可以通过配置文件的形式，对默认的行为做一些修改。</p>
+<p>我们通过 <code>PANDORA_CONFIG</code> 这个环境变量来注入配置包，这个配置包可以是一个文件，如果内容比较多，也可以是一个 npm 包，能直接 require 即可。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">PANDORA_CONFIG=pandora-ali pandora start .</span><br><span class="line">PANDORA_CONFIG=./index.js pandora start .</span><br></pre></td></tr></table></figure>
+<p>文件的内容<strong>只需要写覆盖的部分</strong></p>
+<h2 id="通过命令行加载多配置"><a class="markdown-anchor" href="#通过命令行加载多配置">#</a> 通过命令行加载多配置</h2>
+<p>本质上，配置的覆盖就只是配置文件内容的覆盖，所以只需要做好分割就好。</p>
+<p>注意：Pandora.js 使用 <code>:</code> 作为分隔符来分割多个路径。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">PANDORA_CONFIG=pandora-ali:./index.js pandora start .</span><br></pre></td></tr></table></figure>
+<h2 id="通过-packagejson-加载多配置"><a class="markdown-anchor" href="#通过-packagejson-加载多配置">#</a> 通过 package.json 加载多配置</h2>
+<p>另一方面，pandora 提供了在 <code>package.json</code> 文件中增加配置的功能，只要增加 <code>pandora</code> 文本段即可，示例如下：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"xxx"</span>,</span><br><span class="line">    <span class="attr">"pandora"</span>: &#123;</span><br><span class="line">      <span class="attr">"start"</span>: &#123;</span><br><span class="line">        <span class="attr">"config"</span>: [</span><br><span class="line">          <span class="string">"pandora-taobao"</span>,</span><br><span class="line">          <span class="string">"./pandora.js"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"dev"</span>: &#123;</span><br><span class="line">        <span class="attr">"mode"</span>: <span class="string">"fork"</span>,</span><br><span class="line">        <span class="attr">"entry"</span>: <span class="string">"./bin/server.js"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //xxxx</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个命令可以分开进行设置，同时配置是以 <code>config</code> 作为子 key，和命令行不同的是使用了数组的形式。</p>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

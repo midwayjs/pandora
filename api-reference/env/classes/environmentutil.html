@@ -86,6 +86,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="environmentutil.html#current" class="tsd-kind-icon">current</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="environmentutil.html#ready" class="tsd-kind-icon">ready</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="environmentutil.html#instance" class="tsd-kind-icon">instance</a></li>
 							</ul>
 						</section>
@@ -95,6 +96,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="environmentutil.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="environmentutil.html#getcurrentenvironment" class="tsd-kind-icon">get<wbr>Current<wbr>Environment</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="environmentutil.html#is" class="tsd-kind-icon">is</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="environmentutil.html#isready" class="tsd-kind-icon">is<wbr>Ready</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="environmentutil.html#setcurrentenvironment" class="tsd-kind-icon">set<wbr>Current<wbr>Environment</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="environmentutil.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a></li>
 							</ul>
@@ -110,7 +112,17 @@
 					<div class="tsd-signature tsd-kind-icon">current<span class="tsd-signature-symbol">:</span> <a href="../interfaces/environment.html" class="tsd-signature-type">Environment</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L17">EnvironmentUtil.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L18">EnvironmentUtil.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="ready" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> ready</h3>
+					<div class="tsd-signature tsd-kind-icon">ready<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L9">EnvironmentUtil.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -120,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L8">EnvironmentUtil.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L8">EnvironmentUtil.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -137,7 +149,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L30">EnvironmentUtil.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L32">EnvironmentUtil.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -161,7 +173,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/environmentmanager.html">EnvironmentManager</a>.<a href="../interfaces/environmentmanager.html#getcurrentenvironment">getCurrentEnvironment</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L19">EnvironmentUtil.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L20">EnvironmentUtil.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/environment.html" class="tsd-signature-type">Environment</a></h4>
@@ -179,7 +191,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/environmentmanager.html">EnvironmentManager</a>.<a href="../interfaces/environmentmanager.html#is">is</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L35">EnvironmentUtil.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L37">EnvironmentUtil.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -188,6 +200,24 @@
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isready" class="tsd-anchor"></a>
+					<h3>is<wbr>Ready</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Ready<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/environmentmanager.html">EnvironmentManager</a>.<a href="../interfaces/environmentmanager.html#isready">isReady</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L42">EnvironmentUtil.ts:42</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -203,7 +233,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/environmentmanager.html">EnvironmentManager</a>.<a href="../interfaces/environmentmanager.html#setcurrentenvironment">setCurrentEnvironment</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L25">EnvironmentUtil.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L26">EnvironmentUtil.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -226,7 +256,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/env/src/EnvironmentUtil.ts#L10">EnvironmentUtil.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/env/src/EnvironmentUtil.ts#L11">EnvironmentUtil.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="environmentutil.html" class="tsd-signature-type">EnvironmentUtil</a></h4>
@@ -259,6 +289,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="environmentutil.html#current" class="tsd-kind-icon">current</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="environmentutil.html#ready" class="tsd-kind-icon">ready</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="environmentutil.html#instance" class="tsd-kind-icon">instance</a>
 							</li>
@@ -270,6 +303,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="environmentutil.html#is" class="tsd-kind-icon">is</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="environmentutil.html#isready" class="tsd-kind-icon">is<wbr>Ready</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="environmentutil.html#setcurrentenvironment" class="tsd-kind-icon">set<wbr>Current<wbr>Environment</a>

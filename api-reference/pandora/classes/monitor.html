@@ -89,6 +89,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="monitor.html#daemonlogger" class="tsd-kind-icon">daemon<wbr>Logger</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="monitor.html#globalconfig" class="tsd-kind-icon">global<wbr>Config</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="monitor.html#globalconfigprocesser" class="tsd-kind-icon">global<wbr>Config<wbr>Processer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="monitor.html#ipchub" class="tsd-kind-icon">ipc<wbr>Hub</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="monitor.html#server" class="tsd-kind-icon">server</a></li>
 							</ul>
 						</section>
@@ -110,7 +111,7 @@
 					<div class="tsd-signature tsd-kind-icon">daemon<wbr>Logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ILogger</span><span class="tsd-signature-symbol"> =&nbsp;getDaemonLogger()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/daemon/Monitor.ts#L18">daemon/Monitor.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L20">monitor/Monitor.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -120,17 +121,27 @@
 					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;this.globalConfigProcesser.getAllProperties()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/daemon/Monitor.ts#L20">daemon/Monitor.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L22">monitor/Monitor.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="globalconfigprocesser" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> global<wbr>Config<wbr>Processer</h3>
-					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<wbr>Processer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;GlobalConfigProcessor.getInstance()</span></div>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<wbr>Processer<span class="tsd-signature-symbol">:</span> <a href="globalconfigprocessor.html" class="tsd-signature-type">GlobalConfigProcessor</a><span class="tsd-signature-symbol"> =&nbsp;GlobalConfigProcessor.getInstance()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/daemon/Monitor.ts#L19">daemon/Monitor.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L21">monitor/Monitor.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="ipchub" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> ipc<wbr>Hub</h3>
+					<div class="tsd-signature tsd-kind-icon">ipc<wbr>Hub<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hub</span><span class="tsd-signature-symbol"> =&nbsp;new Hub()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L23">monitor/Monitor.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -140,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/daemon/Monitor.ts#L21">daemon/Monitor.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L24">monitor/Monitor.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -157,7 +168,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/daemon/Monitor.ts#L27">daemon/Monitor.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L30">monitor/Monitor.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -179,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b3d33d3/packages/pandora/src/daemon/Monitor.ts#L66">daemon/Monitor.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/b199aa2/packages/pandora/src/monitor/Monitor.ts#L72">monitor/Monitor.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,6 +224,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="monitor.html#globalconfigprocesser" class="tsd-kind-icon">global<wbr>Config<wbr>Processer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="monitor.html#ipchub" class="tsd-kind-icon">ipc<wbr>Hub</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="monitor.html#server" class="tsd-kind-icon">server</a>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>日志管理 - Ready to boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/zh-cn/" class="nav-logo leftpadding" alt="egg"><img src="/images/nav-logo.png"> Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li>
+      <!--
+      <li class="translations">
+        <a class="nav-link">header.translations</a>
+        <span class="arrow"></span>
+        <ul class="dropdown-content">
+          <li><a href="/">中文</a></li>
+          <li><a href="/">English</a></li>
+        </ul>
+      </li>
+      -->
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>日志管理</h1>
+    <h2 id="日志目录结构"><a class="markdown-anchor" href="#日志目录结构">#</a> 日志目录结构</h2>
+<p>基于应用的目录规范，我们约定了以下的目录结构。</p>
+<p>结构如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">- $&#123;loggDir&#125;</span><br><span class="line">	- pandorajs</span><br><span class="line">		- deamon.log <span class="comment">// Pandora.js 守护进程的日志</span></span><br><span class="line">		- metrics.log <span class="comment">// 符合规范的 Mertics 日志</span></span><br><span class="line">	- $appName</span><br><span class="line">		- nodejs_stdout.log <span class="comment">// 标准的 Stdout 记录</span></span><br><span class="line">		- error.log <span class="comment">// 应用自行定义的日志文件</span></span><br><span class="line">	- $appName2 <span class="comment">// 如果是 egg 应用</span></span><br><span class="line">		- nodejs_stdout.log <span class="comment">// 标准的 Stdout 记录</span></span><br><span class="line">		- common-error.log</span><br><span class="line">		- ...</span><br></pre></td></tr></table></figure>
+<h2 id="nodejs-标准输出"><a class="markdown-anchor" href="#nodejs-标准输出">#</a> Node.js 标准输出</h2>
+<ol>
+<li>Pandora.js 会将 Stdout 写在 <code>${logsDir}/${appName}/nodejs_stdout.log</code></li>
+<li>按照日期进行日志切割</li>
+</ol>
+<h2 id="日志自动清理"><a class="markdown-anchor" href="#日志自动清理">#</a> 日志自动清理</h2>
+<p>Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天切割（或尺寸）。可以针对 <code>~/logs</code> 配置一个简单 <code>crontab</code>，如<a href="https://www.cnblogs.com/peida/archive/2013/03/25/2980121.html" target="_blank" rel="noopener">类似教程</a>。</p>
+<h2 id="日志相关的默认配置"><a class="markdown-anchor" href="#日志相关的默认配置">#</a> 日志相关的默认配置</h2>
+<p>日志的行为可以通过全局配置配置，具体是：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  logger: &#123;</span><br><span class="line">    logsDir: join(homedir(), <span class="string">'logs'</span>), <span class="comment">// 日志目录</span></span><br><span class="line">    appLogger: &#123; <span class="comment">// 每个应用的日志配置，基本上就是 Stdout</span></span><br><span class="line">      stdoutLevel: <span class="string">'NONE'</span>, <span class="comment">// 默认不输出到 Daemon 的 Stdout，请务必不要改变这一配置</span></span><br><span class="line">      level: <span class="string">'INFO'</span> <span class="comment">// 默认记录 Info 信息，比如应用启动停止，建议保持 INFO</span></span><br><span class="line">    &#125;,</span><br><span class="line">    isolatedServiceLogger: <span class="literal">false</span> <span class="comment">// Service 的日志是否分散为单个日志文件，建议保持 false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="日志等级"><a class="markdown-anchor" href="#日志等级">#</a> 日志等级</h2>
+<ol>
+<li>ALL - 全部等级</li>
+<li>DEBUG - DEBUG 及其以下</li>
+<li>INFO - INFO 及其以下</li>
+<li>WARN - WARN 及其以下</li>
+<li>ERROR - ERROR 及其以下</li>
+<li>NONE - 全部不输出</li>
+</ol>
+<h2 id="创建自定义日志"><a class="markdown-anchor" href="#创建自定义日志">#</a> 创建自定义日志</h2>
+<p>可以通过 <code>require('pandora').getService('logger').createLogger(name, config)</code>  创建，其中 config 定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  dir: string; // 日志所在目录</span><br><span class="line">  stdoutLevel: string; // stdout 输出的等级，默认 ERROR</span><br><span class="line">  level: string; // 文件输出等级，默认 WARN</span><br><span class="line">  type: string; // 日志切割类型，可选 日期：date 、 尺寸：size，默认日期</span><br><span class="line">  rotateDuration?: number; // 尺寸切割的检查周期，毫秒</span><br><span class="line">  maxFiles?: number; // 尺寸切割时的最多文件数量</span><br><span class="line">  maxFileSize?: number; // 尺寸切割时的文件大小</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="对接集中日志服务"><a class="markdown-anchor" href="#对接集中日志服务">#</a> 对接集中日志服务</h2>
+<p>请参与讨论：<a href="https://github.com/midwayjs/pandora/issues/50" target="_blank" rel="noopener">https://github.com/midwayjs/pandora/issues/50</a></p>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
+  </div>
+  <dl><dt><a href="/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/zh-cn/base/logs.html">日志管理</a></li><li><a href="/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/zh-cn/base/monitor_inner.html">默认监控</a></li><li><a href="/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/zh-cn/monitor/trace.html">链路监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>
