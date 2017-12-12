@@ -14,9 +14,9 @@ module.exports = function (pandora) {
 }
 ```
 
-上面的 `pandora.process('processName')` 表示定义一个名字叫 `processName` 进程，该语句会返回一个对象 `ProcessRepresentationChainModifier`。
+上面的 `pandora.process('processName')` 表示定义一个名字叫 `processName` 进程，该语句会返回一个对象 [ProcessRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/processrepresentationchainmodifier.html)。
 
-我们可以通过 `ProcessRepresentationChainModifier` 完善对这个进程的定义。
+我们可以通过 [ProcessRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/processrepresentationchainmodifier.html) 完善对这个进程的定义。
 
 下面通过一个简单的例子介绍全部的定义能力：
 
