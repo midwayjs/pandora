@@ -521,7 +521,7 @@ textarea {
   line-height: inherit;
 }
 .markdown-body a {
-  color: #1e63ab;
+  color: #008ce6;
   text-decoration: none;
 }
 .markdown-body a:hover,
@@ -838,7 +838,7 @@ textarea {
   padding-bottom: 0.2em;
   margin: 0;
   font-size: 85%;
-  color: #687168;
+  color: #506f79;
   background-color: #EBF5F5;
   border-radius: 3px;
 }
@@ -1051,7 +1051,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 .highlight .built_in,
 .highlight .builtin-name {
-  color: #2c5f96;
+  color: #3373b8;
 }
 .highlight .meta {
   color: #999;
