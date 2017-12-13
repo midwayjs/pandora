@@ -21,7 +21,7 @@ Pandora.js 的数据采集分为几块内容，简单来说，分为 `服务端`
 
 而服务端和客户端通过 IPC 进行通信，这样对应的模型就变成了以下的样子。
 
-![](https://private-alipayobjects.alipay.com/alipay-rmsdeploy-image/skylark/png/5cb69c75-e878-4246-b11e-d41b5164aea0.png)
+![img](https://img.alicdn.com/tfs/TB1iGClih6I8KJjy0FgXXXXzVXa-462-199.png)
 
 我们有一些比较常用的 EndPoint ，比如健康检查，运行时数据访问等，只要是希望通过客户端披露的，都可以通过 EndPoint 机制来完成。
 
