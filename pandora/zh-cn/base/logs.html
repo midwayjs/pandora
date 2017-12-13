@@ -68,7 +68,7 @@
 <h2 id="创建自定义日志"><a class="markdown-anchor" href="#创建自定义日志">#</a> 创建自定义日志</h2>
 <p>可以通过 <code>require('pandora').getService('logger').createLogger(name, config)</code>  创建，其中 config 定义如下：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  dir: string; // 日志所在目录</span><br><span class="line">  stdoutLevel: string; // stdout 输出的等级，默认 ERROR</span><br><span class="line">  level: string; // 文件输出等级，默认 WARN</span><br><span class="line">  type: string; // 日志切割类型，可选 日期：date 、 尺寸：size，默认日期</span><br><span class="line">  rotateDuration?: number; // 尺寸切割的检查周期，毫秒</span><br><span class="line">  maxFiles?: number; // 尺寸切割时的最多文件数量</span><br><span class="line">  maxFileSize?: number; // 尺寸切割时的文件大小</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>更详细参见 <a href="https://midwayjs.github.io/pandora/api-reference/service-logger/classes/loggerservice.html" target="_blank" rel="noopener">LoggerService</a>。</p>
+<p>更详细参见 <a href="http://www.midwayjs.org/pandora/api-reference/service-logger/classes/loggerservice.html" target="_blank" rel="noopener">LoggerService</a>。</p>
 <h2 id="对接集中日志服务"><a class="markdown-anchor" href="#对接集中日志服务">#</a> 对接集中日志服务</h2>
 <p>请参与讨论：<a href="https://github.com/midwayjs/pandora/issues/50" target="_blank" rel="noopener">https://github.com/midwayjs/pandora/issues/50</a></p>
 
