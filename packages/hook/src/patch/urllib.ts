@@ -67,6 +67,8 @@ export class UrllibPatcher extends Patcher {
     });
   }
 
+  afterFinish(span) {}
+
   shimmer() {
     const self = this;
     const traceManager = this.getTraceManager();
@@ -101,6 +103,7 @@ export class UrllibPatcher extends Patcher {
 
               self.beforeFinish(span, err, data, res);
               span.finish();
+              self.afterFinish(span);
 
               callback(err, data, res);
             });
