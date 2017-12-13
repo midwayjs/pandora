@@ -22,9 +22,16 @@ monitor:
   monitor_std: /monitor/monitor_std.html
   endpoint: /monitor/endpoint.html
   resource: /monitor/resource.html
-  metrics: /monitor/metrics.html
-  trace: /monitor/trace.html
+  metrics_std: /monitor/metrics.html
+  trace_std: /monitor/trace.html
   monitor_inner: /monitor/monitor_inner.html
+  report: /monitor/report.html
+
+collect:
+  collect_health: /collect/health.html
+  collect_info: /collect/info.html
+  collect_process: /collect/process.html
+  collect_error: /collect/error.html
 
 other:
   dashboard: /other/dashboard.html
