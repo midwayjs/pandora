@@ -85,4 +85,4 @@ module.exports = function (pandora) {
 
 IPC-Hub 还有一些别的能力，可以通过 `require('pandora').getHub()` 获得。
 
-具体参考 `pandora-hub` 包下的 [Facade 类的 API](https://midwayjs.github.io/pandora/api-reference/hub/classes/facade.html)。
+具体参考 `pandora-hub` 包下的 [Facade 类的 API](http://www.midwayjs.org/pandora/api-reference/hub/classes/facade.html)。

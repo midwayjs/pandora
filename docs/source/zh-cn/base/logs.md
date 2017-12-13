@@ -74,7 +74,7 @@ Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天
   maxFileSize?: number; // 尺寸切割时的文件大小
 }
 ```
-更详细参见 [LoggerService](https://midwayjs.github.io/pandora/api-reference/service-logger/classes/loggerservice.html)。
+更详细参见 [LoggerService](http://www.midwayjs.org/pandora/api-reference/service-logger/classes/loggerservice.html)。
 
 ## 对接集中日志服务
 

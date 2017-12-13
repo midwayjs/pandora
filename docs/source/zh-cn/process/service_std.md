@@ -31,9 +31,9 @@ module.exports = function (pandora) {
 
 上面的 `pandora. service('serviceName', './service.js')` 表示定义一个名字叫 `serviceName` 的 Service，并定义该 Service 的实现在 `./service.js`。
 
-第二个参数除了传递一个相对路境外，也可以直接传递一个实现类的引用。最终，该语句会返回一个对象 [ServiceRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html)。
+第二个参数除了传递一个相对路境外，也可以直接传递一个实现类的引用。最终，该语句会返回一个对象 [ServiceRepresentationChainModifier](http://www.midwayjs.org/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html)。
 
-我们可以通过 [ServiceRepresentationChainModifier](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html) 完善对这个 Service 的定义。
+我们可以通过 [ServiceRepresentationChainModifier](http://www.midwayjs.org/pandora/api-reference/pandora/classes/servicerepresentationchainmodifier.html) 完善对这个 Service 的定义。
 
 
 下面通过一个简单的例子介绍全部的定义能力：
@@ -102,7 +102,7 @@ module.exports = function(pandora) {
 每个 Service 都是一个 Class，这个 Class 需要实现 0 个必选接口，和 4 个可选接口。
 
 
-**new (context: [ServiceContextAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicecontextaccessor.html))**
+**new (context: [ServiceContextAccessor](http://www.midwayjs.org/pandora/api-reference/pandora/classes/servicecontextaccessor.html))**
 
 > 可选，构造器第一个参数为 ServiceContextAccessor 对象，该 Service 上下文对象，下面有介绍到。
 
@@ -124,7 +124,7 @@ module.exports = function(pandora) {
 
 ## ServiceContextAccessor 提供的主要接口
 
-这个上面有不少的属性和方法，具体参考 [ServiceContextAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/servicecontextaccessor.html) API。下面介绍几个常用的：
+这个上面有不少的属性和方法，具体参考 [ServiceContextAccessor](http://www.midwayjs.org/pandora/api-reference/pandora/classes/servicecontextaccessor.html) API。下面介绍几个常用的：
 
 #### 主要的属性
 

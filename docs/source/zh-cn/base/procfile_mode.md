@@ -25,7 +25,7 @@ Pandora.js 会在下述位置查找 `procfile.js`。
 
 ## 启动一个简单的 Node.js 程序
 
-下文中 `pandora` 对象的类型为 [ProcfileReconcilerAccessor](https://midwayjs.github.io/pandora/api-reference/pandora/classes/procfilereconcileraccessor.html)，你可以点击查看详细 API。
+下文中 `pandora` 对象的类型为 [ProcfileReconcilerAccessor](http://www.midwayjs.org/pandora/api-reference/pandora/classes/procfilereconcileraccessor.html)，你可以点击查看详细 API。
 
 我们先看个例子：
 
