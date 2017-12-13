@@ -25,7 +25,7 @@ Node.js >= 8.0.0 required.
 
 ## Docs
 
-* 中文文档 <https://midwayjs.github.io/pandora/zh-cn/>
+* 中文文档 <http://www.midwayjs.org/pandora>
 
 
 ## How to Contribute
