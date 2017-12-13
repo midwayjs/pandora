@@ -100,28 +100,3 @@ PANDORA_CONFIG=./index.js pandora start .
 ```sh
 PANDORA_CONFIG=pandora-ali:./index.js pandora start .
 ```
-
-## 通过 package.json 加载多配置
-
-另一方面，pandora 提供了在 `package.json` 文件中增加配置的功能，只要增加 `pandora` 文本段即可，示例如下：
-
-```json
-{
-  "name": "xxx",
-    "pandora": {
-      "start": {
-        "config": [
-          "pandora-taobao",
-          "./pandora.js"
-        ]
-      },
-      "dev": {
-        "mode": "fork",
-        "entry": "./bin/server.js"
-      }
-    }
-    //xxxx
-}
-```
-
-每个命令可以分开进行设置，同时配置是以 `config` 作为子 key，和命令行不同的是使用了数组的形式。

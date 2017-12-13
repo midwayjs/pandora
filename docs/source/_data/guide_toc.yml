@@ -29,9 +29,9 @@ monitor:
 
 collect:
   collect_health: /collect/health.html
-  collect_info: /collect/info.html
-  collect_process: /collect/process.html
-  collect_error: /collect/error.html
+  # collect_info: /collect/info.html
+  # collect_process: /collect/process.html
+  # collect_error: /collect/error.html
 
 other:
   dashboard: /other/dashboard.html

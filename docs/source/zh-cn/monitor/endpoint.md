@@ -5,66 +5,11 @@ EndPoint 是预埋在 Daemon 端的一组接收器，用于接收每个进程的
 
 在默认的场景下，我们会预埋一些 EndPoint，用户可以对这些东西全部自定义。
 
-## EndPoint 结构
+## 定义 EndPoint
 
-每个 EndPoint 都包含一个 
-
-## 使用 EndPoint 和 Indicator
+每个 EndPoint 都包含一个 name 用于标识该 EndPoint 的唯一性，同时，由于 EndPoint 的初始化都在 Daemon 中，所以每个 EndPoint 实例都只存在唯一的一个。
 
 一般来说，EndPoint 用户自定义概率不高，主要是 Indicator 需要埋入到业务脚本中。
-
-**监控检查**
-
-Pandora.js 提供了 `HealthEndPoint` 来做健康检查的能力，通过 `/health` 的路由即可访问。
-
-默认我们提供了一些基础的检查，比如磁盘检查，端口检查等，如果需要修改其中的配置，可以在全局配置中进行覆盖调整。
-
-`HealthEndPoint` 有相应的客户端来负责采集数据， 我们提供了 `HealthIndicator` 这个基础抽象类，用户只要实现它就能把健康检查给统一起来。
-
-比如你要检查当前的远程服务器是否可用，就可以实现其中的 `doCheck` 方法。
-
-```javascript
-
-import 'HealthIndicator, HealthBuilder' from 'pandora-metrics';
-import * as cp from 'child_process';
-
-export class RemoteUrlHealthIndicator extends HealthIndicator {
-  name = 'remote_url';
-
-  doCheck(builder) {
-    // check remote
-    let result = cp.execSync(`curl -s --connect-timeout 1 -o /dev/null -w "%{http_code}" http://google.com`);
-    if (result.toString() === '200') {
-      builder.up();
-    } else {
-      builder.down();
-    }
-  }
-}
-
-```
-
-在 `doCheck` 方法中，我们传入了一个 builder，用来简化返回结果，通过 `builder.up()` 和 `builder.down()` 来返回成功和失败。
-
-这样，你访问 `http://127.1:8006/health` 的时候，就能看到名为 `remote_url` 的健康检查结果了。
-
-大概如下：
-
-```
-{
-  status: 'UP',
-  remote_url: {
-    status: 'UP'
-  }
-}
-
-```
-
-这里的格式是由 `HealthResource` 这个类定义的，健康检查看的是总体的一个结果，只要出现一个不正常，整体就不通过，所以 status 字段代表着总的一个状态，通过 'UP' 和 'DOWN' 来表示是否健康。
-
-
-
-## 定义 EndPoint
 
 每个 EndPoint 是一个 IPC 服务器，用于接收 Indicator 调用的结果，并进行汇总，最为常用的两个方法就是 `invoke` 和 `processQueryResults`，定义如下：
 
