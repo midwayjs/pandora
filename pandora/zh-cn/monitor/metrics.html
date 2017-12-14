@@ -42,18 +42,57 @@
     <div class="page-main">
   <article class="markdown-body">
     <h1>使用和扩展 Metrics</h1>
-    <p>Metrics 原本属于 EndPoint 的一部分，但是因为比较特殊，所以这个 EndPoint 拿出来单独讲解，在整个体系里面，Metrics 是一个非常重要的部分。</p>
-<p>EndPoint 和 Indicator 的数据交换，一般情况下，用户不太关心，一般是框架层需要处理的问题，而 Metrics 有一部分是需要用户自定义，自己埋入应用，这就需要单独来设计。</p>
+    <p>Metrics 是监控里面比较大的一个体系，它基于 EndPoint 体系来传输数据，同时在这个基础上做了很多封装的工作。</p>
+<p>Metrics 的原意是 <strong>指标</strong>，用于反馈应用的当前状况的数据值，所以 Metrics 最后的结果都是<strong>数字</strong>。</p>
+<p>在业界标准的 Metrics 类型中，有几种标准的类型。</p>
+<ul>
+<li>Gauge 瞬时值</li>
+<li>Counter 计数器</li>
+<li>Meter 吞吐率度量器</li>
+<li>Histogram 直方分布度量器</li>
+<li>Timer 吞吐率和响应时间分布度量器</li>
+</ul>
+<p>Pandora.js 目前对这几种度量器都做了一定的支持，这些度量器中最常用的就是 Gauge 和 Counter，可以说，80% 的场景都只是用这两种。</p>
+<h2 id="快速使用"><a class="markdown-anchor" href="#快速使用">#</a> 快速使用</h2>
 <p>我们在每个进程启动时创建了一个 <code>MetricsClient</code> 客户端，但是用户怎么在代码中拿到这个对象就成了一个问题，我们设计了一个代理类 <code>MetricsClientUtil</code> ，只要用户希望，就可以在任意地方获取到这个类，比如：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;MetricsClientUtil&#125; <span class="keyword">from</span> <span class="string">'pandora-metrics'</span>;</span><br><span class="line"><span class="keyword">const</span> client = MetricsClientUtil.getMetricsClient();</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> counter = client.getCounter(<span class="string">'test'</span>, <span class="string">'test.qps.counter'</span>);</span><br><span class="line"><span class="keyword">let</span> histogram = client.getHistogram(<span class="string">'test'</span>, <span class="string">'test.qps.histogram'</span>);</span><br><span class="line"><span class="keyword">let</span> meter = client.getMeter(<span class="string">'test'</span>, <span class="string">'test.qps.meter'</span>);</span><br><span class="line"><span class="keyword">let</span> timer = client.getTimer(<span class="string">'test'</span>, <span class="string">'test.qps.timer'</span>);</span><br><span class="line"> </span><br><span class="line">counter.inc(<span class="number">1</span>);</span><br><span class="line">counter.dec(<span class="number">1</span>);</span><br><span class="line">histogram.update(<span class="number">5</span>);</span><br><span class="line">meter.mark(<span class="number">4</span>);</span><br><span class="line">timer.update(<span class="number">3</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
-<p>这样在任意地方，用户都可以随时随地埋入 Metrics 指标。</p>
+<p>通过 <code>Client</code> 和 Get 对应的指标类型方法，这样在任意地方，用户都可以随时随地埋入 Metrics 指标，如果想知道埋入的效果，可以通过 <code>/metrics/:group</code> 这样的路由看到结果，更多的路由方法可以参考 <a href="/monitor/resource.html">Reource</a>。</p>
+<blockquote>
+<p>注意：所有的 Metric 实例，都必须注册到当前进程的 MetricsClient 上才能被采集到。</p>
+</blockquote>
+<p>由于 Gauge 指标的特殊性，Client 无法通过类似的 getGauge 方法创建 Gauge 类型的指标，所以有了通用的 <code>register()</code> 方法，定义如下，也可以<a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/metricsclient.html#register" target="_blank" rel="noopener">查看 API</a>。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">client.register(group: string, <span class="attr">name</span>: MetricName | string, Metric);</span><br></pre></td></tr></table></figure>
+<p>根据定义，我们可以这样添加 Gauge 类型的指标。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client.register(&apos;test&apos;, name, &#123;</span><br><span class="line">  getValue() &#123;</span><br><span class="line">  	return 100;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="自定义指标"><a class="markdown-anchor" href="#自定义指标">#</a> 自定义指标</h2>
+<h3 id="metric-基类"><a class="markdown-anchor" href="#metric-基类">#</a> Metric 基类</h3>
+<p>所有的指标都会继承一个叫 Metric 的基类，这个基类的作用是为了标识 Typescript 中的类型，没有很特别的作用。</p>
+<p>通过这个基类，我们扩展出一些通用的指标接口用于继承，具体的在 <a href="http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html" target="_blank" rel="noopener">API 这里</a>。</p>
+<h3 id="metricname"><a class="markdown-anchor" href="#metricname">#</a> MetricName</h3>
+<p>每一个指标都可以取一个名字，这个名字在 Pandora.js 并不是简单的字符串，而是一个 MetricName 类型的实现。</p>
+<p>这个类的属性参见 <a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/metricname.html" target="_blank" rel="noopener">API 这里</a>。</p>
+<p>常见的是 key 和 tags 两部分。</p>
+<p>key 就是标准的字符串，一般由几个字符串通过 . 来拼接而成。而 tags 是一组对象 kv 对，key 加 tags 标识了唯一的一个 Metric。</p>
+<h3 id="gauge-瞬时值"><a class="markdown-anchor" href="#gauge-瞬时值">#</a> Gauge 瞬时值</h3>
+<p>Gauge 是一种实时数据的度量，反映的是瞬态的数据，不具有累加性。 具体的实现由具体定义来完成，比如当前的 load 值，或者当前的内存剩余值。</p>
+<h3 id="counter-计数器"><a class="markdown-anchor" href="#counter-计数器">#</a> Counter 计数器</h3>
+<p>Pandora.js 默认使用的计数器并不是普通的 Counter，而是分桶计数器。</p>
+<p>每个计数器都会有两个方法，<code>inc</code> 和 <code>dec</code>，代表加和减操作。</p>
+<p>分桶计数器会把每一次度量的结果分为不同的时间区间存储，例如，如果时间间隔是 5s 的话，那么会在 0， 5， 10，15……这几个点进行归档存储，这样就能拿到不同时间区间的计数。</p>
+<p>分桶计数的 <a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/bucketcounter.html" target="_blank" rel="noopener">API 在这里</a>。</p>
+<h3 id="histogram-直方图"><a class="markdown-anchor" href="#histogram-直方图">#</a> Histogram 直方图</h3>
+<p>等待补充</p>
+<h3 id="meter-吞吐率"><a class="markdown-anchor" href="#meter-吞吐率">#</a> Meter 吞吐率</h3>
+<p>等待补充</p>
+<h3 id="timer"><a class="markdown-anchor" href="#timer">#</a> Timer</h3>
+<p>等待补充</p>
 
   </article>
   <aside id="mobileAside" class="toc">
   <div class="mobile-menu">
     <ul><li><a href="/pandora/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/pandora/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
   </div>
-  <dl><dt><a href="/pandora/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/pandora/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/pandora/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/pandora/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/pandora/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/pandora/zh-cn/base/logs.html">日志管理</a></li><li><a href="/pandora/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/pandora/zh-cn/base/quick_monitor.html">快速了解监控</a></li><li><a href="/pandora/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/pandora/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/pandora/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/pandora/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/pandora/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/pandora/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/pandora/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/pandora/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/pandora/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/pandora/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/pandora/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/pandora/zh-cn/monitor/trace.html">链路监控</a></li><li><a href="/pandora/zh-cn/monitor/monitor_inner.html">默认监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/pandora/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/pandora/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+  <dl><dt><a href="/pandora/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/pandora/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/pandora/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/pandora/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/pandora/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/pandora/zh-cn/base/logs.html">日志管理</a></li><li><a href="/pandora/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/pandora/zh-cn/base/quick_monitor.html">快速了解监控</a></li><li><a href="/pandora/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/pandora/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/pandora/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/pandora/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/pandora/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/pandora/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/pandora/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>应用监控</dt><dd><ul><li><a href="/pandora/zh-cn/monitor/monitor_std.html">采集体系总览</a></li><li><a href="/pandora/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/pandora/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/pandora/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/pandora/zh-cn/monitor/trace.html">链路监控</a></li><li><a href="/pandora/zh-cn/monitor/monitor_inner.html">默认监控</a></li><li><a href="/pandora/zh-cn/monitor/report.html">监控数据上报</a></li></ul></dd><dt>监控数据采集</dt><dd><ul><li><a href="/pandora/zh-cn/collect/health.html">健康检查</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/pandora/zh-cn/other/dashboard.html">可视化管理面板</a></li><li><a href="/pandora/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
 </aside>
 <script>
 var mobileTrigger = document.getElementById('mobileTrigger');

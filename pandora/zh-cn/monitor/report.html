@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <title>调试应用 - Ready to boot</title>
+  <title>监控数据上报 - Ready to boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -41,27 +41,27 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>调试应用</h1>
-    <h2 id="在本地命令行启动项目"><a class="markdown-anchor" href="#在本地命令行启动项目">#</a> 在本地命令行启动项目</h2>
-<p>如果是全局安装的 Pandora.js ，如下命令即可（如有启动参数，与 start 命令相同）。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev</span><br></pre></td></tr></table></figure>
-<p>如果是项目内安装的：</p>
-<blockquote>
-<p>增加（或修改） <code>package.json</code> 中 <code>script</code> 定义。对 <code>package.json</code> 做如下变更：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;script&quot;: &#123;</span><br><span class="line">      &quot;dev&quot;: &quot;pandora dev&quot;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>之后运行 <code>npm run dev</code> 即可本地启动应用。</p>
-</blockquote>
-<h2 id="inspector"><a class="markdown-anchor" href="#inspector">#</a> Inspector</h2>
-<p>执行如下命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev --inspect</span><br></pre></td></tr></table></figure>
-<p>观察命令行输出，类似如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Debugger listening on ws://127.0.0.1:60587/a8217114-d61a-4789-8426-da350a88c1da</span><br><span class="line">For <span class="built_in">help</span> see https://nodejs.org/en/docs/inspector</span><br></pre></td></tr></table></figure>
-<p>使用 <code>node-inspect</code>、<code>Chrome DevTools</code> 等工具连接相关端口即可调试，这个例子中需要连接 <code>127.0.0.1:60587</code>。</p>
-<h2 id="ide-集成调试"><a class="markdown-anchor" href="#ide-集成调试">#</a> IDE 集成调试</h2>
-<p>IDE 集成调试暂时请通过 <code>pandora dev --inspect</code> 启动后，连接端口号的形式调试（比如 WebStorm 中的 Node.js Remote Debug）。</p>
-<p>未来将会提供工具优化这一体验。</p>
+    <h1>监控数据上报</h1>
+    <h2 id="默认的上报"><a class="markdown-anchor" href="#默认的上报">#</a> 默认的上报</h2>
+<p>目前内置的监控数据上报有两个方式，命令行输出和文件输出，大部分场景下是<code>文件输出</code>。</p>
+<h2 id="扩展上报"><a class="markdown-anchor" href="#扩展上报">#</a> 扩展上报</h2>
+<p>实现上报的基础接口是 <code>Reporter</code> ，包含 <code>start()</code> 和 <code>stop()</code> 方法。</p>
+<p>所有的实现都是围绕这两个方法来展开的，我们基于 <code>Reporter</code> ，实现了一些可以继承的基类，大致继承关系如下。</p>
+<p><img src="https://img.alicdn.com/tfs/TB1sRFxigvD8KJjy0FlXXagBFXa-478-235.png" alt=""></p>
+<ul>
+<li>Reporter 基础接口，没有实现</li>
+<li>ScheduledMetricsReporter 针对 Metrics 的周期性采集的上报基类，只上报 Metrics</li>
+<li>ConsoleReporter 通过命令行输出 Metrics 的信息</li>
+<li>FileMetricManagerReporter 通过写入文件的方式输出 Metrics 信息</li>
+<li>CustomReporter 自定义上报基类，可以上报所有东西，一般自定义的上报会继承这个类</li>
+<li>TraceReporter 上报链路信息</li>
+</ul>
+<h2 id="自定义"><a class="markdown-anchor" href="#自定义">#</a> 自定义</h2>
+<p>这里介绍 <code>CustomReporter</code> 的自定义，通过继承基类和实现 <code>report</code> 抽象方法，可以方便的进行自定义的数据上报。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyReporter</span> <span class="keyword">extends</span> <span class="title">CustomReporter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  metricsManager;</span><br><span class="line">  endPointService;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> report() &#123;</span><br><span class="line">  	<span class="comment">// TODO execute report method where interval</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继承 <code>CustomReporter</code> 之后，会包含两个属性，<code>metricManager</code> 和 <code>endPointService</code>, 这两个属性包含了 Pandora.js 的绝大部分监控的功能。</p>
+<p>MetricsManager 的接口见 <a href="http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metricsmanager.html" target="_blank" rel="noopener">这里</a></p>
+<p>endPointService 通过 <code>getEndPoint()</code> 方法可以获取不同的 EndPoint，再通过 EndPoint 返回不同的结果，EndPoint 的方法请参考不同的 EndPoint。</p>
 
   </article>
   <aside id="mobileAside" class="toc">

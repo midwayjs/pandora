@@ -50,24 +50,16 @@
 <tr>
 <th style="text-align:left">Class</th>
 <th style="text-align:left">Description</th>
-<th style="text-align:left"></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left">EndPoint</td>
 <td style="text-align:left">所有 EndPoint 的基类，实现了基础的 IPC 通信</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">DuplexEndPoint</td>
 <td style="text-align:left">基础的双工通信采集端，比如错误采集继承了此类</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
@@ -106,11 +98,6 @@
 <td style="text-align:left">进程信息采集端</td>
 <td style="text-align:left">/process</td>
 </tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
 </tbody>
 </table>
 <h2 id="indicator"><a class="markdown-anchor" href="#indicator">#</a> Indicator</h2>
@@ -118,21 +105,22 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Indicator</th>
-<th style="text-align:left">所有的 Indicator 的基础类，实现了基础的 IPC 通信</th>
-<th style="text-align:left"></th>
+<th style="text-align:left">Class</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left">Indicator</td>
+<td style="text-align:left">所有的 Indicator 的基础类，实现了基础的 IPC 通信</td>
+</tr>
+<tr>
 <td style="text-align:left">DuplexIndicator</td>
 <td style="text-align:left">一个双工 Indicator 的基础类</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">HealthIndicator</td>
 <td style="text-align:left">健康检查的基类，规范化了默认的返回行为，因为健康检查只需要返回成功或者失败。</td>
-<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
@@ -140,41 +128,38 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left">DiskSpaceHealthIndicator</th>
-<th style="text-align:left">实现了磁盘健康检查</th>
-<th style="text-align:left"></th>
+<th style="text-align:left">Class</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left">DiskSpaceHealthIndicator</td>
+<td style="text-align:left">实现了磁盘健康检查</td>
+</tr>
+<tr>
 <td style="text-align:left">PortHealthIndicator</td>
 <td style="text-align:left">实现了端口健康检查</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">BaseInfoIndicator</td>
 <td style="text-align:left">实现了基础信息的采集</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">ConfigIndicator</td>
 <td style="text-align:left">实现了运行时配置信息的采集</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">ErrorIndicator</td>
 <td style="text-align:left">实现了错误信息的动态采集</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">NodeIndicator</td>
 <td style="text-align:left">实现了 Node 数据的采集</td>
-<td style="text-align:left"></td>
 </tr>
 <tr>
 <td style="text-align:left">ProcessIndicator</td>
 <td style="text-align:left">实现了进程信息的采集</td>
-<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
@@ -184,16 +169,18 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left">ScheduledMetricsReporter</th>
-<th style="text-align:left">Metrics 输出的基类，定时执行</th>
-<th style="text-align:left"></th>
+<th style="text-align:left">Class</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left">ScheduledMetricsReporter</td>
+<td style="text-align:left">Metrics 输出的基类，定时执行</td>
+</tr>
+<tr>
 <td style="text-align:left">CustomReporter</td>
-<td style="text-align:left">自定义监控的输出基</td>
-<td style="text-align:left"></td>
+<td style="text-align:left">自定义监控的输出基类</td>
 </tr>
 </tbody>
 </table>
@@ -201,16 +188,18 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left">ConsoleReporter</th>
-<th style="text-align:left">输出 Metrics 到命令行</th>
-<th style="text-align:left"></th>
+<th style="text-align:left">Class</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left">ConsoleReporter</td>
+<td style="text-align:left">输出 Metrics 到命令行</td>
+</tr>
+<tr>
 <td style="text-align:left">FileMetricManagerReporter</td>
 <td style="text-align:left">输出 Metrics 到特定文件</td>
-<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
@@ -219,11 +208,15 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left">V8GaugeSet.ts</th>
-<th style="text-align:left">v8 的指标</th>
+<th style="text-align:left">Class</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left">V8GaugeSet.ts</td>
+<td style="text-align:left">v8 的指标</td>
+</tr>
 <tr>
 <td style="text-align:left">CpuUsageGaugeSet.ts</td>
 <td style="text-align:left">cpu 使用率</td>
@@ -256,7 +249,7 @@
   <div class="mobile-menu">
     <ul><li><a href="/pandora/zh-cn/introduce.html" alt="文档指南">文档指南</a></li><li><a href="/pandora/zh-cn/api.html" alt="API 接口">API 接口</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="发布日志">发布日志</a></li></ul>
   </div>
-  <dl><dt><a href="/pandora/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/pandora/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/pandora/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/pandora/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/pandora/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/pandora/zh-cn/base/logs.html">日志管理</a></li><li><a href="/pandora/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/pandora/zh-cn/base/quick_monitor.html">快速了解监控</a></li><li><a href="/pandora/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/pandora/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/pandora/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/pandora/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/pandora/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/pandora/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/pandora/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>标准监控体系</dt><dd><ul><li><a href="/pandora/zh-cn/monitor/monitor_std.html">监控体系介绍</a></li><li><a href="/pandora/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/pandora/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/pandora/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/pandora/zh-cn/monitor/trace.html">链路监控</a></li><li><a href="/pandora/zh-cn/monitor/monitor_inner.html">默认监控</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/pandora/zh-cn/other/dashboard.html">单机可视化管理面板</a></li><li><a href="/pandora/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
+  <dl><dt><a href="/pandora/zh-cn/introduce.html">Pandora.js 是什么？</a></dt></ul></dd><dt><a href="/pandora/zh-cn/quickstart.html">快速入门</a></dt></ul></dd><dt><a href="/pandora/zh-cn/glossary.html">关键术语</a></dt></ul></dd><dt>基础功能</dt><dd><ul><li><a href="/pandora/zh-cn/base/command.html">命令行介绍</a></li><li><a href="/pandora/zh-cn/base/procfile_mode.html">认识 procfile.js</a></li><li><a href="/pandora/zh-cn/base/logs.html">日志管理</a></li><li><a href="/pandora/zh-cn/base/global_config.html">配置文件</a></li><li><a href="/pandora/zh-cn/base/quick_monitor.html">快速了解监控</a></li><li><a href="/pandora/zh-cn/base/debug.html">调试应用</a></li></ul></dd><dt>进程管理进阶</dt><dd><ul><li><a href="/pandora/zh-cn/process/process_std.html">自定义进程</a></li><li><a href="/pandora/zh-cn/process/service_std.html">自定义 Service</a></li><li><a href="/pandora/zh-cn/process/fork_and_cluster.html">Fork 和 Cluster</a></li><li><a href="/pandora/zh-cn/process/environment_std.html">自定义环境</a></li><li><a href="/pandora/zh-cn/process/application_life_cycle.html">应用生命周期</a></li><li><a href="/pandora/zh-cn/process/ipc_hub.html">进程间通信</a></li></ul></dd><dt>应用监控</dt><dd><ul><li><a href="/pandora/zh-cn/monitor/monitor_std.html">采集体系总览</a></li><li><a href="/pandora/zh-cn/monitor/endpoint.html">使用和扩展 EndPoint</a></li><li><a href="/pandora/zh-cn/monitor/resource.html">对外暴露 Resource</a></li><li><a href="/pandora/zh-cn/monitor/metrics.html">使用和扩展 Metrics</a></li><li><a href="/pandora/zh-cn/monitor/trace.html">链路监控</a></li><li><a href="/pandora/zh-cn/monitor/monitor_inner.html">默认监控</a></li><li><a href="/pandora/zh-cn/monitor/report.html">监控数据上报</a></li></ul></dd><dt>监控数据采集</dt><dd><ul><li><a href="/pandora/zh-cn/collect/health.html">健康检查</a></li></ul></dd><dt>扩展功能</dt><dd><ul><li><a href="/pandora/zh-cn/other/dashboard.html">可视化管理面板</a></li><li><a href="/pandora/zh-cn/other/typescript.html">启动 TypeScript 项目</a></li></ul></dd></dl>
 </aside>
 <script>
 var mobileTrigger = document.getElementById('mobileTrigger');
