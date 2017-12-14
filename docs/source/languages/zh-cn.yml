@@ -28,7 +28,7 @@ guide_toc:
   ipc_hub: "进程间通信"
   #监控
   monitor: "应用监控"
-  monitor_std: "采集体系总览"
+  monitor_std: "监控体系总览"
   endpoint: "使用和扩展 EndPoint"
   resource: "对外暴露 Resource"
   metrics_std: "使用和扩展 Metrics"
