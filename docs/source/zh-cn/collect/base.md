@@ -1,7 +1,6 @@
 # 使用 EndPoint
 
 
-
 EndPoint 是预埋在 Daemon 端的一组接收器，用于接收每个进程的 Indicator 数据，这些数据按照应用来分组。
 
 在默认的场景下，我们会预埋一些 EndPoint，用户可以对这些东西全部自定义。

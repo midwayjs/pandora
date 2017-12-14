@@ -1,5 +1,3 @@
-guide: intro/
-api: /api/
-tutorials: tutorials/index.html
-plugins: https://github.com/search?q=topic%3Aegg-plugin&type=Repositories
-release: https://github.com/eggjs/egg/releases
+guide: introduce.html
+api: api.html
+release: https://github.com/midwayjs/pandora/releases

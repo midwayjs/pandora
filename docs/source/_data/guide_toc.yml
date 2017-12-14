@@ -1,5 +1,38 @@
-Intro:
-  What is Pandora: /intro/index.html
-  Quick Start: /intro/quickstart.html
-  Base Command: /intro/command.html
-  keyword: /intro/keyword.html
+introduce: /introduce.html
+quickstart: /quickstart.html
+glossary: /glossary.html
+
+base:
+  command: /base/command.html
+  procfile_mode: /base/procfile_mode.html
+  logs: /base/logs.html
+  global_config: /base/global_config.html
+  quick_monitor: /base/quick_monitor.html
+  debug: /base/debug.html
+
+process:
+  process_std: /process/process_std.html
+  service_std: /process/service_std.html
+  fork_and_cluster: /process/fork_and_cluster.html
+  environment_std: /process/environment_std.html
+  application_life_cycle: /process/application_life_cycle.html
+  ipc_hub: /process/ipc_hub.html
+
+monitor:
+  monitor_std: /monitor/monitor_std.html
+  endpoint: /monitor/endpoint.html
+  resource: /monitor/resource.html
+  metrics_std: /monitor/metrics.html
+  trace_std: /monitor/trace.html
+  monitor_inner: /monitor/monitor_inner.html
+  report: /monitor/report.html
+
+collect:
+  collect_health: /collect/health.html
+  # collect_info: /collect/info.html
+  # collect_process: /collect/process.html
+  # collect_error: /collect/error.html
+
+other:
+  dashboard: /other/dashboard.html
+  typescript: /other/typescript.html

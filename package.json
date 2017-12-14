@@ -5,6 +5,7 @@
     "lerna": "^2.5.1",
     "lerna-relinker": "^1.4.0",
     "nyc": "^11.2.1",
+    "pandora-site-tools": "^1.0.0",
     "ts-node": "^3.2.0",
     "tslint": "^4.1.1",
     "typedoc": "^0.9.0",
@@ -26,6 +27,7 @@
     "li": "lerna init",
     "build": "sh scripts/build.sh",
     "gen-api-ref": "sh scripts/gen-api-ref.sh",
+    "gen-site": "pt build && npm run gen-api-ref",
     "authors": "git log --format='%aN <%aE>' | sort -u > AUTHORS"
   },
   "keywords": [
