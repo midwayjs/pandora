@@ -1374,7 +1374,7 @@ aside li {
 }
 .banner h1 {
   font-size: 38px;
-  font-weight: 200;
+  font-weight: normal;
   letter-spacing: 1.5px;
   margin-bottom: 10px;
 }
