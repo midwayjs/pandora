@@ -57,7 +57,7 @@ Pandora.js 对这几种类型都做了一定程度的支持，但是 Gauge 和 C
 Reporter 定义了一系列数据输出方式，默认的有一些：
 
 * ConsoleReporter 通过命令行输出 MetricsEndPint 的内容
-* FileMetricsReporter 通过 metrics.log 文本来输出 MetricsEndPint 的内容
+* FileMetricsManagerReporter 通过 metrics.log 文本来输出 MetricsEndPint 的内容
 
 
 > 注意，MetricsEndPoint 是一个特殊的存在，大多数 APM 只需要采集这个 EndPoint，如果框架或者用户想采集其他的 EndPoint，可以通过 Resource 暴露的 HTTP API 或者自定义 Reporter 的方式。
