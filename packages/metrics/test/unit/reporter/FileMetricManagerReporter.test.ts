@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {BaseCounter, MetricName, BaseHistogram, BaseTimer, BaseMeter, BaseGauge} from '../../../src/common/index';
 import {MetricsServerManager} from '../../../src/MetricsServerManager';
-import {FileMetricManagerReporter} from '../../../src/reporter/FileMetricManagerReporter';
+import {FileMetricsManagerReporter} from '../../../src/reporter/FileMetricsManagerReporter';
 import {join} from 'path';
 const fs = require('fs');
 const os = require('os');
@@ -30,8 +30,8 @@ describe('/test/unit/reporter/FileMetricManagerReporter.test.ts', () => {
     manager.register('test', MetricName.build('reporter.register.histogram'), new BaseHistogram());
     manager.register('test', MetricName.build('reporter.register.timer'), new BaseTimer());
     manager.register('test', MetricName.build('reporter.register.meter'), new BaseMeter());
-    const reporter = new FileMetricManagerReporter(null , {});
-    reporter.setMetricManager(manager);
+    const reporter = new FileMetricsManagerReporter(null , {});
+    reporter.setMetricsManager(manager);
     reporter.start(0.4);
 
     setTimeout(() => {

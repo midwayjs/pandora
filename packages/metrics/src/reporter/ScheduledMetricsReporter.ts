@@ -14,7 +14,7 @@ export abstract class ScheduledMetricsReporter implements Reporter {
   options;
   interval;
   intervalHandler;
-  metricManager;
+  metricsManager;
 
   constructor(actuatorManager?, options: {
     rateFactor?: number,
@@ -22,13 +22,13 @@ export abstract class ScheduledMetricsReporter implements Reporter {
   } = {}) {
     this.options = options;
     if(actuatorManager) {
-      this.metricManager = actuatorManager.getMetricsManager();
+      this.metricsManager = actuatorManager.getMetricsManager();
     }
   }
 
   // for test
-  setMetricManager(metricManager) {
-    this.metricManager = metricManager;
+  setMetricsManager(metricsManager) {
+    this.metricsManager = metricsManager;
   }
 
   start(interval) {
@@ -37,7 +37,7 @@ export abstract class ScheduledMetricsReporter implements Reporter {
       this.intervalHandler = setInterval(async () => {
         debug('exec report once');
         try {
-          const categoryMetrics = this.metricManager.getAllCategoryMetrics();
+          const categoryMetrics = this.metricsManager.getAllCategoryMetrics();
           await this.report(
             {
               gauges: categoryMetrics.get(MetricType.GAUGE),

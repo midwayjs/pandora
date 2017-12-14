@@ -38,7 +38,7 @@ export * from './indicator/impl/NodeIndicator';
  */
 export * from './reporter/ScheduledMetricsReporter';
 export * from './reporter/ConsoleReporter';
-export * from './reporter/FileMetricManagerReporter';
+export * from './reporter/FileMetricsManagerReporter';
 export * from './reporter/CustomReporter';
 export * from './collect/MetricObject';
 export * from './collect/MetricsCollector';

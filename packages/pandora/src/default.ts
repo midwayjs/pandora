@@ -18,7 +18,7 @@ const {
   InfoResource,
   ProcessResource,
   DaemonResource,
-  FileMetricManagerReporter,
+  FileMetricsManagerReporter,
   MetricsClient,
   MetricsServerManager,
   CompactMetricsCollector,
@@ -164,7 +164,7 @@ export default {
   reporter: {
     file: {
       enabled: true,
-      target: FileMetricManagerReporter,
+      target: FileMetricsManagerReporter,
       interval: 5,
       initConfig: {
         collector: CompactMetricsCollector

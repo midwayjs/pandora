@@ -22,8 +22,11 @@ export class DaemonBootstrap {
    * @return {Promise<void>}
    */
   start(): Promise<void> {
+
+    const Environment = this.globalConfig.environment || DefaultEnvironment;
+
     // Register a default env for daemon process
-    const daemonEnvironment = new DefaultEnvironment({
+    const daemonEnvironment = new Environment({
       processName: 'daemon',
       appName: MetricsConstants.METRICS_DEFAULT_APP,
       pandoraLogsDir: getPandoraLogsDir()

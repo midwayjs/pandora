@@ -13,7 +13,7 @@ const {getProxy, publishObject} = require('pandora');
 async function main() {
 
   // 发布 Math 到 IPC-Hub
-  await publishObject(Math, 'math');
+  await publishObject('math', Math);
 
   // 获得对象代理
   const proxy = await getProxy('math');

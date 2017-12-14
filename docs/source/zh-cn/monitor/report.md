@@ -18,7 +18,7 @@ title: 监控数据上报
 - Reporter 基础接口，没有实现
 - ScheduledMetricsReporter 针对 Metrics 的周期性采集的上报基类，只上报 Metrics
 - ConsoleReporter 通过命令行输出 Metrics 的信息
-- FileMetricManagerReporter 通过写入文件的方式输出 Metrics 信息
+- FileMetricsManagerReporter 通过写入文件的方式输出 Metrics 信息
 - CustomReporter 自定义上报基类，可以上报所有东西，一般自定义的上报会继承这个类
 - TraceReporter 上报链路信息
 
