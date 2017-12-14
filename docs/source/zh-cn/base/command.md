@@ -12,6 +12,7 @@ Pandora.js 提供了一些常用的命令行来帮助应用进行管理，比如
 - exit
 - dev
 
+
 ## start 启动应用
 
 ```bash
@@ -36,6 +37,8 @@ pandora start `pwd` # 同上
 ```
 
 ## stop 停止应用
+
+> 注意：只有 start 命令启动的应用才可以 stop
 
 ```bash
 pandora stop [appName]
@@ -68,6 +71,8 @@ pandora restart mytaobao // mytaobao 为之前定义的名字，如果没有指�
 ```
 
 ## list 列出所有运行的应用
+
+> 注意：dev 命令不会启动 Daemon 进程，list 等命令无法查看到应用信息
 
 ```bash
 pandora list
@@ -107,6 +112,8 @@ pandora exit
 ```
 
 ## dev 前台启动应用
+
+> 注意：dev 命令不会启动 Daemon 进程，list 等命令无法查看到应用信息
 
 ```bash
 pandora dev [path] --name urAppName --env="NODE_ENV=production" --argv="expose-gc"
