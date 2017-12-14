@@ -6,7 +6,7 @@ import {MetricsCollector} from '../collect/MetricsCollector';
 import {CompactMetricsCollector} from '../collect/CompactMetricsCollector';
 import {join} from 'path';
 
-export class FileMetricManagerReporter extends ScheduledMetricsReporter {
+export class FileMetricsManagerReporter extends ScheduledMetricsReporter {
 
   globalTags;
   logger;

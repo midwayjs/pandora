@@ -23,7 +23,7 @@ describe('/test/unit/reporter/reporter.test.ts', () => {
     const manager = new MetricsServerManager();
     manager.register('test', MetricName.build('reporter.register.pv'), new BaseCounter());
     const reporter = new MyReporter();
-    reporter.setMetricManager(manager);
+    reporter.setMetricsManager(manager);
     reporter.start(1);
   });
 });

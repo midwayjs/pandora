@@ -8,7 +8,7 @@ export abstract class CustomReporter implements Reporter {
 
   options;
   intervalHandler;
-  metricManager;
+  metricsManager;
   endPointService;
 
   constructor(actuatorManager, options: {
@@ -16,7 +16,7 @@ export abstract class CustomReporter implements Reporter {
     durationFactor?: number
   } = {}) {
     this.options = options;
-    this.metricManager = actuatorManager.getMetricsManager();
+    this.metricsManager = actuatorManager.getMetricsManager();
     this.endPointService = actuatorManager.getEndPointService();
   }
 
@@ -34,7 +34,7 @@ export abstract class CustomReporter implements Reporter {
   }
 
   getCategoryMetrics() {
-    const categoryMetrics = this.metricManager.getAllCategoryMetrics();
+    const categoryMetrics = this.metricsManager.getAllCategoryMetrics();
     return {
       gauges: categoryMetrics.get(MetricType.GAUGE),
       counters: categoryMetrics.get(MetricType.COUNTER),
