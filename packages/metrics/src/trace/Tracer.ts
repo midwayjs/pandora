@@ -76,8 +76,12 @@ export class Tracer extends OpenTrancer {
   }
 
   setCurrentSpan(span) {
-    if (this.namespace) {
-      return this.namespace.set(CURRENT_SPAN, span);
+    try {
+      if (this.namespace) {
+        this.namespace.set(CURRENT_SPAN, span);
+      }
+    } catch (error) {
+      console.error('Set current span error.', error);
     }
   }
 
