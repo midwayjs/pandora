@@ -1,0 +1,73 @@
+'use strict';
+
+const renderer = require('../lib/renderer');
+
+
+/* global hexo */
+
+hexo.extend.renderer.register('md', 'html', renderer, true);
+
+hexo.extend.helper.register('guide_toc', function() {
+  const toc = this.site.data.guide_toc;
+  let menu = '<dl>';
+
+  for (let title in toc) {
+    const subMenu = toc[title];
+    title = getI18nText(this.__, title, 'guide_toc.');
+    if (typeof subMenu === 'string') {
+      const url = this.config.root + this.page.lang + subMenu;
+      menu += `<dt><a href="${url}">${title}</a></dt>`;
+    } else {
+      menu += `<dt>${title}</dt><dd><ul>`;
+      for (let subTitle in subMenu) {
+        const url = this.config.root + this.page.lang + subMenu[subTitle];
+        subTitle = getI18nText(this.__, subTitle, 'guide_toc.');
+        menu += `<li><a href="${url}">${subTitle}</a></li>`;
+      }
+    }
+    menu += '</ul></dd>';
+  }
+
+  menu += '</dl>';
+  return menu;
+});
+
+hexo.extend.helper.register('menu_link', function() {
+  const menus = this.site.data.menu;
+
+  let links = '';
+  for (const menu in menus) {
+    let link = menus[menu];
+    const content = getI18nText(this.__, menu, 'menu.');
+
+    // http://example.com -> http://example.com
+    // /api -> /api
+    // intro/ -> /zh-cn/intro/
+    if (this.page.lang !== 'en' && !/^http/.test(link) && !/^\//.test(link)) {
+      link = this.page.lang + '/' + link;
+    }
+    if(!/^http/.test(link) && !/^\//.test(link)) {
+      link = this.config.root + link;
+    }
+
+    links += `<li><a href="${link}" alt="${content}">${content}</a></li>`;
+  }
+
+  return links;
+});
+
+hexo.extend.helper.register('index_link', function(url) {
+  if (!url) {
+    url = '';
+  }
+  if (this.page.lang !== 'en') {
+    url = `${this.page.lang}${url}`;
+  }
+  return this.config.root + url;
+});
+
+function getI18nText(gettext, text, prefix) {
+  const key = prefix + text;
+  const tmp = gettext(key);
+  return tmp === key ? text : tmp;
+}

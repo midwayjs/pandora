@@ -1,0 +1,20 @@
+<div class="footer">
+  <footer class="leftpadding">
+    <ul>
+    {% for title, links in site.data.links -%}
+      <li>
+      <dl>
+        <dt>{{ title }}</dt>
+        {%- for name, link in links %}
+        <dd><a href="{{link}}" target="_blank">{{name}}</a></dd>
+        {%- endfor %}
+      </dl>
+      </li>
+    {%- endfor %}
+    </ul>
+    <div class="right">
+      <div class="license">Released under the MIT License </div>
+      <a href="https://github.com/midwayjs/pandora" target="_blank" ><img src="{{ url_for('/images/github.svg') }}" /></a>
+    </div>
+  </footer>
+</div>
