@@ -1,6 +1,7 @@
 index:
   getstart: 快速入门
-  slogan: Ready to boot
+  slogan: "向未来出发"
+  desc: "一个轻量且强大的 Node.js 应用管理器"
 
 menu:
   guide: 文档指南
