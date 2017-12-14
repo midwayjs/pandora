@@ -41,6 +41,6 @@ guide_toc:
   collect_process: "进程详情"
   collect_error: "错误详情"
   other: "扩展功能"
-  dashboard: "单机可视化管理面板"
+  dashboard: "可视化管理面板"
   typescript: "启动 TypeScript 项目"
 
