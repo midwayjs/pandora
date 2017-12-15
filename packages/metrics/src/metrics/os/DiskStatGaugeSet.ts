@@ -9,8 +9,10 @@ export class DiskStatGaugeSet extends CachedMetricSet {
 
   diskUsage: {
     size?: number,
+    used?: number;
     available?: number,
     capacity?: number;
+    mount?: string;
   } = {};
 
   getMetrics() {
@@ -18,7 +20,7 @@ export class DiskStatGaugeSet extends CachedMetricSet {
     let gauges = [];
 
     gauges.push({
-      name: MetricName.build('disk.partition.total').tagged('partition', '/'),
+      name: MetricName.build('disk.partition.total').tagged('partition', self.diskUsage.mount),
       metric: <Gauge<any>> {
         async getValue() {
           await self.refreshIfNecessary();
@@ -27,7 +29,7 @@ export class DiskStatGaugeSet extends CachedMetricSet {
       }
     });
     gauges.push({
-      name: MetricName.build('disk.partition.free').tagged('partition', '/'),
+      name: MetricName.build('disk.partition.free').tagged('partition', self.diskUsage.mount),
       metric: <Gauge<any>> {
         async getValue() {
           await self.refreshIfNecessary();
@@ -36,7 +38,7 @@ export class DiskStatGaugeSet extends CachedMetricSet {
       }
     });
     gauges.push({
-      name: MetricName.build('disk.partition.used_ratio').tagged('partition', '/'),
+      name: MetricName.build('disk.partition.used_ratio').tagged('partition', self.diskUsage.mount),
       metric: <Gauge<any>> {
         async getValue() {
           await self.refreshIfNecessary();
@@ -49,14 +51,13 @@ export class DiskStatGaugeSet extends CachedMetricSet {
   }
 
   async getValueInternal() {
-    const diskFreeData = await DiskFree();
-    if(diskFreeData) {
-      for (let i = 0; i < diskFreeData.length; i++) {
-        const partition = diskFreeData[i];
-        if(partition.mount === '/') {
-          this.diskUsage = partition;
-        }
-      }
+    const diskFreeData = await DiskFree({
+      file: '/',
+      precision: 2
+    });
+
+    if(diskFreeData && diskFreeData.length) {
+      this.diskUsage = diskFreeData[0];
     }
   }
 }

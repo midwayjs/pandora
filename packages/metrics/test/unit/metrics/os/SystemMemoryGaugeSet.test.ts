@@ -6,7 +6,7 @@ const path = require('path');
 describe('/test/unit/metrics/os/SystemMemoryGaugeSet.test.ts', () => {
 
   it('should get system memory statistics', () => {
-    let gaugeset = new SystemMemoryGaugeSet(path.join(__dirname, '../resources/meminfo'));
+    let gaugeset = new SystemMemoryGaugeSet(5000, path.join(__dirname, '../resources/meminfo'));
     let gauges = gaugeset.getMetrics();
 
     expect(gauges[0].name.key).to.equal('mem.total');
