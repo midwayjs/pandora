@@ -20,7 +20,7 @@ export class ProcessResource implements ActuatorResource {
         ctx.fail('please query data by appName');
       } else {
         try {
-          const processInfos = await processEndPoint.invoke(ctx.query['appName']);
+          const processInfos = await processEndPoint.invoke(ctx.query);
           ctx.ok(processInfos.map(info => {
             return info.data;
           }));

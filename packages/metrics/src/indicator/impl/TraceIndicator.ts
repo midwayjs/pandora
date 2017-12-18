@@ -9,14 +9,15 @@ export class TraceIndicator extends DuplexIndicator {
 
   group: string = 'trace';
   type: IndicatorType = 'multiton';
-  private traceManager = TraceManager.getInstance();
+  private traceManager;
   private collector;
   ip: string = address.ip();
   host: string = os.hostname();
 
-  constructor(collector = new TraceMessageCollector()) {
+  constructor(collector = new TraceMessageCollector(), traceManager = TraceManager.getInstance()) {
     super();
     this.collector = collector;
+    this.traceManager = traceManager;
   }
 
   async invoke(data: any, builder: IBuilder) {

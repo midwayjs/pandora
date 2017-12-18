@@ -15,7 +15,9 @@ describe('/test/unit/endpoint/ErrorEndPoint.test.ts', () => {
 
   it('invoke empty Error endpoint', async () => {
     expect(endpoint.indicators.length).to.be.equal(1);
-    let results = await endpoint.invoke(MetricsConstants.METRICS_DEFAULT_APP);
+    let results = await endpoint.invoke({
+      appName: MetricsConstants.METRICS_DEFAULT_APP
+    });
     expect(results.length).to.be.equal(0);
   });
 
@@ -38,7 +40,9 @@ describe('/test/unit/endpoint/ErrorEndPoint.test.ts', () => {
     });
 
     setTimeout(async () => {
-      let results = await endpoint.invoke(MetricsConstants.METRICS_DEFAULT_APP);
+      let results = await endpoint.invoke({
+        appName: MetricsConstants.METRICS_DEFAULT_APP
+      });
       expect(results.length).to.be.equal(1);
       done();
     }, 1500);

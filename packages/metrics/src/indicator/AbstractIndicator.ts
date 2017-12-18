@@ -20,6 +20,8 @@ export abstract class AbstractIndicator implements IIndicator {
    */
   type: IndicatorType = 'singleton';
 
+  transferType = 'normal';
+
   abstract async invoke(data?: any, builder?: IBuilder);
 
   /**

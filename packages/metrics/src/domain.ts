@@ -14,10 +14,9 @@ export interface IEndPoint {
 
   /**
    * 调用名下指标
-   * @param appName
    * @param args
    */
-  invoke(appName: string, args?: any);
+  invoke(args?);
 
   /**
    * 处理查询返回结果
@@ -41,6 +40,8 @@ export interface IIndicator {
 export interface IBuilder {
   withDetail(key: string, data: any, scope?: IndicatorScope | string): IBuilder;
   getDetails(): Array<IndicatorBuilderResult>;
+  pretty(format: string, value);
+  setPrettyMode(prettyMode: boolean);
 }
 
 /**

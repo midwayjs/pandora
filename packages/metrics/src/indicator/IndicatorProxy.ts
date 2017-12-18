@@ -7,7 +7,6 @@ import {AbstractIndicator} from './AbstractIndicator';
 import {IndicatorResult} from './IndicatorResult';
 import {IndicatorBuilderResult} from '../domain';
 import {MetricsConstants} from '../MetricsConstants';
-const debug = require('debug')('pandora:metrics:IndicatorProxy');
 
 export class IndicatorProxy extends AbstractIndicator {
 
@@ -16,6 +15,7 @@ export class IndicatorProxy extends AbstractIndicator {
   group: string;
   clientId: string;
   appName: string;
+  debug;
 
   constructor(client) {
     super();
@@ -30,7 +30,8 @@ export class IndicatorProxy extends AbstractIndicator {
   }
 
   buildIndicator(data: any) {
-    debug(`Binding: indicatorProxy(${data.indicatorName}) begin binding, appName = ${data.appName}, group = ${data.group}, clientId = ${data.clientId}`);
+    this.debug = require('debug')(`pandora:metrics:IndicatorProxy:${data.indicatorName}(${data.clientId})`);
+    this.debug(`Binding: appName = ${data.appName}, group = ${data.group}`);
     this.name = data.indicatorName;
     this.appName = data.appName;
     this.group = data.group;
@@ -40,7 +41,7 @@ export class IndicatorProxy extends AbstractIndicator {
 
   invoke(args?: any) {
     return new Promise((resolve) => {
-      debug(`Invoke: eventKey(${this.getClientDownlinkKey()}), args = ${args}`);
+      this.debug(`Invoke: eventKey(${this.getClientDownlinkKey()}), args = ${args}`);
       this.client.send(this.getClientDownlinkKey(), args, (err, results: Array<IndicatorBuilderResult>) => {
         let indicatorResult = new IndicatorResult(this);
         if(err) {

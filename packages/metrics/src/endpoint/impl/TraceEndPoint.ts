@@ -10,15 +10,17 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
       if(this.cacheByRate(data)) {
         let cache = this.cacheMap.get(data.appName);
         if (!cache) {
-          cache = new CommonCache(this.config['cacheSize'] || CacheDuplexEndPoint.DEFAULT_CACHE_SIZE);
+          cache = new CommonCache(this.config.initConfig['cacheSize'] || CacheDuplexEndPoint.DEFAULT_CACHE_SIZE);
           this.cacheMap.set(data.appName, cache);
         }
+        this.debug('push data by rate');
         cache.push(data);
       }
     }
   }
 
-  async invoke(appName: string, args: {
+  async invoke(args: {
+    appName?: string,
     by?: 'size' | string,
     value?: number,
     order?: 'ASC' | 'DESC',
@@ -29,7 +31,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
     by: 'size',
     value: 0
   }) {
-    const results = await super.invoke(appName, args);
+    const results = await super.invoke(args);
 
     if (args.traceId) {
       return results.filter((item) => {
@@ -41,7 +43,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
   }
 
   getRate() {
-    return this.config['rate'];
+    return this.config.initConfig['rate'];
   }
 
   cacheByRate(data) {

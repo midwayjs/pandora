@@ -17,7 +17,7 @@ export class HealthResource implements ActuatorResource {
 
     router.get('/', async (ctx, next) => {
       let appName = ctx.query['appName'];
-      let queryResults = await healthEndPoint.invoke(appName);
+      let queryResults = await healthEndPoint.invoke({appName});
 
       if(appName) {
         let healthRet = {status: 'UP'};

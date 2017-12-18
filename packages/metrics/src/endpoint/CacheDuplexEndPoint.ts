@@ -17,7 +17,8 @@ export class CacheDuplexEndPoint extends DuplexEndPoint {
     }
   }
 
-  invoke(appName: string, args: {
+  invoke(args: {
+    appName?: string,
     by?: 'size' | string,
     value?: number,
     order?: 'ASC' | 'DESC',
@@ -27,6 +28,7 @@ export class CacheDuplexEndPoint extends DuplexEndPoint {
     by: 'size',
     value: 0
   }) {
+    let appName = args.appName;
     let cache = this.cacheMap.get(appName);
     // 如果只有一个应用，直接返回该应用信息
     if(!appName && this.cacheMap.size === 1) {

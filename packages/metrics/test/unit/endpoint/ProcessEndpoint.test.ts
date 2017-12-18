@@ -42,7 +42,9 @@ describe('/test/unit/endpoint/ProcessEndpoint.test.ts', () => {
 
     let results = await new Promise((resolve, reject) => {
       setTimeout(async () => {
-        let re = await endpoint.invoke(MetricsConstants.METRICS_DEFAULT_APP);
+        let re = await endpoint.invoke({
+          appName: MetricsConstants.METRICS_DEFAULT_APP
+        });
         resolve(<Array<any>>re);
       }, 1000);
     });

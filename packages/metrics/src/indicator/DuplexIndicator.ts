@@ -3,27 +3,15 @@
  *
  */
 
-const debug = require('debug')('pandora:metrics:DuplexIndicator');
-const assert = require('assert');
 import {Indicator} from './Indicator';
 import {IBuilder} from '../domain';
 
 export abstract class DuplexIndicator extends Indicator {
 
-  type;
+  transferType = 'duplex';
 
   initialize() {
-    debug(`Register: indicator(${this.name}) start register`);
-
-    assert(this.appName, 'Indicator appName property is required');
-    assert(this.group, 'Indicator group property is required');
-
-    debug(`Registering: indicator(${this.name}) send register, appName = ${this.appName}, group = ${this.group}, clientId = ${this.clientId}`);
-
-    this.registerIndicator();
-    debug(`Registering: indicator(${this.name}) register downlink`);
-    this.registerDownlink();
-    debug(`Registering: indicator(${this.name}) register uplink`);
+    super.initialize();
     this.registerUplink();
   }
 
