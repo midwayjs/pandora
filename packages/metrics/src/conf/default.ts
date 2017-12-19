@@ -5,15 +5,20 @@
 import {MetricsEndPoint} from '../endpoint/impl/MetricsEndPoint';
 import {MetricsResource} from '../rest/MetricsResource';
 import {InfoEndPoint} from '../endpoint/impl/InfoEndPoint';
-import {HealthEndPoint} from '../endpoint/impl/HealthEndPoint';
 import {HealthResource} from '../rest/HealthResource';
 import {DaemonEndPoint} from '../endpoint/impl/DaemonEndPoint';
 import {DaemonResource} from '../rest/DaemonResource';
+import {HealthEndPoint} from '../endpoint/impl/CommonEndPoint';
+import * as index from '../index';
+
+console.log('---------default');
+console.log('---------default end');
+console.log(index);
 
 export default {
   http: {
     enabled: true,
-    port: 8006,
+    port: 7002,
   },
   endPoint: {
     daemon: {

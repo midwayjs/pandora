@@ -1,5 +1,6 @@
 import {ActuatorResource} from '../domain';
 import {EndPointService} from '../service/EndPointService';
+const debug = require('debug')('pandora:metrics:resource:process');
 
 export class ProcessResource implements ActuatorResource {
 
@@ -25,6 +26,7 @@ export class ProcessResource implements ActuatorResource {
             return info.data;
           }));
         } catch (err) {
+          debug(err);
           ctx.fail(err.message);
         }
       }

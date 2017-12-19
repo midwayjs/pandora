@@ -1,7 +1,5 @@
 import {expect} from 'chai';
-import {InfoEndPoint} from '../../../src/endpoint/impl/InfoEndPoint';
-import {NodeIndicator} from '../../../src/indicator/impl/NodeIndicator';
-import {BaseInfoIndicator} from '../../../src/indicator/impl/BaseInfoIndicator';
+import {BaseInfoIndicator, InfoEndPoint, NodeIndicator} from '../../../src/';
 
 describe('/test/unit/endpoint/InfoEndpoint.test.ts', () => {
 

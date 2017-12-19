@@ -3,6 +3,7 @@ import {MetricsMessengerServer} from '../util/MessengerUtil';
 import {IndicatorProxy} from '../indicator/IndicatorProxy';
 import {IndicatorResult} from '../indicator/IndicatorResult';
 
+const util = require('util');
 const assert = require('assert');
 
 export class EndPoint implements IEndPoint {
@@ -28,7 +29,7 @@ export class EndPoint implements IEndPoint {
    */
   invoke(args: any = {}) {
     let appName = args.appName;
-    this.debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}, clientNum = ${this.indicators.length}`);
+    this.debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${util.inspect(args)}, clientNum = ${this.indicators.length}`);
 
     // query Indicator
     let indicators: IIndicator[] = this.indicators.filter((indicator: IndicatorProxy) => {
@@ -106,10 +107,10 @@ export class EndPoint implements IEndPoint {
     // 把配置回写给所有 indicator
     reply(this.config['initConfig']);
 
-    this.debug(`Client: register name = ${data.indicatorName} client = ${client._CLIENT_ID}`);
     let indicatorProxy = new IndicatorProxy(client);
     // 构建指标
     indicatorProxy.buildIndicator(data);
+    this.debug(`Client: register name = ${indicatorProxy.name}(${indicatorProxy.clientId})`);
     // 连接断开后需要清理
     indicatorProxy.bindRemove(this.removeClient.bind(this));
     this.indicators.push(indicatorProxy);

@@ -1,8 +1,5 @@
 import {expect} from 'chai';
-import {ErrorEndPoint} from '../../../src/endpoint/impl/ErrorEndPoint';
-import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
-import {MetricsConstants} from '../../../src/MetricsConstants';
-import {LoggerMessageCollector} from '../../../src/util/MessageCollector';
+import {ErrorEndPoint, ErrorIndicator, MetricsConstants, LoggerMessageCollector} from '../../../src';
 
 describe('/test/unit/endpoint/ErrorEndPoint.test.ts', () => {
 

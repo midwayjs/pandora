@@ -1,9 +1,7 @@
 import {expect} from 'chai';
-import {ProcessEndPoint} from '../../../src/endpoint/impl/ProcessEndPoint';
 // import * as cp from 'child_process';
 // import * as path from 'path';
-import {ProcessIndicator} from '../../../src/indicator/impl/ProcessIndicator';
-import {MetricsConstants} from '../../../src/MetricsConstants';
+import {MetricsConstants, ProcessEndPoint, ProcessIndicator} from '../../../src';
 // let count = 5;
 
 describe('/test/unit/endpoint/ProcessEndpoint.test.ts', () => {

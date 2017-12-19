@@ -3,10 +3,10 @@ import {EndPointService} from '../../../src/service/EndPointService';
 
 const request = require('supertest');
 import {expect} from 'chai';
-import {ErrorEndPoint} from '../../../src/endpoint/impl/ErrorEndPoint';
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
 import {ErrorResource} from '../../../src/rest/ErrorResource';
 import {LoggerMessageCollector} from '../../../src/util/MessageCollector';
+import {ErrorEndPoint} from '../../../src';
 
 describe('/test/unit/ErrorResource.test.ts', () => {
 

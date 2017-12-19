@@ -8,7 +8,7 @@ import { MetricsServerManager } from '../../../src/MetricsServerManager';
 import { BaseInfoIndicator } from '../../../src/indicator/impl/BaseInfoIndicator';
 const stub = require('sinon').stub;
 
-describe('/test/unit/reporter/TraceReporter.test.ts', () => {
+xdescribe('/test/unit/reporter/TraceReporter.test.ts', () => {
   let server;
   let reporter;
 

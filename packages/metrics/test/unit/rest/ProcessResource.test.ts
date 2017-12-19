@@ -3,9 +3,7 @@ import {EndPointService} from '../../../src/service/EndPointService';
 
 const request = require('supertest');
 import {expect} from 'chai';
-import {ProcessIndicator} from '../../../src/indicator/impl/ProcessIndicator';
-import {ProcessResource} from '../../../src/rest/ProcessResource';
-import {ProcessEndPoint} from '../../../src/endpoint/impl/ProcessEndPoint';
+import {MetricsConstants, ProcessEndPoint, ProcessIndicator, ProcessResource} from '../../../src';
 
 describe('/test/unit/ProcessResource.test.ts', () => {
 
@@ -39,7 +37,7 @@ describe('/test/unit/ProcessResource.test.ts', () => {
     request(app.listen())
       .get('/process')
       .query({
-        appName: 'DEFAULT_APP'
+        appName: MetricsConstants.METRICS_DEFAULT_APP
       })
       .expect(200)
       .then(res => {

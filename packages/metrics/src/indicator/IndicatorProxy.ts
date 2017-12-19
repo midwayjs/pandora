@@ -7,6 +7,7 @@ import {AbstractIndicator} from './AbstractIndicator';
 import {IndicatorResult} from './IndicatorResult';
 import {IndicatorBuilderResult} from '../domain';
 import {MetricsConstants} from '../MetricsConstants';
+const util = require('util');
 
 export class IndicatorProxy extends AbstractIndicator {
 
@@ -41,7 +42,7 @@ export class IndicatorProxy extends AbstractIndicator {
 
   invoke(args?: any) {
     return new Promise((resolve) => {
-      this.debug(`Invoke: eventKey(${this.getClientDownlinkKey()}), args = ${args}`);
+      this.debug(`Invoke: eventKey(${this.getClientDownlinkKey()}), args = ${util.inspect(args)}`);
       this.client.send(this.getClientDownlinkKey(), args, (err, results: Array<IndicatorBuilderResult>) => {
         let indicatorResult = new IndicatorResult(this);
         if(err) {

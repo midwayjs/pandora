@@ -2,7 +2,6 @@
  * 指标分类
  */
 
-import {EndPointService} from './service/EndPointService';
 import {MetricsManager} from './common/MetricsManager';
 
 export interface IEndPoint {
@@ -143,7 +142,7 @@ export interface ActuatorResource {
 
 export interface ActuatorServer {
   getMetricsManager(): MetricsManager;
-  getEndPointService(): EndPointService;
+  getEndPointService(): ActuatorService;
 }
 
 export interface ActuatorService {

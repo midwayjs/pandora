@@ -1,6 +1,7 @@
-import {HealthEndPoint} from '../endpoint/impl/HealthEndPoint';
 import {EndPointService} from '../service/EndPointService';
 import {ActuatorResource} from '../domain';
+import {HealthEndPoint} from '../';
+const debug = require('debug')('pandora:metrics:resource:health');
 
 export class HealthResource implements ActuatorResource {
 
@@ -17,6 +18,7 @@ export class HealthResource implements ActuatorResource {
 
     router.get('/', async (ctx, next) => {
       let appName = ctx.query['appName'];
+      debug(`in router and health by ${appName}`);
       let queryResults = await healthEndPoint.invoke({appName});
 
       if(appName) {

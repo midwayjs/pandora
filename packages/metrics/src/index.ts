@@ -11,12 +11,9 @@ export * from './MetricsServerManager';
 export * from './endpoint/EndPoint';
 export * from './endpoint/DuplexEndPoint';
 export * from './endpoint/CacheDuplexEndPoint';
-export * from './endpoint/impl/ErrorEndPoint';
-export * from './endpoint/impl/HealthEndPoint';
+export * from './endpoint/impl/CommonEndPoint';
 export * from './endpoint/impl/InfoEndPoint';
 export * from './endpoint/impl/MetricsEndPoint';
-export * from './endpoint/impl/ProcessEndPoint';
-export * from './endpoint/impl/RuntimeEndPoint';
 export * from './endpoint/impl/TraceEndPoint';
 export * from './endpoint/impl/DaemonEndPoint';
 
@@ -27,6 +24,7 @@ export * from './indicator/Indicator';
 export * from './indicator/DuplexIndicator';
 export * from './indicator/impl/ErrorIndicator';
 export * from './indicator/impl/ProcessIndicator';
+export * from './indicator/impl/health/HealthIndicator';
 export * from './indicator/impl/health/DiskSpaceHealthIndicator';
 export * from './indicator/impl/health/PortHealthIndicator';
 export * from './indicator/impl/TraceIndicator';
@@ -92,9 +90,14 @@ export * from './util/MessageSender';
 export * from './util/MetricsClientUtil';
 export * from './util/TraceUtil';
 export * from './util/MetricsInjectionBridge';
+export * from './util/MessageCollector';
 
 /**
  * trace
  */
 export * from './trace/TraceManager';
 export * from './trace/Patcher';
+
+console.log('------------------------- in index');
+console.log(module.exports);
+console.log('--------------------------end index');

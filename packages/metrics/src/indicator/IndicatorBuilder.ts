@@ -41,14 +41,6 @@ export class IndicatorBuilder implements IBuilder {
 
     let scope2 = typeof scope === 'string' ? STR_MAP[scope] : scope;
 
-    if(data && data.constructor.name === 'PrettyBuilderObject') {
-      if(this.prettyMode) {
-        data = data.getValue();
-      } else {
-        data = data.getOriginValue();
-      }
-    }
-
     this.details.set(IndicatorBuilder.getKey(key, scope2), {
       key: key,
       data: data,
@@ -70,7 +62,12 @@ export class IndicatorBuilder implements IBuilder {
   }
 
   pretty(format, value) {
-    return new PrettyBuilderObject(format, value);
+    let prettyData = new PrettyBuilderObject(format, value);
+    if(this.prettyMode) {
+      return prettyData.getValue();
+    } else {
+      return prettyData.getOriginValue();
+    }
   }
 
   setPrettyMode(prettyMode) {
