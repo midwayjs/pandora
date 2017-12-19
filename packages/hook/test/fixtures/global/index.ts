@@ -5,7 +5,7 @@
  */
 
 import { RunUtil } from '../../RunUtil';
-const { GlobalPatcher } = require('../../../src/patch/global');
+const { GlobalPatcher } = require('../../../src/patch/Global');
 const globalPatcher = new GlobalPatcher();
 const assert = require('assert');
 const pedding = require('pedding');

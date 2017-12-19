@@ -76,27 +76,19 @@ RunUtil.run(function(done) {
       path: '/',
       method: 'GET'
     }).then(() => {
-      console.log('second request');
       return new Promise((resolve, reject) => {
-        console.log('do this');
         const req = https.request({
           hostname: 'www.baidu.com',
           path: '/',
           method: 'GET'
-        }, function(err) {
-          console.log('third request');
-          if (err) return reject(err);
-
+        }, function() {
           resolve('hello');
         });
-
         req.end();
       });
     }).then((data) => {
       res.end(data);
       logger.error(new Error(data));
-    }).catch((err) => {
-      console.log('err: ', err);
     });
   });
 
@@ -110,8 +102,6 @@ RunUtil.run(function(done) {
           port: port,
           path: '/',
           method: 'GET'
-        }, (res) => {
-          console.log('first request result: ', res);
         });
       } else {
         http.request({
@@ -119,8 +109,6 @@ RunUtil.run(function(done) {
           port: port,
           path: '/',
           method: 'GET'
-        }, (res) => {
-          console.log('first request result: ', res);
         });
       }
 

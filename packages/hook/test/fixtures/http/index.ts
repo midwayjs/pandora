@@ -2,7 +2,7 @@
 import { RunUtil } from '../../RunUtil';
 const assert = require('assert');
 import * as url from 'url';
-const { HttpPatcher } = require('../../../src/patch/http');
+const { HttpPatcher } = require('../../../src/patch/Http');
 HttpPatcher.prototype.requestFilter = function(req) {
   const urlParsed = url.parse(req.url, true);
   return urlParsed.pathname.indexOf('ignore') > -1;

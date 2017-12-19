@@ -49,7 +49,7 @@ describe('unit test', () => {
 });
 
 describe('integration test', () => {
-  it.only('should trace work', done => {
+  it('should trace work', done => {
     fork('integrate', done);
   });
 });

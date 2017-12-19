@@ -3,6 +3,7 @@
 const http = require('http');
 import { Patcher, MessageConstants, getRandom64 } from 'pandora-metrics';
 import { scrub } from '../utils/Utils';
+import { HEADER_TRACE_ID } from '../utils/Constants';
 
 export class HttpPatcher extends Patcher {
 
@@ -13,7 +14,7 @@ export class HttpPatcher extends Patcher {
   }
 
   getTraceId(req) {
-    return req.headers['x-trace-id'] || getRandom64();
+    return req.headers[HEADER_TRACE_ID] || getRandom64();
   }
 
   createSpan(tracer, tags) {

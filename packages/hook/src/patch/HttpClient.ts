@@ -19,6 +19,10 @@ export class HttpClientPatcher extends Patcher {
     this.shimmer(options);
   }
 
+  getModuleName() {
+    return 'http-client';
+  }
+
   wrapHttpRequest = (request) => {
     const self = this;
     const traceManager = this.getTraceManager();
