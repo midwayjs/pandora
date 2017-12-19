@@ -4,6 +4,7 @@ import {ApplicationHandler} from '../application/ApplicationHandler';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {isDaemonRunning} from '../daemon/DaemonHandler';
 import {Hub} from 'pandora-hub';
+import debugGlobalConfig from './debugGlobalConfig';
 const globalConfigProcessor = GlobalConfigProcessor.getInstance();
 
 const {consoleLogger} = require('../../cli/util/cliUtils');
@@ -35,14 +36,10 @@ export class DebugApplicationLoader {
      }
 
     globalConfigProcessor.getAllProperties();
-    globalConfigProcessor.mergeProperties({
-      logger: {
-        appLogger: {
-          stdoutLevel: 'ALL',
-          level: 'NONE'
-        }
-      }
-    });
+    globalConfigProcessor.mergeProperties(debugGlobalConfig);
+
+    process.env.PANDORA_CONFIG = (process.env.PANDORA_CONFIG ?
+      process.env.PANDORA_CONFIG + ':' : '') + require.resolve('./debugGlobalConfig');
 
     process.env.PANDORA_DEV = 'true';
     process.env.NODE_ENV = process.env.NODE_ENV || 'local';

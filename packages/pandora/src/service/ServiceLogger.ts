@@ -11,7 +11,7 @@ export default class ServiceLogger implements ILogger {
   protected logger: ILogger;
 
   constructor(serviceCore) {
-    this.prefix = `[appName: ${serviceCore.context.appName}, processName: ${serviceCore.context.processName}] `;
+    this.prefix = `[serviceName: ${serviceCore.getServiceId()}, processName: ${serviceCore.context.processName}] `;
     this.setupLogger(serviceCore);
   }
 
@@ -28,6 +28,7 @@ export default class ServiceLogger implements ILogger {
         stdoutLevel: 'NONE',
         level: 'INFO',
         type: 'date',
+        ...globalConfig.logger.serviceLogger,
         dir: getAppLogDir(serviceCore.context.appName)
       });
     }
@@ -41,6 +42,7 @@ export default class ServiceLogger implements ILogger {
       stdoutLevel: 'NONE',
       level: 'INFO',
       type: 'date',
+      ...globalConfig.logger.serviceLogger,
       dir: getAppLogDir(serviceCore.context.appName)
     });
 
