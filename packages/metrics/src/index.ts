@@ -97,7 +97,3 @@ export * from './util/MessageCollector';
  */
 export * from './trace/TraceManager';
 export * from './trace/Patcher';
-
-console.log('------------------------- in index');
-console.log(module.exports);
-console.log('--------------------------end index');

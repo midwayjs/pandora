@@ -6,7 +6,7 @@ const request = require('supertest');
 import {expect} from 'chai';
 import {HealthEndPoint, HealthIndicator} from '../../../src';
 
-describe.only('/test/unit/HealthResource.test.ts', () => {
+describe('/test/unit/HealthResource.test.ts', () => {
 
   actuatorConfig['http']['enabled'] = false;
 
@@ -43,7 +43,6 @@ describe.only('/test/unit/HealthResource.test.ts', () => {
       })
       .expect(200)
       .then(res => {
-        console.log(res.body);
         expect(res.body.data['MyHealthIndicator']['status']).to.equal('UP');
         expect(res.body.success).to.true;
         done();

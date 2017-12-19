@@ -9,11 +9,6 @@ import {HealthResource} from '../rest/HealthResource';
 import {DaemonEndPoint} from '../endpoint/impl/DaemonEndPoint';
 import {DaemonResource} from '../rest/DaemonResource';
 import {HealthEndPoint} from '../endpoint/impl/CommonEndPoint';
-import * as index from '../index';
-
-console.log('---------default');
-console.log('---------default end');
-console.log(index);
 
 export default {
   http: {

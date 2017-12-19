@@ -1,5 +1,4 @@
 import {MetricsInjectionBridge} from './util/MetricsInjectionBridge';
-
 const debug = require('debug')('pandora:metrics:service');
 import actuatorConfig from './conf/default';
 import {MetricsActuatorManager} from './MetricsActuatorManager';
