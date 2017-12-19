@@ -64,6 +64,10 @@ export default {
       stdoutLevel: 'NONE',
       level: 'INFO'
     },
+    serviceLogger: {
+      stdoutLevel: 'NONE',
+      level: 'INFO',
+    },
     daemonLogger: {
       stdoutLevel: 'ERROR',
       level: 'INFO',

@@ -22,7 +22,7 @@ describe('ServiceLogger', function () {
 
   it('should doPrefix() be ok', () => {
     const res = logger.doPrefix(['test string']);
-    expect(res[0]).to.be.equal('[appName: testApp, processName: worker] test string');
+    expect(res[0]).to.be.equal('[serviceName: lala, processName: worker] test string');
   });
 
   it('should debug() be ok', () => {
