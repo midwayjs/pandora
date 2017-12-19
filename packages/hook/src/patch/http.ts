@@ -2,7 +2,7 @@
 
 const http = require('http');
 import { Patcher, MessageConstants, getRandom64 } from 'pandora-metrics';
-import { scrub } from '../utils/url';
+import { scrub } from '../utils/Utils';
 
 export class HttpPatcher extends Patcher {
 

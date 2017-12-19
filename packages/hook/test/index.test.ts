@@ -39,13 +39,17 @@ describe('unit test', () => {
     fork('http', done);
   });
 
+  it('should http-client and trace work ok', done => {
+    fork('http-client', done);
+  });
+
   it('should bluebird work ok', done => {
     fork('bluebird', done);
   });
 });
 
 describe('integration test', () => {
-  it('should trace work', done => {
+  it.only('should trace work', done => {
     fork('integrate', done);
   });
 });
