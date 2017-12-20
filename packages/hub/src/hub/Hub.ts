@@ -114,7 +114,7 @@ export class Hub {
     } : null;
 
     // Dispatch the message to a random client of all selected clients
-    client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback);
+    client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback, message && message.timeout);
 
   }
 
@@ -151,7 +151,7 @@ export class Hub {
       } : null;
 
       // Dispatch the message to all selected clients
-      client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback);
+      client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback, message && message.timeout);
     }
 
   }

@@ -1,4 +1,4 @@
-import {Introspection, ObjectDescription} from '../domain';
+import {ConsumerExtInfo, Introspection, ObjectDescription} from '../domain';
 import {HubClient} from '../hub/HubClient';
 import {OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE} from '../const';
 import {DefaultObjectProxy} from './DefaultObjectProxy';
@@ -8,10 +8,14 @@ export class ObjectConsumer {
   public objectDescription: ObjectDescription;
   private hubClient: HubClient;
   private objectProxy: DefaultObjectProxy;
+  private timeout: number;
 
-  constructor(objectDescription: ObjectDescription, hubClient) {
+  constructor(objectDescription: ObjectDescription, hubClient, extInfo?: ConsumerExtInfo) {
     this.objectDescription = objectDescription;
     this.hubClient = hubClient;
+    if(extInfo) {
+      this.timeout = extInfo.timeout;
+    }
   }
 
   /**
@@ -25,6 +29,7 @@ export class ObjectConsumer {
       objectName: this.objectDescription.name,
       objectTag: this.objectDescription.tag
     }, OBJECT_ACTION_INVOKE, {
+      timeout: this.timeout,
       propertyName: method,
       data: params
     });
@@ -44,6 +49,7 @@ export class ObjectConsumer {
       objectName: this.objectDescription.name,
       objectTag: this.objectDescription.tag
     }, OBJECT_ACTION_GET_PROPERTY, {
+      timeout: this.timeout,
       propertyName: name
     });
     if(res.error) {
