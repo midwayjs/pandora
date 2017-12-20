@@ -8,10 +8,7 @@ const assert = require('assert');
 
 export class EndPoint implements IEndPoint {
 
-  protected config = {
-    enabled: true,
-    initConfig: {},
-  };
+  protected config = {};
 
   group: string;
 
@@ -105,7 +102,7 @@ export class EndPoint implements IEndPoint {
     }
 
     // 把配置回写给所有 indicator
-    reply(this.config['initConfig']);
+    reply(this.config);
 
     let indicatorProxy = new IndicatorProxy(client);
     // 构建指标

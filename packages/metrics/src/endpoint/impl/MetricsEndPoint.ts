@@ -107,7 +107,7 @@ export class MetricsEndPoint extends EndPoint {
   }
 
   protected getCollector() {
-    return this.config['initConfig']['collector'] || NormalMetricsCollector;
+    return this.config['collector'] || NormalMetricsCollector;
   }
 
 }

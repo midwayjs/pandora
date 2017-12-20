@@ -10,7 +10,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
       if(this.cacheByRate(data)) {
         let cache = this.cacheMap.get(data.appName);
         if (!cache) {
-          cache = new CommonCache(this.config.initConfig['cacheSize'] || CacheDuplexEndPoint.DEFAULT_CACHE_SIZE);
+          cache = new CommonCache(this.config['cacheSize'] || CacheDuplexEndPoint.DEFAULT_CACHE_SIZE);
           this.cacheMap.set(data.appName, cache);
         }
         this.debug('push data by rate');
@@ -43,7 +43,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
   }
 
   getRate() {
-    return this.config.initConfig['rate'];
+    return this.config['rate'];
   }
 
   cacheByRate(data) {
