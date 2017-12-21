@@ -6,22 +6,31 @@ import {WeightSample} from '../domain';
  */
 export class WeightedSnapshot extends AbstractSnapshot {
 
-  values;
+  values = [];
   normWeights = [];
   quantiles = [];
 
   constructor(values: Array<WeightSample>) {
     super();
-    this.values = values.sort();
+    let copy = values.sort((a, b) => {
+      if (a.value < b.value) {
+        return -1;
+      }
+      if (a.value > b.value) {
+        return 1;
+      }
+
+      return 0;
+    });
 
     let sumWeight = 0;
-    for (let sample of this.values) {
+    for (let sample of copy) {
       sumWeight += sample.weight;
     }
 
-    for (let i = 0; i < this.values.length; i++) {
-      this.values[i] = this.values[i].value;
-      this.normWeights[i] = this.values[i].weight / sumWeight;
+    for (let i = 0; i < copy.length; i++) {
+      this.values[i] = copy[i].value;
+      this.normWeights[i] = copy[i].weight / sumWeight;
     }
 
     for (let i = 1; i < this.values.length; i++) {
@@ -39,12 +48,13 @@ export class WeightedSnapshot extends AbstractSnapshot {
     if (quantile < 0.0 || quantile > 1.0 || isNaN(quantile)) {
       throw new Error(quantile + ' is not in [0..1]');
     }
-
+// console.log(this.values);
     if (this.values.length === 0) {
       return 0.0;
     }
 
     let posx = this.quantiles.indexOf(quantile);
+    console.log('%s => %s', quantile, posx);
     if (posx < 0) {
       posx = ((-posx) - 1) - 1;
     }
@@ -101,9 +111,10 @@ export class WeightedSnapshot extends AbstractSnapshot {
       return 0;
     }
 
-    let sum = 0;
+    let sum = 0.0;
     for (let i = 0; i < this.values.length; i++) {
       sum += this.values[i] * this.normWeights[i];
+      console.log(sum);
     }
     return sum;
   }
