@@ -22,7 +22,7 @@ export class EggLoggerPatcher extends Patcher {
       const logger = loadModule('lib/logger.js');
 
       self.getShimmer().massWrap(logger.prototype, ['error', 'warn'], function wrapLog(log, name) {
-        return function wrappedLog() {
+        return function wrappedLog(this: any) {
           let args = arguments;
           process.nextTick(() => {
             let err = args[0];

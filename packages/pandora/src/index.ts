@@ -60,6 +60,17 @@ export * from './debug/DebugServiceReconciler';
 export * from 'pandora-metrics';
 
 /**
+ * Hook
+ */
+export * from 'pandora-hook';
+
+/**
+ * Env
+ */
+export * from 'pandora-env';
+
+
+/**
  * Facade
  */
 export const facade = Facade.getInstance();

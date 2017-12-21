@@ -79,7 +79,7 @@ export class UrllibPatcher extends Patcher {
 
       this.getShimmer().wrap(urllib, 'requestWithCallback', function wrapRequestWithCallback(request) {
 
-        return function wrappedRequestWithCallback(url, args, callback) {
+        return function wrappedRequestWithCallback(this: any, url, args, callback) {
 
           if (arguments.length === 2 && typeof args === 'function') {
             callback = args;
