@@ -1,7 +1,7 @@
 import {WeightedSnapshot} from '../../../../src/common';
 import {expect} from 'chai';
 
-describe.only('/test/unit/common/snapshot/WeightedSnapshot.test.ts', () => {
+describe('/test/unit/common/snapshot/WeightedSnapshot.test.ts', () => {
   let WeightedArray = [
     {
       value: 5,
@@ -92,6 +92,6 @@ describe.only('/test/unit/common/snapshot/WeightedSnapshot.test.ts', () => {
   });
 
   it('should calculate stdDev', function () {
-    expect(snapshot.getStdDev().toFixed(4)).to.be.equal('1.2688');
+    expect(snapshot.getStdDev().toFixed(4)).to.be.equal('1.2689');
   });
 });
