@@ -12,6 +12,7 @@ export enum State {
 // Global
 export const PANDORA_GLOBAL_CONFIG = 'PANDORA_CONFIG';
 export const PANDORA_CWD = 'PANDORA_CWD';
+export const PANDORA_HOME = 'PANDORA_HOME';
 
 
 

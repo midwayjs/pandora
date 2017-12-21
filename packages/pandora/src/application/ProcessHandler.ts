@@ -2,11 +2,12 @@
 import {ChildProcess, fork} from 'child_process';
 import {
   RELOAD, RELOAD_SUCCESS, RELOAD_ERROR, PANDORA_CWD,
-  State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT
+  State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT, PANDORA_HOME
 } from '../const';
 import {getDaemonLogger, createAppLogger, removeEOL} from '../universal/LoggerBroker';
 import {ProcessRepresentation} from '../domain';
 import {ILogger} from 'pandora-service-logger/src/domain';
+import {join} from 'path';
 
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
 
@@ -81,6 +82,7 @@ export class ProcessHandler {
     }
 
     const env = {
+      [PANDORA_HOME]: join(__dirname, '../../'),
       ...process.env,
       ...representation.env,
       [PANDORA_CWD]: process.cwd(),
