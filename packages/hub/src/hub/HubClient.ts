@@ -273,7 +273,7 @@ export class HubClient extends EventEmitter {
           return;
         }
         resolve(message);
-      });
+      }, message.timeout);
     }));
   }
 

@@ -5,7 +5,7 @@ import {ProcessContext} from './ProcessContext';
 import {Environment} from 'pandora-env';
 import {Service} from '../domain';
 import {Facade as HubFacade} from 'pandora-hub';
-import {DefaultObjectProxy, ObjectDescription} from 'pandora-hub';
+import {DefaultObjectProxy, ObjectDescription, ConsumerExtInfo} from 'pandora-hub';
 
 /**
  * Class ProcessContextAccessor
@@ -87,9 +87,9 @@ export class ProcessContextAccessor {
     return this.context.getIPCHub();
   }
 
-  async getProxy <T extends any> (name: string): Promise<T & DefaultObjectProxy>;
-  async getProxy <T extends any> (objectDescription: ObjectDescription): Promise<T & DefaultObjectProxy>;
-  async getProxy(target: string | ObjectDescription): Promise<any> {
+  async getProxy <T extends any> (name: string, extInfo?: ConsumerExtInfo): Promise<T & DefaultObjectProxy>;
+  async getProxy <T extends any> (objectDescription: ObjectDescription, extInfo?: ConsumerExtInfo): Promise<T & DefaultObjectProxy>;
+  async getProxy(target: string | ObjectDescription, extInfo?: ConsumerExtInfo): Promise<any> {
     let objDesc = null;
     if(typeof target === 'string') {
       objDesc = {
@@ -99,7 +99,7 @@ export class ProcessContextAccessor {
       objDesc = target;
     }
     const hub = this.context.getIPCHub();
-    return hub.getProxy(objDesc);
+    return hub.getProxy(objDesc, extInfo);
   }
 
   async publishObject(name: string, obj): Promise<void>;
