@@ -90,7 +90,7 @@ export class TraceManager {
     return this.ns.bind(fn, context);
   }
 
-  run(fn, context) {
+  run(fn, context?) {
     return this.ns.run(fn, context);
   }
 
