@@ -47,7 +47,8 @@ export class TraceReporter extends CustomReporter {
 
     const traces = await Promise.all(appNames.map(async (appName) => {
       try {
-        const data = await traceEndPoint.invoke(appName, {
+        const data = await traceEndPoint.invoke({
+          appName,
           value: this.vernier[appName] || 0,
           order: 'DESC',
           by: 'timestamp'

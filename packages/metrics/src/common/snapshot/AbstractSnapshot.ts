@@ -1,7 +1,5 @@
 import {Snapshot} from './Snapshot';
 
-const DEFAULT_PERCENTILES = [0.001, 0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.98, 0.99, 0.999];
-
 /**
  * A statistical snapshot of a {@link AbstractSnapshot}.
  */
@@ -67,42 +65,6 @@ export abstract class AbstractSnapshot implements Snapshot {
    */
   get999thPercentile(): number {
     return this.getValue(0.999);
-  }
-
-  // Pass an array of percentiles, e.g. [0.5, 0.75, 0.9, 0.99]
-  percentiles(percentiles) {
-    if (!percentiles) {
-      percentiles = DEFAULT_PERCENTILES;
-    }
-
-    let values = this.getValues().map((v: any) => {
-      return parseFloat(v);
-    }).sort((a, b) => {
-      return a - b;
-    });
-
-    let scores = {},
-      percentile,
-      pos,
-      lower,
-      upper;
-
-    for (let i = 0; i < percentiles.length; i++) {
-      pos = percentiles[i] * (values.length + 1);
-      percentile = percentiles[i];
-      if (pos < 1) {
-        scores[percentile] = values[0];
-      }
-      else if (pos >= values.length) {
-        scores[percentile] = values[values.length - 1];
-      }
-      else {
-        lower = values[Math.floor(pos) - 1];
-        upper = values[Math.ceil(pos) - 1];
-        scores[percentile] = lower + (pos - Math.floor(pos)) * (upper - lower);
-      }
-    }
-    return scores;
   }
 
 }

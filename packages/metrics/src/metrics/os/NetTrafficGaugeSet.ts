@@ -5,10 +5,10 @@ import * as fs from 'fs';
 
 const debug = require('debug')('metrics:net_traffic');
 
-const fieldNames = ["net.in.bytes", "net.in.packets", "net.in.errs", "net.in.dropped",
-  "net.in.fifo.errs", "net.in.frame.errs", "net.in.compressed", "net.in.multicast",
-  "net.out.bytes", "net.out.packets", "net.out.errs", "net.out.dropped",
-  "net.out.fifo.errs", "net.out.collisions", "net.out.carrier.errs", "net.out.compressed"];
+const fieldNames = ['net.in.bytes', 'net.in.packets', 'net.in.errs', 'net.in.dropped',
+  'net.in.fifo.errs', 'net.in.frame.errs', 'net.in.compressed', 'net.in.multicast',
+  'net.out.bytes', 'net.out.packets', 'net.out.errs', 'net.out.dropped',
+  'net.out.fifo.errs', 'net.out.collisions', 'net.out.carrier.errs', 'net.out.compressed'];
 
 const getEmptyFields = () => Array(16).map(() => 0);
 
@@ -25,8 +25,8 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
   rateStats = {};
 
 
-  constructor(filePath = NetTrafficGaugeSet.DEFAULT_FILE_PATH) {
-    super();
+  constructor(dataTTL = 5000, filePath = NetTrafficGaugeSet.DEFAULT_FILE_PATH) {
+    super(dataTTL);
     this.filePath = filePath;
   }
 

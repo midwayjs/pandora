@@ -12,7 +12,7 @@ export class TraceManager {
   private static instance;
 
   static getInstance() {
-    if(!this.instance) {
+    if (!this.instance) {
       this.instance = new TraceManager();
     }
     return this.instance;
@@ -57,7 +57,10 @@ export class TraceManager {
     return this.traceContainer[traceId];
   }
 
-  create(options) {
+  create(options: {
+    traceId?,
+    ns?
+  } = {}) {
     try {
       options.traceId = options.traceId || uuid();
       const traceId = options.traceId;
@@ -87,7 +90,7 @@ export class TraceManager {
     return this.ns.bind(fn, context);
   }
 
-  run(fn, context) {
+  run(fn, context?) {
     return this.ns.run(fn, context);
   }
 

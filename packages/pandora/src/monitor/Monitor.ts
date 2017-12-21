@@ -6,6 +6,7 @@ import {
   NetTrafficGaugeSet,
   SystemMemoryGaugeSet,
   SystemLoadGaugeSet,
+  DiskStatGaugeSet,
   MetricsActuatorServer
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
@@ -52,7 +53,7 @@ export class Monitor {
     metricsManager.register('system', 'system', new NetTrafficGaugeSet());
     metricsManager.register('system', 'system', new SystemMemoryGaugeSet());
     metricsManager.register('system', 'system', new SystemLoadGaugeSet());
-    // metricsManager.register('system', 'system', new DiskStatGaugeSet());
+    metricsManager.register('system', 'system', new DiskStatGaugeSet());
     debug('start a metrics reporter');
     for (let reporterName in this.globalConfig['reporter']) {
       const reporterObj = this.globalConfig['reporter'][reporterName];

@@ -15,8 +15,9 @@ export class ErrorResource implements ActuatorResource {
     const errorEndPoint = this.endPointService.getEndPoint('error');
     router.get('/', async (ctx, next) => {
       try {
-        const { by, value, order, offset, limit } = ctx.query;
-        const items = await errorEndPoint.invoke(ctx.query['appName'], {
+        const { by, value, order, offset, limit, appName } = ctx.query;
+        const items = await errorEndPoint.invoke({
+          appName,
           by,
           value: Number(value),
           order

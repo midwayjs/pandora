@@ -1,9 +1,7 @@
 import {expect} from 'chai';
-import {ProcessEndPoint} from '../../../src/endpoint/impl/ProcessEndPoint';
 // import * as cp from 'child_process';
 // import * as path from 'path';
-import {ProcessIndicator} from '../../../src/indicator/impl/ProcessIndicator';
-import {MetricsConstants} from '../../../src/MetricsConstants';
+import {MetricsConstants, ProcessEndPoint, ProcessIndicator} from '../../../src';
 // let count = 5;
 
 describe('/test/unit/endpoint/ProcessEndpoint.test.ts', () => {
@@ -42,7 +40,9 @@ describe('/test/unit/endpoint/ProcessEndpoint.test.ts', () => {
 
     let results = await new Promise((resolve, reject) => {
       setTimeout(async () => {
-        let re = await endpoint.invoke(MetricsConstants.METRICS_DEFAULT_APP);
+        let re = await endpoint.invoke({
+          appName: MetricsConstants.METRICS_DEFAULT_APP
+        });
         resolve(<Array<any>>re);
       }, 1000);
     });

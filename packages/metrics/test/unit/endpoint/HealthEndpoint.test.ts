@@ -1,8 +1,6 @@
-import {HealthEndPoint} from '../../../src/endpoint/impl/HealthEndPoint';
 import {DiskSpaceHealthIndicator} from '../../../src/indicator/impl/health/DiskSpaceHealthIndicator';
 import {expect} from 'chai';
-import {PortHealthIndicator} from '../../../src/indicator/impl/health/PortHealthIndicator';
-import {MetricsConstants} from '../../../src/MetricsConstants';
+import {HealthEndPoint, MetricsConstants, PortHealthIndicator} from '../../../src';
 
 describe('/test/unit/endpoint/HealthEndpoint.test.ts', () => {
 

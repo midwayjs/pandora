@@ -4,8 +4,7 @@ import {EndPointService} from '../../../src/service/EndPointService';
 
 const request = require('supertest');
 import {expect} from 'chai';
-import {HealthEndPoint} from '../../../src/endpoint/impl/HealthEndPoint';
-import {HealthIndicator} from '../../../src/indicator/impl/health/HealthIndicator';
+import {HealthEndPoint, HealthIndicator} from '../../../src';
 
 describe('/test/unit/HealthResource.test.ts', () => {
 
@@ -34,6 +33,7 @@ describe('/test/unit/HealthResource.test.ts', () => {
     healthIndicator.initialize();
 
     let restService = new ActuatorRestService(endPointService);
+    console.log(actuatorConfig);
     app = restService.start(actuatorConfig);
 
     request(app.listen())

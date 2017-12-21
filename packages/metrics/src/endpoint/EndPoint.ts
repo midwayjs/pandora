@@ -3,15 +3,12 @@ import {MetricsMessengerServer} from '../util/MessengerUtil';
 import {IndicatorProxy} from '../indicator/IndicatorProxy';
 import {IndicatorResult} from '../indicator/IndicatorResult';
 
+const util = require('util');
 const assert = require('assert');
-const debug = require('debug')('pandora:metrics:EndPoint');
 
 export class EndPoint implements IEndPoint {
 
-  protected config = {
-    enabled: true,
-    initConfig: {},
-  };
+  protected config = {};
 
   group: string;
 
@@ -21,14 +18,15 @@ export class EndPoint implements IEndPoint {
 
   logger = console;
 
+  debug;
+
   /**
    * 激活名下所有指标
-   * @param appName
    * @param args
    */
-  invoke(appName?: string, args?: any) {
-
-    debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${args}, clientNum = ${this.indicators.length}`);
+  invoke(args: any = {}) {
+    let appName = args.appName;
+    this.debug(`Invoke: EndPoint(${this.group}) start query appName = ${appName}, args = ${util.inspect(args)}, clientNum = ${this.indicators.length}`);
 
     // query Indicator
     let indicators: IIndicator[] = this.indicators.filter((indicator: IndicatorProxy) => {
@@ -53,12 +51,14 @@ export class EndPoint implements IEndPoint {
 
   initialize() {
     assert(this.group, 'EndPoint name property is required');
-    debug(`Discover: EndPoint(${this.group}) start listen and wait Indicators`);
+    // create debug object
+    this.debug = require('debug')(`pandora:metrics:EndPoint:${this.group}`);
+    this.debug(`Discover: EndPoint(${this.group}) start listen and wait Indicators`);
     this.messengerServer.discovery(this.registerIndicator.bind(this));
   }
 
   processQueryResults(results: Array<IndicatorResult>, appName?: string, args?: any): any {
-    debug('Return: get callback from Indicators');
+    this.debug('Return: get callback from Indicators');
     let allResults = {};
 
     // loop indicators and get results
@@ -96,18 +96,18 @@ export class EndPoint implements IEndPoint {
       });
 
       if (indicators.length) {
-        debug('indicator type singleton=' + data.appName, data.indicatorName);
+        this.debug('indicator type singleton=' + data.appName, data.indicatorName);
         return;
       }
     }
 
     // 把配置回写给所有 indicator
-    reply(this.config['initConfig']);
+    reply(this.config);
 
-    debug(`Client: register name = ${data.indicatorName} client = ${client._CLIENT_ID}`);
     let indicatorProxy = new IndicatorProxy(client);
     // 构建指标
     indicatorProxy.buildIndicator(data);
+    this.debug(`Client: register name = ${indicatorProxy.name}(${indicatorProxy.clientId})`);
     // 连接断开后需要清理
     indicatorProxy.bindRemove(this.removeClient.bind(this));
     this.indicators.push(indicatorProxy);

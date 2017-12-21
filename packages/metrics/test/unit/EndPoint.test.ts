@@ -20,7 +20,8 @@ class MyIndicator extends Indicator {
         builder.withDetail('my.during', 15)
           .withDetail('my.start', Date.now(), IndicatorScope.SYSTEM)
           .withDetail('my.end', Date.now() + 15)
-          .withDetail('my.count', 100);
+          .withDetail('my.count', 100)
+          .withDetail('my.pretty.data', builder.pretty('%s%', '12.1'));
 
         resolve();
       }, 200);
@@ -52,7 +53,9 @@ describe('/test/unit/EndPoint.test.ts', () => {
   });
 
   it('query custom EndPoint with appName', (done) => {
-    myEndPoint.invoke(MetricsConstants.METRICS_DEFAULT_APP).then((results) => {
+    myEndPoint.invoke({
+      appName: MetricsConstants.METRICS_DEFAULT_APP
+    }).then((results) => {
       expect(results[0].key).to.be.equal('my.during');
       expect(results[1].key).to.be.equal('my.start');
       expect(results[2].key).to.be.equal('my.end');
@@ -68,6 +71,17 @@ describe('/test/unit/EndPoint.test.ts', () => {
       expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.be.equal('my.start');
       expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.be.equal('my.end');
       expect(results[MetricsConstants.METRICS_DEFAULT_APP][3].key).to.be.equal('my.count');
+      done();
+    });
+  });
+
+  it('should invoke endpoint with pretty mode', function (done) {
+    myEndPoint.invoke({
+      pretty: true,
+      appName: MetricsConstants.METRICS_DEFAULT_APP
+    }).then(results => {
+      expect(results[4].key).to.be.equal('my.pretty.data');
+      expect(results[4].data).to.be.equal('12.1%');
       done();
     });
   });

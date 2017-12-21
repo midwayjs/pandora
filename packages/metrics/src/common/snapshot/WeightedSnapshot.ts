@@ -1,30 +1,40 @@
 import {AbstractSnapshot} from './AbstractSnapshot';
 import {WeightSample} from '../domain';
+import {binarySearch} from '../../util/binarySearch';
 
 /**
  * A statistical snapshot of a {@link WeightedSnapshot}.
  */
 export class WeightedSnapshot extends AbstractSnapshot {
 
-  values;
+  values = [];
   normWeights = [];
-  quantiles = [];
+  quantiles = [0.0];
 
   constructor(values: Array<WeightSample>) {
     super();
-    this.values = values.sort();
+    let copy = values.sort((a, b) => {
+      if (a.value < b.value) {
+        return -1;
+      }
+      if (a.value > b.value) {
+        return 1;
+      }
+
+      return 0;
+    });
 
     let sumWeight = 0;
-    for (let sample of this.values) {
+    for (let sample of copy) {
       sumWeight += sample.weight;
     }
 
-    for (let i = 0; i < this.values.length; i++) {
-      this.values[i] = this.values[i].value;
-      this.normWeights[i] = this.values[i].weight / sumWeight;
+    for (let i = 0; i < copy.length; i++) {
+      this.values[i] = copy[i].value;
+      this.normWeights[i] = copy[i].weight / sumWeight;
     }
 
-    for (let i = 1; i < this.values.length; i++) {
+    for (let i = 1; i < copy.length; i++) {
       this.quantiles[i] = this.quantiles[i - 1] + this.normWeights[i - 1];
     }
   }
@@ -44,7 +54,7 @@ export class WeightedSnapshot extends AbstractSnapshot {
       return 0.0;
     }
 
-    let posx = this.quantiles.indexOf(quantile);
+    let posx = binarySearch(this.quantiles, quantile);
     if (posx < 0) {
       posx = ((-posx) - 1) - 1;
     }
@@ -101,7 +111,7 @@ export class WeightedSnapshot extends AbstractSnapshot {
       return 0;
     }
 
-    let sum = 0;
+    let sum = 0.0;
     for (let i = 0; i < this.values.length; i++) {
       sum += this.values[i] * this.normWeights[i];
     }

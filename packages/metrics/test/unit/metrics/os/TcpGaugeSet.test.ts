@@ -6,7 +6,7 @@ const path = require('path');
 describe('/test/unit/metrics/os/TcpGaugeSet.test.ts', () => {
 
     it('should get tcp statistics', () => {
-        let gaugeset = new NetworkTrafficGaugeSet(path.join(__dirname, '../resources/snmp'));
+        let gaugeset = new NetworkTrafficGaugeSet(5000, path.join(__dirname, '../resources/snmp'));
         let gauges = gaugeset.getMetrics();
         expect(gauges[0].metric.getValue()).to.equal(21983);
         expect(gauges[1].metric.getValue()).to.equal(748);

@@ -7,7 +7,6 @@ import {AbstractIndicator} from './AbstractIndicator';
 import {IndicatorBuilder} from './IndicatorBuilder';
 import {IBuilder} from '../domain';
 import {EnvironmentUtil, Environment} from 'pandora-env';
-const debug = require('debug')('pandora:metrics:Indicator');
 const assert = require('assert');
 const util = require('util');
 
@@ -25,14 +24,16 @@ export abstract class Indicator extends AbstractIndicator {
 
   config = {};
 
-  initialize() {
+  debug;
 
-    debug(`Register: indicator(${this.name}) start register`);
+  initialize() {
+    this.debug = require('debug')(`pandora:metrics:Indicator(${this.transferType}):${this.name}(${this.clientId})`);
+    this.debug(`Register: indicator(${this.name}) start register`);
 
     assert(this.appName, 'Indicator appName property is required');
     assert(this.group, 'Indicator group property is required');
 
-    debug(`Registering: indicator(${this.name}) send register, appName = ${this.appName}, group = ${this.group}, clientId = ${this.clientId}`);
+    this.debug(`Registering: indicator(${this.name}) send register, appName = ${this.appName}, group = ${this.group}, clientId = ${this.clientId}`);
 
     this.registerIndicator();
     this.registerDownlink();
@@ -50,9 +51,9 @@ export abstract class Indicator extends AbstractIndicator {
       type: this.type,
     }, (err, config) => {
       if(err) {
-        debug('Error: err = ' + err);
+        this.debug('Error: err = ' + err);
       } else {
-        debug(`indicator(${this.name}) Accept config from EndPoint, config = ${util.inspect(config)}`);
+        this.debug(`indicator(${this.name}) Accept config from EndPoint, config = ${util.inspect(config)}`);
         this.config = config;
       }
     });
@@ -62,24 +63,26 @@ export abstract class Indicator extends AbstractIndicator {
    * 注册下行链路
    */
   protected registerDownlink() {
-    debug(`Listen: indicator(${this.name}), eventKey = ${this.getClientDownlinkKey()}`);
-    this.messengerClient.query(this.getClientDownlinkKey(), async(message, reply) => {
-      debug(`Invoke: indicator(${this.name}), message = ${message}`);
+    this.debug(`Listen: indicator(${this.name}), eventKey = ${this.getClientDownlinkKey()}`);
+    this.messengerClient.query(this.getClientDownlinkKey(), async(data, reply) => {
+      this.debug(`Invoke: indicator(${this.name}), data = ${data}`);
       // 如果没有配置，但是又实例化了，默认就是 true
       if(!this.config[this.group] || this.config[this.group].enabled !== false) {
         let builder = this.getBuilder();
+        builder.setPrettyMode(data.pretty);
+
         try {
-          await this.invoke(message, builder);
-          debug(`Return: indicator(${this.name}) invoke complete`);
+          await this.invoke(data, builder);
+          this.debug(`Return: indicator(${this.name}) invoke complete`);
           reply && reply(builder.getDetails());
         } catch (err) {
           // error
-          debug(`Error: err = ${err}`);
+          this.debug(`Error: err = ${err}`);
           reply && reply();
         }
       } else {
         // 未启用就不执行
-        debug(`Return: indicator(${this.name}) enabled = false and call end`);
+        this.debug(`Return: indicator(${this.name}) enabled = false and call end`);
       }
     });
   }

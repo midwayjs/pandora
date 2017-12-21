@@ -12,7 +12,7 @@ export class ProcessIndicator extends Indicator {
 
   type: IndicatorType = 'multiton';
 
-  async invoke(data: any, builder: IBuilder) {
+  async invoke(args: any, builder: IBuilder) {
 
     let stat;
 
@@ -38,10 +38,8 @@ export class ProcessIndicator extends Indicator {
       argv: process.argv,
       execArgv: process.execArgv,
       execPath: process.execPath,
-      cpu: stat.cpu,
+      cpu: builder.pretty('%s%', stat.cpu),
       memory: stat.memory,
-      versions: process.versions,
-      features:(<any> process).features,
       uptime: process.uptime(),
     }, IndicatorScope.PROCESS);
 

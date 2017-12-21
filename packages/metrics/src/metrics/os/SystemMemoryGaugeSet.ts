@@ -27,8 +27,8 @@ export class SystemMemoryGaugeSet extends CachedMetricSet {
 
   SystemMemory = {};
 
-  constructor(filePath = SystemMemoryGaugeSet.DEFAULT_FILE_PATH) {
-    super();
+  constructor(dataTTL = 5000, filePath = SystemMemoryGaugeSet.DEFAULT_FILE_PATH) {
+    super(dataTTL);
     this.filePath = filePath;
   }
 
