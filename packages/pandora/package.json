@@ -1,6 +1,6 @@
 {
   "name": "pandora",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "A powerful and lightweight application manager for Node.js applications powered by TypeScript.",
   "main": "dist/index.js",
   "typings": "src/index",
@@ -42,7 +42,7 @@
     "pandora-dollar": "^1.4.3",
     "pandora-env": "^1.4.3",
     "pandora-hook": "^1.4.3",
-    "pandora-hub": "^1.4.3",
+    "pandora-hub": "^1.4.5",
     "pandora-messenger": "^1.4.3",
     "pandora-metrics": "^1.4.3",
     "pandora-service-logger": "^1.4.3",
