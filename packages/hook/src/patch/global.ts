@@ -31,7 +31,7 @@ export class GlobalPatcher extends Patcher {
     const traceManager = this.getTraceManager();
 
     this.getShimmer().massWrap(console, ['error', 'warn'], function wrapLog(log, name) {
-      return function wrappedLog() {
+      return function wrappedLog(this: any) {
         process.nextTick(() => {
           let args = arguments;
           let err = args[0];
@@ -80,7 +80,7 @@ export class GlobalPatcher extends Patcher {
 
     this.getShimmer().wrap(process, 'emit', function wrapProcessEmit(original) {
 
-      return function wrappedProcessEmit(event, error) {
+      return function wrappedProcessEmit(this: any, event, error) {
         if (event === 'unhandledRejection' && error) {
           if (listenerCount(process, 'unhandledRejection') === 0) {
             let traceId = '';
@@ -115,7 +115,7 @@ export class GlobalPatcher extends Patcher {
 
     this.getShimmer().wrap(process, '_fatalException', function wrapProcessFatalException(original) {
 
-      return function wrappedProcessFatalException(error) {
+      return function wrappedProcessFatalException(this: any, error) {
         let traceId = '';
         const tracer = traceManager.getCurrentTracer();
         if (tracer) {

@@ -72,7 +72,7 @@ export class HttpPatcher extends Patcher {
 
     this.getShimmer().wrap(http, 'createServer', function wrapCreateServer(createServer) {
 
-      return function wrappedCreateServer(requestListener) {
+      return function wrappedCreateServer(this: any, requestListener) {
         if (requestListener) {
 
           const listener = traceManager.bind(function(req, res) {
