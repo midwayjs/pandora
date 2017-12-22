@@ -28,6 +28,7 @@ yargs
   .command(require('../cli/list'))
   .command(require('../cli/dev'))
   .command(require('../cli/exit'))
+  .command(require('../cli/init'))
   .wrap(Math.max(40, yargs.terminalWidth() - 8))
   .locale('en')
   .argv;

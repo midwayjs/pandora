@@ -3,6 +3,8 @@
 const path = require('path');
 const fs = require('fs');
 const colors = require('colors');
+const inquirer = require('inquirer');
+
 
 class MyConsole extends console.Console {
   constructor() {
@@ -18,14 +20,14 @@ class MyConsole extends console.Console {
 
 const consoleLogger = exports.consoleLogger = new MyConsole();
 
-exports.preCheck = (targetPath, appName) => {
 
-  if(!targetPath || !appName) {
+exports.initProcfile = async (targetPath, name) => {
+
+  if(!targetPath || !name) {
     return;
   }
 
   let appRoot = process.cwd();
-  let pkgPath = path.join(appRoot, 'package.json');
 
   // start path must be process.cwd()
   let procFilePath = path.join(appRoot, 'procfile.js');
@@ -35,26 +37,65 @@ exports.preCheck = (targetPath, appName) => {
   );
 
   if(targetPath.startsWith('/')) {
+    throw new Error('TargetPath cannot starts with /');
+  }
+
+  if(!fs.existsSync(procFilePath)) {
+    writeProcfile(targetPath, name, procFilePath);
     return;
   }
 
-  if(fs.existsSync(pkgPath) && !fs.existsSync(procFilePath)) {
+  inquirer.prompt([
+    {
+      name: 'overwrite',
+      message: colors.red('The procfile.js at ' + procFilePath + ' already exists, do you want to overwrite it ?'),
+      type: 'confirm'
+    }
+  ]).then((res) => {
+    if(res.overwrite) {
+      writeProcfile(targetPath, name, procFilePath);
+    }
+  }).catch(console.error);
 
-    const template = `'use strict';
+
+};
+
+function writeProcfile(targetPath, name, procFilePath) {
+
+
+  inquirer.prompt([
+    {
+      name: 'type',
+      message: colors.yellow('Which type do you like to generate ?'),
+      type: 'list',
+      choices: [
+        'fork',
+        'cluster'
+      ]
+    }
+  ]).then((res) => {
+
+    const type = res.type;
+    let content;
+
+    switch (type) {
+
+      case 'fork':
+
+        content = (
+
+`'use strict';
 
 module.exports = (pandora) => {
 
-  /**
-   * default is fork mode
-   */
   pandora
-    .fork('${appName}', '${targetPath}');
+    .fork('${name}', '${targetPath}');
 
   /**
-   * you can use cluster mode to start application
+   * you can also use cluster mode to start application
    */
   // pandora
-  //   .cluster('./cluster.js');
+  //   .cluster('${targetPath}');
 
   /**
    * you can create another process here
@@ -68,12 +109,55 @@ module.exports = (pandora) => {
    * https://github.com/midwayjs/pandora/
    */
 
-};`;
+};`
+        );
 
-    fs.writeFileSync(procFilePath, template);
+        break;
+
+      case 'cluster':
+
+        content = (
+
+`'use strict';
+
+module.exports = (pandora) => {
+
+  pandora
+    .cluster('${targetPath}');
+
+  /**
+   * you can also use fork mode to start application 
+   */
+  // pandora
+  //   .fork('${name}', '${targetPath}');
+
+  /**
+   * you can create another process here
+   */
+  // pandora
+  //   .process('background')
+  //   .argv(['--expose-gc']);
+
+  /**
+   * more features please visit our document.
+   * https://github.com/midwayjs/pandora/
+   */
+
+};`
+        );
+
+        break;
+
+    }
+
+
+    fs.writeFileSync(procFilePath, content);
+
     consoleLogger.important(`The procfile.js was auto generated at ${procFilePath}`);
-  }
-};
+
+  }).catch(console.error);
+
+}
 
 
 exports.dirnameUntilPkgJson = function (targetPath) {

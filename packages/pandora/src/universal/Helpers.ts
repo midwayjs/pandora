@@ -1,5 +1,5 @@
 'use strict';
-import {join, resolve} from 'path';
+import {dirname, join, resolve} from 'path';
 import {statSync} from 'fs';
 import {PANDORA_GLOBAL_CONFIG} from '../const';
 import {GlobalConfigProcessor} from './GlobalConfigProcessor';
@@ -20,6 +20,7 @@ export function calcAppName(dir?) {
 }
 
 export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
+
   const currentPath = process.cwd();
   let pandoraConfig;
   try {
@@ -40,17 +41,21 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
   const sendConfig = extend(true, defaultConfig, pandoraConfig || {}, cliConfig);
   sendConfig['entry'] = sendConfig['entry'] || currentPath;
 
-  try {
-    const p = resolve(sendConfig['entry']);
-    let fd = statSync(p);
-    if (fd.isDirectory()) {
-      sendConfig['appDir'] = p;
-    } else if (fd.isFile()) {
-      sendConfig['entryFile'] = p;
-      sendConfig['appDir'] = currentPath;
-    }
-  } catch (err) {
-    console.error(err);
+  const p = resolve(sendConfig['entry']);
+  const fd = statSync(p);
+  if (fd.isDirectory()) {
+    sendConfig['appDir'] = p;
+  } else if (fd.isFile()) {
+
+    const dir = dirname(sendConfig['entry']);
+
+    throw new Error(`Pandora.js can only start a Pandora.js project directory, like [ pandora ${command}${
+      dir === '.' ? ' ./' : ' ' + dir + '/'
+    } ]\nYou can use [ pandora init ${sendConfig['entry']} ] to init a Pandora.js project`);
+
+    // sendConfig['entryFile'] = p;
+    // sendConfig['appDir'] = currentPath;
+
   }
 
   if(cliConfig.name) {
@@ -78,8 +83,10 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
   }
 
   const sendConfig2nd = {};
-  for(const key of ['appName', 'appDir', 'entryFileBaseDir', 'entryFile',
-    'scale', 'globalEnv', 'globalArgv']) {
+  for(const key of ['appName', 'appDir',
+    // 不能传递过去，会覆盖或激活默认定义的进程
+    // 'entryFileBaseDir', 'entryFile', 'scale',
+    'globalEnv', 'globalArgv']) {
     if(sendConfig.hasOwnProperty(key)) {
       sendConfig2nd[key] = sendConfig[key];
     }

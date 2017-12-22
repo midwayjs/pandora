@@ -23,14 +23,14 @@ describe('Helpers', function () {
   });
 
 
-  it('should attach entry config from outside', () => {
+  it('should attach env config from outside', () => {
     mm(process, 'cwd', function () {
       return join(__dirname, '../fixtures/universal/test-test2');
     });
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       appName: 'test-app3',
     });
-    expect(forkEntryConfig.entryFile).to.be.equal('./bin/server.js');
+    expect(forkEntryConfig.globalEnv.a).to.be.equal('1');
     expect(forkEntryConfig.appName).to.be.equal('test-app3');
     expect(process.env[PANDORA_GLOBAL_CONFIG]).to.be.equal('pandora-taobao:pandora-ali');
 
@@ -43,14 +43,13 @@ describe('Helpers', function () {
     });
 
     // pandora start --name test
-    const forkEntryConfig = Helpers.attachEntryParams('start', {
-      appName: 'test',
-    }, {
-      appName: Helpers.calcAppName(process.cwd())
-    });
-    expect(forkEntryConfig.appName).to.be.equal('test');
-    expect(forkEntryConfig.appDir).to.be.equal(process.cwd());
-    expect(forkEntryConfig.entryFile).to.be.equal(resolve('./bin/server.js'));
+    expect(() => {
+      Helpers.attachEntryParams('start', {
+        appName: 'test',
+      }, {
+        appName: Helpers.calcAppName(process.cwd())
+      });
+    }).to.throw('Pandora.js can only start a Pandora.js project directory');
 
     mm.restore();
   });

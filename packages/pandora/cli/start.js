@@ -11,7 +11,7 @@ exports.builder = (yargs) => {
 
   yargs.option('name', {
     alias: 'n',
-    describe: 'App name, it will get a name from the <targetPath> by default'
+    describe: 'App name, it will get a name from [targetPath] by default'
   });
 
   yargs.option('env', {
@@ -57,11 +57,15 @@ exports.handler = function (argv) {
 
   argv.entry = argv.targetPath;
 
-  const sendParams = attachEntryParams('start', argv, {
-    appName: calcAppName(process.cwd())
-  });
-
-  cliUtils.preCheck(argv.entry, sendParams.appName);
+  let sendParams;
+  try {
+    sendParams = attachEntryParams('start', argv, {
+      appName: calcAppName(argv.targetPath || process.cwd())
+    });
+  } catch(err) {
+    consoleLogger.error(err);
+    process.exit(1);
+  }
 
   const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
   consoleLogger.info('Starting ' + sendParams.appName + ' at ' + sendParams.appDir);
