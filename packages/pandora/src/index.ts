@@ -69,6 +69,11 @@ export * from 'pandora-hook';
  */
 export * from 'pandora-env';
 
+/**
+ * dollar
+ */
+export {getPandoraConsoleLogger} from 'pandora-dollar';
+
 
 /**
  * Facade
