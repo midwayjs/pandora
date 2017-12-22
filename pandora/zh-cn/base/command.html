@@ -42,8 +42,9 @@
     <div class="page-main">
   <article class="markdown-body">
     <h1>命令行介绍</h1>
-    <p>Pandora.js 提供了一些常用的命令行来帮助应用进行管理，比如：</p>
+    <p>Pandora.js 提供了一些常用的命令行，比如：</p>
 <ul>
+<li>init</li>
 <li>start</li>
 <li>stop</li>
 <li>restart</li>
@@ -53,6 +54,15 @@
 <li>exit</li>
 <li>dev</li>
 </ul>
+<h2 id="初始化一个-pandorajs-项目"><a class="markdown-anchor" href="#初始化一个-pandorajs-项目">#</a> 初始化一个 Pandora.js 项目</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora init &lt;filePath&gt; --name customName</span><br></pre></td></tr></table></figure>
+<p>快速生成 <code>procfile.js</code>。</p>
+<ol>
+<li><code>&lt;filePath&gt;</code> 必选，快速生成的入口文件。</li>
+<li><code>--name</code> 可选，fork 模式的进程名。</li>
+</ol>
+<p>举例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js</span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
 <h2 id="start-启动应用"><a class="markdown-anchor" href="#start-启动应用">#</a> start 启动应用</h2>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --argv=<span class="string">"expose-gc"</span></span><br></pre></td></tr></table></figure>
 <p>最常用的启动命令，用于启动一个新的应用。</p>

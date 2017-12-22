@@ -61,15 +61,16 @@
 <p>Pandora.js 通过项目根目录下 <code>procfile.js</code> 定义应用进程结构，所以你需要在项目根目录下增加一个 <code>procfile.js</code> 文件。
 我们这章介绍最简单的 Fork 和 Cluster 方式，下面介绍的两种模式你只需要任选其一。</p>
 <h4 id="fork-方式"><a class="markdown-anchor" href="#fork-方式">#</a> Fork 方式</h4>
-<p>Fork 方式是最简单的方式，只是简单拉起应用，类似于直接  <code>node app.js</code>。
-为了方便新手入门，我们提供最简单的 Fork 方式的 <code>procfile.js</code> 的生成：</p>
-<p>在项目根目录下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start ./app.js <span class="comment"># app.js 是你的 Node.js 程序路径</span></span><br></pre></td></tr></table></figure>
+<p>Fork 方式是最简单的方式，只是简单拉起应用，类似于直接  <code>node app.js</code>。</p>
+<p>使用初始化命令自动生成：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js <span class="comment"># app.js 是你的 Node.js 程序路径</span></span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
 <p>然后你就会得到一个默认 <code>procfile.js</code> 你可以打开看一下，内容大致如下（隐去注释）：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line">  pandora</span><br><span class="line">    .fork(<span class="string">'appName'</span>, <span class="string">'./app.js'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="cluster-方式"><a class="markdown-anchor" href="#cluster-方式">#</a> Cluster 方式</h4>
-<p>Cluster 方式是 Node.js Web Server 最常用的，我们默认会启动 CPU 数量的 Worker（不过你也该可以改变这一默认值）。</p>
-<p>Cluster 方式的 <code>procfile.js</code>：</p>
+<p>Cluster 方式是 Node.js Web Server 最常用的，我们默认会启动 CPU 数量的 Worker（不过你也可以改变这一默认值）。</p>
+<p>使用初始化命令自动生成：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js <span class="comment"># app.js 是你的 Node.js 程序路径</span></span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">  fork </span><br><span class="line">❯ cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
+<p>然后你就会得到一个默认 <code>procfile.js</code> 你可以打开看一下，内容大致如下（隐去注释）：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 默认启动到 worker 进程分组</span></span><br><span class="line">    .cluster(<span class="string">'./app.js'</span>); </span><br><span class="line"> </span><br><span class="line">  <span class="comment">/* 自定义 Worker 数量</span></span><br><span class="line"><span class="comment">  pandora</span></span><br><span class="line"><span class="comment">    .process('worker')</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    // 修改 worker 进程分组启动 2 个 worker </span></span><br><span class="line"><span class="comment">    // ，默认是 pandora.dev ? 1 : 'auto'。</span></span><br><span class="line"><span class="comment">    // 意思就是 pandora dev 启动的话就不 Cluster </span></span><br><span class="line"><span class="comment">    // ，如果 pandora start 启动的话就 Cluster 到 CPU 数量。</span></span><br><span class="line"><span class="comment">    .scale(2); </span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="通过应用本身脚本启停"><a class="markdown-anchor" href="#通过应用本身脚本启停">#</a> 通过应用本身脚本启停</h2>
 <p>这种情况下， pandora 会进入应用的整个开发流程，一般情况下，我们会将 pandora 命令写到 scripts 段落中。</p>
