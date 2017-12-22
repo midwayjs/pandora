@@ -72,7 +72,7 @@ export * from 'pandora-env';
 /**
  * dollar
  */
-export * from 'pandora-dollar';
+export {getPandoraConsoleLogger} from 'pandora-dollar';
 
 
 /**
