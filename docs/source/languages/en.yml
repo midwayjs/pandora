@@ -1,7 +1,7 @@
 index:
   getstart: "Get Start"
   slogan: "Ready to Boot"
-  desc: "A Ops First Application Manager for Node.js Applications"
+  desc: "An Ops First Application Manager for Node.js Applications"
 
 menu:
   guide: "Documentation"

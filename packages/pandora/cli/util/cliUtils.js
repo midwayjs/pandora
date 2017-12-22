@@ -124,6 +124,13 @@ module.exports = (pandora) => {
 
   pandora
     .cluster('${targetPath}');
+    
+  /** 
+  * you can custom workers scale number
+  */
+  // pandora
+  //   .process('worker')
+  //   .scale(2); // .scale('auto') means os.cpus().length
 
   /**
    * you can also use fork mode to start application 
@@ -153,7 +160,7 @@ module.exports = (pandora) => {
 
     fs.writeFileSync(procFilePath, content);
 
-    consoleLogger.important(`The procfile.js was auto generated at ${procFilePath}`);
+    consoleLogger.important(`The procfile.js was auto generated to location ${procFilePath}`);
 
   }).catch(console.error);
 

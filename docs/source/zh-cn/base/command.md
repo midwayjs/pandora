@@ -1,8 +1,9 @@
 title: 命令行介绍
 ---
 
-Pandora.js 提供了一些常用的命令行来帮助应用进行管理，比如：
+Pandora.js 提供了一些常用的命令行，比如：
 
+- init
 - start
 - stop
 - restart
@@ -12,7 +13,27 @@ Pandora.js 提供了一些常用的命令行来帮助应用进行管理，比如
 - exit
 - dev
 
+## 初始化一个 Pandora.js 项目
 
+```bash
+pandora init <filePath> --name customName
+```
+
+
+快速生成 `procfile.js`。
+
+1. `<filePath>` 必选，快速生成的入口文件。
+2. `--name` 可选，fork 模式的进程名。
+
+举例：
+
+```bash
+$ pandora init ./app.js
+? Which type do you like to generate ? (Use arrow keys)
+❯ fork 
+  cluster 
+** The procfile.js was auto generated to location /xx/xx/procfile.js **
+```
 ## start 启动应用
 
 ```bash

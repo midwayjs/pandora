@@ -11,7 +11,7 @@ Pandora.js 是阿里 Node.js 应用的启停工具，是启停脚本的富实现
   * Node.js 引擎集成
   * 多进程模型
   * 为应用框架提供基础设施和规范( Service )
-  * 提供稳定的中间客户端和一致的接口
+  * 提供稳定的中间件 SDK 客户端和一致的接口
 * 提供一个标准的 Node.js 的 DevOps 流程
   * 集成 Pandora.js 的基础 Docker 镜像
   * Pandora.js 每一层中的运维 API
@@ -24,7 +24,7 @@ Pandora.js 包含每个组成部分的**规范以及一个标准实现**。原�
 
 在没有线程的 Node.js 环境的如今，越来越多的应用选择使用 Cluster 模式来运行多个进程，让性能达到比较理想的程度，但是之间复杂的进程模型，进程间通信，让不少用户望而却步。在不少公司用户中，我们也经常碰到框架选择困难，我只想要加个白米饭，但是却给我一个套餐的情况。
 
-我们希望业务依旧变的纯粹，只关心自己的业务部分，让本地开发，线上部署变的水到渠成，Pandora.js 是在框架和底层 Node VM 之间的一个启动工具，就像 Java Server 使用 Tomcat 那样。
+我们希望业务依旧变的纯粹，只关心自己的业务部分，让本地开发，线上部署变的水到渠成，Pandora.js 是在框架和底层 Node.js 之间的一个启动工具，就像 Java Server 使用 Tomcat 那样。
 
 ![img](https://img.alicdn.com/tfs/TB1wR5mib_I8KJjy1XaXXbsxpXa-826-434.png)
 
