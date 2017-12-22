@@ -18,6 +18,7 @@ yargs
   .help()
   .version(version)
   .alias('v', 'version')
+  .command(require('../cli/init'))
   .command(require('../cli/start'))
   .command(require('../cli/stop'))
   .command(require('../cli/restart'))

@@ -2,14 +2,14 @@
   "name": "test-app",
   "pandora": {
     "start": {
-      "entryFile": "./bin/server.js",
+      "env": "a=1",
       "config": [
         "pandora-taobao",
         "pandora-ali"
       ]
     },
     "dev": {
-      "entryFile": "./bin/server.js"
+      "env": "a=1"
     }
   }
 }

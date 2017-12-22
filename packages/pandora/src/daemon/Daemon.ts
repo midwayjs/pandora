@@ -94,7 +94,7 @@ export class Daemon extends Base {
     assert(appName, `options.appName is required!`);
     assert(appDir, `options.appDir is required!`);
     assert(fs.existsSync(appDir), `${appDir} does not exists!`);
-    assert(!this.apps.has(appName), `app[${appName}]  has been initialized!`);
+    assert(!this.apps.has(appName), `app[${appName}] has been initialized!`);
     const applicationHandler = new ApplicationHandler(applicationRepresentation);
     await applicationHandler.start();
     this.apps.set(appName, applicationHandler);

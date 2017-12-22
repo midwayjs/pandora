@@ -4,6 +4,7 @@ const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
 const {DebugApplicationLoader} = require(path.join(PANDORA_LIB_HOME, 'debug/DebugApplicationLoader'));
 const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
 const cliUtils = require('./util/cliUtils');
+const {consoleLogger} = cliUtils;
 
 exports.command = 'dev [targetPath]';
 exports.desc = 'Debug an application';
@@ -40,11 +41,17 @@ exports.handler = function (argv) {
   }
 
   argv.entry = argv.targetPath;
-  const sendParams = attachEntryParams('dev', argv, {
-    appName: calcAppName(process.cwd())
-  });
 
-  cliUtils.preCheck(sendParams.entry, sendParams.appName);
+  let sendParams;
+  try {
+    sendParams = attachEntryParams('dev', argv, {
+      appName: calcAppName(argv.targetPath || process.cwd())
+    });
+  } catch(err) {
+    consoleLogger.error(err);
+    process.exit(1);
+  }
+
   runApplication(sendParams).catch(console.error);
 };
 

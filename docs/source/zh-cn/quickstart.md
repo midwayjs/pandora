@@ -30,12 +30,15 @@ Pandora.js 通过项目根目录下 `procfile.js` 定义应用进程结构，所
 #### Fork 方式
 
 Fork 方式是最简单的方式，只是简单拉起应用，类似于直接  `node app.js`。
-为了方便新手入门，我们提供最简单的 Fork 方式的 `procfile.js` 的生成：
 
-在项目根目录下：
+使用初始化命令自动生成：
 
 ```bash
-pandora start ./app.js # app.js 是你的 Node.js 程序路径
+$ pandora init ./app.js # app.js 是你的 Node.js 程序路径
+? Which type do you like to generate ? (Use arrow keys)
+❯ fork 
+  cluster 
+** The procfile.js was auto generated to location /xx/xx/procfile.js **
 ```
 
 然后你就会得到一个默认 `procfile.js` 你可以打开看一下，内容大致如下（隐去注释）：
@@ -49,9 +52,19 @@ module.exports = (pandora) => {
 
 #### Cluster 方式
 
-Cluster 方式是 Node.js Web Server 最常用的，我们默认会启动 CPU 数量的 Worker（不过你也该可以改变这一默认值）。
+Cluster 方式是 Node.js Web Server 最常用的，我们默认会启动 CPU 数量的 Worker（不过你也可以改变这一默认值）。
 
-Cluster 方式的 `procfile.js`：
+使用初始化命令自动生成：
+
+```bash
+$ pandora init ./app.js # app.js 是你的 Node.js 程序路径
+? Which type do you like to generate ? (Use arrow keys)
+  fork 
+❯ cluster 
+** The procfile.js was auto generated to location /xx/xx/procfile.js **
+```
+
+然后你就会得到一个默认 `procfile.js` 你可以打开看一下，内容大致如下（隐去注释）：
 
 ```javascript
 module.exports = (pandora) => {

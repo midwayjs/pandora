@@ -34,6 +34,7 @@
     "delegates": "^1.0.0",
     "egg-logger": "^1.6.0",
     "extend": "^3.0.1",
+    "inquirer": "^4.0.1",
     "is-type-of": "^1.2.0",
     "mkdirp": "^0.5.1",
     "module-hook": "^1.0.0",
