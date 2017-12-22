@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/midwayjs/pandora/blob/master/LICENSE)
 [![GitHub tag](https://img.shields.io/github/tag/midwayjs/pandora.svg)]()
 [![Build Status](https://travis-ci.org/midwayjs/pandora.svg?branch=develop)](https://travis-ci.org/midwayjs/pandora)
-[![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora/master.svg)](https://codecov.io/gh/midwayjs/pandora)
+[![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora/master.svg)](https://codecov.io/gh/midwayjs/pandora/branch/master)
 [![Package Quality](http://npm.packagequality.com/shield/pandora.svg)](http://packagequality.com/#?package=pandora)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![Known Vulnerabilities](https://snyk.io/test/npm/pandora/badge.svg)](https://snyk.io/test/npm/pandora)
