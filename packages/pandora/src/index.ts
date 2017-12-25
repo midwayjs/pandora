@@ -74,6 +74,11 @@ export * from 'pandora-env';
  */
 export {getPandoraConsoleLogger} from 'pandora-dollar';
 
+/**
+ * service-logger
+ */
+export {DefaultLoggerManager} from 'pandora-service-logger';
+
 
 /**
  * Facade
