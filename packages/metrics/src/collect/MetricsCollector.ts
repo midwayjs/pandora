@@ -68,12 +68,18 @@ export class MetricsCollector {
     }
   }
 
-  private getNormalizedStartTime(current: number, interval: number) {
+  protected getNormalizedStartTime(current: number, interval: number) {
     return (current - interval) / interval * interval * 1000;
   }
 
   protected rate(data, interval) {
     if (interval === 0) return 0.0;
     return data / interval;
+  }
+
+  protected radio(data, total) {
+    if (data > total) return 1.0;
+    if (total === 0) return 0.0;
+    return 1.0 * data / total;
   }
 }
