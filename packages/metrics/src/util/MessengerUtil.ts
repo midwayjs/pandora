@@ -77,7 +77,9 @@ export class MetricsMessengerClient {
   }
 
   report(REPORT_KEY, data) {
-    this.client.send(REPORT_KEY, data);
+    this.client.ready(() => {
+      this.client.send(REPORT_KEY, data);
+    });
   }
 
   close() {
