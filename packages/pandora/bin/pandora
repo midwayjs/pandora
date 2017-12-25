@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 "use strict";
 
+if (Number(process.versions.node[0] < 8)) {
+  const colors = require('colors');
+  console.error(colors.red('Pandora.js required Node.js >= 8.0.0, current version is ' + process.versions.node));
+  process.exit(1);
+}
+
 // FIX ISSUE LIKE: https://github.com/npm/npm/issues/4603
 const {spawn} = require('child_process');
-if( process.env.npm_config_argv && !process.env.npm_run_pandora_l2 ) {
+if (process.env.npm_config_argv && !process.env.npm_run_pandora_l2) {
   spawn(process.argv[0], process.argv.slice(1), {
     stdio: 'inherit',
-    env: {
-      npm_run_pandora_l2: 'true',
-      ...process.env
-    }
+    env: Object.assert({
+      npm_run_pandora_l2: 'true'
+    }, process.env)
   });
   return;
 }
