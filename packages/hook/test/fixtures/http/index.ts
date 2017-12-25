@@ -14,7 +14,7 @@ RunUtil.run(function(done) {
   const http = require('http');
   const urllib = require('urllib');
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', report => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
 
     assert(report.name === 'HTTP-GET:/');
     assert(report.spans.length > 0);

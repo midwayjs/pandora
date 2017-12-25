@@ -14,7 +14,7 @@ RunUtil.run(function(done) {
   done = pedding(3, done);
   globalPatcher.run();
 
-  process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_LOGGER', (info: any) => {
     assert(info.message.indexOf('[Error] ') > -1);
     assert(['unhandledRejection', 'uncaughtException', 'console'].indexOf(info.path) > -1);
     done();

@@ -12,7 +12,8 @@ function initMessenger() {
 
 function initClient() {
   metricsClient = Messenger.getClient({
-    name: MetricsConstants.SOCKET_FILE_NAME
+    name: MetricsConstants.SOCKET_FILE_NAME,
+    unref: true
   });
 }
 
@@ -66,7 +67,9 @@ export class MetricsMessengerClient {
   }
 
   register(data, callback?) {
-    this.client.send(getDiscoveryKey(this.messengerKey), data, callback);
+    this.client.ready(() => {
+      this.client.send(getDiscoveryKey(this.messengerKey), data, callback);
+    });
   }
 
   query(CLIENT_KEY, processQuery) {
@@ -74,7 +77,9 @@ export class MetricsMessengerClient {
   }
 
   report(REPORT_KEY, data) {
-    this.client.send(REPORT_KEY, data);
+    this.client.ready(() => {
+      this.client.send(REPORT_KEY, data);
+    });
   }
 
   close() {

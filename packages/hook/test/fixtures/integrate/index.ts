@@ -23,7 +23,7 @@ RunUtil.run(function(done) {
   const url = 'https://www.baidu.com/';
   const logger = new Logger();
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', tracer => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (tracer: any) => {
     assert(tracer.spans.length === 3);
     const parent = tracer.spans[0].context;
     const child = tracer.spans[1].context;
@@ -33,7 +33,7 @@ RunUtil.run(function(done) {
     done();
   });
 
-  process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_LOGGER', (info: any) => {
     assert(info.message === 'hello');
     done();
   });

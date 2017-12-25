@@ -146,8 +146,11 @@ describe('test/client.test.js', () => {
         }
         server.once(action, onMessage);
 
-        client._close();
-        client.send(action, msg);
+        client.ready(() => {
+          client._close();
+          client.send(action, msg);
+        });
+
     });
 
     it('should reconnect after packet parsed error and invoke ok', done => {
@@ -176,8 +179,8 @@ describe('test/client.test.js', () => {
         });
     });
 
-    it('should reconnect and emit error if still can\'t connect', done => {
-        done = pedding(3, done);
+    it('should reconnect and emit error if still can\'t connect / 1', done => {
+        done = pedding(1, done);
         const client = new Client({
             name: 'taojie',
             reConnectTimes: 2,
@@ -191,6 +194,23 @@ describe('test/client.test.js', () => {
             done();
         });
     });
+
+  it('should reconnect and emit error if still can\'t connect / 2', done => {
+    done = pedding(3, done);
+    const client = new Client({
+      name: 'taojie',
+      reConnectTimes: 2,
+      reConnectAtFirstTime: true
+    });
+
+    client.on('error', (err) => {
+      done();
+    });
+
+    client.on('close', () => {
+      done();
+    });
+  });
 
     it('should emit error if parse header error', done => {
         let client = new Client({

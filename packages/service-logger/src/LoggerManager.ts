@@ -39,7 +39,8 @@ export class LoggerManager extends EventEmitter {
     if(options.connectRotator) {
       this.connectRotator = true;
       this.messengerClient = Messenger.getClient({
-        name: SOCKET_FILE_NAME
+        name: SOCKET_FILE_NAME,
+        unref: true
       });
       this.messengerClient.on(MESSENGER_ACTION_SERVICE, (message: MsgPkg) => {
         if(message.type === 'logger-reload') {
@@ -71,7 +72,12 @@ export class LoggerManager extends EventEmitter {
           console.error(err);
         }
       }
-      await $.promise.delay(this.heartbeatTime);
+
+      await new Promise((resolve) => {
+        const timer = setTimeout(resolve, this.heartbeatTime);
+        timer.unref();
+      });
+
     }
   }
 

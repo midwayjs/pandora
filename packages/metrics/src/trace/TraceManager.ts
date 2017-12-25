@@ -22,7 +22,7 @@ export class TraceManager {
     const contexts = this.ns._contexts;
     // 半分钟清除一次已经完成的trace, 避免内存泄漏
     if (contexts) {
-      setInterval(() => {
+      const timer = setInterval(() => {
         const finished = this.finished;
         this.finished = {};
 
@@ -43,6 +43,7 @@ export class TraceManager {
           }
         }
       }, 30 * 1000);
+      timer.unref();
     }
   }
 

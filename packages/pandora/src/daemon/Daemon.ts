@@ -69,7 +69,7 @@ export class Daemon extends Base {
       this.stop();
     });
     // SIGTERM AND SIGINT will trigger the exit event.
-    ['SIGQUIT', 'SIGTERM', 'SIGINT'].forEach(sig => {
+    ['SIGQUIT', 'SIGTERM', 'SIGINT'].forEach( (sig: NodeJS.Signals) => {
       process.once(sig, () => {
         this.stop();
       });

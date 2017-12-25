@@ -15,7 +15,7 @@ RunUtil.run(function(done) {
     level: 'INFO',
   }));
 
-  process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_LOGGER', (info: any) => {
     assert(info.message === 'test');
     assert(info.path === './test.log');
     done();
