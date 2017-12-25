@@ -1,10 +1,11 @@
 import {MetricsCollector} from './MetricsCollector';
-import {BaseGauge, MetricName, Snapshot, BucketCounter} from '../common/index';
+import {BaseGauge, MetricName, BucketCounter} from '../common/index';
 import {MetricObject} from './MetricObject';
 import {ITimer} from '../common/metrics/Timer';
 import {IHistogram} from '../common/metrics/Histogram';
 import {ICounter} from '../common/metrics/Counter';
 import {IMeter} from '../common/metrics/Meter';
+import {Snapshot} from '../common/domain';
 
 export class CompactMetricsCollector extends MetricsCollector {
 

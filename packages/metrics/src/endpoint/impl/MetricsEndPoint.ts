@@ -1,11 +1,10 @@
 import {EndPoint} from '../EndPoint';
 import {MetricsServerManager} from '../../MetricsServerManager';
-import {MetricFilter, MetricName, IMetricsRegistry}  from '../../common/index';
+import {MetricFilter, MetricName, IMetricsRegistry, Metric} from '../../common/index';
 import {MetricObject} from '../../collect/MetricObject';
 import {MetricsManager} from '../../common/MetricsManager';
 import {NormalMetricsCollector} from '../../collect/NormalMetricsCollector';
 import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
-import {Metric} from '../../common/Metric';
 const debug = require('debug')('pandora:metrics:MetricEndPoint');
 
 export class AppNameFilter implements MetricFilter {

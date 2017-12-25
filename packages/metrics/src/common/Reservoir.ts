@@ -1,4 +1,4 @@
-import {Snapshot} from './snapshot/Snapshot';
+import {Snapshot} from './domain';
 
 export enum ReservoirType {
   /**

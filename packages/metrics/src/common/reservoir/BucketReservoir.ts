@@ -1,7 +1,7 @@
 import {IReservoir} from '../Reservoir';
 import {BucketCounter} from '../metrics/BucketCounter';
-import {Snapshot} from '../snapshot/Snapshot';
 import {BucketSnapshot} from '../snapshot/BucketSnapshot';
+import {Snapshot} from '../domain';
 
 export class BucketReservoir implements IReservoir {
 

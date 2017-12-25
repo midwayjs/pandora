@@ -1,13 +1,10 @@
-import {Metric} from '../Metric';
-import {Counting} from '../Counting';
 import {IReservoir, ReservoirType} from '../Reservoir';
-import {Sampling} from '../Sampling';
-import {Snapshot} from '../snapshot/Snapshot';
 import {MetricType} from '../MetricType';
 import {BucketCounter} from './BucketCounter';
 import {UniformReservoir} from '../reservoir/UniformReservoir';
 import {ExponentiallyDecayingReservoir} from '../reservoir/ExponentiallyDecayingReservoir';
 import {BucketReservoir} from '../reservoir/BucketReservoir';
+import {Counting, Metric, Sampling, Snapshot} from '../domain';
 
 /**
  * A metric which calculates the distribution of a value.

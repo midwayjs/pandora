@@ -2,9 +2,7 @@ import {MetricType} from '../MetricType';
 import {IReservoir, ReservoirType} from '../Reservoir';
 import {BaseMeter, IMeter} from './Meter';
 import {BaseHistogram, IHistogram} from './Histogram';
-import {Snapshot} from '../snapshot/Snapshot';
-import {Sampling} from '../Sampling';
-import {Metered} from '../Metered';
+import {Metered, Sampling, Snapshot} from '../domain';
 
 /**
  * A timer metric which aggregates timing durations and provides duration statistics, plus

@@ -1,5 +1,5 @@
 import {MetricName} from './MetricName';
-import {Metric} from './Metric';
+import {Metric} from './domain';
 
 /**
  * A filter used to determine whether or not a metric should be reported, among other things.

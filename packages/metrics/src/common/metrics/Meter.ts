@@ -1,8 +1,7 @@
-import {Metered} from '../Metered';
-import {Metric} from '../Metric';
 import {MetricType} from '../MetricType';
 import {EWMA} from '../util/EWMA';
 import {BucketCounter} from './BucketCounter';
+import {Metered, Metric} from '../domain';
 
 /**
  * A meter metric which measures mean throughput and one-, five-, and fifteen-minute

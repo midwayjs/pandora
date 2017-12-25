@@ -60,7 +60,11 @@
     ],
     "exclude": [
       "typings",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "src/client/domain.ts",
+      "src/common/domain.ts",
+      "src/common/MetricsManager.ts",
+      "src/trace/Constants.ts"
     ],
     "extension": [
       ".ts"

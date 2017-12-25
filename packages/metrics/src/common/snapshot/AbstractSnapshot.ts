@@ -1,8 +1,8 @@
-import {Snapshot} from './Snapshot';
-
 /**
  * A statistical snapshot of a {@link AbstractSnapshot}.
  */
+import {Snapshot} from '../domain';
+
 export abstract class AbstractSnapshot implements Snapshot {
 
   abstract getValue(quantile: number);
