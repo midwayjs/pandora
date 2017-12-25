@@ -1,5 +1,21 @@
 #!/usr/bin/env node
 "use strict";
+
+// FIX ISSUE LIKE: https://github.com/npm/npm/issues/4603
+const {spawn} = require('child_process');
+if( process.env.npm_config_argv && !process.env.npm_run_pandora_l2 ) {
+  console.log('running by npm');
+  spawn(process.argv[0], process.argv.slice(1), {
+    stdio: 'inherit',
+    env: {
+      npm_run_pandora_l2: 'true',
+      ...process.env
+    }
+  });
+  return;
+}
+
+
 require('source-map-support').install();
 const fs = require('fs');
 const path = require('path');
