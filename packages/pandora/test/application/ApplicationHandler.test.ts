@@ -152,5 +152,4 @@ describe('ApplicationHandler', function () {
 
   });
 
-
 });

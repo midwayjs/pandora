@@ -4,6 +4,7 @@ declare module 'sdk-base' {
     protected defaultErrorHandler(err: any);
     ready(param: boolean | Function);
     ready(): Promise<void>;
+    _ready: boolean;
   }
   export = Base;
 }

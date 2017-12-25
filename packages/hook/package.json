@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^6.0.85",
+    "@types/node": "^8.5.2",
     "bluebird": "^3.5.1",
     "egg-logger": "^1.6.0",
     "globby": "^6.1.0",

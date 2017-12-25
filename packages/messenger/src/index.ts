@@ -29,7 +29,7 @@ export default {
   Client: MessengerClient,
   Server: MessengerServer,
   getClient(options): MessengerClient {
-    options = Object.assign({reConnectTimes: 100}, options);
+    options = Object.assign({reConnectTimes: 10}, options);
     return factory(options, 'client');
   },
 

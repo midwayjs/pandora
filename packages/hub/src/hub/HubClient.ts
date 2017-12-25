@@ -69,8 +69,9 @@ export class HubClient extends EventEmitter {
 
     this.messengerClient = new MessengerClient({
       name: HUB_SOCKET_NAME,
-      reConnectTimes: 100,
-      responseTimeout: TIMEOUT_OF_RESPONSE
+      reConnectTimes: 10,
+      responseTimeout: TIMEOUT_OF_RESPONSE,
+      unref: true
     });
 
     this.startListen();

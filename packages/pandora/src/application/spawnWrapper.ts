@@ -6,6 +6,12 @@ import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 
 
 async function main () {
+
+  if(process.argv[2].endsWith('/npm')) {
+    wrap.runMain();
+    return;
+  }
+
   try {
     MonitorManager.injectProcessMonitor();
     await SpawnWrapperUtils.shimProcessContext().start();
@@ -13,6 +19,7 @@ async function main () {
     console.error(err);
   }
   wrap.runMain();
+
 }
 
 main().catch(console.error);

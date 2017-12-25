@@ -62,7 +62,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.41",
     "@types/mz": "^0.0.32",
-    "@types/node": "0.0.2",
+    "@types/node": "^8.5.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^7.1.1",
     "mm": "^2.1.0",
