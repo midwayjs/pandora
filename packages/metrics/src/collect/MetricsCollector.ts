@@ -77,7 +77,7 @@ export class MetricsCollector {
     return data / interval;
   }
 
-  protected radio(data, total) {
+  protected ratio(data, total) {
     if (data > total) return 1.0;
     if (total === 0) return 0.0;
     return 1.0 * data / total;
