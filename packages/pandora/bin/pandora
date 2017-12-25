@@ -12,7 +12,7 @@ const {spawn} = require('child_process');
 if (process.env.npm_config_argv && !process.env.npm_run_pandora_l2) {
   spawn(process.argv[0], process.argv.slice(1), {
     stdio: 'inherit',
-    env: Object.assert({
+    env: Object.assign({
       npm_run_pandora_l2: 'true'
     }, process.env)
   });
