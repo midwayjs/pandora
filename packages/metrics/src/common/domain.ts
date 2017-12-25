@@ -1,5 +1,3 @@
-import {Snapshot} from './snapshot/Snapshot';
-
 export interface Metric {
   type: string;
 }

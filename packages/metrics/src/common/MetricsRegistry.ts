@@ -1,4 +1,3 @@
-import {Metric} from './Metric';
 import {MetricName} from './MetricName';
 import {MetricSet} from './MetricSet';
 import {BaseGauge} from './metrics/Gauge';
@@ -10,6 +9,7 @@ import {MetricBuilder} from './MetricBuilder';
 import {MetricFilter} from './MetricFilter';
 import {MetricType} from './MetricType';
 import {ReservoirType} from './Reservoir';
+import {Metric} from './domain';
 const debug = require('debug')('pandora:metrics-common:registry');
 
 export interface IMetricsRegistry {
