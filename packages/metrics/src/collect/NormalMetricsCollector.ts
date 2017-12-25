@@ -1,7 +1,8 @@
 import {MetricsCollector} from './MetricsCollector';
 import {BaseGauge, MetricName, ITimer, IHistogram, ICounter, IMeter} from '../common/index';
 import {MetricObject} from './MetricObject';
-import {BucketCounter, Snapshot} from '../common';
+import {BucketCounter} from '../common';
+import {Snapshot} from '../common/domain';
 
 export class NormalMetricsCollector extends MetricsCollector {
 
