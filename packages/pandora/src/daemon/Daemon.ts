@@ -10,8 +10,6 @@ import {ApplicationRepresentation} from '../domain';
 import {Monitor} from '../monitor/Monitor';
 import {DaemonIntrospection} from './DaemonIntrospection';
 
-const daemonLogger = getDaemonLogger();
-
 /**
  * Class Daemon
  */
@@ -20,6 +18,7 @@ export class Daemon extends Base {
   private messengerServer: any;
   private monitor: Monitor;
   private introspection: DaemonIntrospection;
+  private daemonLogger = getDaemonLogger();
 
   public state: State;
   public apps: Map<any, ApplicationHandler>;
@@ -51,7 +50,7 @@ export class Daemon extends Base {
           this.ready(true);
           resolve();
         }).catch(err => {
-          daemonLogger.error(err);
+          this.daemonLogger.error(err);
           process.exit(1);
           reject(err);
         });
@@ -65,7 +64,7 @@ export class Daemon extends Base {
    */
   handleExit() {
     process.on('uncaughtException', (err) => {
-      daemonLogger.error(err);
+      this.daemonLogger.error(err);
       this.stop();
     });
     // SIGTERM AND SIGINT will trigger the exit event.
@@ -148,7 +147,7 @@ export class Daemon extends Base {
   async stop(): Promise<void> {
     this.state = State.stopped;
     await this.stopAllApps();
-    daemonLogger.info('daemon is going to stop');
+    this.daemonLogger.info('daemon is going to stop');
     this.messengerServer.close();
     await this.stopMonitor();
     this.state = State.stopped;
