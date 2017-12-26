@@ -3,7 +3,7 @@
   "version": "1.5.0",
   "description": "pandora.js messenge hub",
   "main": "dist/index",
-  "typings": "src/index",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",

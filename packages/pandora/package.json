@@ -3,7 +3,7 @@
   "version": "1.6.0",
   "description": "A powerful and lightweight application manager for Node.js applications powered by TypeScript.",
   "main": "dist/index.js",
-  "typings": "src/index",
+  "typings": "dist/index.d.ts",
   "bin": {
     "pandora": "bin/pandora"
   },
