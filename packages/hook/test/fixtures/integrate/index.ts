@@ -2,9 +2,9 @@
 import {RunUtil} from '../../RunUtil';
 const nock = require('nock');
 const assert = require('assert');
-const {EggLoggerPatcher, HttpPatcher, HttpClientPatcher, BluebirdPatcher} = require('../../../src/index');
+const {EggLoggerPatcher, HttpServerPatcher, HttpClientPatcher, BluebirdPatcher} = require('../../../src/index');
 const eggLoggerPatcher = new EggLoggerPatcher();
-const httpPatcher = new HttpPatcher();
+const httpServerPatcher = new HttpServerPatcher();
 const httpClientPatcher = new HttpClientPatcher({
   forceHttps: true
 });
@@ -14,7 +14,7 @@ const semver = require('semver');
 
 RunUtil.run(function(done) {
   eggLoggerPatcher.run();
-  httpPatcher.run();
+  httpServerPatcher.run();
   httpClientPatcher.run();
   bluebirdPatcher.run();
 
@@ -41,7 +41,7 @@ RunUtil.run(function(done) {
     done();
   });
 
-  nock('https://www.baidu.com/')
+  nock('https://www.taobao.com/')
     .get('/')
     .twice()
     .reply(200);
@@ -72,13 +72,13 @@ RunUtil.run(function(done) {
   const server = http.createServer((req, res) => {
 
     request(https, {
-      hostname: 'www.baidu.com',
+      hostname: 'www.taobao.com',
       path: '/',
       method: 'GET'
     }).then(() => {
       return new Promise((resolve, reject) => {
         const req = https.request({
-          hostname: 'www.baidu.com',
+          hostname: 'www.taobao.com',
           path: '/',
           method: 'GET'
         }, function() {

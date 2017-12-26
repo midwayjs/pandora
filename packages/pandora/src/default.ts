@@ -152,17 +152,21 @@ export default {
       enabled: true,
       target: hooks.EggLoggerPatcher,
     },
-    urllib: {
-      enabled: true,
-      target: hooks.UrllibPatcher
-    },
     bluebird: {
       enabled: true,
       target: hooks.BluebirdPatcher
     },
-    http: {
+    httpServer: {
       enabled: true,
-      target: hooks.HttpPatcher
+      target: hooks.HttpServerPatcher
+    },
+    httpClient: {
+      enabled: true,
+      target: hooks.HttpClientPatcher
+    },
+    mysql: {
+      enabled: true,
+      target: hooks.MySQLPatcher
     }
   },
   reporter: {

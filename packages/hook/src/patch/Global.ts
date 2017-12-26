@@ -20,10 +20,14 @@ function listenerCount(emitter, evnt) {
 
 export class GlobalPatcher extends Patcher {
 
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
 
-    this.shimmer();
+    this.shimmer(options);
+  }
+
+  getModuleName() {
+    return 'global';
   }
 
   _shimmerConsole() {
@@ -139,7 +143,7 @@ export class GlobalPatcher extends Patcher {
     });
   }
 
-  shimmer() {
+  shimmer(options) {
     this._shimmerConsole();
     this._shimmerUnhandledRejection();
     this._shimmerFatalException();

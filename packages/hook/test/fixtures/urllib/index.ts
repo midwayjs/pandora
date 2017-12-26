@@ -3,16 +3,16 @@ import { RunUtil } from '../../RunUtil';
 // 放在前面，把 http.ClientRequest 先复写
 const nock = require('nock');
 const assert = require('assert');
-const { HttpPatcher } = require('../../../src/patch/Http');
+const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
 const { HttpClientPatcher } = require('../../../src/patch/HttpClient');
-const httpPatcher = new HttpPatcher();
+const httpServerPatcher = new HttpServerPatcher();
 const httpClientPatcher = new HttpClientPatcher({
   // nock 复写了 https.request 方法，没有像原始一样调用 http.request，所以需要强制复写
   forceHttps: true
 });
 
 RunUtil.run(function(done) {
-  httpPatcher.run();
+  httpServerPatcher.run();
   httpClientPatcher.run();
 
   const http = require('http');

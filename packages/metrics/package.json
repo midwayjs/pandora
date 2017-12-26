@@ -49,7 +49,6 @@
     "pandora-messenger": "^1.5.0",
     "pandora-service-logger": "^1.5.0",
     "pidusage": "^1.1.6",
-    "shimmer": "^1.1.0",
     "super-event-emitter": "^4.1.4",
     "xorshift": "^1.1.1"
   },

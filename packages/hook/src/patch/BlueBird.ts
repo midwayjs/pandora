@@ -4,17 +4,17 @@ import { Patcher } from 'pandora-metrics';
 
 export class BluebirdPatcher extends Patcher {
 
-  constructor() {
-    super();
+  constructor(options = {}) {
+    super(options);
 
-    this.shimmer();
+    this.shimmer(options);
   }
 
   getModuleName() {
     return 'bluebird';
   }
 
-  shimmer() {
+  shimmer(options) {
     const traceManager = this.getTraceManager();
 
     this.hook('3.x', (loadModule) => {

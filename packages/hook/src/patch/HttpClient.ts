@@ -7,149 +7,38 @@
 const http = require('http');
 const https = require('https');
 import { Patcher } from 'pandora-metrics';
-import { argSlice } from '../utils/Utils';
 import * as semver from 'semver';
-import { DEFAULT_HOST, DEFAULT_PORT } from '../utils/Constants';
+import { HttpClientShimmer } from './shimmers/http-client/Shimmer';
 
 export class HttpClientPatcher extends Patcher {
 
-  constructor(options = {}) {
-    super(options);
+  constructor(options) {
+    super(Object.assign({
+      shimmerClass: HttpClientShimmer
+    }, options));
 
-    this.shimmer(options);
+    this.shimmer();
   }
 
   getModuleName() {
     return 'http-client';
   }
 
-  wrapHttpRequest = (request) => {
-    const self = this;
+  shimmer() {
     const traceManager = this.getTraceManager();
+    const shimmer = this.getShimmer();
+    const options = this.options;
+    const ShimmerClass = options.shimmerClass;
+    const httpClientShimmer = new ShimmerClass(shimmer, traceManager, options);
 
-    return function wrappedHttpRequest() {
-      const tracer = traceManager.getCurrentTracer();
-      const args = argSlice(arguments);
-      const context = this;
-
-      if (tracer) {
-        const _request = request.apply(context, args);
-        const options = args[0];
-
-        const tags = {
-          'http.client': {
-            value: true,
-            type: 'bool'
-          },
-          'http.method': {
-            value: options.method,
-            type: 'string'
-          },
-          'http.hostname': {
-            value: options.hostname || options.host || DEFAULT_HOST,
-            type: 'string'
-          },
-          'http.port': {
-            value: options.port || options._defaultAgent && options._defaultAgent.defaultPort || DEFAULT_PORT,
-            type: 'string'
-          },
-          'http.path': {
-            value: _request.path,
-            type: 'string'
-          }
-        };
-
-        const currentSpan = tracer.getCurrentSpan();
-        let span;
-
-        if (currentSpan) {
-          const traceId = tracer.getAttrValue('traceId');
-
-          span = tracer.startSpan('http-client', {
-            childOf: currentSpan,
-            traceId
-          });
-        }
-
-        if (span) {
-          span.addTags(tags);
-        }
-
-        self.getShimmer().wrap(_request, 'emit', function wrapRequestEmit(emit) {
-          const bindRequestEmit = traceManager.bind(emit);
-
-          return function wrappedRequestEmit(event, arg) {
-            if (event === 'error') {
-              if (span) {
-                span.setTag('error', {
-                  type: 'bool',
-                  value: true
-                });
-
-                span.setTag('http.error_code', {
-                  type: 'string',
-                  value: arg.code
-                });
-
-                span.setTag('http.status_code', {
-                  type: 'number',
-                  value: -1
-                });
-
-                span.finish();
-              }
-            } else if (event === 'response') {
-              self.getShimmer().wrap(arg, 'emit', function wrapResponseEmit(emit) {
-                const bindResponseEmit = traceManager.bind(emit);
-
-                return function wrappedResponseEmit(event) {
-                  if (event === 'end') {
-                    if (span) {
-                      span.setTag('error', {
-                        type: 'bool',
-                        value: false
-                      });
-
-                      span.setTag('http.status_code', {
-                        type: 'number',
-                        value: arg.statusCode
-                      });
-                      tracer.setCurrentSpan(span);
-                      span.finish();
-                    }
-                  }
-
-                  return bindResponseEmit.apply(this, arguments);
-                };
-              });
-            }
-
-            return bindRequestEmit.apply(this, arguments);
-          };
-        });
-
-        return _request;
-      }
-
-      return request.apply(context, args);
-    };
-  }
-
-  _shimmer(target) {
-    this.getShimmer().wrap(target, 'request', this.wrapHttpRequest);
-
-    if (semver.satisfies(<any>process.version, '>=8')) {
-      this.getShimmer().wrap(target, 'get', this.wrapHttpRequest);
-    }
-  }
-
-  shimmer(options) {
     const WRAP_HTTPS = semver.satisfies(<any>process.version, '<0.11 || >=9.0.0 || 8.9.0');
 
-    this._shimmer(http);
+    httpClientShimmer.wrapHttpRequest(http);
 
+    // 通常情况下，https 的 request 方法调用的是 http 的 request
+    // 但有部分版本使用了基础实现，需要单独处理
     if (WRAP_HTTPS || options.forceHttps) {
-      this._shimmer(https);
+      httpClientShimmer.wrapHttpRequest(https);
     }
   }
 }

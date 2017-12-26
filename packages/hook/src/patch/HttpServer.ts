@@ -2,15 +2,19 @@
 
 const http = require('http');
 import { Patcher, MessageConstants, getRandom64 } from 'pandora-metrics';
-import { scrub } from '../utils/Utils';
+import { extractPath } from '../utils/Utils';
 import { HEADER_TRACE_ID } from '../utils/Constants';
 
-export class HttpPatcher extends Patcher {
+export class HttpServerPatcher extends Patcher {
 
-  constructor() {
-    super();
+  constructor(options = {}) {
+    super(options);
 
-    this.shimmer();
+    this.shimmer(options);
+  }
+
+  getModuleName() {
+    return 'http-server';
   }
 
   getTraceId(req) {
@@ -41,7 +45,7 @@ export class HttpPatcher extends Patcher {
         type: 'string'
       },
       'http.url': {
-        value: scrub(req.url),
+        value: extractPath(req.url),
         type: 'string'
       },
       'http.client': {
@@ -67,7 +71,7 @@ export class HttpPatcher extends Patcher {
     });
   }
 
-  shimmer() {
+  shimmer(options) {
     const self = this;
     const traceManager = this.getTraceManager();
 
