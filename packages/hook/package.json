@@ -1,6 +1,6 @@
 {
   "name": "pandora-hook",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "pandora module hook",
   "main": "dist/index",
   "typings": "src/index",
@@ -23,10 +23,10 @@
   },
   "dependencies": {
     "cls-bluebird": "^2.1.0",
-    "pandora-dollar": "^1.5.0",
-    "pandora-metrics": "^1.5.1",
     "debug": "^3.1.0",
     "is-type-of": "^1.2.0",
+    "pandora-dollar": "^1.5.0",
+    "pandora-metrics": "^1.6.0",
     "semver": "^5.4.1",
     "xorshift": "^1.1.1"
   },
