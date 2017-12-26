@@ -11,7 +11,6 @@ import { parseSql } from './QueryParser';
 import { INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../../../utils/Constants';
 import * as os from 'os';
 import * as assert from 'assert';
-import { Connection, PoolCluster } from 'mysql';
 const debug = require('debug')('PandoraHook:MySQL:Shimmer');
 
 export class MySQLShimmer {
@@ -148,7 +147,7 @@ export class MySQLShimmer {
     const self = this;
 
     return this.shimmer.wrap(module, 'query', function queryWrapper(query) {
-      return function wrappedQuery(this: Connection) {
+      return function wrappedQuery(this: any) {
         const tracer = self.traceManager.getCurrentTracer();
 
         if (!tracer) {
@@ -236,7 +235,7 @@ export class MySQLShimmer {
 
     this.shimmer.wrap(proto, '_getConnection', function getConnectionWrapper(origin) {
 
-      return function wrappedGetConnection(this: PoolCluster) {
+      return function wrappedGetConnection(this: any) {
         // 一般 callback 在最后一个，其实就一个参数
         const args = Array.from(arguments);
         const callbackIndex = args.length - 1;
