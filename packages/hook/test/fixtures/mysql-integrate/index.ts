@@ -28,7 +28,7 @@ RunUtil.run(function(done) {
   const urllib = require('urllib');
   const mysql = require('mysql');
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', report => {
+  process.on(<any>'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
     const spans = report.spans;
     assert(spans.length === 3);
     const mysqlSpan = report.spans[1];

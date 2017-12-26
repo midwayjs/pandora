@@ -33,6 +33,7 @@
   "devDependencies": {
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
+    "@types/mysql": "^2.15.2",
     "@types/node": "^8.5.2",
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",

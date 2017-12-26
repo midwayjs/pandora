@@ -439,7 +439,7 @@ export class FakeConnection extends EventEmitter {
       clearInterval(timer);
     }
 
-    function writeRow() {
+    function writeRow(this: any) {
       if (remaining === 0) {
         cleanup();
 
@@ -478,7 +478,7 @@ export class FakeConnection extends EventEmitter {
     this._stream = secureSocket;
 
     const conn = this;
-    secureSocket.on('secure', function () {
+    secureSocket.on('secure', function(this: any) {
       conn._ssl = this.ssl;
     });
 

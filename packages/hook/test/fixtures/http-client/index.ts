@@ -18,7 +18,7 @@ RunUtil.run(function(done) {
   const http = require('http');
   const https = require('https');
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', report => {
+  process.on(<any>'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
     const spans = report.spans;
     assert(spans.length === 4);
     const first = spans[0];

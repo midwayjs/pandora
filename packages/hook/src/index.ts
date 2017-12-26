@@ -7,4 +7,4 @@ export { BluebirdPatcher } from './patch/BlueBird';
 export { HttpServerPatcher } from './patch/HttpServer';
 export { MySQLPatcher } from './patch/MySQL';
 export { MySQLShimmer } from './patch/shimmers/mysql/Shimmer';
-export * from './utils/Utils';
+export { extractPath } from './utils/Utils';

@@ -11,6 +11,7 @@ import { parseSql } from './QueryParser';
 import { INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../../../utils/Constants';
 import * as os from 'os';
 import * as assert from 'assert';
+import { Connection, PoolCluster } from 'mysql';
 const debug = require('debug')('PandoraHook:MySQL:Shimmer');
 
 export class MySQLShimmer {
@@ -43,8 +44,8 @@ export class MySQLShimmer {
     this.shimmer.wrap(module, property, function wrapFactory(original, name) {
       debug(`wrap factory function ${name}`);
 
-      function wrappedFactory() {
-        const origin = original.apply(<any>this, arguments);
+      function wrappedFactory(this: any) {
+        const origin = original.apply(this, arguments);
         const wrapped = wrapper.call(this, origin);
 
         return wrapped || origin;
@@ -141,13 +142,13 @@ export class MySQLShimmer {
    * @param {object} module - 要包装的模块
    * @param {function} tagsBuilder - 生成 tags 的方法
    * @returns {any}
-   * @private
+   * @protected
    */
-  private _wrapQuery(module, tagsBuilder) {
+  protected _wrapQuery(module, tagsBuilder) {
     const self = this;
 
     return this.shimmer.wrap(module, 'query', function queryWrapper(query) {
-      return function wrappedQuery() {
+      return function wrappedQuery(this: Connection) {
         const tracer = self.traceManager.getCurrentTracer();
 
         if (!tracer) {
@@ -235,7 +236,7 @@ export class MySQLShimmer {
 
     this.shimmer.wrap(proto, '_getConnection', function getConnectionWrapper(origin) {
 
-      return function wrappedGetConnection() {
+      return function wrappedGetConnection(this: PoolCluster) {
         // 一般 callback 在最后一个，其实就一个参数
         const args = Array.from(arguments);
         const callbackIndex = args.length - 1;
@@ -391,7 +392,7 @@ export class MySQLShimmer {
    * @param {object} info - 实例信息
    * @returns {object}
    */
-  private normalizeInfo = (info) => {
+  protected normalizeInfo = (info) => {
     info = info || {};
     const options = this.options;
 
