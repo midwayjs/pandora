@@ -4,7 +4,7 @@
  * @copyright 2017 Alibaba Group.
  */
 
-import {getPandoraConsoleLogger} from 'pandora-dollar';
+import { getPandoraConsoleLogger } from 'pandora-dollar';
 const pandoraConsoleLogger = getPandoraConsoleLogger();
 import { Patcher, MessageConstants } from 'pandora-metrics';
 import * as util from 'util';
@@ -20,10 +20,14 @@ function listenerCount(emitter, evnt) {
 
 export class GlobalPatcher extends Patcher {
 
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
 
-    this.shimmer();
+    this.shimmer(options);
+  }
+
+  getModuleName() {
+    return 'global';
   }
 
   _shimmerConsole() {
@@ -31,7 +35,7 @@ export class GlobalPatcher extends Patcher {
     const traceManager = this.getTraceManager();
 
     this.getShimmer().massWrap(console, ['error', 'warn'], function wrapLog(log, name) {
-      return function wrappedLog(this: any) {
+      return function wrappedLog(this: NodeJS.ConsoleConstructor) {
         process.nextTick(() => {
           let args = arguments;
           let err = args[0];
@@ -80,7 +84,7 @@ export class GlobalPatcher extends Patcher {
 
     this.getShimmer().wrap(process, 'emit', function wrapProcessEmit(original) {
 
-      return function wrappedProcessEmit(this: any, event, error) {
+      return function wrappedProcessEmit(this: NodeJS.Process, event, error) {
         if (event === 'unhandledRejection' && error) {
           if (listenerCount(process, 'unhandledRejection') === 0) {
             let traceId = '';
@@ -115,7 +119,7 @@ export class GlobalPatcher extends Patcher {
 
     this.getShimmer().wrap(process, '_fatalException', function wrapProcessFatalException(original) {
 
-      return function wrappedProcessFatalException(this: any, error) {
+      return function wrappedProcessFatalException(this: NodeJS.Process, error) {
         let traceId = '';
         const tracer = traceManager.getCurrentTracer();
         if (tracer) {
@@ -139,7 +143,7 @@ export class GlobalPatcher extends Patcher {
     });
   }
 
-  shimmer() {
+  shimmer(options) {
     this._shimmerConsole();
     this._shimmerUnhandledRejection();
     this._shimmerFatalException();

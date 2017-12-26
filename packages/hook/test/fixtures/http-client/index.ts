@@ -1,8 +1,8 @@
 'use strict';
 import { RunUtil } from '../../RunUtil';
+const assert = require('assert');
 // 放在前面，把 http.ClientRequest 先复写
 const nock = require('nock');
-const assert = require('assert');
 const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
 const { HttpClientPatcher } = require('../../../src/patch/HttpClient');
 const httpServerPatcher = new HttpServerPatcher();
@@ -16,9 +16,9 @@ RunUtil.run(function(done) {
   httpClientPatcher.run();
 
   const http = require('http');
-  const urllib = require('urllib');
+  const https = require('https');
 
-  process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
+  process.on(<any>'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
     const spans = report.spans;
     assert(spans.length === 4);
     const first = spans[0];
@@ -26,6 +26,7 @@ RunUtil.run(function(done) {
     const third = spans[2];
     const last = spans[3];
 
+    assert(report.traceId === '1234567890');
     assert(second.context.parentId === first.context.spanId);
     assert(third.context.parentId === second.context.spanId);
     assert(last.context.parentId === second.context.spanId);
@@ -44,15 +45,50 @@ RunUtil.run(function(done) {
     .get(/\/\d{13}/)
     .reply(302);
 
+  function request(agent, options) {
+
+    return new Promise((resolve, reject) => {
+      const req = agent.request(options, (res) => {
+        let data = '';
+
+        res.on('data', (d) => {
+          data += d;
+        });
+
+        res.on('end', () => {
+          resolve(data);
+        });
+      });
+
+      req.on('error', (e) => {
+        reject(e);
+      });
+
+      req.end();
+    });
+  }
+
   const server = http.createServer((req, res) => {
-    urllib.request('https://www.taobao.com/').then(() => {
+    request(https, {
+      hostname: 'www.taobao.com',
+      path: '/',
+      method: 'GET'
+    }).then(() => {
 
       return Promise.all([
-        urllib.request(`https://www.taobao.com/${Date.now()}`),
-        urllib.request(`http://www.${Date.now()}notfound.com/`).catch((err) => {})
-      ]).then(() => {
-        res.end('hello');
-      });
+        request(https, {
+          hostname: 'www.taobao.com',
+          path: `/${Date.now()}`,
+          method: 'GET'
+        }),
+        request(http, {
+          hostname: `www.${Date.now()}notfound.com`,
+          path: '/',
+          method: 'GET'
+        }).catch((err) => {
+          res.end('hello');
+        })
+      ]);
     });
   });
 
@@ -60,7 +96,17 @@ RunUtil.run(function(done) {
     const port = server.address().port;
 
     setTimeout(function() {
-      urllib.request(`http://localhost:${port}/?test=query`);
+      request(http, {
+        hostname: 'localhost',
+        port: port,
+        path: '/',
+        method: 'GET',
+        headers: {
+          'X-Trace-Id': '1234567890'
+        }
+      }).catch((err) => {
+        console.log('err: ', err);
+      });
     }, 500);
   });
 });

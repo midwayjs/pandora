@@ -1,0 +1,7 @@
+{
+  "name": "mysql-hook-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "mysql": "^2.15.0"
+  }
+}

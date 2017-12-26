@@ -1,19 +1,24 @@
 'use strict';
 
-const http = require('http');
 import { Patcher, MessageConstants, getRandom64 } from 'pandora-metrics';
-import { scrub } from '../utils/url';
+import { extractPath } from '../utils/Utils';
+import { HEADER_TRACE_ID } from '../utils/Constants';
+import * as http from 'http';
 
-export class HttpPatcher extends Patcher {
+export class HttpServerPatcher extends Patcher {
 
-  constructor() {
-    super();
+  constructor(options = {}) {
+    super(options);
 
-    this.shimmer();
+    this.shimmer(options);
+  }
+
+  getModuleName() {
+    return 'http-server';
   }
 
   getTraceId(req) {
-    return req.headers['x-trace-id'] || getRandom64();
+    return req.headers[HEADER_TRACE_ID] || getRandom64();
   }
 
   createSpan(tracer, tags) {
@@ -40,7 +45,7 @@ export class HttpPatcher extends Patcher {
         type: 'string'
       },
       'http.url': {
-        value: scrub(req.url),
+        value: extractPath(req.url),
         type: 'string'
       },
       'http.client': {
@@ -66,7 +71,7 @@ export class HttpPatcher extends Patcher {
     });
   }
 
-  shimmer() {
+  shimmer(options) {
     const self = this;
     const traceManager = this.getTraceManager();
 

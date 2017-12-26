@@ -1,8 +1,10 @@
 'use strict';
 
-export { GlobalPatcher } from './patch/global';
-export { EggLoggerPatcher } from './patch/egg-logger';
-export { UrllibPatcher } from './patch/urllib';
-export { BluebirdPatcher } from './patch/bluebird';
-export { HttpPatcher } from './patch/http';
-export * from './utils/url';
+export { GlobalPatcher } from './patch/Global';
+export { EggLoggerPatcher } from './patch/EggLogger';
+export { HttpClientPatcher } from './patch/HttpClient';
+export { BluebirdPatcher } from './patch/BlueBird';
+export { HttpServerPatcher } from './patch/HttpServer';
+export { MySQLPatcher } from './patch/MySQL';
+export { MySQLShimmer } from './patch/shimmers/mysql/Shimmer';
+export { extractPath } from './utils/Utils';

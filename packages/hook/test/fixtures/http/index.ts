@@ -2,15 +2,15 @@
 import { RunUtil } from '../../RunUtil';
 const assert = require('assert');
 import * as url from 'url';
-const { HttpPatcher } = require('../../../src/patch/http');
-HttpPatcher.prototype.requestFilter = function(req) {
+const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
+HttpServerPatcher.prototype.requestFilter = function(req) {
   const urlParsed = url.parse(req.url, true);
   return urlParsed.pathname.indexOf('ignore') > -1;
 };
-const httpPatcher = new HttpPatcher();
+const httpServerPatcher = new HttpServerPatcher();
 
 RunUtil.run(function(done) {
-  httpPatcher.run();
+  httpServerPatcher.run();
   const http = require('http');
   const urllib = require('urllib');
 

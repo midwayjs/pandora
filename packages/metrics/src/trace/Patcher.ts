@@ -1,6 +1,6 @@
 import {IPatcher} from '../domain';
 const hookModule = require('module-hook');
-const shimmer = require('shimmer');
+import * as shimmer from './Shimmer';
 import {TraceManager} from './TraceManager';
 import {MessageSender} from '../util/MessageSender';
 const assert = require('assert');

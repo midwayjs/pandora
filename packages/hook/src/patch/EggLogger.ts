@@ -4,17 +4,17 @@ const util = require('util');
 
 export class EggLoggerPatcher extends Patcher {
 
-  constructor() {
-    super();
+  constructor(options = {}) {
+    super(options);
 
-    this.shimmer();
+    this.shimmer(options);
   }
 
   getModuleName() {
     return 'egg-logger';
   }
 
-  shimmer() {
+  shimmer(options) {
     const self = this;
     const traceManager = this.getTraceManager();
 
