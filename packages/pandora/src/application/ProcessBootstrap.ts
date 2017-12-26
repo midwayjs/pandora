@@ -208,5 +208,6 @@ export function cmd() {
 
 // Handing CLI if this module be the main module
 if (require.main === module || process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE) {
+  delete process.env.RUN_PROCESS_BOOTSTRAP_BY_FORCE;
   cmd();
 }
