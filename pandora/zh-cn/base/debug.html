@@ -59,9 +59,23 @@
 <p>观察命令行输出，类似如下：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Debugger listening on ws://127.0.0.1:60587/a8217114-d61a-4789-8426-da350a88c1da</span><br><span class="line">For <span class="built_in">help</span> see https://nodejs.org/en/docs/inspector</span><br></pre></td></tr></table></figure>
 <p>使用 <code>node-inspect</code>、<code>Chrome DevTools</code> 等工具连接相关端口即可调试，这个例子中需要连接 <code>127.0.0.1:60587</code>。</p>
-<h2 id="ide-集成调试"><a class="markdown-anchor" href="#ide-集成调试">#</a> IDE 集成调试</h2>
-<p>IDE 集成调试暂时请通过 <code>pandora dev --inspect</code> 启动后，连接端口号的形式调试（比如 WebStorm 中的 Node.js Remote Debug）。</p>
-<p>未来将会提供工具优化这一体验。</p>
+<h2 id="ide-webstorm-或其他-intellij-的-ide-中调试"><a class="markdown-anchor" href="#ide-webstorm-或其他-intellij-的-ide-中调试">#</a> IDE: WebStorm (或其他 IntelliJ 的 IDE) 中调试</h2>
+<p><strong>按照下图配置：</strong></p>
+<p><img src="https://img.alicdn.com/tfs/TB1Z9Qekb_I8KJjy1XaXXbsxpXa-2352-1556.png" alt="img"></p>
+<p><strong>重点：</strong></p>
+<ol>
+<li><code>Working directory</code>：填写项目根目录</li>
+<li><code>JavaScript file</code>：填写 pandora 的 bin 文件地址</li>
+<li>如果是本地安装，为 <code>./node_modules/.bin/pandora</code></li>
+<li>如果是全局安装，可以通过在命令行中运行 <code>type pandora</code> 查看</li>
+<li><code>Application parameters</code>：填写为 <code>dev</code></li>
+</ol>
+<p>上面的配置等价于用 WebStorm 运行 <code>pandora dev</code>。</p>
+<p><em>注意：依赖于 WebStorm 的 <a href="https://www.jetbrains.com/help/webstorm/running-and-debugging-node-js.html" target="_blank" rel="noopener">Node.js Multiprocess Debugging</a> 能力，太低版本的 WebStorm 可能存在问题，<a href="https://youtrack.jetbrains.com/issue/WEB-27312" target="_blank" rel="noopener">相关 Issue</a>。</em></p>
+<h2 id="其它-ide"><a class="markdown-anchor" href="#其它-ide">#</a> 其它 IDE</h2>
+<p>如果其它 IDE 同样支持 Node.js Multiprocess Debugging 的话也可以使用，如果不支持请告诉我们。</p>
+<p>其它 IDE 调试暂时请通过 <code>pandora dev --inspect</code> 启动后，连接端口号的形式调试（比如 WebStorm 中的 Node.js Remote Debug）。</p>
+<p>为了让其它 IDE 也可以快捷地调试，我们正在做一个 Node.js 调试协议的代理。</p>
 
   </article>
   <aside id="mobileAside" class="toc">
