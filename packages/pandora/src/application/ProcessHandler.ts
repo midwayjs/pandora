@@ -101,9 +101,10 @@ export class ProcessHandler {
         execArgv,
         detached: true,
         stdio: [
-          'ipc',
+          'ignore',
           DebugUtils.isUnderPandoraDev ? process.stdout : 'pipe',
-          DebugUtils.isUnderPandoraDev ? process.stderr : 'pipe'
+          DebugUtils.isUnderPandoraDev ? process.stderr : 'pipe',
+          'ipc'
         ],
         env
       });
