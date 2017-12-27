@@ -11,12 +11,8 @@ Pandora Dashboard 是一个本地的 Dashboard，用来查看管理 Pandora.js�
 ## 使用方法
 
 ```bash
-# 或者其他其他全局可以 require 到的地方
-cd ~ 
-npm i pandora-dashboard
-
-# --npm 参数的意思是，使用 require.resolve() 全局查找
-pandora start --name dashboard --npm pandora-dashboard 
+$ npm i pandora-dashboard -g # 全局安装，会全局注册一个命令 pandora-dashboard-dir
+$ pandora start --name dashboard `pandora-dashboard-dir` # 使用该命令获得路径，用于启动
 ```
 
 然后，打开 `http://127.0.0.1:9081` 就能看到了。
