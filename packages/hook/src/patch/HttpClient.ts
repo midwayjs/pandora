@@ -14,14 +14,15 @@ export class HttpClientPatcher extends Patcher {
 
   constructor(options) {
     super(Object.assign({
-      shimmerClass: HttpClientShimmer
+      shimmerClass: HttpClientShimmer,
+      remoteTracing: true
     }, options));
 
     this.shimmer();
   }
 
   getModuleName() {
-    return 'http-client';
+    return 'httpClient';
   }
 
   shimmer() {

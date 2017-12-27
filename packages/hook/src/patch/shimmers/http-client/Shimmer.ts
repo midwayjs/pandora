@@ -4,9 +4,10 @@
  * @copyright 2017 Alibaba Group.
  */
 
+
 const assert = require('assert');
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
-import { DEFAULT_HOST, DEFAULT_PORT } from '../../../utils/Constants';
+import {DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID} from '../../../utils/Constants';
 import { nodeVersion } from '../../../utils/Utils';
 import { ClientRequest } from 'http';
 
@@ -16,7 +17,7 @@ export class HttpClientShimmer {
   shimmer = null;
   traceManager = null;
 
-  constructor(shimmer, traceManager, options = {}) {
+  constructor(shimmer, traceManager, options) {
     assert(shimmer, 'shimmer must given');
     assert(traceManager, 'traceManager must given');
 
@@ -33,27 +34,54 @@ export class HttpClientShimmer {
     }
   }
 
+  remoteTracing(args, traceId, spanId) {
+    if (!(<any>this.options).remoteTracing) {
+      return args;
+    }
+
+    const options = args[0];
+    traceId = traceId || '';
+    spanId = spanId || '';
+
+    if (options.headers) {
+      if (!options.headers[HEADER_TRACE_ID]) {
+        debug('set header trace id.');
+        options.headers[HEADER_TRACE_ID] = traceId;
+      }
+
+      if (!options.headers[HEADER_SPAN_ID]) {
+        debug('set header span id.');
+        options.headers[HEADER_SPAN_ID] = spanId;
+      }
+    } else {
+      options.headers = {
+        [HEADER_TRACE_ID]: traceId,
+        [HEADER_SPAN_ID]: spanId
+      };
+    }
+
+    return args;
+  }
+
   httpRequestWrapper = (request) => {
     const self = this;
     const traceManager = this.traceManager;
 
     return function wrappedHttpRequest(this: ClientRequest) {
       const tracer = traceManager.getCurrentTracer();
+      let args = Array.from(arguments);
 
       if (!tracer) {
         debug('No current tracer, skip trace');
-        return request.apply(this, arguments);
+        return request.apply(this, args);
       }
 
       const currentSpan = tracer.getCurrentSpan();
 
       if (!currentSpan) {
         debug('No current span, skip trace');
-        return request.apply(this, arguments);
+        return request.apply(this, args);
       }
-
-      const args = Array.from(arguments);
-      const _request = request.apply(this, args);
 
       const traceId = tracer.getAttrValue('traceId');
 
@@ -64,20 +92,25 @@ export class HttpClientShimmer {
 
       if (!span) {
         debug('Create new span empty, skip trace');
-        return _request;
+        return request.apply(this, args);
       }
+
+      const spanId = span.context().spanId;
+      args = self.remoteTracing(args, traceId, spanId);
+
+      const _request = request.apply(this, args);
 
       const tags = self.buildTags(args, _request);
 
       span.addTags(tags);
 
-      self.wrapRequest(_request, span);
+      self.wrapRequest(_request, tracer, span);
 
       return _request;
     };
   }
 
-  wrapRequest = (request, span) => {
+  wrapRequest = (request, tracer, span) => {
     const traceManager = this.traceManager;
     const shimmer = this.shimmer;
     const self = this;
@@ -89,7 +122,7 @@ export class HttpClientShimmer {
         if (event === 'error') {
           self.handleError(span, arg);
         } else if (event === 'response') {
-          self.handleResponse(span, arg);
+          self.handleResponse(tracer, span, arg);
         }
 
         return bindRequestEmit.apply(this, arguments);
@@ -118,7 +151,7 @@ export class HttpClientShimmer {
     }
   }
 
-  handleResponse(span, res) {
+  handleResponse(tracer, span, res) {
     const traceManager = this.traceManager;
     const shimmer = this.shimmer;
 
@@ -128,7 +161,6 @@ export class HttpClientShimmer {
       return function wrappedResponseEmit(this: ClientRequest, event) {
         if (event === 'end') {
           if (span) {
-            const tracer = traceManager.getCurrentTracer();
 
             span.setTag('error', {
               type: 'bool',

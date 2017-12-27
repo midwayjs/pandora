@@ -21,13 +21,17 @@ export class MySQLPatcher extends Patcher {
     return 'mysql';
   }
 
+  getModuleVersion() {
+    return '^2.x';
+  }
+
   shimmer() {
     const traceManager = this.getTraceManager();
     const shimmer = this.getShimmer();
     const ShimmerClass = this.options.shimmerClass;
     const mysqlShimmer = new ShimmerClass(shimmer, traceManager, this.options);
 
-    this.hook('^2.x', (loadModule) => {
+    this.hook(this.getModuleVersion(), (loadModule) => {
       const mysql = loadModule('./index.js');
 
       mysqlShimmer.wrapFactory(mysql, 'createConnection', function wrapCreateConnection(connection) {

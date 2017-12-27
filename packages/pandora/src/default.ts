@@ -167,6 +167,10 @@ export default {
     mysql: {
       enabled: true,
       target: hooks.MySQLPatcher
+    },
+    mysql2: {
+      enabled: true,
+      target: hooks.MySQL2Patcher
     }
   },
   reporter: {

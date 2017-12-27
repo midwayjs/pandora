@@ -11,6 +11,7 @@ import { parseSql } from './QueryParser';
 import { INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../../../utils/Constants';
 import * as os from 'os';
 import * as assert from 'assert';
+import { Connection, PoolCluster } from 'mysql';
 const debug = require('debug')('PandoraHook:MySQL:Shimmer');
 
 export class MySQLShimmer {
@@ -84,10 +85,10 @@ export class MySQLShimmer {
   wrapQuery(module, extractInvoke, isPoolQuery) {
     const self = this;
 
-    return this._wrapQuery(module, function queryTagsBuilder(args) {
+    return this._wrapQuery(module, function queryTagsBuilder(ctx, args) {
       const tags = {};
 
-      let invokeInfo = extractInvoke(args, isPoolQuery);
+      let invokeInfo = extractInvoke(ctx, args, isPoolQuery);
       invokeInfo = self.normalizeInfo(invokeInfo);
 
       tags['mysql.method'] = {
@@ -147,7 +148,7 @@ export class MySQLShimmer {
     const self = this;
 
     return this.shimmer.wrap(module, 'query', function queryWrapper(query) {
-      return function wrappedQuery(this: any) {
+      return function wrappedQuery(this: Connection) {
         const tracer = self.traceManager.getCurrentTracer();
 
         if (!tracer) {
@@ -163,12 +164,19 @@ export class MySQLShimmer {
         }
 
         const args = Array.from(arguments);
-        const tags = tagsBuilder(args);
+        const tags = tagsBuilder(this, args);
 
         const invokeInfo = tags.invokeInfo;
         delete tags.invokeInfo;
         let callback = invokeInfo.callback;
         const callbackIdx = invokeInfo.callbackIdx;
+
+        // sequelize 有类似 SET time_zone = '+08:00' 这样的请求，无回调
+        // 这样的请求无法跟踪结束，故放弃
+        if (!callback) {
+          debug('query callback null, ignore trace.', args);
+          return query.apply(this, args);
+        }
 
         const traceId = tracer.getAttrValue('traceId');
         const span = tracer.startSpan('mysql', {
@@ -183,7 +191,7 @@ export class MySQLShimmer {
 
         if (self.options.recordQuery && invokeInfo.rawQuery) {
           span.log({
-            query: tags.rawQuery
+            query: invokeInfo.rawQuery
           });
         }
 
@@ -235,7 +243,7 @@ export class MySQLShimmer {
 
     this.shimmer.wrap(proto, '_getConnection', function getConnectionWrapper(origin) {
 
-      return function wrappedGetConnection(this: any) {
+      return function wrappedGetConnection(this: PoolCluster) {
         // 一般 callback 在最后一个，其实就一个参数
         const args = Array.from(arguments);
         const callbackIndex = args.length - 1;
@@ -335,13 +343,14 @@ export class MySQLShimmer {
 
   /**
    * 结构化 query 查询
+   * @param {object} ctx - queryable 实例
    * @param {any} args - 参数
    * @param {boolean} isPoolQuery - 是否为 pool query
    * @returns {object}
    */
-  extractQuery = (args, isPoolQuery) => {
+  extractQuery = (ctx, args, isPoolQuery) => {
     const extractedArgs = this.extractQueryArgs(args);
-    const info = this.getInstanceInfo(this, extractedArgs.query);
+    const info = this.getInstanceInfo(ctx, extractedArgs.query);
 
     return Object.assign(info, {
       query: extractedArgs.query,
