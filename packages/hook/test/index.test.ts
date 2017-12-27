@@ -96,8 +96,8 @@ describe('unit test', () => {
     before(function() {
       server = createServer();
       server.on('connection', function(conn) {
-        conn.on('error', function(err) {
-          console.log('server connection error.', err);
+        conn.on('error', function() {
+          console.log('client drop connection');
         });
 
         let flags = 0xffffff;
@@ -117,6 +117,10 @@ describe('unit test', () => {
 
     it('should mysql2 query work ok', done => {
       fork('mysql2', done);
+    });
+
+    it('should mysql2 promise query work ok', done => {
+      fork('mysql2-promise', done);
     });
 
     it('should mysql2 pool query work ok', done => {

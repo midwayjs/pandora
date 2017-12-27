@@ -34,14 +34,14 @@ export class HttpClientShimmer {
     }
   }
 
-  remoteTracing(args, traceId, spanId) {
+  remoteTracing(args, traceId, span) {
     if (!(<any>this.options).remoteTracing) {
       return args;
     }
 
     const options = args[0];
     traceId = traceId || '';
-    spanId = spanId || '';
+    const spanId = span.context().spanId || '';
 
     if (options.headers) {
       if (!options.headers[HEADER_TRACE_ID]) {
@@ -63,6 +63,26 @@ export class HttpClientShimmer {
     return args;
   }
 
+  createSpan(tracer) {
+    let span = null;
+
+    const currentSpan = tracer.getCurrentSpan();
+
+    if (!currentSpan) {
+      debug('No current span, skip trace');
+      return span;
+    }
+
+    const traceId = tracer.getAttrValue('traceId');
+
+    span = tracer.startSpan('http-client', {
+      childOf: currentSpan,
+      traceId
+    });
+
+    return span;
+  }
+
   httpRequestWrapper = (request) => {
     const self = this;
     const traceManager = this.traceManager;
@@ -76,27 +96,14 @@ export class HttpClientShimmer {
         return request.apply(this, args);
       }
 
-      const currentSpan = tracer.getCurrentSpan();
-
-      if (!currentSpan) {
-        debug('No current span, skip trace');
-        return request.apply(this, args);
-      }
-
-      const traceId = tracer.getAttrValue('traceId');
-
-      const span = tracer.startSpan('http-client', {
-        childOf: currentSpan,
-        traceId
-      });
+      const span = self.createSpan(tracer);
 
       if (!span) {
         debug('Create new span empty, skip trace');
         return request.apply(this, args);
       }
-
-      const spanId = span.context().spanId;
-      args = self.remoteTracing(args, traceId, spanId);
+      const traceId = tracer.getAttrValue('traceId');
+      args = self.remoteTracing(args, traceId, span);
 
       const _request = request.apply(this, args);
 
@@ -130,6 +137,18 @@ export class HttpClientShimmer {
     });
   }
 
+  requestError(res, span) {
+    span.setTag('http.error_code', {
+      type: 'string',
+      value: res.code
+    });
+
+    span.setTag('http.status_code', {
+      type: 'number',
+      value: -1
+    });
+  }
+
   handleError(span, arg) {
     if (span) {
       span.setTag('error', {
@@ -137,23 +156,23 @@ export class HttpClientShimmer {
         value: true
       });
 
-      span.setTag('http.error_code', {
-        type: 'string',
-        value: arg.code
-      });
-
-      span.setTag('http.status_code', {
-        type: 'number',
-        value: -1
-      });
+      this.requestError(arg, span);
 
       span.finish();
     }
   }
 
+  responseEnd(res, span) {
+    span.setTag('http.status_code', {
+      type: 'number',
+      value: res.statusCode
+    });
+  }
+
   handleResponse(tracer, span, res) {
     const traceManager = this.traceManager;
     const shimmer = this.shimmer;
+    const self = this;
 
     shimmer.wrap(res, 'emit', function wrapResponseEmit(emit) {
       const bindResponseEmit = traceManager.bind(emit);
@@ -167,10 +186,7 @@ export class HttpClientShimmer {
               value: false
             });
 
-            span.setTag('http.status_code', {
-              type: 'number',
-              value: res.statusCode
-            });
+            self.responseEnd(res, span);
 
             tracer.setCurrentSpan(span);
             span.finish();
