@@ -7,7 +7,7 @@
 
 const assert = require('assert');
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
-import {DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID} from '../../../utils/Constants';
+import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
 import { nodeVersion } from '../../../utils/Utils';
 import { ClientRequest } from 'http';
 
