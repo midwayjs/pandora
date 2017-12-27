@@ -46,7 +46,7 @@
 <p>项目地址：</p>
 <p><a href="https://github.com/midwayjs/pandora-dashboard" target="_blank" rel="noopener">https://github.com/midwayjs/pandora-dashboard</a></p>
 <h2 id="使用方法"><a class="markdown-anchor" href="#使用方法">#</a> 使用方法</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 或者其他其他全局可以 require 到的地方</span></span><br><span class="line"><span class="built_in">cd</span> ~ </span><br><span class="line">npm i pandora-dashboard</span><br><span class="line"></span><br><span class="line"><span class="comment"># --npm 参数的意思是，使用 require.resolve() 全局查找</span></span><br><span class="line">pandora start --name dashboard --npm pandora-dashboard</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm i pandora-dashboard -g <span class="comment"># 全局安装，会全局注册一个命令 pandora-dashboard-dir</span></span><br><span class="line">$ pandora start --name dashboard `pandora-dashboard-dir` <span class="comment"># 使用该命令获得路径，用于启动</span></span><br></pre></td></tr></table></figure>
 <p>然后，打开 <code>http://127.0.0.1:9081</code> 就能看到了。</p>
 <p><img src="https://img.alicdn.com/tfs/TB1pIfEeOqAXuNjy1XdXXaYcVXa-1906-1450.png" alt="dashboard"></p>
 <h2 id="自定义-tcp-端口号和-ip-地址"><a class="markdown-anchor" href="#自定义-tcp-端口号和-ip-地址">#</a> 自定义 TCP 端口号和 IP 地址</h2>
