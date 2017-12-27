@@ -41,11 +41,11 @@ For help see https://nodejs.org/en/docs/inspector
 
 使用 `node-inspect`、`Chrome DevTools` 等工具连接相关端口即可调试，这个例子中需要连接 `127.0.0.1:60587`。
 
-## IDE: WebStorm (或其他 IntelliJ 的 IDE) 中调试
+## IDE：WebStorm（或其他 IntelliJ 的 IDE）中调试
 
 **按照下图配置：**
 
-![img](https://img.alicdn.com/tfs/TB1Z9Qekb_I8KJjy1XaXXbsxpXa-2352-1556.png)
+![img](https://img.alicdn.com/tfs/TB1EY5.khTI8KJjSspiXXbM4FXa-2352-1556.png)
 
 **重点：**
 
