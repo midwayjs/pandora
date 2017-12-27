@@ -153,7 +153,7 @@ function startDaemonReal(options, resolve, reject) {
   const stdout = fs.openSync(daemonStdoutPath, 'a');
 
   const daemon = spawn(process.execPath, args, <any> {
-    stdio: ['ipc', stdout, stdout],
+    stdio: ['ignore', stdout, stdout, 'ipc'],
     env: Object.assign(process.env, {
       extensionPath: options.extensionPath
     }),
