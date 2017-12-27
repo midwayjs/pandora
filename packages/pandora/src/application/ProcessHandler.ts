@@ -8,6 +8,7 @@ import {getDaemonLogger, createAppLogger, removeEOL} from '../universal/LoggerBr
 import {ProcessRepresentation} from '../domain';
 import {ILogger} from 'pandora-service-logger/src/domain';
 import {join} from 'path';
+import {DebugUtils} from '../debug/DebugUtils';
 
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
 
@@ -69,7 +70,7 @@ export class ProcessHandler {
     const daemonLogger = this.daemonLogger;
     const representation = this.processRepresentation;
 
-    const execArgv: any = process.execArgv.slice(0);
+    const execArgv: string[] = process.execArgv.slice(0);
 
     // Handing typeScript file，just for testing
     if (/\.ts$/.test(module.filename) && execArgv.indexOf('ts-node/register') === -1) {
@@ -80,6 +81,8 @@ export class ProcessHandler {
     if(userArgv && userArgv.length) {
       execArgv.push.apply(execArgv, userArgv);
     }
+
+    DebugUtils.attachExecArgv(execArgv);
 
     const env = {
       [PANDORA_HOME]: join(__dirname, '../../'),
@@ -97,7 +100,11 @@ export class ProcessHandler {
         cwd: representation.appDir,
         execArgv,
         detached: true,
-        stdio: ['ipc', 'pipe', 'pipe'],
+        stdio: [
+          'ipc',
+          DebugUtils.isUnderPandoraDev ? process.stdout : 'pipe',
+          DebugUtils.isUnderPandoraDev ? process.stderr : 'pipe'
+        ],
         env
       });
 
@@ -126,13 +133,15 @@ export class ProcessHandler {
 
       });
 
-      // TODO: Enhance performance, get FD to write Buffer directly
-      forkedProcess.stdout.on('data', (data) => {
-        nodejsStdout.write(removeEOL(data.toString()));
-      });
-      forkedProcess.stderr.on('data', (err) => {
-        nodejsStdout.write(removeEOL(err.toString()));
-      });
+      if(!DebugUtils.isUnderPandoraDev) {
+        // TODO: Enhance performance, get that FD write Buffer directly
+        forkedProcess.stdout.on('data', (data) => {
+          nodejsStdout.write(removeEOL(data.toString()));
+        });
+        forkedProcess.stderr.on('data', (err) => {
+          nodejsStdout.write(removeEOL(err.toString()));
+        });
+      }
 
       // Here just to distinguish normal exits and exceptional exits, exceptional exits need to restart
       forkedProcess.once('exit', (code, signal) => {
