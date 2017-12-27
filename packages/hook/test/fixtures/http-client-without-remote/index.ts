@@ -5,11 +5,12 @@ const assert = require('assert');
 const nock = require('nock');
 const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
 const { HttpClientPatcher } = require('../../../src/patch/HttpClient');
-const { HEADER_TRACE_ID, HEADER_SPAN_ID } = require('../../../src/utils/Constants');
+const { HEADER_TRACE_ID } = require('../../../src/utils/Constants');
 const httpServerPatcher = new HttpServerPatcher();
 const httpClientPatcher = new HttpClientPatcher({
   // nock 复写了 https.request 方法，没有像原始一样调用 http.request，所以需要强制复写
-  forceHttps: true
+  forceHttps: true,
+  remoteTracing: false
 });
 
 RunUtil.run(function(done) {
@@ -75,8 +76,7 @@ RunUtil.run(function(done) {
       path: '/',
       method: 'GET'
     }).then((response) => {
-      assert(response[0].req.headers[HEADER_TRACE_ID] === '1234567890');
-      assert(!!response[0].req.headers[HEADER_SPAN_ID]);
+      assert(!response[0].req.headers[HEADER_TRACE_ID]);
       return Promise.all([
         request(https, {
           hostname: 'www.taobao.com',

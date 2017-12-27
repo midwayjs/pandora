@@ -1,8 +1,10 @@
 'use strict';
 const path = require('path');
 const childProcess = require('child_process');
-// const mysql = require('mysql');
 import { FakeServer } from './fixtures/fake-mysql-server/FakeServer';
+import { createServer } from 'mysql2';
+const ClientFlags = require('mysql2/lib/constants/client.js');
+
 
 const fork = function(name, done) {
   const filePath = require.resolve(path.join(__dirname, `fixtures/${name}`));
@@ -42,8 +44,12 @@ describe('unit test', () => {
     fork('http', done);
   });
 
-  it('should http-client and trace work ok', done => {
+  it('should http-client and trace remote work ok', done => {
     fork('http-client', done);
+  });
+
+  it('should only http-client without trace remote work ok', done => {
+    fork('http-client-without-remote', done);
   });
 
   it('should bluebird work ok', done => {
@@ -63,6 +69,10 @@ describe('unit test', () => {
       fork('mysql', done);
     });
 
+    it('should mysql query without callback work ok', done => {
+      fork('mysql-no-callback', done);
+    });
+
     it('should mysql pool query work ok', done => {
       fork('mysql-pool', done);
     });
@@ -77,6 +87,52 @@ describe('unit test', () => {
 
     after(function() {
       fakeServer.destroy();
+    });
+  });
+
+  describe('should mysql2 work ok', () => {
+    let server;
+
+    before(function() {
+      server = createServer();
+      server.on('connection', function(conn) {
+        conn.on('error', function(err) {
+          console.log('server connection error.', err);
+        });
+
+        let flags = 0xffffff;
+        flags = flags ^ ClientFlags.COMPRESS;
+
+        conn.serverHandshake({
+          protocolVersion: 10,
+          serverVersion: 'node.js rocks',
+          connectionId: 1234,
+          statusFlags: 2,
+          characterSet: 8,
+          capabilityFlags: flags
+        });
+      });
+      server.listen(32883);
+    });
+
+    it('should mysql2 query work ok', done => {
+      fork('mysql2', done);
+    });
+
+    it('should mysql2 pool query work ok', done => {
+      fork('mysql2-pool', done);
+    });
+
+    it('should mysql2 pool cluster query work ok', done => {
+      fork('mysql2-pool-cluster', done);
+    });
+
+    it('should mysql2 integrate work ok', done => {
+      fork('mysql2-integrate', done);
+    });
+
+    after(function() {
+      server.close();
     });
   });
 });

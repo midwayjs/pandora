@@ -14,7 +14,7 @@ export class HttpServerPatcher extends Patcher {
   }
 
   getModuleName() {
-    return 'http-server';
+    return 'httpServer';
   }
 
   getTraceId(req) {

@@ -62,7 +62,16 @@ export class Tracer extends OpenTrancer {
   }
 
   getAttrValue(key, defaultValue?) {
-    return this.attrs.get(key).getValue() || defaultValue;
+    let ret = defaultValue;
+
+    if (this.hasAttr(key)) {
+      const item = this.attrs.get(key);
+      ret = item.getValue && item.getValue() || item || defaultValue;
+    } else {
+      ret = defaultValue;
+    }
+
+    return ret;
   }
 
   hasAttr(key) {
