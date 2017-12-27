@@ -75,6 +75,50 @@ export class MySQLShimmer {
     return true;
   }
 
+  buildTags(invokeInfo, parsedQuery) {
+    const tags = {};
+
+    tags['mysql.method'] = {
+      value: invokeInfo.name,
+      type: 'string'
+    };
+
+    tags['mysql.host'] = {
+      type: 'string',
+      value: invokeInfo.host
+    };
+    tags['mysql.portPath'] = {
+      type: 'string',
+      value: String(invokeInfo.portPath)
+    };
+    tags['mysql.database'] = {
+      type: 'string',
+      value: invokeInfo.databaseName
+    };
+
+    // 透传 invokeInfo，但最后不输出 tag
+    tags['invokeInfo'] = {
+      callback: invokeInfo.callback,
+      callbackIdx: invokeInfo.callbackIdx
+    };
+
+    if (parsedQuery) {
+      tags['invokeInfo']['rawQuery'] = parsedQuery.raw;
+
+      tags['mysql.table'] = {
+        type: 'string',
+        value: parsedQuery.collection || TABLE_UNKNOWN
+      };
+
+      tags['mysql.operation'] = {
+        type: 'string',
+        value: parsedQuery.operation
+      };
+    }
+
+    return tags;
+  }
+
   /**
    * 包装 query 方法
    * @param {object} module - 要包装的模块
@@ -86,54 +130,16 @@ export class MySQLShimmer {
     const self = this;
 
     return this._wrapQuery(module, function queryTagsBuilder(ctx, args) {
-      const tags = {};
-
       let invokeInfo = extractInvoke(ctx, args, isPoolQuery);
       invokeInfo = self.normalizeInfo(invokeInfo);
-
-      tags['mysql.method'] = {
-        value: invokeInfo.name,
-        type: 'string'
-      };
-
-      tags['mysql.host'] = {
-        type: 'string',
-        value: invokeInfo.host
-      };
-      tags['mysql.portPath'] = {
-        type: 'string',
-        value: String(invokeInfo.portPath)
-      };
-      tags['mysql.database'] = {
-        type: 'string',
-        value: invokeInfo.databaseName
-      };
-
-      // 透传 invokeInfo，但最后不输出 tag
-      tags['invokeInfo'] = {
-        callback: invokeInfo.callback,
-        callbackIdx: invokeInfo.callbackIdx
-      };
-
       const queryStr = invokeInfo.query;
+      let parsedQuery = null;
 
       if (queryStr) {
-        const parsedQuery = self.parseQuery(queryStr);
-
-        tags['invokeInfo']['rawQuery'] = parsedQuery.raw;
-
-        tags['mysql.table'] = {
-          type: 'string',
-          value: parsedQuery.collection || TABLE_UNKNOWN
-        };
-
-        tags['mysql.operation'] = {
-          type: 'string',
-          value: parsedQuery.operation
-        };
+        parsedQuery = self.parseQuery(queryStr);
       }
 
-      return tags;
+      return self.buildTags(invokeInfo, parsedQuery);
     });
   }
 
@@ -146,10 +152,11 @@ export class MySQLShimmer {
    */
   protected _wrapQuery(module, tagsBuilder) {
     const self = this;
+    const traceManager = self.traceManager;
 
     return this.shimmer.wrap(module, 'query', function queryWrapper(query) {
       return function wrappedQuery(this: Connection) {
-        const tracer = self.traceManager.getCurrentTracer();
+        const tracer = traceManager.getCurrentTracer();
 
         if (!tracer) {
           debug('No current tracer, skip trace');
@@ -197,9 +204,9 @@ export class MySQLShimmer {
 
         span.addTags(tags);
 
-        callback = self.traceManager.bind(callback);
+        callback = traceManager.bind(callback);
 
-        function _callback(error, results, fields) {
+        let _callback = function wrappedQueryCallback(error, results, fields) {
           tracer.setCurrentSpan(span);
 
           span.setTag('error', {
@@ -210,7 +217,9 @@ export class MySQLShimmer {
           span.finish();
 
           return callback(error, results, fields);
-        }
+        };
+
+        _callback = traceManager.bind(_callback);
 
         if (callbackIdx === -1) {
           // 调用参数为 Query 实例的情况，只有一个参数
