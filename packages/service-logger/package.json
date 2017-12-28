@@ -1,6 +1,6 @@
 {
   "name": "pandora-service-logger",
-  "version": "1.6.3",
+  "version": "1.6.9",
   "description": "pandora service logger",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
@@ -35,7 +35,7 @@
     "mz": "^2.6.0",
     "pandora-dollar": "^1.6.3",
     "pandora-env": "^1.6.3",
-    "pandora-messenger": "^1.6.3"
+    "pandora-messenger": "^1.6.9"
   },
   "nyc": {
     "include": [
