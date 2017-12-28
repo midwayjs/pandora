@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "1.6.10",
+  "version": "1.6.11",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -47,7 +47,7 @@
     "opentracing": "^0.14.1",
     "pandora-env": "^1.6.3",
     "pandora-messenger": "^1.6.9",
-    "pandora-service-logger": "^1.6.9",
+    "pandora-service-logger": "^1.6.11",
     "pidusage": "^1.1.6",
     "super-event-emitter": "^4.1.4",
     "xorshift": "^1.1.1"
