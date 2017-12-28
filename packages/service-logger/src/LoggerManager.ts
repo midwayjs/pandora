@@ -34,13 +34,14 @@ export class LoggerManager extends EventEmitter {
     } catch(err) {
       // console.error(err);
     }
-    options.connectRotator = !!(options.connectRotator && !isUnitTest && !process.env.DO_NOT_CONNECT_MONITOR);
+    options.connectRotator = !!(options.connectRotator && !isUnitTest && !process.env.DO_NOT_CONNECT_MONITOR && !process.env.PANDORA_DEV);
 
     if(options.connectRotator) {
       this.connectRotator = true;
       this.messengerClient = Messenger.getClient({
         name: SOCKET_FILE_NAME,
-        unref: true
+        unref: true,
+        reConnectAtFirstTime: true
       });
       this.messengerClient.on(MESSENGER_ACTION_SERVICE, (message: MsgPkg) => {
         if(message.type === 'logger-reload') {
@@ -51,8 +52,11 @@ export class LoggerManager extends EventEmitter {
           return;
         }
       });
-      this.startHeartbeatWhile().catch((err) => {
-        console.error(err);
+
+      this.messengerClient.ready(() => {
+        this.startHeartbeatWhile().catch((err) => {
+          console.error(err);
+        });
       });
     }
   }
@@ -108,17 +112,22 @@ export class LoggerManager extends EventEmitter {
     });
 
     return newLogger;
+
   }
 
   protected sendRotationStrategy(strategy: RotationStrategy) {
+
     if(this.connectRotator) {
-      this.messengerClient.send(MESSENGER_ACTION_SERVICE, <MsgPkg> {
-        type: 'logger-send-strategy',
-        payload: <MsgSendStrategyPayload> {
-          strategy: strategy
-        }
+      this.messengerClient.ready(() => {
+        this.messengerClient.send(MESSENGER_ACTION_SERVICE, <MsgPkg> {
+          type: 'logger-send-strategy',
+          payload: <MsgSendStrategyPayload> {
+            strategy: strategy
+          }
+        });
       });
     }
+
   }
 
   protected reload(uuid?) {
