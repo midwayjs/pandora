@@ -85,6 +85,11 @@ describe('#LoggerManager', () => {
         expect(options.name).equal(SOCKET_FILE_NAME);
         calledGetClient = true;
         return {
+          ready: (fn) => {
+            if(typeof fn === 'function') {
+              fn();
+            }
+          },
           on: (action, cb) => {
             triggerEvent = cb;
           },
