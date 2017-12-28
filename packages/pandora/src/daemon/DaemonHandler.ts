@@ -141,7 +141,7 @@ function startDaemonReal(options, resolve, reject) {
     options = {};
   }
 
-  const args = [];
+  const args = ['--trace-warnings'];
   if (/\.ts$/.test(module.filename)) {
     args.push('-r', 'ts-node/register', '-r', 'nyc-ts-patch');
   }
