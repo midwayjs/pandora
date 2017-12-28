@@ -269,6 +269,7 @@ export class LoggerRotator {
     }
     // logfile => logfile.1
     await fs.rename(logfile, `${logfile}.1`);
+    this.broadcastReload();
   }
 
   /**
@@ -289,7 +290,6 @@ export class LoggerRotator {
     } else {
       await fs.rename(targetPath, backupPath);
     }
-    this.broadcastReload();
   }
 
   /**
