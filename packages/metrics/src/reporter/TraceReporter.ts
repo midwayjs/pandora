@@ -22,7 +22,7 @@ export class TraceReporter extends CustomReporter {
   initFileAppender() {
     this.logger = DefaultLoggerManager.getInstance().createLogger('traces', {
       type: 'size',
-      maxFiles: 200 * 1024 * 1024,
+      maxFileSize: 200 * 1024 * 1024,
       dir: join(this.environment.get('pandoraLogsDir'), 'pandorajs'),
       stdoutLevel: 'NONE',
       level: 'ALL'
