@@ -1,11 +1,11 @@
 'use strict';
 import { RunUtil } from '../../RunUtil';
+import { HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../src/utils/Constants';
 const assert = require('assert');
 // 放在前面，把 http.ClientRequest 先复写
 const nock = require('nock');
 const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
 const { HttpClientPatcher } = require('../../../src/patch/HttpClient');
-const { HEADER_TRACE_ID, HEADER_SPAN_ID } = require('../../../src/utils/Constants');
 const httpServerPatcher = new HttpServerPatcher();
 const httpClientPatcher = new HttpClientPatcher({
   // nock 复写了 https.request 方法，没有像原始一样调用 http.request，所以需要强制复写
@@ -77,6 +77,7 @@ RunUtil.run(function(done) {
     }).then((response) => {
       assert(response[0].req.headers[HEADER_TRACE_ID] === '1234567890');
       assert(!!response[0].req.headers[HEADER_SPAN_ID]);
+
       return Promise.all([
         request(https, {
           hostname: 'www.taobao.com',

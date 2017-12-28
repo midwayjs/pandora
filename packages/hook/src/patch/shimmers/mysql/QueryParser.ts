@@ -6,6 +6,7 @@
  */
 import * as is from 'is-type-of';
 import { StatementMatcher } from './StatementMatcher';
+import { OPERATION_UNKNOWN } from '../../../utils/Constants';
 const debug = require('debug')('PandoraHook:MySQL:QueryParser');
 
 const OPERATIONS = [
@@ -29,7 +30,7 @@ export function parseSql(sql) {
     debug('got an non-string sql like: ', JSON.stringify(sql));
 
     return {
-      operation: 'other',
+      operation: OPERATION_UNKNOWN,
       collection: null,
       query: ''
     };
@@ -51,7 +52,7 @@ export function parseSql(sql) {
   }
 
   return {
-    operation: 'other',
+    operation: OPERATION_UNKNOWN,
     collection: null,
     query: sql
   };
