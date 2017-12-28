@@ -177,7 +177,7 @@ export default {
     file: {
       enabled: true,
       target: FileMetricsManagerReporter,
-      interval: 5,
+      interval: 30,
       initConfig: {
         collector: CompactMetricsCollector
       }
