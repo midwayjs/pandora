@@ -1,4 +1,4 @@
-import {Reporter} from '../domain';
+import {ActuatorServer, Reporter} from '../domain';
 import {
   MetricType
 } from '../common/index';
@@ -11,13 +11,13 @@ export abstract class CustomReporter implements Reporter {
   metricsManager;
   endPointService;
 
-  constructor(actuatorManager, options: {
+  constructor(actuatorServer: ActuatorServer, options: {
     rateFactor?: number,
     durationFactor?: number
   } = {}) {
     this.options = options;
-    this.metricsManager = actuatorManager.getMetricsManager();
-    this.endPointService = actuatorManager.getEndPointService();
+    this.metricsManager = actuatorServer.getMetricsManager();
+    this.endPointService = actuatorServer.getEndPointService();
   }
 
   start(interval) {

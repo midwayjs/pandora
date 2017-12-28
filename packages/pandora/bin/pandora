@@ -26,7 +26,10 @@ const path = require('path');
 const yargs = require('yargs');
 
 const logo = fs.readFileSync(path.join(__dirname, '../logo')).toString();
-const version = `${logo}\nPandora: ${require('../package.json').version} (${__dirname}) Node: ${process.version} ${process.alinode ? '(Alinode: ' + process.alinode + ')' : ''}`;
+const version = `${logo}
+BaseDir: ${process.cwd()}
+Pandora: ${require('../package.json').version} (${__dirname})
+Node: ${process.version} ${process.alinode ? '(Alinode: ' + process.alinode + ')' : ''}`;
 
 process.on('uncaughtException', function (e) {
   console.error(e.stack);

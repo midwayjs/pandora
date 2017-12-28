@@ -1,4 +1,4 @@
-import {Reporter} from '../domain';
+import {ActuatorServer, Reporter} from '../domain';
 import {
   BaseGauge,
   BaseCounter,
@@ -16,13 +16,13 @@ export abstract class ScheduledMetricsReporter implements Reporter {
   intervalHandler;
   metricsManager;
 
-  constructor(actuatorManager?, options: {
+  constructor(actuatorServer?: ActuatorServer, options: {
     rateFactor?: number,
     durationFactor?: number
   } = {}) {
     this.options = options;
-    if(actuatorManager) {
-      this.metricsManager = actuatorManager.getMetricsManager();
+    if(actuatorServer) {
+      this.metricsManager = actuatorServer.getMetricsManager();
     }
   }
 
@@ -57,7 +57,8 @@ export abstract class ScheduledMetricsReporter implements Reporter {
   abstract async report(metricsData: {
     gauges: Map<string, BaseGauge<any>>,
     counters: Map<string, BaseCounter>,
-    histograms: Map<string, BaseHistogram>, meters: Map<string, BaseMeter>,
+    histograms: Map<string, BaseHistogram>,
+    meters: Map<string, BaseMeter>,
     timers: Map<string, BaseTimer>,
   });
 
