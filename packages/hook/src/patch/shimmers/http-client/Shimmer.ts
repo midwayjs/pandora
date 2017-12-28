@@ -4,12 +4,13 @@
  * @copyright 2017 Alibaba Group.
  */
 
-
 const assert = require('assert');
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
 import { nodeVersion } from '../../../utils/Utils';
 import { ClientRequest } from 'http';
+
+// TODO: 接受参数，处理或记录请求详情
 
 export class HttpClientShimmer {
 
@@ -34,13 +35,9 @@ export class HttpClientShimmer {
     }
   }
 
-  remoteTracing(args, traceId, span) {
-    if (!(<any>this.options).remoteTracing) {
-      return args;
-    }
-
+  remoteTracing(args, tracer, span) {
     const options = args[0];
-    traceId = traceId || '';
+    const traceId = tracer.getAttrValue('traceId') || '';
     const spanId = span.context().spanId || '';
 
     if (options.headers) {
@@ -73,19 +70,22 @@ export class HttpClientShimmer {
       return span;
     }
 
+    return this._createSpan(tracer, currentSpan);
+  }
+
+  protected _createSpan(tracer, currentSpan) {
     const traceId = tracer.getAttrValue('traceId');
 
-    span = tracer.startSpan('http-client', {
+    return tracer.startSpan('http-client', {
       childOf: currentSpan,
       traceId
     });
-
-    return span;
   }
 
   httpRequestWrapper = (request) => {
     const self = this;
     const traceManager = this.traceManager;
+    const options = self.options;
 
     return function wrappedHttpRequest(this: ClientRequest) {
       const tracer = traceManager.getCurrentTracer();
@@ -102,8 +102,10 @@ export class HttpClientShimmer {
         debug('Create new span empty, skip trace');
         return request.apply(this, args);
       }
-      const traceId = tracer.getAttrValue('traceId');
-      args = self.remoteTracing(args, traceId, span);
+
+      if ((<any>options).remoteTracing) {
+        args = self.remoteTracing(args, tracer, span);
+      }
 
       const _request = request.apply(this, args);
 
@@ -137,7 +139,7 @@ export class HttpClientShimmer {
     });
   }
 
-  requestError(res, span) {
+  protected _requestError(res, span) {
     span.setTag('http.error_code', {
       type: 'string',
       value: res.code
@@ -145,35 +147,53 @@ export class HttpClientShimmer {
 
     span.setTag('http.status_code', {
       type: 'number',
-      value: -1
+      value: -1 // 请求过程失败
     });
   }
 
-  handleError(span, arg) {
+  handleError(this: any, span, arg) {
     if (span) {
       span.setTag('error', {
         type: 'bool',
         value: true
       });
 
-      this.requestError(arg, span);
+      this._requestError(arg, span);
 
       span.finish();
+      this._finish(arg, span);
     }
   }
 
-  responseEnd(res, span) {
+  protected _responseEnd(res, span) {
+    const socket = res.socket;
+    const remoteIp = socket ? (socket.remoteAddress ? `${socket.remoteAddress}:${socket.remotePort}` : '') : '';
+    const responseSize = (res.headers && res.headers['content-length']) || res.responseSize;
+
     span.setTag('http.status_code', {
       type: 'number',
       value: res.statusCode
     });
+
+    span.setTag('http.remote_ip', {
+      type: 'number',
+      value: remoteIp
+    });
+
+    span.setTag('http.response_size', {
+      type: 'number',
+      value: responseSize
+    });
   }
+
+  protected _finish(res, span) {}
 
   handleResponse(tracer, span, res) {
     const traceManager = this.traceManager;
     const shimmer = this.shimmer;
     const self = this;
 
+    res.responseSize = 0;
     shimmer.wrap(res, 'emit', function wrapResponseEmit(emit) {
       const bindResponseEmit = traceManager.bind(emit);
 
@@ -186,11 +206,15 @@ export class HttpClientShimmer {
               value: false
             });
 
-            self.responseEnd(res, span);
+            self._responseEnd(res, span);
 
             tracer.setCurrentSpan(span);
             span.finish();
+            self._finish(res, span);
           }
+        } else if (event === 'data') {
+          const chunk = arguments[0];
+          res.responseSize += chunk.length;
         }
 
         return bindResponseEmit.apply(this, arguments);

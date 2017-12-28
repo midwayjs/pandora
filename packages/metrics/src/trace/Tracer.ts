@@ -4,6 +4,7 @@ import { PandoraSpan } from './PandoraSpan';
 import SpanContext from './SpanContext';
 import {TraceData, TracerReport} from '../domain';
 
+const debug = require('debug')('Pandora:Metrics:Tracer');
 const EventEmitter = require('super-event-emitter');
 const CURRENT_SPAN = 'CURRENT_SPAN';
 
@@ -90,7 +91,7 @@ export class Tracer extends OpenTrancer {
         this.namespace.set(CURRENT_SPAN, span);
       }
     } catch (error) {
-      console.error('Set current span error.', error);
+      debug('Set current span error.', error);
     }
   }
 

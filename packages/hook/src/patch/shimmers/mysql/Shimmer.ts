@@ -143,6 +143,17 @@ export class MySQLShimmer {
     });
   }
 
+  protected _createSpan(tracer, currentSpan) {
+    const traceId = tracer.getAttrValue('traceId');
+
+    return tracer.startSpan('mysql', {
+      childOf: currentSpan,
+      traceId
+    });
+  }
+
+  protected _finish(span) {}
+
   /**
    * 包装 query 方法
    * @param {object} module - 要包装的模块
@@ -185,11 +196,7 @@ export class MySQLShimmer {
           return query.apply(this, args);
         }
 
-        const traceId = tracer.getAttrValue('traceId');
-        const span = tracer.startSpan('mysql', {
-          childOf: currentSpan,
-          traceId
-        });
+        const span = self._createSpan(tracer, currentSpan);
 
         if (!span) {
           debug('Create new span empty, skip trace');
@@ -215,6 +222,7 @@ export class MySQLShimmer {
           });
 
           span.finish();
+          self._finish(span);
 
           return callback(error, results, fields);
         };

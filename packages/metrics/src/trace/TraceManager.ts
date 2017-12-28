@@ -3,6 +3,7 @@ const cls = require('./cls');
 const TRACEID = 'traceId';
 const uuid = require('uuid');
 import {Tracer} from './Tracer';
+const debug = require('debug')('Pandora:Metrics:TraceManager');
 
 export class TraceManager {
 
@@ -74,7 +75,7 @@ export class TraceManager {
       });
       return tracer;
     } catch (error) {
-      console.log('create trace error.', error);
+      debug('create trace error.', error);
       return null;
     }
   }

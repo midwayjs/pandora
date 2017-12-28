@@ -6,6 +6,8 @@
  * 待原包更新支持 Generator 和 async 方法后，回归原包
  */
 
+const debug = require('debug')('Pandora:Metrics:Shimmer');
+
 function isAsyncFunction(funktion) {
   return funktion && {}.toString.call(funktion) === '[object AsyncFunction]';
 }
@@ -29,7 +31,7 @@ function isFunction(funktion) {
 }
 
 // Default to complaining loudly when things don't go according to plan.
-let logger = console.error.bind(console);
+let logger = debug;
 
 // Sets a property on an object, preserving its enumerability.
 // This function assumes that the property is already writable.
