@@ -1,6 +1,6 @@
 {
   "name": "pandora-service-logger",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "description": "pandora service logger",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
