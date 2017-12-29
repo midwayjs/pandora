@@ -32,6 +32,8 @@ export interface IMetricsRegistry {
 
 export class MetricsRegistry implements IMetricsRegistry {
 
+  clientId: string = Math.random().toString(35).substr(2, 10);
+
   metricsSet = new Map<string, {
     name: MetricName,
     metric: Metric
