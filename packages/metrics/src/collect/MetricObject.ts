@@ -105,7 +105,7 @@ export class MetricObject {
 
   metric: string;
 
-  timestamp: number;
+  timestamp: number;  // seconds
 
   value: any;
 
@@ -133,7 +133,7 @@ export class MetricObject {
   toJSON() {
     return {
       metric: this.metric,
-      timestamp: this.timestamp,
+      timestamp: this.timestamp * 1000,
       value: this.value,
       type: this.metricType,
       level: this.metricLevel,
