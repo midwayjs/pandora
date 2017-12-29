@@ -95,10 +95,12 @@ export class LoggerManager extends EventEmitter {
     const newLogger = new EggLogger({
       file: filePath,
       level: loggerConfig.level,
-      consoleLevel: loggerConfig.stdoutLevel
+      consoleLevel: loggerConfig.stdoutLevel,
+      eol: loggerConfig.eol
     });
     newLogger.set('emitter', new EmitterTransport({
       level: loggerConfig.emitterLevel,
+      eol: loggerConfig.eol,
       loggerName, fileName, filePath
     }, this));
     this.loggerMap.set(uuid, newLogger);

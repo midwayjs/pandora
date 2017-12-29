@@ -4,7 +4,7 @@ import {
   RELOAD, RELOAD_SUCCESS, RELOAD_ERROR, PANDORA_CWD,
   State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT, PANDORA_HOME
 } from '../const';
-import {getDaemonLogger, createAppLogger, removeEOL} from '../universal/LoggerBroker';
+import {getDaemonLogger, createAppLogger} from '../universal/LoggerBroker';
 import {ProcessRepresentation} from '../domain';
 import {ILogger} from 'pandora-service-logger/src/domain';
 import {join} from 'path';
@@ -135,12 +135,14 @@ export class ProcessHandler {
       });
 
       if(!DebugUtils.isUnderPandoraDev) {
-        // TODO: Enhance performance, get that FD write Buffer directly
+        const fileTransport = (<any> nodejsStdout).get('file');
         forkedProcess.stdout.on('data', (data) => {
-          nodejsStdout.write(removeEOL(data.toString()));
+          // FIXME: 用到了私有方法，需要考虑清楚
+          // 现在锁死了 egg-logger 的版本
+          fileTransport._write(data);
         });
         forkedProcess.stderr.on('data', (err) => {
-          nodejsStdout.write(removeEOL(err.toString()));
+          fileTransport._write(err);
         });
       }
 
