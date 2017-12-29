@@ -20,7 +20,7 @@ export class DiskStatGaugeSet extends CachedMetricSet {
     let gauges = [];
 
     gauges.push({
-      name: MetricName.build('disk.partition.total').tagged('partition', self.diskUsage.mount),
+      name: MetricName.build('disk.partition.total').tagged('partition', '/'),
       metric: <Gauge<any>> {
         async getValue() {
           await self.refreshIfNecessary();
@@ -29,7 +29,7 @@ export class DiskStatGaugeSet extends CachedMetricSet {
       }
     });
     gauges.push({
-      name: MetricName.build('disk.partition.free').tagged('partition', self.diskUsage.mount),
+      name: MetricName.build('disk.partition.free').tagged('partition', '/'),
       metric: <Gauge<any>> {
         async getValue() {
           await self.refreshIfNecessary();
@@ -38,7 +38,7 @@ export class DiskStatGaugeSet extends CachedMetricSet {
       }
     });
     gauges.push({
-      name: MetricName.build('disk.partition.used_ratio').tagged('partition', self.diskUsage.mount),
+      name: MetricName.build('disk.partition.used_ratio').tagged('partition', '/'),
       metric: <Gauge<any>> {
         async getValue() {
           await self.refreshIfNecessary();

@@ -59,7 +59,7 @@ export class MetricsEndPoint extends EndPoint {
     let collectorCls = this.getCollector();
     let collector = new collectorCls({}, this.rateFactor, this.durationFactor, filter);
 
-    const timestamp = Date.now();
+    const timestamp = Math.round(Date.now() / 1000);
 
     for (let [key, gauge] of registry.getGauges().entries()) {
       debug(`collect gauge key = ${key}`);
