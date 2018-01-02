@@ -137,7 +137,8 @@ export default {
         resource: TraceResource,
         initConfig: {
           cacheSize: 1000,
-          rate: 10
+          rate: 10,
+          priority: true // 优先级高的链路是否跳出采样率限制
         }
       }
     },
@@ -158,7 +159,10 @@ export default {
     },
     httpServer: {
       enabled: true,
-      target: hooks.HttpServerPatcher
+      target: hooks.HttpServerPatcher,
+      initConfig: {
+        slowThreshold: 10 * 1000 // 慢链路标准，duration 大于等于 10s
+      }
     },
     httpClient: {
       enabled: true,

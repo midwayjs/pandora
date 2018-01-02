@@ -5,7 +5,8 @@
  */
 
 import * as is from 'is-type-of';
-import { hasOwn, isLocalhost } from '../../../utils/Utils';
+import { isLocalhost } from '../../../utils/Utils';
+import { hasOwn } from 'pandora-metrics';
 import { extractDatabaseChangeFromUse } from './Utils';
 import { parseSql } from './QueryParser';
 import { INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../../../utils/Constants';

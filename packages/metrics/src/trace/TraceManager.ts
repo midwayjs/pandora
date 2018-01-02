@@ -2,8 +2,11 @@
 const cls = require('./cls');
 const TRACEID = 'traceId';
 const uuid = require('uuid');
-import {Tracer} from './Tracer';
+import { Tracer } from './Tracer';
 const debug = require('debug')('Pandora:Metrics:TraceManager');
+import { MessageSender } from '../util/MessageSender';
+import { MessageConstants } from '../MetricsConstants';
+import { TRACER_TIMEOUT } from './Constants';
 
 export class TraceManager {
 
@@ -11,6 +14,7 @@ export class TraceManager {
   ns = cls.createNamespace('pandora_tracer');
   finished = {};
   private static instance;
+  sender = new MessageSender();
 
   static getInstance() {
     if (!this.instance) {
@@ -20,32 +24,23 @@ export class TraceManager {
   }
 
   constructor() {
-    const contexts = this.ns._contexts;
-    // 半分钟清除一次已经完成的trace, 避免内存泄漏
-    if (contexts) {
-      const timer = setInterval(() => {
-        const finished = this.finished;
-        this.finished = {};
+    this.timeoutCheck();
+  }
 
-        // 超过 30s 未完成，放弃
-        for (let id in this.traceContainer) {
-          const trace = this.traceContainer[id];
-          const isTimeout = Date.now() - trace.date > 30 * 1000;
-          if (isTimeout) {
-            this.traceContainer[id] = null;
-            delete this.traceContainer[id];
-          }
-        }
+  timeoutCheck() {
+    // 定时标记超时的 trace，减少内存占用
+    const timer = setInterval(() => {
+      for (let id in this.traceContainer) {
+        const trace = this.traceContainer[id];
+        const isTimeout = (Date.now() - trace.startMs) >= TRACER_TIMEOUT;
 
-        for (let key of contexts.keys()) {
-          const item = contexts.get(key);
-          if (!item || finished[item.traceId]) {
-            contexts.delete(key);
-          }
+        if (isTimeout) {
+          trace.timeout();
         }
-      }, 30 * 1000);
-      timer.unref();
-    }
+      }
+    }, TRACER_TIMEOUT);
+
+    timer.unref();
   }
 
   getCurrentTracer() {
@@ -71,6 +66,7 @@ export class TraceManager {
       const tracer = new Tracer(options);
       this.traceContainer[traceId] = tracer;
       (<any>tracer).once('finish', () => {
+        this.report(tracer);
         this.removeTracer(traceId);
       });
       return tracer;
@@ -80,9 +76,12 @@ export class TraceManager {
     }
   }
 
+  report(tracer) {
+    this.sender.send(MessageConstants.TRACE, tracer.report());
+  }
+
   removeTracer(traceId) {
     if (this.traceContainer[traceId]) {
-      this.finished[traceId] = 1;
       this.traceContainer[traceId] = null;
       delete this.traceContainer[traceId];
     }

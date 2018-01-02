@@ -1,8 +1,7 @@
 import {IPatcher} from '../domain';
-const hookModule = require('module-hook');
+import { hook } from 'module-hook';
 import * as shimmer from './Shimmer';
 import {TraceManager} from './TraceManager';
-import {MessageSender} from '../util/MessageSender';
 const assert = require('assert');
 import {EnvironmentUtil, Environment} from 'pandora-env';
 
@@ -32,7 +31,7 @@ export class Patcher implements IPatcher {
   }
 
   getHook() {
-    return hookModule;
+    return hook;
   }
 
   getModuleName() {
@@ -41,10 +40,6 @@ export class Patcher implements IPatcher {
 
   getTraceManager() {
     return TraceManager.getInstance();
-  }
-
-  getSender() {
-    return new MessageSender();
   }
 
   getAppName() {

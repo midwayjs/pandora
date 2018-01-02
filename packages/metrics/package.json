@@ -42,14 +42,14 @@
     "extend": "^3.0.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
-    "module-hook": "^1.0.0",
+    "mixin": "^0.2.0",
+    "module-hook": "^2.0.0",
     "node-df": "^0.1.1",
     "opentracing": "^0.14.1",
     "pandora-env": "^1.6.3",
     "pandora-messenger": "^1.6.9",
     "pandora-service-logger": "^1.6.15",
     "pidusage": "^1.1.6",
-    "super-event-emitter": "^4.1.4",
     "xorshift": "^1.1.1"
   },
   "nyc": {
