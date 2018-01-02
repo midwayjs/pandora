@@ -69,7 +69,7 @@ export class MetricsCollector {
   }
 
   protected getNormalizedStartTime(current: number, interval: number) {
-    return (current - interval) / interval * interval * 1000;
+    return (current - interval) / interval * interval;
   }
 
   protected rate(data, interval) {

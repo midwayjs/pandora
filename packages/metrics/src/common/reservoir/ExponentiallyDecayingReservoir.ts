@@ -84,7 +84,6 @@ export class ExponentiallyDecayingReservoir extends Reservoir {
   }
 
   getSnapshot(): Snapshot {
-    console.log(this.getValues());
     try {
       return new WeightedSnapshot(this.getValues());
     } catch (e) {

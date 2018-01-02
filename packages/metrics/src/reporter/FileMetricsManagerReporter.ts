@@ -40,7 +40,7 @@ export class FileMetricsManagerReporter extends ScheduledMetricsReporter {
 
   async report(metricsData) {
     let {gauges, counters, histograms, meters, timers} = metricsData;
-    const timestamp = Math.round(Date.now() / 1000);
+    const timestamp = Date.now();
 
     const collector = new this.collectorCls(this.globalTags, this.rateFactor, this.durationFactor);
 
