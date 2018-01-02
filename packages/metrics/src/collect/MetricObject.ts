@@ -133,7 +133,7 @@ export class MetricObject {
   toJSON() {
     return {
       metric: this.metric,
-      timestamp: this.timestamp * 1000,
+      timestamp: this.timestamp,
       value: this.value,
       type: this.metricType,
       level: this.metricLevel,
