@@ -1,4 +1,7 @@
-import {BaseGauge, BaseHistogram, BaseMeter, BaseTimer, BucketCounter, MetricName} from '../../../src/common';
+import {
+  BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer, BucketCounter,
+  MetricName
+} from '../../../src/common';
 import {CompactMetricsCollector, NormalMetricsCollector} from '../../../src';
 import {expect} from 'chai';
 
@@ -23,6 +26,7 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
       }
     }, timestamp);
     collector.collectCounter(MetricName.build('collector.counter'), new BucketCounter(), timestamp);
+    collector.collectCounter(MetricName.build('collector.basecounter'), new BaseCounter(), timestamp);
     collector.collectHistogram(MetricName.build('collector.histogram'), new BaseHistogram(), timestamp);
     collector.collectMeter(MetricName.build('collector.meter'), new BaseMeter(), timestamp);
     collector.collectTimer(MetricName.build('collector.timer'), new BaseTimer(), timestamp);
@@ -36,6 +40,10 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     expect(findObject(results, 'collector.counter.count').interval).to.be.equal(-1);
     expect(findObject(results, 'collector.counter.count').timestamp.toString().length).to.be.equal(13);
     expect(findObject(results, 'collector.counter.count').metricType).to.be.equal('COUNTER');
+
+    expect(findObject(results, 'collector.basecounter.count').interval).to.be.equal(-1);
+    expect(findObject(results, 'collector.basecounter.count').timestamp.toString().length).to.be.equal(13);
+    expect(findObject(results, 'collector.basecounter.count').metricType).to.be.equal('COUNTER');
 
     expect(findObject(results, 'collector.counter.bucket_count').interval).to.be.equal(1);
     expect(findObject(results, 'collector.counter.bucket_count').timestamp.toString().length).to.be.equal(13);
@@ -79,6 +87,7 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
       }
     }, timestamp);
     collector.collectCounter(MetricName.build('collector.counter'), new BucketCounter(), timestamp);
+    collector.collectCounter(MetricName.build('collector.basecounter'), new BaseCounter(), timestamp);
     collector.collectHistogram(MetricName.build('collector.histogram'), new BaseHistogram(), timestamp);
     collector.collectMeter(MetricName.build('collector.meter'), new BaseMeter(), timestamp);
     collector.collectTimer(MetricName.build('collector.timer'), new BaseTimer(), timestamp);
@@ -88,6 +97,10 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     expect(findObject(results, 'collector.gauge').interval).to.be.equal(-1);
     expect(findObject(results, 'collector.gauge').timestamp.toString().length).to.be.equal(13);
     expect(findObject(results, 'collector.gauge').metricType).to.be.equal('GAUGE');
+
+    expect(findObject(results, 'collector.basecounter.count').interval).to.be.equal(-1);
+    expect(findObject(results, 'collector.basecounter.count').timestamp.toString().length).to.be.equal(13);
+    expect(findObject(results, 'collector.basecounter.count').metricType).to.be.equal('COUNTER');
 
     expect(findObject(results, 'collector.counter.count').interval).to.be.equal(-1);
     expect(findObject(results, 'collector.counter.count').timestamp.toString().length).to.be.equal(13);
