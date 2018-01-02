@@ -79,13 +79,13 @@ export class MetricsClient extends AbstractIndicator {
     // Gauge 比较特殊，是实际的类，而服务端才是一个代理，和其他 metric 都不同，不需要 proxy
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
       for (let method of (<Proxiable>metric).proxyMethod) {
-        metric[method] = (data) => {
-          this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${data}`);
+        metric[method] = (...args) => {
+          this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${args}`);
           this.report({
             action: MetricsConstants.EVT_METRIC_UPDATE,
             name: newName.getNameKey(),
             method: method,
-            value: data,
+            value: args,
             type: metric.type,
           });
         };
