@@ -68,16 +68,16 @@ export class MetricsCollector {
     }
   }
 
-  protected getNormalizedStartTime(current: number, interval: number) {
-    return (current - interval) / interval * interval;
+  public getNormalizedStartTime(current: number, interval: number) {
+    return Math.floor((Math.floor(current / 1000) - interval) / interval) * interval * 1000;
   }
 
-  protected rate(data, interval) {
+  public rate(data, interval) {
     if (interval === 0) return 0.0;
     return data / interval;
   }
 
-  protected ratio(data, total) {
+  public ratio(data, total) {
     if (data > total) return 1.0;
     if (total === 0) return 0.0;
     return 1.0 * data / total;

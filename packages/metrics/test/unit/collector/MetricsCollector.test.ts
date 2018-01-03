@@ -2,7 +2,7 @@ import {
   BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer, BucketCounter,
   MetricName
 } from '../../../src/common';
-import {CompactMetricsCollector, NormalMetricsCollector} from '../../../src';
+import {CompactMetricsCollector, MetricsCollector, NormalMetricsCollector} from '../../../src';
 import {expect} from 'chai';
 
 function findObject(arr, metricKey) {
@@ -146,5 +146,12 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     expect(findObject(results, 'collector.timer.bucket_count')).to.be.exist;
     expect(findObject(results, 'collector.timer.qps')).to.be.exist;
     expect(findObject(results, 'collector.timer.bucket_count').metricType).to.be.equal('DELTA');
+  });
+
+  it('should test getNormalizedStartTime', function () {
+    let collector = new MetricsCollector({}, 10, 10);
+    expect(collector.getNormalizedStartTime(1514887712411, 10)).to.equal(1514887700000);
+    expect(collector.getNormalizedStartTime(1514887712411, 15)).to.equal(1514887695000);
+    expect(collector.getNormalizedStartTime(1514887712411, 20)).to.equal(1514887680000);
   });
 });
