@@ -43,7 +43,7 @@
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "mixin": "^0.2.0",
-    "module-hook": "^2.0.0",
+    "module-hook": "^2.1.0",
     "node-df": "^0.1.1",
     "opentracing": "^0.14.1",
     "pandora-env": "^1.6.3",

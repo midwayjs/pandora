@@ -47,3 +47,7 @@ export function isLocalhost(host) {
 export function nodeVersion(rule) {
   return semver.satisfies(<any>process.version, rule);
 }
+
+export function hasOwn(obj, key) {
+  return Object.hasOwnProperty.call(obj, key);
+}

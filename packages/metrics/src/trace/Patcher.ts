@@ -16,7 +16,7 @@ export class Patcher implements IPatcher {
     this.options = options;
   }
 
-  hook(version: string, reply: (loadModule, replaceSource?) => void) {
+  hook(version: string, reply: (loadModule, replaceSource?, version?) => void) {
     this.hookStore[version] = reply;
   }
 
