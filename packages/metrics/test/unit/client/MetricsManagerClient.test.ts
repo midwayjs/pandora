@@ -53,10 +53,10 @@ describe('/test/unit/client/MetricsManager.test.ts', () => {
     meter.mark(4);
     timer.update(3, 1);
 
-    expect(counter.inc).to.be.exist;
-    expect(histogram.update).to.be.exist;
-    expect(meter.mark).to.be.exist;
-    expect(timer.update).to.be.exist;
+    expect(counter.inc).to.exist;
+    expect(histogram.update).to.exist;
+    expect(meter.mark).to.exist;
+    expect(timer.update).to.exist;
 
   });
 
@@ -71,7 +71,7 @@ describe('/test/unit/client/MetricsManager.test.ts', () => {
     counter.inc(5);
     counter.inc(5);
 
-    expect(server.getMetric(name)).to.be.exist;
+    expect(server.getMetric(name)).to.exist;
   });
 
   it('register gauge', () => {
@@ -84,14 +84,14 @@ describe('/test/unit/client/MetricsManager.test.ts', () => {
       }
     });
 
-    expect(server.getMetric(name)).to.be.exist;
-    expect(server.getMetric(name).getValue()).to.be.equal(100);
+    expect(server.getMetric(name)).to.exist;
+    expect(server.getMetric(name).getValue()).to.equal(100);
   });
 
   it('get same instance', () => {
     let ins1 = MetricsProcessChannel.getInstance();
     let ins2 = MetricsProcessChannel.getInstance();
 
-    expect(ins1).to.be.equal(ins2);
+    expect(ins1).to.equal(ins2);
   });
 });

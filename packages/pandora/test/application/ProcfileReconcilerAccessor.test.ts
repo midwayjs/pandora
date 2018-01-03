@@ -6,7 +6,7 @@ describe('ProcfileReconcilerAccessor', () => {
   it('should get dev be ok', () => {
     process.env.PANDORA_DEV = 'true';
     const pra = new ProcfileReconcilerAccessor(null);
-    expect(pra.dev).to.be.equal(true);
+    expect(pra.dev).to.equal(true);
     delete process.env.PANDORA_DEV;
   });
 
@@ -16,7 +16,7 @@ describe('ProcfileReconcilerAccessor', () => {
         appName: 'testName'
       }
     });
-    expect(pra.appName).to.be.equal('testName');
+    expect(pra.appName).to.equal('testName');
   });
 
   it('should get appDir be ok', () => {
@@ -25,7 +25,7 @@ describe('ProcfileReconcilerAccessor', () => {
         appDir: 'testDir'
       }
     });
-    expect(pra.appDir).to.be.equal('testDir');
+    expect(pra.appDir).to.equal('testDir');
   });
 
   it('should defaultServiceCategory() be ok', () => {
@@ -36,12 +36,12 @@ describe('ProcfileReconcilerAccessor', () => {
       },
       setDefaultServiceCategory(reg) {
         calledSet = true;
-        expect(reg).to.be.equal('new');
+        expect(reg).to.equal('new');
       }
     });
-    expect(pra.defaultServiceCategory()).to.be.equal('def');
+    expect(pra.defaultServiceCategory()).to.equal('def');
     pra.defaultServiceCategory('new');
-    expect(calledSet).to.be.equal(true);
+    expect(calledSet).to.equal(true);
   });
 
   it('should environment() be ok', () => {
@@ -52,12 +52,12 @@ describe('ProcfileReconcilerAccessor', () => {
       },
       injectEnvironment(reg) {
         calledSet = true;
-        expect(reg).to.be.equal('new');
+        expect(reg).to.equal('new');
       }
     });
-    expect(pra.environment()).to.be.equal('def');
+    expect(pra.environment()).to.equal('def');
     pra.environment('new');
-    expect(calledSet).to.be.equal(true);
+    expect(calledSet).to.equal(true);
   });
 
   it('should process() be ok', () => {
@@ -85,8 +85,8 @@ describe('ProcfileReconcilerAccessor', () => {
     pra.process('exist');
     pra.process('c');
 
-    expect(defineCount).to.be.equal(3);
-    expect(getCount).to.be.equal(4);
+    expect(defineCount).to.equal(3);
+    expect(getCount).to.equal(4);
 
   });
 
@@ -115,8 +115,8 @@ describe('ProcfileReconcilerAccessor', () => {
     pra.fork('exist');
     pra.fork('c', './app');
 
-    expect(defineCount).to.be.equal(3);
-    expect(getCount).to.be.equal(4);
+    expect(defineCount).to.equal(3);
+    expect(getCount).to.equal(4);
 
   });
 
@@ -146,8 +146,8 @@ describe('ProcfileReconcilerAccessor', () => {
     expect(() => { pra.service('exist', './s.js'); }).to.throw('Service already exist!');
     pra.service('c', './s.js');
 
-    expect(injectCount).to.be.equal(3);
-    expect(getCount).to.be.equal(5);
+    expect(injectCount).to.equal(3);
+    expect(getCount).to.equal(5);
 
   });
 
@@ -164,7 +164,7 @@ describe('ProcfileReconcilerAccessor', () => {
     };
     pra.cluster('./app.js');
     pra.cluster('./app2.js');
-    expect(calledServiceTimes).to.be.equal(2);
+    expect(calledServiceTimes).to.equal(2);
 
   });
 

@@ -182,9 +182,9 @@ describe('HubClient', () => {
         });
       });
 
-      expect(errorLogs.length).to.be.equal(2);
-      expect(errorLogs[0].toString()).to.be.includes('fake error');
-      expect(errorLogs[1]).to.be.includes('Handing PANDORA_HUB_ACTION_MSG_DOWN went wrong');
+      expect(errorLogs.length).to.equal(2);
+      expect(errorLogs[0].toString()).to.includes('fake error');
+      expect(errorLogs[1]).to.includes('Handing PANDORA_HUB_ACTION_MSG_DOWN went wrong');
 
     });
 
@@ -208,7 +208,7 @@ describe('HubClient', () => {
         objectName: 'theName'
       });
       expect(calledSendPublishToHub).to.be.true;
-      expect((<any> hubClient).publishedSelectors.length).to.be.equal(1);
+      expect((<any> hubClient).publishedSelectors.length).to.equal(1);
       mm.restore();
     });
 
@@ -238,12 +238,12 @@ describe('HubClient', () => {
         objectName: 'theName'
       });
       expect(calledSendToHubAndWaitReply).to.be.true;
-      expect((<any> hubClient).publishedSelectors.length).to.be.equal(1);
+      expect((<any> hubClient).publishedSelectors.length).to.equal(1);
       await hubClient.unpublish({
         appName: 'fake',
         objectName: 'theName2'
       });
-      expect((<any> hubClient).publishedSelectors.length).to.be.equal(0);
+      expect((<any> hubClient).publishedSelectors.length).to.equal(0);
       mm.restore();
     });
 
@@ -309,7 +309,7 @@ describe('HubClient', () => {
         test: true
       });
 
-      expect(action).to.be.equal(PANDORA_HUB_ACTION_MSG_UP);
+      expect(action).to.equal(PANDORA_HUB_ACTION_MSG_UP);
       expect(msg.broadcast).to.be.false;
       expect(msg.remote).to.deep.equal({
         objectName: 'nope'
@@ -333,7 +333,7 @@ describe('HubClient', () => {
         test: true
       });
 
-      expect(action).to.be.equal(PANDORA_HUB_ACTION_MSG_UP);
+      expect(action).to.equal(PANDORA_HUB_ACTION_MSG_UP);
       expect(msg.broadcast).to.be.true;
       expect(msg.remote).to.deep.equal({
         objectName: 'nope'

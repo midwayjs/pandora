@@ -18,7 +18,7 @@ describe('/test/unit/endpoint/InfoEndpoint.test.ts', () => {
         resolve(endpoint.invoke());
       }, 100);
     });
-    expect(results['DEFAULT_APP'].length).to.be.equal(2);
+    expect(results['DEFAULT_APP'].length).to.equal(2);
   });
 
 });

@@ -11,15 +11,15 @@ import {MetricType} from '../../../src/common/MetricType';
 describe('/test/unit/common/MetricsRegistry.test.ts', () => {
   it('test create a empty registry', () => {
     let registry = new MetricsRegistry();
-    expect(registry.getKeys().length).to.be.equal(0);
+    expect(registry.getKeys().length).to.equal(0);
   });
 
   it('test register a counter', () => {
     let registry = new MetricsRegistry();
     registry.counter(MetricName.build('test.hello.qps'));
-    expect(registry.getKeys().length).to.be.equal(1);
-    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.be.exist;
-    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.be.equal('COUNTER');
+    expect(registry.getKeys().length).to.equal(1);
+    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.exist;
+    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.equal('COUNTER');
   });
 
   it('test register a gauge', () => {
@@ -29,33 +29,33 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
         return 100;
       }
     });
-    expect(registry.getKeys().length).to.be.equal(1);
-    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.be.exist;
-    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.be.equal('GAUGE');
+    expect(registry.getKeys().length).to.equal(1);
+    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.exist;
+    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.equal('GAUGE');
   });
 
   it('test register a meter', () => {
     let registry = new MetricsRegistry();
     registry.meter(MetricName.build('test.hello.qps'));
-    expect(registry.getKeys().length).to.be.equal(1);
-    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.be.exist;
-    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.be.equal('METER');
+    expect(registry.getKeys().length).to.equal(1);
+    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.exist;
+    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.equal('METER');
   });
 
   it('test register a timer', () => {
     let registry = new MetricsRegistry();
     registry.timer(MetricName.build('test.hello.qps'));
-    expect(registry.getKeys().length).to.be.equal(1);
-    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.be.exist;
-    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.be.equal('TIMER');
+    expect(registry.getKeys().length).to.equal(1);
+    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.exist;
+    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.equal('TIMER');
   });
 
   it('test register a histogram', () => {
     let registry = new MetricsRegistry();
     registry.histogram(MetricName.build('test.hello.qps'));
-    expect(registry.getKeys().length).to.be.equal(1);
-    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.be.exist;
-    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.be.equal('HISTOGRAM');
+    expect(registry.getKeys().length).to.equal(1);
+    expect(registry.getMetric(MetricName.build('test.hello.qps'))).to.exist;
+    expect(registry.getMetric(MetricName.build('test.hello.qps')).type).to.equal('HISTOGRAM');
   });
 
   it('test register a exist metric', () => {
@@ -71,11 +71,11 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
 
     counter.inc(5);
 
-    expect(counter.getCount()).to.be.equal(5);
-    expect(gauge.getValue()).to.be.equal(100);
+    expect(counter.getCount()).to.equal(5);
+    expect(gauge.getValue()).to.equal(100);
 
-    expect((<BaseCounter>registry.getMetric(MetricName.build('test.hello.count'))).getCount()).to.be.equal(5);
-    expect((<BaseGauge<number>>registry.getMetric(MetricName.build('test.hello.qps'))).getValue()).to.be.equal(100);
+    expect((<BaseCounter>registry.getMetric(MetricName.build('test.hello.count'))).getCount()).to.equal(5);
+    expect((<BaseGauge<number>>registry.getMetric(MetricName.build('test.hello.qps'))).getValue()).to.equal(100);
   });
 
   it('get counters from registry', () => {
@@ -84,7 +84,7 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
     registry.register(MetricName.build('test.hello.qps'), new BaseCounter());
     registry.register(MetricName.build('test.hello.a'), new BaseCounter());
     registry.register(MetricName.build('test.hello.b'), new BaseCounter());
-    expect(registry.getCounters().size).to.be.equal(4);
+    expect(registry.getCounters().size).to.equal(4);
   });
 
   it('get more category metrics from registry', () => {
@@ -110,19 +110,19 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
     registry.register(MetricName.build('test.hello.e'), new BaseTimer());
     registry.register(MetricName.build('test.hello.f'), new BaseMeter());
 
-    expect(registry.getCounters().size).to.be.equal(1);
-    expect(registry.getGauges().size).to.be.equal(3);
-    expect(registry.getHistograms().size).to.be.equal(1);
-    expect(registry.getTimers().size).to.be.equal(2);
-    expect(registry.getMeters().size).to.be.equal(1);
+    expect(registry.getCounters().size).to.equal(1);
+    expect(registry.getGauges().size).to.equal(3);
+    expect(registry.getHistograms().size).to.equal(1);
+    expect(registry.getTimers().size).to.equal(2);
+    expect(registry.getMeters().size).to.equal(1);
   });
 
   it('use get metric method to create metric', () => {
     let registry = new MetricsRegistry();
-    expect(registry.counter(MetricName.build('test.hello.b')).type).to.be.equal(MetricType.COUNTER);
-    expect(registry.histogram(MetricName.build('test.hello.c')).type).to.be.equal(MetricType.HISTOGRAM);
-    expect(registry.meter(MetricName.build('test.hello.d')).type).to.be.equal(MetricType.METER);
-    expect(registry.timer(MetricName.build('test.hello.e')).type).to.be.equal(MetricType.TIMER);
+    expect(registry.counter(MetricName.build('test.hello.b')).type).to.equal(MetricType.COUNTER);
+    expect(registry.histogram(MetricName.build('test.hello.c')).type).to.equal(MetricType.HISTOGRAM);
+    expect(registry.meter(MetricName.build('test.hello.d')).type).to.equal(MetricType.METER);
+    expect(registry.timer(MetricName.build('test.hello.e')).type).to.equal(MetricType.TIMER);
   });
 
   it('get names', () => {
@@ -133,7 +133,7 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
         return 100;
       }
     });
-    expect(registry.getMetricNames().length).to.be.equal(2);
+    expect(registry.getMetricNames().length).to.equal(2);
   });
 
   it('get metrics without parameters', () => {
@@ -144,6 +144,6 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
         return 100;
       }
     });
-    expect(registry.getMetrics().size).to.be.equal(2);
+    expect(registry.getMetrics().size).to.equal(2);
   });
 });

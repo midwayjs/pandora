@@ -10,7 +10,7 @@ describe('Helpers', function () {
       return __dirname;
     });
     const name = Helpers.calcAppName(__dirname);
-    expect(name).to.be.equal('universal');
+    expect(name).to.equal('universal');
     mm.restore();
   });
   it('should calcAppName() by package.json be ok', () => {
@@ -18,7 +18,7 @@ describe('Helpers', function () {
       return join(__dirname, '../../');
     });
     const name = Helpers.calcAppName(__dirname);
-    expect(name).to.be.equal('pandora');
+    expect(name).to.equal('pandora');
     mm.restore();
   });
 
@@ -30,9 +30,9 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       appName: 'test-app3',
     });
-    expect(forkEntryConfig.globalEnv.a).to.be.equal('1');
-    expect(forkEntryConfig.appName).to.be.equal('test-app3');
-    expect(process.env[PANDORA_GLOBAL_CONFIG]).to.be.equal('pandora-taobao:pandora-ali');
+    expect(forkEntryConfig.globalEnv.a).to.equal('1');
+    expect(forkEntryConfig.appName).to.equal('test-app3');
+    expect(process.env[PANDORA_GLOBAL_CONFIG]).to.equal('pandora-taobao:pandora-ali');
 
     mm.restore();
   });
@@ -64,8 +64,8 @@ describe('Helpers', function () {
       entry: '../../',
     }, {
     });
-    expect(forkEntryConfig.appDir).to.be.equal(resolve('../../'));
-    expect(forkEntryConfig.entryFile).to.be.equal(undefined);
+    expect(forkEntryConfig.appDir).to.equal(resolve('../../'));
+    expect(forkEntryConfig.entryFile).to.equal(undefined);
 
     mm.restore();
   });

@@ -154,8 +154,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
       this.debug(`Invoke: find metric(${data.name}), type = ${metric.type}`);
       if(metric.type === data.type) {
         this.debug(`Invoke: type equal and call ${data.method}(${data.value})`);
-        // (metric[data.method]).call(this, data.value);
-        metric[data.method](data.value);
+        metric[data.method].apply(metric, data.value);
       }
     } else {
       this.debug(`Invoke: can't find msetric(${data.name})`);

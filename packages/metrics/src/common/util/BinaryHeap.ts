@@ -3,6 +3,14 @@
  * licensed under CCv3.0: http://creativecommons.org/licenses/by/3.0/
  */
 
+function nodeEqual(source, target) {
+  if (typeof source === 'object' || typeof target === 'object') {
+    return JSON.stringify(source) === JSON.stringify(target);
+  } else {
+    return source === target;
+  }
+}
+
 export class BinaryHeap {
   content;
   scoreFunction;
@@ -49,7 +57,7 @@ export class BinaryHeap {
     // To remove a value, we must search through the array to find
     // it.
     for (let i = 0; i < len; i++) {
-      if (this.content[i] === node) {
+      if (nodeEqual(this.content[i], node)) {
         // When it is found, the process seen in 'pop' is repeated
         // to fill up the hole.
         let end = this.content.pop();

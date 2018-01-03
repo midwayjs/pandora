@@ -32,7 +32,7 @@ describe('/test/unit/MessengerUtil.test.ts', () => {
 
       reply = (data, replyClient, replyCallback) => {
         clientProxy = replyClient;
-        expect(data.text).to.be.equal('hello');
+        expect(data.text).to.equal('hello');
         replyCallback('zhangting');
         done();
       };
@@ -40,14 +40,14 @@ describe('/test/unit/MessengerUtil.test.ts', () => {
       client.register({
         text: 'hello'
       }, (err, callbackData) => {
-        expect(callbackData).to.be.equal('zhangting');
+        expect(callbackData).to.equal('zhangting');
       });
     });
 
     it('connnect client direct', (done) => {
 
       client.query(CLIENT_KEY_NAME, (data, callback) => {
-        expect(data.text).to.be.equal('welcome');
+        expect(data.text).to.equal('welcome');
         callback({
           text: 'ok',
         });
@@ -56,7 +56,7 @@ describe('/test/unit/MessengerUtil.test.ts', () => {
       clientProxy.send(CLIENT_KEY_NAME, {
         text: 'welcome',
       }, (err, data) => {
-        expect(data.text).to.be.equal('ok');
+        expect(data.text).to.equal('ok');
         done();
       });
     });
@@ -67,7 +67,7 @@ describe('/test/unit/MessengerUtil.test.ts', () => {
         text: 'welcome',
       }, (err, data) => {
         expect(err).to.be.an.instanceOf(Error);
-        expect(err.name).to.be.equal('MessengerRequestTimeoutError');
+        expect(err.name).to.equal('MessengerRequestTimeoutError');
         done();
       }, 100);
     });

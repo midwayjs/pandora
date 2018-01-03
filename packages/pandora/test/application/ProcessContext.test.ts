@@ -26,7 +26,7 @@ describe('ProcessContext', function () {
       serviceEntry: null,
       serviceName: 'testService'
     });
-    expect(receivedService[0].serviceName).to.be.equal('testService');
+    expect(receivedService[0].serviceName).to.equal('testService');
     mm.restore();
   });
 
@@ -45,8 +45,8 @@ describe('ProcessContext', function () {
       serviceEntry: null,
       serviceName: 'testService2'
     }]);
-    expect(receivedService[0].serviceName).to.be.equal('testService1');
-    expect(receivedService[1].serviceName).to.be.equal('testService2');
+    expect(receivedService[0].serviceName).to.equal('testService1');
+    expect(receivedService[1].serviceName).to.equal('testService2');
     mm.restore();
   });
 
@@ -55,7 +55,7 @@ describe('ProcessContext', function () {
     const once = processContext.getIPCHub();
     const twice = processContext.getIPCHub();
     expect(once).to.be.ok;
-    expect(once).to.be.equal(twice);
+    expect(once).to.equal(twice);
   });
 
 
@@ -68,7 +68,7 @@ describe('ProcessContext', function () {
       }
     });
     await processContext.start();
-    expect(serviceDid).to.be.equal(true);
+    expect(serviceDid).to.equal(true);
     mm.restore();
   });
 
@@ -81,7 +81,7 @@ describe('ProcessContext', function () {
       }
     });
     await processContext.stop();
-    expect(serviceDid).to.be.equal(true);
+    expect(serviceDid).to.equal(true);
     mm.restore();
   });
 

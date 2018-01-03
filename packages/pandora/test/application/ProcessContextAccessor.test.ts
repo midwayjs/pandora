@@ -14,25 +14,25 @@ describe('ProcessContextAccessor', function () {
   it('should get appName be ok', () => {
     const processContext = new ProcessContext(precessRepresentation);
     const accessor = new ProcessContextAccessor(processContext);
-    expect(accessor.appName).to.be.equal('test');
+    expect(accessor.appName).to.equal('test');
   });
 
   it('should get appDir be ok', () => {
     const processContext = new ProcessContext(precessRepresentation);
     const accessor = new ProcessContextAccessor(processContext);
-    expect(accessor.appDir).to.be.equal('test');
+    expect(accessor.appDir).to.equal('test');
   });
 
   it('should get processName be ok', () => {
     const processContext = new ProcessContext(precessRepresentation);
     const accessor = new ProcessContextAccessor(processContext);
-    expect(accessor.processName).to.be.equal('worker');
+    expect(accessor.processName).to.equal('worker');
   });
 
   it('should get env be ok', () => {
     const processContext = new ProcessContext(precessRepresentation);
     const accessor = new ProcessContextAccessor(processContext);
-    expect(accessor.env).to.be.equal('test');
+    expect(accessor.env).to.equal('test');
   });
 
   it('should get environment be ok', async () => {
@@ -54,7 +54,7 @@ describe('ProcessContextAccessor', function () {
       }
     });
     const instance = accessor.getService<any>('service-test');
-    expect(instance.serviceTest).to.be.equal(true);
+    expect(instance.serviceTest).to.equal(true);
     mm.restore();
   });
 
@@ -71,7 +71,7 @@ describe('ProcessContextAccessor', function () {
       }
     });
     const klass: any = accessor.getServiceClass('service-class-test');
-    expect(klass.serviceClassTest).to.be.equal(true);
+    expect(klass.serviceClassTest).to.equal(true);
     mm.restore();
   });
 
@@ -83,7 +83,7 @@ describe('ProcessContextAccessor', function () {
       times++;
     });
     accessor.getHub();
-    expect(times).to.be.equal(1);
+    expect(times).to.equal(1);
     mm.restore();
   });
 
@@ -97,14 +97,14 @@ describe('ProcessContextAccessor', function () {
       return {
         getProxy(objDesc) {
           times++;
-          expect(objDesc.name).to.be.equal('nameValue');
+          expect(objDesc.name).to.equal('nameValue');
         }
       };
     });
 
     await accessor.getProxy('nameValue');
     await accessor.getProxy({name: 'nameValue'});
-    expect(times).to.be.equal(2);
+    expect(times).to.equal(2);
 
     mm.restore();
 

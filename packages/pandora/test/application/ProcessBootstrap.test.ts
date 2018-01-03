@@ -44,15 +44,15 @@ describe('ProcessBootstrap', function () {
       mm(pb, 'procfileReconciler', {
         discover () {},
         getServicesByCategory(processName) {
-          expect(processName).to.be.equal(rp.processName);
+          expect(processName).to.equal(rp.processName);
         }
       });
 
       await pb.start();
 
-      expect(calledInject).to.be.equal(true);
-      expect(callStart).to.be.equal(true);
-      expect(callBind).to.be.equal(true);
+      expect(calledInject).to.equal(true);
+      expect(callStart).to.equal(true);
+      expect(callBind).to.equal(true);
 
     });
 
@@ -73,8 +73,8 @@ describe('ProcessBootstrap', function () {
 
       await pb.stop();
 
-      expect(callStop).to.be.equal(true);
-      expect(callUnwrap).to.be.equal(true);
+      expect(callStop).to.equal(true);
+      expect(callUnwrap).to.equal(true);
 
     });
 
@@ -106,8 +106,8 @@ describe('ProcessBootstrap', function () {
         calledInject = true;
       });
       await pb.start();
-      expect(callStartAsMaster).to.be.equal(true);
-      expect(calledInject).to.be.equal(true);
+      expect(callStartAsMaster).to.equal(true);
+      expect(calledInject).to.equal(true);
     });
 
     it('should stop as master be ok', async () => {
@@ -119,7 +119,7 @@ describe('ProcessBootstrap', function () {
         }
       });
       await pb.stop();
-      expect(callStopAsMaster).to.be.equal(true);
+      expect(callStopAsMaster).to.equal(true);
     });
 
   });

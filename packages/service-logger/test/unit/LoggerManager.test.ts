@@ -62,14 +62,14 @@ describe('#LoggerManager', () => {
       });
       let emited = false;
       loggerManager.on('log', (msg) => {
-        expect(msg.loggerName).to.be.equal('event-emitter');
-        expect(msg.fileName).to.be.equal('event-emitter.log');
-        expect(msg.level).to.be.equal('WARN');
+        expect(msg.loggerName).to.equal('event-emitter');
+        expect(msg.fileName).to.equal('event-emitter.log');
+        expect(msg.level).to.equal('WARN');
         expect(msg.formattedMessage).to.have.string('test');
         emited = true;
       });
       logger.warn('test');
-      expect(emited).to.be.equal(true);
+      expect(emited).to.equal(true);
     });
   });
 

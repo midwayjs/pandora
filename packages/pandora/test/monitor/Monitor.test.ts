@@ -26,7 +26,7 @@ describe('Monitor', function () {
   it('should start() be ok', async () => {
     await monitor.start();
     const ret = await urllib.request('http://127.0.0.1:7002/');
-    expect(ret.res.data.toString()).to.be.includes('restful service');
+    expect(ret.res.data.toString()).to.includes('restful service');
   });
 
   it('should stop() be ok', async () => {

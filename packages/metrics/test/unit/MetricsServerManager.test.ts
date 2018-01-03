@@ -28,11 +28,11 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     server.setEnabled(true);
     server.setLogger(console);
 
-    expect(server.getGauges('empty').size).to.be.equal(0);
-    expect(server.getHistograms('empty').size).to.be.equal(0);
-    expect(server.getCounters('empty').size).to.be.equal(0);
-    expect(server.getTimers('empty').size).to.be.equal(0);
-    expect(server.getMeters('empty').size).to.be.equal(0);
+    expect(server.getGauges('empty').size).to.equal(0);
+    expect(server.getHistograms('empty').size).to.equal(0);
+    expect(server.getCounters('empty').size).to.equal(0);
+    expect(server.getTimers('empty').size).to.equal(0);
+    expect(server.getMeters('empty').size).to.equal(0);
   });
 
   it('create a new client and register it', () => {
@@ -54,7 +54,7 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     setTimeout(() => {
       expect((<BaseCounter>server.getMetric(name.tagged({
         appName: MetricsConstants.METRICS_DEFAULT_APP,
-      }))).getCount()).to.be.equal(20);
+      }))).getCount()).to.equal(20);
       done();
     }, 10);
   });
@@ -72,7 +72,7 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
         appName: MetricsConstants.METRICS_DEFAULT_APP,
       }))).getValue();
 
-      expect(result).to.be.equal(100);
+      expect(result).to.equal(100);
       done();
     }, 10);
   });
@@ -106,7 +106,7 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
 
     setTimeout(() => {
       expect(server.listMetricGroups().length > 2).to.be.true;
-      expect(server.getCounters('test1').size).to.be.equal(2);
+      expect(server.getCounters('test1').size).to.equal(2);
       done();
     }, 10);
   });
@@ -125,8 +125,8 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     expect(meter).to.be.an.instanceof(BaseMeter);
 
     expect(server.listMetricNamesByGroup().size > 0).to.be.true;
-    expect(server.listMetricNamesByGroup().get('middleware').length).to.be.equal(4);
-    expect(server.getAllCategoryMetrics().size).to.be.equal(5);
+    expect(server.listMetricNamesByGroup().get('middleware').length).to.equal(4);
+    expect(server.getAllCategoryMetrics().size).to.equal(5);
   });
 
 

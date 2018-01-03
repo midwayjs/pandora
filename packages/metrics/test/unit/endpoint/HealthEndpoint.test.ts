@@ -33,8 +33,8 @@ describe('/test/unit/endpoint/HealthEndpoint.test.ts', () => {
         resolve(endpoint.invoke());
       }, 200);
     });
-    expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.be.equal('disk_space');
-    expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.be.equal('port');
+    expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.equal('disk_space');
+    expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.equal('port');
   });
 
 });

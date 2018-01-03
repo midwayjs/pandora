@@ -4,18 +4,18 @@ import {CommonCache} from '../../../src/util/CommonCache';
 describe('/test/unit/util/CommonCache.test.ts', () => {
   it('test CommonCache init without capacity', () => {
     let cache = new CommonCache();
-    expect(cache.getCapacity()).to.be.equal(100);
+    expect(cache.getCapacity()).to.equal(100);
   });
 
   it('test CommonCache init use capacity', () => {
     let cache = new CommonCache(200);
-    expect(cache.getCapacity()).to.be.equal(200);
+    expect(cache.getCapacity()).to.equal(200);
   });
 
   it('test CommonCache update capacity', () => {
     let cache = new CommonCache();
     cache.updateCapacity(300);
-    expect(cache.getCapacity()).to.be.equal(300);
+    expect(cache.getCapacity()).to.equal(300);
   });
 
   it('test CommonCache push data', () => {
@@ -24,9 +24,9 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       cache.push(i);
     }
 
-    expect(cache.getSize()).to.be.equal(10);
+    expect(cache.getSize()).to.equal(10);
     cache.clear();
-    expect(cache.getSize()).to.be.equal(0);
+    expect(cache.getSize()).to.equal(0);
   });
 
   it('test CommonCache push data over max capacity', () => {
@@ -35,8 +35,8 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       cache.push(i);
     }
 
-    expect(cache.getCapacity()).to.be.equal(10);
-    expect(cache.getSize()).to.be.equal(10);
+    expect(cache.getCapacity()).to.equal(10);
+    expect(cache.getSize()).to.equal(10);
   });
 
   it('test CommonCache query data use default value', () => {
@@ -47,7 +47,7 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
         date: Date.now()
       });
     }
-    expect(cache.query().length).to.be.equal(50);
+    expect(cache.query().length).to.equal(50);
   });
 
   it('test CommonCache query data use size', () => {
@@ -64,10 +64,10 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       by: 'size',
       value: 3,
     });
-    expect(results.length).to.be.equal(3);
-    expect(results[0].data).to.be.equal('3');
-    expect(results[1].data).to.be.equal('4');
-    expect(results[2].data).to.be.equal('5');
+    expect(results.length).to.equal(3);
+    expect(results[0].data).to.equal('3');
+    expect(results[1].data).to.equal('4');
+    expect(results[2].data).to.equal('5');
   });
 
   it('test CommonCache query data use size and order by desc', () => {
@@ -85,10 +85,10 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       value: 3,
       order: 'DESC'
     });
-    expect(results.length).to.be.equal(3);
-    expect(results[0].data).to.be.equal('5');
-    expect(results[1].data).to.be.equal('4');
-    expect(results[2].data).to.be.equal('3');
+    expect(results.length).to.equal(3);
+    expect(results[0].data).to.equal('5');
+    expect(results[1].data).to.equal('4');
+    expect(results[2].data).to.equal('3');
   });
 
 
@@ -107,9 +107,9 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       by: 'date',
       value: 1483243200000 + 5
     });
-    expect(results.length).to.be.equal(10);
-    expect(results[0].data).to.be.equal('5');
-    expect(results[9].data).to.be.equal('5');
+    expect(results.length).to.equal(10);
+    expect(results[0].data).to.equal('5');
+    expect(results[9].data).to.equal('5');
   });
 
   it('test CommonCache query data use time and order by desc', () => {
@@ -128,10 +128,10 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       value: 1483243200000 + 4,
       order: 'DESC'
     });
-    expect(results.length).to.be.equal(20);
-    expect(results[0].data).to.be.equal('5');
-    expect(results[1].data).to.be.equal('4');
-    expect(results[19].data).to.be.equal('4');
+    expect(results.length).to.equal(20);
+    expect(results[0].data).to.equal('5');
+    expect(results[1].data).to.equal('4');
+    expect(results[19].data).to.equal('4');
   });
 
   it('test CommonCache query data use time but date without date key', () => {
@@ -147,7 +147,7 @@ describe('/test/unit/util/CommonCache.test.ts', () => {
       value: 1483243200000 + 5
     });
 
-    expect(results.length).to.be.equal(50);
+    expect(results.length).to.equal(50);
   });
 
 });

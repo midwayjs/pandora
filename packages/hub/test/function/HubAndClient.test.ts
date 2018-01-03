@@ -48,15 +48,15 @@ describe('HubAndClient', () => {
       objectName: 'object1'
     };
     const publishRes = await clientA.publish(selector);
-    expect(publishRes.success).to.be.equal(true);
+    expect(publishRes.success).to.equal(true);
     const routeTable = hub.getRouteTable();
 
     const allClients = routeTable.getAllClients();
-    expect(allClients.length).to.be.equal(2);
+    expect(allClients.length).to.equal(2);
     const client = routeTable.selectClients(location)[0].client;
     const selectors = routeTable.getSelectorsByClient(client);
-    expect(selectors.length).to.be.equal(3);
-    expect(selectors[2].objectName).to.be.equal('object1');
+    expect(selectors.length).to.equal(3);
+    expect(selectors[2].objectName).to.equal('object1');
   });
 
   it('should invoke be ok', async () => {
@@ -72,7 +72,7 @@ describe('HubAndClient', () => {
         testData: '1234'
       }
     });
-    expect(res.data.echo.data.testData).to.be.equal('1234');
+    expect(res.data.echo.data.testData).to.equal('1234');
   });
 
   it('should unpublish selector to Hub be ok', async () => {
@@ -82,18 +82,18 @@ describe('HubAndClient', () => {
       objectName: 'object1'
     };
     const unpublishRes = await clientA.unpublish(selector);
-    expect(unpublishRes.success).to.be.equal(true);
+    expect(unpublishRes.success).to.equal(true);
 
     const routeTable = hub.getRouteTable();
     const client = routeTable.selectClients(location)[0].client;
     const selectors = routeTable.getSelectorsByClient(client);
-    expect(selectors.length).to.be.equal(2);
+    expect(selectors.length).to.equal(2);
 
     const clients = routeTable.selectClients({
       objectName: 'object1'
     });
 
-    expect(clients.length).to.be.equal(0);
+    expect(clients.length).to.equal(0);
 
   });
 
@@ -129,7 +129,7 @@ describe('HubAndClient', () => {
       totalCnt += count;
       expect(count).to.be.gt(0);
     }
-    expect(totalCnt).to.be.equal(expectTimes);
+    expect(totalCnt).to.equal(expectTimes);
 
     for(const client of clients) {
       await client.stop();
@@ -158,7 +158,7 @@ describe('HubAndClient', () => {
       client.on('multipleInvokeAction', (message) => {
         hitCounts[idx] += 1;
         try {
-          expect(message.data.testProperty).to.be.equal(true);
+          expect(message.data.testProperty).to.equal(true);
         } catch (err) {
           gotMsg = false;
         }
@@ -173,14 +173,14 @@ describe('HubAndClient', () => {
           testProperty: true
         }
       });
-      expect(res.length).to.be.equal(clientNumber);
+      expect(res.length).to.equal(clientNumber);
     }
 
     for(const count of hitCounts) {
-      expect(count).to.be.equal(expectTimes);
+      expect(count).to.equal(expectTimes);
     }
 
-    expect(gotMsg).to.be.equal(true);
+    expect(gotMsg).to.equal(true);
 
     for(const client of clients) {
       await client.stop();
