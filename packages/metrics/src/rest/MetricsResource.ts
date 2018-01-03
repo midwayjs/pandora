@@ -15,9 +15,18 @@ export class MetricsResource implements ActuatorResource {
   route(router) {
 
     const metricsEndPoint = <MetricsEndPoint>this.endPointService.getEndPoint('metrics');
+
     router.get('/list', async (ctx, next) => {
       try {
-        ctx.ok(await metricsEndPoint.listMetrics(ctx.query['appName']));
+        ctx.ok(await metricsEndPoint.listMetrics('', ctx.query['appName']));
+      } catch (err) {
+        ctx.fail(err.message);
+      }
+    });
+
+    router.get('/list/:group', async (ctx, next) => {
+      try {
+        ctx.ok(await metricsEndPoint.listMetrics(ctx.params.group, ctx.query['appName']));
       } catch (err) {
         ctx.fail(err.message);
       }

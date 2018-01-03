@@ -32,7 +32,7 @@ export class MetricsEndPoint extends EndPoint {
   rateFactor = 1;
   durationFactor = 1.0;
 
-  async listMetrics(appName?: string): Promise<{}> {
+  async listMetrics(group?: string, appName?: string): Promise<{}> {
     let filter;
     if(appName) {
       filter = new AppNameFilter(appName);
@@ -40,15 +40,17 @@ export class MetricsEndPoint extends EndPoint {
     if (this.manager.isEnabled()) {
       let resultMap = {};
       for (let groupName of this.manager.listMetricGroups()) {
-        let registry = this.manager.getMetricRegistryByGroup(groupName);
-        let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
-        resultMap[groupName] = results.map((o) => {
-          let result = o.toJSON();
-          // list 接口过滤掉 value 和 timestamp
-          delete result['value'];
-          delete result['timestamp'];
-          return result;
-        });
+        if(!group || (group && groupName === group)) {
+          let registry = this.manager.getMetricRegistryByGroup(groupName);
+          let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
+          resultMap[groupName] = results.map((o) => {
+            let result = o.toJSON();
+            // list 接口过滤掉 value 和 timestamp
+            delete result['value'];
+            delete result['timestamp'];
+            return result;
+          });
+        }
       }
 
       return resultMap;
