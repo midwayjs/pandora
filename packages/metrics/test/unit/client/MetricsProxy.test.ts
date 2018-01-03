@@ -11,7 +11,7 @@ describe('/test/unit/client/MetricsProxy.test.ts', () => {
     };
 
     expect(gauge instanceof Gauge).to.false;
-    expect(gauge.getValue()).to.be.equal(100);
+    expect(gauge.getValue()).to.equal(100);
 
   });
 
@@ -26,7 +26,7 @@ describe('/test/unit/client/MetricsProxy.test.ts', () => {
 
     expect(gauge instanceof Gauge).to.true;
     expect(gauge instanceof CpuGauge).to.true;
-    expect(gauge.getValue()).to.be.equal(10);
+    expect(gauge.getValue()).to.equal(10);
 
   });
 });

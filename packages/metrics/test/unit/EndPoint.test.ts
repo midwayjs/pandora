@@ -41,13 +41,13 @@ describe('/test/unit/EndPoint.test.ts', () => {
   });
 
   it('indicator is empty when init', () => {
-    expect(myEndPoint.indicators.length).to.be.equal(0);
+    expect(myEndPoint.indicators.length).to.equal(0);
   });
 
   it('indicators property size = 1 after register a indicator', (done) => {
     myIndicator.initialize();
     setTimeout(() => {
-      expect(myEndPoint.indicators.length).to.be.equal(1);
+      expect(myEndPoint.indicators.length).to.equal(1);
       done();
     }, 100);
   });
@@ -56,10 +56,10 @@ describe('/test/unit/EndPoint.test.ts', () => {
     myEndPoint.invoke({
       appName: MetricsConstants.METRICS_DEFAULT_APP
     }).then((results) => {
-      expect(results[0].key).to.be.equal('my.during');
-      expect(results[1].key).to.be.equal('my.start');
-      expect(results[2].key).to.be.equal('my.end');
-      expect(results[3].key).to.be.equal('my.count');
+      expect(results[0].key).to.equal('my.during');
+      expect(results[1].key).to.equal('my.start');
+      expect(results[2].key).to.equal('my.end');
+      expect(results[3].key).to.equal('my.count');
       done();
     });
 
@@ -67,10 +67,10 @@ describe('/test/unit/EndPoint.test.ts', () => {
 
   it('query custom EndPoint without appName', (done) => {
     myEndPoint.invoke().then((results) => {
-      expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.be.equal('my.during');
-      expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.be.equal('my.start');
-      expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.be.equal('my.end');
-      expect(results[MetricsConstants.METRICS_DEFAULT_APP][3].key).to.be.equal('my.count');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.equal('my.during');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.equal('my.start');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.equal('my.end');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][3].key).to.equal('my.count');
       done();
     });
   });
@@ -80,8 +80,8 @@ describe('/test/unit/EndPoint.test.ts', () => {
       pretty: true,
       appName: MetricsConstants.METRICS_DEFAULT_APP
     }).then(results => {
-      expect(results[4].key).to.be.equal('my.pretty.data');
-      expect(results[4].data).to.be.equal('12.1%');
+      expect(results[4].key).to.equal('my.pretty.data');
+      expect(results[4].data).to.equal('12.1%');
       done();
     });
   });

@@ -28,11 +28,11 @@ describe('/test/unit/common/snapshot/WeightedSnapshot.test.ts', () => {
   let snapshot = new WeightedSnapshot(WeightedArray);
 
   it('should small quantiles are the first value', function () {
-    expect(snapshot.getValue(0.0)).to.be.equal(1.0);
+    expect(snapshot.getValue(0.0)).to.equal(1.0);
   });
 
   it('should big quantiles are the last value', function () {
-    expect(snapshot.getValue(1.0)).to.be.equal(5.0);
+    expect(snapshot.getValue(1.0)).to.equal(5.0);
   });
 
   it('should throw error when parameter is not normal number', function () {
@@ -48,27 +48,27 @@ describe('/test/unit/common/snapshot/WeightedSnapshot.test.ts', () => {
   });
 
   it('should has a median', function () {
-    expect(snapshot.getMedian()).to.be.equal(3);
+    expect(snapshot.getMedian()).to.equal(3);
   });
 
   it('should has a p75', function () {
-    expect(snapshot.get75thPercentile()).to.be.equal(4.0);
+    expect(snapshot.get75thPercentile()).to.equal(4.0);
   });
 
   it('should has a p95', function () {
-    expect(snapshot.get95thPercentile()).to.be.equal(5.0);
+    expect(snapshot.get95thPercentile()).to.equal(5.0);
   });
 
   it('should has a p98', function () {
-    expect(snapshot.get98thPercentile()).to.be.equal(5.0);
+    expect(snapshot.get98thPercentile()).to.equal(5.0);
   });
 
   it('should has a p99', function () {
-    expect(snapshot.get99thPercentile()).to.be.equal(5.0);
+    expect(snapshot.get99thPercentile()).to.equal(5.0);
   });
 
   it('should has a p999', function () {
-    expect(snapshot.get999thPercentile()).to.be.equal(5.0);
+    expect(snapshot.get999thPercentile()).to.equal(5.0);
   });
 
   it('should has values', function () {
@@ -76,22 +76,22 @@ describe('/test/unit/common/snapshot/WeightedSnapshot.test.ts', () => {
   });
 
   it('should has a size', function () {
-    expect(snapshot.size()).to.be.equal(5);
+    expect(snapshot.size()).to.equal(5);
   });
 
   it('should calculate max value', function () {
-    expect(snapshot.getMax()).to.be.equal(5);
+    expect(snapshot.getMax()).to.equal(5);
   });
 
   it('should calculate min value', function () {
-    expect(snapshot.getMin()).to.be.equal(1);
+    expect(snapshot.getMin()).to.equal(1);
   });
 
   it('should calculate mean value', function () {
-    expect(snapshot.getMean()).to.be.equal(2.7);
+    expect(snapshot.getMean()).to.equal(2.7);
   });
 
   it('should calculate stdDev', function () {
-    expect(snapshot.getStdDev().toFixed(4)).to.be.equal('1.2689');
+    expect(snapshot.getStdDev().toFixed(4)).to.equal('1.2689');
   });
 });

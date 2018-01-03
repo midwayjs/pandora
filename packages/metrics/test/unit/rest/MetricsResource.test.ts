@@ -61,7 +61,7 @@ describe('/test/unit/MetricsResource.test.ts', () => {
       .expect(200)
       .then(res => {
         expect(res.body.success).to.true;
-        expect(res.body.data['system']).to.be.exist;
+        expect(res.body.data['system']).to.exist;
         done();
       });
   });
@@ -86,13 +86,34 @@ describe('/test/unit/MetricsResource.test.ts', () => {
       });
   });
 
+  it('list metrics resource by appName and group', (done) => {
+    request(app.listen())
+      .get('/metrics/list/system')
+      .query({
+        appName: 'app1'
+      })
+      .expect(200)
+      .then(res => {
+        expect(res.body.success).to.true;
+        let find = false;
+        for (let metric of res.body.data['system']) {
+          if (metric.tags.appName === 'app2') {
+            find = true;
+          }
+        }
+        expect(find).to.be.false;
+        done();
+      });
+  });
+
+
   it('show metric value', (done) => {
     request(app.listen())
       .get('/metrics/system')
       .expect(200)
       .then(res => {
         expect(res.body.success > 0).to.true;
-        expect(res.body.data[0].metric).to.be.equal('test.a.b.c.gauge');
+        expect(res.body.data[0].metric).to.equal('test.a.b.c.gauge');
         done();
       });
   });
@@ -106,7 +127,7 @@ describe('/test/unit/MetricsResource.test.ts', () => {
       .expect(200)
       .then(res => {
         expect(res.body.success > 0).to.true;
-        expect(res.body.data[0].metric).to.be.equal('test.a.b.c.gauge');
+        expect(res.body.data[0].metric).to.equal('test.a.b.c.gauge');
         let find = false;
         for (let metric of res.body.data) {
           if (metric.tags.appName === 'app2') {

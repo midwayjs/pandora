@@ -33,50 +33,50 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
 
     let results = collector.build();
 
-    expect(findObject(results, 'collector.gauge').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.gauge').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.gauge').metricType).to.be.equal('GAUGE');
+    expect(findObject(results, 'collector.gauge').interval).to.equal(-1);
+    expect(findObject(results, 'collector.gauge').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.gauge').metricType).to.equal('GAUGE');
 
-    expect(findObject(results, 'collector.counter.count').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.counter.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.counter.count').metricType).to.be.equal('COUNTER');
+    expect(findObject(results, 'collector.counter.count').interval).to.equal(-1);
+    expect(findObject(results, 'collector.counter.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.counter.count').metricType).to.equal('COUNTER');
 
-    expect(findObject(results, 'collector.basecounter.count').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.basecounter.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.basecounter.count').metricType).to.be.equal('COUNTER');
+    expect(findObject(results, 'collector.basecounter.count').interval).to.equal(-1);
+    expect(findObject(results, 'collector.basecounter.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.basecounter.count').metricType).to.equal('COUNTER');
 
-    expect(findObject(results, 'collector.counter.bucket_count').interval).to.be.equal(1);
-    expect(findObject(results, 'collector.counter.bucket_count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.counter.bucket_count').metricType).to.be.equal('DELTA');
+    expect(findObject(results, 'collector.counter.bucket_count').interval).to.equal(1);
+    expect(findObject(results, 'collector.counter.bucket_count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.counter.bucket_count').metricType).to.equal('DELTA');
 
-    expect(findObject(results, 'collector.counter.qps').interval).to.be.equal(1);
-    expect(findObject(results, 'collector.counter.qps').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.counter.qps').metricType).to.be.equal('GAUGE');
+    expect(findObject(results, 'collector.counter.qps').interval).to.equal(1);
+    expect(findObject(results, 'collector.counter.qps').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.counter.qps').metricType).to.equal('GAUGE');
 
-    expect(findObject(results, 'collector.histogram.mean').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.histogram.mean').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.histogram.mean').metricType).to.be.equal('GAUGE');
+    expect(findObject(results, 'collector.histogram.mean').interval).to.equal(-1);
+    expect(findObject(results, 'collector.histogram.mean').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.histogram.mean').metricType).to.equal('GAUGE');
 
-    expect(findObject(results, 'collector.meter.count').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.meter.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.meter.count').metricType).to.be.equal('COUNTER');
+    expect(findObject(results, 'collector.meter.count').interval).to.equal(-1);
+    expect(findObject(results, 'collector.meter.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.meter.count').metricType).to.equal('COUNTER');
 
-    expect(findObject(results, 'collector.meter.m1').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.meter.m1')).to.be.exist;
-    expect(findObject(results, 'collector.meter.m5')).to.be.not.exist;
+    expect(findObject(results, 'collector.meter.m1').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.meter.m1')).to.exist;
+    expect(findObject(results, 'collector.meter.m5')).to.not.exist;
 
-    expect(findObject(results, 'collector.timer.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.timer.count').metricType).to.be.equal('COUNTER');
-    expect(findObject(results, 'collector.timer.m1')).to.be.exist;
-    expect(findObject(results, 'collector.timer.rt')).to.be.exist;
-    expect(findObject(results, 'collector.timer.mean')).to.be.exist;
-    expect(findObject(results, 'collector.timer.bucket_count')).to.be.exist;
-    expect(findObject(results, 'collector.timer.qps')).to.be.exist;
-    expect(findObject(results, 'collector.timer.median')).to.be.not.exist;
-    expect(findObject(results, 'collector.timer.p99')).to.be.not.exist;
-    expect(findObject(results, 'collector.timer.p95')).to.be.not.exist;
-    expect(findObject(results, 'collector.timer.p75')).to.be.not.exist;
-    expect(findObject(results, 'collector.timer.bucket_count').metricType).to.be.equal('DELTA');
+    expect(findObject(results, 'collector.timer.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.timer.count').metricType).to.equal('COUNTER');
+    expect(findObject(results, 'collector.timer.m1')).to.exist;
+    expect(findObject(results, 'collector.timer.rt')).to.exist;
+    expect(findObject(results, 'collector.timer.mean')).to.exist;
+    expect(findObject(results, 'collector.timer.bucket_count')).to.exist;
+    expect(findObject(results, 'collector.timer.qps')).to.exist;
+    expect(findObject(results, 'collector.timer.median')).to.not.exist;
+    expect(findObject(results, 'collector.timer.p99')).to.not.exist;
+    expect(findObject(results, 'collector.timer.p95')).to.not.exist;
+    expect(findObject(results, 'collector.timer.p75')).to.not.exist;
+    expect(findObject(results, 'collector.timer.bucket_count').metricType).to.equal('DELTA');
   });
 
   it('should create new NormalMetricsCollector', async () => {
@@ -94,58 +94,58 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
 
 
     let results = collector.build();
-    expect(findObject(results, 'collector.gauge').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.gauge').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.gauge').metricType).to.be.equal('GAUGE');
+    expect(findObject(results, 'collector.gauge').interval).to.equal(-1);
+    expect(findObject(results, 'collector.gauge').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.gauge').metricType).to.equal('GAUGE');
 
-    expect(findObject(results, 'collector.basecounter.count').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.basecounter.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.basecounter.count').metricType).to.be.equal('COUNTER');
+    expect(findObject(results, 'collector.basecounter.count').interval).to.equal(-1);
+    expect(findObject(results, 'collector.basecounter.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.basecounter.count').metricType).to.equal('COUNTER');
 
-    expect(findObject(results, 'collector.counter.count').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.counter.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.counter.count').metricType).to.be.equal('COUNTER');
+    expect(findObject(results, 'collector.counter.count').interval).to.equal(-1);
+    expect(findObject(results, 'collector.counter.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.counter.count').metricType).to.equal('COUNTER');
 
-    expect(findObject(results, 'collector.counter.bucket_count').interval).to.be.equal(1);
-    expect(findObject(results, 'collector.counter.bucket_count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.counter.bucket_count').metricType).to.be.equal('DELTA');
+    expect(findObject(results, 'collector.counter.bucket_count').interval).to.equal(1);
+    expect(findObject(results, 'collector.counter.bucket_count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.counter.bucket_count').metricType).to.equal('DELTA');
 
-    expect(findObject(results, 'collector.counter.qps').interval).to.be.equal(1);
-    expect(findObject(results, 'collector.counter.qps').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.counter.qps').metricType).to.be.equal('GAUGE');
+    expect(findObject(results, 'collector.counter.qps').interval).to.equal(1);
+    expect(findObject(results, 'collector.counter.qps').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.counter.qps').metricType).to.equal('GAUGE');
 
-    expect(findObject(results, 'collector.histogram.mean').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.histogram.mean').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.histogram.mean').metricType).to.be.equal('GAUGE');
-    expect(findObject(results, 'collector.histogram.min')).to.be.exist;
-    expect(findObject(results, 'collector.histogram.max')).to.be.exist;
-    expect(findObject(results, 'collector.histogram.median')).to.be.exist;
-    expect(findObject(results, 'collector.histogram.p75')).to.be.exist;
-    expect(findObject(results, 'collector.histogram.p95')).to.be.exist;
-    expect(findObject(results, 'collector.histogram.p99')).to.be.exist;
+    expect(findObject(results, 'collector.histogram.mean').interval).to.equal(-1);
+    expect(findObject(results, 'collector.histogram.mean').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.histogram.mean').metricType).to.equal('GAUGE');
+    expect(findObject(results, 'collector.histogram.min')).to.exist;
+    expect(findObject(results, 'collector.histogram.max')).to.exist;
+    expect(findObject(results, 'collector.histogram.median')).to.exist;
+    expect(findObject(results, 'collector.histogram.p75')).to.exist;
+    expect(findObject(results, 'collector.histogram.p95')).to.exist;
+    expect(findObject(results, 'collector.histogram.p99')).to.exist;
 
 
-    expect(findObject(results, 'collector.meter.count').interval).to.be.equal(-1);
-    expect(findObject(results, 'collector.meter.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.meter.count').metricType).to.be.equal('COUNTER');
+    expect(findObject(results, 'collector.meter.count').interval).to.equal(-1);
+    expect(findObject(results, 'collector.meter.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.meter.count').metricType).to.equal('COUNTER');
 
-    expect(findObject(results, 'collector.meter.m1').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.meter.m1')).to.be.exist;
-    expect(findObject(results, 'collector.meter.m5')).to.be.exist;
-    expect(findObject(results, 'collector.meter.m15')).to.be.exist;
+    expect(findObject(results, 'collector.meter.m1').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.meter.m1')).to.exist;
+    expect(findObject(results, 'collector.meter.m5')).to.exist;
+    expect(findObject(results, 'collector.meter.m15')).to.exist;
 
-    expect(findObject(results, 'collector.timer.count').timestamp.toString().length).to.be.equal(13);
-    expect(findObject(results, 'collector.timer.count').metricType).to.be.equal('COUNTER');
-    expect(findObject(results, 'collector.timer.m1')).to.be.exist;
-    expect(findObject(results, 'collector.timer.rt')).to.be.exist;
-    expect(findObject(results, 'collector.timer.mean')).to.be.exist;
-    expect(findObject(results, 'collector.timer.median')).to.be.exist;
-    expect(findObject(results, 'collector.timer.p99')).to.be.exist;
-    expect(findObject(results, 'collector.timer.p95')).to.be.exist;
-    expect(findObject(results, 'collector.timer.p75')).to.be.exist;
-    expect(findObject(results, 'collector.timer.bucket_count')).to.be.exist;
-    expect(findObject(results, 'collector.timer.qps')).to.be.exist;
-    expect(findObject(results, 'collector.timer.bucket_count').metricType).to.be.equal('DELTA');
+    expect(findObject(results, 'collector.timer.count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.timer.count').metricType).to.equal('COUNTER');
+    expect(findObject(results, 'collector.timer.m1')).to.exist;
+    expect(findObject(results, 'collector.timer.rt')).to.exist;
+    expect(findObject(results, 'collector.timer.mean')).to.exist;
+    expect(findObject(results, 'collector.timer.median')).to.exist;
+    expect(findObject(results, 'collector.timer.p99')).to.exist;
+    expect(findObject(results, 'collector.timer.p95')).to.exist;
+    expect(findObject(results, 'collector.timer.p75')).to.exist;
+    expect(findObject(results, 'collector.timer.bucket_count')).to.exist;
+    expect(findObject(results, 'collector.timer.qps')).to.exist;
+    expect(findObject(results, 'collector.timer.bucket_count').metricType).to.equal('DELTA');
   });
 
   it('should test getNormalizedStartTime', function () {

@@ -53,7 +53,7 @@ describe('RouteMap', function () {
 
   it('should getAllClients() be ok', () => {
     const clients = routeTable.getAllClients();
-    expect(clients.length).to.be.equal(pairs.length);
+    expect(clients.length).to.equal(pairs.length);
   });
 
   it('should selectClients() be ok in case 1', () => {
@@ -62,9 +62,9 @@ describe('RouteMap', function () {
       appName: 'testApp'
     });
 
-    expect(selecteds.length).to.be.equal(2);
-    expect((<any> selecteds[0].client).client).to.be.equal('1');
-    expect((<any> selecteds[1].client).client).to.be.equal('2');
+    expect(selecteds.length).to.equal(2);
+    expect((<any> selecteds[0].client).client).to.equal('1');
+    expect((<any> selecteds[1].client).client).to.equal('2');
 
   });
 
@@ -74,9 +74,9 @@ describe('RouteMap', function () {
       processName: 'processB'
     });
 
-    expect(selecteds.length).to.be.equal(2);
-    expect((<any> selecteds[0].client).client).to.be.equal('2');
-    expect((<any> selecteds[1].client).client).to.be.equal('4');
+    expect(selecteds.length).to.equal(2);
+    expect((<any> selecteds[0].client).client).to.equal('2');
+    expect((<any> selecteds[1].client).client).to.equal('4');
 
   });
 
@@ -86,8 +86,8 @@ describe('RouteMap', function () {
       appName: 'testApp2',
       processName: 'processA'
     });
-    expect(clients.length).to.be.equal(1);
-    expect((<any> clients[0].client).client).to.be.equal('3');
+    expect(clients.length).to.equal(1);
+    expect((<any> clients[0].client).client).to.equal('3');
 
   });
 
@@ -100,7 +100,7 @@ describe('RouteMap', function () {
     for(const [client] of pairs) {
       times++;
       routeTable.forgetClient(client);
-      expect(routeTable.getAllClients().length).to.be.equal(total - times);
+      expect(routeTable.getAllClients().length).to.equal(total - times);
     }
 
   });
@@ -120,12 +120,12 @@ describe('RouteMap', function () {
     };
 
     routeTable.setRelation(client, selector2);
-    expect(routeTable.getSelectorsByClient(client).length).to.be.equal(2);
+    expect(routeTable.getSelectorsByClient(client).length).to.equal(2);
 
     routeTable.forgetRelation(client, {
       appName: 'testApp1'
     });
-    expect(routeTable.getSelectorsByClient(client).length).to.be.equal(1);
+    expect(routeTable.getSelectorsByClient(client).length).to.equal(1);
 
     routeTable.forgetRelation(client, {
       appName: 'testApp2'

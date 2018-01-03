@@ -32,7 +32,7 @@ describe('ProcfileReconciler', function () {
         appDir: '-'
       });
       reconciler.callProcfile((pandora => {
-        expect(pandora.appName).to.be.equal('test');
+        expect(pandora.appName).to.equal('test');
       }));
     });
     it('should get appDir be ok', () => {
@@ -41,7 +41,7 @@ describe('ProcfileReconciler', function () {
         appDir: 'testdir'
       });
       reconciler.callProcfile((pandora => {
-        expect(pandora.appDir).to.be.equal('testdir');
+        expect(pandora.appDir).to.equal('testdir');
       }));
     });
   });
@@ -197,7 +197,7 @@ describe('ProcfileReconciler', function () {
         pandora.service('TestService').drop();
       });
       const allInjectedService2 = reconciler.getServicesByCategory('all');
-      expect(allInjectedService2.length).to.be.equal(allInjectedService.length - 1);
+      expect(allInjectedService2.length).to.equal(allInjectedService.length - 1);
 
     });
 

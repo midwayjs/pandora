@@ -32,7 +32,7 @@ describe('ScalableMaster', function () {
       master.reload('testProcess');
       master.reload('otherProcess');
 
-      expect(calledReloadWorkesTimes).to.be.equal(2);
+      expect(calledReloadWorkesTimes).to.equal(2);
 
     });
 
@@ -68,7 +68,7 @@ describe('ScalableMaster', function () {
         }));
       });
       await once();
-      expect(called).to.be.equal(true);
+      expect(called).to.equal(true);
 
       called = false;
       mm(master, 'reload', async () => {
@@ -80,7 +80,7 @@ describe('ScalableMaster', function () {
         });
       });
       await expect(once()).rejectedWith('Fake Error');
-      expect(called).to.be.equal(true);
+      expect(called).to.equal(true);
 
     });
 

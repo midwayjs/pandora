@@ -14,8 +14,8 @@ describe('ApplicationHandler', function () {
         appDir: 'testDir'
       });
 
-      expect(ah.appName).to.be.equal('testApp');
-      expect(ah.appDir).to.be.equal('testDir');
+      expect(ah.appName).to.equal('testApp');
+      expect(ah.appDir).to.equal('testDir');
       expect(ah.pids).to.be.deep.equal([]);
       expect(ah.uptime).to.be.deep.equal(0);
 
@@ -49,11 +49,11 @@ describe('ApplicationHandler', function () {
       await ah.fillMounted();
       const twice = ah.mountedProcesses;
 
-      expect(once).to.be.equal(twice);
-      expect(once.length).to.be.equal(2);
+      expect(once).to.equal(twice);
+      expect(once.length).to.equal(2);
 
-      expect(once[0].processName).to.be.equal('testProcess1');
-      expect(once[1].processName).to.be.equal('testProcess2');
+      expect(once[0].processName).to.equal('testProcess1');
+      expect(once[1].processName).to.equal('testProcess2');
 
     });
 
@@ -84,11 +84,11 @@ describe('ApplicationHandler', function () {
       });
 
       await ah.start();
-      expect(startTimes).to.be.equal(2);
+      expect(startTimes).to.equal(2);
       expect(ah.pids).to.be.deep.equal([3, 4]);
       expect(ah.uptime).to.be.a('number');
-      expect(ah.startCount).to.be.equal(2);
-      expect(ah.restartCount).to.be.equal(0);
+      expect(ah.startCount).to.equal(2);
+      expect(ah.restartCount).to.equal(0);
 
     });
 
@@ -111,8 +111,8 @@ describe('ApplicationHandler', function () {
 
       await expect(ah.start()).rejectedWith('fake start error');
 
-      expect(startTimes).to.be.equal(3);
-      expect(stopTimes).to.be.equal(3);
+      expect(startTimes).to.equal(3);
+      expect(stopTimes).to.equal(3);
 
     });
 
@@ -130,7 +130,7 @@ describe('ApplicationHandler', function () {
       await ah.stop();
       await ah.stop();
 
-      expect(stopTimes).to.be.equal(2);
+      expect(stopTimes).to.equal(2);
 
     });
 
@@ -146,7 +146,7 @@ describe('ApplicationHandler', function () {
 
       await ah.reload('n');
 
-      expect(reloadTimes).to.be.equal(2);
+      expect(reloadTimes).to.equal(2);
 
     });
 

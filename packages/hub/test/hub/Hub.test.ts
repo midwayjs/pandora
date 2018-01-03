@@ -17,9 +17,9 @@ describe('Hub', function () {
       await hub.start();
       const msgServer = (<any> hub).messengerServer;
       expect(msgServer).to.be.ok;
-      expect((<any> msgServer.server).listening).to.be.equal(true);
+      expect((<any> msgServer.server).listening).to.equal(true);
       await hub.stop();
-      expect((<any> msgServer.server).listening).to.be.equal(false);
+      expect((<any> msgServer.server).listening).to.equal(false);
     });
 
     it('should throw an error when start twice and stop twice', async () => {
@@ -59,7 +59,7 @@ describe('Hub', function () {
 
       mm(hub, 'messengerServer', {
         broadcast(action, message) {
-          expect(action).to.be.equal(PANDORA_HUB_ACTION_MSG_DOWN);
+          expect(action).to.equal(PANDORA_HUB_ACTION_MSG_DOWN);
           expect(message.data.test).to.be.ok;
           broadcastCalled = true;
         }
@@ -261,7 +261,7 @@ describe('Hub', function () {
         });
       });
 
-      expect(sendCalledTimes).to.be.equal(4);
+      expect(sendCalledTimes).to.equal(4);
 
       mm.restore();
       await hub.stop();
@@ -320,10 +320,10 @@ describe('Hub', function () {
         });
       });
 
-      expect(batchReply.length).to.be.equal(4);
+      expect(batchReply.length).to.equal(4);
 
       for(const reply of batchReply) {
-        expect(reply.error.toString()).to.be.include('fake error');
+        expect(reply.error.toString()).to.include('fake error');
       }
 
       mm.restore();
@@ -373,7 +373,7 @@ describe('Hub', function () {
         }
       };
       (<any> hub).handleMessageIn(messagePackage);
-      expect(sendCalledTimes).to.be.equal(4);
+      expect(sendCalledTimes).to.equal(4);
 
       mm.restore();
       await hub.stop();
@@ -450,7 +450,7 @@ describe('Hub', function () {
       });
 
       // Make sure the client.send() only called once
-      expect(sendCalledTimes).to.be.equal(1);
+      expect(sendCalledTimes).to.equal(1);
 
       mm.restore();
       await hub.stop();
@@ -556,7 +556,7 @@ describe('Hub', function () {
         }
       };
       (<any> hub).handleMessageIn(messagePackage);
-      expect(sendCalledTimes).to.be.equal(1);
+      expect(sendCalledTimes).to.equal(1);
 
       mm.restore();
       await hub.stop();
@@ -638,7 +638,7 @@ describe('Hub', function () {
         startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client, selector) {
-            expect(client).to.be.equal(client);
+            expect(client).to.equal(client);
             expect(selector).to.deep.equal({initialization: true});
 
           }
@@ -659,7 +659,7 @@ describe('Hub', function () {
         startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetClient (client) {
-            expect(client).to.be.equal(client);
+            expect(client).to.equal(client);
 
           }
         }
@@ -680,7 +680,7 @@ describe('Hub', function () {
         startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client, ownSelector) {
-            expect(client).to.be.equal(client);
+            expect(client).to.equal(client);
             expect(ownSelector).to.deep.equal(selector);
           }
         }
@@ -742,7 +742,7 @@ describe('Hub', function () {
         startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetClient (client) {
-            expect(client).to.be.equal(client);
+            expect(client).to.equal(client);
           }
         }
       };
@@ -801,8 +801,8 @@ describe('Hub', function () {
         startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           setRelation (client, ownSelector) {
-            expect(client).to.be.equal(client);
-            expect(ownSelector).to.be.equal(selector);
+            expect(client).to.equal(client);
+            expect(ownSelector).to.equal(selector);
           }
         }
       };
@@ -865,8 +865,8 @@ describe('Hub', function () {
         startListen: (<any> Hub.prototype).startListen,
         routeTable: {
           forgetRelation (client, ownSelector) {
-            expect(client).to.be.equal(client);
-            expect(ownSelector).to.be.equal(selector);
+            expect(client).to.equal(client);
+            expect(ownSelector).to.equal(selector);
           }
         }
       };
