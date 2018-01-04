@@ -4,11 +4,10 @@
  * @copyright 2017 Alibaba Group.
  */
 
-import { getPandoraConsoleLogger } from 'pandora-dollar';
-const pandoraConsoleLogger = getPandoraConsoleLogger();
-import { Patcher, MessageConstants } from 'pandora-metrics';
+import { Patcher, MessageConstants, MessageSender } from 'pandora-metrics';
 import * as util from 'util';
 import * as events from 'events';
+const debug = require('debug')('PandoraHook:Global');
 
 function listenerCount(emitter, evnt) {
   if (emitter.listenerCount) {
@@ -19,6 +18,8 @@ function listenerCount(emitter, evnt) {
 }
 
 export class GlobalPatcher extends Patcher {
+
+  sender = new MessageSender();
 
   constructor(options) {
     super(options);
@@ -67,9 +68,9 @@ export class GlobalPatcher extends Patcher {
               path: 'console'
             };
 
-            self.getSender().send(MessageConstants.LOGGER, data);
+            self.sender.send(MessageConstants.LOGGER, data);
           } catch (err) {
-            pandoraConsoleLogger.error(err);
+            debug('collect console error failed. ', err);
           }
         });
 
@@ -104,7 +105,7 @@ export class GlobalPatcher extends Patcher {
               path: 'unhandledRejection'
             };
 
-            self.getSender().send(MessageConstants.LOGGER, data);
+            self.sender.send(MessageConstants.LOGGER, data);
           }
         }
 
@@ -136,7 +137,7 @@ export class GlobalPatcher extends Patcher {
           path: 'uncaughtException'
         };
 
-        self.getSender().send(MessageConstants.LOGGER, data);
+        self.sender.send(MessageConstants.LOGGER, data);
 
         return original.apply(this, arguments);
       };

@@ -31,6 +31,17 @@ export class PandoraSpan extends OpenTraceSpan {
     this.startMs = timestamp;
   }
 
+  error(isError) {
+    this.setTag('error', {
+      type: 'bool',
+      value: isError
+    });
+
+    if (isError) {
+      this._tracer().error();
+    }
+  }
+
   _tracer() {
     return this.__tracer;
   }

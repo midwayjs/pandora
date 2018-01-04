@@ -153,10 +153,7 @@ export class HttpClientShimmer {
 
   handleError(this: any, span, arg) {
     if (span) {
-      span.setTag('error', {
-        type: 'bool',
-        value: true
-      });
+      span.error(true);
 
       this._requestError(arg, span);
 
@@ -201,10 +198,7 @@ export class HttpClientShimmer {
         if (event === 'end') {
           if (span) {
 
-            span.setTag('error', {
-              type: 'bool',
-              value: false
-            });
+            span.error(false);
 
             self._responseEnd(res, span);
 

@@ -156,7 +156,6 @@ export interface IPatcher {
   getHook();
   getTraceManager();
   getModuleName();
-  getSender();
   run();
 }
 

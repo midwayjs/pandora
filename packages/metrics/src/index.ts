@@ -97,3 +97,4 @@ export * from './util/MessageCollector';
  */
 export * from './trace/TraceManager';
 export * from './trace/Patcher';
+export * from './trace/Constants';

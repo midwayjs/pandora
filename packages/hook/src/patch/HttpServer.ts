@@ -1,6 +1,6 @@
 'use strict';
 
-import { Patcher, MessageConstants, getRandom64 } from 'pandora-metrics';
+import { Patcher, getRandom64 } from 'pandora-metrics';
 import { extractPath } from '../utils/Utils';
 import { HEADER_TRACE_ID } from '../utils/Constants';
 import * as http from 'http';
@@ -98,8 +98,7 @@ export class HttpServerPatcher extends Patcher {
             res.once('finish', () => {
               self.beforeFinish(span, res);
               span.finish();
-              tracer.finish();
-              self.getSender().send(MessageConstants.TRACE, tracer.report());
+              tracer.finish(options);
             });
 
             return requestListener(req, res);

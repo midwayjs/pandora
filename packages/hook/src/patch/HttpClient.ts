@@ -12,7 +12,7 @@ import { HttpClientShimmer } from './shimmers/http-client/Shimmer';
 
 export class HttpClientPatcher extends Patcher {
 
-  constructor(options) {
+  constructor(options = {}) {
     super(Object.assign({
       shimmerClass: HttpClientShimmer,
       remoteTracing: true

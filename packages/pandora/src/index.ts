@@ -70,15 +70,9 @@ export * from 'pandora-hook';
 export * from 'pandora-env';
 
 /**
- * dollar
- */
-export {getPandoraConsoleLogger} from 'pandora-dollar';
-
-/**
  * service-logger
  */
 export {DefaultLoggerManager} from 'pandora-service-logger';
-
 
 /**
  * Facade

@@ -40,14 +40,14 @@ export function extractPath(requestUrl) {
   return path;
 }
 
-export function hasOwn(obj, key) {
-  return Object.hasOwnProperty.call(obj, key);
-}
-
 export function isLocalhost(host) {
   return !!LOCALHOST_NAMES[host];
 }
 
 export function nodeVersion(rule) {
   return semver.satisfies(<any>process.version, rule);
+}
+
+export function hasOwn(obj, key) {
+  return Object.hasOwnProperty.call(obj, key);
 }

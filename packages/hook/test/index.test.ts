@@ -11,7 +11,7 @@ const fork = function(name, done) {
   const worker = childProcess.fork(filePath, {
     env: {
       ...process.env,
-      NODE_ENV: 'test',
+      NODE_ENV: 'test'
     },
     execArgv: [
       '-r', 'ts-node/register',
@@ -28,35 +28,53 @@ const fork = function(name, done) {
 };
 
 describe('unit test', () => {
-  it('should global work', done => {
-    fork('global', done);
-  });
-
-  it('should egg-logger work ok', done => {
-    fork('egg-logger', done);
-  });
-
-  it('should urllib work ok', done => {
-    fork('urllib', done);
-  });
-
-  it('should http and trace work ok', done => {
-    fork('http', done);
-  });
-
-  it('should http-client and trace remote work ok', done => {
-    fork('http-client', done);
-  });
-
-  it('should only http-client without trace remote work ok', done => {
-    fork('http-client-without-remote', done);
-  });
-
   it('should bluebird work ok', done => {
     fork('bluebird', done);
   });
 
-  describe('should mysql work ok', () => {
+  describe('error log', () => {
+    it('should global work', done => {
+      fork('global', done);
+    });
+
+    it('should egg-logger work ok', done => {
+      fork('egg-logger', done);
+    });
+  });
+
+  describe('http server', () => {
+    it('should normal trace record', done => {
+      fork('http', done);
+    });
+
+    it('should error trace record', done => {
+      fork('http-error', done);
+    });
+
+    it('should slow trace record', done => {
+      fork('http-slow', done);
+    });
+
+    it('should timeout trace record', done => {
+      fork('http-timeout', done);
+    });
+  });
+
+  describe('http client', () => {
+    it('should http-client and trace remote work ok', done => {
+      fork('http-client', done);
+    });
+
+    it('should only http-client without trace remote work ok', done => {
+      fork('http-client-without-remote', done);
+    });
+
+    it('should urllib work ok', done => {
+      fork('urllib', done);
+    });
+  });
+
+  describe('mysql', () => {
     const fakeServerPort = 32893;
     let fakeServer;
 

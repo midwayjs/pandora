@@ -5,7 +5,7 @@
  */
 
 import * as is from 'is-type-of';
-import { hasOwn, isLocalhost } from '../../../utils/Utils';
+import { isLocalhost, hasOwn } from '../../../utils/Utils';
 import { extractDatabaseChangeFromUse } from './Utils';
 import { parseSql } from './QueryParser';
 import { INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../../../utils/Constants';
@@ -216,10 +216,7 @@ export class MySQLShimmer {
         let _callback = function wrappedQueryCallback(error, results, fields) {
           tracer.setCurrentSpan(span);
 
-          span.setTag('error', {
-            type: 'bool',
-            value: !!error
-          });
+          span.error(!!error);
 
           span.finish();
           self._finish(span);

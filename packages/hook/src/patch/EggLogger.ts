@@ -1,8 +1,10 @@
 'use strict';
-import { Patcher, MessageConstants } from 'pandora-metrics';
+import { Patcher, MessageConstants, MessageSender } from 'pandora-metrics';
 const util = require('util');
 
 export class EggLoggerPatcher extends Patcher {
+
+  sender = new MessageSender();
 
   constructor(options = {}) {
     super(options);
@@ -51,7 +53,7 @@ export class EggLoggerPatcher extends Patcher {
                 traceId: traceId,
                 path: logPath
               };
-              self.getSender().send(MessageConstants.LOGGER, data);
+              self.sender.send(MessageConstants.LOGGER, data);
             } catch (err) {
               console.error(err);
             }
