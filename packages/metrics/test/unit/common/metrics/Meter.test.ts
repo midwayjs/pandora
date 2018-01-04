@@ -8,12 +8,6 @@ function delay(time) {
     }, time);
   });
 }
-//
-// function elapseMinute(ewma) {
-//   for (let i = 1; i <= 12; i++) {
-//     ewma.tick();
-//   }
-// }
 
 describe('/test/unit/common/metrics/meter.test.ts', () => {
   it('should properly record rate and count.', async () => {
