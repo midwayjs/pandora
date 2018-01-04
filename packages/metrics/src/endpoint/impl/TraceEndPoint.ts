@@ -20,7 +20,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
       // push after rate
       if(this.cacheByRate(data)) {
         this._pushData(data);
-      } else if (data.status & SLOW_TRACE || data.status & ERROR_TRACE) {
+      } else if ((data.status & SLOW_TRACE || data.status & ERROR_TRACE) && this.getPriority()) {
         data[SKIP_RATE] = true;
         // 慢链路或者出错的链路优先保存
         this._pushData(data);
@@ -51,6 +51,10 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
     }
 
     return results;
+  }
+
+  getPriority() {
+    return this.config['priority'];
   }
 
   getRate() {
