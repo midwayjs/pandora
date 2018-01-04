@@ -27,18 +27,23 @@ export class TraceManager {
     this.timeoutCheck();
   }
 
+  getTimeout() {
+    return TRACER_TIMEOUT;
+  }
+
   timeoutCheck() {
+    const timeout = this.getTimeout();
     // 定时标记超时的 trace，减少内存占用
     const timer = setInterval(() => {
       for (let id in this.traceContainer) {
         const trace = this.traceContainer[id];
-        const isTimeout = (Date.now() - trace.startMs) >= TRACER_TIMEOUT;
+        const isTimeout = (Date.now() - trace.startMs) >= timeout;
 
         if (isTimeout) {
           trace.timeout();
         }
       }
-    }, TRACER_TIMEOUT);
+    }, timeout);
 
     timer.unref();
   }

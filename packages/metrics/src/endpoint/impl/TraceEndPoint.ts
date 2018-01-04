@@ -1,6 +1,6 @@
 import { CacheDuplexEndPoint } from '../CacheDuplexEndPoint';
 import { CommonCache } from '../../util/CommonCache';
-import { NORMAL_TRACE, SKIP_RATE } from '../../trace/Constants';
+import { SLOW_TRACE, ERROR_TRACE, SKIP_RATE } from '../../trace/Constants';
 
 export class TraceEndPoint extends CacheDuplexEndPoint {
   group: string = 'trace';
@@ -20,7 +20,7 @@ export class TraceEndPoint extends CacheDuplexEndPoint {
       // push after rate
       if(this.cacheByRate(data)) {
         this._pushData(data);
-      } else if (data.status !== NORMAL_TRACE) {
+      } else if (data.status & SLOW_TRACE || data.status & ERROR_TRACE) {
         data[SKIP_RATE] = true;
         // 慢链路或者出错的链路优先保存
         this._pushData(data);

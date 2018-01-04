@@ -102,6 +102,7 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
   }
 
   finish(options = {}) {
+    if (this._finished) return;
     this.finishMs = Date.now();
     this.duration = this.finishMs - this.startMs;
     this._finished = true;
@@ -116,7 +117,7 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
   }
 
   timeout() {
-    this.setStatus((SLOW_TRACE | TIMEOUT_TRACE));
+    this.setStatus(TIMEOUT_TRACE);
 
     this.finish();
   }
@@ -126,13 +127,7 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
   }
 
   setStatus(status) {
-    if (this.status === NORMAL_TRACE) {
-      status = this.status & status;
-    } else {
-      status = this.status | status;
-    }
-
-    this.status = status;
+    this.status = this.status | status;
   }
 
   report(): TraceData {

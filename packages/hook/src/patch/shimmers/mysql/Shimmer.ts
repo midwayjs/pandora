@@ -216,10 +216,7 @@ export class MySQLShimmer {
         let _callback = function wrappedQueryCallback(error, results, fields) {
           tracer.setCurrentSpan(span);
 
-          span.setTag('error', {
-            type: 'bool',
-            value: !!error
-          });
+          span.error(!!error);
 
           span.finish();
           self._finish(span);

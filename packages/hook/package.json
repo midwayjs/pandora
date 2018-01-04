@@ -50,6 +50,7 @@
     "pedding": "^1.1.0",
     "safe-buffer": "^5.1.1",
     "shimmer": "^1.1.0",
+    "sinon": "^4.1.3",
     "urllib": "^2.25.1"
   },
   "license": "MIT",

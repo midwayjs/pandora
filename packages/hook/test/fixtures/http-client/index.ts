@@ -1,11 +1,16 @@
-'use strict';
+/**
+ * @fileOverview
+ * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
+ * @copyright 2017 Alibaba Group.
+ */
+
 import { RunUtil } from '../../RunUtil';
 import { HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../src/utils/Constants';
-const assert = require('assert');
+import * as assert from 'assert';
 // 放在前面，把 http.ClientRequest 先复写
 const nock = require('nock');
-const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
-const { HttpClientPatcher } = require('../../../src/patch/HttpClient');
+import { HttpServerPatcher } from '../../../src/patch/HttpServer';
+import { HttpClientPatcher } from '../../../src/patch/HttpClient';
 const httpServerPatcher = new HttpServerPatcher();
 const httpClientPatcher = new HttpClientPatcher({
   // nock 复写了 https.request 方法，没有像原始一样调用 http.request，所以需要强制复写
@@ -113,3 +118,4 @@ RunUtil.run(function(done) {
     }, 500);
   });
 });
+
