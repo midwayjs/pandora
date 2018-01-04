@@ -14,16 +14,15 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../domain';
-import {getPandoraLogsDir, getDaemonLogger} from '../universal/LoggerBroker';
+import {getPandoraLogsDir} from '../universal/LoggerBroker';
 const debug = require('debug')('pandora:MonitorManager');
-const logger = getDaemonLogger();
 
 export class MonitorManager {
 
   static injected: boolean = false;
 
   static injectProcessMonitor() {
-
+    console.log('inject Monitor');
     if(MonitorManager.injected) {
       return;
     }
@@ -76,10 +75,10 @@ export class MonitorManager {
           patcher.run();
           debug(`Patcher(${process.pid}): ${hookName} hook enabled`);
         } catch (err) {
-          logger.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
+          debug(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
         }
       } else {
-        logger.log(`Patcher(${process.pid}): ${hookName} hook disabled`);
+        debug(`Patcher(${process.pid}): ${hookName} hook disabled`);
       }
     }
 
