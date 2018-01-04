@@ -25,7 +25,6 @@
     "cls-bluebird": "^2.1.0",
     "debug": "^3.1.0",
     "is-type-of": "^1.2.0",
-    "pandora-dollar": "^1.6.3",
     "pandora-metrics": "^1.6.15",
     "semver": "^5.4.1",
     "xorshift": "^1.1.1"

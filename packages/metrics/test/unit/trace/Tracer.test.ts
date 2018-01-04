@@ -61,6 +61,7 @@ describe('/test/unit/Tracer.test.ts', () => {
           child.log({state: 'done'});
           child.finish();
           span.finish();
+          tracer.finish();
 
           const report = tracer.report();
 

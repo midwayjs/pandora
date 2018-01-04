@@ -14,10 +14,9 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../domain';
-import {getPandoraLogsDir} from '../universal/LoggerBroker';
-import {getPandoraConsoleLogger} from 'pandora-dollar';
+import {getPandoraLogsDir, getDaemonLogger} from '../universal/LoggerBroker';
 const debug = require('debug')('pandora:MonitorManager');
-const pandoraConsoleLogger = getPandoraConsoleLogger();
+const logger = getDaemonLogger();
 
 export class MonitorManager {
 
@@ -77,10 +76,10 @@ export class MonitorManager {
           patcher.run();
           debug(`Patcher(${process.pid}): ${hookName} hook enabled`);
         } catch (err) {
-          pandoraConsoleLogger.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
+          logger.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
         }
       } else {
-        pandoraConsoleLogger.log(`Patcher(${process.pid}): ${hookName} hook disabled`);
+        logger.log(`Patcher(${process.pid}): ${hookName} hook disabled`);
       }
     }
 
