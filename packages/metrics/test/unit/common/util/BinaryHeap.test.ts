@@ -1,7 +1,7 @@
-import {BinaryHeap} from '../../../src/common/util/BinaryHeap';
 import {expect} from 'chai';
+import {BinaryHeap} from '../../../../src/common/util/BinaryHeap';
 
-describe('/test/unit/util/BinaryHeap.test.ts', () => {
+describe('/test/unit/common/util/BinaryHeap.test.ts', () => {
   it('should create new BinaryHeap', function () {
     let heap = new BinaryHeap((obj) => {
       return obj.priority;
