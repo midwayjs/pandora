@@ -9,7 +9,7 @@ Pandora.js 提供了 `HealthEndPoint` 来做健康检查的能力，通过 `/hea
 比如你要检查当前的远程服务器是否可用，就可以实现其中的 `doCheck` 方法。
 
 ```javascript
-import 'HealthIndicator, HealthBuilder' from 'pandora-metrics';
+import 'HealthIndicator, HealthBuilder' from 'dorapan';
 import * as cp from 'child_process';
 
 export class RemoteUrlHealthIndicator extends HealthIndicator {

@@ -8,7 +8,7 @@ Pandora.js 提供了一个进程间对象代理的功能，可以方便的实现
 看下面的例子：
 
 ```javascript
-const {getProxy, publishObject} = require('pandora');
+const {getProxy, publishObject} = require('dorapan');
 
 async function main() {
 
@@ -54,7 +54,7 @@ module.exports = function (pandora) {
       this.context = context;
     }
     async start() {
-      // 或者 require('pandora').getProxy();
+      // 或者 require('dorapan').getProxy();
       const serviceA = await this.context.getProxy('serviceA');
       const pid = await serviceA.getPid();
       console.log();
@@ -83,6 +83,6 @@ module.exports = function (pandora) {
 
 ## 获得 IPC-Hub 整体对象
 
-IPC-Hub 还有一些别的能力，可以通过 `require('pandora').getHub()` 获得。
+IPC-Hub 还有一些别的能力，可以通过 `require('dorapan').getHub()` 获得。
 
 具体参考 `pandora-hub` 包下的 [Facade 类的 API](http://www.midwayjs.org/pandora/api-reference/hub/classes/facade.html)。
