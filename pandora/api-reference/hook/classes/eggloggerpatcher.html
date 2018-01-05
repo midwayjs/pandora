@@ -125,16 +125,24 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Egg<wbr>Logger<wbr>Patcher<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eggloggerpatcher.html" class="tsd-signature-type">EggLoggerPatcher</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Egg<wbr>Logger<wbr>Patcher<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eggloggerpatcher.html" class="tsd-signature-type">EggLoggerPatcher</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Patcher.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hook/src/patch/egg-logger.ts#L5">patch/egg-logger.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L5">patch/EggLogger.ts:5</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="eggloggerpatcher.html" class="tsd-signature-type">EggLoggerPatcher</a></h4>
 						</li>
 					</ul>
@@ -145,40 +153,35 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="appname" class="tsd-anchor"></a>
 					<h3>app<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">app<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;this.getAppName()</span></div>
+					<div class="tsd-signature tsd-kind-icon">app<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Patcher.appName</p>
 						<ul>
-							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:14</li>
+							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:9</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="env" class="tsd-anchor"></a>
 					<h3>env</h3>
-					<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Environment</span><span class="tsd-signature-symbol"> =&nbsp;EnvironmentUtil.getInstance().getCurrentEnvironment()</span></div>
+					<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Environment</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Patcher.env</p>
 						<ul>
-							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:13</li>
+							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:8</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="hookstore" class="tsd-anchor"></a>
 					<h3>hook<wbr>Store</h3>
-					<div class="tsd-signature tsd-kind-icon">hook<wbr>Store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">hook<wbr>Store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__type</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Patcher.hookStore</p>
 						<ul>
-							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:11</li>
+							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:6</li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="options" class="tsd-anchor"></a>
@@ -187,7 +190,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Patcher.options</p>
 						<ul>
-							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:12</li>
+							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:7</li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +208,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.getAppName</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:50</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:18</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -223,7 +226,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.getHook</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:34</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:14</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -241,7 +244,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Patcher.getModuleName</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hook/src/patch/egg-logger.ts#L13">patch/egg-logger.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L13">patch/EggLogger.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -259,7 +262,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.getSender</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:46</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:17</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MessageSender</span></h4>
@@ -270,17 +273,17 @@
 					<a name="getshimmer" class="tsd-anchor"></a>
 					<h3>get<wbr>Shimmer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Shimmer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Shimmer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;/Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Shimmer&quot;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.getShimmer</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:24</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:12</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">&quot;/Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Shimmer&quot;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -295,7 +298,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.getTraceManager</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:42</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:16</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -313,7 +316,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.hook</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:20</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:11</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -361,7 +364,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Patcher.run</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/src/trace/Patcher.ts:28</li>
+									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:13</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -372,15 +375,21 @@
 					<a name="shimmer" class="tsd-anchor"></a>
 					<h3>shimmer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">shimmer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">shimmer<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hook/src/patch/egg-logger.ts#L17">patch/egg-logger.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L17">patch/EggLogger.ts:17</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -455,31 +464,94 @@
 						<a href="globalpatcher.html" class="tsd-kind-icon">Global<wbr>Patcher</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="httppatcher.html" class="tsd-kind-icon">Http<wbr>Patcher</a>
+						<a href="httpclientpatcher.html" class="tsd-kind-icon">Http<wbr>Client<wbr>Patcher</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="urllibpatcher.html" class="tsd-kind-icon">Urllib<wbr>Patcher</a>
+						<a href="httpclientshimmer.html" class="tsd-kind-icon">Http<wbr>Client<wbr>Shimmer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="httpserverpatcher.html" class="tsd-kind-icon">Http<wbr>Server<wbr>Patcher</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="mysqlpatcher.html" class="tsd-kind-icon">MySQLPatcher</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="mysqlshimmer.html" class="tsd-kind-icon">MySQLShimmer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="statementmatcher.html" class="tsd-kind-icon">Statement<wbr>Matcher</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#cleaner" class="tsd-kind-icon">CLEANER</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#comment_pattern" class="tsd-kind-icon">COMMENT_<wbr>PATTERN</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#default_host" class="tsd-kind-icon">DEFAULT_<wbr>HOST</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#header_trace_id" class="tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#host_unknown" class="tsd-kind-icon">HOST_<wbr>UNKNOWN</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#instance_unknown" class="tsd-kind-icon">INSTANCE_<wbr>UNKNOWN</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#operations" class="tsd-kind-icon">OPERATIONS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#table_unknown" class="tsd-kind-icon">TABLE_<wbr>UNKNOWN</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#assert" class="tsd-kind-icon">assert</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#clsbluebird" class="tsd-kind-icon">cls<wbr>Bluebird</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#debug" class="tsd-kind-icon">debug</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#http" class="tsd-kind-icon">http</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#https" class="tsd-kind-icon">https</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#url" class="tsd-kind-icon">url</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#util" class="tsd-kind-icon">util</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#extractdatabasechangefromuse" class="tsd-kind-icon">extract<wbr>Database<wbr>Change<wbr>From<wbr>Use</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#extractpath" class="tsd-kind-icon">extract<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#hasown" class="tsd-kind-icon">has<wbr>Own</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#islocalhost" class="tsd-kind-icon">is<wbr>Localhost</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="../globals.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../globals.html#scrub" class="tsd-kind-icon">scrub</a>
+						<a href="../globals.html#nodeversion" class="tsd-kind-icon">node<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#parsesql" class="tsd-kind-icon">parse<wbr>Sql</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="../globals.html#localhost_names" class="tsd-kind-icon">LOCALHOST_<wbr>NAMES</a>
 					</li>
 				</ul>
 			</nav>

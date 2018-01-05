@@ -110,10 +110,12 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="indicator.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="indicator.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="indicator.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="indicator.html#debug" class="tsd-kind-icon">debug</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="indicator.html#environment" class="tsd-kind-icon">environment</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="indicator.html#group" class="tsd-kind-icon">group</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="indicator.html#messengerclient" class="tsd-kind-icon">messenger<wbr>Client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="indicator.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="indicator.html#transfertype" class="tsd-kind-icon">transfer<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="indicator.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
@@ -145,7 +147,7 @@
 						<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#appname">appName</a></p>
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#appname">appName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L18">indicator/Indicator.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L17">indicator/Indicator.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,7 +158,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#clientid">clientId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L22">indicator/Indicator.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L21">indicator/Indicator.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,7 +168,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L26">indicator/Indicator.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L25">indicator/Indicator.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -176,12 +178,22 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="debug" class="tsd-anchor"></a>
+					<h3>debug</h3>
+					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L27">indicator/Indicator.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="environment" class="tsd-anchor"></a>
 					<h3>environment</h3>
 					<div class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Environment</span><span class="tsd-signature-symbol"> =&nbsp;EnvironmentUtil.getInstance().getCurrentEnvironment()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L16">indicator/Indicator.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L15">indicator/Indicator.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +205,7 @@
 						<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#group">group</a></p>
 						<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#group">group</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/AbstractIndicator.ts#L13">indicator/AbstractIndicator.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/AbstractIndicator.ts#L13">indicator/AbstractIndicator.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +215,7 @@
 					<div class="tsd-signature tsd-kind-icon">messenger<wbr>Client<span class="tsd-signature-symbol">:</span> <a href="metricsmessengerclient.html" class="tsd-signature-type">MetricsMessengerClient</a><span class="tsd-signature-symbol"> =&nbsp;new MetricsMessengerClient(this.group)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L24">indicator/Indicator.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L23">indicator/Indicator.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -213,7 +225,18 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this.constructor.name</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L20">indicator/Indicator.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L19">indicator/Indicator.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="transfertype" class="tsd-anchor"></a>
+					<h3>transfer<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">transfer<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;normal&quot;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#transfertype">transferType</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/AbstractIndicator.ts#L23">indicator/AbstractIndicator.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +247,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/AbstractIndicator.ts#L21">indicator/AbstractIndicator.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/AbstractIndicator.ts#L21">indicator/AbstractIndicator.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -253,7 +276,7 @@
 								<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#destory">destory</a></p>
 								<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#destory">destory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L97">indicator/Indicator.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L100">indicator/Indicator.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -270,7 +293,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L93">indicator/Indicator.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L96">indicator/Indicator.ts:96</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -287,7 +310,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L89">indicator/Indicator.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L92">indicator/Indicator.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/ibuilder.html" class="tsd-signature-type">IBuilder</a></h4>
@@ -305,7 +328,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#getclientdownlinkkey">getClientDownlinkKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/AbstractIndicator.ts#L30">indicator/AbstractIndicator.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/AbstractIndicator.ts#L32">indicator/AbstractIndicator.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -338,7 +361,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#getclientuplinkkey">getClientUplinkKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/AbstractIndicator.ts#L40">indicator/AbstractIndicator.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/AbstractIndicator.ts#L42">indicator/AbstractIndicator.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -370,7 +393,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L28">indicator/Indicator.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L29">indicator/Indicator.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -389,7 +412,7 @@
 								<p>Implementation of <a href="../interfaces/iindicator.html">IIndicator</a>.<a href="../interfaces/iindicator.html#invoke">invoke</a></p>
 								<p>Overrides <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#invoke">invoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L87">indicator/Indicator.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L90">indicator/Indicator.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -416,7 +439,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractindicator.html">AbstractIndicator</a>.<a href="abstractindicator.html#issingleton">isSingleton</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/AbstractIndicator.ts#L49">indicator/AbstractIndicator.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/AbstractIndicator.ts#L51">indicator/AbstractIndicator.ts:51</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -438,7 +461,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L64">indicator/Indicator.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L65">indicator/Indicator.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,7 +483,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/indicator/Indicator.ts#L44">indicator/Indicator.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/indicator/Indicator.ts#L45">indicator/Indicator.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -499,6 +522,9 @@
 								<a href="indicator.html#config" class="tsd-kind-icon">config</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="indicator.html#debug" class="tsd-kind-icon">debug</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="indicator.html#environment" class="tsd-kind-icon">environment</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -509,6 +535,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="indicator.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="indicator.html#transfertype" class="tsd-kind-icon">transfer<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="indicator.html#type" class="tsd-kind-icon">type</a>

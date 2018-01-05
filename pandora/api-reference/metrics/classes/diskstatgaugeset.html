@@ -87,17 +87,17 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="diskstatgaugeset.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="diskstatgaugeset.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="diskstatgaugeset.html#diskusage" class="tsd-kind-icon">Disk<wbr>Usage</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="diskstatgaugeset.html#datattl" class="tsd-kind-icon">dataTTL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="diskstatgaugeset.html#diskusage" class="tsd-kind-icon">disk<wbr>Usage</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="diskstatgaugeset.html#lastcollecttime" class="tsd-kind-icon">last<wbr>Collect<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="diskstatgaugeset.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="diskstatgaugeset.html#default_data_ttl" class="tsd-kind-icon">DEFAULT_<wbr>DATA_<wbr>TTL</a></li>
@@ -108,28 +108,34 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="diskstatgaugeset.html#getmetrics" class="tsd-kind-icon">get<wbr>Metrics</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="diskstatgaugeset.html#getvalueinternal" class="tsd-kind-icon">get<wbr>Value<wbr>Internal</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="diskstatgaugeset.html#refreshifnecessary" class="tsd-kind-icon">refresh<wbr>IfNecessary</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="diskstatgaugeset.html#refreshifnecessary" class="tsd-kind-icon">refresh<wbr>IfNecessary</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Disk<wbr>Stat<wbr>Gauge<wbr>Set<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="diskstatgaugeset.html" class="tsd-signature-type">DiskStatGaugeSet</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Disk<wbr>Stat<wbr>Gauge<wbr>Set<span class="tsd-signature-symbol">(</span>dataTTL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="diskstatgaugeset.html" class="tsd-signature-type">DiskStatGaugeSet</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#constructor">constructor</a></p>
+								<p>Inherited from <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L8">metrics/os/DiskStatGaugeSet.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/client/CachedMetricSet.ts#L11">client/CachedMetricSet.ts:11</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> dataTTL: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="diskstatgaugeset.html" class="tsd-signature-type">DiskStatGaugeSet</a></h4>
 						</li>
 					</ul>
@@ -137,16 +143,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="diskusage" class="tsd-anchor"></a>
-					<h3>Disk<wbr>Usage</h3>
-					<div class="tsd-signature tsd-kind-icon">Disk<wbr>Usage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L8">metrics/os/DiskStatGaugeSet.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="datattl" class="tsd-anchor"></a>
 					<h3>dataTTL</h3>
@@ -154,9 +150,39 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#datattl">dataTTL</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/client/CachedMetricSet.ts#L8">client/CachedMetricSet.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/client/CachedMetricSet.ts#L8">client/CachedMetricSet.ts:8</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="diskusage" class="tsd-anchor"></a>
+					<h3>disk<wbr>Usage</h3>
+					<div class="tsd-signature tsd-kind-icon">disk<wbr>Usage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L10">metrics/os/DiskStatGaugeSet.ts:10</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> available<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> capacity<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> mount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> used<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="lastcollecttime" class="tsd-anchor"></a>
@@ -165,7 +191,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#lastcollecttime">lastCollectTime</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/client/CachedMetricSet.ts#L11">client/CachedMetricSet.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/client/CachedMetricSet.ts#L11">client/CachedMetricSet.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,7 +203,7 @@
 						<p>Implementation of <a href="../interfaces/metric.html">Metric</a>.<a href="../interfaces/metric.html#type">type</a></p>
 						<p>Inherited from <a href="metricset.html">MetricSet</a>.<a href="metricset.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/common/MetricSet.ts#L6">common/MetricSet.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/common/MetricSet.ts#L6">common/MetricSet.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +214,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#default_data_ttl">DEFAULT_DATA_TTL</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/client/CachedMetricSet.ts#L5">client/CachedMetricSet.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/client/CachedMetricSet.ts#L5">client/CachedMetricSet.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +232,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="metricset.html">MetricSet</a>.<a href="metricset.html#getmetrics">getMetrics</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L14">metrics/os/DiskStatGaugeSet.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L18">metrics/os/DiskStatGaugeSet.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -224,27 +250,33 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#getvalueinternal">getValueInternal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L55">metrics/os/DiskStatGaugeSet.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L53">metrics/os/DiskStatGaugeSet.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="refreshifnecessary" class="tsd-anchor"></a>
 					<h3>refresh<wbr>IfNecessary</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">refresh<wbr>IfNecessary<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#refreshifnecessary">refreshIfNecessary</a></p>
+								<p>Inherited from <a href="cachedmetricset.html">CachedMetricSet</a>.<a href="cachedmetricset.html#refreshifnecessary">refreshIfNecessary</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/metrics/src/metrics/os/DiskStatGaugeSet.ts#L66">metrics/os/DiskStatGaugeSet.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/client/CachedMetricSet.ts#L22">client/CachedMetricSet.ts:22</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Do not collect data if our cached copy of data is valid.
+									The purpose is to minimize the cost to collect system metric.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -266,14 +298,14 @@
 					<li class="current tsd-kind-class">
 						<a href="diskstatgaugeset.html" class="tsd-kind-icon">Disk<wbr>Stat<wbr>Gauge<wbr>Set</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 								<a href="diskstatgaugeset.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="diskstatgaugeset.html#diskusage" class="tsd-kind-icon">Disk<wbr>Usage</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="diskstatgaugeset.html#datattl" class="tsd-kind-icon">dataTTL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="diskstatgaugeset.html#diskusage" class="tsd-kind-icon">disk<wbr>Usage</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="diskstatgaugeset.html#lastcollecttime" class="tsd-kind-icon">last<wbr>Collect<wbr>Time</a>
@@ -290,7 +322,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="diskstatgaugeset.html#getvalueinternal" class="tsd-kind-icon">get<wbr>Value<wbr>Internal</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="diskstatgaugeset.html#refreshifnecessary" class="tsd-kind-icon">refresh<wbr>IfNecessary</a>
 							</li>
 						</ul>

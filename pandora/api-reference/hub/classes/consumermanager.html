@@ -85,6 +85,7 @@
 						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="consumermanager.html#consumercache" class="tsd-kind-icon">consumer<wbr>Cache</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="consumermanager.html#hubclient" class="tsd-kind-icon">hub<wbr>Client</a></li>
 							</ul>
 						</section>
@@ -110,7 +111,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hub/src/object-proxying/ConsumerManager.ts#L8">object-proxying/ConsumerManager.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hub/src/object-proxying/ConsumerManager.ts#L9">object-proxying/ConsumerManager.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -126,13 +127,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="consumercache" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> consumer<wbr>Cache</h3>
+					<div class="tsd-signature tsd-kind-icon">consumer<wbr>Cache<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="objectconsumer.html" class="tsd-signature-type">ObjectConsumer</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hub/src/object-proxying/ConsumerManager.ts#L9">object-proxying/ConsumerManager.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 					<a name="hubclient" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> hub<wbr>Client</h3>
 					<div class="tsd-signature tsd-kind-icon">hub<wbr>Client<span class="tsd-signature-symbol">:</span> <a href="hubclient.html" class="tsd-signature-type">HubClient</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hub/src/object-proxying/ConsumerManager.ts#L8">object-proxying/ConsumerManager.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hub/src/object-proxying/ConsumerManager.ts#L8">object-proxying/ConsumerManager.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,13 +154,13 @@
 					<a name="getconsumer" class="tsd-anchor"></a>
 					<h3>get<wbr>Consumer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Consumer<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="objectconsumer.html" class="tsd-signature-type">ObjectConsumer</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Consumer<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a>, extInfo<span class="tsd-signature-symbol">?: </span><a href="../interfaces/consumerextinfo.html" class="tsd-signature-type">ConsumerExtInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="objectconsumer.html" class="tsd-signature-type">ObjectConsumer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hub/src/object-proxying/ConsumerManager.ts#L19">object-proxying/ConsumerManager.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hub/src/object-proxying/ConsumerManager.ts#L22">object-proxying/ConsumerManager.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -162,6 +173,9 @@
 								<li>
 									<h5>objectDescription: <a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> extInfo: <a href="../interfaces/consumerextinfo.html" class="tsd-signature-type">ConsumerExtInfo</a></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="objectconsumer.html" class="tsd-signature-type">ObjectConsumer</a></h4>
 						</li>
@@ -171,13 +185,13 @@
 					<a name="getproxy" class="tsd-anchor"></a>
 					<h3>get<wbr>Proxy</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Proxy&lt;T&gt;<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="defaultobjectproxy.html" class="tsd-signature-type">DefaultObjectProxy</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Proxy&lt;T&gt;<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a>, extInfo<span class="tsd-signature-symbol">?: </span><a href="../interfaces/consumerextinfo.html" class="tsd-signature-type">ConsumerExtInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="defaultobjectproxy.html" class="tsd-signature-type">DefaultObjectProxy</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/0f7b67f/packages/hub/src/object-proxying/ConsumerManager.ts#L29">object-proxying/ConsumerManager.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hub/src/object-proxying/ConsumerManager.ts#L38">object-proxying/ConsumerManager.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -195,6 +209,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>objectDescription: <a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> extInfo: <a href="../interfaces/consumerextinfo.html" class="tsd-signature-type">ConsumerExtInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="defaultobjectproxy.html" class="tsd-signature-type">DefaultObjectProxy</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -220,6 +237,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="consumermanager.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="consumermanager.html#consumercache" class="tsd-kind-icon">consumer<wbr>Cache</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="consumermanager.html#hubclient" class="tsd-kind-icon">hub<wbr>Client</a>
