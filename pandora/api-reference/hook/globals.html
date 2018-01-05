@@ -74,6 +74,7 @@
 								<li class="tsd-kind-class"><a href="classes/httpclientpatcher.html" class="tsd-kind-icon">Http<wbr>Client<wbr>Patcher</a></li>
 								<li class="tsd-kind-class"><a href="classes/httpclientshimmer.html" class="tsd-kind-icon">Http<wbr>Client<wbr>Shimmer</a></li>
 								<li class="tsd-kind-class"><a href="classes/httpserverpatcher.html" class="tsd-kind-icon">Http<wbr>Server<wbr>Patcher</a></li>
+								<li class="tsd-kind-class"><a href="classes/mysql2patcher.html" class="tsd-kind-icon">MySQL2<wbr>Patcher</a></li>
 								<li class="tsd-kind-class"><a href="classes/mysqlpatcher.html" class="tsd-kind-icon">MySQLPatcher</a></li>
 								<li class="tsd-kind-class"><a href="classes/mysqlshimmer.html" class="tsd-kind-icon">MySQLShimmer</a></li>
 								<li class="tsd-kind-class"><a href="classes/statementmatcher.html" class="tsd-kind-icon">Statement<wbr>Matcher</a></li>
@@ -86,17 +87,18 @@
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#comment_pattern" class="tsd-kind-icon">COMMENT_<wbr>PATTERN</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#default_host" class="tsd-kind-icon">DEFAULT_<wbr>HOST</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#header_span_id" class="tsd-kind-icon">HEADER_<wbr>SPAN_<wbr>ID</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#header_trace_id" class="tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#host_unknown" class="tsd-kind-icon">HOST_<wbr>UNKNOWN</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#instance_unknown" class="tsd-kind-icon">INSTANCE_<wbr>UNKNOWN</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#operations" class="tsd-kind-icon">OPERATIONS</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#operation_unknown" class="tsd-kind-icon">OPERATION_<wbr>UNKNOWN</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#table_unknown" class="tsd-kind-icon">TABLE_<wbr>UNKNOWN</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#assert" class="tsd-kind-icon">assert</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#clsbluebird" class="tsd-kind-icon">cls<wbr>Bluebird</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#debug" class="tsd-kind-icon">debug</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#http" class="tsd-kind-icon">http</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#https" class="tsd-kind-icon">https</a></li>
-								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#util" class="tsd-kind-icon">util</a></li>
 							</ul>
 						</section>
@@ -129,7 +131,7 @@
 					<div class="tsd-signature tsd-kind-icon">CLEANER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/^\(?(?:([&#x60;&#x27;&quot;]?)(.*?)\1\.)?([&#x60;&#x27;&quot;]?)(.*?)\3\)?$/</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/StatementMatcher.ts#L8">patch/shimmers/mysql/StatementMatcher.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/StatementMatcher.ts#L8">patch/shimmers/mysql/StatementMatcher.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -137,7 +139,7 @@
 							<dt>fileoverview</dt>
 							<dd></dd>
 							<dt>author</dt>
-							<dd><p>凌恒 <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#106;&#x69;&#x61;&#x6b;&#x75;&#x6e;&#x2e;&#x64;&#x75;&#106;&#107;&#64;&#97;&#108;&#105;&#x62;&#97;&#98;&#97;&#45;&#105;&#x6e;&#99;&#46;&#99;&#x6f;&#x6d;">&#106;&#x69;&#x61;&#x6b;&#x75;&#x6e;&#x2e;&#x64;&#x75;&#106;&#107;&#64;&#97;&#108;&#105;&#x62;&#97;&#98;&#97;&#45;&#105;&#x6e;&#99;&#46;&#99;&#x6f;&#x6d;</a></p>
+							<dd><p>凌恒 <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x6a;&#x69;&#x61;&#107;&#117;&#110;&#x2e;&#x64;&#117;&#106;&#x6b;&#64;&#97;&#108;&#105;&#98;&#97;&#x62;&#97;&#x2d;&#x69;&#x6e;&#99;&#46;&#99;&#x6f;&#109;">&#x6a;&#x69;&#x61;&#107;&#117;&#110;&#x2e;&#x64;&#117;&#106;&#x6b;&#64;&#97;&#108;&#105;&#98;&#97;&#x62;&#97;&#x2d;&#x69;&#x6e;&#99;&#46;&#99;&#x6f;&#109;</a></p>
 							</dd>
 							<dt>copyright</dt>
 							<dd><p>2017 Alibaba Group.
@@ -152,7 +154,7 @@
 					<div class="tsd-signature tsd-kind-icon">COMMENT_<wbr>PATTERN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/\/\\*.*?\\*\//g</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L24">patch/shimmers/mysql/QueryParser.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L25">patch/shimmers/mysql/QueryParser.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>HOST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"localhost"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;localhost&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Constants.ts#L7">utils/Constants.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L7">utils/Constants.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -170,7 +172,7 @@
 							<dt>fileoverview</dt>
 							<dd></dd>
 							<dt>author</dt>
-							<dd><p>凌恒 <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x6a;&#x69;&#97;&#x6b;&#x75;&#110;&#46;&#x64;&#x75;&#106;&#107;&#64;&#97;&#x6c;&#x69;&#98;&#97;&#x62;&#x61;&#x2d;&#x69;&#x6e;&#99;&#x2e;&#x63;&#111;&#109;">&#x6a;&#x69;&#97;&#x6b;&#x75;&#110;&#46;&#x64;&#x75;&#106;&#107;&#64;&#97;&#x6c;&#x69;&#98;&#97;&#x62;&#x61;&#x2d;&#x69;&#x6e;&#99;&#x2e;&#x63;&#111;&#109;</a></p>
+							<dd><p>凌恒 <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#106;&#105;&#97;&#x6b;&#117;&#110;&#46;&#x64;&#x75;&#106;&#107;&#x40;&#x61;&#108;&#105;&#x62;&#x61;&#x62;&#x61;&#x2d;&#105;&#x6e;&#99;&#x2e;&#99;&#x6f;&#109;">&#106;&#105;&#97;&#x6b;&#117;&#110;&#46;&#x64;&#x75;&#106;&#107;&#x40;&#x61;&#108;&#105;&#x62;&#x61;&#x62;&#x61;&#x2d;&#105;&#x6e;&#99;&#x2e;&#99;&#x6f;&#109;</a></p>
 							</dd>
 							<dt>copyright</dt>
 							<dd><p>2017 Alibaba Group.</p>
@@ -184,7 +186,17 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>PORT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">80</span><span class="tsd-signature-symbol"> =&nbsp;80</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Constants.ts#L8">utils/Constants.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L8">utils/Constants.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="header_span_id" class="tsd-anchor"></a>
+					<h3>HEADER_<wbr>SPAN_<wbr>ID</h3>
+					<div class="tsd-signature tsd-kind-icon">HEADER_<wbr>SPAN_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"x-span-id"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;x-span-id&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L10">utils/Constants.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +206,7 @@
 					<div class="tsd-signature tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"x-trace-id"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;x-trace-id&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Constants.ts#L9">utils/Constants.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L9">utils/Constants.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +216,7 @@
 					<div class="tsd-signature tsd-kind-icon">HOST_<wbr>UNKNOWN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"UnknownHost"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;UnknownHost&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Constants.ts#L11">utils/Constants.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L12">utils/Constants.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">INSTANCE_<wbr>UNKNOWN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"unknown"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;unknown&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Constants.ts#L10">utils/Constants.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L11">utils/Constants.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +236,17 @@
 					<div class="tsd-signature tsd-kind-icon">OPERATIONS<span class="tsd-signature-symbol">:</span> <a href="classes/statementmatcher.html" class="tsd-signature-type">StatementMatcher</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[new StatementMatcher(&#x27;select&#x27;,/^[^\S]*?select\b[\s\S]+?\bfrom[\s\n\r\[\(]+([^\]\s\n\r,)(;]*)/gim),new StatementMatcher(&#x27;update&#x27;, /^[^\S]*?update[^\S]+?([^\s\n\r,;]+)/gim),new StatementMatcher(&#x27;insert&#x27;,/^[^\S]*?insert(?:[^\S]+ignore)?[^\S]+into[^\S]+([^\s\n\r(,;]+)/gim),new StatementMatcher(&#x27;delete&#x27;, /^[^\S]*?delete[^\S]+?from[^\S]+([^\s\n\r,(;]+)/gim)]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L11">patch/shimmers/mysql/QueryParser.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L12">patch/shimmers/mysql/QueryParser.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="operation_unknown" class="tsd-anchor"></a>
+					<h3>OPERATION_<wbr>UNKNOWN</h3>
+					<div class="tsd-signature tsd-kind-icon">OPERATION_<wbr>UNKNOWN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"other"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;other&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L14">utils/Constants.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +256,7 @@
 					<div class="tsd-signature tsd-kind-icon">TABLE_<wbr>UNKNOWN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"UnknownTable"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;UnknownTable&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Constants.ts#L12">utils/Constants.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Constants.ts#L13">utils/Constants.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -244,7 +266,7 @@
 					<div class="tsd-signature tsd-kind-icon">assert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;assert&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L7">patch/shimmers/http-client/Shimmer.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L7">patch/shimmers/http-client/Shimmer.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,7 +274,7 @@
 							<dt>fileoverview</dt>
 							<dd></dd>
 							<dt>author</dt>
-							<dd><p>凌恒 <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x6a;&#105;&#97;&#107;&#x75;&#x6e;&#46;&#100;&#x75;&#x6a;&#x6b;&#x40;&#97;&#x6c;&#105;&#x62;&#97;&#98;&#97;&#45;&#105;&#x6e;&#99;&#46;&#99;&#111;&#109;">&#x6a;&#105;&#97;&#107;&#x75;&#x6e;&#46;&#100;&#x75;&#x6a;&#x6b;&#x40;&#97;&#x6c;&#105;&#x62;&#97;&#98;&#97;&#45;&#105;&#x6e;&#99;&#46;&#99;&#111;&#109;</a></p>
+							<dd><p>凌恒 <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#106;&#105;&#x61;&#x6b;&#x75;&#x6e;&#x2e;&#x64;&#117;&#x6a;&#107;&#64;&#x61;&#x6c;&#x69;&#98;&#x61;&#98;&#x61;&#45;&#105;&#x6e;&#x63;&#46;&#x63;&#x6f;&#x6d;">&#106;&#105;&#x61;&#x6b;&#x75;&#x6e;&#x2e;&#x64;&#117;&#x6a;&#107;&#64;&#x61;&#x6c;&#x69;&#98;&#x61;&#98;&#x61;&#45;&#105;&#x6e;&#x63;&#46;&#x63;&#x6f;&#x6d;</a></p>
 							</dd>
 							<dt>copyright</dt>
 							<dd><p>2017 Alibaba Group.</p>
@@ -266,7 +288,7 @@
 					<div class="tsd-signature tsd-kind-icon">cls<wbr>Bluebird<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;cls-bluebird&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/BlueBird.ts#L2">patch/BlueBird.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/BlueBird.ts#L2">patch/BlueBird.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -276,9 +298,10 @@
 					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;debug&#x27;)(&#x27;PandoraHook:MySQL:Shimmer&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L8">patch/shimmers/http-client/Shimmer.ts:8</a></li>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L9">patch/shimmers/mysql/QueryParser.ts:9</a></li>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L14">patch/shimmers/mysql/Shimmer.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/Global.ts#L10">patch/Global.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L8">patch/shimmers/http-client/Shimmer.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L10">patch/shimmers/mysql/QueryParser.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L15">patch/shimmers/mysql/Shimmer.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -288,7 +311,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;http&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/HttpClient.ts#L7">patch/HttpClient.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/HttpClient.ts#L7">patch/HttpClient.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -296,7 +319,7 @@
 							<dt>fileoverview</dt>
 							<dd></dd>
 							<dt>author</dt>
-							<dd><p>凌恒 <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x6a;&#x69;&#97;&#107;&#x75;&#x6e;&#46;&#100;&#117;&#106;&#x6b;&#64;&#97;&#x6c;&#105;&#x62;&#x61;&#x62;&#97;&#x2d;&#x69;&#110;&#x63;&#x2e;&#x63;&#x6f;&#x6d;">&#x6a;&#x69;&#97;&#107;&#x75;&#x6e;&#46;&#100;&#117;&#106;&#x6b;&#64;&#97;&#x6c;&#105;&#x62;&#x61;&#x62;&#97;&#x2d;&#x69;&#110;&#x63;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+							<dd><p>凌恒 <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x6a;&#105;&#97;&#107;&#x75;&#110;&#46;&#x64;&#117;&#106;&#107;&#64;&#97;&#108;&#105;&#x62;&#x61;&#x62;&#x61;&#x2d;&#105;&#110;&#99;&#46;&#x63;&#111;&#109;">&#x6a;&#105;&#97;&#107;&#x75;&#110;&#46;&#x64;&#117;&#106;&#107;&#64;&#97;&#108;&#105;&#x62;&#x61;&#x62;&#x61;&#x2d;&#105;&#110;&#99;&#46;&#x63;&#111;&#109;</a></p>
 							</dd>
 							<dt>copyright</dt>
 							<dd><p>2017 Alibaba Group.</p>
@@ -310,17 +333,7 @@
 					<div class="tsd-signature tsd-kind-icon">https<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;https&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/HttpClient.ts#L8">patch/HttpClient.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
-					<a name="pandoraconsolelogger" class="tsd-anchor"></a>
-					<h3>pandora<wbr>Console<wbr>Logger</h3>
-					<div class="tsd-signature tsd-kind-icon">pandora<wbr>Console<wbr>Logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;getPandoraConsoleLogger()</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/Global.ts#L8">patch/Global.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/HttpClient.ts#L8">patch/HttpClient.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -330,7 +343,7 @@
 					<div class="tsd-signature tsd-kind-icon">util<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;require(&#x27;util&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L3">patch/EggLogger.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/EggLogger.ts#L3">patch/EggLogger.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -347,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Utils.ts#L7">patch/shimmers/mysql/Utils.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Utils.ts#L7">patch/shimmers/mysql/Utils.ts:7</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +368,7 @@
 									<dt>fileoverview</dt>
 									<dd></dd>
 									<dt>author</dt>
-									<dd><p>凌恒 <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#106;&#105;&#x61;&#107;&#117;&#x6e;&#x2e;&#x64;&#117;&#106;&#x6b;&#64;&#97;&#108;&#105;&#x62;&#x61;&#98;&#x61;&#x2d;&#105;&#x6e;&#x63;&#46;&#99;&#111;&#x6d;">&#106;&#105;&#x61;&#107;&#117;&#x6e;&#x2e;&#x64;&#117;&#106;&#x6b;&#64;&#97;&#108;&#105;&#x62;&#x61;&#98;&#x61;&#x2d;&#105;&#x6e;&#x63;&#46;&#99;&#111;&#x6d;</a></p>
+									<dd><p>凌恒 <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x6a;&#x69;&#97;&#107;&#x75;&#x6e;&#x2e;&#100;&#117;&#106;&#x6b;&#x40;&#97;&#108;&#105;&#x62;&#97;&#98;&#97;&#45;&#105;&#110;&#x63;&#46;&#99;&#x6f;&#109;">&#x6a;&#x69;&#97;&#107;&#x75;&#x6e;&#x2e;&#100;&#117;&#106;&#x6b;&#x40;&#97;&#108;&#105;&#x62;&#97;&#98;&#97;&#45;&#105;&#110;&#x63;&#46;&#99;&#x6f;&#109;</a></p>
 									</dd>
 									<dt>copyright</dt>
 									<dd><p>2017 Alibaba Group.</p>
@@ -382,7 +395,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L25">utils/Utils.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L25">utils/Utils.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -410,7 +423,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L43">utils/Utils.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L51">utils/Utils.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -436,7 +449,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L47">utils/Utils.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L43">utils/Utils.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -459,7 +472,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/Global.ts#L13">patch/Global.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/Global.ts#L12">patch/Global.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -485,7 +498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L51">utils/Utils.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L47">utils/Utils.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -508,7 +521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L26">patch/shimmers/mysql/QueryParser.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/QueryParser.ts#L27">patch/shimmers/mysql/QueryParser.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -530,7 +543,7 @@
 					<div class="tsd-signature tsd-kind-icon">LOCALHOST_<wbr>NAMES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L10">utils/Utils.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L10">utils/Utils.ts:10</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -539,7 +552,7 @@
 						<div class="tsd-signature tsd-kind-icon">0.0.0.0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L13">utils/Utils.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L13">utils/Utils.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -549,7 +562,7 @@
 						<div class="tsd-signature tsd-kind-icon">0:0:0:0:0:0:0:0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L16">utils/Utils.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L16">utils/Utils.ts:16</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -559,7 +572,7 @@
 						<div class="tsd-signature tsd-kind-icon">0:0:0:0:0:0:0:1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L14">utils/Utils.ts:14</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L14">utils/Utils.ts:14</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -569,7 +582,7 @@
 						<div class="tsd-signature tsd-kind-icon">127.0.0.1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L12">utils/Utils.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L12">utils/Utils.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -579,7 +592,7 @@
 						<div class="tsd-signature tsd-kind-icon">::<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L17">utils/Utils.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L17">utils/Utils.ts:17</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -589,7 +602,7 @@
 						<div class="tsd-signature tsd-kind-icon">::1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L15">utils/Utils.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L15">utils/Utils.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -599,7 +612,7 @@
 						<div class="tsd-signature tsd-kind-icon">localhost<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/utils/Utils.ts#L11">utils/Utils.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/utils/Utils.ts#L11">utils/Utils.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -635,6 +648,9 @@
 						<a href="classes/httpserverpatcher.html" class="tsd-kind-icon">Http<wbr>Server<wbr>Patcher</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/mysql2patcher.html" class="tsd-kind-icon">MySQL2<wbr>Patcher</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/mysqlpatcher.html" class="tsd-kind-icon">MySQLPatcher</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -656,6 +672,9 @@
 						<a href="globals.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#header_span_id" class="tsd-kind-icon">HEADER_<wbr>SPAN_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#header_trace_id" class="tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -666,6 +685,9 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#operations" class="tsd-kind-icon">OPERATIONS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#operation_unknown" class="tsd-kind-icon">OPERATION_<wbr>UNKNOWN</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#table_unknown" class="tsd-kind-icon">TABLE_<wbr>UNKNOWN</a>
@@ -684,9 +706,6 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#https" class="tsd-kind-icon">https</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#util" class="tsd-kind-icon">util</a>

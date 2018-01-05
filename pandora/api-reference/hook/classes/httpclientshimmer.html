@@ -93,10 +93,16 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="httpclientshimmer.html#_createspan" class="tsd-kind-icon">_create<wbr>Span</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="httpclientshimmer.html#_finish" class="tsd-kind-icon">_finish</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="httpclientshimmer.html#_requesterror" class="tsd-kind-icon">_request<wbr>Error</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="httpclientshimmer.html#_responseend" class="tsd-kind-icon">_response<wbr>End</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="httpclientshimmer.html#buildtags" class="tsd-kind-icon">build<wbr>Tags</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#createspan" class="tsd-kind-icon">create<wbr>Span</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#handleerror" class="tsd-kind-icon">handle<wbr>Error</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#handleresponse" class="tsd-kind-icon">handle<wbr>Response</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#httprequestwrapper" class="tsd-kind-icon">http<wbr>Request<wbr>Wrapper</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#remotetracing" class="tsd-kind-icon">remote<wbr>Tracing</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#wraphttprequest" class="tsd-kind-icon">wrap<wbr>Http<wbr>Request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientshimmer.html#wraprequest" class="tsd-kind-icon">wrap<wbr>Request</a></li>
 							</ul>
@@ -110,13 +116,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Http<wbr>Client<wbr>Shimmer<span class="tsd-signature-symbol">(</span>shimmer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, traceManager<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpclientshimmer.html" class="tsd-signature-type">HttpClientShimmer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Http<wbr>Client<wbr>Shimmer<span class="tsd-signature-symbol">(</span>shimmer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, traceManager<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpclientshimmer.html" class="tsd-signature-type">HttpClientShimmer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L17">patch/shimmers/http-client/Shimmer.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L19">patch/shimmers/http-client/Shimmer.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -128,9 +134,7 @@
 									<h5>traceManager: <span class="tsd-signature-type">any</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
-									<ul class="tsd-parameters">
-									</ul>
+									<h5>options: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpclientshimmer.html" class="tsd-signature-type">HttpClientShimmer</a></h4>
@@ -146,7 +150,7 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L15">patch/shimmers/http-client/Shimmer.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L17">patch/shimmers/http-client/Shimmer.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -161,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">shimmer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L16">patch/shimmers/http-client/Shimmer.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L18">patch/shimmers/http-client/Shimmer.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -171,13 +175,117 @@
 					<div class="tsd-signature tsd-kind-icon">trace<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L17">patch/shimmers/http-client/Shimmer.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L19">patch/shimmers/http-client/Shimmer.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_createspan" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _create<wbr>Span</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_create<wbr>Span<span class="tsd-signature-symbol">(</span>tracer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, currentSpan<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L76">patch/shimmers/http-client/Shimmer.ts:76</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tracer: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>currentSpan: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_finish" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _finish</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_finish<span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L186">patch/shimmers/http-client/Shimmer.ts:186</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>res: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>span: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_requesterror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _request<wbr>Error</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_request<wbr>Error<span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L142">patch/shimmers/http-client/Shimmer.ts:142</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>res: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>span: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_responseend" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _response<wbr>End</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_response<wbr>End<span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L165">patch/shimmers/http-client/Shimmer.ts:165</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>res: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>span: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="buildtags" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> build<wbr>Tags</h3>
@@ -188,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L153">patch/shimmers/http-client/Shimmer.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L219">patch/shimmers/http-client/Shimmer.ts:219</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,20 +370,46 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="handleerror" class="tsd-anchor"></a>
-					<h3>handle<wbr>Error</h3>
+					<a name="createspan" class="tsd-anchor"></a>
+					<h3>create<wbr>Span</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Error<span class="tsd-signature-symbol">(</span>span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Span<span class="tsd-signature-symbol">(</span>tracer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L100">patch/shimmers/http-client/Shimmer.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L63">patch/shimmers/http-client/Shimmer.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>tracer: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="handleerror" class="tsd-anchor"></a>
+					<h3>handle<wbr>Error</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Error<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L154">patch/shimmers/http-client/Shimmer.ts:154</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>this: <span class="tsd-signature-type">any</span></h5>
+								</li>
 								<li>
 									<h5>span: <span class="tsd-signature-type">any</span></h5>
 								</li>
@@ -291,17 +425,20 @@
 					<a name="handleresponse" class="tsd-anchor"></a>
 					<h3>handle<wbr>Response</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Response<span class="tsd-signature-symbol">(</span>span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Response<span class="tsd-signature-symbol">(</span>tracer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L121">patch/shimmers/http-client/Shimmer.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L188">patch/shimmers/http-client/Shimmer.ts:188</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>tracer: <span class="tsd-signature-type">any</span></h5>
+								</li>
 								<li>
 									<h5>span: <span class="tsd-signature-type">any</span></h5>
 								</li>
@@ -323,7 +460,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L36">patch/shimmers/http-client/Shimmer.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L85">patch/shimmers/http-client/Shimmer.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -337,6 +474,35 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="remotetracing" class="tsd-anchor"></a>
+					<h3>remote<wbr>Tracing</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">remote<wbr>Tracing<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, tracer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L38">patch/shimmers/http-client/Shimmer.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>args: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>tracer: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>span: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="wraphttprequest" class="tsd-anchor"></a>
 					<h3>wrap<wbr>Http<wbr>Request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -346,7 +512,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L28">patch/shimmers/http-client/Shimmer.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L30">patch/shimmers/http-client/Shimmer.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -363,19 +529,22 @@
 					<a name="wraprequest" class="tsd-anchor"></a>
 					<h3>wrap<wbr>Request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">wrap<wbr>Request<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">wrap<wbr>Request<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, tracer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L80">patch/shimmers/http-client/Shimmer.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/http-client/Shimmer.ts#L122">patch/shimmers/http-client/Shimmer.ts:122</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>request: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>tracer: <span class="tsd-signature-type">any</span></h5>
 								</li>
 								<li>
 									<h5>span: <span class="tsd-signature-type">any</span></h5>
@@ -427,7 +596,22 @@
 								<a href="httpclientshimmer.html#tracemanager" class="tsd-kind-icon">trace<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="httpclientshimmer.html#_createspan" class="tsd-kind-icon">_create<wbr>Span</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="httpclientshimmer.html#_finish" class="tsd-kind-icon">_finish</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="httpclientshimmer.html#_requesterror" class="tsd-kind-icon">_request<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="httpclientshimmer.html#_responseend" class="tsd-kind-icon">_response<wbr>End</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="httpclientshimmer.html#buildtags" class="tsd-kind-icon">build<wbr>Tags</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpclientshimmer.html#createspan" class="tsd-kind-icon">create<wbr>Span</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientshimmer.html#handleerror" class="tsd-kind-icon">handle<wbr>Error</a>
@@ -437,6 +621,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientshimmer.html#httprequestwrapper" class="tsd-kind-icon">http<wbr>Request<wbr>Wrapper</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpclientshimmer.html#remotetracing" class="tsd-kind-icon">remote<wbr>Tracing</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientshimmer.html#wraphttprequest" class="tsd-kind-icon">wrap<wbr>Http<wbr>Request</a>
@@ -450,6 +637,9 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="httpserverpatcher.html" class="tsd-kind-icon">Http<wbr>Server<wbr>Patcher</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="mysql2patcher.html" class="tsd-kind-icon">MySQL2<wbr>Patcher</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="mysqlpatcher.html" class="tsd-kind-icon">MySQLPatcher</a>
@@ -473,6 +663,9 @@
 						<a href="../globals.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="../globals.html#header_span_id" class="tsd-kind-icon">HEADER_<wbr>SPAN_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="../globals.html#header_trace_id" class="tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -483,6 +676,9 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#operations" class="tsd-kind-icon">OPERATIONS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#operation_unknown" class="tsd-kind-icon">OPERATION_<wbr>UNKNOWN</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#table_unknown" class="tsd-kind-icon">TABLE_<wbr>UNKNOWN</a>
@@ -501,9 +697,6 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#https" class="tsd-kind-icon">https</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#util" class="tsd-kind-icon">util</a>

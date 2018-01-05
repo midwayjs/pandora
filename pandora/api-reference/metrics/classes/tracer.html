@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Tracer</span>
+						<span class="tsd-signature-type">any</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Tracer</span>
@@ -90,6 +90,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#_finished" class="tsd-kind-icon">_finished</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="tracer.html#attrs" class="tsd-kind-icon">attrs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#duration" class="tsd-kind-icon">duration</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#finishms" class="tsd-kind-icon">finish<wbr>Ms</a></li>
@@ -97,26 +98,25 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#options" class="tsd-kind-icon">options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#spans" class="tsd-kind-icon">spans</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#startms" class="tsd-kind-icon">start<wbr>Ms</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tracer.html#status" class="tsd-kind-icon">status</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="tracer.html#_allocspan" class="tsd-kind-icon">_alloc<wbr>Span</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="tracer.html#_extract" class="tsd-kind-icon">_extract</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="tracer.html#_inject" class="tsd-kind-icon">_inject</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="tracer.html#_startspan" class="tsd-kind-icon">_start<wbr>Span</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="tracer.html#extract" class="tsd-kind-icon">extract</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="tracer.html#_startspan" class="tsd-kind-icon">_start<wbr>Span</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#error" class="tsd-kind-icon">error</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#finish" class="tsd-kind-icon">finish</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#getattr" class="tsd-kind-icon">get<wbr>Attr</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#getattrvalue" class="tsd-kind-icon">get<wbr>Attr<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#getcurrentspan" class="tsd-kind-icon">get<wbr>Current<wbr>Span</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#hasattr" class="tsd-kind-icon">has<wbr>Attr</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="tracer.html#inject" class="tsd-kind-icon">inject</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#report" class="tsd-kind-icon">report</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#setattr" class="tsd-kind-icon">set<wbr>Attr</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#setcurrentspan" class="tsd-kind-icon">set<wbr>Current<wbr>Span</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="tracer.html#startspan" class="tsd-kind-icon">start<wbr>Span</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#setstatus" class="tsd-kind-icon">set<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tracer.html#timeout" class="tsd-kind-icon">timeout</a></li>
 							</ul>
 						</section>
 					</div>
@@ -134,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L19">trace/Tracer.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L23">trace/Tracer.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -158,13 +158,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_finished" class="tsd-anchor"></a>
+					<h3>_finished</h3>
+					<div class="tsd-signature tsd-kind-icon">_finished<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L21">trace/Tracer.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="attrs" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> attrs</h3>
 					<div class="tsd-signature tsd-kind-icon">attrs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/tracerreport.html" class="tsd-signature-type">TracerReport</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L19">trace/Tracer.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L23">trace/Tracer.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L17">trace/Tracer.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L19">trace/Tracer.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">finish<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L16">trace/Tracer.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L18">trace/Tracer.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +204,7 @@
 					<div class="tsd-signature tsd-kind-icon">namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L14">trace/Tracer.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L16">trace/Tracer.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L12">trace/Tracer.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L14">trace/Tracer.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +224,7 @@
 					<div class="tsd-signature tsd-kind-icon">spans<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L13">trace/Tracer.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L15">trace/Tracer.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +234,17 @@
 					<div class="tsd-signature tsd-kind-icon">start<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;Date.now()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L15">trace/Tracer.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L17">trace/Tracer.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="status" class="tsd-anchor"></a>
+					<h3>status</h3>
+					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;NORMAL_TRACE</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L20">trace/Tracer.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -241,7 +261,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L88">trace/Tracer.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L100">trace/Tracer.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -257,78 +277,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="_extract" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _extract</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">_extract<span class="tsd-signature-symbol">(</span>format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, carrier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SpanContext</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Tracer._extract</p>
-								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/metrics/node_modules/opentracing/lib/tracer.d.ts:124</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>format: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>carrier: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SpanContext</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="_inject" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _inject</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">_inject<span class="tsd-signature-symbol">(</span>spanContext<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SpanContext</span>, format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, carrier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Tracer._inject</p>
-								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/metrics/node_modules/opentracing/lib/tracer.d.ts:123</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>spanContext: <span class="tsd-signature-type">SpanContext</span></h5>
-								</li>
-								<li>
-									<h5>format: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>carrier: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="_startspan" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _start<wbr>Span</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">_start<wbr>Span<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pandoraspan.html" class="tsd-signature-type">PandoraSpan</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides Tracer._startSpan</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L29">trace/Tracer.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L32">trace/Tracer.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,58 +303,20 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="extract" class="tsd-anchor"></a>
-					<h3>extract</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">extract<span class="tsd-signature-symbol">(</span>format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, carrier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SpanContext</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="error" class="tsd-anchor"></a>
+					<h3>error</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from Tracer.extract</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/metrics/node_modules/opentracing/lib/tracer.d.ts:121</li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L125">trace/Tracer.ts:125</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a SpanContext instance extracted from <code>carrier</code> in the given
-									<code>format</code>.</p>
-								</div>
-								<p>OpenTracing defines a common set of <code>format</code> values (see
-									FORMAT_TEXT_MAP, FORMAT_HTTP_HEADERS, and FORMAT_BINARY), and each has
-								an expected carrier type.</p>
-								<p>Consider this pseudocode example:</p>
-								<pre><code><span class="hljs-comment">// Use the inbound HTTP request's headers as a text map carrier.</span>
-<span class="hljs-keyword">var</span> headersCarrier = inboundHTTPReq.headers;
-<span class="hljs-keyword">var</span> wireCtx = Tracer.extract(Tracer.FORMAT_HTTP_HEADERS, headersCarrier);
-<span class="hljs-keyword">var</span> serverSpan = Tracer.startSpan(<span class="hljs-string">'...'</span>, { childOf : wireCtx });
-</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>format: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the format of the carrier.</p>
-									</div>
-								</li>
-								<li>
-									<h5>carrier: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the carrier object is determined by
-										the format.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SpanContext</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
-							<pre><code>    The extracted SpanContext, <span class="hljs-keyword">or</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">if</span> <span class="hljs-literal">no</span> such SpanContext could
-    be found <span class="hljs-keyword">in</span> `<span class="javascript">carrier</span>`
-</code></pre>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -403,15 +324,23 @@
 					<a name="finish" class="tsd-anchor"></a>
 					<h3>finish</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">finish<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">finish<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L92">trace/Tracer.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L104">trace/Tracer.ts:104</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -426,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L60">trace/Tracer.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L63">trace/Tracer.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -449,7 +378,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L64">trace/Tracer.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L67">trace/Tracer.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -475,7 +404,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L72">trace/Tracer.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L84">trace/Tracer.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -492,7 +421,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L68">trace/Tracer.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L80">trace/Tracer.ts:80</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -502,70 +431,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="inject" class="tsd-anchor"></a>
-					<h3>inject</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">inject<span class="tsd-signature-symbol">(</span>spanContext<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SpanContext</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Span</span>, format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, carrier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Tracer.inject</p>
-								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/metrics/node_modules/opentracing/lib/tracer.d.ts:98</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Injects the given SpanContext instance for cross-process propagation
-										within <code>carrier</code>. The expected type of <code>carrier</code> depends on the value of
-									`format.</p>
-								</div>
-								<p>OpenTracing defines a common set of <code>format</code> values (see
-									FORMAT_TEXT_MAP, FORMAT_HTTP_HEADERS, and FORMAT_BINARY), and each has
-								an expected carrier type.</p>
-								<p>Consider this pseudocode example:</p>
-								<pre><code><span class="hljs-built_in">var</span> clientSpan = <span class="hljs-params">...</span>;
-<span class="hljs-params">...</span>
-<span class="hljs-comment">// Inject clientSpan into a text carrier.</span>
-<span class="hljs-built_in">var</span> headersCarrier = {};
-Tracer.inject(clientSpan.context(), Tracer.FORMAT_HTTP_HEADERS, headersCarrier);
-<span class="hljs-comment">// Incorporate the textCarrier into the outbound HTTP request header</span>
-<span class="hljs-comment">// map.</span>
-Object.assign(outboundHTTPReq.headers, headersCarrier);
-<span class="hljs-comment">// ... send the httpReq</span>
-</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>spanContext: <span class="tsd-signature-type">SpanContext</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Span</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the SpanContext to inject into the
-											carrier object. As a convenience, a Span instance may be passed
-											in instead (in which case its .context() is used for the
-										inject()).</p>
-									</div>
-								</li>
-								<li>
-									<h5>format: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the format of the carrier.</p>
-									</div>
-								</li>
-								<li>
-									<h5>carrier: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>see the documentation for the chosen <code>format</code>
-										for a description of the carrier object.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -579,7 +444,7 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L99">trace/Tracer.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L133">trace/Tracer.ts:133</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/tracedata.html" class="tsd-signature-type">TraceData</a></h4>
@@ -596,7 +461,7 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L44">trace/Tracer.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L47">trace/Tracer.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -622,7 +487,7 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/metrics/src/trace/Tracer.ts#L78">trace/Tracer.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L90">trace/Tracer.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -635,57 +500,43 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="startspan" class="tsd-anchor"></a>
-					<h3>start<wbr>Span</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">start<wbr>Span<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">SpanOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Span</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setstatus" class="tsd-anchor"></a>
+					<h3>set<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Status<span class="tsd-signature-symbol">(</span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from Tracer.startSpan</p>
 								<ul>
-									<li>Defined in /Users/Allen/Works/midway6/pandora/packages/metrics/node_modules/opentracing/lib/tracer.d.ts:68</li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L129">trace/Tracer.ts:129</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Starts and returns a new Span representing a logical unit of work.</p>
-								</div>
-								<p>For example:</p>
-								<pre><code>// <span class="hljs-keyword">Start</span> a <span class="hljs-keyword">new</span> (parentless) root Span:
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">parent</span> = Tracer.startSpan(<span class="hljs-string">'DoWork'</span>);
-
-// <span class="hljs-keyword">Start</span> a <span class="hljs-keyword">new</span> (<span class="hljs-keyword">child</span>) Span:
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">child</span> = Tracer.startSpan(<span class="hljs-string">'load-from-db'</span>, {
-    childOf: parent.context(),
-});
-
-// <span class="hljs-keyword">Start</span> a <span class="hljs-keyword">new</span> async (FollowsFrom) Span:
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">child</span> = Tracer.startSpan(<span class="hljs-string">'async-cache-write'</span>, {
-    <span class="hljs-keyword">references</span>: [
-        opentracing.followsFrom(parent.context())
-    ],
-});
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the operation (REQUIRED).</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">SpanOptions</span></h5>
+									<h5>status: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Span</span></h4>
-							<ul>
-								<li>a new Span object.</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="timeout" class="tsd-anchor"></a>
+					<h3>timeout</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/metrics/src/trace/Tracer.ts#L119">trace/Tracer.ts:119</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -709,6 +560,9 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="tracer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="tracer.html#_finished" class="tsd-kind-icon">_finished</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="tracer.html#attrs" class="tsd-kind-icon">attrs</a>
 							</li>
@@ -730,20 +584,17 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="tracer.html#startms" class="tsd-kind-icon">start<wbr>Ms</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="tracer.html#status" class="tsd-kind-icon">status</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="tracer.html#_allocspan" class="tsd-kind-icon">_alloc<wbr>Span</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="tracer.html#_extract" class="tsd-kind-icon">_extract</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="tracer.html#_inject" class="tsd-kind-icon">_inject</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="tracer.html#_startspan" class="tsd-kind-icon">_start<wbr>Span</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="tracer.html#extract" class="tsd-kind-icon">extract</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tracer.html#error" class="tsd-kind-icon">error</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="tracer.html#finish" class="tsd-kind-icon">finish</a>
@@ -760,9 +611,6 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="tracer.html#hasattr" class="tsd-kind-icon">has<wbr>Attr</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="tracer.html#inject" class="tsd-kind-icon">inject</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="tracer.html#report" class="tsd-kind-icon">report</a>
 							</li>
@@ -772,8 +620,11 @@ Object.assign(outboundHTTPReq.headers, headersCarrier);
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="tracer.html#setcurrentspan" class="tsd-kind-icon">set<wbr>Current<wbr>Span</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="tracer.html#startspan" class="tsd-kind-icon">start<wbr>Span</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tracer.html#setstatus" class="tsd-kind-icon">set<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tracer.html#timeout" class="tsd-kind-icon">timeout</a>
 							</li>
 						</ul>
 					</li>

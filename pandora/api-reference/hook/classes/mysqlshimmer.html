@@ -92,7 +92,10 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="mysqlshimmer.html#_createspan" class="tsd-kind-icon">_create<wbr>Span</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="mysqlshimmer.html#_finish" class="tsd-kind-icon">_finish</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="mysqlshimmer.html#_wrapquery" class="tsd-kind-icon">_wrap<wbr>Query</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mysqlshimmer.html#buildtags" class="tsd-kind-icon">build<wbr>Tags</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mysqlshimmer.html#extractquery" class="tsd-kind-icon">extract<wbr>Query</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mysqlshimmer.html#extractqueryargs" class="tsd-kind-icon">extract<wbr>Query<wbr>Args</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mysqlshimmer.html#getinstanceinfo" class="tsd-kind-icon">get<wbr>Instance<wbr>Info</a></li>
@@ -125,7 +128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L24">patch/shimmers/mysql/Shimmer.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L25">patch/shimmers/mysql/Shimmer.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -155,7 +158,7 @@
 					<div class="tsd-signature tsd-kind-icon">shimmer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L23">patch/shimmers/mysql/Shimmer.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L24">patch/shimmers/mysql/Shimmer.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,13 +168,62 @@
 					<div class="tsd-signature tsd-kind-icon">trace<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L24">patch/shimmers/mysql/Shimmer.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L25">patch/shimmers/mysql/Shimmer.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_createspan" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _create<wbr>Span</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_create<wbr>Span<span class="tsd-signature-symbol">(</span>tracer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, currentSpan<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L146">patch/shimmers/mysql/Shimmer.ts:146</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tracer: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>currentSpan: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_finish" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _finish</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_finish<span class="tsd-signature-symbol">(</span>span<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L155">patch/shimmers/mysql/Shimmer.ts:155</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>span: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="_wrapquery" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _wrap<wbr>Query</h3>
@@ -182,7 +234,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L146">patch/shimmers/mysql/Shimmer.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L164">patch/shimmers/mysql/Shimmer.ts:164</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -210,16 +262,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="extractquery" class="tsd-anchor"></a>
-					<h3>extract<wbr>Query</h3>
+					<a name="buildtags" class="tsd-anchor"></a>
+					<h3>build<wbr>Tags</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">extract<wbr>Query<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, isPoolQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">object</span></li>
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Tags<span class="tsd-signature-symbol">(</span>invokeInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, parsedQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L342">patch/shimmers/mysql/Shimmer.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L78">patch/shimmers/mysql/Shimmer.ts:78</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>invokeInfo: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>parsedQuery: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="extractquery" class="tsd-anchor"></a>
+					<h3>extract<wbr>Query</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">extract<wbr>Query<span class="tsd-signature-symbol">(</span>ctx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, isPoolQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L365">patch/shimmers/mysql/Shimmer.ts:365</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,6 +309,14 @@
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>ctx: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>queryable 实例</p>
+										</div>
+									</div>
+								</li>
 								<li>
 									<h5>args: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
@@ -263,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L296">patch/shimmers/mysql/Shimmer.ts:296</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L318">patch/shimmers/mysql/Shimmer.ts:318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -305,7 +393,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L360">patch/shimmers/mysql/Shimmer.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L383">patch/shimmers/mysql/Shimmer.ts:383</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -353,7 +441,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L394">patch/shimmers/mysql/Shimmer.ts:394</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L417">patch/shimmers/mysql/Shimmer.ts:417</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,7 +474,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L270">patch/shimmers/mysql/Shimmer.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L292">patch/shimmers/mysql/Shimmer.ts:292</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -428,7 +516,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L41">patch/shimmers/mysql/Shimmer.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L42">patch/shimmers/mysql/Shimmer.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -471,7 +559,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L224">patch/shimmers/mysql/Shimmer.ts:224</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L246">patch/shimmers/mysql/Shimmer.ts:246</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -502,7 +590,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L65">patch/shimmers/mysql/Shimmer.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L66">patch/shimmers/mysql/Shimmer.ts:66</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -539,7 +627,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L84">patch/shimmers/mysql/Shimmer.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L129">patch/shimmers/mysql/Shimmer.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -581,7 +669,7 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L18">patch/shimmers/mysql/Shimmer.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L19">patch/shimmers/mysql/Shimmer.ts:19</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -590,7 +678,7 @@
 						<div class="tsd-signature tsd-kind-icon">record<wbr>Database<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L20">patch/shimmers/mysql/Shimmer.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L21">patch/shimmers/mysql/Shimmer.ts:21</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -600,7 +688,7 @@
 						<div class="tsd-signature tsd-kind-icon">record<wbr>Instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L21">patch/shimmers/mysql/Shimmer.ts:21</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L22">patch/shimmers/mysql/Shimmer.ts:22</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -610,7 +698,7 @@
 						<div class="tsd-signature tsd-kind-icon">record<wbr>Query<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L19">patch/shimmers/mysql/Shimmer.ts:19</a></li>
+								<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/shimmers/mysql/Shimmer.ts#L20">patch/shimmers/mysql/Shimmer.ts:20</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -646,6 +734,9 @@
 						<a href="httpserverpatcher.html" class="tsd-kind-icon">Http<wbr>Server<wbr>Patcher</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="mysql2patcher.html" class="tsd-kind-icon">MySQL2<wbr>Patcher</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="mysqlpatcher.html" class="tsd-kind-icon">MySQLPatcher</a>
 					</li>
 				</ul>
@@ -663,7 +754,16 @@
 								<a href="mysqlshimmer.html#tracemanager" class="tsd-kind-icon">trace<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="mysqlshimmer.html#_createspan" class="tsd-kind-icon">_create<wbr>Span</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="mysqlshimmer.html#_finish" class="tsd-kind-icon">_finish</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="mysqlshimmer.html#_wrapquery" class="tsd-kind-icon">_wrap<wbr>Query</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="mysqlshimmer.html#buildtags" class="tsd-kind-icon">build<wbr>Tags</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="mysqlshimmer.html#extractquery" class="tsd-kind-icon">extract<wbr>Query</a>
@@ -715,6 +815,9 @@
 						<a href="../globals.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="../globals.html#header_span_id" class="tsd-kind-icon">HEADER_<wbr>SPAN_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="../globals.html#header_trace_id" class="tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -725,6 +828,9 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#operations" class="tsd-kind-icon">OPERATIONS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#operation_unknown" class="tsd-kind-icon">OPERATION_<wbr>UNKNOWN</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#table_unknown" class="tsd-kind-icon">TABLE_<wbr>UNKNOWN</a>
@@ -743,9 +849,6 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#https" class="tsd-kind-icon">https</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#util" class="tsd-kind-icon">util</a>

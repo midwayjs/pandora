@@ -93,13 +93,14 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="eggloggerpatcher.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="eggloggerpatcher.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="eggloggerpatcher.html#env" class="tsd-kind-icon">env</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="eggloggerpatcher.html#hookstore" class="tsd-kind-icon">hook<wbr>Store</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="eggloggerpatcher.html#options" class="tsd-kind-icon">options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="eggloggerpatcher.html#sender" class="tsd-kind-icon">sender</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -132,7 +133,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Patcher.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L5">patch/EggLogger.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/EggLogger.ts#L7">patch/EggLogger.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -148,7 +149,7 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="appname" class="tsd-anchor"></a>
@@ -191,6 +192,16 @@
 						<p>Inherited from Patcher.options</p>
 						<ul>
 							<li>Defined in /Users/Allen/Works/midway6/pandora/packages/hook/node_modules/pandora-metrics/dist/trace/Patcher.d.ts:7</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="sender" class="tsd-anchor"></a>
+					<h3>sender</h3>
+					<div class="tsd-signature tsd-kind-icon">sender<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MessageSender</span><span class="tsd-signature-symbol"> =&nbsp;new MessageSender()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/EggLogger.ts#L7">patch/EggLogger.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -244,7 +255,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Patcher.getModuleName</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L13">patch/EggLogger.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/EggLogger.ts#L15">patch/EggLogger.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -381,7 +392,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/7ace077/packages/hook/src/patch/EggLogger.ts#L17">patch/EggLogger.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/hook/src/patch/EggLogger.ts#L19">patch/EggLogger.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -429,6 +440,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="eggloggerpatcher.html#options" class="tsd-kind-icon">options</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="eggloggerpatcher.html#sender" class="tsd-kind-icon">sender</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="eggloggerpatcher.html#getappname" class="tsd-kind-icon">get<wbr>App<wbr>Name</a>
 							</li>
@@ -473,6 +487,9 @@
 						<a href="httpserverpatcher.html" class="tsd-kind-icon">Http<wbr>Server<wbr>Patcher</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="mysql2patcher.html" class="tsd-kind-icon">MySQL2<wbr>Patcher</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="mysqlpatcher.html" class="tsd-kind-icon">MySQLPatcher</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -494,6 +511,9 @@
 						<a href="../globals.html#default_port" class="tsd-kind-icon">DEFAULT_<wbr>PORT</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="../globals.html#header_span_id" class="tsd-kind-icon">HEADER_<wbr>SPAN_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="../globals.html#header_trace_id" class="tsd-kind-icon">HEADER_<wbr>TRACE_<wbr>ID</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -504,6 +524,9 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#operations" class="tsd-kind-icon">OPERATIONS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#operation_unknown" class="tsd-kind-icon">OPERATION_<wbr>UNKNOWN</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#table_unknown" class="tsd-kind-icon">TABLE_<wbr>UNKNOWN</a>
@@ -522,9 +545,6 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#https" class="tsd-kind-icon">https</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#pandoraconsolelogger" class="tsd-kind-icon">pandora<wbr>Console<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#util" class="tsd-kind-icon">util</a>
