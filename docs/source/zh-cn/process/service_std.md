@@ -13,7 +13,7 @@ Service 也是像 `process('x).entry('./y.js')` 一样，往进程里定义 Node
 
 ## 如何获取 Service
 
-1. 一般用户可以通过 `require('pandora).getService(serviceName)` 获得。
+1. 一般用户可以通过 `require('dorapan').getService(serviceName)` 获得。
 2. Service 构造器中传入的 ServiceContext 亦有此方法。
 
 ## 如何定义 Service

@@ -5,6 +5,7 @@ glossary: /glossary.html
 base:
   command: /base/command.html
   procfile_mode: /base/procfile_mode.html
+  dorapan: /base/dorapan.html
   logs: /base/logs.html
   global_config: /base/global_config.html
   quick_monitor: /base/quick_monitor.html

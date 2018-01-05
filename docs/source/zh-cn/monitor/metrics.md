@@ -20,7 +20,7 @@ Pandora.js 目前对这几种度量器都做了一定的支持，这些度量器
 我们在每个进程启动时创建了一个 `MetricsClient` 客户端，但是用户怎么在代码中拿到这个对象就成了一个问题，我们设计了一个代理类 `MetricsClientUtil` ，只要用户希望，就可以在任意地方获取到这个类，比如：
 
 ```javascript
-import {MetricsClientUtil} from 'pandora-metrics';
+import {MetricsClientUtil} from 'dorapan';
 const client = MetricsClientUtil.getMetricsClient();
  
 let counter = client.getCounter('test', 'test.qps.counter');

@@ -15,6 +15,7 @@ guide_toc:
   base: "基础功能"
   command: "命令行介绍"
   procfile_mode: "认识 procfile.js"
+  dorapan: "用户空间 SDK（Dorapan）"
   debug: "调试应用"
   logs: "日志管理"
   global_config: "配置文件"

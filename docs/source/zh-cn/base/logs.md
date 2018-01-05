@@ -60,7 +60,7 @@ Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天
 
 ## 创建自定义日志
 
-可以通过 `require('pandora').getService('logger').createLogger(name, config)`  创建，其中 config 定义如下：
+可以通过 `require('dorapan').getService('logger').createLogger(name, config)`  创建，其中 config 定义如下：
 
 
 ```

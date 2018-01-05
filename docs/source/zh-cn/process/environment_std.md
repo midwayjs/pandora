@@ -5,7 +5,7 @@ title: 自定义环境（Environment）
 
 ## 如何获取
 
-用户可以通过 `require('pandora').environment` 获得该对象。
+用户可以通过 `require('dorapan').environment` 获得该对象。
 
 ## 如何定义
 
