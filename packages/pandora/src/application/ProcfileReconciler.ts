@@ -402,7 +402,7 @@ export class ProcfileReconciler {
     const isTs = /\.ts$/.test(__filename);
 
     await new Promise((resolve, reject) => {
-      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoStructure(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)})'`,
+      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoStructure(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)}); process.exit()'`,
         (error) => {
           if(error) {
             reject(error);
