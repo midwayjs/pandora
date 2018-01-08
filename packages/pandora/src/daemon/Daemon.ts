@@ -6,9 +6,9 @@ import * as fs from 'fs';
 import assert = require('assert');
 import messenger from 'pandora-messenger';
 import {getDaemonLogger} from '../universal/LoggerBroker';
-import {ApplicationRepresentation} from '../domain';
-import {Monitor} from '../monitor/Monitor';
+import {ApplicationRepresentation, Monitor} from '../domain';
 import {DaemonIntrospection} from './DaemonIntrospection';
+import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 
 /**
  * Class Daemon
@@ -19,6 +19,8 @@ export class Daemon extends Base {
   private monitor: Monitor;
   private introspection: DaemonIntrospection;
   private daemonLogger = getDaemonLogger();
+  private globalConfigProcesser = GlobalConfigProcessor.getInstance();
+  private globalConfig = this.globalConfigProcesser.getAllProperties();
 
   public state: State;
   public apps: Map<any, ApplicationHandler>;
@@ -159,7 +161,7 @@ export class Daemon extends Base {
    */
   private async startMonitor(): Promise<void> {
     if (!this.monitor) {
-      this.monitor = new Monitor();
+      this.monitor = new this.globalConfig['monitor']();
     }
     return this.monitor.start();
   }
