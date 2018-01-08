@@ -88,23 +88,23 @@ const parseCpuInfo = line => {
 export class CpuUsageGaugeSet extends CachedMetricSet {
 
 
-  static DEFAULT_FILE_PATH: '/proc/stat';
+  static DEFAULT_FILE_PATH = '/proc/stat';
 
   cpuUsage = [];
 
   filePath: string;
 
-  totalInterrupts: number;
+  totalInterrupts: number = 0;
 
-  interruptsRate: number;
+  interruptsRate: number = 0;
 
-  totalContextSwitches: number;
+  totalContextSwitches: number = 0;
 
-  contextSwitchesRate: number;
+  contextSwitchesRate: number = 0;
 
-  processRunning: number;
+  processRunning: number = 0;
 
-  processBlocked: number;
+  processBlocked: number = 0;
 
   names = [
     'cpu.user',
@@ -212,9 +212,7 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
         }
 
         lastCollectedCpuInfo = cpuInfo;
-
         continue;
-
       }
 
       if (startsWith(line, 'intr')) {
@@ -247,7 +245,6 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
       }
       if (startsWith(line, 'procs_blocked')) {
         this.processBlocked = extractInt(line);
-
       }
     }
   }

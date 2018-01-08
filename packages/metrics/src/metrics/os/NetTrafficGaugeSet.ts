@@ -16,7 +16,7 @@ const getEmptyFields = () => Array(16).map(() => 0);
 export class NetTrafficGaugeSet extends CachedMetricSet {
 
 
-  static DEFAULT_FILE_PATH: '/proc/net/dev';
+  static DEFAULT_FILE_PATH = '/proc/net/dev';
 
 
   filePath: string;
@@ -43,7 +43,7 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
           name: MetricName.build(`nettraffic.${interfaceName}.${fieldName}`),
           metric: <Gauge<number>> {
             getValue() {
-              return self.countStats[interfaceName][i++]
+              return self.countStats[interfaceName][i++];
             }
           }
         });
