@@ -3,7 +3,6 @@ import {ProcessRepresentation} from '../domain';
 import cluster = require('cluster');
 import {format} from 'util';
 import * as $ from 'pandora-dollar';
-import Base = require('sdk-base');
 import {consoleLogger} from '../universal/LoggerBroker';
 import {
   PROCESS_READY, WORKER_READY, RELOAD, SHUTDOWN, WORKER_EXIT, PROCESS_ERROR,
@@ -18,7 +17,7 @@ const $ProcessName = Symbol('ProcessName');
  * Class ScalableMaster
  * For kind of the process, that's field scale great than 1
  */
-export class ScalableMaster extends Base {
+export class ScalableMaster {
 
   public started: boolean = false;
   private workers: Map<any, any> = new Map();
@@ -37,7 +36,6 @@ export class ScalableMaster extends Base {
   }
 
   constructor(processRepresentation: ProcessRepresentation) {
-    super();
     this.processRepresentation = processRepresentation;
   }
 

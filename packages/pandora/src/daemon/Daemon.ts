@@ -1,6 +1,5 @@
 'use strict';
 import {ApplicationHandler} from '../application/ApplicationHandler';
-import Base = require('sdk-base');
 import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE, State} from '../const';
 import * as fs from 'fs';
 import assert = require('assert');
@@ -13,7 +12,7 @@ import {DaemonIntrospection} from './DaemonIntrospection';
 /**
  * Class Daemon
  */
-export class Daemon extends Base {
+export class Daemon {
 
   private messengerServer: any;
   private monitor: Monitor;
@@ -24,7 +23,6 @@ export class Daemon extends Base {
   public apps: Map<any, ApplicationHandler>;
 
   constructor() {
-    super();
     this.state = State.pending;
     this.apps = new Map();
   }
@@ -47,7 +45,6 @@ export class Daemon extends Base {
       this.messengerServer.ready(() => {
         return this.startMonitor().then(() => {
           this.state = State.complete;
-          this.ready(true);
           resolve();
         }).catch(err => {
           this.daemonLogger.error(err);
