@@ -17,12 +17,12 @@ const debug = require('debug')('pandora:cluster:monitor');
 /**
  * Class Monitor
  */
-export class Monitor {
-  private daemonLogger = getDaemonLogger();
-  private globalConfigProcesser = GlobalConfigProcessor.getInstance();
-  private globalConfig = this.globalConfigProcesser.getAllProperties();
-  private ipcHub = new Hub();
-  private server;
+export class BaseMonitor {
+  protected daemonLogger = getDaemonLogger();
+  protected globalConfigProcesser = GlobalConfigProcessor.getInstance();
+  protected globalConfig = this.globalConfigProcesser.getAllProperties();
+  protected ipcHub = new Hub();
+  protected server;
 
   /**
    * Start Monitor
@@ -47,6 +47,14 @@ export class Monitor {
       metricsManager: new this.globalConfig['metricsManager']()
     });
 
+    this.startMetrics();
+    this.startMetricsReporter();
+
+    this.daemonLogger.info('monitor started');
+
+  }
+
+  protected startMetrics() {
     // register some default metrics
     let metricsManager = this.server.getMetricsManager();
     metricsManager.register('system', 'system', new CpuUsageGaugeSet());
@@ -54,6 +62,9 @@ export class Monitor {
     metricsManager.register('system', 'system', new SystemMemoryGaugeSet());
     metricsManager.register('system', 'system', new SystemLoadGaugeSet());
     metricsManager.register('system', 'system', new DiskStatGaugeSet());
+  }
+
+  protected startMetricsReporter() {
     debug('start a metrics reporter');
     for (let reporterName in this.globalConfig['reporter']) {
       const reporterObj = this.globalConfig['reporter'][reporterName];
@@ -63,8 +74,6 @@ export class Monitor {
         this.daemonLogger.info(`${reporterName} reporter started`);
       }
     }
-    this.daemonLogger.info('monitor started');
-
   }
 
   /**

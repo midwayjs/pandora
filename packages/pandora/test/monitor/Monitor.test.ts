@@ -1,8 +1,9 @@
 import {expect} from 'chai';
 import urllib = require('urllib');
-import {Monitor} from '../../src/monitor/Monitor';
+import {BaseMonitor} from '../../src/monitor/Monitor';
 import {DefaultEnvironment, EnvironmentUtil} from 'pandora-env';
 import {MetricsConstants} from 'pandora-metrics';
+import {Monitor} from '../../src';
 
 describe('Monitor', function () {
 
@@ -10,7 +11,7 @@ describe('Monitor', function () {
   let beforeCurEnv = null;
 
   before(() => {
-    monitor = new Monitor;
+    monitor = new BaseMonitor;
     const daemonEnvironment = new DefaultEnvironment({
       processName: 'daemon',
       appName: MetricsConstants.METRICS_DEFAULT_APP

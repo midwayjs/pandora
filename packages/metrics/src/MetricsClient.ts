@@ -87,11 +87,11 @@ export class MetricsClient extends AbstractIndicator {
             method: method,
             value: args,
             type: metric.type,
+            clientId: this.clientId
           });
         };
       }
     }
-
 
     if (metric instanceof MetricSet) {
       // report metricSet
@@ -102,13 +102,6 @@ export class MetricsClient extends AbstractIndicator {
     } else {
       this.reportMetric(newName, metric, group);
     }
-
-    this.report({
-      action: MetricsConstants.EVT_METRIC_CREATE,
-      name: newName.getNameKey(),
-      type: metric.type,
-      group: group,
-    });
 
     let metricMap = this.categoryMetrisMap.get(group);
     if (!this.categoryMetrisMap.has(group)) {
@@ -125,6 +118,7 @@ export class MetricsClient extends AbstractIndicator {
       name: name.getNameKey(),
       type: metric.type,
       group: group,
+      clientId: this.clientId
     });
   }
 

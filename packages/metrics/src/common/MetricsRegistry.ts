@@ -28,6 +28,7 @@ export interface IMetricsRegistry {
   getMeters(filter?: MetricFilter): Map<string, IMeter>;
   getTimers(filter?: MetricFilter): Map<string, ITimer>;
   getMetricNames();
+  remove(metricsKey: string);
 }
 
 export class MetricsRegistry implements IMetricsRegistry {
@@ -163,5 +164,9 @@ export class MetricsRegistry implements IMetricsRegistry {
       names.push(metricObject.name);
     }
     return names;
+  }
+
+  remove(metricsKey: string) {
+    this.metricsSet.delete(metricsKey);
   }
 }

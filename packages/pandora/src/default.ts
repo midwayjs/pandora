@@ -1,6 +1,7 @@
 import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
 import {join} from 'path';
 import {homedir} from 'os';
+import {BaseMonitor} from './monitor/Monitor';
 
 const {DefaultEnvironment} = require('pandora-env');
 const {
@@ -77,6 +78,7 @@ export default {
 
   metricsManager: MetricsServerManager,
   metricsClient: MetricsClient,
+  monitor: BaseMonitor,
 
   actuator: {
     http: {

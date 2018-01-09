@@ -116,6 +116,10 @@ export interface DaemonIntrospectionResult {
   loadedReporters: string[];
 }
 
+export interface Monitor {
+  start();
+  stop();
+}
 
 
 // ************************
