@@ -11,8 +11,7 @@
     "pretty": true,
     "declaration": true,
     "sourceMap": true,
-    "outDir": "dist",
-    "typeRoots" : ["./d.ts/", "./node_modules/@types/"]
+    "outDir": "dist"
   },
   "files": [
     "src/index.ts",

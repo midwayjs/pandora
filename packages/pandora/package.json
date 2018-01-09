@@ -49,7 +49,6 @@
     "pandora-service-logger": "^1.6.16",
     "pandora-spawn-wrap": "^1.0.1",
     "read-last-lines": "^1.2.0",
-    "sdk-base": "^2.0.1",
     "shimmer": "^1.1.0",
     "source-map-support": "^0.4.15",
     "table": "^4.0.1",
