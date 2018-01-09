@@ -117,6 +117,7 @@ export interface ProxyCreateMessage {
   name: string;
   type: string;
   group: string;
+  clientId: string;
 }
 
 /**
@@ -128,6 +129,7 @@ export interface ProxyUpdateMessage {
   method: string;
   value: any;
   type: string;
+  clientId: string;
 }
 
 export interface Reporter {

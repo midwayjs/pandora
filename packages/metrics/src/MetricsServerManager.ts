@@ -29,6 +29,8 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
 
   metricRegistryMap: Map<string, IMetricsRegistry> = new Map();
 
+  metricsAndClientMap: Map<string, Array<string>> = new Map();  // store metrics in which client
+
   clientId: string = Math.random().toString(35).substr(2, 10);
 
   logger = <any>console;
@@ -99,7 +101,23 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
       remove_client && remove_client.close();
       this.metricsClients.delete(remove_id);
       this.debug(`remove client(${remove_id})`);
+
+      // remove metrics from registry
+      let storeMetricsArr = this.metricsAndClientMap.get(remove_id);
+      this.removeMetricInRegistry(this.allMetricsRegistry, storeMetricsArr);
+      // remove in group map
+      for(let registry of this.metricRegistryMap.values()) {
+        this.removeMetricInRegistry(registry, storeMetricsArr);
+      }
+      // remove from metricsAndClientMap
+      this.metricsAndClientMap.delete(remove_id);
     });
+  }
+
+  private removeMetricInRegistry(registry, storeMetricsArr) {
+    for(let key of (storeMetricsArr || [])) {
+      registry.remove(key);
+    }
   }
 
   /**
@@ -111,6 +129,14 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     // 创建新指标
     let metric;
     let metricName = MetricName.parseKey(data.name);
+
+    if(!this.metricsAndClientMap.has(data.clientId)) {
+      this.metricsAndClientMap.set(data.clientId, []);
+    }
+
+    // set metrics to own store and can remove after disconnected
+    let storeMetricsArr = this.metricsAndClientMap.get(data.clientId);
+    storeMetricsArr.push(data.name);
 
     switch(data.type) {
       case 'GAUGE':
