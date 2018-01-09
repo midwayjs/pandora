@@ -28,7 +28,7 @@ export class MetricsCollector {
       .withType(type)
       .withTimestamp(timestamp)
       .withValue(value)
-      .withTags(Object.assign(this.globalTags, fullName.getTags()))
+      .withTags(Object.assign({}, this.globalTags, fullName.getTags()))
       .withLevel(fullName.getMetricLevel())
       .withInterval(interval)
       .build();
