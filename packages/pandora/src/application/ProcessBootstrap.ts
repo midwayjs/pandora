@@ -89,16 +89,6 @@ export class ProcessBootstrap {
 
     // Require the entryFile if there given it, pandora.fork() dep on it
     if(this.processRepresentation.entryFile) {
-
-      // A trick to make module === require.main be true, just remind here
-      // debug('runMain pre', process.argv)
-      // process.argv.splice(1, nargs)
-      // process.argv[1] = path.resolve(process.argv[1])
-      // delete require.cache[process.argv[1]]
-      // debug('runMain post', process.argv)
-      // Module.runMain()
-      // debug('runMain after')
-
       const entryFileBaseDir = this.processRepresentation.entryFileBaseDir;
       const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
       ownRequire(this.processRepresentation.entryFile);
@@ -151,9 +141,11 @@ export class ProcessBootstrap {
       return;
     }
 
-    // remove --params [params], some software dep on argv like node-red
-    process.argv.pop();
-    process.argv.pop();
+    (<any> process).__pandoraOriginArgv = Array.from(process.argv);
+    Array.prototype.splice.apply(process.argv, [
+      2, process.argv.length - 2,
+      ...(options.args || [])
+    ]);
 
     const processBootstrap = new ProcessBootstrap(options);
 

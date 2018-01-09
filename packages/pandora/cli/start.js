@@ -19,14 +19,24 @@ exports.builder = (yargs) => {
     describe: 'Environment Variables, such as --env="A=1 B=2"'
   });
 
-  yargs.option('argv', {
+  yargs.option('args', {
+    alias: 'a',
+    describe: 'args, such as --args="--a=b --c=d"'
+  });
+
+  yargs.option('node-args', {
     alias: 'A',
-    describe: 'Node.js argv, such as --argv="--expose-gc --max_old_space_size=500"'
+    describe: 'Node.js args, such as --node-args="--expose-gc --max_old_space_size=500"'
   });
 
   yargs.option('npm', {
     describe: 'Find the Application by require.resolve()',
     boolean: true
+  });
+
+  yargs.option('inspect', {
+    describe: 'Activate Inspector',
+    type: 'string'
   });
 
 };

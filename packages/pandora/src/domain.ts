@@ -20,15 +20,22 @@ export interface ApplicationRepresentation {
   appDir: string;
   scale?: ProcessScale;
   globalEnv?: any;
-  globalArgv?: any[];
+  globalExecArgv?: any[];
+  globalArgs?: any[];
+  inspector?: true | {
+    port?: number;
+    host?: string;
+  };
 }
 
 export interface ProcessRepresentation extends ApplicationRepresentation {
   processName: string;
+  index?: number;
   order?: number;
   scale?: ProcessScale;
   env?: any;
-  argv?: any[];
+  execArgv?: any[];
+  args?: any[];
   service?: Array<ServiceRepresentation>;
   entryFileBaseDir?: string;
   entryFile?: string;

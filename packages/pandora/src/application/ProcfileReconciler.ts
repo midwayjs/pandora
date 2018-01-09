@@ -182,14 +182,14 @@ export class ProcfileReconciler {
    * @return {ProcessRepresentation}
    */
   defineProcess(processRepresentation): ProcessRepresentation {
-    processRepresentation = {
-      env: {}, argv: [], scale: 1,
+    const processRepresentation2nd: ProcessRepresentation = {
+      env: {}, execArgv: [], args: [], scale: 1,
       ...this.appRepresentation,
       ...processRepresentation,
       entryFileBaseDir: this.procfileBasePath
     };
-    this.processes.push(processRepresentation);
-    return processRepresentation;
+    this.processes.push(processRepresentation2nd);
+    return processRepresentation2nd;
   }
 
   /**
@@ -362,7 +362,7 @@ export class ProcfileReconciler {
       if(
         foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
       ) {
-        processRepresentations.push(this.makeupProcess(process));
+        processRepresentations.push(this.makeupProcess(process, processRepresentations.length));
       }
     }
 
@@ -427,10 +427,11 @@ export class ProcfileReconciler {
    * @param process
    * @return {ProcessRepresentation}
    */
-  private makeupProcess(process): ProcessRepresentation {
+  private makeupProcess(process: ProcessRepresentation, index): ProcessRepresentation {
 
     // globalArgv and globalEnv passed from CLI, marge those to the related field
-    const argv = process.globalArgv ? (process.argv || []).concat(process.globalArgv) : process.argv;
+    const execArgv = process.globalExecArgv ? (process.execArgv || []).concat(process.globalExecArgv) : process.execArgv;
+    const args = process.globalArgs ? (process.args || []).concat(process.globalArgs) : process.args;
     const env = process.globalEnv ? {...process.env, ...process.globalEnv} : process.env;
 
     // Resolve 'auto' to cpus().length
@@ -438,7 +439,8 @@ export class ProcfileReconciler {
 
     return {
       ...process,
-      argv, env, scale
+      execArgv, args, env, scale,
+      index
     };
 
   }

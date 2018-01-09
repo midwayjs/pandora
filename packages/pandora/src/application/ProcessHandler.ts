@@ -57,7 +57,8 @@ export class ProcessHandler {
    */
   async start(): Promise<void> {
 
-    const args = ['--params', JSON.stringify(this.processRepresentation)];
+    const args = ['--params', JSON.stringify(this.processRepresentation)]
+      .concat(this.processRepresentation.args || []);
     this.startCount++;
 
     await this.doFork(args);
@@ -77,12 +78,12 @@ export class ProcessHandler {
       execArgv.push('-r', 'ts-node/register', '-r', 'nyc-ts-patch');
     }
 
-    const userArgv = (<ProcessRepresentation> representation).argv;
-    if(userArgv && userArgv.length) {
-      execArgv.push.apply(execArgv, userArgv);
+    const userExecArgv = representation.execArgv;
+    if(userExecArgv && userExecArgv.length) {
+      execArgv.push.apply(execArgv, userExecArgv);
     }
 
-    DebugUtils.attachExecArgv(execArgv);
+    DebugUtils.attachExecArgv(representation, execArgv);
 
     const env = {
       [PANDORA_HOME]: join(__dirname, '../../'),

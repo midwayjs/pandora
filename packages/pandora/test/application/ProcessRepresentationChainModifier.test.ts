@@ -39,11 +39,18 @@ describe('ProcessRepresentationChainModifier', function () {
     expect(modifier.env()).to.equal(representation.env);
   });
 
-  it('should modify env be ok', () => {
-    const argv = ['--expose-gc'];
-    expect(modifier.argv(argv)).to.equal(modifier);
-    expect(representation.argv).to.equal(argv);
-    expect(modifier.argv()).to.equal(representation.argv);
+  it('should modify args be ok', () => {
+    const args = ['--a=b'];
+    expect(modifier.args(args)).to.equal(modifier);
+    expect(representation.args).to.equal(args);
+    expect(modifier.args()).to.equal(representation.args);
+  });
+
+  it('should modify nodeArgs be ok', () => {
+    const nodeArgs = ['--expose-gc'];
+    expect(modifier.nodeArgs(nodeArgs)).to.equal(modifier);
+    expect(representation.execArgv).to.equal(nodeArgs);
+    expect(modifier.nodeArgs()).to.equal(representation.execArgv);
   });
 
   it('should modify order be ok', () => {
