@@ -23,6 +23,7 @@ export interface ApplicationRepresentation {
   globalExecArgv?: any[];
   globalArgs?: any[];
   inspector?: true | {
+    setPortOnly?: boolean;
     port?: number;
     host?: string;
   };

@@ -35,7 +35,12 @@ exports.builder = (yargs) => {
   });
 
   yargs.option('inspect', {
-    describe: 'Activate Inspector',
+    describe: 'Activate inspector',
+    type: 'string'
+  });
+
+  yargs.option('inspect-port', {
+    describe: 'Set inspector port',
     type: 'string'
   });
 
