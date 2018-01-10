@@ -22,7 +22,7 @@ export class DebugUtils {
       targetArgvNoInspect.push(arg);
     }
     targetArgv.length = 0;
-    targetArgv.push.call(targetArgv, targetArgvNoInspect);
+    targetArgv.push.apply(targetArgv, targetArgvNoInspect);
 
     // Always works on daemon process
     for(const arg of process.execArgv) {

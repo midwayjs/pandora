@@ -72,6 +72,11 @@ export class ProcessRepresentationChainModifier {
     return this;
   }
 
+  argv(argv?) {
+    console.warn('Pandora.js: process().argv() has been deprecated, replace it to .nodeArgs()');
+    return this.nodeArgs(argv);
+  }
+
   order(): number;
   order(order: number): ProcessRepresentationChainModifier;
   order(order?): any {
