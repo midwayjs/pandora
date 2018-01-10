@@ -31,7 +31,7 @@ export class DebugUtils {
           const value = arg.substring(prefix.length);
           const {host, port: parsedPort} = parseInspectPort(value);
           const port = (parsedPort != null ? parsedPort : (<any> process).debugPort)
-            + portOffset * (representation.index + 1);
+            + portOffset * (representation.offset + 1);
           targetArgv.push(prefix + (host != null ? `${host}:${port}` : port) );
           return;
         }
@@ -50,7 +50,7 @@ export class DebugUtils {
         ? (
             inspector.port === 0
             ? 0
-            : inspector.port + portOffset * representation.index
+            : inspector.port + portOffset * representation.offset
           )
         : null;
       const optName = inspector.setPortOnly ? '--inspect-port' : '--inspect';
