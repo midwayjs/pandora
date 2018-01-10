@@ -31,7 +31,7 @@ export interface ApplicationRepresentation {
 
 export interface ProcessRepresentation extends ApplicationRepresentation {
   processName: string;
-  index?: number;
+  offset?: number;
   order?: number;
   scale?: ProcessScale;
   env?: any;

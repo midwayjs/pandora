@@ -358,11 +358,15 @@ export class ProcfileReconciler {
     const availableProcessMap = this.getAvailableProcessMap();
     const processRepresentations: ProcessRepresentation[] = [];
 
+    let offset = 0;
     for(const process of this.processes) {
       if(
         foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
       ) {
-        processRepresentations.push(this.makeupProcess(process, processRepresentations.length));
+        const newProcess = this.makeupProcess(process);
+        newProcess.offset = offset;
+        offset += <number> newProcess.scale > 1 ? <number> newProcess.scale + 1 : 1;
+        processRepresentations.push(newProcess);
       }
     }
 
@@ -403,6 +407,9 @@ export class ProcfileReconciler {
 
     await new Promise((resolve, reject) => {
       exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoStructure(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)}); process.exit()'`,
+        {
+          cwd: appRepresentation.appDir || process.cwd()
+        },
         (error) => {
           if(error) {
             reject(error);
@@ -427,7 +434,7 @@ export class ProcfileReconciler {
    * @param process
    * @return {ProcessRepresentation}
    */
-  private makeupProcess(process: ProcessRepresentation, index): ProcessRepresentation {
+  private makeupProcess(process: ProcessRepresentation): ProcessRepresentation {
 
     // globalArgv and globalEnv passed from CLI, marge those to the related field
     const execArgv = process.globalExecArgv ? (process.execArgv || []).concat(process.globalExecArgv) : process.execArgv;
@@ -439,8 +446,7 @@ export class ProcfileReconciler {
 
     return {
       ...process,
-      execArgv, args, env, scale,
-      index
+      execArgv, args, env, scale
     };
 
   }
