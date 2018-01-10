@@ -442,8 +442,8 @@ export class MySQLShimmer {
           info.host = os.hostname();
         }
 
-        if (!info.host || info.host === HOST_UNKNOWN) {
-          info.host = INSTANCE_UNKNOWN;
+        if (!info.host) {
+          info.host = HOST_UNKNOWN;
         }
       }
     }
