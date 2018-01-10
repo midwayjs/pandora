@@ -63,10 +63,15 @@ export class MetricsEndPoint extends EndPoint {
 
     const timestamp = Date.now();
 
-    for (let [key, gauge] of registry.getGauges().entries()) {
+    let gauges = Array.from(registry.getGauges().values());
+    let results = await Promise.all(gauges.map((gauge) => {
+      return gauge.getValue();
+    }));
+
+    Array.from(registry.getGauges().keys()).forEach((key, index) => {
       debug(`collect gauge key = ${key}`);
-      await collector.collectGauge(MetricName.parseKey(key), gauge, timestamp);
-    }
+      collector.collectGauge(MetricName.parseKey(key), results[index], timestamp);
+    });
 
     for (let [key, counter] of registry.getCounters().entries()) {
       debug(`collect counter key = ${key}`);

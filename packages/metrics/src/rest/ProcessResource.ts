@@ -22,7 +22,7 @@ export class ProcessResource implements ActuatorResource {
       } else {
         try {
           const processInfos = await processEndPoint.invoke(ctx.query);
-          ctx.ok(processInfos.map(info => {
+          ctx.ok((processInfos || []).map(info => {
             return info.data;
           }));
         } catch (err) {

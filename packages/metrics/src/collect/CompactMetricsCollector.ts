@@ -1,5 +1,5 @@
 import {MetricsCollector} from './MetricsCollector';
-import {BaseGauge, MetricName, BucketCounter} from '../common/index';
+import {MetricName, BucketCounter} from '../common/index';
 import {MetricObject} from './MetricObject';
 import {ITimer} from '../common/metrics/Timer';
 import {IHistogram} from '../common/metrics/Histogram';
@@ -27,8 +27,8 @@ export class CompactMetricsCollector extends MetricsCollector {
     this.addMetricWithSuffix(name, 'mean', snapshot.getMean(), timestamp);
   }
 
-  async collectGauge(name: MetricName, gauge: BaseGauge<any>, timestamp: number) {
-    this.addMetric(name, await gauge.getValue(), timestamp, MetricObject.MetricType.GAUGE, -1);
+  collectGauge(name: MetricName, value: number, timestamp: number) {
+    this.addMetric(name, value, timestamp, MetricObject.MetricType.GAUGE, -1);
   }
 
   collectCounter(name: MetricName, counter: ICounter, timestamp: number) {

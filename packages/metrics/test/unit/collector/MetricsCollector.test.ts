@@ -1,5 +1,5 @@
 import {
-  BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer, BucketCounter,
+  BaseCounter, BaseHistogram, BaseMeter, BaseTimer, BucketCounter,
   MetricName
 } from '../../../src/common';
 import {CompactMetricsCollector, MetricsCollector, NormalMetricsCollector} from '../../../src';
@@ -20,11 +20,7 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
   it('should create new CompactMetricsCollector', async () => {
 
     let collector = new CompactMetricsCollector({}, 10, 10);
-    await collector.collectGauge(MetricName.build('collector.gauge'), <BaseGauge<number>>{
-      getValue(): number {
-        return 10;
-      }
-    }, timestamp);
+    collector.collectGauge(MetricName.build('collector.gauge'), 10, timestamp);
     collector.collectCounter(MetricName.build('collector.counter'), new BucketCounter(), timestamp);
     collector.collectCounter(MetricName.build('collector.basecounter'), new BaseCounter(), timestamp);
     collector.collectHistogram(MetricName.build('collector.histogram'), new BaseHistogram(), timestamp);
@@ -81,11 +77,7 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
 
   it('should create new NormalMetricsCollector', async () => {
     let collector = new NormalMetricsCollector({}, 10, 10);
-    await collector.collectGauge(MetricName.build('collector.gauge'), <BaseGauge<number>>{
-      getValue(): number {
-        return 10;
-      }
-    }, timestamp);
+    collector.collectGauge(MetricName.build('collector.gauge'), 10, timestamp);
     collector.collectCounter(MetricName.build('collector.counter'), new BucketCounter(), timestamp);
     collector.collectCounter(MetricName.build('collector.basecounter'), new BaseCounter(), timestamp);
     collector.collectHistogram(MetricName.build('collector.histogram'), new BaseHistogram(), timestamp);

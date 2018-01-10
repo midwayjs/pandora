@@ -1,5 +1,5 @@
 import {MetricsCollector} from './MetricsCollector';
-import {BaseGauge, MetricName, ITimer, IHistogram, ICounter, IMeter} from '../common/index';
+import {MetricName, ITimer, IHistogram, ICounter, IMeter} from '../common/index';
 import {MetricObject} from './MetricObject';
 import {BucketCounter} from '../common';
 import {Snapshot} from '../common/domain';
@@ -40,8 +40,8 @@ export class NormalMetricsCollector extends MetricsCollector {
       .addMetricWithSuffix(name, 'p99', snapshot.get99thPercentile(), timestamp);
   }
 
-  async collectGauge(name: MetricName, gauge: BaseGauge<any>, timestamp: number) {
-    this.addMetric(name, await gauge.getValue(), timestamp, MetricObject.MetricType.GAUGE, -1);
+  collectGauge(name: MetricName, value: number, timestamp: number) {
+    this.addMetric(name, value, timestamp, MetricObject.MetricType.GAUGE, -1);
   }
 
   collectCounter(name: MetricName, counter: ICounter, timestamp: number) {
