@@ -52,14 +52,29 @@ export class ProcessRepresentationChainModifier {
     return this;
   }
 
-  argv(): any[];
-  argv(argv: any[]): ProcessRepresentationChainModifier
-  argv(argv?): any {
-    if(!argv) {
-      return this.representation.argv;
+  args(): any[];
+  args(args: any[]): ProcessRepresentationChainModifier
+  args(args?): any {
+    if(!args) {
+      return this.representation.args;
     }
-    this.representation.argv = argv;
+    this.representation.args = args;
     return this;
+  }
+
+  nodeArgs(): any[];
+  nodeArgs(nodeArgs: any[]): ProcessRepresentationChainModifier
+  nodeArgs(nodeArgs?): any {
+    if(!nodeArgs) {
+      return this.representation.execArgv;
+    }
+    this.representation.execArgv = nodeArgs;
+    return this;
+  }
+
+  argv(argv?) {
+    console.warn('Pandora.js: process().argv() has been deprecated, replace it to .nodeArgs()');
+    return this.nodeArgs(argv);
   }
 
   order(): number;

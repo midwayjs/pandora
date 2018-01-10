@@ -13,7 +13,7 @@ module.exports = (pandora) => {
     // 如果是 pandora dev 启动的话
     
     // 在 worker 定义中增加 -r ts-node/register
-    pandora.process('worker').argv(['-r', 'ts-node/register', '--trace-warnings']);
+    pandora.process('worker').nodeArgs(['-r', 'ts-node/register', '--trace-warnings']);
     
     // 标识从源码目录启动
     pandora.service('dashboard', './src/Dashboard').process('worker');

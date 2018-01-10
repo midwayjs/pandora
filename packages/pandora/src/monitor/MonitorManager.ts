@@ -22,7 +22,9 @@ export class MonitorManager {
   static injected: boolean = false;
 
   static injectProcessMonitor() {
-    console.log('inject Monitor');
+
+    // console.log('inject Monitor');
+
     if(MonitorManager.injected) {
       return;
     }

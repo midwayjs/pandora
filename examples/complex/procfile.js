@@ -2,15 +2,15 @@ module.exports = function (pandora) {
 
   pandora
     .process('worker')
-    .argv(['--expose-gc']);
+    .nodeArgs(['--expose-gc']);
 
   pandora
     .process('background')
-    .argv(['--expose-gc']);
+    .nodeArgs(['--expose-gc']);
 
   pandora
     .fork('forkApp', './forkApp.js')
-    .argv(['--expose-gc']);
+    .nodeArgs(['--expose-gc']);
 
   pandora
     .cluster('./cluster.js');

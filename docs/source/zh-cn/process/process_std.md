@@ -33,11 +33,18 @@ module.exports = function (pandora) {
     // 标识进程的横向缩放的数量，默认 1 ，取值为数字或者 'auto'（自动为 CPU 数量）
     // 不传参数则获取
     .scale(5)
-
+    
     // 设置 Node.js 参数，全覆盖
-    // 如需增量请：.argv().push('--expose-gc')
+    // 进程内 process.execArgv 获取
+    // 如需增量请：.nodeArgs().push('--expose-gc')
     // 不传参数则获取
-    .argv(['--expose-gc'])
+    .nodeArgs(['--expose-gc'])
+    
+    // 设置进程参数
+    // 进程内 process.argv 获取
+    // 如需增量请：.nodeArgs().push('--a=b')
+    // 不传参数则获取
+    .args(['--a=b', '--c=d'])
  
     // 该进程的环境变量，全覆盖
     // 如需增量请：.env().x = 'y'

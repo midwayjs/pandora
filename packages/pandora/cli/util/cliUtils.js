@@ -102,7 +102,7 @@ module.exports = (pandora) => {
    */
   // pandora
   //   .process('background')
-  //   .argv(['--expose-gc']);
+  //   .nodeArgs(['--expose-gc']);
 
   /**
    * more features please visit our document.
@@ -143,7 +143,7 @@ module.exports = (pandora) => {
    */
   // pandora
   //   .process('background')
-  //   .argv(['--expose-gc']);
+  //   .nodeArgs(['--expose-gc']);
 
   /**
    * more features please visit our document.

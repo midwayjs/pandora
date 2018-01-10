@@ -37,7 +37,7 @@ $ pandora init ./app.js
 ## start 启动应用
 
 ```bash
-pandora start [path] --name urAppName --env="NODE_ENV=production" --argv="expose-gc"
+pandora start [path] --name urAppName --env="NODE_ENV=production" --node-args="--expose-gc"
 ```
 
 最常用的启动命令，用于启动一个新的应用。
@@ -45,7 +45,8 @@ pandora start [path] --name urAppName --env="NODE_ENV=production" --argv="expose
 1. `[path]` 可选，启动的目标路径，默认为当前目录。
 2. `--name=urAppName` 可选，用于指定应用名，默认为当前目录中 package.json 的 name ，或当前目录名。
 3. `--env="NODE_ENV=production"` 可选，指定启动应用的环境变量，应用可以通过 `process.env` 获得。
-4. `--argv="expose-gc"` 可选，指定应用启动的 Node.js 参数。
+4. `--node-args="--expose-gc"` 可选，指定应用启动的 Node.js 参数。
+4. `--args="--a=b"` 给应用程序的参数。
 
 举例：
 
@@ -137,7 +138,7 @@ pandora exit
 > 注意：dev 命令不会启动 Daemon 进程，list 等命令无法查看到应用信息
 
 ```bash
-pandora dev [path] --name urAppName --env="NODE_ENV=production" --argv="expose-gc"
+pandora dev [path] --name urAppName --env="NODE_ENV=production" --node-args="--expose-gc"
 ```
 
 不启动 Daemon 直接前台启动应用，日志直接输出控制台。多用于本地调试，参数同 start。
@@ -145,6 +146,7 @@ pandora dev [path] --name urAppName --env="NODE_ENV=production" --argv="expose-g
 1. `[path]` 可选，启动的目标路径，默认为当前目录。
 2. `--name=urAppName` 可选，用于指定应用名，默认为当前目录中 package.json 的 name ，或当前目录名。
 3. `--env="NODE_ENV=production"` 可选，指定启动应用的环境变量，应用可以通过 `process.env` 获得。
-4. `--argv="expose-gc"` 可选，指定应用启动的 Node.js 参数。
+4. `--node-args="--expose-gc"` 可选，指定应用启动的 Node.js 参数。
+4. `--args="--a=b"` 给应用程序的参数。
 
 

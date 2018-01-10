@@ -78,15 +78,27 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
     }
   }
 
-  if(sendConfig['argv']) {
-    sendConfig.globalArgv = sendConfig.argv.split(' ');
+  if(sendConfig['args']) {
+    sendConfig.globalArgs = sendConfig.args.split(' ');
+  }
+
+  if(sendConfig['node-args']) {
+    sendConfig.globalExecArgv = sendConfig['node-args'].split(' ');
+  }
+
+  if(sendConfig['inspect']) {
+    const inspect: true | string = sendConfig['inspect'];
+    if(!inspect || true === inspect) { // be an empty str
+      sendConfig['inspector'] = true;
+    } else {
+      const {host, port} = parseInspectPort(inspect);
+      sendConfig['inspector'] = { host, port };
+    }
   }
 
   const sendConfig2nd = {};
-  for(const key of ['appName', 'appDir',
-    // 不能传递过去，会覆盖或激活默认定义的进程
-    // 'entryFileBaseDir', 'entryFile', 'scale',
-    'globalEnv', 'globalArgv']) {
+  for(const key of ['appName', 'appDir', 'inspector',
+    'globalEnv', 'globalArgs', 'globalExecArgv']) {
     if(sendConfig.hasOwnProperty(key)) {
       sendConfig2nd[key] = sendConfig[key];
     }
@@ -95,3 +107,18 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
   return sendConfig2nd;
 
 }
+
+export function parseInspectPort(inspect: string): { host: string, port: number } {
+  const split = inspect.split(':');
+  let port, host;
+  if(split.length >= 2) {
+    host = split[0];
+    port = Number(split[1]);
+  } else if(inspect.indexOf('.') > -1) {
+    host = inspect;
+  } else {
+    port = Number(inspect);
+  }
+  return { host, port };
+}
+

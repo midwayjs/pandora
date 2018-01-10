@@ -196,9 +196,10 @@ export class ScalableMaster {
       // Set scale to 1, so ProcessBootstrap can see it is a worker not a master
       scale: 1
     };
-    const workerArgs = ['--params', JSON.stringify(processRepresentationToWorker)];
+    const workerArgs = ['--params', JSON.stringify(processRepresentationToWorker)]
+      .concat(processRepresentation.args || []);
     const count = processRepresentation.scale === 'auto' ? defaultWorkerCount : (processRepresentation.scale || defaultWorkerCount);
-    const execArgv = process.execArgv.concat(processRepresentation.argv || []);
+    const execArgv = process.execArgv.concat(processRepresentation.execArgv || []);
 
     // Handing TypeScript, only for unit test
     if (/\.ts$/.test(module.filename) && execArgv.indexOf('ts-node/register') === -1) {
