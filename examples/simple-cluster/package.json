@@ -1,0 +1,9 @@
+{
+  "name": "simple-cluster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "koa": "^2.4.1"
+  }
+}

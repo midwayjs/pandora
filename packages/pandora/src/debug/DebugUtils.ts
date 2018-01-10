@@ -30,8 +30,9 @@ export class DebugUtils {
         if(arg.startsWith(prefix)) {
           const value = arg.substring(prefix.length);
           const {host, port: parsedPort} = parseInspectPort(value);
-          const port = (parsedPort || (<any> process).debugPort) + portOffset * (representation.index + 1);
-          targetArgv.push(prefix + (host ? `${host}:${port}` : port) );
+          const port = (parsedPort != null ? parsedPort : (<any> process).debugPort)
+            + portOffset * (representation.index + 1);
+          targetArgv.push(prefix + (host != null ? `${host}:${port}` : port) );
           return;
         }
       }
@@ -45,17 +46,24 @@ export class DebugUtils {
     if(representation.inspector) {
       const inspector = representation.inspector;
       const host = inspector.host;
-      const port = inspector.port ? inspector.port + portOffset * representation.index : null;
-      if(host && port) {
-        targetArgv.push(`--inspect=${host}:${port}`);
+      const port = inspector.port != null
+        ? (
+            inspector.port === 0
+            ? 0
+            : inspector.port + portOffset * representation.index
+          )
+        : null;
+      const optName = inspector.setPortOnly ? '--inspect-port' : '--inspect';
+      if(host != null && port != null) {
+        targetArgv.push(`${optName}=${host}:${port}`);
         return;
       }
-      if(host) {
-        targetArgv.push(`--inspect=${host}:0`);
+      if(host != null) {
+        targetArgv.push(`${optName}=${host}:0`);
         return;
       }
-      if(port) {
-        targetArgv.push(`--inspect=${port}`);
+      if(port != null) {
+        targetArgv.push(`${optName}=${port}`);
         return;
       }
     }

@@ -86,15 +86,19 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
     sendConfig.globalExecArgv = sendConfig['node-args'].split(' ');
   }
 
-  if(sendConfig['inspect']) {
-    const inspect: true | string = sendConfig['inspect'];
-    if(!inspect || true === inspect) { // be an empty str
-      sendConfig['inspector'] = true;
-    } else {
-      const {host, port} = parseInspectPort(inspect);
-      sendConfig['inspector'] = { host, port };
+  for(const optName of ['inspect-port', 'inspect']) {
+    if(sendConfig.hasOwnProperty(optName)) {
+      const inspect: true | string = sendConfig[optName];
+      if(optName === 'inspect' && inspect === '' || true === inspect) { // be an empty str
+        sendConfig['inspector'] = true;
+      } else if(typeof inspect === 'string' && inspect) {
+        const {host, port} = parseInspectPort(inspect);
+        sendConfig['inspector'] = { host, port, setPortOnly: optName === 'inspect-port' };
+      }
+      break;
     }
   }
+
 
   const sendConfig2nd = {};
   for(const key of ['appName', 'appDir', 'inspector',
@@ -113,11 +117,11 @@ export function parseInspectPort(inspect: string): { host: string, port: number 
   let port, host;
   if(split.length >= 2) {
     host = split[0];
-    port = Number(split[1]);
+    port = parseInt(split[1], 10);
   } else if(inspect.indexOf('.') > -1) {
     host = inspect;
   } else {
-    port = Number(inspect);
+    port = parseInt(inspect, 10);
   }
   return { host, port };
 }
