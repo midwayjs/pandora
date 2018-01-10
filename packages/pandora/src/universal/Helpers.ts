@@ -9,7 +9,8 @@ export function calcAppName(dir?) {
   let ret;
   try {
     const pkg = require(join(process.cwd(), 'package.json'));
-    ret = pkg.name;
+    pkg.name.toString();
+    ret = removePkgNameScope(pkg.name);
   } catch (err) {
     ret = null;
   }
@@ -17,6 +18,10 @@ export function calcAppName(dir?) {
     ret = dir.split('/').slice(-1)[0] || null;
   }
   return ret;
+}
+
+export function removePkgNameScope(pkgName: string) {
+  return pkgName.replace(/^@[^\/]*\//, '');
 }
 
 export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {

@@ -22,6 +22,18 @@ describe('Helpers', function () {
     mm.restore();
   });
 
+  it('should removePkgNameScope() be ok', () => {
+
+    const name1 = Helpers.removePkgNameScope('@ali/abc');
+    expect(name1).to.equal('abc');
+
+    const name2 = Helpers.removePkgNameScope('cbd');
+    expect(name2).to.equal('cbd');
+
+    const name3 = Helpers.removePkgNameScope('/123');
+    expect(name3).to.equal('/123');
+
+  });
 
   it('should attach env config from outside', () => {
     mm(process, 'cwd', function () {
