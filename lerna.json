@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "1.6.21",
+  "version": "1.6.22",
   "registry": "https://registry.npmjs.org/",
   "npmClient": "npm"
 }

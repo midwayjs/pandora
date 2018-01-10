@@ -1,6 +1,6 @@
 {
   "name": "pandora-dollar",
-  "version": "1.6.16",
+  "version": "1.6.22",
   "description": "handy utilities",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
