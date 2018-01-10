@@ -122,6 +122,7 @@ export class ProcessBootstrap {
   static cmd() {
 
     program
+      .allowUnknownOption()
       .option('--params [params]')
       .parse(process.argv);
 
