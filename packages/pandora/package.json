@@ -1,6 +1,6 @@
 {
   "name": "pandora",
-  "version": "1.6.22",
+  "version": "1.6.23",
   "description": "A powerful and lightweight application manager for Node.js applications powered by TypeScript.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
