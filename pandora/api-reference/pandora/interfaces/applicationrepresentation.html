@@ -89,8 +89,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#appdir" class="tsd-kind-icon">app<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#appname" class="tsd-kind-icon">app<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#globalargv" class="tsd-kind-icon">global<wbr>Argv</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#globalargs" class="tsd-kind-icon">global<wbr>Args</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#globalenv" class="tsd-kind-icon">global<wbr>Env</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#globalexecargv" class="tsd-kind-icon">global<wbr>Exec<wbr>Argv</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#inspector" class="tsd-kind-icon">inspector</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="applicationrepresentation.html#scale" class="tsd-kind-icon">scale</a></li>
 							</ul>
 						</section>
@@ -105,7 +107,7 @@
 					<div class="tsd-signature tsd-kind-icon">app<wbr>Dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/pandora/src/domain.ts#L20">domain.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L20">domain.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -115,17 +117,17 @@
 					<div class="tsd-signature tsd-kind-icon">app<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/pandora/src/domain.ts#L19">domain.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L19">domain.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="globalargv" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> global<wbr>Argv</h3>
-					<div class="tsd-signature tsd-kind-icon">global<wbr>Argv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="globalargs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> global<wbr>Args</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/pandora/src/domain.ts#L23">domain.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L24">domain.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -135,7 +137,27 @@
 					<div class="tsd-signature tsd-kind-icon">global<wbr>Env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/pandora/src/domain.ts#L22">domain.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L22">domain.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="globalexecargv" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> global<wbr>Exec<wbr>Argv</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Exec<wbr>Argv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L23">domain.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="inspector" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> inspector</h3>
+					<div class="tsd-signature tsd-kind-icon">inspector<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L25">domain.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -145,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">:</span> <a href="../globals.html#processscale" class="tsd-signature-type">ProcessScale</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/bdd81eb/packages/pandora/src/domain.ts#L21">domain.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/domain.ts#L21">domain.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,10 +195,16 @@
 								<a href="applicationrepresentation.html#appname" class="tsd-kind-icon">app<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="applicationrepresentation.html#globalargv" class="tsd-kind-icon">global<wbr>Argv</a>
+								<a href="applicationrepresentation.html#globalargs" class="tsd-kind-icon">global<wbr>Args</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="applicationrepresentation.html#globalenv" class="tsd-kind-icon">global<wbr>Env</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="applicationrepresentation.html#globalexecargv" class="tsd-kind-icon">global<wbr>Exec<wbr>Argv</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="applicationrepresentation.html#inspector" class="tsd-kind-icon">inspector</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="applicationrepresentation.html#scale" class="tsd-kind-icon">scale</a>

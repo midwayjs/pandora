@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ObjectProxyBehaviourManager | pandora-hub</title>
+	<title>BaseMonitor | pandora</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">pandora-hub</a>
+					<a href="../index.html" class="title">pandora</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="objectproxybehaviourmanager.html">ObjectProxyBehaviourManager</a>
+					<a href="basemonitor.html">BaseMonitor</a>
 				</li>
 			</ul>
-			<h1>Class ObjectProxyBehaviourManager</h1>
+			<h1>Class BaseMonitor</h1>
 		</div>
 	</div>
 </header>
@@ -67,8 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>ObjectProxyBehaviourManager
-						Unified management of all Object Proxy Behaviour through Remote and Proxy</p>
+						<p>Class Monitor</p>
 					</div>
 				</div>
 			</section>
@@ -76,7 +75,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ObjectProxyBehaviourManager</span>
+						<span class="target">BaseMonitor</span>
 					</li>
 				</ul>
 			</section>
@@ -87,17 +86,20 @@
 						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="objectproxybehaviourmanager.html#idtobehaviour" class="tsd-kind-icon">id<wbr>ToBehaviour</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="objectproxybehaviourmanager.html#instance" class="tsd-kind-icon">instance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#daemonlogger" class="tsd-kind-icon">daemon<wbr>Logger</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#globalconfig" class="tsd-kind-icon">global<wbr>Config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#globalconfigprocesser" class="tsd-kind-icon">global<wbr>Config<wbr>Processer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#ipchub" class="tsd-kind-icon">ipc<wbr>Hub</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#server" class="tsd-kind-icon">server</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="objectproxybehaviourmanager.html#getbehaviour" class="tsd-kind-icon">get<wbr>Behaviour</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="objectproxybehaviourmanager.html#removebehaviour" class="tsd-kind-icon">remove<wbr>Behaviour</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="objectproxybehaviourmanager.html#setbehaviour" class="tsd-kind-icon">set<wbr>Behaviour</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="objectproxybehaviourmanager.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="basemonitor.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#startmetrics" class="tsd-kind-icon">start<wbr>Metrics</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="basemonitor.html#startmetricsreporter" class="tsd-kind-icon">start<wbr>Metrics<wbr>Reporter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="basemonitor.html#stop" class="tsd-kind-icon">stop</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,22 +108,52 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="idtobehaviour" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> id<wbr>ToBehaviour</h3>
-					<div class="tsd-signature tsd-kind-icon">id<wbr>ToBehaviour<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/objectproxybehaviour.html" class="tsd-signature-type">ObjectProxyBehaviour</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
+					<a name="daemonlogger" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> daemon<wbr>Logger</h3>
+					<div class="tsd-signature tsd-kind-icon">daemon<wbr>Logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ILogger</span><span class="tsd-signature-symbol"> =&nbsp;getDaemonLogger()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/hub/src/object-proxying/ObjectProxyBehaviourManager.ts#L11">object-proxying/ObjectProxyBehaviourManager.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L21">monitor/Monitor.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="instance" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> instance</h3>
-					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <a href="objectproxybehaviourmanager.html" class="tsd-signature-type">ObjectProxyBehaviourManager</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="globalconfig" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> global<wbr>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;this.globalConfigProcesser.getAllProperties()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/hub/src/object-proxying/ObjectProxyBehaviourManager.ts#L48">object-proxying/ObjectProxyBehaviourManager.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L23">monitor/Monitor.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="globalconfigprocesser" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> global<wbr>Config<wbr>Processer</h3>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Config<wbr>Processer<span class="tsd-signature-symbol">:</span> <a href="globalconfigprocessor.html" class="tsd-signature-type">GlobalConfigProcessor</a><span class="tsd-signature-symbol"> =&nbsp;GlobalConfigProcessor.getInstance()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L22">monitor/Monitor.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="ipchub" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> ipc<wbr>Hub</h3>
+					<div class="tsd-signature tsd-kind-icon">ipc<wbr>Hub<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hub</span><span class="tsd-signature-symbol"> =&nbsp;new Hub()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L24">monitor/Monitor.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="server" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> server</h3>
+					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L25">monitor/Monitor.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -129,109 +161,77 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getbehaviour" class="tsd-anchor"></a>
-					<h3>get<wbr>Behaviour</h3>
+					<a name="start" class="tsd-anchor"></a>
+					<h3>start</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Behaviour<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/objectproxybehaviour.html" class="tsd-signature-type">ObjectProxyBehaviour</a></li>
+						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/hub/src/object-proxying/ObjectProxyBehaviourManager.ts#L39">object-proxying/ObjectProxyBehaviourManager.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L31">monitor/Monitor.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the Behaviour by an ObjectDescription
-									Default as DefaultObjectProxyBehaviour if there not set Behaviour for this ObjectDescription</p>
+									<p>Start Monitor</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>objectDescription: <a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/objectproxybehaviour.html" class="tsd-signature-type">ObjectProxyBehaviour</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="removebehaviour" class="tsd-anchor"></a>
-					<h3>remove<wbr>Behaviour</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Behaviour<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="startmetrics" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> start<wbr>Metrics</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Metrics<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/hub/src/object-proxying/ObjectProxyBehaviourManager.ts#L28">object-proxying/ObjectProxyBehaviourManager.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L57">monitor/Monitor.ts:57</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove a Behaviour by an ObjectDescription</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>objectDescription: <a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a></h5>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="startmetricsreporter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> start<wbr>Metrics<wbr>Reporter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Metrics<wbr>Reporter<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L67">monitor/Monitor.ts:67</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setbehaviour" class="tsd-anchor"></a>
-					<h3>set<wbr>Behaviour</h3>
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Behaviour<span class="tsd-signature-symbol">(</span>objectDescription<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a>, behaviour<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectproxybehaviour.html" class="tsd-signature-type">ObjectProxyBehaviour</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/hub/src/object-proxying/ObjectProxyBehaviourManager.ts#L18">object-proxying/ObjectProxyBehaviourManager.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/pandora/src/monitor/Monitor.ts#L82">monitor/Monitor.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set a Behaviour for an ObjectDescription</p>
-								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>objectDescription: <a href="../interfaces/objectdescription.html" class="tsd-signature-type">ObjectDescription</a></h5>
-								</li>
-								<li>
-									<h5>behaviour: <a href="../interfaces/objectproxybehaviour.html" class="tsd-signature-type">ObjectProxyBehaviour</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="getinstance" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Instance</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Instance<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="objectproxybehaviourmanager.html" class="tsd-signature-type">ObjectProxyBehaviourManager</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/3fc93fa/packages/hub/src/object-proxying/ObjectProxyBehaviourManager.ts#L49">object-proxying/ObjectProxyBehaviourManager.ts:49</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="objectproxybehaviourmanager.html" class="tsd-signature-type">ObjectProxyBehaviourManager</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -250,25 +250,34 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="objectproxybehaviourmanager.html" class="tsd-kind-icon">Object<wbr>Proxy<wbr>Behaviour<wbr>Manager</a>
+						<a href="basemonitor.html" class="tsd-kind-icon">Base<wbr>Monitor</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="objectproxybehaviourmanager.html#idtobehaviour" class="tsd-kind-icon">id<wbr>ToBehaviour</a>
+								<a href="basemonitor.html#daemonlogger" class="tsd-kind-icon">daemon<wbr>Logger</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="objectproxybehaviourmanager.html#instance" class="tsd-kind-icon">instance</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="basemonitor.html#globalconfig" class="tsd-kind-icon">global<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="basemonitor.html#globalconfigprocesser" class="tsd-kind-icon">global<wbr>Config<wbr>Processer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="basemonitor.html#ipchub" class="tsd-kind-icon">ipc<wbr>Hub</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="basemonitor.html#server" class="tsd-kind-icon">server</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="objectproxybehaviourmanager.html#getbehaviour" class="tsd-kind-icon">get<wbr>Behaviour</a>
+								<a href="basemonitor.html#start" class="tsd-kind-icon">start</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="basemonitor.html#startmetrics" class="tsd-kind-icon">start<wbr>Metrics</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="basemonitor.html#startmetricsreporter" class="tsd-kind-icon">start<wbr>Metrics<wbr>Reporter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="objectproxybehaviourmanager.html#removebehaviour" class="tsd-kind-icon">remove<wbr>Behaviour</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="objectproxybehaviourmanager.html#setbehaviour" class="tsd-kind-icon">set<wbr>Behaviour</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="objectproxybehaviourmanager.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a>
+								<a href="basemonitor.html#stop" class="tsd-kind-icon">stop</a>
 							</li>
 						</ul>
 					</li>

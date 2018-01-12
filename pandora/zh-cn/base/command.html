@@ -64,13 +64,14 @@
 <p>举例：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js</span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
 <h2 id="start-启动应用"><a class="markdown-anchor" href="#start-启动应用">#</a> start 启动应用</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --argv=<span class="string">"expose-gc"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --node-args=<span class="string">"--expose-gc"</span></span><br></pre></td></tr></table></figure>
 <p>最常用的启动命令，用于启动一个新的应用。</p>
 <ol>
 <li><code>[path]</code> 可选，启动的目标路径，默认为当前目录。</li>
 <li><code>--name=urAppName</code> 可选，用于指定应用名，默认为当前目录中 package.json 的 name ，或当前目录名。</li>
 <li><code>--env=&quot;NODE_ENV=production&quot;</code> 可选，指定启动应用的环境变量，应用可以通过 <code>process.env</code> 获得。</li>
-<li><code>--argv=&quot;expose-gc&quot;</code> 可选，指定应用启动的 Node.js 参数。</li>
+<li><code>--node-args=&quot;--expose-gc&quot;</code> 可选，指定应用启动的 Node.js 参数。</li>
+<li><code>--args=&quot;--a=b&quot;</code> 给应用程序的参数。</li>
 </ol>
 <p>举例：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 当前目录为 /home/admin/mytaobao/target/mytaobao （假设没有 package.json 中的 name）</span></span><br><span class="line"></span><br><span class="line">pandora start <span class="comment"># 启动 mytaobao 应用，类似 --name=mytaobao</span></span><br><span class="line">pandora start . --name mytaobao <span class="comment"># 同上</span></span><br><span class="line">pandora start `<span class="built_in">pwd</span>` <span class="comment"># 同上</span></span><br></pre></td></tr></table></figure>
@@ -121,13 +122,14 @@
 <blockquote>
 <p>注意：dev 命令不会启动 Daemon 进程，list 等命令无法查看到应用信息</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --argv=<span class="string">"expose-gc"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --node-args=<span class="string">"--expose-gc"</span></span><br></pre></td></tr></table></figure>
 <p>不启动 Daemon 直接前台启动应用，日志直接输出控制台。多用于本地调试，参数同 start。</p>
 <ol>
 <li><code>[path]</code> 可选，启动的目标路径，默认为当前目录。</li>
 <li><code>--name=urAppName</code> 可选，用于指定应用名，默认为当前目录中 package.json 的 name ，或当前目录名。</li>
 <li><code>--env=&quot;NODE_ENV=production&quot;</code> 可选，指定启动应用的环境变量，应用可以通过 <code>process.env</code> 获得。</li>
-<li><code>--argv=&quot;expose-gc&quot;</code> 可选，指定应用启动的 Node.js 参数。</li>
+<li><code>--node-args=&quot;--expose-gc&quot;</code> 可选，指定应用启动的 Node.js 参数。</li>
+<li><code>--args=&quot;--a=b&quot;</code> 给应用程序的参数。</li>
 </ol>
 
   </article>
