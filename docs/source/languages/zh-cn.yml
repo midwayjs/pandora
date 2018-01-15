@@ -4,7 +4,7 @@ header:
 index:
   getstart: 快速入门
   slogan: "向未来出发"
-  desc: "一个 Ops First 的 Node.js 应用管理器"
+  desc: "一个可管理、可度量、可追踪的 Node.js 应用管理器"
 
 menu:
   guide: 文档指南
