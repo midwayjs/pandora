@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Quick Start - Ready to Boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/pandora/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/pandora/en" class="nav-logo leftpadding" alt="Pandora.js"><img src="/pandora/images/nav-logo.png" > Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li>
+      <li class="translations">
+        <a class="nav-link">English</a>
+        <span class="arrow" style="border-top-color:#fff" ></span>
+        <ul class="dropdown-content" >
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/zh-cn">中文</a></li>
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/en">English</a></li>
+        </ul>
+      </li>
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>Quick Start</h1>
+    <h2 id="environment"><a class="markdown-anchor" href="#environment">#</a> Environment</h2>
+<p>OS: macOS / Linux
+Node.js Runtime: &gt;= 8.x.x, latest LTS version is recommended</p>
+<h2 id="the-goal-of-this-chapter"><a class="markdown-anchor" href="#the-goal-of-this-chapter">#</a> The Goal Of This Chapter</h2>
+<ol>
+<li>Understand the basic <code>procfile.js</code> file writing.</li>
+<li>Understand the most basic commands, such as start, stop, dev, exit, list.</li>
+</ol>
+<h2 id="installation"><a class="markdown-anchor" href="#installation">#</a> Installation</h2>
+<p>Pandora.js can be installed directly in your Node.js project, and it can also be installed in the global.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm i pandora -g  // Install <span class="keyword">in</span> the global</span><br><span class="line">npm i pandora --save   // Install <span class="keyword">in</span> your project</span><br></pre></td></tr></table></figure>
+<h2 id="generate-procfilejs"><a class="markdown-anchor" href="#generate-procfilejs">#</a> Generate procfile.js</h2>
+<p>Pandora.js defines the application process structure by a <code>procfile.js</code> in the project root directory, so you need to add a <code>procfile.js</code> file in the project root directory.</p>
+<p>This chapter will introduce the most simplest Fork and Cluster methods, and these two methods you only need to choose one.</p>
+<h4 id="fork-method"><a class="markdown-anchor" href="#fork-method">#</a> Fork Method</h4>
+<p>the fork method is the most simplest way, it simply pull up a application, just like run <code>node app.js</code> directly.</p>
+<p>Use the init command to generate a <code>procfile.js</code>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js <span class="comment"># The app.js is the path of your Node.js application</span></span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
+<p>Then you will get a default <code>procfile.js</code> and you can take a look, and the contents are as bellow (removed comments):</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line">  pandora</span><br><span class="line">    .fork(<span class="string">'appName'</span>, <span class="string">'./app.js'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="cluster-method"><a class="markdown-anchor" href="#cluster-method">#</a> Cluster Method</h4>
+<p>The cluster method usually used for Node.js Web Server, and Pandora.js starts CPU number of workers by default (but you can also change this default value).</p>
+<p>Use the init command to generate a <code>procfile.js</code>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js <span class="comment"># The app.js is the path of your Node.js application</span></span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">  fork </span><br><span class="line">❯ cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
+<p>Then you will get a default <code>procfile.js</code> and you can take a look, and the contents are as bellow (removed comments):</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// Default start to process group `worker`</span></span><br><span class="line">    .cluster(<span class="string">'./app.js'</span>); </span><br><span class="line"> </span><br><span class="line">  <span class="comment">/* Custom the number of workers</span></span><br><span class="line"><span class="comment">  pandora</span></span><br><span class="line"><span class="comment">    .process('worker')</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    // Modify the process group `worker` always to start 2 workers.</span></span><br><span class="line"><span class="comment">    // The default is pandora.dev ? 1 : 'auto'.</span></span><br><span class="line"><span class="comment">    // It means in dev mode will not start as a cluster.</span></span><br><span class="line"><span class="comment">    // Otherwise if started by `pandora start`, that will start as a cluster.</span></span><br><span class="line"><span class="comment">    .scale(2); </span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="through-npm-run-to-start-or-stop"><a class="markdown-anchor" href="#through-npm-run-to-start-or-stop">#</a> Through <code>npm run</code> To Start Or Stop</h1>
+<p>In this scene, Pandora.js will join the whole development processes of the application.</p>
+<p>In general, put the Pandora.js commands in the scripts part of package.json.</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script"</span>: &#123;</span><br><span class="line">    <span class="attr">"dev"</span>: <span class="string">"pandora dev"</span>,</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"pandora start"</span>,</span><br><span class="line">    <span class="attr">"stop"</span>: <span class="string">"pandora stop"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then， you can use <code>npm run</code> to start, such as:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run dev // Local start</span><br><span class="line">npm run start // Production start</span><br><span class="line">npm run stop // Production stop</span><br></pre></td></tr></table></figure>
+<h2 id="start-and-stop-under-global"><a class="markdown-anchor" href="#start-and-stop-under-global">#</a> Start And Stop Under Global</h2>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start [--name xxx] [path]</span><br></pre></td></tr></table></figure>
+<p>For example, in a application root directory, and it named <code>helloApp</code>.</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start</span><br><span class="line">pandora start --name helloApp</span><br></pre></td></tr></table></figure>
+<p>The first command will take the last part of directory or the name from package.json as the application name. Then the application will start silently, according to the definition from procfile.js and run in the background.</p>
+<p>After the application is started, it can be viewed through the list command:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora list</span><br></pre></td></tr></table></figure>
+<p>you can also stop it:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora stop</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Because the Pandora.js global mode is generally started in the background, it is best to deploy to the server to do so.</p>
+</blockquote>
+<p>After the start command is used to start the application, the Daemon process will still be resident in memory. At this scene, manual exit is needed to exit the Daemon process:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p>If you want to start a application at front, you can use the dev command ( only for local debugging ):</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora dev</span><br></pre></td></tr></table></figure>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
+  </div>
+  <dl><dt><a href="/pandora/en/introduce.html">What is the Pandora.js</a></dt></ul></dd><dt><a href="/pandora/en/quickstart.html">Quick Start</a></dt></ul></dd><dt><a href="/pandora/en/glossary.html">Glossary</a></dt></ul></dd><dt>Basic Features</dt><dd><ul><li><a href="/pandora/en/base/command.html">Commands</a></li><li><a href="/pandora/en/base/procfile_mode.html">Understand procfile.js</a></li><li><a href="/pandora/en/base/dorapan.html">User SDK - Dorapan</a></li><li><a href="/pandora/en/base/logs.html">Logger</a></li><li><a href="/pandora/en/base/global_config.html">Global Config</a></li><li><a href="/pandora/en/base/quick_monitor.html">Monitoring Quick Start</a></li><li><a href="/pandora/en/base/debug.html">Debugging</a></li></ul></dd><dt>Advanced Processes Model</dt><dd><ul><li><a href="/pandora/en/process/process_std.html">Custom Process</a></li><li><a href="/pandora/en/process/service_std.html">Custom Service</a></li><li><a href="/pandora/en/process/fork_and_cluster.html">Fork And Cluster</a></li><li><a href="/pandora/en/process/environment_std.html">Custom Environment</a></li><li><a href="/pandora/en/process/application_life_cycle.html">Application Life Cycle</a></li><li><a href="/pandora/en/process/ipc_hub.html">IPC-Hub</a></li></ul></dd><dt>Application Monitoring</dt><dd><ul><li><a href="/pandora/en/monitor/monitor_std.html">Overview of Monitoring</a></li><li><a href="/pandora/en/monitor/endpoint.html">Use and Extend EndPoint</a></li><li><a href="/pandora/en/monitor/resource.html">Expose Resource</a></li><li><a href="/pandora/en/monitor/metrics.html">Use and Extend Metrics</a></li><li><a href="/pandora/en/monitor/trace.html">Trace Monitoring</a></li><li><a href="/pandora/en/monitor/monitor_inner.html">Default Indicators</a></li><li><a href="/pandora/en/monitor/report.html">Monitoring Data Report</a></li></ul></dd><dt>Monitoring Data Collection</dt><dd><ul><li><a href="/pandora/en/collect/health.html">Health Check</a></li></ul></dd><dt>Extension</dt><dd><ul><li><a href="/pandora/en/other/dashboard.html">GUI Dashboard</a></li><li><a href="/pandora/en/other/typescript.html">Start A TypeScript Project</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

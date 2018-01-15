@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Pandora.js - Ready to Boot</title>
+  <title>What is the Pandora.js ? - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -37,22 +37,51 @@
 </div>
 
   <div id="container" class="container">
-    <div class="index">
-  <div class="banner block index-bg-light">
-    <div class="banner-info leftpadding">
-      <h1>
-      <p style="font-weight:bold;font-size:48px;">Pandora.js</p>
-      <p style="font-weight:bold;font-size:48px;">Ready to Boot</p>
-      An Ops First Application Manager for Node.js Applications</h1>
-      <p class="banner-button">
-        <a class="btn btn-primary" href="/pandora/en/quickstart.html">Get Start</a>
-        <a class="btn btn-secondary" href="https://github.com/midwayjs/pandora" target="_blank" >GitHub</a>
-      </p>
-    </div>
-  </div>
-</div>
-<div class="index-aside">
-<aside id="mobileAside" class="toc">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>What is the Pandora.js ?</h1>
+    <blockquote>
+<p>Note: In this documentation, Pandora and Pandora.js all refer to the same thing, that all means the Pandora.js project.</p>
+</blockquote>
+<p>Pandora.js is an Application Manager for Node.js Applications represented by <a href="http://www.nasdaq.com/symbol/baba" target="_blank" rel="noopener">Alibaba Group</a>.</p>
+<p>The duties and responsibilities:</p>
+<ul>
+<li>Provides a general Node.js application runtime model and related infrastructure
+<ul>
+<li>Multi process model</li>
+<li>Providing infrastructure and specification for application frameworks ( such as the service feature )</li>
+<li>Provides a stable middleware SDK client and a consistent interface</li>
+</ul>
+</li>
+<li>Provide a standard DevOps tool for Node.js
+<ul>
+<li>Pandora.js operation and maintenance API in each layer</li>
+<li>Monitoring capacity, such as the Metrics and Trace</li>
+</ul>
+</li>
+</ul>
+<p>Each part of The Pandora.js includes a specification and a standard implementation. In principle, each business domain can implement its own application layer framework based on this standard. For examples:</p>
+<ul>
+<li>Pandora.js provides a standard to Integrated middleware, And management dependencies.</li>
+<li>For Web domain, such as the midway framework (Alibaba internal)</li>
+<li>For micro service framework, it can also solve the infrastructure related problems such as middleware, logger, operation and maintenance specification based on Pandora.js.</li>
+</ul>
+<h2 id="design-principles"><a class="markdown-anchor" href="#design-principles">#</a> Design principles</h2>
+<p>In the Node.js environment without threads, more and more applications choose to use Cluster mode to run multiple processes, which makes the performance to an ideal degree. However, the complex process models and IPC make many users fear it. In a lot of company users, we also often encounter framework selection difficulties. I just want to get a burger, but give me a set meal.</p>
+<p>We hope the business logic pure and simple, and only care about the business part. so that the local development and online deployment will be quite easy to done.</p>
+<p><img src="https://img.alicdn.com/tfs/TB1wR5mib_I8KJjy1XaXXbsxpXa-826-434.png" alt="img"></p>
+<p>Of course, if the Pandora.js can only start and stop the application, that is too Big deal. Application operation has been a difficult problem, in the <code>Ops first</code> today, we combine the Metrics standard and Open-tracing Standard. Through those, you can get custom monitoring invoke link tracing and so on so on. that is bound to open the intelligent monitoring of Node.js.</p>
+<h2 id="a-part-of-features-of-pandorajs"><a class="markdown-anchor" href="#a-part-of-features-of-pandorajs">#</a> A Part Of Features Of Pandora.js</h2>
+<ul>
+<li>Providing different kinds of frameworks, and the ability to start and stop a single file.</li>
+<li>Providing multi applications management and deployment capabilities</li>
+<li>Providing local development and debugging capabilities</li>
+<li>Providing process define capabilities</li>
+<li>Providing Metrics API and Trace API, and those abilities can easily integrate to 3rd APM.</li>
+</ul>
+
+  </article>
+  <aside id="mobileAside" class="toc">
   <div class="mobile-menu">
     <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
   </div>
@@ -72,37 +101,6 @@ mobileTrigger.onclick = function(e) {
 </script>
 
 </div>
-<div class="footer">
-  <footer class="leftpadding">
-    <ul>
-    <li>
-      <dl>
-        <dt>Github</dt>
-        <dd><a href="https://github.com/midwayjs" target="_blank">Organization</a></dd>
-        <dd><a href="https://github.com/midwayjs/pandora/tree/master/examples" target="_blank">Examples</a></dd>
-      </dl>
-      </li><li>
-      <dl>
-        <dt>Community</dt>
-        <dd><a href="https://github.com/midwayjs/pandora/releases" target="_blank">Change log</a></dd>
-        <dd><a href="https://github.com/midwayjs/pandora/issues" target="_blank">Issues</a></dd>
-      </dl>
-      </li><li>
-      <dl>
-        <dt>Links</dt>
-        <dd><a href="http://taobaofed.org/" target="_blank">Taobao FED</a></dd>
-        <dd><a href="http://www.typescriptlang.org/" target="_blank">TypeScript</a></dd>
-        <dd><a href="https://ant.design" target="_blank">Ant Design</a></dd>
-      </dl>
-      </li>
-    </ul>
-    <div class="right">
-      <div class="license">Released under the MIT License </div>
-      <a href="https://github.com/midwayjs/pandora" target="_blank" ><img src="/pandora/images/github.svg" /></a>
-    </div>
-  </footer>
-</div>
-
 
   </div>
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Pandora.js - Ready to Boot</title>
+  <title>Glossary - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -37,22 +37,72 @@
 </div>
 
   <div id="container" class="container">
-    <div class="index">
-  <div class="banner block index-bg-light">
-    <div class="banner-info leftpadding">
-      <h1>
-      <p style="font-weight:bold;font-size:48px;">Pandora.js</p>
-      <p style="font-weight:bold;font-size:48px;">Ready to Boot</p>
-      An Ops First Application Manager for Node.js Applications</h1>
-      <p class="banner-button">
-        <a class="btn btn-primary" href="/pandora/en/quickstart.html">Get Start</a>
-        <a class="btn btn-secondary" href="https://github.com/midwayjs/pandora" target="_blank" >GitHub</a>
-      </p>
-    </div>
-  </div>
-</div>
-<div class="index-aside">
-<aside id="mobileAside" class="toc">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>Glossary</h1>
+    <p>There are some &quot;key words&quot; in Pandora.js, the definition of these words may be different with ordinary users understanding, following explanation to help you better understand.</p>
+<h2 id="common-part"><a class="markdown-anchor" href="#common-part">#</a> Common Part</h2>
+<h3 id="procfilejs"><a class="markdown-anchor" href="#procfilejs">#</a> procfile.js</h3>
+<blockquote>
+<p>Process structure definition file</p>
+</blockquote>
+<p>A description file that defines the structure of the application process.</p>
+<h3 id="application"><a class="markdown-anchor" href="#application">#</a> Application</h3>
+<blockquote>
+<p>Application</p>
+</blockquote>
+<p>The meaning of application is not very different from the general situation.</p>
+<h3 id="fork"><a class="markdown-anchor" href="#fork">#</a> Fork</h3>
+<blockquote>
+<p>Based on require('child_process').fork();</p>
+</blockquote>
+<p>Simply start a Node.js application.</p>
+<h3 id="cluster"><a class="markdown-anchor" href="#cluster">#</a> cluster</h3>
+<blockquote>
+<p>Based on require('cluster');</p>
+</blockquote>
+<p>Create a master / worker model process group based on the cluster module.</p>
+<h3 id="service"><a class="markdown-anchor" href="#service">#</a> Service</h3>
+<blockquote>
+<p>Service</p>
+</blockquote>
+<p>A Service implementation followed the standard service start and stop interfaces.</p>
+<p>Detail:</p>
+<ol>
+<li>For example, initialize or stop of a lot of basic middleware SDK.</li>
+<li>Start or stop the main program of the application.</li>
+<li>A standard object proxy can be created by a service, that can be invoked across IPC-Hub in other process.</li>
+</ol>
+<h3 id="process"><a class="markdown-anchor" href="#process">#</a> Process</h3>
+<blockquote>
+<p>Process</p>
+</blockquote>
+<p>Same meaning.</p>
+<h2 id="metrics-part"><a class="markdown-anchor" href="#metrics-part">#</a> Metrics Part</h2>
+<h3 id="endpoint"><a class="markdown-anchor" href="#endpoint">#</a> EndPoint</h3>
+<blockquote>
+<p>EndPoint</p>
+</blockquote>
+<p>EndPoint is a data aggregation end of every different type, its function is to classify or aggregate the collected data.</p>
+<p>Example: there are different EndPoints, such as MetricsEndPoint, used to collect Metrics; HealthEndPoint is used to manage application health status; ErrorEndPoint is used to collect error logs.</p>
+<h3 id="indicator"><a class="markdown-anchor" href="#indicator">#</a> Indicator</h3>
+<blockquote>
+<p>Indicator</p>
+</blockquote>
+<p>The client part of the EndPoint, each EndPoint relates to multiple indicators, which is connected by the IPC.</p>
+<p>Each Indicator contains specific data values, such as a specific error, a specific configuration object, and so on.</p>
+<h3 id="actuator"><a class="markdown-anchor" href="#actuator">#</a> Actuator</h3>
+<blockquote>
+<p>Actuator</p>
+</blockquote>
+<p>The actuator has two major functions:</p>
+<ol>
+<li>Disclosing the data to the outside. Expose public services, such as HTTP Service, CLI Service.</li>
+<li>Managing EndPoint objects</li>
+</ol>
+
+  </article>
+  <aside id="mobileAside" class="toc">
   <div class="mobile-menu">
     <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
   </div>
@@ -72,37 +122,6 @@ mobileTrigger.onclick = function(e) {
 </script>
 
 </div>
-<div class="footer">
-  <footer class="leftpadding">
-    <ul>
-    <li>
-      <dl>
-        <dt>Github</dt>
-        <dd><a href="https://github.com/midwayjs" target="_blank">Organization</a></dd>
-        <dd><a href="https://github.com/midwayjs/pandora/tree/master/examples" target="_blank">Examples</a></dd>
-      </dl>
-      </li><li>
-      <dl>
-        <dt>Community</dt>
-        <dd><a href="https://github.com/midwayjs/pandora/releases" target="_blank">Change log</a></dd>
-        <dd><a href="https://github.com/midwayjs/pandora/issues" target="_blank">Issues</a></dd>
-      </dl>
-      </li><li>
-      <dl>
-        <dt>Links</dt>
-        <dd><a href="http://taobaofed.org/" target="_blank">Taobao FED</a></dd>
-        <dd><a href="http://www.typescriptlang.org/" target="_blank">TypeScript</a></dd>
-        <dd><a href="https://ant.design" target="_blank">Ant Design</a></dd>
-      </dl>
-      </li>
-    </ul>
-    <div class="right">
-      <div class="license">Released under the MIT License </div>
-      <a href="https://github.com/midwayjs/pandora" target="_blank" ><img src="/pandora/images/github.svg" /></a>
-    </div>
-  </footer>
-</div>
-
 
   </div>
 </body>
