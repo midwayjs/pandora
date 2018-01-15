@@ -1,12 +1,11 @@
 'use strict';
 const cls = require('./cls');
-const TRACEID = 'traceId';
 const uuid = require('uuid');
 import { Tracer } from './Tracer';
 const debug = require('debug')('Pandora:Metrics:TraceManager');
 import { MessageSender } from '../util/MessageSender';
 import { MessageConstants } from '../MetricsConstants';
-import { TRACER_TIMEOUT } from './Constants';
+import { TRACER_TIMEOUT, CURRENT_TRACER } from './Constants';
 
 export class TraceManager {
 
@@ -49,7 +48,7 @@ export class TraceManager {
   }
 
   getCurrentTracer() {
-    const traceId = this.ns.get(TRACEID);
+    const traceId = this.ns.get(CURRENT_TRACER);
     if (traceId) {
       return this.traceContainer[traceId];
     }
@@ -59,6 +58,14 @@ export class TraceManager {
     return this.traceContainer[traceId];
   }
 
+  startLocal(name) {
+
+  }
+
+  endLocal(name) {
+
+  }
+
   create(options: {
     traceId?,
     ns?
@@ -66,7 +73,7 @@ export class TraceManager {
     try {
       options.traceId = options.traceId || uuid();
       const traceId = options.traceId;
-      this.ns.set(TRACEID, traceId);
+      this.ns.set(CURRENT_TRACER, traceId);
       options.ns = this.ns;
       const tracer = new Tracer(options);
       this.traceContainer[traceId] = tracer;
