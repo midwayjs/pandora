@@ -4,7 +4,7 @@ header:
 index:
   getstart: "Get Start"
   slogan: "Ready to Boot"
-  desc: "A Manageable, Measurable and Traceable Node.js Application Manager represented by Alibaba powered by TypeScript"
+  desc: "A Manageable, Measurable and Traceable Node.js Application Manager"
 
 menu:
   guide: "Documentation"
