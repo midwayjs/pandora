@@ -1,11 +1,12 @@
 import {MetricsManager} from '../common/MetricsManager';
+import {Facade} from 'pandora-hub';
 const assert = require('assert');
 
 export class MetricsInjectionBridge {
 
   // FIXME: import {Daemon} from 'pandora'; will occurs a cycle deps
   static daemon: any = null;
-  static ipcHub: any = null;
+  static ipcHub: Facade = null;
   static metricsManager;
 
   static getMetricsManager(): MetricsManager {
@@ -27,7 +28,7 @@ export class MetricsInjectionBridge {
     return this.daemon;
   }
 
-  static setIPCHub(ipcHub) {
+  static setIPCHub(ipcHub: Facade) {
     this.ipcHub = ipcHub;
   }
 
