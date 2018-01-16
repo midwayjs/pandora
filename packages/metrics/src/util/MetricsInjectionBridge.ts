@@ -5,6 +5,7 @@ export class MetricsInjectionBridge {
 
   // FIXME: import {Daemon} from 'pandora'; will occurs a cycle deps
   static daemon: any = null;
+  static ipcHub: any = null;
   static metricsManager;
 
   static getMetricsManager(): MetricsManager {
@@ -24,6 +25,14 @@ export class MetricsInjectionBridge {
 
   static getDaemon() {
     return this.daemon;
+  }
+
+  static setIPCHub(ipcHub) {
+    this.ipcHub = ipcHub;
+  }
+
+  static getIPCHub() {
+    return this.ipcHub;
   }
 
 }

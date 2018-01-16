@@ -10,7 +10,6 @@ import {
   MetricsActuatorServer
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
-import {Hub} from 'pandora-hub';
 
 const debug = require('debug')('pandora:cluster:monitor');
 
@@ -21,7 +20,6 @@ export class BaseMonitor {
   protected daemonLogger = getDaemonLogger();
   protected globalConfigProcesser = GlobalConfigProcessor.getInstance();
   protected globalConfig = this.globalConfigProcesser.getAllProperties();
-  protected ipcHub = new Hub();
   protected server;
 
   /**
@@ -29,8 +27,6 @@ export class BaseMonitor {
    * @return {Promise<void>}
    */
   async start() {
-
-    await this.ipcHub.start();
 
     // start logger rotator serivce
     debug('start a monitor logger rotator service');
@@ -80,7 +76,6 @@ export class BaseMonitor {
    * @return {Promise<void>}
    */
   async stop() {
-    await this.ipcHub.stop();
     await this.server.destroy();
   }
 
