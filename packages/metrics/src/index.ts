@@ -16,6 +16,7 @@ export * from './endpoint/impl/InfoEndPoint';
 export * from './endpoint/impl/MetricsEndPoint';
 export * from './endpoint/impl/TraceEndPoint';
 export * from './endpoint/impl/DaemonEndPoint';
+export * from './endpoint/impl/CommonEndPoint';
 
 /**
  * indicator
@@ -30,6 +31,7 @@ export * from './indicator/impl/health/PortHealthIndicator';
 export * from './indicator/impl/TraceIndicator';
 export * from './indicator/impl/BaseInfoIndicator';
 export * from './indicator/impl/NodeIndicator';
+export * from './indicator/impl/CommandIndicator';
 
 /**
  * reporter
