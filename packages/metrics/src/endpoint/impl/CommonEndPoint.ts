@@ -5,8 +5,8 @@ import {ICounter, MetricLevel, MetricName} from '../../common';
 
 export class ErrorEndPoint extends CacheDuplexEndPoint {
   group: string = 'error';
-  metricsManager = MetricsInjectionBridge.getMetricsManager();
-  counter: ICounter = this.metricsManager.getCounter('error', MetricName.build('error.all').setLevel(MetricLevel.MAJOR));
+  private metricsManager = MetricsInjectionBridge.getMetricsManager();
+  private counter: ICounter = this.metricsManager.getCounter('error', MetricName.build('error.all').setLevel(MetricLevel.MAJOR));
 
   processReporter(data, reply?) {
     super.processReporter(data, reply);

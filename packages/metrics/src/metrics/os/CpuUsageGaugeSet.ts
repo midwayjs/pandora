@@ -120,7 +120,7 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
 
   nameIdx = {};
 
-  cpuUsageRate = 0; // 放使用率
+  cpuUsageRate = 0; // 总使用率
 
   constructor(dataTTL = 5, filePath = CpuUsageGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
