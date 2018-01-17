@@ -53,7 +53,7 @@ export class SystemLoadGaugeSet extends CachedMetricSet {
     this.loadAvg[LoadAvg.FIFTEEN_MIN] = loadAvg[2];
   };
 
-  constructor(dataTTL = 5000, filePath = SystemLoadGaugeSet.DEFAULT_FILE_PATH) {
+  constructor(dataTTL = 5, filePath = SystemLoadGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
   }

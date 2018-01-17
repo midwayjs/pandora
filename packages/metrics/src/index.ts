@@ -16,7 +16,6 @@ export * from './endpoint/impl/InfoEndPoint';
 export * from './endpoint/impl/MetricsEndPoint';
 export * from './endpoint/impl/TraceEndPoint';
 export * from './endpoint/impl/DaemonEndPoint';
-export * from './endpoint/impl/CommonEndPoint';
 
 /**
  * indicator

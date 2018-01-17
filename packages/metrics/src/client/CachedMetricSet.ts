@@ -2,7 +2,7 @@ import {MetricSet} from '../common/MetricSet';
 
 export abstract class CachedMetricSet extends MetricSet {
 
-  static DEFAULT_DATA_TTL = 5000;
+  static DEFAULT_DATA_TTL = 5;
 
   // The time (in milli-seconds) to live of cached data
   dataTTL;
@@ -22,7 +22,7 @@ export abstract class CachedMetricSet extends MetricSet {
   async refreshIfNecessary() {
     let current = Date.now();
 
-    if (!this.lastCollectTime || current - this.lastCollectTime > this.dataTTL) {
+    if (!this.lastCollectTime || current - this.lastCollectTime > this.dataTTL * 1000) {
       await this.getValueInternal();
       // update the last collect time stamp
       this.lastCollectTime = current;

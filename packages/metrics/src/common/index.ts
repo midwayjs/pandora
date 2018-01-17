@@ -15,6 +15,7 @@ export * from './MetricLevel';
 export * from './MetricFilter';
 export * from './MetricType';
 export * from './metrics/BucketCounter';
+export * from './MetricsCollectPeriodConfig';
 
 /**
  * snapshot

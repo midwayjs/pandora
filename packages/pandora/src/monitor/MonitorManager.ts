@@ -8,13 +8,15 @@ import {
   MetricsConstants,
   V8GaugeSet,
   TraceIndicator,
-  IPatcher
+  IPatcher,
+  MetricsCollectPeriodConfig
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../domain';
 import {getPandoraLogsDir} from '../universal/LoggerBroker';
+import {MetricLevel} from '../../../metrics/dist';
 const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
@@ -32,6 +34,10 @@ export class MonitorManager {
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
     const hooks = globalConfig['hook'];
+
+    // set global reporter interval
+    const periodConfig = MetricsCollectPeriodConfig.getInstance();
+    periodConfig.configGlobalPeriod(globalConfig['reporterInterval']);
 
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
@@ -95,9 +101,9 @@ export class MonitorManager {
     });
 
     // init metrics
-    client.register('node', MetricName.build('node.v8').tagged({
+    client.register('node', MetricName.build('node.v8').setLevel(MetricLevel.MINOR).tagged({
       pid: process.pid
-    }), new V8GaugeSet());
+    }), new V8GaugeSet(periodConfig.getCachedTimeForLevel(MetricLevel.MINOR)));
 
     MonitorManager.injected = true;
 

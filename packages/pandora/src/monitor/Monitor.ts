@@ -7,7 +7,10 @@ import {
   SystemMemoryGaugeSet,
   SystemLoadGaugeSet,
   DiskStatGaugeSet,
-  MetricsActuatorServer
+  MetricsActuatorServer,
+  MetricLevel,
+  MetricsCollectPeriodConfig,
+  MetricName
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 
@@ -21,6 +24,7 @@ export class BaseMonitor {
   protected globalConfigProcesser = GlobalConfigProcessor.getInstance();
   protected globalConfig = this.globalConfigProcesser.getAllProperties();
   protected server;
+  protected metricsCollectPeriodConfig = MetricsCollectPeriodConfig.getInstance();
 
   /**
    * Start Monitor
@@ -34,6 +38,9 @@ export class BaseMonitor {
       logger: <ILogger> this.daemonLogger
     });
     await loggerRotator.startService();
+
+    // set global reporter interval
+    this.metricsCollectPeriodConfig.configGlobalPeriod(this.globalConfig['reporterInterval']);
 
     // start metrics server
     debug('start a metrics server');
@@ -53,11 +60,11 @@ export class BaseMonitor {
   protected startMetrics() {
     // register some default metrics
     let metricsManager = this.server.getMetricsManager();
-    metricsManager.register('system', 'system', new CpuUsageGaugeSet());
-    metricsManager.register('system', 'system', new NetTrafficGaugeSet());
-    metricsManager.register('system', 'system', new SystemMemoryGaugeSet());
-    metricsManager.register('system', 'system', new SystemLoadGaugeSet());
-    metricsManager.register('system', 'system', new DiskStatGaugeSet());
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new CpuUsageGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new SystemMemoryGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new SystemLoadGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new DiskStatGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
   }
 
   protected startMetricsReporter() {
@@ -66,7 +73,7 @@ export class BaseMonitor {
       const reporterObj = this.globalConfig['reporter'][reporterName];
       if (reporterObj['enabled']) {
         let reporterIns = new reporterObj['target'](this.server, reporterObj.initConfig || {});
-        reporterIns.start(reporterObj['interval']);
+        reporterIns.start(this.globalConfig['reporterInterval']);
         this.daemonLogger.info(`${reporterName} reporter started`);
       }
     }

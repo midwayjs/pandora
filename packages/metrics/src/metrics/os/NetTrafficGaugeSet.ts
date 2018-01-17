@@ -25,7 +25,7 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
   rateStats = {};
 
 
-  constructor(dataTTL = 5000, filePath = NetTrafficGaugeSet.DEFAULT_FILE_PATH) {
+  constructor(dataTTL = 5, filePath = NetTrafficGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
   }

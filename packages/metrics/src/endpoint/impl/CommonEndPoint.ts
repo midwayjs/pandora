@@ -1,18 +1,12 @@
 import {CacheDuplexEndPoint} from '../CacheDuplexEndPoint';
 import {EndPoint} from '../EndPoint';
 import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
-import {BucketCounter, ICounter, MetricName} from '../../common';
+import {ICounter, MetricLevel, MetricName} from '../../common';
 
 export class ErrorEndPoint extends CacheDuplexEndPoint {
   group: string = 'error';
-  counter: ICounter;
-
-  constructor() {
-    super();
-    this.counter = new BucketCounter(5);
-    let metricsManager = MetricsInjectionBridge.getMetricsManager();
-    metricsManager.register('error', MetricName.build('error.all'), this.counter);
-  }
+  metricsManager = MetricsInjectionBridge.getMetricsManager();
+  counter: ICounter = this.metricsManager.getCounter('error', MetricName.build('error.all').setLevel(MetricLevel.MAJOR));
 
   processReporter(data, reply?) {
     super.processReporter(data, reply);
