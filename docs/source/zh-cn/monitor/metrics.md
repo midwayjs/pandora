@@ -11,7 +11,6 @@ Metrics 的原意是 **指标**，用于反馈应用的当前状况的数据值�
 - Counter 计数器
 - Meter 吞吐率度量器
 - Histogram 直方分布度量器
-- Timer 吞吐率和响应时间分布度量器
 
 Pandora.js 目前对这几种度量器都做了一定的支持，这些度量器中最常用的就是 Gauge 和 Counter，可以说，80% 的场景都只是用这两种。
 
@@ -32,7 +31,6 @@ counter.inc(1);
 counter.dec(1);
 histogram.update(5);
 meter.mark(4);
-timer.update(3, 1);
 ```
 
 通过 `Client` 和 Get 对应的指标类型方法，这样在任意地方，用户都可以随时随地埋入 Metrics 指标，如果想知道埋入的效果，可以通过 `/metrics/:group` 这样的路由看到结果，更多的路由方法可以参考 [Reource](/monitor/resource.html)。
@@ -55,19 +53,7 @@ client.register('test', name, {
 });
 ```
 
-
-
-## 自定义指标
-
-
-## 度量类型
-
->  目前 Pandora.js 全部使用 typescript 来编写，有些代码必须带类型定义。
->
-> 所有的 Metric 类型都继承与 [Metric 接口](http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html)
-
-
-### MetricName
+## 指标的名字 MetricName
 
 每一个指标都可以取一个名字，这个名字在 Pandora.js 并不是简单的字符串，而是一个 MetricName 类型的实现。
 
@@ -76,6 +62,40 @@ client.register('test', name, {
 常见的是 key 和 tags 两部分。
 
 key 就是标准的字符串，一般由几个字符串通过 . 来拼接而成。而 tags 是一组对象 kv 对，key 加 tags 标识了唯一的一个 Metric。
+
+还有一部分是 MetricsLevel，不同的 MetricsLevel 对应了不同的指标缓存时间，默认时间如下，单位为秒。
+
+```javascript
+  getCachedTimeForLevel(level: MetricLevel) {
+
+    switch (level) {
+      case MetricLevel.TRIVIAL:
+        return 50;
+      case MetricLevel.MINOR:
+        return 20;
+      case MetricLevel.NORMAL:
+        return 10;
+      case MetricLevel.MAJOR:
+        return 2;
+      case MetricLevel.CRITICAL:
+        return 1;
+      default:
+        return 50;
+    }
+  }
+```
+
+也就是说，假如你的指标等级是 `MetricLevel.MAJOR`，那么缓存时间为 2 秒，如果你的采集周期是 1 秒的话，那么在两次采集窗口的时候，返回的值都是相同的。
+
+
+## 指标详解
+
+
+## 度量类型
+
+>  目前 Pandora.js 全部使用 typescript 来编写，有些代码必须带类型定义。
+>
+> 所有的 Metric 类型都继承与 [Metric 接口](http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html)
 
 
 ### 瞬态型度量
