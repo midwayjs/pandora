@@ -34,7 +34,7 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
     pandoraConfig['config'] = pandoraConfig['config'] || [];
 
     // set global config to environment
-    pandoraConfig['config'].push(process.env[PANDORA_GLOBAL_CONFIG] || '');
+    pandoraConfig['config'].unshift(process.env[PANDORA_GLOBAL_CONFIG] || '');
     process.env[PANDORA_GLOBAL_CONFIG] = pandoraConfig['config'].filter((text) => {
       return !!text;
     }).join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
