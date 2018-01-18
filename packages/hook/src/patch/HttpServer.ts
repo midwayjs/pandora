@@ -99,6 +99,7 @@ export class HttpServerPatcher extends Patcher {
               self.beforeFinish(span, res);
               span.finish();
               tracer.finish(options);
+              self.afterFinish(span, res);
             });
 
             return requestListener(req, res);
@@ -109,5 +110,9 @@ export class HttpServerPatcher extends Patcher {
         return createServer.call(this, requestListener);
       };
     });
+  }
+
+  afterFinish(span, res) {
+    // overwrite
   }
 }
