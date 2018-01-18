@@ -9,14 +9,14 @@ import {
   V8GaugeSet,
   TraceIndicator,
   IPatcher,
-  MetricsCollectPeriodConfig
+  MetricsCollectPeriodConfig,
+  MetricLevel
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
 import {PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../domain';
 import {getPandoraLogsDir} from '../universal/LoggerBroker';
-import {MetricLevel} from '../../../metrics/dist';
 const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
