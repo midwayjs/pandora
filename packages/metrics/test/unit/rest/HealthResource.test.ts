@@ -33,7 +33,6 @@ describe('/test/unit/HealthResource.test.ts', () => {
     healthIndicator.initialize();
 
     let restService = new ActuatorRestService(endPointService);
-    console.log(actuatorConfig);
     app = restService.start(actuatorConfig);
 
     request(app.listen())

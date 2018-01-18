@@ -120,7 +120,9 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
 
   nameIdx = {};
 
-  constructor(dataTTL = 5000, filePath = CpuUsageGaugeSet.DEFAULT_FILE_PATH) {
+  cpuUsageRate = 0; // 总使用率
+
+  constructor(dataTTL = 5, filePath = CpuUsageGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
     for(let idx in this.names) {
@@ -143,6 +145,16 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
         }
       });
     }
+
+    gauges.push({
+      name: MetricName.build('cpu.usage'),
+      metric: <Gauge<number>> {
+        getValue() {
+          self.refreshIfNecessary();
+          return self.cpuUsageRate;
+        }
+      }
+    });
 
     gauges.push({
       name: MetricName.build('interrupts'),
@@ -211,6 +223,22 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
           this.cpuUsage[this.nameIdx[index++]] = getUsage(cpuInfo[key], lastCollectedCpuInfo[key], cpuInfo, lastCollectedCpuInfo);
         }
 
+        /**
+         * CPU在t1和t2时间内总的使用时间:( user2+ nice2+ system2+ idle2+ iowait2+ irq2+ softirq2 + steal2 + guest2 + guest_nice2 ) - ( user1+ nice1+ system1+ idle1+ iowait1+ irq1+ softirq1 + steal1 + guest1 + guest_nice1)
+         * CPU的空闲时间：(idle2 -idle1)
+         * CPU在t1和t2时间内的使用率=CPU非空闲时间/CPU总时间*100%=（1-CPU的空闲时间/CPU总时间）*100%
+         * 则：
+         * CPU(t1,t2)使用率：1-(idle2-idle1)/(( user2+ nice2+ system2+ idle2+ iowait2+ irq2+ softirq2 + steal2 + guest2 + guest_nice2 ) - ( user1+ nice1+ system1+ idle1+ iowait1+ irq1+ softirq1 + steal1 + guest1 + guest_nice1))
+         */
+
+        /**
+         * guest 没有暂时不算
+         */
+
+        let cpuTotalTime = cpuInfo.totalTime - lastCollectedCpuInfo.totalTime;
+        let cpuIdleTime = cpuInfo.idleTime - lastCollectedCpuInfo.idleTime;
+        this.cpuUsageRate = 1 - cpuIdleTime / cpuTotalTime;
+
         lastCollectedCpuInfo = cpuInfo;
         continue;
       }
@@ -247,6 +275,7 @@ export class CpuUsageGaugeSet extends CachedMetricSet {
         this.processBlocked = extractInt(line);
       }
     }
+
   }
 
 }

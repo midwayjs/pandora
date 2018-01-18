@@ -30,6 +30,7 @@ export * from './indicator/impl/health/PortHealthIndicator';
 export * from './indicator/impl/TraceIndicator';
 export * from './indicator/impl/BaseInfoIndicator';
 export * from './indicator/impl/NodeIndicator';
+export * from './indicator/impl/CommandIndicator';
 
 /**
  * reporter

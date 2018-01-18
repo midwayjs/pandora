@@ -179,11 +179,11 @@ export default {
       target: hooks.MySQL2Patcher
     }
   },
+  reporterInterval: 15,
   reporter: {
     file: {
       enabled: true,
       target: FileMetricsManagerReporter,
-      interval: 30,
       initConfig: {
         collector: CompactMetricsCollector
       }

@@ -47,20 +47,24 @@ class TestCachedMetricSet extends CachedMetricSet {
 describe('/test/unit/client/CachedMetricSet.test.ts', () => {
   it('create a cached metric set and compare after cache timeout', async () => {
 
-    let metricSet = new TestCachedMetricSet(150);
+    let metricSet = new TestCachedMetricSet(1);
     let metrics = metricSet.getMetrics();
 
     let A = await (<BaseGauge<any>>metrics[0].metric).getValue();
     let B = await (<BaseGauge<any>>metrics[1].metric).getValue();
 
     setTimeout(async () => {
-      expect(A === await (<BaseGauge<any>>metrics[0].metric).getValue()).to.true;
-      expect(B === await (<BaseGauge<any>>metrics[1].metric).getValue()).to.true;
-    }, 100);
+      let valueA = await (<BaseGauge<any>>metrics[0].metric).getValue();
+      let valueB = await (<BaseGauge<any>>metrics[1].metric).getValue();
+      expect(A === valueA).to.true;
+      expect(B === valueB).to.true;
+    }, 500);
 
     setTimeout(async () => {
-      expect(A !== await (<BaseGauge<any>>metrics[0].metric).getValue()).to.true;
-      expect(B !== await (<BaseGauge<any>>metrics[1].metric).getValue()).to.true;
-    }, 200);
+      let valueA = await (<BaseGauge<any>>metrics[0].metric).getValue();
+      let valueB = await (<BaseGauge<any>>metrics[1].metric).getValue();
+      expect(A !== valueA).to.true;
+      expect(B !== valueB).to.true;
+    }, 1500);
   });
 });

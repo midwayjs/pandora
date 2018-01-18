@@ -10,8 +10,8 @@ export class V8GaugeSet extends CachedMetricSet {
   heapSpaceStats = {};
   heapStats = {};
 
-  constructor() {
-    super();
+  constructor(dataTTL = 5) {
+    super(dataTTL);
     this.refreshIfNecessary();
   }
 
