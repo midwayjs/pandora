@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Commands - Ready to Boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/pandora/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/pandora/en" class="nav-logo leftpadding" alt="Pandora.js"><img src="/pandora/images/nav-logo.png" > Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li>
+      <li class="translations">
+        <a class="nav-link">English</a>
+        <span class="arrow" style="border-top-color:#fff" ></span>
+        <ul class="dropdown-content" >
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/zh-cn">中文</a></li>
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/en">English</a></li>
+        </ul>
+      </li>
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>Commands</h1>
+    <p>The pandora.js provides some useful CLI commands, show in below:</p>
+<ul>
+<li>init</li>
+<li>start</li>
+<li>stop</li>
+<li>restart</li>
+<li>list</li>
+<li>log</li>
+<li>ps</li>
+<li>exit</li>
+<li>dev</li>
+</ul>
+<h2 id="init-initiate-a-pandorajs-project"><a class="markdown-anchor" href="#init-initiate-a-pandorajs-project">#</a> init - Initiate a Pandora.js project</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora init &lt;filePath&gt; --name customName</span><br></pre></td></tr></table></figure>
+<p>Quick generate <code>procfile.js</code>.</p>
+<ol>
+<li><code>&lt;filePath&gt;</code> required, the path of entry file.</li>
+<li><code>--name</code> optional, the process name for fork mode.</li>
+</ol>
+<p>Example:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js</span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
+<h2 id="start-start-an-application"><a class="markdown-anchor" href="#start-start-an-application">#</a> start - Start an application</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --node-args=<span class="string">"--expose-gc"</span></span><br></pre></td></tr></table></figure>
+<p>The most commonly used start commands are used to start a application.</p>
+<ol>
+<li><code>[path]</code> Required, project directory, by default as working directory.</li>
+<li><code>--name=urAppName</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>--env=&quot;NODE_ENV=production&quot;</code> Optional, for specify the environmental variables, can got by process.env.</li>
+<li><code>--node-args=&quot;--expose-gc&quot;</code> Optional, for specify the Node.js execArgv.</li>
+<li><code>--args=&quot;--a=b&quot;</code> Optional, for specify the args of Node.js application.</li>
+</ol>
+<p>Example:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Working dir is  /home/admin/mytaobao/target/mytaobao ( suppose there is no name in package.json )</span></span><br><span class="line"></span><br><span class="line">pandora start <span class="comment"># Start application mytaobao, such as --name=mytaobao</span></span><br><span class="line">pandora start . --name mytaobao <span class="comment"># Same as above</span></span><br><span class="line">pandora start `<span class="built_in">pwd</span>` <span class="comment"># Same as above</span></span><br></pre></td></tr></table></figure>
+<h2 id="stop-stop-an-application"><a class="markdown-anchor" href="#stop-stop-an-application">#</a> stop - stop an application</h2>
+<blockquote>
+<p>Notice: Only the application that start by start command can stop by this command</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora stop [appName]</span><br></pre></td></tr></table></figure>
+<p>stop an application.</p>
+<ol>
+<li><code>[appName]</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+</ol>
+<p>Example:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora stop mytaobao <span class="comment"># mytaobao is the name that was previously started, and if you did't specified a name, that will automatically get name as well as start.</span></span><br></pre></td></tr></table></figure>
+<h2 id="restart-restart-an-application"><a class="markdown-anchor" href="#restart-restart-an-application">#</a> restart - Restart an application</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora restart [appName]</span><br></pre></td></tr></table></figure>
+<p>Equivalent to <code>pandora stop</code> and then <code>pandora start</code>.</p>
+<ol>
+<li><code>[appName]</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+</ol>
+<p>Example:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora restart mytaobao <span class="comment"># mytaobao is the name that was previously started, and if you did't specified a name, that will automatically get name as well as start.</span></span><br></pre></td></tr></table></figure>
+<h2 id="list-list-all-running-applications"><a class="markdown-anchor" href="#list-list-all-running-applications">#</a> list - List all running applications</h2>
+<blockquote>
+<p>Notice: The dev command will not start the daemon process, this command cannot get the information of it.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora list</span><br></pre></td></tr></table></figure>
+<p>List all applications, example as below:</p>
+<p><img src="https://img.alicdn.com/tfs/TB107mPeOqAXuNjy1XdXXaYcVXa-2646-330.png" alt="list"></p>
+<h2 id="log-view-logs"><a class="markdown-anchor" href="#log-view-logs">#</a> log - View logs</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora <span class="built_in">log</span> [appName] --follow --lines --full --daemon</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>[appName]</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>--follow</code> Optional, alias as  <code>-f</code>, just like <code>tail -f</code>.</li>
+<li><code>--lines</code> Optional, alias as <code>-l</code>, output the last few lines, by default as 50.</li>
+<li><code>--full</code> Optional, output all logs.</li>
+<li><code>--daemon</code> Optional, output logs of the daemon process.</li>
+</ol>
+<h2 id="ps-view-processes-tree"><a class="markdown-anchor" href="#ps-view-processes-tree">#</a> ps - View processes tree</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora ps &lt;appName&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>&lt;appName&gt;</code> Required, the name of application.</li>
+</ol>
+<h2 id="exit-quit-the-pandorajs"><a class="markdown-anchor" href="#exit-quit-the-pandorajs">#</a> exit - Quit the Pandora.js</h2>
+<p>Complete exit of the Pandora.js process, and stop all running applications.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="dev-start-an-application-at-front"><a class="markdown-anchor" href="#dev-start-an-application-at-front">#</a> dev - Start an application at front</h2>
+<blockquote>
+<p>Notice: this command will not start the daemon process, the list command cannot get the information of it.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --node-args=<span class="string">"--expose-gc"</span></span><br></pre></td></tr></table></figure>
+<p>Start an application at front without the daemon process, logs output to stdout directly.
+It is mostly used for local debugging, the parameters similar with the start command.</p>
+<ol>
+<li><code>[path]</code> Required, project directory, by default as working directory.</li>
+<li><code>--name=urAppName</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>--env=&quot;NODE_ENV=production&quot;</code> Optional, for specify the environmental variables, can got by process.env.</li>
+<li><code>--node-args=&quot;--expose-gc&quot;</code> Optional, for specify the Node.js execArgv.</li>
+<li><code>--args=&quot;--a=b&quot;</code> Optional, for specify the args of Node.js application.</li>
+</ol>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
+  </div>
+  <dl><dt><a href="/pandora/en/introduce.html">What is the Pandora.js</a></dt></ul></dd><dt><a href="/pandora/en/quickstart.html">Quick Start</a></dt></ul></dd><dt><a href="/pandora/en/glossary.html">Glossary</a></dt></ul></dd><dt>Basic Features</dt><dd><ul><li><a href="/pandora/en/base/command.html">Commands</a></li><li><a href="/pandora/en/base/procfile_mode.html">Understand procfile.js</a></li><li><a href="/pandora/en/base/dorapan.html">User SDK - Dorapan</a></li><li><a href="/pandora/en/base/logs.html">Logger</a></li><li><a href="/pandora/en/base/global_config.html">Global Config</a></li><li><a href="/pandora/en/base/quick_monitor.html">Monitoring Quick Start</a></li><li><a href="/pandora/en/base/debug.html">Debugging</a></li></ul></dd><dt>Advanced Processes Model</dt><dd><ul><li><a href="/pandora/en/process/process_std.html">Custom Process</a></li><li><a href="/pandora/en/process/service_std.html">Custom Service</a></li><li><a href="/pandora/en/process/fork_and_cluster.html">Fork And Cluster</a></li><li><a href="/pandora/en/process/environment_std.html">Custom Environment</a></li><li><a href="/pandora/en/process/application_life_cycle.html">Application Life Cycle</a></li><li><a href="/pandora/en/process/ipc_hub.html">IPC-Hub</a></li></ul></dd><dt>Application Monitoring</dt><dd><ul><li><a href="/pandora/en/monitor/monitor_std.html">Overview of Monitoring</a></li><li><a href="/pandora/en/monitor/endpoint.html">Use and Extend EndPoint</a></li><li><a href="/pandora/en/monitor/resource.html">Expose Resource</a></li><li><a href="/pandora/en/monitor/metrics.html">Use and Extend Metrics</a></li><li><a href="/pandora/en/monitor/trace.html">Trace Monitoring</a></li><li><a href="/pandora/en/monitor/monitor_inner.html">Default Indicators</a></li><li><a href="/pandora/en/monitor/report.html">Monitoring Data Report</a></li></ul></dd><dt>Monitoring Data Collection</dt><dd><ul><li><a href="/pandora/en/collect/health.html">Health Check</a></li></ul></dd><dt>Extension</dt><dd><ul><li><a href="/pandora/en/other/dashboard.html">GUI Dashboard</a></li><li><a href="/pandora/en/other/typescript.html">Start A TypeScript Project</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>
