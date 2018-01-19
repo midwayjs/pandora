@@ -10,13 +10,13 @@ There are some "key words" in Pandora.js, the definition of these words may be d
 
 > Process structure definition file
   
-A description file that defines the structure of the application process.
+A description file that defines the structure of processes of the application .
 
 ### Application
 
 > Application
 
-The meaning of application is not very different from the general situation. 
+The meaning of application is not very different with the general situation. 
 
 ### Fork 
 
