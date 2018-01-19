@@ -13,9 +13,9 @@ Of course, it's not just simply to create some processes. It doing much better:
 > 
 
 
-## Where should I put procfile. js ?
+## Where should I put the procfile.js ?
 
-The Pandora.js looks for 'procfile.js' within the following locations: 
+The Pandora.js looks for `procfile.js` within the following locations: 
 
 * ${appDir}/procfile.js
 
@@ -25,7 +25,7 @@ The Pandora.js looks for 'procfile.js' within the following locations:
 ## Start a simple Node.js program
 
 
-The type of the 'pandora' object as below is [ProcfileReconcilerAccessor](http://www.midwayjs.org/pandora/api-reference/pandora/classes/procfilereconcileraccessor.html), you can click to view the detailed API.
+The type of the `pandora` object as below is [ProcfileReconcilerAccessor](http://www.midwayjs.org/pandora/api-reference/pandora/classes/procfilereconcileraccessor.html), you can click to view the detailed API.
 
 
 Let's look at an example:
