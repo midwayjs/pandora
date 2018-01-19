@@ -22,8 +22,8 @@ pandora init <filePath> --name customName
 
 Quick generate `procfile.js`.
 
-1. `<filePath>` required, the path of entry file.
-2. `--name` optional, the process name for fork mode.
+1. `<filePath>` required, the path of the entry file.
+2. `--name` optional, the process name for the fork mode.
 
 Example:
 
@@ -34,19 +34,19 @@ $ pandora init ./app.js
   cluster 
 ** The procfile.js was auto generated to location /xx/xx/procfile.js **
 ```
-## start - Start an application
+## start - Start an application at the background
 
 ```bash
 pandora start [path] --name urAppName --env="NODE_ENV=production" --node-args="--expose-gc"
 ```
 
-The most commonly used start commands are used to start a application.
+The often used command, to start an application at the background.
 
-1. `[path]` Required, project directory, by default as working directory.
-2. `--name=urAppName` Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.
+1. `[path]` Required, project directory, by default as the working directory.
+2. `--name=urAppName` Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.
 3. `--env="NODE_ENV=production"` Optional, for specify the environmental variables, it can got by process.env.
 4. `--node-args="--expose-gc"` Optional, for specify the Node.js execArgv.
-4. `--args="--a=b"` Optional, for specify the args of Node.js application.
+4. `--args="--a=b"` Optional, for specify the args of the Node.js application.
 
 Example:
 
@@ -68,7 +68,7 @@ pandora stop [appName]
 
 stop an application.
 
-1. `[appName]` Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.
+1. `[appName]` Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.
 
 Example:
 
@@ -85,7 +85,7 @@ pandora restart [appName]
 Equivalent to `pandora stop` and then `pandora start`.
 
 
-1. `[appName]` Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.
+1. `[appName]` Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.
 
 Example:
 
@@ -112,7 +112,7 @@ List all applications, example as below:
 pandora log [appName] --follow --lines --full --daemon
 ```
 
-1. `[appName]` Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.
+1. `[appName]` Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.
 2. `--follow` Optional, alias as  `-f`, just like `tail -f`.
 3. `--lines` Optional, alias as `-l`, output the last few lines, by default as 50.
 4. `--full` Optional, output all logs.
@@ -124,7 +124,7 @@ pandora log [appName] --follow --lines --full --daemon
 pandora ps <appName>
 ```
 
-1. `<appName>` Required, the name of application.
+1. `<appName>` Required, the name of the application.
 
 
 ## exit - Quit the Pandora.js
@@ -146,10 +146,10 @@ pandora dev [path] --name urAppName --env="NODE_ENV=production" --node-args="--e
 Start an application at front without the daemon process, logs output to stdout directly.
 It is mostly used for local debugging, the parameters similar with the start command.
 
-1. `[path]` Required, project directory, by default as working directory.
-2. `--name=urAppName` Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.
+1. `[path]` Required, project directory, by default as the working directory.
+2. `--name=urAppName` Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.
 3. `--env="NODE_ENV=production"` Optional, for specify the environmental variables, can got by process.env.
 4. `--node-args="--expose-gc"` Optional, for specify the Node.js execArgv.
-4. `--args="--a=b"` Optional, for specify the args of Node.js application.
+4. `--args="--a=b"` Optional, for specify the args of the Node.js application.
 
 
