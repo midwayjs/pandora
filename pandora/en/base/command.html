@@ -56,20 +56,20 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora init &lt;filePath&gt; --name customName</span><br></pre></td></tr></table></figure>
 <p>Quick generate <code>procfile.js</code>.</p>
 <ol>
-<li><code>&lt;filePath&gt;</code> required, the path of entry file.</li>
-<li><code>--name</code> optional, the process name for fork mode.</li>
+<li><code>&lt;filePath&gt;</code> required, the path of the entry file.</li>
+<li><code>--name</code> optional, the process name for the fork mode.</li>
 </ol>
 <p>Example:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js</span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
-<h2 id="start-start-an-application"><a class="markdown-anchor" href="#start-start-an-application">#</a> start - Start an application</h2>
+<h2 id="start-start-an-application-at-the-background"><a class="markdown-anchor" href="#start-start-an-application-at-the-background">#</a> start - Start an application at the background</h2>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start [path] --name urAppName --env=<span class="string">"NODE_ENV=production"</span> --node-args=<span class="string">"--expose-gc"</span></span><br></pre></td></tr></table></figure>
-<p>The most commonly used start commands are used to start a application.</p>
+<p>The often used command, to start an application at the background.</p>
 <ol>
-<li><code>[path]</code> Required, project directory, by default as working directory.</li>
-<li><code>--name=urAppName</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>[path]</code> Required, project directory, by default as the working directory.</li>
+<li><code>--name=urAppName</code> Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.</li>
 <li><code>--env=&quot;NODE_ENV=production&quot;</code> Optional, for specify the environmental variables, it can got by process.env.</li>
 <li><code>--node-args=&quot;--expose-gc&quot;</code> Optional, for specify the Node.js execArgv.</li>
-<li><code>--args=&quot;--a=b&quot;</code> Optional, for specify the args of Node.js application.</li>
+<li><code>--args=&quot;--a=b&quot;</code> Optional, for specify the args of the Node.js application.</li>
 </ol>
 <p>Example:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Working dir is  /home/admin/mytaobao/target/mytaobao ( suppose there is no name in package.json )</span></span><br><span class="line"></span><br><span class="line">pandora start <span class="comment"># Start application mytaobao, such as --name=mytaobao</span></span><br><span class="line">pandora start . --name mytaobao <span class="comment"># Same as above</span></span><br><span class="line">pandora start `<span class="built_in">pwd</span>` <span class="comment"># Same as above</span></span><br></pre></td></tr></table></figure>
@@ -80,7 +80,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora stop [appName]</span><br></pre></td></tr></table></figure>
 <p>stop an application.</p>
 <ol>
-<li><code>[appName]</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>[appName]</code> Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.</li>
 </ol>
 <p>Example:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora stop mytaobao <span class="comment"># mytaobao is the name that was previously started, and if you did't specified a name, that will automatically get name as well as start.</span></span><br></pre></td></tr></table></figure>
@@ -88,7 +88,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora restart [appName]</span><br></pre></td></tr></table></figure>
 <p>Equivalent to <code>pandora stop</code> and then <code>pandora start</code>.</p>
 <ol>
-<li><code>[appName]</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>[appName]</code> Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.</li>
 </ol>
 <p>Example:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora restart mytaobao <span class="comment"># mytaobao is the name that was previously started, and if you did't specified a name, that will automatically get name as well as start.</span></span><br></pre></td></tr></table></figure>
@@ -102,7 +102,7 @@
 <h2 id="log-view-logs"><a class="markdown-anchor" href="#log-view-logs">#</a> log - View logs</h2>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora <span class="built_in">log</span> [appName] --follow --lines --full --daemon</span><br></pre></td></tr></table></figure>
 <ol>
-<li><code>[appName]</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>[appName]</code> Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.</li>
 <li><code>--follow</code> Optional, alias as  <code>-f</code>, just like <code>tail -f</code>.</li>
 <li><code>--lines</code> Optional, alias as <code>-l</code>, output the last few lines, by default as 50.</li>
 <li><code>--full</code> Optional, output all logs.</li>
@@ -111,7 +111,7 @@
 <h2 id="ps-view-processes-tree"><a class="markdown-anchor" href="#ps-view-processes-tree">#</a> ps - View processes tree</h2>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora ps &lt;appName&gt;</span><br></pre></td></tr></table></figure>
 <ol>
-<li><code>&lt;appName&gt;</code> Required, the name of application.</li>
+<li><code>&lt;appName&gt;</code> Required, the name of the application.</li>
 </ol>
 <h2 id="exit-quit-the-pandorajs"><a class="markdown-anchor" href="#exit-quit-the-pandorajs">#</a> exit - Quit the Pandora.js</h2>
 <p>Complete exit of the Pandora.js process, and stop all running applications.</p>
@@ -124,11 +124,11 @@
 <p>Start an application at front without the daemon process, logs output to stdout directly.
 It is mostly used for local debugging, the parameters similar with the start command.</p>
 <ol>
-<li><code>[path]</code> Required, project directory, by default as working directory.</li>
-<li><code>--name=urAppName</code> Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.</li>
+<li><code>[path]</code> Required, project directory, by default as the working directory.</li>
+<li><code>--name=urAppName</code> Optional, for specify the name of the application, by default as the name in package.json or last part of the working directory path.</li>
 <li><code>--env=&quot;NODE_ENV=production&quot;</code> Optional, for specify the environmental variables, can got by process.env.</li>
 <li><code>--node-args=&quot;--expose-gc&quot;</code> Optional, for specify the Node.js execArgv.</li>
-<li><code>--args=&quot;--a=b&quot;</code> Optional, for specify the args of Node.js application.</li>
+<li><code>--args=&quot;--a=b&quot;</code> Optional, for specify the args of the Node.js application.</li>
 </ol>
 
   </article>
