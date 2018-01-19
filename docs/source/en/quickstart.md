@@ -53,7 +53,7 @@ module.exports = (pandora) => {
 
 #### Cluster method
 
-The cluster method usually used for Node.js Web Server, and Pandora.js starts CPU number of workers by default (but you can also change this default value).
+The cluster method usually used for Node.js Web Server, and Pandora.js starts CPU number workers by default (but you can also change this default value).
 
 
 Use the init command to generate a `procfile.js`:
@@ -94,7 +94,7 @@ module.exports = (pandora) => {
 
 In this scene, Pandora.js will join the whole development processes of the application.
 
-In general, put the Pandora.js commands in the scripts part of package.json.
+In general, put the Pandora.js commands in the scripts part of the package.json.
 
 ```json
 // package.json
@@ -127,7 +127,7 @@ pandora start
 pandora start --name helloApp
 ```
 
-The first command will take the last part of directory or the name from package.json as the application name. Then the application will start silently, according to the definition from procfile.js and run in the background.
+The first command will take the last part of the root directory or the name in package.json as the application name. Then the application will start silently, according to the definition from procfile.js and run in the background.
 
 
 After the application is started, it can be viewed through the list command:

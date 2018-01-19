@@ -3,7 +3,7 @@ title: User SDK - Dorapan
 
 [Who is Dorapan](https://www.google.com/search?q=dorapan&tbm=isch)
 
-Because the Pandora.js could be global-installed, unable to direct `require('pandora')` in user's project, there are various issues. Recommend to use `require('dorapan')` to refer Pandora.js, get runtime context, get basic classes and so on.
+Because the Pandora.js could be global-installed, unable to direct `require('pandora')` in user's project, there are various issues. Recommend to use `require('dorapan')` to refer the Pandora.js, get the runtime context, get the basic classes and so on.
 
 ### Install dorapan under user directory 
 
