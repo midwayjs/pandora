@@ -1,13 +1,13 @@
 title: Understand procfile.js
 ---
 
-The `procfile.js` is a normal JS file, that provides chain style syntax to describe the process structure of application. which can be based on procfile.js to describe the process layout, and use a lot of powerful functions provided by Pandora.js.
+The `procfile.js` is a normal JS file, that provides chain style syntax to describe the process structure of the application. which can be based on procfile.js to describe the process layout, and use a lot of powerful functions provided by Pandora.js.
 
 Of course, it's not just simply to create some processes. It doing much better:
 
 > The Pandora.js will protect all created processes.
 > 
-> The simple functions as auto restart, rotate log files, and count number of reset times.
+> The simple functions as auto restart, rotate log files, and count the number of reset times.
 > 
 > The advanced functions as collect metrics over 30 indicators, auto business logic link tracing, integrate to existing APM ( such as Open-falcon ) and so on.
 > 
@@ -67,7 +67,7 @@ console.log(`Got the value of ENV_VAR1: ${process.env. ENV_VAR1} from Process [p
 Then we run the command：
 
 ```bash
-$ pandora dev # Start an application at front via pandora dev, mostly for local debugging
+$ pandora dev # Start an application at the front via pandora dev, mostly for local debugging
 Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19766]
 2017-12-11 13:59:12,578 INFO 19530 Process [name = processA, pid = 19766] Started successfully!
 ** Application start successful. **
@@ -75,10 +75,10 @@ Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19766]
 
 ## Auto-scaling process based on scale
 
-Try to change `.scale(1)` of the above example to `.scale(4)`, and start it at front:
+Try to change `.scale(1)` of the above example to `.scale(4)`, and start it at the front:
 
 ```bash
-$ pandora dev # Start an application at front via pandora dev, mostly for local debugging
+$ pandora dev # Start an application at the front via pandora dev, mostly for local debugging
 Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19913]
 Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19915]
 Got the value of ENV_VAR1: VALUE_OF_ENV_VAR1 from Process [pid = 19916]
@@ -102,7 +102,7 @@ On the one hand is for easy to use, but also for compatible with the stock of No
 **Fork**
 
 
-The pandora.fork() is an alias of process.process().
+The pandora.fork() is an alias of the process.process().
 
 
 `procfile.js`
@@ -139,7 +139,7 @@ module.exports = function(pandora) {
 
 **Cluster**
 
-The pandora.cluster() is an alias of process.service().
+The pandora.cluster() is an alias of the process.service().
 
 `procfile.js`
 
@@ -148,7 +148,7 @@ module.exports = function(pandora) {
 
   // Start app. js with the cluster module
   // By default, allocate to 'worker' process.
-  // Pandora. js has a built-in process definition of "process('worker').scale('auto')" ('auto' means number of CPUs).
+  // Pandora. js has a built-in process definition "process('worker').scale('auto')".  ('auto' means the number of CPUs).
   pandora.cluster('./app.js');
 
 }
@@ -180,7 +180,7 @@ module.exports = function(pandora) {
 ```
 
 
-## The mechanism of service
+## The mechanism of the service
 
 
 In the previous, we talked about that pandora.cluster() is a alias for process.service. So what exactly is the Service ?
@@ -190,8 +190,8 @@ Service also defines the Node.js program in the process, but more structured.
 provides the following basis capabilities: 
 
 1. The standard `async start()` interface, so that users can asynchronous start the Node.js program.
-2. The standard `async stop()` interface, so users can graceful stop the Node.js program ( such as graceful offline RPC services, so that can prevent service interrupt ).
-3. The structured log management, and configure capabilities.
+2. The standard `async stop()` interface, so users can graceful stop the Node.js program ( such as graceful offline the RPC services, so that can prevent service interrupt ).
+3. The structured log management, and the configure capabilities.
 4. Manage start order (dependency relationship) in the process.
 
 A simple example as below:
@@ -211,7 +211,7 @@ module.exports = function (pandora) {
       port: 1338
     })
     
-    // Allocate to 'worker' process group, actually you doesn't have to be written, the default is 'worker'.
+    // Allocate to 'worker' process group, actually you doesn't have to be written it, the default is 'worker'.
     // Pandora.js built-in a 'pandora.process('worker').scale('auto')' definition.
     .process('worker');
     
@@ -238,7 +238,7 @@ module.exports = class HTTPServer {
   
     this.server = http.createServer((req, res) => {
       
-      // Standard logger object, the will logged into ${logsDir}/${appName}/service.log
+      // Standard logger object, that will logged into ${logsDir}/${appName}/service.log
       this.logger.info('Got a request url: ' + req.url);
 
       res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -248,7 +248,7 @@ module.exports = class HTTPServer {
     
     
 
-    // Standard start interface，await for server to listen succeed
+    // Standard start interface，await for server to listen to be succeed.
     await new Promise((resolve, reject) => {
       this.server.listen(this.config.port, (err) => {
         if(err) {
@@ -261,7 +261,7 @@ module.exports = class HTTPServer {
     console.log('Listens on http://127.0.0.1:' + this.config.port);
     
   }
-  // Standard stop interface, there will be a 5 seconds time window at the stop to deal with the work
+  // Standard stop interface, there will be a 5 seconds time window at the stop to deal with the work.
   async stop () {
     await new Promise((resolve) => {
       this.server.close(resolve);
@@ -282,17 +282,17 @@ Listens on http://127.0.0.1:1338
 
 We can saw `Listens on http://127.0.0.1:1338`, The service has been successfully started.
 
-Open `http://127.0.0.1:1338`, that already been available, and at `${logsDir}/${appName}/service.log` you can also see that the log is already written.
+Open `http://127.0.0.1:1338`, that already been available, and at `${logsDir}/${appName}/service.log` you can also see that the logs is already written.
 
-Then press `Ctrl + c` to stop, We can also see the output of `Service stopped`.
+Then press the `Ctrl + c` to stop, We can also see the output of `Service stopped`.
 
 ## Pandora dev and pandora start
 
-1. Pandora dev mainly used for local debugging, does't start daemon, and start application at front.
+1. the pandora dev command mainly used for local debugging. That does't start the daemon process, and that start application at the front.
 
-2. Pandora start mainly used for production environment, use daemon to protect applications, and start application at background.
+2. the pandora start command mainly used for the production environment, it use the daemon process to protect applications, and start the application at the background.
 
-In the `procfile.js`, you can use the following statement to decide environment:
+In the `procfile.js`, you can use the following statement to decide the environment:
 
 ```javascript
 if (pandora.dev) {
@@ -308,14 +308,14 @@ if (pandora.dev) {
 
 ```javascript
 
-// Define default process of service allocation.
+// Define the default process for the service allocation.
 pandora.defaultServiceCategory('worker');
 
-// Define 'worker' process, we just talked about.
+// Define the 'worker' process, we just talked about.
 pandora.process('worker')
-  // Scale this process, in dev mode only start one, in production environment start the number of CPUs.
+  // Scale this process, in dev mode only start one, in the production environment it will start the number of CPUs.
   .scale(pandora.dev ? 1 : 'auto')
-  // Define environmental variables
+  // Define the environmental variables
   .env({worker: 'true'});
 
 // Define a background task process, named 'background'.
@@ -324,7 +324,7 @@ pandora.process('background')
   .scale(1)
   .env({background: 'true'});
 
-// Define basic LoggerService
+// Define a basic LoggerService
 pandora.service('logger', LoggerService)
   /**
   * The process is not defined and will start, it will start when only some services has assigned.
