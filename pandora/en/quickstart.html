@@ -43,7 +43,7 @@
     <h2 id="environment"><a class="markdown-anchor" href="#environment">#</a> Environment</h2>
 <p>OS: macOS / Linux
 Node.js Runtime: &gt;= 8.x.x, latest LTS version is recommended</p>
-<h2 id="the-goal-of-this-chapter"><a class="markdown-anchor" href="#the-goal-of-this-chapter">#</a> The Goal Of This Chapter</h2>
+<h2 id="the-goal-of-this-chapter"><a class="markdown-anchor" href="#the-goal-of-this-chapter">#</a> The goal of this chapter</h2>
 <ol>
 <li>Understand the basic <code>procfile.js</code> file writing.</li>
 <li>Understand the most basic commands, such as start, stop, dev, exit, list.</li>
@@ -54,25 +54,25 @@ Node.js Runtime: &gt;= 8.x.x, latest LTS version is recommended</p>
 <h2 id="generate-procfilejs"><a class="markdown-anchor" href="#generate-procfilejs">#</a> Generate procfile.js</h2>
 <p>Pandora.js defines the application process structure by a <code>procfile.js</code> in the project root directory, so you need to add a <code>procfile.js</code> file in the project root directory.</p>
 <p>This chapter will introduce the most simplest Fork and Cluster methods, and these two methods you only need to choose one.</p>
-<h4 id="fork-method"><a class="markdown-anchor" href="#fork-method">#</a> Fork Method</h4>
+<h4 id="fork-method"><a class="markdown-anchor" href="#fork-method">#</a> Fork method</h4>
 <p>the fork method is the most simplest way, it simply pull up a application, just like run <code>node app.js</code> directly.</p>
 <p>Use the init command to generate a <code>procfile.js</code>:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js <span class="comment"># The app.js is the path of your Node.js application</span></span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">❯ fork </span><br><span class="line">  cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
 <p>Then you will get a default <code>procfile.js</code> and you can take a look, and the contents are as bellow (removed comments):</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line">  pandora</span><br><span class="line">    .fork(<span class="string">'appName'</span>, <span class="string">'./app.js'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="cluster-method"><a class="markdown-anchor" href="#cluster-method">#</a> Cluster Method</h4>
+<h4 id="cluster-method"><a class="markdown-anchor" href="#cluster-method">#</a> Cluster method</h4>
 <p>The cluster method usually used for Node.js Web Server, and Pandora.js starts CPU number of workers by default (but you can also change this default value).</p>
 <p>Use the init command to generate a <code>procfile.js</code>:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ pandora init ./app.js <span class="comment"># The app.js is the path of your Node.js application</span></span><br><span class="line">? Which <span class="built_in">type</span> <span class="keyword">do</span> you like to generate ? (Use arrow keys)</span><br><span class="line">  fork </span><br><span class="line">❯ cluster </span><br><span class="line">** The procfile.js was auto generated to location /xx/xx/procfile.js **</span><br></pre></td></tr></table></figure>
 <p>Then you will get a default <code>procfile.js</code> and you can take a look, and the contents are as bellow (removed comments):</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  pandora</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// Default start to process group `worker`</span></span><br><span class="line">    .cluster(<span class="string">'./app.js'</span>); </span><br><span class="line"> </span><br><span class="line">  <span class="comment">/* Custom the number of workers</span></span><br><span class="line"><span class="comment">  pandora</span></span><br><span class="line"><span class="comment">    .process('worker')</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    // Modify the process group `worker` always to start 2 workers.</span></span><br><span class="line"><span class="comment">    // The default is pandora.dev ? 1 : 'auto'.</span></span><br><span class="line"><span class="comment">    // It means in dev mode will not start as a cluster.</span></span><br><span class="line"><span class="comment">    // Otherwise if started by `pandora start`, that will start as a cluster.</span></span><br><span class="line"><span class="comment">    .scale(2); </span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="through-npm-run-to-start-or-stop"><a class="markdown-anchor" href="#through-npm-run-to-start-or-stop">#</a> Through <code>npm run</code> To Start Or Stop</h1>
+<h1 id="start-or-stop-through-npm-run"><a class="markdown-anchor" href="#start-or-stop-through-npm-run">#</a> Start or stop through <code>npm run</code></h1>
 <p>In this scene, Pandora.js will join the whole development processes of the application.</p>
 <p>In general, put the Pandora.js commands in the scripts part of package.json.</p>
 <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script"</span>: &#123;</span><br><span class="line">    <span class="attr">"dev"</span>: <span class="string">"pandora dev"</span>,</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"pandora start"</span>,</span><br><span class="line">    <span class="attr">"stop"</span>: <span class="string">"pandora stop"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Then， you can use <code>npm run</code> to start, such as:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run dev // Local start</span><br><span class="line">npm run start // Production start</span><br><span class="line">npm run stop // Production stop</span><br></pre></td></tr></table></figure>
-<h2 id="start-and-stop-under-global"><a class="markdown-anchor" href="#start-and-stop-under-global">#</a> Start And Stop Under Global</h2>
+<h2 id="start-and-stop-under-global-installation"><a class="markdown-anchor" href="#start-and-stop-under-global-installation">#</a> Start and stop under global installation</h2>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start [--name xxx] [path]</span><br></pre></td></tr></table></figure>
 <p>For example, in a application root directory, and it named <code>helloApp</code>.</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start</span><br><span class="line">pandora start --name helloApp</span><br></pre></td></tr></table></figure>
