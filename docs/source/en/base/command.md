@@ -44,7 +44,7 @@ The most commonly used start commands are used to start a application.
 
 1. `[path]` Required, project directory, by default as working directory.
 2. `--name=urAppName` Optional, for specify the name of application, by default as the name in package.json or last part of working directory path.
-3. `--env="NODE_ENV=production"` Optional, for specify the environmental variables, can got by process.env.
+3. `--env="NODE_ENV=production"` Optional, for specify the environmental variables, it can got by process.env.
 4. `--node-args="--expose-gc"` Optional, for specify the Node.js execArgv.
 4. `--args="--a=b"` Optional, for specify the args of Node.js application.
 
