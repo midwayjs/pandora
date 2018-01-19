@@ -1,7 +1,7 @@
 title: Understand procfile.js
 ---
 
-The procfile.js is a normal JS file, that provides chain style syntax to describe the process structure of application. which can be based on procfile.js to describe the process layout, and use a lot of powerful functions provided by Pandora.js.
+The `procfile.js` is a normal JS file, that provides chain style syntax to describe the process structure of application. which can be based on procfile.js to describe the process layout, and use a lot of powerful functions provided by Pandora.js.
 
 Of course, it's not just simply to create some processes. It doing much better:
 
@@ -313,7 +313,7 @@ pandora.defaultServiceCategory('worker');
 
 // Define 'worker' process, we just talked about.
 pandora.process('worker')
-  // Scale this process, in dev mode only start one, in production environment start the number CPUs.
+  // Scale this process, in dev mode only start one, in production environment start the number of CPUs.
   .scale(pandora.dev ? 1 : 'auto')
   // Define environmental variables
   .env({worker: 'true'});
