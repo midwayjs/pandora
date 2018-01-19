@@ -6,7 +6,7 @@ title: Quick Start
 OS: macOS / Linux
 Node.js Runtime: >= 8.x.x, latest LTS version is recommended
 
-## The Goal Of This Chapter
+## The goal of this chapter
 
 1. Understand the basic `procfile.js` file writing.
 2. Understand the most basic commands, such as start, stop, dev, exit, list.
@@ -28,7 +28,7 @@ Pandora.js defines the application process structure by a `procfile.js` in the p
 
 This chapter will introduce the most simplest Fork and Cluster methods, and these two methods you only need to choose one.
 
-#### Fork Method
+#### Fork method
 
 the fork method is the most simplest way, it simply pull up a application, just like run `node app.js` directly.
 
@@ -51,7 +51,7 @@ module.exports = (pandora) => {
 }
 ```
 
-#### Cluster Method
+#### Cluster method
 
 The cluster method usually used for Node.js Web Server, and Pandora.js starts CPU number of workers by default (but you can also change this default value).
 
@@ -90,7 +90,7 @@ module.exports = (pandora) => {
 }
 ```
 
-# Through `npm run` To Start Or Stop
+# Start or stop through `npm run` 
 
 In this scene, Pandora.js will join the whole development processes of the application.
 
@@ -115,7 +115,7 @@ npm run start // Production start
 npm run stop // Production stop
 ```
 
-## Start And Stop Under Global 
+## Start and stop under global installation
 
 ```sh
 pandora start [--name xxx] [path]

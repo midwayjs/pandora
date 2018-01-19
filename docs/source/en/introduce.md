@@ -32,7 +32,7 @@ We hope the business logic pure and simple, and only care about the business par
 
 Of course, if the Pandora.js can only start and stop the application, that is too Big deal. Application operation has been a difficult problem, in the `Ops first` today, we combine the Metrics standard and Open-tracing Standard. Through those, you can get custom monitoring invoke link tracing and so on so on. that is bound to open the intelligent monitoring of Node.js.
 
-## A Part Of Features Of Pandora.js
+## A part of features of the Pandora.js
 
 - Providing different kinds of frameworks, and the ability to start and stop a single file.
 - Providing multi applications management and deployment capabilities

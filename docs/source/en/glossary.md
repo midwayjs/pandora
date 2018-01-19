@@ -4,7 +4,7 @@ title: Glossary
 There are some "key words" in Pandora.js, the definition of these words may be different with ordinary users understanding, following explanation to help you better understand.
 
 
-## Common Part
+## Basic part
 
 ### procfile.js
 
@@ -24,7 +24,7 @@ The meaning of application is not very different from the general situation.
 
 Simply start a Node.js application.
 
-### cluster 
+### Cluster 
 
 > Based on require('cluster');
 
@@ -48,7 +48,7 @@ Detail:
 
 Same meaning.
 
-## Metrics Part
+## Metrics part
 
 ### EndPoint
 
