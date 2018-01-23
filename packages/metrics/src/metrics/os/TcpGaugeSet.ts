@@ -21,6 +21,19 @@ const NetworkTraffic = [
   'TCP_OUT_RSTS',          // outgoing segments with resets
 ];
 
+const NetworkTrafficText = {
+  TCP_ACTIVE_OPENS: 'tcp.active.opens',
+  TCP_PASSIVE_OPENS: 'tcp.passive.opens',
+  TCP_ATTEMPT_FAILS: 'tcp.attempt.fails',
+  TCP_ESTAB_RESETS: 'tcp.estab.resets',
+  TCP_CURR_RESETS: 'tcp.curr.resets',
+  TCP_IN_SEGS: 'tcp.in.segs',
+  TCP_OUT_SEGS: 'tcp.out.segs',
+  TCP_RETRAN_SEGS: 'tcp.retran.segs',
+  TCP_IN_ERRS: 'tcp.in.errs',
+  TCP_OUT_RSTS: 'tcp.out.rsts'
+};
+
 export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
   static DEFAULT_FILE_PATH = '/proc/net/snmp';
@@ -40,7 +53,7 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
     for (let key of NetworkTraffic) {
       gauges.push({
-        name: MetricName.build(key),
+        name: MetricName.build(NetworkTrafficText[key]),
         metric: <Gauge<number>> {
           getValue() {
             self.refreshIfNecessary();
