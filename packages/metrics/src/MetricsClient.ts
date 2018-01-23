@@ -22,7 +22,7 @@ export class MetricsClient extends AbstractIndicator {
 
   appName: string = this.getAppName();
 
-  allMetricsRegisty: IMetricsRegistry = this.getNewMetricRegistry();
+  allMetricsRegistry: IMetricsRegistry = this.getNewMetricRegistry();
 
   categoryMetrisMap: Map<string, IMetricsRegistry> = new Map();
 
@@ -75,7 +75,7 @@ export class MetricsClient extends AbstractIndicator {
     }
 
     // 这边暂时不做去重
-    this.allMetricsRegisty.register(newName, <Metric> <any> metric);
+    this.allMetricsRegistry.register(newName, <Metric> <any> metric);
 
     // Gauge 比较特殊，是实际的类，而服务端才是一个代理，和其他 metric 都不同，不需要 proxy
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
@@ -136,7 +136,7 @@ export class MetricsClient extends AbstractIndicator {
     type,
   }) {
     this.debug(`Invoke: invoked, key = ${args.metricKey} `);
-    let metric = this.allMetricsRegisty.getMetric(MetricName.parseKey(args.metricKey));
+    let metric = this.allMetricsRegistry.getMetric(MetricName.parseKey(args.metricKey));
     if(metric && metric.type === args.type) {
       return await Promise.resolve((<Gauge<any>>metric).getValue());
     } else {
