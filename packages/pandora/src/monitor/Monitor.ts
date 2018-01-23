@@ -10,7 +10,8 @@ import {
   MetricsActuatorServer,
   MetricLevel,
   MetricsCollectPeriodConfig,
-  MetricName
+  MetricName,
+  NetworkTrafficGaugeSet
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 
@@ -62,6 +63,7 @@ export class BaseMonitor {
     let metricsManager = this.server.getMetricsManager();
     metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new CpuUsageGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
     metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetworkTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
     metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new SystemMemoryGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
     metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new SystemLoadGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
     metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new DiskStatGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
