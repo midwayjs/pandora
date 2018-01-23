@@ -12,6 +12,7 @@ const fieldNames = ['net.in.bytes', 'net.in.packets', 'net.in.errs', 'net.in.dro
 
 const getEmptyFields = () => Array(16).map(() => 0);
 
+
 export class NetTrafficGaugeSet extends CachedMetricSet {
 
   static DEFAULT_FILE_PATH = '/proc/net/dev';
@@ -27,6 +28,8 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
   getMetrics() {
     let self = this;
     let gauges = [];
+
+    self.refreshIfNecessary();
 
     for (const interfaceName in this.countStats) {
       let i = 0;
