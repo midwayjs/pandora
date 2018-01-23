@@ -6,6 +6,7 @@ import {MetricsMessengerClient} from './util/MessengerUtil';
 import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
 import {MetricSet} from './common';
+import {IMetricsRegistry} from './common/MetricsRegistry';
 
 export class MetricsClient extends AbstractIndicator {
 
@@ -21,9 +22,9 @@ export class MetricsClient extends AbstractIndicator {
 
   appName: string = this.getAppName();
 
-  allMetricsRegisty: MetricsRegistry = new MetricsRegistry();
+  allMetricsRegisty: IMetricsRegistry = this.getNewMetricRegistry();
 
-  categoryMetrisMap: Map<string, MetricsRegistry> = new Map();
+  categoryMetrisMap: Map<string, IMetricsRegistry> = new Map();
 
   protected messengerClient: MetricsMessengerClient = new MetricsMessengerClient(MetricsConstants.METRICS_PANDORA_KEY);
 
@@ -105,7 +106,7 @@ export class MetricsClient extends AbstractIndicator {
 
     let metricMap = this.categoryMetrisMap.get(group);
     if (!this.categoryMetrisMap.has(group)) {
-      metricMap = new MetricsRegistry();
+      metricMap = this.getNewMetricRegistry();
       this.categoryMetrisMap.set(group, metricMap);
     }
 
@@ -193,6 +194,10 @@ export class MetricsClient extends AbstractIndicator {
     }
 
     return <MetricName>name;
+  }
+
+  getNewMetricRegistry(): IMetricsRegistry {
+    return new MetricsRegistry();
   }
 
 }
