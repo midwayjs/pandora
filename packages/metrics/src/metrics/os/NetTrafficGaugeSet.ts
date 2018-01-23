@@ -15,15 +15,10 @@ const getEmptyFields = () => Array(16).map(() => 0);
 
 export class NetTrafficGaugeSet extends CachedMetricSet {
 
-
   static DEFAULT_FILE_PATH = '/proc/net/dev';
-
-
   filePath: string;
-
   countStats = {};
   rateStats = {};
-
 
   constructor(dataTTL = 5, filePath = NetTrafficGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
@@ -43,6 +38,7 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
           name: MetricName.build(`nettraffic.${interfaceName}.${fieldName}`),
           metric: <Gauge<number>> {
             getValue() {
+              self.refreshIfNecessary();
               return self.countStats[interfaceName][i++];
             }
           }
@@ -54,8 +50,6 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
   }
 
   getValueInternal() {
-
-
     const self = this;
     let content;
     try {
@@ -89,14 +83,12 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
       }
 
       debug(`looping ${interfaceName}`);
-      for (let i = 0; i < stats.length;) {
-
+      for (let i = 0; i < stats.length; i++) {
         const count = stats[i];
         const delta = count - this.countStats[interfaceName][i];
         this.countStats[interfaceName][i] = count;
         const duration = Date.now() - this.lastCollectTime;
         this.rateStats[interfaceName][i] = 1000.0 * delta / duration;
-        i++;
       }
     }
   }
