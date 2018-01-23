@@ -59,7 +59,13 @@ export class MetricsEndPoint extends EndPoint {
 
   protected async buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
     let collectorCls = this.getCollector();
-    let collector = new collectorCls({}, this.rateFactor, this.durationFactor, filter);
+    let collector = new collectorCls({
+      globalTags: {},
+      rateFactor: this.rateFactor,
+      durationFactor: this.durationFactor,
+      reportInterval: -1,
+      filter
+    });
 
     const timestamp = Date.now();
 

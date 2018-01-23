@@ -80,6 +80,7 @@ export class Builder {
     this.metric.interval = interval;
     return this;
   }
+
 }
 
 

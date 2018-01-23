@@ -1,5 +1,5 @@
 import {MetricsCollector} from './MetricsCollector';
-import {MetricName, BucketCounter} from '../common/index';
+import {BucketCounter, MetricName} from '../common/index';
 import {MetricObject} from './MetricObject';
 import {ITimer} from '../common/metrics/Timer';
 import {IHistogram} from '../common/metrics/Histogram';
@@ -7,10 +7,20 @@ import {ICounter} from '../common/metrics/Counter';
 import {IMeter} from '../common/metrics/Meter';
 import {Snapshot} from '../common/domain';
 
+/**
+ * 根据采集周期获取采集点，支持多个采集点的输出
+ */
 export class CompactMetricsCollector extends MetricsCollector {
 
   collectTimer(name: MetricName, timer: ITimer, timestamp: number) {
     let snapshot = timer.getSnapshot();
+    let startTime = timestamp - this.reportInterval * 1000 + 1;
+
+    let totalCounts = timer.getInstantCount(startTime);
+    for(let [time, metricValue] of totalCounts.entries()) {
+      this.addMetricWithSuffix(name, 'bucket_count', metricValue, time, MetricObject.MetricType.DELTA, this.metricsCollectPeriodConfig.period(name.getMetricLevel()));
+    }
+
     this.addMetricWithSuffix(name, 'count', timer.getCount(), timestamp, MetricObject.MetricType.COUNTER)
     // convert rate
       .addMetricWithSuffix(name, 'm1', this.convertRate(timer.getOneMinuteRate()), timestamp)
@@ -32,17 +42,28 @@ export class CompactMetricsCollector extends MetricsCollector {
   }
 
   collectCounter(name: MetricName, counter: ICounter, timestamp: number) {
-    let normalizedName: MetricName = name.getKey().endsWith('count') ? name : name.resolve('count');
-    this.addMetric(normalizedName, counter.getCount(), timestamp, MetricObject.MetricType.COUNTER, -1);
+    let startTime = timestamp - this.reportInterval * 1000 + 1;
 
     if (counter instanceof BucketCounter) {
-      let countInterval = (<BucketCounter> counter).getBucketInterval();
-      // bucket count
-      this.addInstantCountMetric((<BucketCounter>counter).getBucketCounts(), name, countInterval, timestamp);
+      let totalCounts = (<BucketCounter> counter).getBucketCounts(startTime);
+      for(let [time, metricValue] of totalCounts.entries()) {
+        this.addMetricWithSuffix(name, 'bucket_count', metricValue, time, MetricObject.MetricType.DELTA, this.metricsCollectPeriodConfig.period(name.getMetricLevel()));
+      }
     }
+
+    // add total count
+    let normalizedName = name.getKey().endsWith('count') ? name : name.resolve('count');
+    this.addMetric(normalizedName, counter.getCount(), timestamp, MetricObject.MetricType.COUNTER);
   }
 
   collectMeter(name: MetricName, meter: IMeter, timestamp: number) {
+    let startTime = timestamp - this.reportInterval * 1000 + 1;
+    let totalCounts = meter.getInstantCount(startTime);
+
+    for(let [time, metricValue] of totalCounts.entries()) {
+      this.addMetricWithSuffix(name, 'bucket_count', metricValue, time, MetricObject.MetricType.DELTA, this.metricsCollectPeriodConfig.period(name.getMetricLevel()));
+    }
+
     this.addMetricWithSuffix(name, 'count', meter.getCount(), timestamp, MetricObject.MetricType.COUNTER)
     // convert rate
       .addMetricWithSuffix(name, 'm1', this.convertRate(meter.getOneMinuteRate()), timestamp);

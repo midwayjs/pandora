@@ -74,8 +74,6 @@ export * from './client/index';
  * common
  */
 export * from './common/index';
-export * from './common/MetricBuilder'
-export * from './common/MetricFilter'
 
 
 /**
