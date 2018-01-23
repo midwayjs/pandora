@@ -31,3 +31,6 @@ export * from './snapshot/WeightedSnapshot';
 export * from './reservoir/BucketReservoir';
 export * from './reservoir/ExponentiallyDecayingReservoir';
 export * from './reservoir/UniformReservoir';
+
+export * from './MetricBuilder';
+export * from './MetricFilter';

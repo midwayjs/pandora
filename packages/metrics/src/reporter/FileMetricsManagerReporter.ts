@@ -1,7 +1,7 @@
-import {EnvironmentUtil, Environment} from 'pandora-env';
+import {Environment, EnvironmentUtil} from 'pandora-env';
 import {DefaultLoggerManager} from 'pandora-service-logger';
 import {ScheduledMetricsReporter} from './ScheduledMetricsReporter';
-import {MetricName, BaseGauge} from '../common/index';
+import {BaseGauge, MetricName} from '../common/index';
 import {MetricsCollector} from '../collect/MetricsCollector';
 import {CompactMetricsCollector} from '../collect/CompactMetricsCollector';
 import {join} from 'path';
@@ -42,7 +42,12 @@ export class FileMetricsManagerReporter extends ScheduledMetricsReporter {
     let {gauges, counters, histograms, meters, timers} = metricsData;
     const timestamp = Date.now();
 
-    const collector = new this.collectorCls(this.globalTags, this.rateFactor, this.durationFactor);
+    const collector = new this.collectorCls({
+      globalTags: this.globalTags,
+      rateFactor: this.rateFactor,
+      durationFactor: this.durationFactor,
+      reportInterval: this.interval,
+    });
 
     let gaugesArr: BaseGauge<any>[] = Array.from(gauges.values());
     let results: number[] = await Promise.all(gaugesArr.map((gauge) => {

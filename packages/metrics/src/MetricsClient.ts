@@ -6,6 +6,7 @@ import {MetricsMessengerClient} from './util/MessengerUtil';
 import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
 import {AbstractIndicator} from './indicator/AbstractIndicator';
 import {MetricSet} from './common';
+import {IMetricsRegistry} from './common/MetricsRegistry';
 
 export class MetricsClient extends AbstractIndicator {
 
@@ -21,9 +22,7 @@ export class MetricsClient extends AbstractIndicator {
 
   appName: string = this.getAppName();
 
-  allMetricsRegisty: MetricsRegistry = new MetricsRegistry();
-
-  categoryMetrisMap: Map<string, MetricsRegistry> = new Map();
+  allMetricsRegistry: IMetricsRegistry = this.getNewMetricRegistry();
 
   protected messengerClient: MetricsMessengerClient = new MetricsMessengerClient(MetricsConstants.METRICS_PANDORA_KEY);
 
@@ -74,7 +73,7 @@ export class MetricsClient extends AbstractIndicator {
     }
 
     // 这边暂时不做去重
-    this.allMetricsRegisty.register(newName, <Metric> <any> metric);
+    this.allMetricsRegistry.register(newName, <Metric> <any> metric);
 
     // Gauge 比较特殊，是实际的类，而服务端才是一个代理，和其他 metric 都不同，不需要 proxy
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
@@ -103,13 +102,6 @@ export class MetricsClient extends AbstractIndicator {
       this.reportMetric(newName, metric, group);
     }
 
-    let metricMap = this.categoryMetrisMap.get(group);
-    if (!this.categoryMetrisMap.has(group)) {
-      metricMap = new MetricsRegistry();
-      this.categoryMetrisMap.set(group, metricMap);
-    }
-
-    metricMap.register(newName, <Metric> <any> metric);
   }
 
   reportMetric(name: MetricName, metric: Metric, group: string) {
@@ -135,7 +127,7 @@ export class MetricsClient extends AbstractIndicator {
     type,
   }) {
     this.debug(`Invoke: invoked, key = ${args.metricKey} `);
-    let metric = this.allMetricsRegisty.getMetric(MetricName.parseKey(args.metricKey));
+    let metric = this.allMetricsRegistry.getMetric(MetricName.parseKey(args.metricKey));
     if(metric && metric.type === args.type) {
       return await Promise.resolve((<Gauge<any>>metric).getValue());
     } else {
@@ -193,6 +185,10 @@ export class MetricsClient extends AbstractIndicator {
     }
 
     return <MetricName>name;
+  }
+
+  getNewMetricRegistry(): IMetricsRegistry {
+    return new MetricsRegistry();
   }
 
 }

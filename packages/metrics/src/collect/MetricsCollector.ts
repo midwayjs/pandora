@@ -1,21 +1,24 @@
-import {MetricName, MetricFilter} from '../common/index';
-import {MetricObject, CollectMetricType} from './MetricObject';
+import {MetricFilter, MetricName, MetricsCollectPeriodConfig} from '../common/index';
+import {CollectMetricType, MetricObject} from './MetricObject';
 
 export class MetricsCollector {
   protected metrics: Array<MetricObject> = [];
   protected globalTags = {};
   protected rateFactor: number;
   protected durationFactor: number;
+  protected metricsCollectPeriodConfig = MetricsCollectPeriodConfig.getInstance();
+  protected reportInterval = -1;
   /**
    * Use this filer to filter out any metric object that is not needed.
    */
   protected filter: MetricFilter;
 
-  constructor(globalTags, rateFactor, durationFactor, filter?) {
-    this.globalTags = globalTags;
-    this.rateFactor = rateFactor;
-    this.durationFactor = durationFactor;
-    this.filter = filter;
+  constructor(options: { globalTags, rateFactor, durationFactor, filter?, reportInterval?}) {
+    this.globalTags = options.globalTags;
+    this.rateFactor = options.rateFactor;
+    this.durationFactor = options.durationFactor;
+    this.filter = options.filter;
+    this.reportInterval = options.reportInterval;
   }
 
   addMetricWithSuffix(name: MetricName, suffix: string, value: any, timestamp: number, type: CollectMetricType = CollectMetricType.GAUGE, interval: number = -1) {
