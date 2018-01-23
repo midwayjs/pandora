@@ -374,19 +374,27 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
   }
 
   getMeter(group: string, name: MetricName): IMeter {
-    return this.getMetricRegistryByGroup(group).meter(name);
+    const meter =  this.getMetricRegistryByGroup(group).meter(name);
+    this.allMetricsRegistry.register(name, meter);
+    return meter;
   }
 
   getCounter(group: string, name: MetricName): ICounter {
-    return this.getMetricRegistryByGroup(group).counter(name);
+    const counter = this.getMetricRegistryByGroup(group).counter(name);
+    this.allMetricsRegistry.register(name, counter);
+    return counter;
   }
 
   getHistogram(group: string, name: MetricName): IHistogram {
-    return this.getMetricRegistryByGroup(group).histogram(name);
+    const histogram = this.getMetricRegistryByGroup(group).histogram(name);
+    this.allMetricsRegistry.register(name, histogram);
+    return histogram;
   }
 
   getTimer(group: string, name: MetricName): ITimer {
-    return this.getMetricRegistryByGroup(group).timer(name);
+    const timer = this.getMetricRegistryByGroup(group).timer(name);
+    this.allMetricsRegistry.register(name, timer);
+    return timer;
   }
 
   destory() {
