@@ -24,8 +24,6 @@ export class MetricsClient extends AbstractIndicator {
 
   allMetricsRegistry: IMetricsRegistry = this.getNewMetricRegistry();
 
-  categoryMetrisMap: Map<string, IMetricsRegistry> = new Map();
-
   protected messengerClient: MetricsMessengerClient = new MetricsMessengerClient(MetricsConstants.METRICS_PANDORA_KEY);
 
   clientId: string = Math.random().toString(35).substr(2, 10);
@@ -104,13 +102,6 @@ export class MetricsClient extends AbstractIndicator {
       this.reportMetric(newName, metric, group);
     }
 
-    let metricMap = this.categoryMetrisMap.get(group);
-    if (!this.categoryMetrisMap.has(group)) {
-      metricMap = this.getNewMetricRegistry();
-      this.categoryMetrisMap.set(group, metricMap);
-    }
-
-    metricMap.register(newName, <Metric> <any> metric);
   }
 
   reportMetric(name: MetricName, metric: Metric, group: string) {
