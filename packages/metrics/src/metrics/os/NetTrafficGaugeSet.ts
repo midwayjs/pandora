@@ -34,12 +34,13 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
     for (const interfaceName in this.countStats) {
       let i = 0;
       for (const fieldName of fieldNames) {
+        const index = i++;
         gauges.push({
           name: MetricName.build(`nettraffic.${interfaceName}.${fieldName}`),
           metric: <Gauge<number>> {
             getValue() {
               self.refreshIfNecessary();
-              return self.countStats[interfaceName][i++];
+              return self.countStats[interfaceName][index];
             }
           }
         });
