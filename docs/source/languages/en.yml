@@ -7,3 +7,6 @@ menu:
   guide: "Documentation"
   api: "API reference"
   release: "Change Log"
+
+guide_toc:
+  ipc_hub: 'Inter-Process Coummnication Hub'
