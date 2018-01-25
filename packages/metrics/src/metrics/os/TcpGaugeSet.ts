@@ -42,6 +42,10 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
   networkTraffic = {};
 
+  lastRetranSegs = 0;
+
+  retryCount = 0;
+
   constructor(dataTTL = 5, filePath = NetworkTrafficGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
@@ -62,6 +66,16 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
         }
       });
     }
+
+    gauges.push({
+      name: MetricName.build('tcp.retry.bucket_count'),
+      metric: <Gauge<number>> {
+        getValue() {
+          self.refreshIfNecessary();
+          return self.retryCount;
+        }
+      }
+    });
     return gauges;
   }
 
@@ -93,5 +107,9 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
       let value = columns[index++];
       self.networkTraffic[key] = parseInt(value);
     }
+
+    this.retryCount = self.networkTraffic['TCP_RETRAN_SEGS'] - this.lastRetranSegs;
+    this.lastRetranSegs = self.networkTraffic['TCP_RETRAN_SEGS'];
+
   }
 }
