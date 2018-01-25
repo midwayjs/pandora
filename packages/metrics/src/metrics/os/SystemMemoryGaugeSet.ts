@@ -53,7 +53,7 @@ export class SystemMemoryGaugeSet extends CachedMetricSet {
       metric: <Gauge<number>> {
         getValue() {
           self.refreshIfNecessary();
-          return self.SystemMemory['mem.used'] / self.SystemMemory['mem.total'];
+          return self.SystemMemory['MEM.USED'] / self.SystemMemory['MEM.TOTAL'];
         }
       }
     });
