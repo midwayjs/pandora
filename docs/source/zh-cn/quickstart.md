@@ -103,7 +103,7 @@ module.exports = (pandora) => {
 }
 ```
 
-这个时候，你可以通过 ``scripts` 本身的机制来运行，比如
+这个时候，你可以通过 `scripts` 本身的机制来运行，比如
 
 ```
 npm run dev // 本地启动
