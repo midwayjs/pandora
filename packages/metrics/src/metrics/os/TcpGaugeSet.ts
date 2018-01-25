@@ -116,7 +116,7 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
       self.lastNetworkTraffic = self.networkTraffic;
     }
 
-    this.retryRate = (self.networkTraffic['TCP_RETRAN_SEGS'] - self.lastNetworkTraffic['TCP_RETRAN_SEGS']) / (self.networkTraffic['TCP_OUT_SEGS'] / self.lastNetworkTraffic['TCP_OUT_SEGS']);
+    this.retryRate = (self.networkTraffic['TCP_RETRAN_SEGS'] - self.lastNetworkTraffic['TCP_RETRAN_SEGS']) / (self.networkTraffic['TCP_OUT_SEGS'] - self.lastNetworkTraffic['TCP_OUT_SEGS']);
     this.lastRetranSegs = self.networkTraffic['TCP_RETRAN_SEGS'];
 
   }
