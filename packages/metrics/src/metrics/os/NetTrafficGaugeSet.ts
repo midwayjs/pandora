@@ -47,6 +47,22 @@ export class NetTrafficGaugeSet extends CachedMetricSet {
       }
     }
 
+    for (const interfaceName in this.rateStats) {
+      let i = 0;
+      for (const fieldName of fieldNames) {
+        const index = i++;
+        gauges.push({
+          name: MetricName.build(`nettraffic.${interfaceName}.${fieldName}.rate`),
+          metric: <Gauge<number>> {
+            getValue() {
+              self.refreshIfNecessary();
+              return self.rateStats[interfaceName][index];
+            }
+          }
+        });
+      }
+    }
+
     return gauges;
   }
 
