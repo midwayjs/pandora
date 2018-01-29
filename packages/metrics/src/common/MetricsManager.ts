@@ -3,10 +3,10 @@ import {IMeter} from './metrics/Meter';
 import {ICounter} from './metrics/Counter';
 import {IHistogram} from './metrics/Histogram';
 import {ITimer} from './metrics/Timer';
-import {Metric} from './Metric';
 import {IMetricsRegistry} from './MetricsRegistry';
 import {MetricFilter} from './MetricFilter';
 import {BaseGauge} from './metrics/Gauge';
+import {Metric} from './domain';
 
 export interface MetricsManager {
   /**

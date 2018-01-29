@@ -14,8 +14,8 @@ describe('Balancer', function () {
       selector: null
     };
     const balancer = new Balancer([clientInfo]);
-    expect(balancer.pick()).to.be.equal(clientInfo);
-    expect(called).to.be.equal(false);
+    expect(balancer.pick()).to.equal(clientInfo);
+    expect(called).to.equal(false);
     mm.restore();
   });
 
@@ -46,7 +46,7 @@ describe('Balancer', function () {
       totalCnt += hitCounts[idx];
     }
 
-    expect(totalCnt).to.be.equal(100);
+    expect(totalCnt).to.equal(100);
 
   });
 });

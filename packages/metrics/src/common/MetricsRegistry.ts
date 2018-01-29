@@ -1,4 +1,3 @@
-import {Metric} from './Metric';
 import {MetricName} from './MetricName';
 import {MetricSet} from './MetricSet';
 import {BaseGauge} from './metrics/Gauge';
@@ -10,6 +9,7 @@ import {MetricBuilder} from './MetricBuilder';
 import {MetricFilter} from './MetricFilter';
 import {MetricType} from './MetricType';
 import {ReservoirType} from './Reservoir';
+import {Metric} from './domain';
 const debug = require('debug')('pandora:metrics-common:registry');
 
 export interface IMetricsRegistry {
@@ -28,9 +28,12 @@ export interface IMetricsRegistry {
   getMeters(filter?: MetricFilter): Map<string, IMeter>;
   getTimers(filter?: MetricFilter): Map<string, ITimer>;
   getMetricNames();
+  remove(metricsKey: string);
 }
 
 export class MetricsRegistry implements IMetricsRegistry {
+
+  clientId: string = Math.random().toString(35).substr(2, 10);
 
   metricsSet = new Map<string, {
     name: MetricName,
@@ -39,8 +42,10 @@ export class MetricsRegistry implements IMetricsRegistry {
 
   register(name: MetricName, metric: Metric): Metric {
     if (metric instanceof MetricSet) {
+      debug('------------> metrics is set:', name, metric);
       this.registerAll(name, <MetricSet> metric);
     } else {
+      debug('------------> metrics is normal:', name.getNameKey());
       if(!metric.type) {
         metric.type = MetricType.GAUGE;
       }
@@ -58,7 +63,6 @@ export class MetricsRegistry implements IMetricsRegistry {
       metrics = <any>prefix;
       prefix = MetricName.EMPTY;
     }
-
     for (let {name, metric} of metrics.getMetrics()) {
       if(typeof name === 'string') {
         name = MetricName.parseKey(name);
@@ -160,5 +164,9 @@ export class MetricsRegistry implements IMetricsRegistry {
       names.push(metricObject.name);
     }
     return names;
+  }
+
+  remove(metricsKey: string) {
+    this.metricsSet.delete(metricsKey);
   }
 }

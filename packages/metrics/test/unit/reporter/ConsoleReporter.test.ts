@@ -17,7 +17,7 @@ describe('/test/unit/reporter/ConsoleReporter.test.ts', () => {
     manager.register('test', MetricName.build('reporter.register.timer'), new BaseTimer());
     manager.register('test', MetricName.build('reporter.register.meter'), new BaseMeter());
     const reporter = new ConsoleReporter();
-    reporter.setMetricManager(manager);
+    reporter.setMetricsManager(manager);
     reporter.start(0.4);
 
     setTimeout(() => {

@@ -1,5 +1,5 @@
-import {Metric} from './Metric';
 import {MetricType} from './MetricType';
+import {Metric} from './domain';
 
 export abstract class MetricSet implements Metric {
 

@@ -23,7 +23,7 @@ describe('GlobalConfigProcessor', function () {
     globalConfigProcessor.clearProperties();
     mm(process.env, 'PANDORA_CONFIG', pathToGlobalConfigExt);
     const properties = globalConfigProcessor.getAllProperties();
-    expect((<any>properties).testKey).to.be.equal('testValue');
+    expect((<any>properties).testKey).to.equal('testValue');
     mm.restore();
   });
 
@@ -31,7 +31,7 @@ describe('GlobalConfigProcessor', function () {
     globalConfigProcessor.clearProperties();
     mm(process.env, 'PANDORA_CONFIG', pathToGlobalConfigExt + ':/sdf/dsfsdf/dsf');
     const properties = globalConfigProcessor.getAllProperties();
-    expect((<any>properties).testKey).to.be.equal('testValue');
+    expect((<any>properties).testKey).to.equal('testValue');
     mm.restore();
   });
 
@@ -41,7 +41,7 @@ describe('GlobalConfigProcessor', function () {
     globalConfigProcessor.mergeProperties({
       'hello': 'world'
     });
-    expect((<any>properties).hello).to.be.equal('world');
+    expect((<any>properties).hello).to.equal('world');
   });
 
 });

@@ -13,8 +13,8 @@ describe('/test/unit/reporter/reporter.test.ts', () => {
       report(metricsData) {
         let {counters} = metricsData;
         debug('call custom report once');
-        expect(counters.size).to.be.equal(1);
-        expect(Array.from(counters.keys()).length).to.be.equal(1);
+        expect(counters.size).to.equal(1);
+        expect(Array.from(counters.keys()).length).to.equal(1);
         reporter.stop();
         done();
       }
@@ -23,7 +23,7 @@ describe('/test/unit/reporter/reporter.test.ts', () => {
     const manager = new MetricsServerManager();
     manager.register('test', MetricName.build('reporter.register.pv'), new BaseCounter());
     const reporter = new MyReporter();
-    reporter.setMetricManager(manager);
+    reporter.setMetricsManager(manager);
     reporter.start(1);
   });
 });

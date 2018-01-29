@@ -1,12 +1,35 @@
 #!/usr/bin/env node
 "use strict";
+
+if (Number(process.versions.node[0] < 8)) {
+  const colors = require('colors');
+  console.error(colors.red('Pandora.js required Node.js >= 8.0.0, current version is ' + process.versions.node));
+  process.exit(1);
+}
+
+// FIX ISSUE LIKE: https://github.com/npm/npm/issues/4603
+const {spawn} = require('child_process');
+if (process.env.npm_config_argv && !process.env.npm_run_pandora_l2) {
+  spawn(process.argv[0], process.argv.slice(1), {
+    stdio: 'inherit',
+    env: Object.assign({
+      npm_run_pandora_l2: 'true'
+    }, process.env)
+  });
+  return;
+}
+
+
 require('source-map-support').install();
 const fs = require('fs');
 const path = require('path');
 const yargs = require('yargs');
 
 const logo = fs.readFileSync(path.join(__dirname, '../logo')).toString();
-const version = `${logo}\nPandora: ${require('../package.json').version} (${__dirname}) Node: ${process.version} ${process.alinode ? '(Alinode: ' + process.alinode + ')' : ''}`;
+const version = `${logo}
+BaseDir: ${process.cwd()}
+Pandora: ${require('../package.json').version} (${__dirname})
+Node: ${process.version} ${process.alinode ? '(Alinode: ' + process.alinode + ')' : ''}`;
 
 process.on('uncaughtException', function (e) {
   console.error(e.stack);
@@ -18,6 +41,7 @@ yargs
   .help()
   .version(version)
   .alias('v', 'version')
+  .command(require('../cli/init'))
   .command(require('../cli/start'))
   .command(require('../cli/stop'))
   .command(require('../cli/restart'))

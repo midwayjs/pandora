@@ -13,15 +13,15 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
   let reporter;
 
   before(() => {
-    const metricsServer = new MetricsServerManager();
+    const metricsManager = new MetricsServerManager();
 
     server = new MetricsActuatorServer({
-      metricsServer,
+      metricsManager,
       config: {
         http: {
           enabled: false
         },
-        endPoints: {
+        endPoint: {
           trace: {
             enabled: true,
             target: TraceEndPoint,
@@ -62,7 +62,7 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
     stub(reporter.logger, 'write').callsFake((msg) => {
       const logContent = JSON.parse(msg);
       expect(logContent.pid).to.equal(pid);
-      expect(logContent.date).to.equal(now);
+      expect(logContent.timestamp).to.equal(now);
 
       reporter.logger.write.restore();
       done();
@@ -86,7 +86,7 @@ describe('/test/unit/reporter/TraceReporter.test.ts', () => {
     stub(reporter.logger, 'write').callsFake((msg) => {
       const logContent = JSON.parse(msg);
       expect(logContent.pid).to.equal(pid);
-      expect(logContent.date).to.equal(next);
+      expect(logContent.timestamp).to.equal(next);
 
       reporter.logger.write.restore();
       done();

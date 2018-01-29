@@ -1,4 +1,5 @@
 import {IBuilder, IndicatorScope, IndicatorBuilderResult} from '../domain';
+const util = require('util');
 
 const KEY_SPLIT = '|';
 
@@ -11,9 +12,30 @@ const STR_MAP = {
   PROCESS: IndicatorScope.PROCESS,
 };
 
+export class PrettyBuilderObject {
+
+  private value;
+  private format;
+
+  constructor(format, value) {
+    this.format = format;
+    this.value = value;
+  }
+
+  getOriginValue() {
+    return this.value;
+  }
+
+  getValue() {
+    return util.format(this.format, this.value);
+  }
+
+}
+
 export class IndicatorBuilder implements IBuilder {
 
   protected details: Map<string, IndicatorBuilderResult> = new Map();
+  private prettyMode = false;
 
   withDetail(key: string, data: any, scope: IndicatorScope | 'system' | 'SYSTEM' | 'app' | 'APP' | 'process' | 'PROCESS' = IndicatorScope.APP): IBuilder {
 
@@ -37,5 +59,18 @@ export class IndicatorBuilder implements IBuilder {
 
   static getKey(key, scope) {
     return [key, scope].join(KEY_SPLIT);
+  }
+
+  pretty(format, value) {
+    let prettyData = new PrettyBuilderObject(format, value);
+    if(this.prettyMode) {
+      return prettyData.getValue();
+    } else {
+      return prettyData.getOriginValue();
+    }
+  }
+
+  setPrettyMode(prettyMode) {
+    this.prettyMode = prettyMode;
   }
 }

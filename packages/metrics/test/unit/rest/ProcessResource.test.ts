@@ -3,9 +3,7 @@ import {EndPointService} from '../../../src/service/EndPointService';
 
 const request = require('supertest');
 import {expect} from 'chai';
-import {ProcessIndicator} from '../../../src/indicator/impl/ProcessIndicator';
-import {ProcessResource} from '../../../src/rest/ProcessResource';
-import {ProcessEndPoint} from '../../../src/endpoint/impl/ProcessEndPoint';
+import {MetricsConstants, ProcessEndPoint, ProcessIndicator, ProcessResource} from '../../../src';
 
 describe('/test/unit/ProcessResource.test.ts', () => {
 
@@ -27,7 +25,7 @@ describe('/test/unit/ProcessResource.test.ts', () => {
         enabled: false,
         port: 8006,
       },
-      endPoints: {
+      endPoint: {
         error: {
           enabled: true,
           target: ProcessEndPoint,
@@ -38,6 +36,9 @@ describe('/test/unit/ProcessResource.test.ts', () => {
 
     request(app.listen())
       .get('/process')
+      .query({
+        appName: MetricsConstants.METRICS_DEFAULT_APP
+      })
       .expect(200)
       .then(res => {
         expect(res.body.data.length >= 0).to.be.true;

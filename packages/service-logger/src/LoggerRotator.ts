@@ -51,7 +51,6 @@ export class LoggerRotator {
     this.messengerServer = Messenger.getServer({
       name: SOCKET_FILE_NAME
     });
-
     this.messengerServer.on(MESSENGER_ACTION_SERVICE, (message: MsgPkg, reply) => {
       if(message.type === 'logger-send-strategy') {
         const payload: MsgSendStrategyPayload = <MsgSendStrategyPayload> message.payload;
@@ -90,8 +89,9 @@ export class LoggerRotator {
 
     await new Promise((resolve) => {
       this.messengerServer.ready(resolve);
-      this.logger.info('[loggerRotator] started service.');
     });
+
+    this.logger.info('[loggerRotator] started service.');
 
   }
 
@@ -269,6 +269,7 @@ export class LoggerRotator {
     }
     // logfile => logfile.1
     await fs.rename(logfile, `${logfile}.1`);
+    this.broadcastReload();
   }
 
   /**
@@ -289,7 +290,6 @@ export class LoggerRotator {
     } else {
       await fs.rename(targetPath, backupPath);
     }
-    this.broadcastReload();
   }
 
   /**

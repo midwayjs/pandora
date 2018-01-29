@@ -9,7 +9,6 @@ describe('ServiceLogger', function () {
 
   it('should create logger be ok', () => {
     logger = new ServiceLogger({
-      workMode: 'worker',
       context: {
         appName: 'testApp',
         processName: 'worker',
@@ -18,12 +17,12 @@ describe('ServiceLogger', function () {
         return 'lala';
       }
     });
-    expect((<any> logger).logger.options.file).to.be.equal(homedir() + '/logs/pandorajs/lala.log');
+    expect((<any> logger).logger.options.file).to.equal(homedir() + '/logs/testApp/service.log');
   });
 
   it('should doPrefix() be ok', () => {
     const res = logger.doPrefix(['test string']);
-    expect(res[0]).to.be.equal('[appName: testApp, processName: worker, workMode: worker] test string');
+    expect(res[0]).to.equal('[serviceName: lala, processName: worker] test string');
   });
 
   it('should debug() be ok', () => {
@@ -34,7 +33,7 @@ describe('ServiceLogger', function () {
       }
     });
     logger.debug('msg');
-    expect(did).to.be.equal(true);
+    expect(did).to.equal(true);
     mm.restore();
   });
 
@@ -46,7 +45,7 @@ describe('ServiceLogger', function () {
       }
     });
     logger.warn('msg');
-    expect(did).to.be.equal(true);
+    expect(did).to.equal(true);
     mm.restore();
   });
 
@@ -58,7 +57,7 @@ describe('ServiceLogger', function () {
       }
     });
     logger.info('msg');
-    expect(did).to.be.equal(true);
+    expect(did).to.equal(true);
     mm.restore();
   });
 
@@ -70,7 +69,7 @@ describe('ServiceLogger', function () {
       }
     });
     logger.error('msg');
-    expect(did).to.be.equal(true);
+    expect(did).to.equal(true);
     mm.restore();
   });
 
@@ -82,7 +81,7 @@ describe('ServiceLogger', function () {
       }
     });
     logger.log('msg');
-    expect(did).to.be.equal(true);
+    expect(did).to.equal(true);
     mm.restore();
   });
 
@@ -94,7 +93,7 @@ describe('ServiceLogger', function () {
       }
     });
     logger.write('msg');
-    expect(did).to.be.equal(true);
+    expect(did).to.equal(true);
     mm.restore();
   });
 

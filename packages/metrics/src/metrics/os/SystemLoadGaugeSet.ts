@@ -3,6 +3,9 @@ import {MetricName} from '../../common/MetricName';
 import {Gauge} from '../../client/MetricsProxy';
 
 const fs = require('fs');
+const os = require('os');
+const {promisify} = require('util');
+const exec = promisify(require('child_process').exec);
 
 enum LoadAvg {
   ONE_MIN = 'ONE_MIN', FIVE_MIN = 'FIVE_MIN', FIFTEEN_MIN = 'FIFTEEN_MIN'
@@ -16,49 +19,7 @@ export class SystemLoadGaugeSet extends CachedMetricSet {
 
   loadAvg = {};
 
-  constructor(filePath = SystemLoadGaugeSet.DEFAULT_FILE_PATH) {
-    super();
-    this.filePath = filePath;
-  }
-
-  getMetrics() {
-    let self = this;
-    let gauges = [];
-
-    gauges.push({
-      name: MetricName.build('load.1min'),
-      metric: <Gauge<number>> {
-        getValue() {
-          self.refreshIfNecessary();
-          return self.loadAvg[LoadAvg.ONE_MIN];
-        }
-      }
-    });
-
-    gauges.push({
-      name: MetricName.build('load.5min'),
-      metric: <Gauge<number>> {
-        getValue() {
-          self.refreshIfNecessary();
-          return self.loadAvg[LoadAvg.FIVE_MIN];
-        }
-      }
-    });
-
-    gauges.push({
-      name: MetricName.build('load.15min'),
-      metric: <Gauge<number>> {
-        getValue() {
-          self.refreshIfNecessary();
-          return self.loadAvg[LoadAvg.FIFTEEN_MIN];
-        }
-      }
-    });
-
-    return gauges;
-  }
-
-  getValueInternal() {
+  getLoadAvgLinux() {
     try {
       let loadResult = fs.readFileSync(this.filePath).toString();
       let loadMatcher = loadResult.split(' ');
@@ -75,6 +36,70 @@ export class SystemLoadGaugeSet extends CachedMetricSet {
       this.loadAvg[LoadAvg.FIVE_MIN] = 0;
       this.loadAvg[LoadAvg.FIFTEEN_MIN] = 0;
     }
+  };
 
+  async getLoadAvgDarwin() {
+    let output;
+    try {
+      output = await exec('sysctl -n vm.loadavg');
+    } catch (e) {
+      throw new Error('failed to exec `sysctl -n vm.loadavg`');
+    }
+
+    const loadAvg = output.stdout.trim().replace(/{ | }/g, '').split(/ /).map(l => parseFloat(l));
+
+    this.loadAvg[LoadAvg.ONE_MIN] = loadAvg[0];
+    this.loadAvg[LoadAvg.FIVE_MIN] = loadAvg[1];
+    this.loadAvg[LoadAvg.FIFTEEN_MIN] = loadAvg[2];
+  };
+
+  constructor(dataTTL = 5, filePath = SystemLoadGaugeSet.DEFAULT_FILE_PATH) {
+    super(dataTTL);
+    this.filePath = filePath;
+  }
+
+  getMetrics() {
+    let self = this;
+    let gauges = [];
+
+    gauges.push({
+      name: MetricName.build('load.1min'),
+      metric: <Gauge<Promise<number>>> {
+        async getValue() {
+          await self.refreshIfNecessary();
+          return self.loadAvg[LoadAvg.ONE_MIN];
+        }
+      }
+    });
+
+    gauges.push({
+      name: MetricName.build('load.5min'),
+      metric: <Gauge<Promise<number>>> {
+        async getValue() {
+          await self.refreshIfNecessary();
+          return self.loadAvg[LoadAvg.FIVE_MIN];
+        }
+      }
+    });
+
+    gauges.push({
+      name: MetricName.build('load.15min'),
+      metric: <Gauge<Promise<number>>> {
+        async getValue() {
+          await self.refreshIfNecessary();
+          return self.loadAvg[LoadAvg.FIFTEEN_MIN];
+        }
+      }
+    });
+
+    return gauges;
+  }
+
+  async getValueInternal() {
+    if (os.platform() === 'darwin') {
+      await this.getLoadAvgDarwin();
+    } else {
+      this.getLoadAvgLinux();
+    }
   }
 }

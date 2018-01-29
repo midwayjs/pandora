@@ -1,0 +1,48 @@
+index:
+  getstart: 快速入门
+  slogan: "向未来出发"
+  desc: "一个 Ops First 的 Node.js 应用管理器"
+
+menu:
+  guide: 文档指南
+  api: API 接口
+  release: 发布日志
+
+guide_toc:
+  introduce: "Pandora.js 是什么？"
+  quickstart: "快速入门"
+  glossary: "关键术语"
+  base: "基础功能"
+  command: "命令行介绍"
+  procfile_mode: "认识 procfile.js"
+  dorapan: "用户空间 SDK - Dorapan"
+  debug: "调试应用"
+  logs: "日志管理"
+  global_config: "配置文件"
+  quick_monitor: "快速了解监控"
+  monitor_inner: "默认监控"
+  process: "进程管理进阶"
+  fork_and_cluster: "Fork 和 Cluster"
+  process_std: "自定义进程"
+  service_std: "自定义 Service"
+  environment_std: "自定义环境"
+  application_life_cycle: "应用生命周期"
+  ipc_hub: "进程间通信"
+  #监控
+  monitor: "应用监控"
+  monitor_std: "监控体系总览"
+  endpoint: "使用和扩展 EndPoint"
+  resource: "对外暴露 Resource"
+  metrics_std: "使用和扩展 Metrics"
+  trace_std: "链路监控"
+  report: "监控数据上报"
+  #数据上报
+  collect: "监控数据采集"
+  collect_health: "健康检查"
+  collect_info: "应用信息"
+  collect_process: "进程详情"
+  collect_error: "错误详情"
+  other: "扩展功能"
+  dashboard: "可视化管理面板"
+  typescript: "启动 TypeScript 项目"
+

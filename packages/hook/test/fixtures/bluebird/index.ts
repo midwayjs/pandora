@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const {BluebirdPatcher} = require('../../../src/patch/bluebird');
+const {BluebirdPatcher} = require('../../../src/patch/BlueBird');
 const bluebirdPatcher = new BluebirdPatcher();
 const TraceManager = require('pandora-metrics').TraceManager;
 import {RunUtil} from '../../RunUtil';
@@ -9,6 +9,10 @@ RunUtil.run(function(done) {
   bluebirdPatcher.run();
 
   const Promise = require('bluebird');
+
+  Promise.coroutine.addYieldHandler(function(value) {
+    if (typeof value === 'number') return Promise.delay(value);
+  });
 
   const traceManager = new TraceManager();
 
@@ -27,12 +31,20 @@ RunUtil.run(function(done) {
 
       resolve(Math.floor(Math.random() * 10));
     }).then((data) => {
-      const ct = traceManager.getCurrentTracer();
-      const cs = ct.getCurrentSpan();
 
-      ct.startSpan(`then-${data}`, {
-        childOf: cs
+      const delay = Promise.coroutine(function* () {
+        const ct = traceManager.getCurrentTracer();
+        const cs = ct.getCurrentSpan();
+
+        ct.startSpan(`then-${data}`, {
+          childOf: cs
+        });
+
+        yield 1000;
       });
+
+      return delay();
+
     }).then(() => {
       const spans = tracer.spans;
       assert(spans.length === 3);

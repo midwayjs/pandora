@@ -3,10 +3,10 @@ import {EndPointService} from '../../../src/service/EndPointService';
 
 const request = require('supertest');
 import {expect} from 'chai';
-import {ErrorEndPoint} from '../../../src/endpoint/impl/ErrorEndPoint';
 import {ErrorIndicator} from '../../../src/indicator/impl/ErrorIndicator';
 import {ErrorResource} from '../../../src/rest/ErrorResource';
 import {LoggerMessageCollector} from '../../../src/util/MessageCollector';
+import {ErrorEndPoint} from '../../../src';
 
 describe('/test/unit/ErrorResource.test.ts', () => {
 
@@ -45,7 +45,7 @@ describe('/test/unit/ErrorResource.test.ts', () => {
         enabled: false,
         port: 8006,
       },
-      endPoints: {
+      endPoint: {
         error: {
           enabled: true,
           target: ErrorEndPoint,
@@ -58,7 +58,7 @@ describe('/test/unit/ErrorResource.test.ts', () => {
       .get('/error')
       .expect(200)
       .then(res => {
-        expect(res.body.data.length >= 0).to.be.true;
+        expect(res.body.data.count >= 0).to.be.true;
         expect(res.body.success).to.true;
         done();
       })

@@ -1,5 +1,5 @@
-import {Metric} from '../Metric';
 import {MetricType} from '../MetricType';
+import {Metric} from '../domain';
 
 /**
  * <pre>

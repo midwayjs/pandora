@@ -32,15 +32,15 @@ describe('ReconnectedAndDisconnected', () => {
     const routeTable = hub.getRouteTable();
 
     const clientsBeforeClose = routeTable.getAllClients();
-    expect(clientsBeforeClose.length).to.be.equal(1);
+    expect(clientsBeforeClose.length).to.equal(1);
 
     const selectorsBeforeClose = routeTable.getSelectorsByClient(clientsBeforeClose[0]);
-    expect(selectorsBeforeClose.length).to.be.equal(2);
+    expect(selectorsBeforeClose.length).to.equal(2);
 
     await client.stop();
 
     const clientsAfterClose = routeTable.getAllClients();
-    expect(clientsAfterClose.length).to.be.equal(0);
+    expect(clientsAfterClose.length).to.equal(0);
 
     await hub.stop();
 
@@ -67,9 +67,9 @@ describe('ReconnectedAndDisconnected', () => {
 
     const routeTable1 = hub1.getRouteTable();
     const clients1 = routeTable1.getAllClients();
-    expect(clients1.length).to.be.equal(1);
+    expect(clients1.length).to.equal(1);
     const selectors1 = routeTable1.getSelectorsByClient(clients1[0]);
-    expect(selectors1.length).to.be.equal(3);
+    expect(selectors1.length).to.equal(3);
 
     await hub1.stop();
 
@@ -82,9 +82,9 @@ describe('ReconnectedAndDisconnected', () => {
 
     const routeTable2 = hub2.getRouteTable();
     const clients2 = routeTable2.getAllClients();
-    expect(clients2.length).to.be.equal(1);
+    expect(clients2.length).to.equal(1);
     const selectors2 = routeTable2.getSelectorsByClient(clients2[0]);
-    expect(selectors2.length).to.be.equal(3);
+    expect(selectors2.length).to.equal(3);
     expect(selectors2).to.deep.equal(selectors1);
 
     await client.stop();

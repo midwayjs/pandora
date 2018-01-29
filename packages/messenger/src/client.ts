@@ -23,12 +23,15 @@ export default class Client extends MessengerBase {
   private _bodyLength: number;
   private _queue: Array<any>;
   private _packetId: number;
+  private _unref: boolean;
+
 
   /**
    * tcp 客户端的基类
    * @param {Object} options
    *   - {Number} headerLength - 通讯协议头部长度, 可选， 不传的话就必须实现getHeader方法
    *   - {Boolean} [noDelay] - 是否开启 Nagle 算法，默认：true，不开启
+   *   - {Boolean} [unref] - socket.unref，默认不 false
    *   - {Number} [concurrent] - 并发请求数，默认：0，不控制并发
    *   - {Number} [responseTimeout] - 请求超时
    *   - {Number} [reConnectTimes] - 自动最大重连次数，默认：0，不自动重连，当重连次数超过此值时仍然无法连接就触发close error事件
@@ -39,6 +42,7 @@ export default class Client extends MessengerBase {
     options = Object.assign({}, defaultOptions, options);
     super(options);
 
+    this._unref = !!options.unref;
     this._reConnectTimes = this.options.reConnectTimes;
     this._socket = this.options.socket;
     this._header = null;
@@ -146,6 +150,10 @@ export default class Client extends MessengerBase {
    */
   get isOK() {
     return this._socket && this._socket.writable;
+  }
+
+  get shouldUnref() {
+    return this._unref && this._ready;
   }
 
   /**
@@ -285,8 +293,8 @@ export default class Client extends MessengerBase {
     }
 
     // 自动重连接
-    if (this._reConnectTimes) {
-      setTimeout(() => {
+    if (this._reConnectTimes && (this._ready || this.options.reConnectAtFirstTime)) {
+      const timer = setTimeout(() => {
         this._reConnectTimes--;
         this._connect(() => {
           // 连接成功后重新设置可重连次数
@@ -295,6 +303,9 @@ export default class Client extends MessengerBase {
           debug('[client] reconnected to the server, process pid is %s', process.pid);
         });
       }, this.options.reConnectInterval);
+      if(this.shouldUnref) {
+        (<any> timer).unref();
+      }
       return;
     }
     this._cleanQueue();
@@ -305,13 +316,13 @@ export default class Client extends MessengerBase {
 
   // 连接
   _connect(done?: Function) {
-    if (!done) {
-      done = () => this.ready(true);
-    }
-
     this._socket = net.connect(this.sockPath);
     this._socket.once('connect', () => {
-      done();
+      this.ready(true);
+      done && done();
+      if(this.shouldUnref) {
+        this._socket.unref();
+      }
       this._resume();
       this.emit('connect');
     });

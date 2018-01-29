@@ -1,49 +1,83 @@
 import {EndPoint} from '../EndPoint';
 import {MetricsServerManager} from '../../MetricsServerManager';
-import {MetricFilter, MetricName, IMetricsRegistry}  from '../../common/index';
+import {MetricFilter, MetricName, IMetricsRegistry, Metric} from '../../common/index';
 import {MetricObject} from '../../collect/MetricObject';
 import {MetricsManager} from '../../common/MetricsManager';
 import {NormalMetricsCollector} from '../../collect/NormalMetricsCollector';
+import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
 const debug = require('debug')('pandora:metrics:MetricEndPoint');
+
+export class AppNameFilter implements MetricFilter {
+
+  appName;
+
+  constructor(appName) {
+    this.appName = appName;
+  }
+
+  matches(name: MetricName, metric: Metric): boolean {
+    let tags = name.getTags() || {};
+    if(!tags['appName']) {
+      return true;
+    } else {
+      return tags['appName'] === this.appName;
+    }
+  }
+}
 
 export class MetricsEndPoint extends EndPoint {
 
   group: string = 'metrics';
-
-  manager: MetricsManager = MetricsServerManager.getInstance();
-
+  manager: MetricsManager = MetricsInjectionBridge.getMetricsManager();
   rateFactor = 1;
   durationFactor = 1.0;
 
-  listMetrics(): {} {
+  async listMetrics(group?: string, appName?: string): Promise<{}> {
+    let filter;
+    if(appName) {
+      filter = new AppNameFilter(appName);
+    }
     if (this.manager.isEnabled()) {
       let resultMap = {};
       for (let groupName of this.manager.listMetricGroups()) {
-        let registry = this.manager.getMetricRegistryByGroup(groupName);
-        let results: Array<MetricObject> = this.buildMetricRegistry(registry);
-        resultMap[groupName] = results.map((o) => {
-          let result = o.toJSON();
-          // list 接口过滤掉 value 和 timestamp
-          delete result['value'];
-          delete result['timestamp'];
-          return result;
-        });
+        if(!group || (group && groupName === group)) {
+          let registry = this.manager.getMetricRegistryByGroup(groupName);
+          let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
+          resultMap[groupName] = results.map((o) => {
+            let result = o.toJSON();
+            // list 接口过滤掉 value 和 timestamp
+            delete result['value'];
+            delete result['timestamp'];
+            return result;
+          });
+        }
       }
 
       return resultMap;
     }
   }
 
-  protected buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
+  protected async buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
     let collectorCls = this.getCollector();
-    let collector = new collectorCls({}, this.rateFactor, this.durationFactor, filter);
+    let collector = new collectorCls({
+      globalTags: {},
+      rateFactor: this.rateFactor,
+      durationFactor: this.durationFactor,
+      reportInterval: -1,
+      filter
+    });
 
     const timestamp = Date.now();
 
-    for (let [key, gauge] of registry.getGauges().entries()) {
+    let gauges = Array.from(registry.getGauges().values());
+    let results = await Promise.all(gauges.map((gauge) => {
+      return gauge.getValue();
+    }));
+
+    Array.from(registry.getGauges().keys()).forEach((key, index) => {
       debug(`collect gauge key = ${key}`);
-      collector.collectGauge(MetricName.parseKey(key), gauge, timestamp);
-    }
+      collector.collectGauge(MetricName.parseKey(key), results[index], timestamp);
+    });
 
     for (let [key, counter] of registry.getCounters().entries()) {
       debug(`collect counter key = ${key}`);
@@ -68,9 +102,13 @@ export class MetricsEndPoint extends EndPoint {
     return collector.build();
   }
 
-  getMetricsByGroup(groupName: string): Array<any> {
+  async getMetricsByGroup(groupName: string, appName?: string): Promise<Array<any>> {
+    let filter;
+    if(appName) {
+      filter = new AppNameFilter(appName);
+    }
     let registry = this.manager.getMetricRegistryByGroup(groupName);
-    let results: Array<MetricObject> = this.buildMetricRegistry(registry);
+    let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
     return results.map((o) => {
       return o.toJSON();
     });
@@ -80,8 +118,8 @@ export class MetricsEndPoint extends EndPoint {
     return (<MetricsServerManager>this.manager).hasMetricRegistryByGroup(groupName);
   }
 
-  private getCollector() {
-    return this.config['initConfig']['collector'] || NormalMetricsCollector;
+  protected getCollector() {
+    return this.config['collector'] || NormalMetricsCollector;
   }
 
 }

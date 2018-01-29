@@ -18,10 +18,10 @@ class AgentWorkerTest1 extends EventEmitter {
     return AgentWorkerTest1Proxy;
   };
   subscribe(reg, fn) {
-    return this.core.subscribe(reg, fn);
+    return this.context.subscribe(reg, fn);
   }
   unsubscribe(reg, fn) {
-    return this.core.unsubscribe(reg, fn);
+    return this.context.unsubscribe(reg, fn);
   }
 }
 

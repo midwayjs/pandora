@@ -17,14 +17,18 @@ export class CacheDuplexEndPoint extends DuplexEndPoint {
     }
   }
 
-  invoke(appName: string, args: {
-    by: 'size' | 'time',
-    value: number,
-    order?: 'ASC' | 'DESC'
+  invoke(args: {
+    appName?: string,
+    by?: 'size' | string,
+    value?: number,
+    order?: 'ASC' | 'DESC',
+    offset?: number,
+    limit?: number
   } = {
     by: 'size',
-    value: 0,
+    value: 0
   }) {
+    let appName = args.appName;
     let cache = this.cacheMap.get(appName);
     // 如果只有一个应用，直接返回该应用信息
     if(!appName && this.cacheMap.size === 1) {

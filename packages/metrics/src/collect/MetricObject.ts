@@ -80,6 +80,7 @@ export class Builder {
     this.metric.interval = interval;
     return this;
   }
+
 }
 
 
@@ -105,7 +106,7 @@ export class MetricObject {
 
   metric: string;
 
-  timestamp: number;
+  timestamp: number;  // seconds
 
   value: any;
 

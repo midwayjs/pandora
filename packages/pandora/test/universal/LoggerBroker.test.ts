@@ -14,7 +14,7 @@ describe('LoggerBroker', function () {
 
   it('should getDaemonLogger() be ok', () => {
     const daemonLogger: any = LoggerBroker.getDaemonLogger();
-    expect(daemonLogger.options.file).to.be.equal(homedir() + '/logs/pandorajs/daemon.log');
+    expect(daemonLogger.options.file).to.equal(homedir() + '/logs/pandorajs/daemon.log');
     expect(daemonLogger.info).to.ok;
     expect(daemonLogger.debug).to.ok;
     expect(daemonLogger.warn).to.ok;
@@ -23,12 +23,12 @@ describe('LoggerBroker', function () {
 
   it('should getDaemonStdoutLogPath() be ok', () => {
     const daemonStdoutLoggerPath = LoggerBroker.getDaemonStdoutLogPath();
-    expect(daemonStdoutLoggerPath).to.be.equal(homedir() + '/logs/pandorajs/daemon_std.log');
+    expect(daemonStdoutLoggerPath).to.equal(homedir() + '/logs/pandorajs/daemon_std.log');
   });
 
   it('should createAppLogger() be ok', () => {
     const appLogger: any = LoggerBroker.createAppLogger('a', 'b');
-    expect(appLogger.options.file).to.be.equal(homedir() + '/logs/a/b.log');
+    expect(appLogger.options.file).to.equal(homedir() + '/logs/a/b.log');
     expect(appLogger.info).to.ok;
     expect(appLogger.debug).to.ok;
     expect(appLogger.warn).to.ok;
@@ -36,11 +36,11 @@ describe('LoggerBroker', function () {
   });
 
   it('should getAppLogPath() be ok', () => {
-    expect(LoggerBroker.getAppLogPath('a', 'b')).to.be.equal(homedir() + '/logs/a/b.log');
+    expect(LoggerBroker.getAppLogPath('a', 'b')).to.equal(homedir() + '/logs/a/b.log');
   });
 
   it('should removeEOL() be ok', () => {
-    expect(LoggerBroker.removeEOL('test' + EOL)).to.be.equal('test');
+    expect(LoggerBroker.removeEOL('test' + EOL)).to.equal('test');
   });
 
 });

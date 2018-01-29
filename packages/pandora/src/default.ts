@@ -1,7 +1,7 @@
-import {DefaultConfigurator} from './universal/DefaultConfigurator';
 import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
 import {join} from 'path';
 import {homedir} from 'os';
+import {BaseMonitor} from './monitor/Monitor';
 
 const {DefaultEnvironment} = require('pandora-env');
 const {
@@ -11,13 +11,15 @@ const {
   ProcessEndPoint,
   MetricsEndPoint,
   TraceEndPoint,
+  DaemonEndPoint,
   ErrorResource,
   MetricsResource,
   HealthResource,
   TraceResource,
   InfoResource,
   ProcessResource,
-  FileMetricManagerReporter,
+  DaemonResource,
+  FileMetricsManagerReporter,
   MetricsClient,
   MetricsServerManager,
   CompactMetricsCollector,
@@ -29,37 +31,31 @@ const hooks = require('pandora-hook');
 export default {
 
   environment: DefaultEnvironment,
-  configurator: DefaultConfigurator,
 
   procfile (pandora: ProcfileReconcilerAccessor) {
 
     const globalConfig = require('./universal/GlobalConfigProcessor')
       .GlobalConfigProcessor.getInstance().getAllProperties();
 
-    pandora.defaultAppletCategory('worker');
-    pandora.defaultServiceCategory('weak-all');
+    pandora.defaultServiceCategory('worker');
 
     pandora.environment(globalConfig.environment);
-    pandora.configurator(globalConfig.configurator);
 
     pandora.process('agent')
       .scale(1)
       .env({agent: 'true'});
 
     pandora.process('worker')
-      .scale('auto')
+      .scale(pandora.dev ? 1 : 'auto')
       .env({worker: 'true'});
 
     pandora.process('background')
       .scale(1)
       .env({background: 'true'});
 
-    pandora.service(LoggerService)
+    pandora.service('logger', LoggerService)
       .name('logger')
-      .process('weak-all')
-      .config((ctx) => {
-        return ctx.config.loggerService;
-      });
+      .process('weak-all');
 
   },
 
@@ -69,14 +65,20 @@ export default {
       stdoutLevel: 'NONE',
       level: 'INFO'
     },
+    serviceLogger: {
+      stdoutLevel: 'NONE',
+      level: 'INFO',
+    },
     daemonLogger: {
       stdoutLevel: 'ERROR',
       level: 'INFO',
-    }
+    },
+    isolatedServiceLogger: false
   },
 
-  metricsServer: MetricsServerManager,
+  metricsManager: MetricsServerManager,
   metricsClient: MetricsClient,
+  monitor: BaseMonitor,
 
   actuator: {
     http: {
@@ -84,7 +86,12 @@ export default {
       port: 7002,
     },
 
-    endPoints: {
+    endPoint: {
+      daemon: {
+        enabled: true,
+        target: DaemonEndPoint,
+        resource: DaemonResource,
+      },
       error: {
         enabled: true,
         target: ErrorEndPoint,
@@ -132,35 +139,51 @@ export default {
         resource: TraceResource,
         initConfig: {
           cacheSize: 1000,
-          rate: 10
+          rate: 10,
+          priority: true // 优先级高的链路是否跳出采样率限制
         }
       }
     },
   },
 
   hook: {
+    global: {
+      enabled: true,
+      target: hooks.GlobalPatcher
+    },
     eggLogger: {
       enabled: true,
       target: hooks.EggLoggerPatcher,
-    },
-    urllib: {
-      enabled: true,
-      target: hooks.UrllibPatcher
     },
     bluebird: {
       enabled: true,
       target: hooks.BluebirdPatcher
     },
-    http: {
+    httpServer: {
       enabled: true,
-      target: hooks.HttpPatcher
+      target: hooks.HttpServerPatcher,
+      initConfig: {
+        slowThreshold: 10 * 1000 // 慢链路标准，duration 大于等于 10s
+      }
+    },
+    httpClient: {
+      enabled: true,
+      target: hooks.HttpClientPatcher
+    },
+    mysql: {
+      enabled: true,
+      target: hooks.MySQLPatcher
+    },
+    mysql2: {
+      enabled: true,
+      target: hooks.MySQL2Patcher
     }
   },
+  reporterInterval: 15,
   reporter: {
     file: {
       enabled: true,
-      target: FileMetricManagerReporter,
-      interval: 5,
+      target: FileMetricsManagerReporter,
       initConfig: {
         collector: CompactMetricsCollector
       }

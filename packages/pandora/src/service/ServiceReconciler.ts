@@ -5,7 +5,7 @@ import {
 } from '../domain';
 import assert = require('assert');
 import {ServiceCore} from './ServiceCore';
-import {WorkerContext} from '../application/WorkerContext';
+import {ProcessContext} from '../application/ProcessContext';
 
 const debug = require('debug')('pandora:ServiceReconciler');
 
@@ -14,17 +14,15 @@ const debug = require('debug')('pandora:ServiceReconciler');
  */
 export class ServiceReconciler {
 
-  protected context: WorkerContext;
+  protected context: ProcessContext;
 
   protected services: Map<string, ServiceInstanceReference> = new Map;
   protected state: 'notBoot' | 'booting' | 'booted' | 'stoping' = 'notBoot';
 
   protected processRepresentation: ProcessRepresentation;
-  protected workModeByForce;
 
 
-  constructor(processRepresentation: ProcessRepresentation, context, workModeByForce?) {
-    this.workModeByForce = workModeByForce;
+  constructor(processRepresentation: ProcessRepresentation, context) {
     this.processRepresentation = processRepresentation;
     this.context = context;
   }
@@ -74,6 +72,12 @@ export class ServiceReconciler {
   public getWeight(id, chain?: string[]) {
     chain = Array.from(chain || []);
     assert(-1 === chain.indexOf(id), `Service name: ${id} in a cyclic dependency chain: ${chain.join(' -> ')} -> ${id}`);
+    if(chain.length > 1 && id === 'all') {
+      throw new Error(`Reserved service name 'all' not allowed to contains within a dependency chain: ${chain.join(' -> ')} -> ${id}`);
+    }
+    if(id === 'all') {
+      return Infinity;
+    }
     chain.push(id);
     assert(this.services.has(id), `Could not found service id: ${id}`);
     const ref = this.services.get(id);
@@ -108,18 +112,23 @@ export class ServiceReconciler {
 
         if (deps) {
           for (let depId of deps) {
+            if(depId === 'all') {
+              continue;
+            }
             depInstances[depId] = this.services.get(depId).serviceCoreInstance;
           }
         }
 
-        const serviceEntry = (<any> serviceRepresentation.serviceEntry).getLazyClass ?
-          (<any> serviceRepresentation.serviceEntry).getLazyClass() : serviceRepresentation.serviceEntry;
+        const serviceEntry = (<any> serviceRepresentation.serviceEntry).getLazyClass
+          ? (<any> serviceRepresentation.serviceEntry).getLazyClass()
+          : serviceRepresentation.serviceEntry;
 
-        serviceRepresentation.config = serviceRepresentation.configResolver ?
-          serviceRepresentation.configResolver(this.context.workerContextAccessor, serviceRepresentation.config)
+        serviceRepresentation.config = serviceRepresentation.configResolver
+          ? serviceRepresentation.configResolver(this.context.processContextAccessor, serviceRepresentation.config)
           : serviceRepresentation.config;
+
         const serviceCoreInstance = new ServiceCore({
-          context: this.context.workerContextAccessor,
+          context: this.context.processContextAccessor,
           representation: serviceRepresentation,
           depInstances: depInstances
         }, serviceEntry);
@@ -156,6 +165,9 @@ export class ServiceReconciler {
         // midwayClassicPluginService 中需要在启动过程中，通过 getService 获得到启动过程中的自己，提早实例产生时机
         ref.serviceInstance = serviceCore.instantiate();
         await serviceCore.start();
+        if(ref.serviceRepresentation.publishToHub) {
+          await serviceCore.publish();
+        }
         ref.state = 'booted';
         debug('startOne() booted %s', id);
       }
@@ -180,6 +192,10 @@ export class ServiceReconciler {
         ref.state = 'stopping';
         const serviceCore = ref.serviceCoreInstance;
         await serviceCore.stop();
+        // TODO: impl unpublish
+        // if(ref.serviceRepresentation.publishToHub) {
+        //   await serviceCore.unpublish();
+        // }
         ref.serviceInstance = serviceCore.getService();
         ref.state = 'instanced';
         debug('startOne() stopped %s', id);

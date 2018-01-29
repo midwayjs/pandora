@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path');
 const childProcess = require('child_process');
-import {SpawnWrapperUtils} from '../../src/daemon/SpawnWrapperUtils';
-import {PANDORA_APPLICATION} from '../../src/const';
+import {SpawnWrapperUtils} from '../../src/application/SpawnWrapperUtils';
+import {PANDORA_PROCESS} from '../../src/const';
 
 const fork = function (done) {
   const filePath = require.resolve(path.join(__dirname, `../fixtures/monitor/app.js`));
@@ -17,18 +17,21 @@ const fork = function (done) {
     ]
   });
   worker.on('exit', () => {
+    console.log(1);
     done();
   });
 
   worker.on('error', (err) => {
+    console.log(2);
     done(err);
   });
 };
 
 describe('/test/monitor/MonitorManager.test.ts', () => {
 
-  before(() => {
-    process.env[PANDORA_APPLICATION] = JSON.stringify({
+  before(async() => {
+    SpawnWrapperUtils.unwrap();
+    process.env[PANDORA_PROCESS] = JSON.stringify({
       appName: 'test-app',
       appDir: path.join(__dirname, `../fixtures/monitor`),
       processName: ''
@@ -36,10 +39,11 @@ describe('/test/monitor/MonitorManager.test.ts', () => {
   });
 
   after(() => {
-    delete process.env[PANDORA_APPLICATION];
+    delete process.env[PANDORA_PROCESS];
+    SpawnWrapperUtils.unwrap();
   });
 
-  it('shoud load monitorManager ok', (done) => {
+  it('should load monitorManager ok', (done) => {
     SpawnWrapperUtils.wrap();
     fork(done);
   });

@@ -33,6 +33,7 @@ export interface LoggerConfig {
   rotateDuration?: number;
   maxFiles?: number;
   maxFileSize?: number;
+  eol?: string;
 }
 
 export const DEFAULT_ROTATION_CONFIG = {

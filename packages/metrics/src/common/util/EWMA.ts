@@ -26,20 +26,8 @@ export class EWMA {
   tickInterval;
 
   constructor(alpha, interval) {
-    let self = this;
     this.alpha = alpha;
     this.interval = (interval || 5) * 1000;
-
-    if (interval) {
-      this.tickInterval = setInterval(function () {
-        self.tick();
-      }, interval);
-
-      if (this.tickInterval.unref) {
-        // Don't keep the process open if this is the last thing in the event loop.
-        this.tickInterval.unref();
-      }
-    }
   }
 
   /**
@@ -79,8 +67,8 @@ export class EWMA {
   /*
  * Update our rate measurements every interval
  */
-  tick() {
-    let instantRate = this.uncounted / this.interval;
+  tick(count = this.uncounted) {
+    let instantRate = count / this.interval;
     this.uncounted = 0;
 
     if (this.initialized) {
@@ -94,12 +82,8 @@ export class EWMA {
   /*
  * Return the rate per second
  */
-  rate() {
+  getRate() {
     return this.currentRate * 1000;
-  }
-
-  stop() {
-    clearInterval(this.tickInterval);
   }
 
 }

@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "allowJs": false,
-    "target": "ES6",
+    "target": "ES2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "noImplicitThis": false,
+    "noImplicitThis": true,
     "noUnusedLocals": true,
     "stripInternal": true,
     "pretty": true,

@@ -12,7 +12,7 @@ export class ProcessIndicator extends Indicator {
 
   type: IndicatorType = 'multiton';
 
-  async invoke(data: any, builder: IBuilder) {
+  async invoke(args: any, builder: IBuilder) {
 
     let stat;
 
@@ -31,15 +31,16 @@ export class ProcessIndicator extends Indicator {
     }
 
     builder.withDetail(String(process.pid), {
+      processName: this.environment.get('processName'),
+      ppid: (<any> process).ppid,
       pid: process.pid,
       title: process.title,
-      argv: process.argv,
+      argv: (<any> process).__pandoraOriginArgv || process.argv,
       execArgv: process.execArgv,
+      debugPort: (<any> process).debugPort,
       execPath: process.execPath,
-      cpu: stat.cpu,
+      cpu: builder.pretty('%s%', stat.cpu),
       memory: stat.memory,
-      versions: process.versions,
-      features:(<any> process).features,
       uptime: process.uptime(),
     }, IndicatorScope.PROCESS);
 

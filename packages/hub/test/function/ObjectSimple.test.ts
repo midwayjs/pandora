@@ -41,7 +41,7 @@ describe('ObjectSimple', function () {
       objectName: 'math',
       objectTag: 'latest'
     });
-    expect(selectedClients.length).to.be.equal(1);
+    expect(selectedClients.length).to.equal(1);
   });
 
   it('should invoke through consumer be ok', async () => {
@@ -50,25 +50,25 @@ describe('ObjectSimple', function () {
     expect(introspection.methods.length).to.be.gt(0);
     expect(introspection.properties.length).to.be.gt(0);
     const val = await consumer.invoke('abs', [-1234]);
-    expect(val).to.be.equal(1234);
+    expect(val).to.equal(1234);
   });
 
   it('should invoke through proxy be ok', async () => {
     const proxy = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
     const val = await proxy.abs(-1234);
-    expect(val).to.be.equal(1234);
+    expect(val).to.equal(1234);
   });
 
   it('should getProperty through consumer be ok', async () => {
     const consumer = facade.getConsumer({name: 'math', tag: 'latest'});
     const PI = await consumer.getProperty('PI');
-    expect(PI).to.be.equal(Math.PI);
+    expect(PI).to.equal(Math.PI);
   });
 
   it('should getProperty through proxy be ok', async () => {
     const proxy = await facade.getProxy<Math>({name: 'math', tag: 'latest'});
     const PI = await proxy.getProperty('PI');
-    expect(PI).to.be.equal(Math.PI);
+    expect(PI).to.equal(Math.PI);
   });
 
   it('should throw an error when access a property directly', async () => {

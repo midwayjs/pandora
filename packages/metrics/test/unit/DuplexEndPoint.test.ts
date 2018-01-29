@@ -60,30 +60,30 @@ describe('/test/unit/DuplexEndPoint.test.ts', () => {
   });
 
   it('indicator is empty when init', () => {
-    expect(myEndPoint.indicators.length).to.be.equal(0);
+    expect(myEndPoint.indicators.length).to.equal(0);
   });
 
   it('indicators property size = 1 after register a indicator', (done) => {
     myIndicator.initialize();
     setTimeout(() => {
-      expect(myEndPoint.indicators.length).to.be.equal(1);
+      expect(myEndPoint.indicators.length).to.equal(1);
       done();
     }, 100);
   });
 
   it('query custom EndPoint', (done) => {
-    myEndPoint.invoke(MetricsConstants.METRICS_DEFAULT_APP).then((results) => {
-      expect(results[0].key).to.be.equal('my_duplex.during');
-      expect(results[1].key).to.be.equal('my_duplex.start');
-      expect(results[2].key).to.be.equal('my_duplex.end');
-      expect(results[3].key).to.be.equal('my_duplex.count');
+    myEndPoint.invoke().then((results) => {
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][0].key).to.equal('my_duplex.during');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][1].key).to.equal('my_duplex.start');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][2].key).to.equal('my_duplex.end');
+      expect(results[MetricsConstants.METRICS_DEFAULT_APP][3].key).to.equal('my_duplex.count');
       done();
     });
   });
 
   it('test send a uplink message', (done) => {
     myEndPoint.myEmitter.on('processReporter', (message) => {
-      expect(message).to.be.equal('hello uplink');
+      expect(message).to.equal('hello uplink');
       done();
     });
     myIndicator.testUplink('hello uplink');

@@ -37,6 +37,7 @@ export interface MessagePackage {
   host?: Selector;
   remote?: Selector;
   data?: any;
+  timeout?: number;
 }
 
 export interface ReplyPackage extends MessagePackage {
@@ -109,4 +110,8 @@ export interface ClientOptions {
 }
 
 export interface FacadeSetupOptions extends ClientOptions {
+}
+
+export interface ConsumerExtInfo {
+  timeout: number;
 }

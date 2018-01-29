@@ -1,20 +1,32 @@
-'use strict';
+/**
+ * @fileOverview
+ * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
+ * @copyright 2017 Alibaba Group.
+ */
+
 import { RunUtil } from '../../RunUtil';
-const assert = require('assert');
-const { HttpPatcher } = require('../../../src/patch/http');
-const httpPatcher = new HttpPatcher();
+import * as assert from 'assert';
+import * as url from 'url';
+import { HttpServerPatcher } from '../../../src/patch/HttpServer';
+import { NORMAL_TRACE } from 'pandora-metrics';
+
+HttpServerPatcher.prototype.requestFilter = function(req) {
+  const urlParsed = url.parse(req.url, true);
+  return urlParsed.pathname.indexOf('ignore') > -1;
+};
+const httpServerPatcher = new HttpServerPatcher();
 
 RunUtil.run(function(done) {
-  httpPatcher.run();
+  httpServerPatcher.run();
   const http = require('http');
   const urllib = require('urllib');
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', tracer => {
-    assert(tracer.name === 'HTTP-GET:/');
-    assert(tracer.spans.length > 0);
-    assert(tracer.host);
-    assert(tracer.ip);
-    assert(tracer.pid);
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
+
+    assert(report.name === 'HTTP-GET:/');
+    assert(report.spans.length > 0);
+    assert(report.status === NORMAL_TRACE);
+
     done();
   });
 
@@ -27,7 +39,12 @@ RunUtil.run(function(done) {
     const port = server.address().port;
 
     setTimeout(function() {
-      urllib.request(`http://localhost:${port}`);
+      // should be ignore
+      urllib.request(`http://localhost:${port}/ignore`);
     }, 500);
+
+    setTimeout(function() {
+      urllib.request(`http://localhost:${port}`);
+    }, 1000);
   });
 });

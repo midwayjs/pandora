@@ -1,4 +1,4 @@
-import {Reporter} from '../domain';
+import {ActuatorServer, Reporter} from '../domain';
 import {
   MetricType
 } from '../common/index';
@@ -8,19 +8,21 @@ export abstract class CustomReporter implements Reporter {
 
   options;
   intervalHandler;
-  metricManager;
+  metricsManager;
   endPointService;
+  interval;
 
-  constructor(actuatorManager, options: {
+  constructor(actuatorServer: ActuatorServer, options: {
     rateFactor?: number,
     durationFactor?: number
   } = {}) {
     this.options = options;
-    this.metricManager = actuatorManager.getMetricsManager();
-    this.endPointService = actuatorManager.getEndPointService();
+    this.metricsManager = actuatorServer.getMetricsManager();
+    this.endPointService = actuatorServer.getEndPointService();
   }
 
   start(interval) {
+    this.interval = interval;
     if(!this.intervalHandler) {
       this.intervalHandler = setInterval(async () => {
         debug('exec report once');
@@ -34,7 +36,7 @@ export abstract class CustomReporter implements Reporter {
   }
 
   getCategoryMetrics() {
-    const categoryMetrics = this.metricManager.getAllCategoryMetrics();
+    const categoryMetrics = this.metricsManager.getAllCategoryMetrics();
     return {
       gauges: categoryMetrics.get(MetricType.GAUGE),
       counters: categoryMetrics.get(MetricType.COUNTER),

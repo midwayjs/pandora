@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": false,
-    "target": "ES6",
+    "target": "ES2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -11,13 +11,12 @@
     "pretty": true,
     "declaration": true,
     "sourceMap": true,
-    "outDir": "dist",
-    "typeRoots" : ["./d.ts/", "./node_modules/@types/"]
+    "outDir": "dist"
   },
   "files": [
     "src/index.ts",
     "src/default.ts",
-    "src/daemon/spawnWrapper.ts"
+    "src/application/spawnWrapper.ts"
   ],
   "exclude": [
     "node_modules",

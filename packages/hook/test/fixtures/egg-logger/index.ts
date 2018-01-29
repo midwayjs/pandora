@@ -1,6 +1,6 @@
 'use strict';
 import { RunUtil } from '../../RunUtil';
-const { EggLoggerPatcher } = require('../../../src/patch/egg-logger');
+const { EggLoggerPatcher } = require('../../../src/patch/EggLogger');
 const eggLoggerPatcher = new EggLoggerPatcher();
 const assert = require('assert');
 
@@ -15,12 +15,9 @@ RunUtil.run(function(done) {
     level: 'INFO',
   }));
 
-  process.on('PANDORA_PROCESS_MESSAGE_LOGGER', info => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_LOGGER', (info: any) => {
     assert(info.message === 'test');
     assert(info.path === './test.log');
-    assert(info.ip);
-    assert(info.host);
-    assert(info.pid);
     done();
   });
 

@@ -1,5 +1,4 @@
 import {MetricName} from './MetricName';
-import {Metric} from './Metric';
 import {MetricsCollectPeriodConfig} from './MetricsCollectPeriodConfig';
 import {BaseHistogram} from './metrics/Histogram';
 import {BaseCounter} from './metrics/Counter';
@@ -7,10 +6,11 @@ import {BaseMeter} from './metrics/Meter';
 import {BaseTimer} from './metrics/Timer';
 import {BucketCounter} from './metrics/BucketCounter';
 import {ReservoirType} from './Reservoir';
+import {Metric} from './domain';
 
 export class MetricBuilder {
 
-  static config = new MetricsCollectPeriodConfig();
+  static config = MetricsCollectPeriodConfig.getInstance();
 
   static COUNTERS = {
 
@@ -24,7 +24,7 @@ export class MetricBuilder {
 
   static HISTOGRAMS = {
 
-    newMetric(name: MetricName, type: ReservoirType) {
+    newMetric(name: MetricName, type: ReservoirType = ReservoirType.EXPONENTIALLY_DECAYING) {
       return new BaseHistogram(type, MetricBuilder.config.period(name.getMetricLevel()));
     },
     isInstance(metric: Metric) {

@@ -1,33 +1,30 @@
 'use strict';
-import {ComplexHandler} from './ComplexHandler';
-import Base = require('sdk-base');
-import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE} from '../const';
+import {ApplicationHandler} from '../application/ApplicationHandler';
+import {DAEMON_MESSENGER, SEND_DAEMON_MESSAGE, State} from '../const';
 import * as fs from 'fs';
 import assert = require('assert');
 import messenger from 'pandora-messenger';
-import {getDaemonLogger, getAppLogPath} from '../universal/LoggerBroker';
-import {ApplicationRepresentation} from '../domain';
-import {Monitor} from '../monitor/Monitor';
-
-const daemonLogger = getDaemonLogger();
-
-enum State {
-  pending = 1,
-  complete,
-  stopped,
-}
+import {getDaemonLogger} from '../universal/LoggerBroker';
+import {ApplicationRepresentation, Monitor} from '../domain';
+import {DaemonIntrospection} from './DaemonIntrospection';
+import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 
 /**
  * Class Daemon
  */
-export class Daemon extends Base {
-  private state: State;
-  private apps: Map<any, ComplexHandler>;
+export class Daemon {
+
   private messengerServer: any;
   private monitor: Monitor;
+  private introspection: DaemonIntrospection;
+  private daemonLogger = getDaemonLogger();
+  private globalConfigProcesser = GlobalConfigProcessor.getInstance();
+  private globalConfig = this.globalConfigProcesser.getAllProperties();
+
+  public state: State;
+  public apps: Map<any, ApplicationHandler>;
 
   constructor() {
-    super();
     this.state = State.pending;
     this.apps = new Map();
   }
@@ -50,10 +47,9 @@ export class Daemon extends Base {
       this.messengerServer.ready(() => {
         return this.startMonitor().then(() => {
           this.state = State.complete;
-          this.ready(true);
           resolve();
         }).catch(err => {
-          daemonLogger.error(err);
+          this.daemonLogger.error(err);
           process.exit(1);
           reject(err);
         });
@@ -67,11 +63,11 @@ export class Daemon extends Base {
    */
   handleExit() {
     process.on('uncaughtException', (err) => {
-      daemonLogger.error(err);
+      this.daemonLogger.error(err);
       this.stop();
     });
     // SIGTERM AND SIGINT will trigger the exit event.
-    ['SIGQUIT', 'SIGTERM', 'SIGINT'].forEach(sig => {
+    ['SIGQUIT', 'SIGTERM', 'SIGINT'].forEach( (sig: NodeJS.Signals) => {
       process.once(sig, () => {
         this.stop();
       });
@@ -80,6 +76,101 @@ export class Daemon extends Base {
     process.once('exit', () => {
       this.stop();
     });
+  }
+
+
+  /**
+   * Start an application
+   *
+   * @param {ApplicationRepresentation} applicationRepresentation
+   * @returns {Promise<ApplicationHandler>}
+   */
+  async startApp(applicationRepresentation: ApplicationRepresentation): Promise<ApplicationHandler> {
+    // require appName and appDir when app start
+    const appName = applicationRepresentation.appName;
+    const appDir = applicationRepresentation.appDir;
+    assert(appName, `options.appName is required!`);
+    assert(appDir, `options.appDir is required!`);
+    assert(fs.existsSync(appDir), `${appDir} does not exists!`);
+    assert(!this.apps.has(appName), `app[${appName}] has been initialized!`);
+    const applicationHandler = new ApplicationHandler(applicationRepresentation);
+    await applicationHandler.start();
+    this.apps.set(appName, applicationHandler);
+    return applicationHandler;
+  }
+
+  /**
+   * Reload an application
+   * @param appName
+   * @param processName
+   * @return {Promise<ApplicationHandler>}
+   */
+  async reloadApp(appName, processName?): Promise<ApplicationHandler> {
+    const handler = this.apps.get(appName);
+    if (!handler) {
+      throw new Error(`${appName} does not exists!`);
+    }
+    await handler.reload(processName);
+    return handler;
+  }
+
+  /**
+   * stop an application
+   * @param appName
+   * @return {Promise<ApplicationHandler>}
+   */
+  async stopApp(appName): Promise<ApplicationHandler> {
+    const handler = this.apps.get(appName);
+    if (!handler) {
+      throw new Error(`${appName} does not exists!`);
+    }
+    await handler.stop();
+    this.apps.delete(appName);
+    return handler;
+  }
+
+  /**
+   * stop all the applications
+   * @return {Promise<void>}
+   */
+  async stopAllApps(): Promise<void> {
+    for (const appName of this.apps.keys()) {
+      await this.stopApp(appName);
+    }
+  }
+
+  /**
+   * stop an application
+   * @return {Promise<void>}
+   */
+  async stop(): Promise<void> {
+    this.state = State.stopped;
+    await this.stopAllApps();
+    this.daemonLogger.info('daemon is going to stop');
+    this.messengerServer.close();
+    await this.stopMonitor();
+    this.state = State.stopped;
+  }
+
+  /**
+   * Start the monitor
+   * @return {Promise<void>}
+   */
+  private async startMonitor(): Promise<void> {
+    if (!this.monitor) {
+      this.monitor = new this.globalConfig['monitor']();
+    }
+    return this.monitor.start();
+  }
+
+  /**
+   * Stop the monitor
+   * @return {Promise<void>}
+   */
+  private async stopMonitor(): Promise<void> {
+    if (this.monitor) {
+      return this.monitor.stop();
+    }
   }
 
   /**
@@ -94,7 +185,7 @@ export class Daemon extends Base {
     switch (command) {
       case 'start':
         this.startApp(args).then(() => {
-          reply({data: `${args.appName} started successfully! log file: ${getAppLogPath(args.appName, 'nodejs_stdout')}`});
+          reply({data: `${args.appName} started successfully! Run command [ pandora log ${args.appName} ] to get more information`});
         }).catch(err => {
           reply({error: `${args.appName} started failed, ${err && err.toString()}`});
         });
@@ -122,124 +213,27 @@ export class Daemon extends Base {
           reply({error: `${args.appName} restarted failed, ${err && err.toString()}`});
         });
         break;
-
       case 'exit':
         this.stop().then(() => {
           process.exit(0);
         });
         break;
-
       case 'list':
-        const keySet = Array.from(this.apps.keys());
-        const data = keySet.map((key) => {
-          const complex = this.apps.get(key);
-          return {
-            name: complex.name,
-            appId: complex.appId,
-            pids: complex.pids,
-            mode: complex.mode,
-            appDir: complex.appDir,
-            state: complex.state
-          };
+        const introspection = this.getIntrospection();
+        return introspection.listApplication().then((data) => {
+          reply({data});
+        }).catch((error) => {
+          reply({error});
         });
-        reply({data: data});
-        break;
     }
 
   }
 
-  /**
-   * Start an application
-   *
-   * @param {ApplicationRepresentation} applicationRepresentation
-   * @returns {Promise<ComplexHandler>}
-   */
-  async startApp(applicationRepresentation: ApplicationRepresentation): Promise<ComplexHandler> {
-    // require appName and appDir when app start
-    const appName = applicationRepresentation.appName;
-    const appDir = applicationRepresentation.appDir;
-    assert(appName, `options.appName is required!`);
-    assert(appDir, `options.appDir is required!`);
-    assert(fs.existsSync(appDir), `${appDir} does not exists!`);
-    assert(!this.apps.has(appName), `app[${appName}]  has been initialized!`);
-    const complexHandler = new ComplexHandler(applicationRepresentation);
-    await complexHandler.start();
-    this.apps.set(appName, complexHandler);
-    return complexHandler;
-  }
-
-  /**
-   * Reload an application
-   * @param appName
-   * @param processName
-   * @return {Promise<ComplexHandler>}
-   */
-  async reloadApp(appName, processName?): Promise<ComplexHandler> {
-    const complex = this.apps.get(appName);
-    if (!complex) {
-      throw new Error(`${appName} does not exists!`);
+  public getIntrospection(): DaemonIntrospection {
+    if(!this.introspection) {
+      this.introspection = new DaemonIntrospection(this);
     }
-    await complex.reload(processName);
-    return complex;
-  }
-
-  /**
-   * stop an application
-   * @param appName
-   * @return {Promise<ComplexHandler>}
-   */
-  async stopApp(appName): Promise<ComplexHandler> {
-    const complex = this.apps.get(appName);
-    if (!complex) {
-      throw new Error(`${appName} does not exists!`);
-    }
-    await complex.stop();
-    this.apps.delete(appName);
-    return complex;
-  }
-
-  /**
-   * stop all the applications
-   * @return {Promise<void>}
-   */
-  async stopAllApps(): Promise<void> {
-    for (const appName of this.apps.keys()) {
-      await this.stopApp(appName);
-    }
-  }
-
-  /**
-   * stop an application
-   * @return {Promise<void>}
-   */
-  async stop(): Promise<void> {
-    this.state = State.stopped;
-    await this.stopAllApps();
-    daemonLogger.info('daemon is going to stop');
-    this.messengerServer.close();
-    await this.stopMonitor();
-    this.state = State.stopped;
-  }
-
-  /**
-   * Start the monitor
-   * @return {Promise<void>}
-   */
-  private async startMonitor(): Promise<void> {
-    if (!this.monitor) {
-      this.monitor = new Monitor();
-    }
-    return this.monitor.start();
-  }
-
-  /**
-   * Stop the monitor
-   * @return {Promise<void>}
-   */
-  private async stopMonitor(): Promise<void> {
-    if (this.monitor) {
-      return this.monitor.stop();
-    }
+    return this.introspection;
   }
 
 }

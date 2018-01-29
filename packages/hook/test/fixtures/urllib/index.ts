@@ -1,19 +1,24 @@
 'use strict';
 import { RunUtil } from '../../RunUtil';
+// 放在前面，把 http.ClientRequest 先复写
+const nock = require('nock');
 const assert = require('assert');
-const { HttpPatcher } = require('../../../src/patch/http');
-const { UrllibPatcher } = require('../../../src/patch/urllib');
-const httpPatcher = new HttpPatcher();
-const urllibPatcher = new UrllibPatcher();
+const { HttpServerPatcher } = require('../../../src/patch/HttpServer');
+const { HttpClientPatcher } = require('../../../src/patch/HttpClient');
+const httpServerPatcher = new HttpServerPatcher();
+const httpClientPatcher = new HttpClientPatcher({
+  // nock 复写了 https.request 方法，没有像原始一样调用 http.request，所以需要强制复写
+  forceHttps: true
+});
 
 RunUtil.run(function(done) {
-  httpPatcher.run();
-  urllibPatcher.run();
+  httpServerPatcher.run();
+  httpClientPatcher.run();
 
   const http = require('http');
   const urllib = require('urllib');
 
-  process.on('PANDORA_PROCESS_MESSAGE_TRACE', report => {
+  process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
     const spans = report.spans;
     assert(spans.length === 4);
     const first = spans[0];
@@ -31,11 +36,19 @@ RunUtil.run(function(done) {
     done();
   });
 
+  nock('https://www.taobao.com')
+    .get('/')
+    .reply(200);
+
+  nock('https://www.taobao.com')
+    .get(/\/\d{13}/)
+    .reply(302);
+
   const server = http.createServer((req, res) => {
-    urllib.request('http://www.taobao.com/').then(() => {
+    urllib.request('https://www.taobao.com/').then(() => {
 
       return Promise.all([
-        urllib.request(`http://www.taobao.com/${Date.now()}`),
+        urllib.request(`https://www.taobao.com/${Date.now()}`),
         urllib.request(`http://www.${Date.now()}notfound.com/`).catch((err) => {})
       ]).then(() => {
         res.end('hello');

@@ -1,5 +1,5 @@
-import {Snapshot} from './Snapshot';
 import {Constants} from '../Constants';
+import {Snapshot} from '../domain';
 
 export class BucketSnapshot implements Snapshot {
 

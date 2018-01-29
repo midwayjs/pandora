@@ -2,24 +2,22 @@ module.exports = function (pandora) {
 
   pandora
     .process('worker')
-    .argv(['--expose-gc']);
+    .nodeArgs(['--expose-gc']);
 
   pandora
     .process('background')
-    .argv(['--expose-gc']);
+    .nodeArgs(['--expose-gc']);
 
   pandora
-    .fork('./forkApp.js', 'forkApp')
-    .argv(['--expose-gc']);
+    .fork('forkApp', './forkApp.js')
+    .nodeArgs(['--expose-gc']);
 
   pandora
     .cluster('./cluster.js');
 
   pandora
-    .applet('./backgroundTask')
+    .service('backgroundTask', './backgroundTask')
     .process('background')
-    .config((ctx) => {
-      return ctx.config.background;
-    });
+    .config({ loopInterval: 1000 });
 
 };

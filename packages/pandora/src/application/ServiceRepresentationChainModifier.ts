@@ -1,10 +1,15 @@
 import {ServiceRepresentation} from '../domain';
+import {ServiceUtils} from '../service/ServiceUtils';
+import {ProcfileReconciler} from './ProcfileReconciler';
 
 export class ServiceRepresentationChainModifier {
+
+  procfileReconciler: ProcfileReconciler;
   representation: ServiceRepresentation;
 
-  constructor(representation: ServiceRepresentation) {
+  constructor(representation: ServiceRepresentation, procfileReconciler: ProcfileReconciler) {
     this.representation = representation;
+    this.procfileReconciler = procfileReconciler;
   }
 
   /**
@@ -12,7 +17,13 @@ export class ServiceRepresentationChainModifier {
    * @param serviceName
    * @return {ServiceRepresentationChainModifier}
    */
-  name(serviceName): ServiceRepresentationChainModifier {
+  name(): string;
+  name(serviceName): ServiceRepresentationChainModifier;
+  name(serviceName?): any {
+    if(!serviceName) {
+      return this.representation.serviceName;
+    }
+    ServiceUtils.checkName(serviceName);
     this.representation.serviceName = serviceName;
     return this;
   }
@@ -22,7 +33,12 @@ export class ServiceRepresentationChainModifier {
    * @param processName
    * @return {ServiceRepresentationChainModifier}
    */
-  process(processName): ServiceRepresentationChainModifier {
+  process(): string;
+  process(processName): ServiceRepresentationChainModifier;
+  process(processName?): any {
+    if(!processName) {
+      return this.representation.category;
+    }
     this.representation.category = processName;
     return this;
   }
@@ -32,7 +48,12 @@ export class ServiceRepresentationChainModifier {
    * @param configResolver
    * @return {ServiceRepresentationChainModifier}
    */
-  config(configResolver): ServiceRepresentationChainModifier {
+  config(): any;
+  config(configResolver): ServiceRepresentationChainModifier;
+  config(configResolver?): any {
+    if(!configResolver) {
+      return this.representation.config;
+    }
     if ('function' === typeof configResolver) {
       this.representation.configResolver = configResolver;
       return this;
@@ -46,7 +67,12 @@ export class ServiceRepresentationChainModifier {
    * @param servicesName
    * @return {ServiceRepresentationChainModifier}
    */
-  dependency(servicesName): ServiceRepresentationChainModifier {
+  dependency(): string[];
+  dependency(servicesName): ServiceRepresentationChainModifier;
+  dependency(servicesName?): any {
+    if(!servicesName) {
+      return this.representation.dependencies;
+    }
     this.representation.dependencies = this.representation.dependencies || [];
     if (Array.isArray(servicesName)) {
       this.representation.dependencies.push.apply(this.representation.dependencies, servicesName);
@@ -62,6 +88,14 @@ export class ServiceRepresentationChainModifier {
    */
   publish(enable: boolean = true) {
     this.representation.publishToHub = enable;
+    return this;
+  }
+
+  /**
+   * Drop this service like never happened
+   */
+  drop() {
+    this.procfileReconciler.dropServiceByName(this.representation.serviceName);
   }
 
 }

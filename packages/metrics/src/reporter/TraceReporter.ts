@@ -2,6 +2,8 @@ import * as os from 'os';
 import * as address from 'address';
 import { CustomReporter } from './CustomReporter';
 import { DefaultLoggerManager } from 'pandora-service-logger';
+import {EnvironmentUtil, Environment} from 'pandora-env';
+import {join} from 'path';
 
 export class TraceReporter extends CustomReporter {
 
@@ -9,18 +11,19 @@ export class TraceReporter extends CustomReporter {
   ip = address.ip();
   vernier = {};
   logger;
+  environment: Environment;
 
   constructor(actuatorManager, options?) {
     super(actuatorManager, options);
-
+    this.environment = EnvironmentUtil.getInstance().getCurrentEnvironment();
     this.initFileAppender();
   }
 
   initFileAppender() {
     this.logger = DefaultLoggerManager.getInstance().createLogger('traces', {
       type: 'size',
-      maxFiles: 200 * 1024 * 1024,
-      dir: DefaultLoggerManager.getPandoraLogsDir(),
+      maxFileSize: 200 * 1024 * 1024,
+      dir: join(this.environment.get('pandoraLogsDir'), 'pandorajs'),
       stdoutLevel: 'NONE',
       level: 'ALL'
     });
@@ -30,19 +33,25 @@ export class TraceReporter extends CustomReporter {
     const infoEndPoint = this.endPointService.getEndPoint('info');
     const info = await infoEndPoint.invoke();
     const traceEndPoint = this.endPointService.getEndPoint('trace');
-    const appNames = info.reduce((result, item) => {
-      if (item.key === 'application' && item.scope === 'APP') {
-        result.push(item.data.appName);
-      }
-      return result;
-    }, []);
+    const appNames = [];
+
+    Object.keys(info).forEach((app) => {
+      const item = info[app];
+
+      item.forEach((it) => {
+        if (it.key === 'application' && it.scope === 'APP') {
+          appNames.push(it.data.appName);
+        }
+      });
+    });
 
     const traces = await Promise.all(appNames.map(async (appName) => {
       try {
-        const data = await traceEndPoint.invoke(appName, {
+        const data = await traceEndPoint.invoke({
+          appName,
           value: this.vernier[appName] || 0,
           order: 'DESC',
-          by: 'time'
+          by: 'timestamp'
         });
 
         if (data && data.length > 0) {

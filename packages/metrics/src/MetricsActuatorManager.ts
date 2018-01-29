@@ -8,7 +8,7 @@ export class MetricsActuatorManager {
   actuatorRestService;
 
   actuatorConfig = {
-    endPoints: {}
+    endPoint: {}
   };
 
   logger;
@@ -17,7 +17,7 @@ export class MetricsActuatorManager {
     logger,
     config: {
       http,
-      endPoints,
+      endPoint,
     }
   }) {
     this.logger = options.logger;
@@ -34,7 +34,7 @@ export class MetricsActuatorManager {
 
     let instances = [];
 
-    const endPoints = this.actuatorConfig['endPoints'];
+    const endPoints = this.actuatorConfig['endPoint'];
 
     for(let endPointName in endPoints) {
       if(endPoints[endPointName].enabled !== false) {

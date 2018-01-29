@@ -6,30 +6,32 @@ import {
   NetTrafficGaugeSet,
   SystemMemoryGaugeSet,
   SystemLoadGaugeSet,
-  MetricsActuatorServer
+  DiskStatGaugeSet,
+  MetricsActuatorServer,
+  MetricLevel,
+  MetricsCollectPeriodConfig,
+  MetricName,
+  NetworkTrafficGaugeSet
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
-import {Hub} from 'pandora-hub';
 
 const debug = require('debug')('pandora:cluster:monitor');
 
 /**
  * Class Monitor
  */
-export class Monitor {
-  private daemonLogger = getDaemonLogger();
-  private globalConfigProcesser = GlobalConfigProcessor.getInstance();
-  private globalConfig = this.globalConfigProcesser.getAllProperties();
-  private ipcHub = new Hub();
-  private server;
+export class BaseMonitor {
+  protected daemonLogger = getDaemonLogger();
+  protected globalConfigProcesser = GlobalConfigProcessor.getInstance();
+  protected globalConfig = this.globalConfigProcesser.getAllProperties();
+  protected server;
+  protected metricsCollectPeriodConfig = MetricsCollectPeriodConfig.getInstance();
 
   /**
    * Start Monitor
    * @return {Promise<void>}
    */
   async start() {
-
-    await this.ipcHub.start();
 
     // start logger rotator serivce
     debug('start a monitor logger rotator service');
@@ -38,40 +40,51 @@ export class Monitor {
     });
     await loggerRotator.startService();
 
+    // set global reporter interval
+    this.metricsCollectPeriodConfig.configGlobalPeriod(this.globalConfig['reporterInterval']);
+
     // start metrics server
     debug('start a metrics server');
     this.server = new MetricsActuatorServer({
       config: this.globalConfig['actuator'],
       logger: this.daemonLogger,
-      metricsServer: new this.globalConfig['metricsServer']()
+      metricsManager: new this.globalConfig['metricsManager']()
     });
 
+    this.startMetrics();
+    this.startMetricsReporter();
+
+    this.daemonLogger.info('monitor started');
+
+  }
+
+  protected startMetrics() {
     // register some default metrics
     let metricsManager = this.server.getMetricsManager();
-    metricsManager.register('system', 'system', new CpuUsageGaugeSet());
-    metricsManager.register('system', 'system', new NetTrafficGaugeSet());
-    metricsManager.register('system', 'system', new SystemMemoryGaugeSet());
-    metricsManager.register('system', 'system', new SystemLoadGaugeSet());
-    // metricsManager.register('system', 'system', new DiskStatGaugeSet());
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new CpuUsageGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetworkTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new SystemMemoryGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new SystemLoadGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
+    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new DiskStatGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+  }
 
+  protected startMetricsReporter() {
     debug('start a metrics reporter');
     for (let reporterName in this.globalConfig['reporter']) {
       const reporterObj = this.globalConfig['reporter'][reporterName];
       if (reporterObj['enabled']) {
         let reporterIns = new reporterObj['target'](this.server, reporterObj.initConfig || {});
-        reporterIns.start(reporterObj['interval']);
+        reporterIns.start(this.globalConfig['reporterInterval']);
         this.daemonLogger.info(`${reporterName} reporter started`);
       }
     }
-    this.daemonLogger.info('monitor started');
-
   }
 
   /**
    * @return {Promise<void>}
    */
   async stop() {
-    await this.ipcHub.stop();
     await this.server.destroy();
   }
 

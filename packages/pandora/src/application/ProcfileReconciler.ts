@@ -2,20 +2,18 @@
 import {makeRequire, resolveSymlink} from 'pandora-dollar';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {
-  Entry, EntryClass, AppletRepresentation, ApplicationRepresentation, ApplicationStructureRepresentation
-  , ProcessRepresentation, ServiceRepresentation, ComplexApplicationStructureRepresentation, MountRepresentation,
-  CategoryReg
+  Entry, EntryClass, ApplicationRepresentation, ApplicationStructureRepresentation
+  , ProcessRepresentation, ServiceRepresentation, CategoryReg
 } from '../domain';
 import assert = require('assert');
 import {join, dirname, basename, extname} from 'path';
 import {existsSync, writeFileSync} from 'fs';
-import {PROCFILE_NAMES} from '../const';
-import {consoleLogger} from '../universal/LoggerBroker';
+import {defaultWorkerCount, PROCFILE_NAMES} from '../const';
 import {ProcfileReconcilerAccessor} from './ProcfileReconcilerAccessor';
 import {exec} from 'child_process';
-import {tmpdir} from 'os';
 import uuid = require('uuid');
 import mzFs = require('mz/fs');
+import {tmpdir} from 'os';
 
 const foundAll = Symbol();
 
@@ -32,15 +30,12 @@ export class ProcfileReconciler {
 
   protected procfileReconcilerAccessor: ProcfileReconcilerAccessor = null;
 
-  protected defaultAppletCategory: CategoryReg;
   protected defaultServiceCategory: CategoryReg;
 
-  protected configuratorClass: EntryClass = null;
   protected environmentClass: EntryClass = null;
 
   protected processes: Array<ProcessRepresentation> = [];
   protected services: Array<ServiceRepresentation> = [];
-  protected applets: Array<AppletRepresentation> = [];
 
 
   protected get uniqServices(): Array<ServiceRepresentation> {
@@ -50,18 +45,6 @@ export class ProcfileReconciler {
       if (!nameMap.has(service.serviceName)) {
         nameMap.set(service.serviceName, true);
         ret.push(service);
-      }
-    }
-    return ret.reverse();
-  }
-
-  protected get uniqApplets(): Array<AppletRepresentation> {
-    const nameMap: Map<string, boolean> = new Map;
-    const ret = [];
-    for (const applet of this.applets.reverse()) {
-      if (!nameMap.has(applet.appletName)) {
-        nameMap.set(applet.appletName, true);
-        ret.push(applet);
       }
     }
     return ret.reverse();
@@ -117,15 +100,10 @@ export class ProcfileReconciler {
     }
     const procfileTargets = this.resovle();
     for (const target of procfileTargets) {
-      try {
-        const targetMod = require(target);
-        const entryFn = 'function' === typeof targetMod ? targetMod : targetMod.default;
-        assert('function' === typeof entryFn, 'The procfile should export a function, during loading ' + target);
-        this.callProcfile(entryFn, getProcfileBasePath(target));
-      } catch (err) {
-        consoleLogger.error('Fail to load procfile from path ' + target);
-        throw err;
-      }
+      const targetMod = require(target);
+      const entryFn = 'function' === typeof targetMod ? targetMod : targetMod.default;
+      assert('function' === typeof entryFn, 'The procfile should export a function, during loading ' + target);
+      this.callProcfile(entryFn, getProcfileBasePath(target));
     }
     this.discovered = true;
   }
@@ -149,7 +127,7 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Normalize entry class, entry class such as applet class, service class and configurator class
+   * Normalize entry class, entry class such as service class
    * Those classes have a lazy way to represent, it can get a relative path
    * this method will wrap that relative path to a real class
    * @param entry
@@ -178,33 +156,6 @@ export class ProcfileReconciler {
     return entry;
   }
 
-  /**
-   * Convert class name to instance name
-   * @param {string} name
-   * @return {string}
-   */
-  normalizeName(name: string): string {
-    return name;
-  }
-
-  /**
-   * setDefaultAppletCategory
-   * @param {CategoryReg} name
-   */
-  setDefaultAppletCategory (name: CategoryReg) {
-    this.defaultAppletCategory = name;
-  }
-
-  /**
-   * getDefaultAppletCategory
-   * @return {CategoryReg}
-   */
-  getDefaultAppletCategory () {
-    if(!this.defaultAppletCategory) {
-      throw new Error('Should ProcfileReconciler.setDefaultAppletCategory() before ProcfileReconciler.getDefaultAppletCategory().');
-    }
-    return this.defaultAppletCategory;
-  }
 
   /**
    * setDefaultServiceCategory
@@ -231,23 +182,24 @@ export class ProcfileReconciler {
    * @return {ProcessRepresentation}
    */
   defineProcess(processRepresentation): ProcessRepresentation {
-    processRepresentation = {
+    const processRepresentation2nd: ProcessRepresentation = {
+      env: {}, execArgv: [], args: [], scale: 1,
       ...this.appRepresentation,
       ...processRepresentation,
       entryFileBaseDir: this.procfileBasePath
     };
-    this.processes.push(processRepresentation);
-    return processRepresentation;
+    this.processes.push(processRepresentation2nd);
+    return processRepresentation2nd;
   }
 
   /**
    * Get a process representation by name
-   * @param processName
+   * @param lookingFor
    * @return {ProcessRepresentation}
    */
-  getProcessByName(processName): ProcessRepresentation {
+  getProcessByName(lookingFor): ProcessRepresentation {
     for(const process of this.processes) {
-      if(process.processName === processName) {
+      if(process.processName === lookingFor) {
         return process;
       }
     }
@@ -255,22 +207,17 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Inject configurator class
-   * @param {Entry} entry
+   * Drop a process representation by name
    */
-  injectConfigurator(entry: Entry) {
-    this.configuratorClass = this.normalizeEntry(entry);
-  }
-
-  /**
-   * Get configurator class
-   * @return {EntryClass}
-   */
-  getConfigurator(): EntryClass {
-    if(!this.configuratorClass) {
-      throw new Error('Should ProcfileReconciler.injectConfigurator() before ProcfileReconciler.getConfigurator().');
+  dropProcessByName (lookingFor) {
+    for(let idx = 0, len = this.processes.length; idx < len; idx++) {
+      const process = this.processes[idx];
+      if(lookingFor === process.processName) {
+        this.processes.splice(idx, 1);
+        return;
+      }
     }
-    return this.configuratorClass;
+    throw new Error(`Can\'t drop a process named ${lookingFor} it not exist`);
   }
 
   /**
@@ -300,8 +247,9 @@ export class ProcfileReconciler {
   injectService(serviceRepresentation): ServiceRepresentation {
     const serviceEntry = this.normalizeEntry(serviceRepresentation.serviceEntry);
     const ret = {
+      config: {},
       ...serviceRepresentation,
-      serviceName: this.normalizeName(serviceRepresentation.serviceName || (<any> serviceEntry).lazyName ||  (<any> serviceEntry).serviceName || (<any> serviceEntry).name),
+      serviceName: serviceRepresentation.serviceName || (<any> serviceEntry).lazyName ||  (<any> serviceEntry).serviceName || (<any> serviceEntry).name,
       category: serviceRepresentation.category || this.getDefaultServiceCategory(),
       serviceEntry: serviceEntry
     };
@@ -310,13 +258,13 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Get a service representation by entry string or class
+   * Get a service representation by name
    * @param lookingFor
    * @return {ServiceRepresentation}
    */
-  getServiceByEntry (lookingFor): ServiceRepresentation {
+  getServiceByName (lookingFor): ServiceRepresentation {
     for(const service of this.services) {
-      if(matchEntry(lookingFor, service.serviceEntry)) {
+      if(lookingFor === service.serviceName) {
         return service;
       }
     }
@@ -324,18 +272,38 @@ export class ProcfileReconciler {
   }
 
   /**
+   * Drop a service representation by name
+   */
+  dropServiceByName (lookingFor) {
+    for(let idx = 0, len = this.services.length; idx < len; idx++) {
+      const service = this.services[idx];
+      if(lookingFor === service.serviceName) {
+        this.services.splice(idx, 1);
+        return;
+      }
+    }
+    throw new Error(`Can\'t drop a service named ${lookingFor} it not exist`);
+  }
+
+  /**
    * Get services by category
    * @param {string} category
    * @return {ServiceRepresentation[]}
    */
-  getServicesByCategory(category: string): ServiceRepresentation[] {
+  getServicesByCategory(category: string, simple?): ServiceRepresentation[] {
     const serviceFullSet = this.uniqServices;
     const retSet = [];
     for (const service of serviceFullSet) {
       if (service.category === category || category === 'all'
         || service.category === 'all' || service.category === 'weak-all') {
-        const serviceEntry = (<any> service.serviceEntry).getLazyClass ?
-          (<any> service.serviceEntry).getLazyClass() : service.serviceEntry;
+
+        if(simple) {
+          retSet.push(service);
+          continue;
+        }
+
+        const serviceEntry = (<any> service.serviceEntry).getLazyClass
+          ? (<any> service.serviceEntry).getLazyClass() : service.serviceEntry;
 
         // Sucks code below, just unique the dependencies array...
         service.dependencies = <string[]> [...new Set((serviceEntry.dependencies || []).concat(service.dependencies || []))];
@@ -347,79 +315,17 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Inject applet class
-   * @param {AppletRepresentation} appletRepresentation
-   * @return {{appletName: string; category: (CategoryReg | any); appletEntry: EntryClass}}
+   * Get all available processes
+   * @return {any}
    */
-  injectApplet(appletRepresentation) {
-    const appletEntry = this.normalizeEntry(appletRepresentation.appletEntry);
-    const ret = {
-      ...appletRepresentation,
-      appletName: this.normalizeName(appletRepresentation.appletName || (<any> appletEntry).lazyName
-        || (<any> appletEntry).appletName || (<any> appletEntry).name),
-      category: appletRepresentation.category || this.getDefaultAppletCategory(),
-      appletEntry
-    };
-    this.applets.push(ret);
-    return ret;
-  }
-
-  /**
-   * Get a applet representation by entry string or class
-   * @param lookingFor
-   * @return {ApplicationRepresentation}
-   */
-  getAppletByEntry (lookingFor): AppletRepresentation {
-    for(const applet of this.applets) {
-      if(matchEntry(lookingFor, applet.appletEntry)) {
-        return applet;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Get applets by category
-   * @param {string} category
-   * @return {AppletRepresentation[]}
-   */
-  getAppletsByCategory(category: string): AppletRepresentation[] {
-    const appletFullSet = this.uniqApplets;
-    const retSet = [];
-    for (const applet of appletFullSet) {
-      if (applet.category === category || category === 'all'
-        || applet.category === 'all' || applet.category === 'weak-all') {
-        retSet.push(applet);
-      }
-    }
-    return retSet;
-  }
-
   protected getAvailableProcessMap () {
 
     const availableProcessMap = {};
 
     /**
-     * Allocate applets
-     */
-    for (const applet of this.getAppletsByCategory('all')) {
-      if(applet.category === 'all') {
-        return foundAll;
-      }
-      if (applet.category === 'weak-all') {
-        continue;
-      }
-      const process = this.getProcessByName(applet.category);
-      if (!process) {
-        throw new Error(`Can't allocate applet ${applet.appletName} at category ${applet.category} to any process.`);
-      }
-      availableProcessMap[applet.category] = true;
-    }
-
-    /**
      * Allocate services
      */
-    for (const service of this.getServicesByCategory('all')) {
+    for (const service of this.getServicesByCategory('all', true)) {
       if(service.category === 'all') {
         return foundAll;
       }
@@ -433,26 +339,34 @@ export class ProcfileReconciler {
       availableProcessMap[service.category] = true;
     }
 
+    for(const process of this.processes) {
+      if(process.entryFile && !availableProcessMap.hasOwnProperty(process.processName)) {
+        availableProcessMap[process.processName] = true;
+      }
+    }
+
     return availableProcessMap;
 
   }
 
-
   /**
-   * Get the application's structure
-   * @returns {ApplicationStructureRepresentation}
+   * Get the Static Structure of the Application
+   * @return {ApplicationStructureRepresentation}
    */
   getApplicationStructure(): ApplicationStructureRepresentation {
 
     const availableProcessMap = this.getAvailableProcessMap();
     const processRepresentations: ProcessRepresentation[] = [];
 
+    let offset = 0;
     for(const process of this.processes) {
       if(
-        process.mode === 'profile.js' &&
         foundAll === availableProcessMap || availableProcessMap.hasOwnProperty(process.processName)
       ) {
-        processRepresentations.push(process);
+        const newProcess = this.makeupProcess(process);
+        newProcess.offset = offset;
+        offset += <number> newProcess.scale > 1 ? <number> newProcess.scale + 1 : 1;
+        processRepresentations.push(newProcess);
       }
     }
 
@@ -462,49 +376,40 @@ export class ProcfileReconciler {
 
     return {
       ...this.appRepresentation,
-      mode: 'procfile.js',
       process: processRepresentationSet2nd
     };
 
   }
 
   /**
-   * Get the complex application's structure
-   * @returns {ApplicationStructureRepresentation}
+   * Echo the appRepresentation to a file
+   * For static getStructureViaNewProcess() read
+   * @param {ApplicationRepresentation} appRepresentation
+   * @param {string} writeTo
    */
-  getComplexApplicationStructureRepresentation(): ComplexApplicationStructureRepresentation {
-
-    const processes: ProcessRepresentation[] = this.processes;
-    const mount: MountRepresentation[] = [];
-
-    const applicationStructure = this.getApplicationStructure();
-    if(applicationStructure.process.length) {
-      mount.push(applicationStructure);
-    }
-
-    for(const process of processes) {
-      if( process.mode === 'fork' ) {
-        mount.push(process);
-      }
-    }
-
-    return { mount };
-  }
-
-  public static echoComplex(appRepresentation: ApplicationRepresentation, writeTo: string) {
+  public static echoStructure(appRepresentation: ApplicationRepresentation, writeTo: string) {
     const procfileReconciler = new ProcfileReconciler(appRepresentation);
     procfileReconciler.discover();
-    const complex = procfileReconciler.getComplexApplicationStructureRepresentation();
-    writeFileSync(writeTo, JSON.stringify(complex));
+    const structure = procfileReconciler.getApplicationStructure();
+    writeFileSync(writeTo, JSON.stringify(structure));
   }
 
-  public static async getComplexViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ComplexApplicationStructureRepresentation> {
+  /**
+   * Get the appRepresentation via a tmp process
+   * Make sure daemon will not got any we don\'t want to be included
+   * @param {ApplicationRepresentation} appRepresentation
+   * @return {Promise<ApplicationStructureRepresentation>}
+   */
+  public static async getStructureViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ApplicationStructureRepresentation> {
 
     const tmpFile = join(tmpdir(), uuid.v4());
     const isTs = /\.ts$/.test(__filename);
 
     await new Promise((resolve, reject) => {
-      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoComplex(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)})'`,
+      exec(`${process.execPath} ${ isTs ? '-r ts-node/register' : ''} -e 'require("${__filename}").ProcfileReconciler.echoStructure(${JSON.stringify(appRepresentation)}, ${JSON.stringify(tmpFile)}); process.exit()'`,
+        {
+          cwd: appRepresentation.appDir || process.cwd()
+        },
         (error) => {
           if(error) {
             reject(error);
@@ -518,9 +423,31 @@ export class ProcfileReconciler {
     await mzFs.unlink(tmpFile);
 
     const fileContent = fileBuffer.toString();
-    const complex: ComplexApplicationStructureRepresentation = JSON.parse(fileContent);
+    const structure: ApplicationStructureRepresentation = JSON.parse(fileContent);
 
-    return complex;
+    return structure;
+
+  }
+
+  /**
+   *
+   * @param process
+   * @return {ProcessRepresentation}
+   */
+  private makeupProcess(process: ProcessRepresentation): ProcessRepresentation {
+
+    // globalArgv and globalEnv passed from CLI, marge those to the related field
+    const execArgv = process.globalExecArgv ? (process.execArgv || []).concat(process.globalExecArgv) : process.execArgv;
+    const args = process.globalArgs ? (process.args || []).concat(process.globalArgs) : process.args;
+    const env = process.globalEnv ? {...process.env, ...process.globalEnv} : process.env;
+
+    // Resolve 'auto' to cpus().length
+    const scale = process.scale === 'auto' ? defaultWorkerCount : process.scale;
+
+    return {
+      ...process,
+      execArgv, args, env, scale
+    };
 
   }
 
@@ -536,6 +463,3 @@ function getProcfileBasePath(tagetPath) {
   return dirname(resolvedTarget);
 }
 
-function matchEntry(userLooking: any, entry: any) {
-  return !!(userLooking === entry || userLooking === entry.lazyEntryMadeBy);
-}

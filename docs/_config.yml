@@ -1,0 +1,25 @@
+title: Pandora.js
+subtitle: "A powerful and lightweight application manager for Node.js applications powered by TypeScript."
+description: "A powerful and lightweight application manager for Node.js applications powered by TypeScript."
+language:
+- zh-cn
+- en
+timezone: UTC
+url: https://midwayjs.org
+root: /pandora/
+archive_dir: news
+permalink: news/:year/:month/:day/:title/
+new_post_name: :year-:month-:day-:title.md # File name of new posts
+post_asset_folder: true
+highlight:
+  enable: true
+  line_number: false
+per_page: 0
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: pandora
+
+less:
+  compress: true

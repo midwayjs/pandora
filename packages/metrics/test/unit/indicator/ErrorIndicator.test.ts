@@ -32,8 +32,8 @@ describe('/test/unit/indicator/ErrorIndicator.test.ts', () => {
       stack: ''
     });
 
-    expect(lastData.method).to.be.equal('error');
-    expect(lastData.message).to.be.equal('something error');
+    expect(lastData.method).to.equal('error');
+    expect(lastData.message).to.equal('something error');
   });
 
 });

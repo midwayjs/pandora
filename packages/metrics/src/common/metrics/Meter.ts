@@ -1,8 +1,7 @@
-import {Metered} from '../Metered';
-import {Metric} from '../Metric';
 import {MetricType} from '../MetricType';
 import {EWMA} from '../util/EWMA';
 import {BucketCounter} from './BucketCounter';
+import {Metered, Metric} from '../domain';
 
 /**
  * A meter metric which measures mean throughput and one-, five-, and fifteen-minute
@@ -27,6 +26,7 @@ export interface IMeter extends Metric, Metered {
 }
 
 const DEFAULT_NUM_OF_BUCKET = 10;
+const TICK_INTERVAL = 5000;  // 5s
 
 /**
  * A meter metric which measures mean throughput and one-, five-, and fifteen-minute
@@ -50,7 +50,27 @@ export class BaseMeter implements IMeter {
     this.bucketCounter = new BucketCounter(interval, numberOfBucket);
   }
 
+  private tickIfNecessary() {
+    let newTick = Date.now();
+    let oldTick = this.lastTick;
+    let age = newTick - oldTick;
+    if (age > TICK_INTERVAL) {
+      let newIntervalStartTick = newTick - age % TICK_INTERVAL;
+      if (oldTick < newIntervalStartTick) {
+        this.lastTick = newIntervalStartTick;
+        let requiredTicks = age / TICK_INTERVAL;
+        for (let i = 0; i < requiredTicks; i++) {
+          this.m1Rate.tick(this.uncounted);
+          this.m5Rate.tick(this.uncounted);
+          this.m15Rate.tick(this.uncounted);
+          this.uncounted = 0;
+        }
+      }
+    }
+  }
+
   mark(n: number = 1): void {
+    this.tickIfNecessary();
     this.uncounted += n;
     this.bucketCounter.update(n);
   }
@@ -68,11 +88,13 @@ export class BaseMeter implements IMeter {
   }
 
   getFifteenMinuteRate(): number {
-    return this.m15Rate.rate();
+    this.tickIfNecessary();
+    return this.m15Rate.getRate();
   }
 
   getFiveMinuteRate(): number {
-    return this.m5Rate.rate();
+    this.tickIfNecessary();
+    return this.m5Rate.getRate();
   }
 
   getMeanRate(): number {
@@ -80,12 +102,13 @@ export class BaseMeter implements IMeter {
       return 0;
     }
 
-    let elapsed = (new Date).getTime() - this.startTime;
+    let elapsed = Date.now() - this.startTime;
     return this.getCount() / elapsed * 1000;
   }
 
   getOneMinuteRate(): number {
-    return this.m1Rate.rate();
+    this.tickIfNecessary();
+    return this.m1Rate.getRate();
   }
 
 }

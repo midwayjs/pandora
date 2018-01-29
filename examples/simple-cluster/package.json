@@ -2,13 +2,8 @@
   "name": "simple-cluster",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "pandora start --mode cluster --name simple-cluster ./app.js",
-    "dev": "pandora dev --mode cluster --name simple-cluster ./app.js",
-    "stop": "pandora exit"
-  },
+  "main": "app.js",
   "dependencies": {
-    "koa": "^2.3.0"
+    "koa": "^2.4.1"
   }
 }

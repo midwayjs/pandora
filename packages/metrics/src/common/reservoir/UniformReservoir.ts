@@ -1,6 +1,6 @@
 import {Reservoir} from '../Reservoir';
-import {Snapshot} from '../snapshot/Snapshot';
 import {UniformSnapshot} from '../snapshot/UniformSnapshot';
+import {Snapshot} from '../domain';
 
 export class UniformReservoir extends Reservoir {
 

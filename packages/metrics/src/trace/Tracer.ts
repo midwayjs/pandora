@@ -2,12 +2,14 @@
 import { Tracer as OpenTrancer } from 'opentracing';
 import { PandoraSpan } from './PandoraSpan';
 import SpanContext from './SpanContext';
-import {TraceData, TracerReport} from '../domain';
+import { TraceData, TracerReport } from '../domain';
+import { NORMAL_TRACE, CURRENT_SPAN, TIMEOUT_TRACE, SLOW_TRACE, ERROR_TRACE } from './Constants';
 
-const EventEmitter = require('super-event-emitter');
-const CURRENT_SPAN = 'CURRENT_SPAN';
+const debug = require('debug')('Pandora:Metrics:Tracer');
+const EventEmitter = require('events');
+const mixin = require('mixin');
 
-export class Tracer extends OpenTrancer {
+export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any }) {
 
   options;
   spans = [];
@@ -15,12 +17,13 @@ export class Tracer extends OpenTrancer {
   startMs = Date.now();
   finishMs = 0;
   duration = 0;
+  status = NORMAL_TRACE;
+  _finished = false;
 
   private attrs: Map<string, TracerReport> = new Map();
 
   constructor(options: { ns?, traceId? } = {}) {
     super();
-    EventEmitter.mixin(this);
     this.options = options;
     this.namespace = options.ns;
     this.setAttr('traceId', options.traceId);
@@ -62,7 +65,16 @@ export class Tracer extends OpenTrancer {
   }
 
   getAttrValue(key, defaultValue?) {
-    return this.attrs.get(key).getValue() || defaultValue;
+    let ret = defaultValue;
+
+    if (this.hasAttr(key)) {
+      const item = this.attrs.get(key);
+      ret = item.getValue && item.getValue() || item || defaultValue;
+    } else {
+      ret = defaultValue;
+    }
+
+    return ret;
   }
 
   hasAttr(key) {
@@ -76,8 +88,12 @@ export class Tracer extends OpenTrancer {
   }
 
   setCurrentSpan(span) {
-    if (this.namespace) {
-      return this.namespace.set(CURRENT_SPAN, span);
+    try {
+      if (this.namespace) {
+        this.namespace.set(CURRENT_SPAN, span);
+      }
+    } catch (error) {
+      debug('Set current span error.', error);
     }
   }
 
@@ -85,11 +101,33 @@ export class Tracer extends OpenTrancer {
     return new PandoraSpan(this, operationName, spanContext);
   }
 
-  finish() {
+  finish(options = {}) {
+    if (this._finished) return;
     this.finishMs = Date.now();
     this.duration = this.finishMs - this.startMs;
+    this._finished = true;
+
+    if (options['slowThreshold']) {
+      if (this.duration >= options['slowThreshold']) {
+        this.setStatus(SLOW_TRACE);
+      }
+    }
 
     (<any>this).emit('finish', this);
+  }
+
+  timeout() {
+    this.setStatus(TIMEOUT_TRACE);
+
+    this.finish();
+  }
+
+  error() {
+    this.setStatus(ERROR_TRACE);
+  }
+
+  setStatus(status) {
+    this.status = this.status | status;
   }
 
   report(): TraceData {
@@ -100,11 +138,16 @@ export class Tracer extends OpenTrancer {
       duration: this.duration,
       spans: spans.map((span) => {
         return span.toJSON();
-      })
+      }),
+      status: this.status
     };
 
     for (let [key, value] of this.attrs.entries()) {
-      result[key] = value.report();
+      const v = value.report();
+
+      if (v !== false) {
+        result[key] = v;
+      }
     }
 
     return result;

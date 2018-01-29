@@ -1,8 +1,8 @@
 import {Reservoir} from '../Reservoir';
-import {Snapshot} from '../snapshot/Snapshot';
 import {BinaryHeap} from '../util/BinaryHeap';
 import {WeightedSnapshot} from '../snapshot/WeightedSnapshot';
 import {Constants} from '../Constants';
+import {Snapshot} from '../domain';
 
 const DEFAULT_SIZE: number = 1028;
 const DEFAULT_ALPHA: number = 0.015;
@@ -84,7 +84,6 @@ export class ExponentiallyDecayingReservoir extends Reservoir {
   }
 
   getSnapshot(): Snapshot {
-    console.log(this.getValues());
     try {
       return new WeightedSnapshot(this.getValues());
     } catch (e) {

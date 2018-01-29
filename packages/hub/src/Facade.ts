@@ -1,4 +1,4 @@
-import {FacadeSetupOptions, Location, ObjectDescription} from './domain';
+import {FacadeSetupOptions, Location, ObjectDescription, ConsumerExtInfo} from './domain';
 import {HubClient} from './hub/HubClient';
 import {ProviderManager} from './object-proxying/ProviderManager';
 import {ConsumerManager} from './object-proxying/ConsumerManager';
@@ -23,7 +23,9 @@ export class Facade {
    * @return {Promise<void>}
    */
   async start () {
-    await this.getHubClient().start();
+    if(!this.getHubClient().isReady()) {
+      await this.getHubClient().start();
+    }
   }
 
   /**
@@ -31,7 +33,9 @@ export class Facade {
    * @return {Promise<void>}
    */
   async stop () {
-    await this.getHubClient().stop();
+    if(this.getHubClient().isReady()) {
+      await this.getHubClient().stop();
+    }
   }
 
   /**
@@ -76,26 +80,28 @@ export class Facade {
    * @param {ObjectDescription} objectDescription
    * @return {Promise<void>}
    */
-  publish (impl: any, objectDescription?: ObjectDescription): Promise<void> {
+  publish(impl: any, objectDescription?: ObjectDescription): Promise<void> {
     return this.getProviderManager().publish(impl, objectDescription);
   }
 
   /**
    * Get a Consumer by an ObjectDescription
    * @param {ObjectDescription} objectDescription
+   * @param {ConsumerExtInfo} extInfo
    * @return {ObjectConsumer}
    */
-  getConsumer(objectDescription: ObjectDescription): ObjectConsumer {
-    return this.getConsumerManager().getConsumer(objectDescription);
+  getConsumer(objectDescription: ObjectDescription, extInfo?: ConsumerExtInfo): ObjectConsumer {
+    return this.getConsumerManager().getConsumer(objectDescription, extInfo);
   }
 
   /**
    * Get an Object Proxy by an ObjectDescription for Remote Object
    * @param {ObjectDescription} objectDescription
+   * @param {ConsumerExtInfo} extInfo
    * @return {Promise<T & DefaultObjectProxy>}
    */
-  getProxy <T extends any> (objectDescription: ObjectDescription): Promise<T & DefaultObjectProxy> {
-    return this.getConsumerManager().getProxy<T>(objectDescription);
+  getProxy <T extends any> (objectDescription: ObjectDescription, extInfo?: ConsumerExtInfo): Promise<T & DefaultObjectProxy> {
+    return this.getConsumerManager().getProxy<T>(objectDescription, extInfo);
   }
 
 }

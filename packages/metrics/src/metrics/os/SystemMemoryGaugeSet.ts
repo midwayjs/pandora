@@ -27,8 +27,8 @@ export class SystemMemoryGaugeSet extends CachedMetricSet {
 
   SystemMemory = {};
 
-  constructor(filePath = SystemMemoryGaugeSet.DEFAULT_FILE_PATH) {
-    super();
+  constructor(dataTTL = 5, filePath = SystemMemoryGaugeSet.DEFAULT_FILE_PATH) {
+    super(dataTTL);
     this.filePath = filePath;
   }
 
@@ -47,6 +47,16 @@ export class SystemMemoryGaugeSet extends CachedMetricSet {
         }
       });
     }
+
+    gauges.push({
+      name: MetricName.build('mem.usage'),
+      metric: <Gauge<number>> {
+        getValue() {
+          self.refreshIfNecessary();
+          return self.SystemMemory['MEM.USED'] / self.SystemMemory['MEM.TOTAL'];
+        }
+      }
+    });
     return gauges;
   }
 

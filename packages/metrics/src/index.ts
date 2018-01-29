@@ -11,13 +11,11 @@ export * from './MetricsServerManager';
 export * from './endpoint/EndPoint';
 export * from './endpoint/DuplexEndPoint';
 export * from './endpoint/CacheDuplexEndPoint';
-export * from './endpoint/impl/ErrorEndPoint';
-export * from './endpoint/impl/HealthEndPoint';
+export * from './endpoint/impl/CommonEndPoint';
 export * from './endpoint/impl/InfoEndPoint';
 export * from './endpoint/impl/MetricsEndPoint';
-export * from './endpoint/impl/ProcessEndPoint';
-export * from './endpoint/impl/RuntimeEndPoint';
 export * from './endpoint/impl/TraceEndPoint';
+export * from './endpoint/impl/DaemonEndPoint';
 
 /**
  * indicator
@@ -26,17 +24,20 @@ export * from './indicator/Indicator';
 export * from './indicator/DuplexIndicator';
 export * from './indicator/impl/ErrorIndicator';
 export * from './indicator/impl/ProcessIndicator';
+export * from './indicator/impl/health/HealthIndicator';
 export * from './indicator/impl/health/DiskSpaceHealthIndicator';
 export * from './indicator/impl/health/PortHealthIndicator';
 export * from './indicator/impl/TraceIndicator';
 export * from './indicator/impl/BaseInfoIndicator';
+export * from './indicator/impl/NodeIndicator';
+export * from './indicator/impl/CommandIndicator';
 
 /**
  * reporter
  */
 export * from './reporter/ScheduledMetricsReporter';
 export * from './reporter/ConsoleReporter';
-export * from './reporter/FileMetricManagerReporter';
+export * from './reporter/FileMetricsManagerReporter';
 export * from './reporter/CustomReporter';
 export * from './collect/MetricObject';
 export * from './collect/MetricsCollector';
@@ -62,6 +63,7 @@ export * from './rest/HealthResource';
 export * from './rest/TraceResource';
 export * from './rest/InfoResource';
 export * from './rest/ProcessResource';
+export * from './rest/DaemonResource';
 
 /**
  * client
@@ -72,8 +74,6 @@ export * from './client/index';
  * common
  */
 export * from './common/index';
-export * from './common/MetricBuilder'
-export * from './common/MetricFilter'
 
 
 /**
@@ -88,9 +88,12 @@ export * from './collect/NormalMetricsCollector';
 export * from './util/MessageSender';
 export * from './util/MetricsClientUtil';
 export * from './util/TraceUtil';
+export * from './util/MetricsInjectionBridge';
+export * from './util/MessageCollector';
 
 /**
  * trace
  */
 export * from './trace/TraceManager';
 export * from './trace/Patcher';
+export * from './trace/Constants';

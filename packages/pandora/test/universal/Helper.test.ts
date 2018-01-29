@@ -10,7 +10,7 @@ describe('Helpers', function () {
       return __dirname;
     });
     const name = Helpers.calcAppName(__dirname);
-    expect(name).to.be.equal('universal');
+    expect(name).to.equal('universal');
     mm.restore();
   });
   it('should calcAppName() by package.json be ok', () => {
@@ -18,26 +18,33 @@ describe('Helpers', function () {
       return join(__dirname, '../../');
     });
     const name = Helpers.calcAppName(__dirname);
-    expect(name).to.be.equal('pandora');
+    expect(name).to.equal('pandora');
     mm.restore();
   });
 
+  it('should removePkgNameScope() be ok', () => {
 
-  it('should attach entry config from outside', () => {
+    const name1 = Helpers.removePkgNameScope('@ali/abc');
+    expect(name1).to.equal('abc');
+
+    const name2 = Helpers.removePkgNameScope('cbd');
+    expect(name2).to.equal('cbd');
+
+    const name3 = Helpers.removePkgNameScope('/123');
+    expect(name3).to.equal('/123');
+
+  });
+
+  it('should attach env config from outside', () => {
     mm(process, 'cwd', function () {
       return join(__dirname, '../fixtures/universal/test-test2');
     });
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       appName: 'test-app3',
     });
-    const devEntryConfig = Helpers.attachEntryParams('dev', {
-      appName: 'test-app3',
-    });
-    expect(forkEntryConfig.mode).to.be.equal('fork');
-    expect(devEntryConfig.mode).to.be.equal('cluster');
-    expect(forkEntryConfig.entryFile).to.be.equal('./bin/server.js');
-    expect(forkEntryConfig.appName).to.be.equal('test-app3');
-    expect(process.env[PANDORA_GLOBAL_CONFIG]).to.be.equal('pandora-taobao:pandora-ali');
+    expect(forkEntryConfig.globalEnv.a).to.equal('1');
+    expect(forkEntryConfig.appName).to.equal('test-app3');
+    expect(process.env[PANDORA_GLOBAL_CONFIG]).to.equal('pandora-taobao:pandora-ali');
 
     mm.restore();
   });
@@ -48,16 +55,13 @@ describe('Helpers', function () {
     });
 
     // pandora start --name test
-    const forkEntryConfig = Helpers.attachEntryParams('start', {
-      appName: 'test',
-    }, {
-      mode: 'procfile.js',
-      appName: Helpers.calcAppName(process.cwd())
-    });
-    expect(forkEntryConfig.mode).to.be.equal('procfile.js');
-    expect(forkEntryConfig.appName).to.be.equal('test');
-    expect(forkEntryConfig.appDir).to.be.equal(process.cwd());
-    expect(forkEntryConfig.entryFile).to.be.equal(resolve('./bin/server.js'));
+    expect(() => {
+      Helpers.attachEntryParams('start', {
+        appName: 'test',
+      }, {
+        appName: Helpers.calcAppName(process.cwd())
+      });
+    }).to.throw('Pandora.js can only start a Pandora.js project directory');
 
     mm.restore();
   });
@@ -71,11 +75,9 @@ describe('Helpers', function () {
     const forkEntryConfig = Helpers.attachEntryParams('start', {
       entry: '../../',
     }, {
-      mode: 'procfile.js'
     });
-    expect(forkEntryConfig.mode).to.be.equal('fork');
-    expect(forkEntryConfig.appDir).to.be.equal(resolve('../../'));
-    expect(forkEntryConfig.entryFile).to.be.equal(undefined);
+    expect(forkEntryConfig.appDir).to.equal(resolve('../../'));
+    expect(forkEntryConfig.entryFile).to.equal(undefined);
 
     mm.restore();
   });

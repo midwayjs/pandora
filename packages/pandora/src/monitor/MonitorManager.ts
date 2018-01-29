@@ -1,4 +1,6 @@
 import {
+  BaseInfoIndicator,
+  NodeIndicator,
   ProcessIndicator,
   ErrorIndicator,
   MetricsClientUtil,
@@ -6,30 +8,45 @@ import {
   MetricsConstants,
   V8GaugeSet,
   TraceIndicator,
-  IPatcher
+  IPatcher,
+  MetricsCollectPeriodConfig,
+  MetricLevel
 } from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {EnvironmentUtil} from 'pandora-env';
-import {PANDORA_APPLICATION} from '../const';
+import {PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../domain';
+import {getPandoraLogsDir} from '../universal/LoggerBroker';
 const debug = require('debug')('pandora:MonitorManager');
 
 export class MonitorManager {
 
+  static injected: boolean = false;
+
   static injectProcessMonitor() {
+
+    // console.log('inject Monitor');
+
+    if(MonitorManager.injected) {
+      return;
+    }
 
     const globalConfigProcessor = GlobalConfigProcessor.getInstance();
     const globalConfig = globalConfigProcessor.getAllProperties();
     const hooks = globalConfig['hook'];
 
+    // set global reporter interval
+    const periodConfig = MetricsCollectPeriodConfig.getInstance();
+    periodConfig.configGlobalPeriod(globalConfig['reporterInterval']);
+
     // init environment
     if (!EnvironmentUtil.getInstance().isReady()) {
 
-      // cast PANDORA_APPLICATION to type ProcessRepresentation, need processName
+      // cast PANDORA_PROCESS to type ProcessRepresentation, need processName
       let processRepresentation: ProcessRepresentation = <any> {};
 
       try {
-        processRepresentation = JSON.parse(process.env[PANDORA_APPLICATION]);
+        processRepresentation = JSON.parse(process.env[PANDORA_PROCESS]);
       } catch (err) {
         // ignore
       }
@@ -37,7 +54,8 @@ export class MonitorManager {
       EnvironmentUtil.getInstance().setCurrentEnvironment(new globalConfig['environment']({
         appDir: processRepresentation.appDir,
         appName: processRepresentation.appName,
-        processName: processRepresentation.processName
+        processName: processRepresentation.processName,
+        pandoraLogsDir: getPandoraLogsDir()
       }));
     }
 
@@ -65,15 +83,17 @@ export class MonitorManager {
           patcher.run();
           debug(`Patcher(${process.pid}): ${hookName} hook enabled`);
         } catch (err) {
-          console.log(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
+          debug(`Patcher(${process.pid}): enable ${hookName} hook went wrong, ${err.message}`);
         }
       } else {
-        console.log(`Patcher(${process.pid}): ${hookName} hook disabled`);
+        debug(`Patcher(${process.pid}): ${hookName} hook disabled`);
       }
     }
 
     // init indicators
     [
+      new BaseInfoIndicator(),
+      new NodeIndicator(),
       new ProcessIndicator(),
       new ErrorIndicator(),
     ].forEach((ins) => {
@@ -81,9 +101,12 @@ export class MonitorManager {
     });
 
     // init metrics
-    client.register('node', MetricName.build('node.v8').tagged({
+    client.register('node', MetricName.build('node.v8').setLevel(MetricLevel.MINOR).tagged({
       pid: process.pid
-    }), new V8GaugeSet());
+    }), new V8GaugeSet(periodConfig.getCachedTimeForLevel(MetricLevel.MINOR)));
+
+    MonitorManager.injected = true;
+
   }
 
 

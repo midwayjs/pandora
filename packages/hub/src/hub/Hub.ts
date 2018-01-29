@@ -76,7 +76,7 @@ export class Hub {
     try {
       const clients = this.routeTable.selectClients(message.remote);
       if(!clients.length) {
-        throw new Error(format('Cannot found any clients by selector: %js', message.remote));
+        throw new Error(format('Cannot found any clients by selector: %j', message.remote));
       }
       if(message.broadcast) {
         this.broadcastToClients(clients, message, reply);
@@ -114,7 +114,7 @@ export class Hub {
     } : null;
 
     // Dispatch the message to a random client of all selected clients
-    client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback);
+    client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback, message && message.timeout);
 
   }
 
@@ -151,7 +151,7 @@ export class Hub {
       } : null;
 
       // Dispatch the message to all selected clients
-      client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback);
+      client.send(PANDORA_HUB_ACTION_MSG_DOWN, message, callback, message && message.timeout);
     }
 
   }

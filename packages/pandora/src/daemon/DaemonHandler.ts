@@ -1,6 +1,6 @@
 'use strict';
 import Messenger, {MessengerClient} from 'pandora-messenger';
-import {consoleLogger, getDaemonStdoutLogPath} from '../universal/LoggerBroker';
+import {getDaemonStdoutLogPath} from '../universal/LoggerBroker';
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -8,6 +8,9 @@ import {spawn} from 'child_process';
 import {DAEMON_MESSENGER, DAEMON_READY, SEND_DAEMON_MESSAGE} from '../const';
 import {dirname} from 'path';
 import mkdirp = require('mkdirp');
+
+// TODO: Refactor
+const {consoleLogger} = require('../../cli/util/cliUtils');
 
 const is = require('is-type-of');
 const tmpDir = os.tmpdir();
@@ -112,7 +115,7 @@ export function clearCliExit(code) {
   code = code != null ? code : 0;
   send('list', {}, (err, data) => {
     if (data && data.length === 0) {
-      consoleLogger.info('No application remind, exit the pandora daemon automatically');
+      consoleLogger.info('No application remind, will exit the pandora daemon automatically');
       preparedClient.once('error', () => {
         process.exit(code);
       });
@@ -138,7 +141,7 @@ function startDaemonReal(options, resolve, reject) {
     options = {};
   }
 
-  const args = [];
+  const args = ['--trace-warnings'];
   if (/\.ts$/.test(module.filename)) {
     args.push('-r', 'ts-node/register', '-r', 'nyc-ts-patch');
   }
@@ -150,7 +153,7 @@ function startDaemonReal(options, resolve, reject) {
   const stdout = fs.openSync(daemonStdoutPath, 'a');
 
   const daemon = spawn(process.execPath, args, <any> {
-    stdio: ['ipc', stdout, stdout],
+    stdio: ['ignore', stdout, stdout, 'ipc'],
     env: Object.assign(process.env, {
       extensionPath: options.extensionPath
     }),
@@ -158,12 +161,12 @@ function startDaemonReal(options, resolve, reject) {
   });
 
   daemon.on('exit', function (code, signal) {
-    const err = new Error(`daemon[${daemon.pid}] died unexpectedly with exit code ${code} , signal ${signal}`);
+    const err = new Error(`Daemon [ pid = ${daemon.pid} ] Died unexpectedly with exit code ${code} , signal ${signal}`);
     reject(err);
   });
 
   daemon.on('message', function (message) {
-    consoleLogger.info(`pandora[${daemon.pid}] daemon started successfully.`);
+    consoleLogger.info(`Daemon [ pid = ${daemon.pid} ] Started successfully.`);
     if (message === DAEMON_READY) {
       fs.writeFileSync(pidFile, daemon.pid);
       resolve();

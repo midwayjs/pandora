@@ -1,6 +1,5 @@
-import {Metric} from '../Metric';
-import {Counting} from '../Counting';
 import {MetricType} from '../MetricType';
+import {Counting, Metric} from '../domain';
 
 /**
  * <pre>

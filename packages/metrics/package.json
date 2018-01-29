@@ -1,8 +1,8 @@
 {
   "name": "pandora-metrics",
-  "version": "1.2.0",
+  "version": "1.7.4",
   "main": "dist/index",
-  "typings": "src/index",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -10,7 +10,7 @@
     "test": "npm run lint && TS_NODE_CACHE=true mocha -t 100000",
     "cov": "TS_NODE_CACHE=true nyc mocha -t 100000",
     "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/api-reference/metrics src/"
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/metrics src/"
   },
   "keywords": [
     "pandora",
@@ -23,13 +23,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.5.2",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^6.0.85",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.5.2",
     "chai": "^3.5.0",
+    "fs-extra": "^5.0.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "node-df": "^0.1.1",
     "nyc": "^11.2.1",
+    "pandora-hub": "^1.6.22",
     "sinon": "^4.1.2",
     "supertest": "^3.0.0",
     "yargs": "^6.6.0"
@@ -42,15 +43,14 @@
     "extend": "^3.0.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
-    "module-hook": "^1.0.0",
+    "mixin": "^0.2.0",
+    "module-hook": "^2.1.0",
     "node-df": "^0.1.1",
     "opentracing": "^0.14.1",
-    "pandora-env": "^1.0.0",
-    "pandora-messenger": "^1.0.0",
-    "pandora-service-logger": "^1.0.0",
+    "pandora-env": "^1.6.3",
+    "pandora-messenger": "^1.6.9",
+    "pandora-service-logger": "^1.6.22",
     "pidusage": "^1.1.6",
-    "shimmer": "^1.1.0",
-    "super-event-emitter": "^4.1.4",
     "xorshift": "^1.1.1"
   },
   "nyc": {
@@ -60,7 +60,11 @@
     ],
     "exclude": [
       "typings",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "src/client/domain.ts",
+      "src/common/domain.ts",
+      "src/common/MetricsManager.ts",
+      "src/trace/Constants.ts"
     ],
     "extension": [
       ".ts"
