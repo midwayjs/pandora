@@ -1,19 +1,20 @@
-title: 配置文件
+title: Configuration
 ---
 
-Pandora.js 设计了一套配置文件，希望能和应用的配置进行隔离，毕竟 Pandora.js 可能会在全局场景下应用，导致不一样的情况发生。
+Pandora.js designed a set of configuration files, hoping to isolate the configuration of the application in different global scenario, causing the same results.
 
 
-## 默认的全局配置
+## Default Configuration
 
-Pandora.js 提供了一组默认的配置来保证基础脚本的运行，一般指定了几项标准的内容：
+Pandora.js provides a set of default configuration to ensure start correctly, By default there are some standard content:
 
-- environment 标准的环境实现类
-- actuatorServer 监控实现类
-- actuator 监控描述内容
-- reporter 上报实现
+- environment - Standard implementation class of environment
+- actuatorServer - Implementation class of monitor server
+- actuator - Implementation description of monitor server
+- reporter - Reporter description of reporter
 
-在这些key的基础上，进行覆盖，增加操作，默认配置如下，可能有变化，具体见代码详情。
+
+Based on these keys, covering, adding operations to modify configuration. Here is the default configuration, it may be changed in code.
 
 ```javascript
 export default {
@@ -79,23 +80,22 @@ export default {
 
 ```
 
-Pandora.js 设计了一套简单有效的配置覆盖机制，用户可以通过配置文件的形式，对默认的行为做一些修改。
+Pandora. js designed a simple and efficient configuration coverage mechanism that users can make some changes to cover default behavior.
 
-我们通过 `PANDORA_CONFIG` 这个环境变量来注入配置包，这个配置包可以是一个文件，如果内容比较多，也可以是一个 npm 包，能直接 require 即可。
-
+We injected the configuration package with the `PANDORA_CONFIG` environment variable, this configuration package can be directly require like a file, or a npm package.
 
 ```sh
 PANDORA_CONFIG=pandora-ali pandora start .
 PANDORA_CONFIG=./index.js pandora start .
 ```
 
-文件的内容**只需要写覆盖的部分**
+The content of the file: **Only write the part which you want to cover**
 
-## 通过命令行加载多配置
+## Load multiple configurations from the command line
 
-本质上，配置的覆盖就只是配置文件内容的覆盖，所以只需要做好分割就好。
+In essence, cover configuration is just cover the object from other configuration file, so only need to split file path.
 
-注意：Pandora.js 使用 `:` 作为分隔符来分割多个路径。
+Notice: Pandora.js uses `:` as a delimiter to split multiple paths
 
 ```sh
 PANDORA_CONFIG=pandora-ali:./index.js pandora start .
