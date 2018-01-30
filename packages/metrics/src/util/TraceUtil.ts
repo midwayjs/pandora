@@ -1,6 +1,6 @@
 'use strict';
 
-const xorshift = require('xorshift');
+import * as xorshift from 'xorshift';
 
 export function getRandom64() {
   let randint = xorshift.randomint();

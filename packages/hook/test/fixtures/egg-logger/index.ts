@@ -21,5 +21,6 @@ RunUtil.run(function(done) {
     done();
   });
 
+  logger.info('info test');
   logger.error(new Error('test'));
 });

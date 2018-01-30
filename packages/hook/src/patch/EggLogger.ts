@@ -1,6 +1,7 @@
 'use strict';
 import { Patcher, MessageConstants, MessageSender } from 'pandora-metrics';
-const util = require('util');
+import * as util from 'util';
+const debug = require('debug')('PandoraHook:EggLogger');
 
 export class EggLoggerPatcher extends Patcher {
 
@@ -23,44 +24,55 @@ export class EggLoggerPatcher extends Patcher {
     this.hook('^1.6.x', (loadModule) => {
       const logger = loadModule('lib/logger.js');
 
-      self.getShimmer().massWrap(logger.prototype, ['error', 'warn'], function wrapLog(log, name) {
-        return function wrappedLog(this: any) {
-          let args = arguments;
-          process.nextTick(() => {
-            let err = args[0];
+      self.getShimmer().wrap(logger.prototype, 'log', function logWrapper(log) {
 
-            try {
-              if (!(err instanceof Error)) {
-                err = new Error(util.format.apply(util, args));
-                err.name = 'Error';
+        return function wrappedLog(this: any, level, args, meta) {
+          const _level = (level || '').toLowerCase();
+
+          if (_level === 'error' || _level === 'warn') {
+
+            process.nextTick(() => {
+              let error = args[0];
+
+              try {
+                if (!(error instanceof Error)) {
+                  error = new Error(util.format.apply(util, args));
+                  error.name = 'Error';
+                }
+
+                let logPath = 'console';
+                let traceId = '';
+
+                const fileTrans = this.get('file');
+                if (fileTrans) {
+                  logPath = fileTrans.options.file;
+                }
+
+                const tracer = traceManager.getCurrentTracer();
+                if (tracer) {
+                  traceId = tracer.getAttrValue('traceId');
+                }
+
+                const data = {
+                  method: _level,
+                  timestamp: Date.now(),
+                  errType: error.name,
+                  message: error.message,
+                  stack: error.stack,
+                  traceId: traceId,
+                  path: logPath
+                };
+
+                self.sender.send(MessageConstants.LOGGER, data);
+              } catch (err) {
+                debug(err);
               }
-              let logPath = '';
-              let traceId = '';
-              const file = this.get('file');
-              if (file) {
-                logPath = file.options.file;
-              }
-              const tracer = traceManager.getCurrentTracer();
-              if (tracer) {
-                traceId = tracer.getAttrValue('traceId');
-              }
-              const data = {
-                method: name,
-                timestamp: Date.now(),
-                errType: err.name,
-                message: err.message,
-                stack: err.stack,
-                traceId: traceId,
-                path: logPath
-              };
-              self.sender.send(MessageConstants.LOGGER, data);
-            } catch (err) {
-              console.error(err);
-            }
-          });
+            });
+          }
 
           return log.apply(this, arguments);
         };
+
       });
     });
   }
