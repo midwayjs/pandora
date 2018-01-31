@@ -10,6 +10,7 @@ export abstract class CustomReporter implements Reporter {
   intervalHandler;
   metricsManager;
   endPointService;
+  interval;
 
   constructor(actuatorServer: ActuatorServer, options: {
     rateFactor?: number,
@@ -21,6 +22,7 @@ export abstract class CustomReporter implements Reporter {
   }
 
   start(interval) {
+    this.interval = interval;
     if(!this.intervalHandler) {
       this.intervalHandler = setInterval(async () => {
         debug('exec report once');

@@ -47,6 +47,16 @@ export class SystemMemoryGaugeSet extends CachedMetricSet {
         }
       });
     }
+
+    gauges.push({
+      name: MetricName.build('mem.usage'),
+      metric: <Gauge<number>> {
+        getValue() {
+          self.refreshIfNecessary();
+          return self.SystemMemory['MEM.USED'] / self.SystemMemory['MEM.TOTAL'];
+        }
+      }
+    });
     return gauges;
   }
 

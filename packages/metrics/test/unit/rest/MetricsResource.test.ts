@@ -2,13 +2,13 @@ import actuatorConfig from '../../../src/conf/default';
 import {ActuatorRestService} from '../../../src/service/ActuatorRestService';
 import {EndPointService} from '../../../src/service/EndPointService';
 import {MetricsEndPoint} from '../../../src/endpoint/impl/MetricsEndPoint';
-
-const request = require('supertest');
 import {expect} from 'chai';
-import {MetricSet, MetricName, BaseGauge} from '../../../src/common/index';
+import {BaseGauge, MetricName, MetricSet} from '../../../src/common/index';
 import {V8GaugeSet} from '../../../src/metrics/node/V8GaugeSet';
 import {MetricsClient} from '../../../src/MetricsClient';
 import {MetricsInjectionBridge} from '../../../src/util/MetricsInjectionBridge';
+
+const request = require('supertest');
 
 describe('/test/unit/MetricsResource.test.ts', () => {
 
@@ -63,6 +63,9 @@ describe('/test/unit/MetricsResource.test.ts', () => {
         expect(res.body.success).to.true;
         expect(res.body.data['system']).to.exist;
         done();
+      })
+      .catch(err => {
+        console.error(err);
       });
   });
 
@@ -83,6 +86,9 @@ describe('/test/unit/MetricsResource.test.ts', () => {
         }
         expect(find).to.be.false;
         done();
+      })
+      .catch(err => {
+        console.error(err);
       });
   });
 
@@ -103,6 +109,9 @@ describe('/test/unit/MetricsResource.test.ts', () => {
         }
         expect(find).to.be.false;
         done();
+      })
+      .catch(err => {
+        console.error(err);
       });
   });
 

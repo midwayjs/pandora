@@ -21,6 +21,19 @@ const NetworkTraffic = [
   'TCP_OUT_RSTS',          // outgoing segments with resets
 ];
 
+const NetworkTrafficText = {
+  TCP_ACTIVE_OPENS: 'tcp.active.opens',
+  TCP_PASSIVE_OPENS: 'tcp.passive.opens',
+  TCP_ATTEMPT_FAILS: 'tcp.attempt.fails',
+  TCP_ESTAB_RESETS: 'tcp.estab.resets',
+  TCP_CURR_RESETS: 'tcp.curr.resets',
+  TCP_IN_SEGS: 'tcp.in.segs',
+  TCP_OUT_SEGS: 'tcp.out.segs',
+  TCP_RETRAN_SEGS: 'tcp.retran.segs',
+  TCP_IN_ERRS: 'tcp.in.errs',
+  TCP_OUT_RSTS: 'tcp.out.rsts'
+};
+
 export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
   static DEFAULT_FILE_PATH = '/proc/net/snmp';
@@ -29,7 +42,13 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
   networkTraffic = {};
 
-  constructor(dataTTL = 5000, filePath = NetworkTrafficGaugeSet.DEFAULT_FILE_PATH) {
+  lastNetworkTraffic;
+
+  lastRetranSegs = 0;
+
+  retryRate = 0;
+
+  constructor(dataTTL = 5, filePath = NetworkTrafficGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
   }
@@ -40,7 +59,7 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
     for (let key of NetworkTraffic) {
       gauges.push({
-        name: MetricName.build(key),
+        name: MetricName.build(NetworkTrafficText[key]),
         metric: <Gauge<number>> {
           getValue() {
             self.refreshIfNecessary();
@@ -49,6 +68,16 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
         }
       });
     }
+
+    gauges.push({
+      name: MetricName.build('tcp.retry.rate'),
+      metric: <Gauge<number>> {
+        getValue() {
+          self.refreshIfNecessary();
+          return self.retryRate || 0;
+        }
+      }
+    });
     return gauges;
   }
 
@@ -61,6 +90,8 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
       debug(e);
       return;
     }
+
+    self.lastNetworkTraffic = self.networkTraffic;
 
     let columns;
     let index = 5;
@@ -80,5 +111,13 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
       let value = columns[index++];
       self.networkTraffic[key] = parseInt(value);
     }
+
+    if(!self.lastNetworkTraffic) {
+      self.lastNetworkTraffic = self.networkTraffic;
+    }
+
+    this.retryRate = (self.networkTraffic['TCP_RETRAN_SEGS'] - self.lastNetworkTraffic['TCP_RETRAN_SEGS']) / (self.networkTraffic['TCP_OUT_SEGS'] - self.lastNetworkTraffic['TCP_OUT_SEGS']);
+    this.lastRetranSegs = self.networkTraffic['TCP_RETRAN_SEGS'];
+
   }
 }
