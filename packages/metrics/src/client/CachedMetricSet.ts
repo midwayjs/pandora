@@ -29,6 +29,6 @@ export abstract class CachedMetricSet extends MetricSet {
     }
   }
 
-  abstract getValueInternal(wait?): void | Promise<any> | any;
+  abstract getValueInternal();
 
 }
