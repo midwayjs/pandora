@@ -17,7 +17,7 @@ Pandora.js 的数据采集分为几块内容，简单来说，分为 `服务端`
 
 `EndPoint` 可以看做服务端，用来接收客户端返回的数据。
 
-而客户单，我们叫做 `indicator`，用来真正执行逻辑，将数据上报给服务端。
+而客户端，我们叫做 `indicator`，用来真正执行逻辑，将数据上报给服务端。
 
 而服务端和客户端通过 IPC 进行通信，这样对应的模型就变成了以下的样子。
 
@@ -56,7 +56,7 @@ Pandora.js 对这几种类型都做了一定程度的支持，但是 Gauge 和 C
 
 Reporter 定义了一系列数据输出方式，默认的有一些：
 
-* ConsoleReporter 通过命令行输出 MetricsEndPint 的内容
+* ConsoleReporter 通过命令行输出 MetricsEndPoint 的内容
 * FileMetricsManagerReporter 通过 metrics.log 文本来输出 MetricsEndPint 的内容
 
 
