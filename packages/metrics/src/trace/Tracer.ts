@@ -57,7 +57,14 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
     } else {
       this.attrs.set(key, value);
     }
+  }
 
+  named(name) {
+    this.setAttr('name', name);
+  }
+
+  get name() {
+    return this.getAttrValue('name') || '';
   }
 
   getAttr(key): TracerReport {

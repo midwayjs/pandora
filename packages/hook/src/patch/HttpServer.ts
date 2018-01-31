@@ -92,7 +92,7 @@ export class HttpServerPatcher extends Patcher {
             const tags = self.buildTags(req);
             const span = self.createSpan(tracer, tags);
 
-            tracer.setAttr('name', `HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
+            tracer.named(`HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
             tracer.setCurrentSpan(span);
 
             res.once('finish', () => {
