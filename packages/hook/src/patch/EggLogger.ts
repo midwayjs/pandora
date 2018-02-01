@@ -50,7 +50,7 @@ export class EggLoggerPatcher extends Patcher {
 
                 const tracer = traceManager.getCurrentTracer();
                 if (tracer) {
-                  traceId = tracer.getAttrValue('traceId');
+                  traceId = tracer.traceId;
                 }
 
                 const data = {

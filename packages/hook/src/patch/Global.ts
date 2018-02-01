@@ -55,7 +55,7 @@ export class GlobalPatcher extends Patcher {
             let traceId = '';
             const tracer = traceManager.getCurrentTracer();
             if (tracer) {
-              traceId = tracer.getAttrValue('traceId');
+              traceId = tracer.traceId;
             }
 
             const data = {
@@ -91,7 +91,7 @@ export class GlobalPatcher extends Patcher {
             let traceId = '';
             const tracer = traceManager.getCurrentTracer();
             if (tracer) {
-              traceId = tracer.getAttrValue('traceId');
+              traceId = tracer.traceId;
             }
 
             // 在这里采集 unhandledRejection，不在 console.error 里，为了更好的堆栈信息
@@ -124,7 +124,7 @@ export class GlobalPatcher extends Patcher {
         let traceId = '';
         const tracer = traceManager.getCurrentTracer();
         if (tracer) {
-          traceId = tracer.getAttrValue('traceId');
+          traceId = tracer.traceId;
         }
 
         const data = {

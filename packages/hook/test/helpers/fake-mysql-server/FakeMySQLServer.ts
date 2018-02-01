@@ -39,7 +39,7 @@ function getSSLConfig() {
   };
 }
 
-export class FakeServer extends EventEmitter {
+export class FakeMySQLServer extends EventEmitter {
   _server = null;
   _connections = [];
 

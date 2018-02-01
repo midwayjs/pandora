@@ -37,7 +37,7 @@ export class HttpClientShimmer {
 
   remoteTracing(args, tracer, span) {
     const options = args[0];
-    const traceId = tracer.getAttrValue('traceId') || '';
+    const traceId = tracer.traceId || '';
     const spanId = span.context().spanId || '';
 
     if (options.headers) {
@@ -74,7 +74,7 @@ export class HttpClientShimmer {
   }
 
   protected _createSpan(tracer, currentSpan) {
-    const traceId = tracer.getAttrValue('traceId');
+    const traceId = tracer.traceId;
 
     return tracer.startSpan('http-client', {
       childOf: currentSpan,

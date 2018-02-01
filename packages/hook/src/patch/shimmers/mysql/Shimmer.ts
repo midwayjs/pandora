@@ -144,7 +144,7 @@ export class MySQLShimmer {
   }
 
   protected _createSpan(tracer, currentSpan) {
-    const traceId = tracer.getAttrValue('traceId');
+    const traceId = tracer.traceId;
 
     return tracer.startSpan('mysql', {
       childOf: currentSpan,

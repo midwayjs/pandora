@@ -1,0 +1,7 @@
+{
+  "name": "ioredis-hook-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "ioredis": "^3.2.2"
+  }
+}
