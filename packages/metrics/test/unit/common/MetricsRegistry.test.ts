@@ -65,7 +65,7 @@ describe('/test/unit/common/MetricsRegistry.test.ts', () => {
         return 100;
       }
     };
-    let registry = new MetricsRegistry()
+    let registry = new MetricsRegistry();
     registry.register(MetricName.build('test.hello.count'), counter);
     registry.register(MetricName.build('test.hello.qps'), gauge);
 

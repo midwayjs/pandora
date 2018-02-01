@@ -8,7 +8,7 @@ class MyErrorIndicator extends ErrorIndicator {
   report(data) {
     lastData = data;
     super.report(data);
-  };
+  }
 }
 
 describe('/test/unit/indicator/ErrorIndicator.test.ts', () => {
