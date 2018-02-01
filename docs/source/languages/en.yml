@@ -22,7 +22,7 @@ guide_toc:
   logs: "Logger"
   global_config: "Global Config"
   quick_monitor: "Monitoring Quick Start"
-  monitor_inner: "Default Indicators"
+  monitor_inner: "Base Monitoring"
   process: "Advanced Processes Model"
   fork_and_cluster: "Fork And Cluster"
   process_std: "Custom Process"
