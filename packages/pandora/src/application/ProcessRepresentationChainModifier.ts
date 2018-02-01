@@ -53,7 +53,7 @@ export class ProcessRepresentationChainModifier {
   }
 
   args(): any[];
-  args(args: any[]): ProcessRepresentationChainModifier
+  args(args: any[]): ProcessRepresentationChainModifier;
   args(args?): any {
     if(!args) {
       return this.representation.args;
@@ -63,7 +63,7 @@ export class ProcessRepresentationChainModifier {
   }
 
   nodeArgs(): any[];
-  nodeArgs(nodeArgs: any[]): ProcessRepresentationChainModifier
+  nodeArgs(nodeArgs: any[]): ProcessRepresentationChainModifier;
   nodeArgs(nodeArgs?): any {
     if(!nodeArgs) {
       return this.representation.execArgv;

@@ -43,7 +43,7 @@ export function isDaemonRunning(): Promise<boolean> {
       resolve(false);
     });
   });
-};
+}
 
 /**
  * Ensure the daemon is running

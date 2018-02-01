@@ -18,7 +18,7 @@ export class ServiceCore {
   constructor(options: ServiceOptions, ImplClass) {
     this.options = options;
     this.ImplClass = ImplClass;
-  };
+  }
 
   _logger: ServiceLogger;
   get logger() {

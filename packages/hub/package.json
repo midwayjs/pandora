@@ -25,6 +25,7 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.99",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
     "chai": "^4.1.2",

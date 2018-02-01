@@ -26,7 +26,7 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
     super();
     this.options = options;
     this.namespace = options.ns;
-    this.setAttr('traceId', options.traceId);
+    this.traceId = options.traceId;
   }
 
   protected _startSpan(name: string, fields) {
@@ -65,6 +65,14 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
 
   get name() {
     return this.getAttrValue('name') || '';
+  }
+
+  get traceId() {
+    return this.getAttrValue('traceId') || '';
+  }
+
+  set traceId(traceId) {
+    this.setAttr('traceId', traceId);
   }
 
   getAttr(key): TracerReport {

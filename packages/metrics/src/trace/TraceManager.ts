@@ -1,4 +1,3 @@
-'use strict';
 const cls = require('./cls');
 const TRACEID = 'traceId';
 const uuid = require('uuid');
@@ -12,7 +11,6 @@ export class TraceManager {
 
   traceContainer = {};
   ns = cls.createNamespace('pandora_tracer');
-  finished = {};
   private static instance;
   sender = new MessageSender();
 

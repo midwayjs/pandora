@@ -83,5 +83,5 @@ export function yyyymmdd (date, sp) {
     (mm > 9 ? '' : '0') + mm,
     (dd > 9 ? '' : '0') + dd
   ].join(sp || '');
-};
+}
 

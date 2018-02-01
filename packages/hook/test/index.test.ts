@@ -1,10 +1,9 @@
-'use strict';
 const path = require('path');
 const childProcess = require('child_process');
-import { FakeServer } from './fixtures/fake-mysql-server/FakeServer';
+import { FakeMySQLServer } from './helpers/fake-mysql-server/FakeMySQLServer';
 import { createServer } from 'mysql2';
+import { FakeRedisServer } from './helpers/fake-redis-server/FakeRedisServer';
 const ClientFlags = require('mysql2/lib/constants/client.js');
-
 
 const fork = function(name, done) {
   const filePath = require.resolve(path.join(__dirname, `fixtures/${name}`));
@@ -79,7 +78,7 @@ describe('unit test', () => {
     let fakeServer;
 
     before((done) => {
-      fakeServer = new FakeServer();
+      fakeServer = new FakeMySQLServer();
       fakeServer.listen(fakeServerPort, done);
     });
 
@@ -155,6 +154,66 @@ describe('unit test', () => {
 
     after(function() {
       server.close();
+    });
+  });
+
+  describe('redis', () => {
+    let server1, server2;
+
+    const slotTable = [
+      [0, 1, ['127.0.0.1', 30001]],
+      [2, 5460, ['127.0.0.1', 30002]]
+    ];
+
+    before(() => {
+      let valueSet;
+
+      server1 = new FakeRedisServer(30001, function(argv) {
+        if (argv[0] === 'get') {
+          return valueSet;
+        }
+
+        if (argv[0] === 'set') {
+          valueSet = argv[2];
+          return;
+        }
+
+        if (argv[0] === 'cluster' && argv[1] === 'slots') {
+          return slotTable;
+        }
+      });
+
+      server2 = new FakeRedisServer(30002, function(argv) {
+        if (argv[0] === 'get') {
+          return valueSet;
+        }
+
+        if (argv[0] === 'set') {
+          valueSet = argv[2];
+          return;
+        }
+
+        if (argv[0] === 'cluster' && argv[1] === 'slots') {
+          return slotTable;
+        }
+      });
+    });
+
+    it('should redis promise work ok', done => {
+      fork('redis-promise', done);
+    });
+
+    it('should redis callback work ok', done => {
+      fork('redis-callback', done);
+    });
+
+    it('should redis cluster work ok', done => {
+      fork('redis-cluster', done);
+    });
+
+    after(function() {
+      server1.disconnect();
+      server2.disconnect();
     });
   });
 });

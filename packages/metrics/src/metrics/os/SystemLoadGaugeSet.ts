@@ -36,7 +36,7 @@ export class SystemLoadGaugeSet extends CachedMetricSet {
       this.loadAvg[LoadAvg.FIVE_MIN] = 0;
       this.loadAvg[LoadAvg.FIFTEEN_MIN] = 0;
     }
-  };
+  }
 
   async getLoadAvgDarwin() {
     let output;
@@ -51,7 +51,7 @@ export class SystemLoadGaugeSet extends CachedMetricSet {
     this.loadAvg[LoadAvg.ONE_MIN] = loadAvg[0];
     this.loadAvg[LoadAvg.FIVE_MIN] = loadAvg[1];
     this.loadAvg[LoadAvg.FIFTEEN_MIN] = loadAvg[2];
-  };
+  }
 
   constructor(dataTTL = 5, filePath = SystemLoadGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
