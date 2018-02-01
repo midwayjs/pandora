@@ -15,10 +15,10 @@ mkdirp.sync(tmpDir);
 class OwnLoggerRotator extends LoggerRotator {
   countStrategies(): number {
     return this.strategyMap.size;
-  };
+  }
   testRenameLogfile(filename) {
     return this.renameLogfile(filename);
-  };
+  }
   testRotateLogByDate() {
     return this.rotateLogByDate();
   }
@@ -36,7 +36,7 @@ class OwnLoggerRotator extends LoggerRotator {
   }
   public getFilteredStrategiesList() {
     return super.getFilteredStrategiesList();
-  };
+  }
   public getStrategiesRotateByDate() {
     return super.getStrategiesRotateByDate();
   }

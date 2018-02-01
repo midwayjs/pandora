@@ -63,7 +63,7 @@ export default class Client extends MessengerBase {
       this._packetId = 1;
     }
     return this._packetId;
-  };
+  }
 
   /**
    * 读取 packet 的头部

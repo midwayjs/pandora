@@ -56,16 +56,16 @@ export abstract class Reservoir implements IReservoir {
 
   update(value: number) {
     this.values.push(value);
-  };
+  }
 
   clear() {
     this.values = [];
     this.count = 0;
-  };
+  }
 
   size() {
     return this.values.length;
-  };
+  }
 
   print() {
     console.log(this.values);

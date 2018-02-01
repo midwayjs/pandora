@@ -10,7 +10,7 @@ describe('test/index.test.js', () => {
         reConnectTimes: 0,
     };
 
-    before(function(done){
+    before(function(done) {
         server = messenger.getServer(options);
         server.ready(() => {
             client = messenger.getClient(options);
