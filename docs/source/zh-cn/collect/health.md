@@ -1,4 +1,4 @@
-# 监控检查
+# 健康检查
 
 Pandora.js 提供了 `HealthEndPoint` 来做健康检查的能力，通过 `/health` 的路由即可访问。
 
