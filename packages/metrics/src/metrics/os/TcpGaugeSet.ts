@@ -1,12 +1,11 @@
-import {CachedMetricSet} from '../../client/CachedMetricSet';
-import {MetricName} from '../../common/MetricName';
-import {Gauge} from '../../client/MetricsProxy';
+import { CachedMetricSet } from '../../client/CachedMetricSet';
+import { MetricName } from '../../common/MetricName';
+import { Gauge } from '../../client/MetricsProxy';
+import { Mutex } from '../../util/Mutex';
 
 import * as Debug from 'debug';
-import * as EventEmitter from 'events';
 
 const debug = Debug('metrics:tcp');
-const eventName = 'Metric:TCPGauge:FetchFinished';
 
 const fs = require('fs');
 
@@ -50,14 +49,11 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
   retryRate = 0;
 
-  fetching = false;
-
-  emitter = new EventEmitter();
+  mutex = new Mutex();
 
   constructor(dataTTL = 5, filePath = NetworkTrafficGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
-    this.emitter.setMaxListeners(11);
   }
 
   getMetrics() {
@@ -92,67 +88,57 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
     let current = Date.now();
 
     if (!this.lastCollectTime || current - this.lastCollectTime > this.dataTTL * 1000) {
-      if (!this.fetching) {
-        this.fetching = true;
-        await this.getValueInternal(true);
-        this.fetching = false;
-      } else {
-        await this.getValueInternal(false);
-        this.fetching = false;
+      if (this.mutex.tryLock(3000)) {
+        await this.getValueInternal();
+        this.mutex.unlock();
       }
+
+      await new Promise((resolve) => {
+        this.mutex.wait(resolve);
+      });
 
       // update the last collect time stamp
       this.lastCollectTime = current;
     }
   }
 
-  getValueInternal(wait) {
+  getValueInternal() {
+    let snmp;
 
-    return new Promise((resolve) => {
-      this.emitter.once(eventName, () => {
-        resolve();
-      });
+    try {
+      snmp = fs.readFileSync(this.filePath).toString().split('\n');
+    } catch (e) {
+      debug(e);
+      return;
+    }
 
-      if (wait) {
-        let snmp;
+    let columns;
+    let index = 5;
 
-        try {
-          snmp = fs.readFileSync(this.filePath).toString().split('\n');
-        } catch (e) {
-          debug(e);
-          this.emitter.emit(eventName);
-        }
-
-        let columns;
-        let index = 5;
-
-        for (let line of snmp) {
-          if (!(~line.indexOf('Tcp:'))) {
-            continue;
-          }
-          columns = line.split(/\s/g);
-
-          if (isNaN(parseInt(columns[1]))) {
-            continue;
-          }
-          break;
-        }
-
-        for (let key of NetworkTraffic) {
-          let value = columns[index++];
-          this.networkTraffic[key] = parseInt(value);
-        }
-
-        if (!this.lastNetworkTraffic) {
-          this.lastNetworkTraffic = Object.assign({}, this.networkTraffic);
-        }
-
-        this.retryRate = (this.networkTraffic['TCP_RETRAN_SEGS'] - this.lastNetworkTraffic['TCP_RETRAN_SEGS']) / (this.networkTraffic['TCP_OUT_SEGS'] - this.lastNetworkTraffic['TCP_OUT_SEGS']);
-        this.lastRetranSegs = this.networkTraffic['TCP_RETRAN_SEGS'];
-
-        this.lastNetworkTraffic = Object.assign({}, this.networkTraffic);
-        this.emitter.emit(eventName);
+    for (let line of snmp) {
+      if (!(~line.indexOf('Tcp:'))) {
+        continue;
       }
-    });
+      columns = line.split(/\s/g);
+
+      if (isNaN(parseInt(columns[1]))) {
+        continue;
+      }
+      break;
+    }
+
+    for (let key of NetworkTraffic) {
+      let value = columns[index++];
+      this.networkTraffic[key] = parseInt(value);
+    }
+
+    if (!this.lastNetworkTraffic) {
+      this.lastNetworkTraffic = Object.assign({}, this.networkTraffic);
+    }
+
+    this.retryRate = (this.networkTraffic['TCP_RETRAN_SEGS'] - this.lastNetworkTraffic['TCP_RETRAN_SEGS']) / (this.networkTraffic['TCP_OUT_SEGS'] - this.lastNetworkTraffic['TCP_OUT_SEGS']);
+    this.lastRetranSegs = this.networkTraffic['TCP_RETRAN_SEGS'];
+
+    this.lastNetworkTraffic = Object.assign({}, this.networkTraffic);
   }
 }
