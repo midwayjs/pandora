@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -31,7 +31,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^11.2.1",
-    "pandora-hub": "^1.6.22",
+    "pandora-hub": "^1.7.7",
     "sinon": "^4.1.2",
     "supertest": "^3.0.0",
     "yargs": "^6.6.0"
@@ -48,9 +48,9 @@
     "module-hook": "^2.1.0",
     "node-df": "^0.1.1",
     "opentracing": "^0.14.1",
-    "pandora-env": "^1.6.3",
-    "pandora-messenger": "^1.6.9",
-    "pandora-service-logger": "^1.6.22",
+    "pandora-env": "^1.7.7",
+    "pandora-messenger": "^1.7.7",
+    "pandora-service-logger": "^1.7.7",
     "pidusage": "^1.1.6",
     "xorshift": "^1.1.1"
   },

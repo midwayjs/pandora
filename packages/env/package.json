@@ -1,6 +1,6 @@
 {
   "name": "pandora-env",
-  "version": "1.6.3",
+  "version": "1.7.7",
   "description": "Common environment abstract",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
