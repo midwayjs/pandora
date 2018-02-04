@@ -3,7 +3,7 @@ title: Inter-Process Communication Hub
 
 Pandora.js features in inter-process proxy which provides great convienence for inter-process access and communication.
 
-## 
+## Directly publish objects and get object proxies
 
 Example:
 
