@@ -3,7 +3,7 @@ title: What is the Pandora.js ?
 
 ## Background
 
-The Pandora.js project is the first time of Alibaba Midway team to open source. and it also is a perfect summary of the Node.js operation and maintenance, management and monitoring of the production environment of Alibaba in these years since 2014.
+The Pandora.js project is the first time of Alibaba Midway team to open source. and it also is a perfect summary of the Node.js operation, management and monitoring of the production environment of Alibaba in these years since 2014.
 
 
 The main concepts of the Pandora.js has three points, Manageable, Measurable and Traceable:
