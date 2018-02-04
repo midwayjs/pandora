@@ -35,7 +35,7 @@ guide_toc:
   monitor_std: "Overview of Monitoring"
   endpoint: "EndPoint usage and extension"
   resource: "Expose RESTFul API"
-  metrics_std: "Use and Extend Metrics"
+  metrics_std: "Metrics usage and extension"
   trace_std: "Trace Monitoring"
   report: "Monitoring Data Report"
   #Data Report
