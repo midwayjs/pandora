@@ -36,7 +36,7 @@ guide_toc:
   endpoint: "EndPoint usage and extension"
   resource: "Expose RESTFul API"
   metrics_std: "Metrics usage and extension"
-  trace_std: "Trace Monitoring"
+  trace_std: "Trace business logic link"
   report: "Monitoring Data Report"
   #Data Report
   collect: "Monitoring Data Collection"
