@@ -40,7 +40,7 @@
     <div class="page-main">
   <article class="markdown-body">
     <h1></h1>
-    <h1 id="监控检查"><a class="markdown-anchor" href="#监控检查">#</a> 监控检查</h1>
+    <h1 id="健康检查"><a class="markdown-anchor" href="#健康检查">#</a> 健康检查</h1>
 <p>Pandora.js 提供了 <code>HealthEndPoint</code> 来做健康检查的能力，通过 <code>/health</code> 的路由即可访问。</p>
 <p>默认我们提供了一些基础的检查，比如磁盘检查，端口检查等，如果需要修改其中的配置，可以在全局配置中进行覆盖调整。</p>
 <p><code>HealthEndPoint</code> 有相应的客户端来负责采集数据， 我们提供了 <code>HealthIndicator</code> 这个基础抽象类，用户只要实现它就能把健康检查给统一起来。</p>

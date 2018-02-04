@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Start A TypeScript Project - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,12 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
-<ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
-</ul>
+    <h1>Start A TypeScript Project</h1>
+    <p>In this chapter, web will introduce how development a TypeScript project within the Pandora.js.</p>
+<p><code>procfile.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">pandora</span>) =&gt;</span> &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(pandora.dev) &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// if started by pandora dev</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// put -r ts-node/register into the worker's definition</span></span><br><span class="line">    pandora.process(<span class="string">'worker'</span>).nodeArgs([<span class="string">'-r'</span>, <span class="string">'ts-node/register'</span>, <span class="string">'--trace-warnings'</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// start from the source code</span></span><br><span class="line">    pandora.service(<span class="string">'dashboard'</span>, <span class="string">'./src/Dashboard'</span>).process(<span class="string">'worker'</span>);</span><br><span class="line">    </span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// if started by pandora start, such as the production environment</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// start from the built code</span></span><br><span class="line">    pandora.service(<span class="string">'dashboard'</span>, <span class="string">'./dist/Dashboard'</span>).process(<span class="string">'worker'</span>);</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>In local development, use <code>pandora dev</code>, start it from the source code.  In production environment, use <code>pandora start</code>, start it from the built code.</p>
+<p>Pandora. js has been installed by default with support for sourceMap, and it's error stack is clearly visible.</p>
 
   </article>
   <aside id="mobileAside" class="toc">

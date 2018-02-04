@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Monitor Data Report - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,27 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
+    <h1>Monitor Data Report</h1>
+    <h2 id="default-reporter"><a class="markdown-anchor" href="#default-reporter">#</a> Default Reporter</h2>
+<p>There ara two default reporter for monitor data. They are ConsoleReporter and FileMetricsManagerReporter.</p>
+<h2 id="extend-report"><a class="markdown-anchor" href="#extend-report">#</a> Extend Report</h2>
+<p>The base interface for monitor data report is <code>Reporter</code>, with <code>start()</code> and <code>stop()</code> method.</p>
+<p>All reporter implemented <code>Reporter</code>. You can implement these class as below.</p>
+<p><img src="https://img.alicdn.com/tfs/TB1sRFxigvD8KJjy0FlXXagBFXa-478-235.png" alt=""></p>
 <ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
+<li>Reporter  Base interface</li>
+<li>ScheduledMetricsReporter  Scheduled reporter for Metrics</li>
+<li>ConsoleReporter  Console reporter for Metrics</li>
+<li>FileMetricsManagerReporter  File reporter for Metrics</li>
+<li>CustomReporter  Custom reporter</li>
+<li>TraceReporter  Reporter for trace</li>
 </ul>
+<h2 id="custom-report"><a class="markdown-anchor" href="#custom-report">#</a> Custom Report</h2>
+<p>Here is definition for <code>CustomReporter</code>. You should implement the <code>report</code> method to report your custom data.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyReporter</span> <span class="keyword">extends</span> <span class="title">CustomReporter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  metricsManager;</span><br><span class="line">  endPointService;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> report() &#123;</span><br><span class="line">  	<span class="comment">// TODO execute report method where interval</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The <code>CustomReporter</code> class has two property, <code>metricManager</code> and <code>endPointService</code>. They contain almost every Pandora.js monitor ability.</p>
+<p>The <code>metricsManager</code> interface is <a href="http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metricsmanager.html" target="_blank" rel="noopener">Here</a></p>
+<p>The <code>endPointService</code> has <code>getEndPoint()</code> method, you can get your need with different EndPoint.</p>
 
   </article>
   <aside id="mobileAside" class="toc">

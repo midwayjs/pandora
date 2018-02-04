@@ -48,7 +48,7 @@
 <p>数据的采集是通过 <code>EndPoint</code> 和 <code>Indicator</code> 来完成的。</p>
 <h3 id="endpoint-采集机制"><a class="markdown-anchor" href="#endpoint-采集机制">#</a> EndPoint 采集机制</h3>
 <p><code>EndPoint</code> 可以看做服务端，用来接收客户端返回的数据。</p>
-<p>而客户单，我们叫做 <code>indicator</code>，用来真正执行逻辑，将数据上报给服务端。</p>
+<p>而客户端，我们叫做 <code>indicator</code>，用来真正执行逻辑，将数据上报给服务端。</p>
 <p>而服务端和客户端通过 IPC 进行通信，这样对应的模型就变成了以下的样子。</p>
 <p><img src="https://img.alicdn.com/tfs/TB1iGClih6I8KJjy0FgXXXXzVXa-462-199.png" alt="img"></p>
 <p>我们有一些比较常用的 EndPoint ，比如健康检查，运行时数据访问等，只要是希望通过客户端披露的，都可以通过 EndPoint 机制来完成。</p>
@@ -72,7 +72,7 @@
 <p>这是另一种对外暴露数据的方式，我们往往采集了数据还不够，还需要进行数据存储，分析，再加工，而 Pandora 不做这些事情，而需要外部的 APM 平台来做，比如 oneApm 或者 open-falcon 等，这个时候 Reporter 就有用了。</p>
 <p>Reporter 定义了一系列数据输出方式，默认的有一些：</p>
 <ul>
-<li>ConsoleReporter 通过命令行输出 MetricsEndPint 的内容</li>
+<li>ConsoleReporter 通过命令行输出 MetricsEndPoint 的内容</li>
 <li>FileMetricsManagerReporter 通过 metrics.log 文本来输出 MetricsEndPint 的内容</li>
 </ul>
 <blockquote>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Application Environment - Ready to Boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/pandora/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/pandora/en" class="nav-logo leftpadding" alt="Pandora.js"><img src="/pandora/images/nav-logo.png" > Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li>
+      <li class="translations">
+        <a class="nav-link">English</a>
+        <span class="arrow" style="border-top-color:#fff" ></span>
+        <ul class="dropdown-content" >
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/zh-cn">中文</a></li>
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/en">English</a></li>
+        </ul>
+      </li>
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>Application Environment</h1>
+    <p>It is a common practice that applications read some environment variables to decide some of their behaviors, e.g. running in prodction mode or development mode. Environment object is used to store environment related information.</p>
+<h2 id="obtain-the-environment-object"><a class="markdown-anchor" href="#obtain-the-environment-object">#</a> Obtain the environment object</h2>
+<p>The environment object can be obtained via <code>require('dorapan').environment</code>.</p>
+<h2 id="define-environment"><a class="markdown-anchor" href="#define-environment">#</a> Define environment</h2>
+<ol>
+<li>Environment can be defined in global configuration.</li>
+<li>It can be defined via <code>procfile.js</code> as well. Here is an example:</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">pandora</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// If no parameter given, current environment object is returned</span></span><br><span class="line">  pandora.environment(UrEnvironmentClass);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="frequently-used-interfaces"><a class="markdown-anchor" href="#frequently-used-interfaces">#</a> Frequently Used Interfaces</h2>
+<p>The behaviors of environment object are described by its Interface <a href="http://www.midwayjs.org/pandora/api-reference/env/interfaces/environment.html" target="_blank" rel="noopener">Environment</a> 。</p>
+<p>They are listed as below:</p>
+<p><strong>get(name: string): any</strong></p>
+<blockquote>
+<p>Retrive the value of an environment variable via its name
+There are some reserved variable names:</p>
+<ol>
+<li>env -&gt; environment identifier，e.g. production/development.</li>
+<li>appName -&gt; name of current application</li>
+<li>appDir -&gt; root directory of current application</li>
+<li>pandoraLogsDir -&gt; directory for storing Pandora log files, it is set to <code>~/logs</code> as default.</li>
+</ol>
+</blockquote>
+<p><strong>match(name: string): boolean</strong></p>
+<blockquote>
+<p>Judge whether current environment matches the given environment identiifier.</p>
+</blockquote>
+<h2 id="extends-baseenvironment"><a class="markdown-anchor" href="#extends-baseenvironment">#</a> Extends BaseEnvironment</h2>
+<p>Rather than implements the <code>Environment</code> interface by yourself, we suggest you extends the <code>BaseEnvironment</code> class, which includes some out-of-factory implementations already.</p>
+<p>You can obtain the class via <code>import {BaseEnvironment} from 'pandora'</code>.</p>
+<p>ref: <a href="http://www.midwayjs.org/pandora/api-reference/env/classes/baseenvironment.html" target="_blank" rel="noopener">BaseEnvironment</a></p>
+<p>It adds a <code>set()</code> method and a <code>constructor</code> to the original interface.</p>
+<p>Here is an example:</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;BaseEnvironment&#125; <span class="keyword">from</span> <span class="string">'pandora'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> ForceTestEnvironment <span class="keyword">extends</span> BaseEnvironment &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">variables?: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">    variables = variables || &#123;&#125;;</span><br><span class="line">    <span class="keyword">if</span>(!variables.env) &#123;</span><br><span class="line">      variables.env = <span class="string">'test'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>(variables);</span><br><span class="line">  &#125;</span><br><span class="line">  match(name: <span class="built_in">string</span>): <span class="built_in">boolean</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.get(<span class="string">'env'</span>) === name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="defaultenvironment"><a class="markdown-anchor" href="#defaultenvironment">#</a> DefaultEnvironment</h2>
+<p>If there is no user defined Environment object given, Pandora uses <a href="http://www.midwayjs.org/pandora/api-reference/env/classes/defaultenvironment.html" target="_blank" rel="noopener">DefaultEnvironment</a> as default.</p>
+<p>It uses <code>process.env.NODE_ENV</code> to define current environment. Here is the implementation:</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> (process.env.NODE_ENV) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'production'</span>:</span><br><span class="line">    variables.env = <span class="string">'production'</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'prepub'</span>:</span><br><span class="line">    variables.env = <span class="string">'prepub'</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'test'</span>:</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'unittest'</span>:</span><br><span class="line">    variables.env = <span class="string">'test'</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    variables.env = <span class="string">'development'</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
+  </div>
+  <dl><dt><a href="/pandora/en/introduce.html">What is the Pandora.js</a></dt></ul></dd><dt><a href="/pandora/en/quickstart.html">Quick Start</a></dt></ul></dd><dt><a href="/pandora/en/glossary.html">Glossary</a></dt></ul></dd><dt>Basic Features</dt><dd><ul><li><a href="/pandora/en/base/command.html">Commands</a></li><li><a href="/pandora/en/base/procfile_mode.html">Understand procfile.js</a></li><li><a href="/pandora/en/base/dorapan.html">User SDK - Dorapan</a></li><li><a href="/pandora/en/base/logs.html">Logger</a></li><li><a href="/pandora/en/base/global_config.html">Global Config</a></li><li><a href="/pandora/en/base/quick_monitor.html">Monitoring Quick Start</a></li><li><a href="/pandora/en/base/debug.html">Debugging</a></li></ul></dd><dt>Advanced Processes Model</dt><dd><ul><li><a href="/pandora/en/process/process_std.html">Custom Process</a></li><li><a href="/pandora/en/process/service_std.html">Custom Service</a></li><li><a href="/pandora/en/process/fork_and_cluster.html">Fork And Cluster</a></li><li><a href="/pandora/en/process/environment_std.html">Custom Environment</a></li><li><a href="/pandora/en/process/application_life_cycle.html">Application Life Cycle</a></li><li><a href="/pandora/en/process/ipc_hub.html">IPC-Hub</a></li></ul></dd><dt>Application Monitoring</dt><dd><ul><li><a href="/pandora/en/monitor/monitor_std.html">Overview of Monitoring</a></li><li><a href="/pandora/en/monitor/endpoint.html">EndPoint usage and extension</a></li><li><a href="/pandora/en/monitor/resource.html">Expose RESTFul API</a></li><li><a href="/pandora/en/monitor/metrics.html">Metrics usage and extension</a></li><li><a href="/pandora/en/monitor/trace.html">Trace Monitoring</a></li><li><a href="/pandora/en/monitor/monitor_inner.html">Base Monitoring</a></li><li><a href="/pandora/en/monitor/report.html">Monitoring Data Report</a></li></ul></dd><dt>Monitoring Data Collection</dt><dd><ul><li><a href="/pandora/en/collect/health.html">Health Check</a></li></ul></dd><dt>Extension</dt><dd><ul><li><a href="/pandora/en/other/dashboard.html">GUI Dashboard</a></li><li><a href="/pandora/en/other/typescript.html">Start A TypeScript Project</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

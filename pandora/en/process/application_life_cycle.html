@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Application Life Cycle - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,35 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
+    <h1>Application Life Cycle</h1>
+    <p>As an application manager, Pandora.js can manage application's life cycle at 5 stages:</p>
 <ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
+<li>Representation Stage</li>
+<li>Initialization Stage</li>
+<li>Injection Stage</li>
+<li>Launch Stage</li>
+<li>Shutdown Stage</li>
 </ul>
+<h2 id="representation-stage-procfilejs"><a class="markdown-anchor" href="#representation-stage-procfilejs">#</a> Representation Stage - procfile.js</h2>
+<p>Use <code>procfile.js</code> to define the application.</p>
+<h2 id="initialization-stage"><a class="markdown-anchor" href="#initialization-stage">#</a> Initialization Stage</h2>
+<p>Pandora.js can deploy multiple applications at the same time. By feeding the application root directory, Pandora.js would do some initialization works for the application, such as collecting meta information, initializing resource loader and context, etc.</p>
+<h2 id="injection-stage"><a class="markdown-anchor" href="#injection-stage">#</a> Injection Stage</h2>
+<p>There are several ways to do the injection:</p>
+<ol>
+<li>Using global variable <code>PANDORA_CONFIG</code></li>
+<li>Using the description file <code>procfile</code></li>
+</ol>
+<p>Entities can be injected are listed as below:</p>
+<ol>
+<li>Process：inject process definition.</li>
+<li>Service：pandora.js managed services, whose lifecycle are managed by application manager.</li>
+<li>Environment：environment object.</li>
+</ol>
+<h2 id="launch-stage"><a class="markdown-anchor" href="#launch-stage">#</a> Launch Stage</h2>
+<p>Create application context and start applications, invoke the <code>start()</code> method of services, such as HTTP service, etc.</p>
+<h2 id="shutdown-stage"><a class="markdown-anchor" href="#shutdown-stage">#</a> Shutdown Stage</h2>
+<p>Shut down the application as well as services via invoking <code>stop()</code> method. Daemon will wait at most 5 seconds for applications to exit gracefully.</p>
 
   </article>
   <aside id="mobileAside" class="toc">

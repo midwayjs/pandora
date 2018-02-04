@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Fork and Cluster - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,9 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
-<ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
-</ul>
+    <h1>Fork and Cluster</h1>
+    <p>Pandora.js provides 2 modes for launching applications, fork mode and cluster mode. They work for different scenarios.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">pandora</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Fork mode</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// fork ./app.js and name it as 'forkProcess'</span></span><br><span class="line">  pandora</span><br><span class="line">    .fork(<span class="string">'forkProcess'</span>, <span class="string">'./app.js'</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// behave the same as</span></span><br><span class="line">  pandora</span><br><span class="line">    <span class="comment">// launch a new process</span></span><br><span class="line">    .process(<span class="string">'forkProcess'</span>)</span><br><span class="line">    <span class="comment">// specify './app.js' as the entry file </span></span><br><span class="line">    .entry(<span class="string">'./app.js'</span>);</span><br><span class="line">    </span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Cluster mode</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  </span><br><span class="line">  pandora</span><br><span class="line">    .cluster(<span class="string">'./app.js'</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// behave the same as</span></span><br><span class="line">  pandora</span><br><span class="line">    .service(<span class="string">'clusterX'</span>, <span class="class"><span class="keyword">class</span> <span class="title">ClusterService</span> </span>&#123;</span><br><span class="line">      start() &#123;</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">'./app.js'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 'worker' is the default process name.</span></span><br><span class="line">    .process(<span class="string">'worker'</span>);</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
   </article>
   <aside id="mobileAside" class="toc">

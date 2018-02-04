@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Monitor System Overview - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,48 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
+    <h1>Monitor System Overview</h1>
+    <p>Monitor is common for applications and especially essential for distributed systems. Metrics, the de facto standards for monitoring, has been pretty much everywhere beside micro-service area. Through metrics, system runtime, health, performance and etc data could be monitored, while analysis of historic dataset could also help us to disover system pitfalls as well as preventing instabilities.</p>
+<p>Pandora.js provides a simple monitor mechanism which enhances Metrics to enable users to collect custom data in applications, what's more, auxiliary mechanisms were designed to help eternal system collecting and computing these data sets.</p>
+<h2 id="data-collection"><a class="markdown-anchor" href="#data-collection">#</a> Data Collection</h2>
+<p>Pandora.js data collection is consist of several parts which could be divided to <code>client</code> and <code>server</code> for simplicity. Basically, one server is related to many clients, server accepts multiple clients' post data to summarize and store in memories.</p>
+<p>Data collection was implemented using 'EndPoint' and 'Indicator'.</p>
+<h3 id="endpoint-collection"><a class="markdown-anchor" href="#endpoint-collection">#</a> EndPoint Collection</h3>
+<p>Client side of data collection in Pandora.js is called <code>indicator</code>, it handles real logics and post data to server.</p>
+<p>Server and client communicate throught IPC, the model can be expressed as the following picture:</p>
+<p><img src="https://img.alicdn.com/tfs/TB1iGClih6I8KJjy0FgXXXXzVXa-462-199.png" alt="img"></p>
+<p>There are a few common EndPoint, such as health check, runtime data access and etc. Everything that is to be revealed by clients can be accomplished using EndPoint.</p>
+<h3 id="metrics"><a class="markdown-anchor" href="#metrics">#</a> Metrics</h3>
+<p>Standarad metrics consist of the following standard types:</p>
 <ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
+<li>
+<p>Gauge</p>
+</li>
+<li>
+<p>Counter</p>
+</li>
+<li>
+<p>Meter</p>
+</li>
+<li>
+<p>Histogram</p>
+<p>Pandora.js supports all of the above metrics, among which Gauge and Counter are more common.</p>
+</li>
 </ul>
+<p>Basic classes and implemented classes are offered for your choice.</p>
+<h3 id="resource"><a class="markdown-anchor" href="#resource">#</a> Resource</h3>
+<p>During runtime of application, EndPoint could collect clients' data, but how to give users access to these metrics? Resource was designed to the rescue, it expose result of EndPoint through HTTP, by which users can explicitly access these results.</p>
+<h3 id="reporter"><a class="markdown-anchor" href="#reporter">#</a> Reporter</h3>
+<p>This is another way of exposing data. Besides data collection, data storage, data analysis and data manipulation or processing are needed, but these are none of Pandora.js' reponsibilities, external AMP could acomplish this task, such as onApm or one-falcon, and this is where Reporter was used.</p>
+<p>Reporter defined a series ways of data exporting, by default there are:</p>
+<ul>
+<li>ConsoleReporter: use console to output MetricsEndPoint content</li>
+<li>FileMetricsManagerReporter: use metrics.log file to output MetricsEndPoint content</li>
+</ul>
+<blockquote>
+<p>Note: most of the time APM only has to collect MetricsEndPoint as an EndPoint, if frameworks or users want to collect other EndPoint, HTTP API exposed by Resource or other customized Reporter methods could be used.</p>
+</blockquote>
+<p>Of cause custom Reporter is supported to post data to different targes, we also offer a few external APM Reporters, please refer to <a href="https://www.npmjs.com/search?q=pandora-reporter" target="_blank" rel="noopener">here</a> for more information.</p>
 
   </article>
   <aside id="mobileAside" class="toc">

@@ -73,7 +73,7 @@
 <h2 id="通过应用本身脚本启停"><a class="markdown-anchor" href="#通过应用本身脚本启停">#</a> 通过应用本身脚本启停</h2>
 <p>这种情况下， pandora 会进入应用的整个开发流程，一般情况下，我们会将 pandora 命令写到 scripts 段落中。</p>
 <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script"</span>: &#123;</span><br><span class="line">    <span class="attr">"dev"</span>: <span class="string">"pandora dev"</span>,</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"pandora start"</span>,</span><br><span class="line">    <span class="attr">"stop"</span>: <span class="string">"pandora stop"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个时候，你可以通过 ``scripts` 本身的机制来运行，比如</p>
+<p>这个时候，你可以通过 <code>scripts</code> 本身的机制来运行，比如</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run dev // 本地启动</span><br><span class="line">npm run start // 线上启动</span><br><span class="line">npm run stop // 线上停止</span><br></pre></td></tr></table></figure>
 <h2 id="全局模式下启停应用"><a class="markdown-anchor" href="#全局模式下启停应用">#</a> 全局模式下启停应用</h2>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pandora start [--name xxx] [path]</span><br></pre></td></tr></table></figure>

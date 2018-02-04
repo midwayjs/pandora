@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>GUI Dashboard ( Pandora-Dashboard ) - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,24 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
-<ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
-</ul>
+    <h1>GUI Dashboard ( Pandora-Dashboard )</h1>
+    <p>The pandora dashboard is a local dashboard (for single computer) , that is used to view and management the Pandora.js and the applications. The pandora dashboard also as a normal Pandora.js project, you can manage it like a normal Pandora.js project.</p>
+<p>The project at the GitHub:</p>
+<p><a href="https://github.com/midwayjs/pandora-dashboard" target="_blank" rel="noopener">https://github.com/midwayjs/pandora-dashboard</a></p>
+<h2 id="usage"><a class="markdown-anchor" href="#usage">#</a> Usage</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm i pandora-dashboard -g <span class="comment"># Install globally, that will install a global command  pandora-dashboard-dir</span></span><br><span class="line">$ pandora start --name dashboard `pandora-dashboard-dir` <span class="comment"># Use that command to get project dir, then use The pandora.js to start it .</span></span><br></pre></td></tr></table></figure>
+<p>Then, open <code>http://127.0.0.1:9081</code>, now we can see the dashboard.</p>
+<p><img src="https://img.alicdn.com/tfs/TB1pIfEeOqAXuNjy1XdXXaYcVXa-1906-1450.png" alt="dashboard"></p>
+<h2 id="custom-tcp-port-and-ip-address"><a class="markdown-anchor" href="#custom-tcp-port-and-ip-address">#</a> custom TCP port and IP address</h2>
+<p>By default, the dashboard listen on <code>http://127.0.0.1:9081</code>, you can also change it.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora start --name dashboard --env <span class="string">"DASHBORAD_PORT=9081 DASHBOARD_HOST=0.0.0.0"</span> --npm pandora-dashboard</span><br></pre></td></tr></table></figure>
+<h2 id="screenshots"><a class="markdown-anchor" href="#screenshots">#</a> Screenshots</h2>
+<p><img src="https://img.alicdn.com/tfs/TB1P44yh2DH8KJjy1XcXXcpdXXa-2536-1992.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB1ZmRBh_vI8KJjSspjXXcgjXXa-2528-1998.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB1k04KhY_I8KJjy1XaXXbsxpXa-2540-1996.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB1tcXih4rI8KJjy0FpXXb5hVXa-2534-2006.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB14pXfh8TH8KJjy0FiXXcRsXXa-2536-1998.png" alt="img"></p>
+<p><img src="https://img.alicdn.com/tfs/TB17t0ih4rI8KJjy0FpXXb5hVXa-2542-1996.png" alt="img"></p>
 
   </article>
   <aside id="mobileAside" class="toc">

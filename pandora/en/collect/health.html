@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Pandora.js - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,17 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
-<ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
-</ul>
+    <h1></h1>
+    <h1 id="health-check"><a class="markdown-anchor" href="#health-check">#</a> Health Check</h1>
+<p>Pandora.js provide <code>HealthEndPoint</code> for health check, with path <code>/health</code>.</p>
+<p>We provide basic checks by default, such as disk check, port check. If you need adjust them, please edit the global config.</p>
+<p>We provide a client to collect data for <code>HealthEndPoint</code>, and interface <code>HealthIndicator</code>. You only need to do is implement the interface.</p>
+<p>For example, if you need to check remote server, just implement the <code>doCheck</code> method.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'HealthIndicator, HealthBuilder'</span> <span class="keyword">from</span> <span class="string">'dorapan'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> cp <span class="keyword">from</span> <span class="string">'child_process'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">RemoteUrlHealthIndicator</span> <span class="keyword">extends</span> <span class="title">HealthIndicator</span> </span>&#123;</span><br><span class="line">  name = <span class="string">'remote_url'</span>;</span><br><span class="line"></span><br><span class="line">  doCheck(builder) &#123;</span><br><span class="line">    <span class="comment">// check remote</span></span><br><span class="line">    <span class="keyword">let</span> result = cp.execSync(<span class="string">`curl -s --connect-timeout 1 -o /dev/null -w "%&#123;http_code&#125;" http://google.com`</span>);</span><br><span class="line">    <span class="keyword">if</span> (result.toString() === <span class="string">'200'</span>) &#123;</span><br><span class="line">      builder.up();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      builder.down();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The method <code>doCheck</code> hava a parameter <code>builder</code> to help you return result. Use <code>builder.up()</code> for success and <code>builder.down()</code> for failure.</p>
+<p>Now, visit <code>http://127.1:8006/health</code> to get health check result named as <code>remote_url</code>.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  status: &apos;UP&apos;,</span><br><span class="line">  remote_url: &#123;</span><br><span class="line">    status: &apos;UP&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Result object is defined by class <code>HealthResource</code>. The result <code>status</code> is a summary，it result failure if any check fails('UP' for success, 'DOWN' for failure).</p>
 
   </article>
   <aside id="mobileAside" class="toc">

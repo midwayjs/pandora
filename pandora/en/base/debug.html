@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Debugging Application - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,44 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
-<ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
-</ul>
+    <h1>Debugging Application</h1>
+    <h2 id="start-application-on-local-command-lines"><a class="markdown-anchor" href="#start-application-on-local-command-lines">#</a> Start application on local command lines</h2>
+<p>If the installed Pandora.js is installed globally, use the following command(if there is a start parameter, as with the <code>start</code> command).</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev</span><br></pre></td></tr></table></figure>
+<p>If it was installed within the project：</p>
+<blockquote>
+<p>add(or update) field <code>script</code> in <code>package.json</code>. Making the following changes to <code>package.json</code>:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;script&quot;: &#123;</span><br><span class="line">      &quot;dev&quot;: &quot;pandora dev&quot;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Then run <code>npm run dev</code> to start the application locally.</p>
+</blockquote>
+<h2 id="inspector"><a class="markdown-anchor" href="#inspector">#</a> Inspector</h2>
+<p>Execute the following commands:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pandora dev --inspect</span><br></pre></td></tr></table></figure>
+<p>View command line output, similar to the following：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Debugger listening on ws://127.0.0.1:60587/a8217114-d61a-4789-8426-da350a88c1da</span><br><span class="line">For <span class="built_in">help</span> see https://nodejs.org/en/docs/inspector</span><br></pre></td></tr></table></figure>
+<p>Use the <code>node-Inspector</code>, <code>chrome devtools</code>, and other tools to connect to the related ports for debugging.
+In this example, you need to connect to <code>127.0.0.1:60587</code>.</p>
+<h2 id="idedebugging-in-webstormor-other-intellijs-ide"><a class="markdown-anchor" href="#idedebugging-in-webstormor-other-intellijs-ide">#</a> IDE：Debugging in WebStorm(or other IntelliJ's IDE)</h2>
+<p><strong>Configure according to the following image：</strong></p>
+<p><img src="https://img.alicdn.com/tfs/TB1EY5.khTI8KJjSspiXXbM4FXa-2352-1556.png" alt="img"></p>
+<p><strong>Key Point：</strong></p>
+<ol>
+<li><code>Working directory</code>：fill with the project root directory</li>
+<li><code>JavaScript file</code>：fill with Pandora.js bin file path</li>
+<li>If it's locally, that's <code>./node_modules/.bin/pandora</code></li>
+<li>If it's globally，you can find it by running <code>type pandora</code> in the command line.</li>
+<li><code>Application parameters</code>：fill with <code>dev</code></li>
+</ol>
+<p>The above configuration is equivalent to running the <code>pandora dev</code> with WebStorm.</p>
+<p><em>Attention：It depends on the WebStorm's feature - <a href="https://www.jetbrains.com/help/webstorm/running-and-debugging-node-js.html" target="_blank" rel="noopener">Node.js Multiprocess Debugging</a>,
+too low version of WebStorm may have problems, <a href="https://youtrack.jetbrains.com/issue/WEB-27312" target="_blank" rel="noopener">Related Issue</a>。</em></p>
+<h2 id="other-ide"><a class="markdown-anchor" href="#other-ide">#</a> Other IDE</h2>
+<p>If other IDE also supports the Node.js Multiprocess Debugging is also available, if not supported, let us know.</p>
+<p>For now, other IDE can use <code>pandora dev --inspect</code> start application,
+then debugging with connecting the port(such as the Node.js Remote Debug in WebStorm).</p>
+<p>In order to make other ide quickly debug, we are making a proxy for the Node.js debugging protocol.</p>
 
   </article>
   <aside id="mobileAside" class="toc">

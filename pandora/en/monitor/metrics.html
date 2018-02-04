@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Metrics usage and extension - Ready to Boot</title>
+  <meta charset="utf-8">
+  <meta name="description" content="index.description">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+<link rel="stylesheet" href="/pandora/css/index.css">
+
+</head>
+<body>
+  <div class="nav" >
+  <header>
+    <a href="/pandora/en" class="nav-logo leftpadding" alt="Pandora.js"><img src="/pandora/images/nav-logo.png" > Pandora.js</a>
+    <ul class="nav-item">
+      <li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li>
+      <li class="translations">
+        <a class="nav-link">English</a>
+        <span class="arrow" style="border-top-color:#fff" ></span>
+        <ul class="dropdown-content" >
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/zh-cn">中文</a></li>
+          <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/en">English</a></li>
+        </ul>
+      </li>
+      <li><iframe src="https://ghbtns.com/github-btn.html?user=midwayjs&repo=pandora&type=star&count=true" frameborder="0" scrolling="0" width="150px" height="20px"></iframe></li>
+    </ul>
+    <a id="mobileTrigger" href="#" class="mobile-trigger">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </a>
+  </header>
+</div>
+
+  <div id="container" class="container">
+    <div class="page-main">
+  <article class="markdown-body">
+    <h1>Metrics usage and extension</h1>
+    <p>The Metrics is a big part of the whole monitoring system, which is based on EndPoint system to transport data, and simplified it to use.</p>
+<p>the Metrics original design is refer to a indicator, that value has used to feedback the current status of the application. so the value of the Metrics all is a number.</p>
+<p>In the industry, the Metrics have few standard types:</p>
+<ul>
+<li>Gauge - Transient value</li>
+<li>Counter - Counter</li>
+<li>Meter - Meter</li>
+<li>histogram - Histogram</li>
+</ul>
+<p>the Pandora. js has currently made certain support for these measure devices, the most common of these measures are gauge and counter, which can be said, 80% of the scenarios are only these two.</p>
+<h2 id="quick-use"><a class="markdown-anchor" href="#quick-use">#</a> Quick use</h2>
+<p>We set up a <code>MetricsClient</code> client at the start of each process, but how the user gets it this object has become a problem. We designed a proxy class called  <code>MetricsClientUtil</code>, you can get this class anywhere, for example:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;MetricsClientUtil&#125; <span class="keyword">from</span> <span class="string">'dorapan'</span>;</span><br><span class="line"><span class="keyword">const</span> client = MetricsClientUtil.getMetricsClient();</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> counter = client.getCounter(<span class="string">'test'</span>, <span class="string">'test.qps.counter'</span>);</span><br><span class="line"><span class="keyword">let</span> histogram = client.getHistogram(<span class="string">'test'</span>, <span class="string">'test.qps.histogram'</span>);</span><br><span class="line"><span class="keyword">let</span> meter = client.getMeter(<span class="string">'test'</span>, <span class="string">'test.qps.meter'</span>);</span><br><span class="line"><span class="keyword">let</span> timer = client.getTimer(<span class="string">'test'</span>, <span class="string">'test.qps.timer'</span>);</span><br><span class="line"> </span><br><span class="line">counter.inc(<span class="number">1</span>);</span><br><span class="line">counter.dec(<span class="number">1</span>);</span><br><span class="line">histogram.update(<span class="number">5</span>);</span><br><span class="line">meter.mark(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<p>We can easily to embed a Metrics indicator in anywhere through get a corresponding metrics method. you can open <code>/metrics/:group</code> to see the result of that Metrics you just did. More route methods for reference <a href="/monitor/resource.html">Reource</a>.</p>
+<blockquote>
+<p>Notice: All metric instances, all must be registered to the MetricsClient in order to be collected.</p>
+</blockquote>
+<p>Because of the specific nature of the Gauge indicator, The Client cannot be created like <code>getGauge</code>. In this case, you can out the <code>register()</code> method. The definition show in below, and you can also <a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/metricsclient.html#register" target="_blank" rel="noopener">see the API</a>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">client.register(group: string, <span class="attr">name</span>: MetricName | string, Metric);</span><br></pre></td></tr></table></figure>
+<p>By the design, we can add a Gauge type indicator like below:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client.register(&apos;test&apos;, name, &#123;</span><br><span class="line">  getValue() &#123;</span><br><span class="line">  	return 100;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="the-name-of-the-indicator-metricname"><a class="markdown-anchor" href="#the-name-of-the-indicator-metricname">#</a> The name of the indicator - MetricName</h2>
+<p>Each indicator can have a name, this name in the Pandora.js it not a simple string, but a MetricName type object.</p>
+<p><a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/metricname.html" target="_blank" rel="noopener">The reference the MetricName type</a></p>
+<p>The most common are the key and the tags.</p>
+<p>The key is a normal string, joined by few strings with the separator dot(.),  and the tags is a K/V object.  the key and the tags identified a unique Metric.</p>
+<p>And another part is the MetricsLevel, Different MetricsLevel corresponds to different indicator cache times, the default time is as follows, and the unit is seconds.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">getCachedTimeForLevel(level: MetricLevel) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">switch</span> (level) &#123;</span><br><span class="line">    <span class="keyword">case</span> MetricLevel.TRIVIAL:</span><br><span class="line">      <span class="keyword">return</span> <span class="number">50</span>;</span><br><span class="line">    <span class="keyword">case</span> MetricLevel.MINOR:</span><br><span class="line">      <span class="keyword">return</span> <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">case</span> MetricLevel.NORMAL:</span><br><span class="line">      <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">case</span> MetricLevel.MAJOR:</span><br><span class="line">      <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">case</span> MetricLevel.CRITICAL:</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="number">50</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>That also means, if your MetricsLevel is <code>MetricLevel.MAJOR</code>, then the cache time is is seconds. If your acquisition interval is 1 second, then the value returned in both the acquisition windows is the same.</p>
+<h2 id="the-measure-types"><a class="markdown-anchor" href="#the-measure-types">#</a> The measure types</h2>
+<blockquote>
+<p>目前 Pandora.js 全部使用 typescript 来编写，有些代码必须带类型定义。</p>
+<p>所有的 Metric 类型都继承与 <a href="http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html" target="_blank" rel="noopener">Metric 接口</a></p>
+</blockquote>
+<h3 id="瞬态型度量指标"><a class="markdown-anchor" href="#瞬态型度量指标">#</a> 瞬态型度量指标</h3>
+<p>大部分的度量指标都从瞬态值 Gauge 介绍起，因为它最简单，最直观的表示数据的真实情况，也不涉及时间间隔的问题。</p>
+<p>Gauge 只包含一个 <code>getValue</code> 方法，只需要实现这个方法即可，比如，你想要知道当前进程的 cpu 使用情况，就可以一句话解决。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;BaseGauge&gt; &#123;</span><br><span class="line">  getValue() &#123;</span><br><span class="line">  	<span class="keyword">const</span> startUsage = process.cpuUsage();</span><br><span class="line">    <span class="keyword">return</span> startUsage.user;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，所有的 Metrics 最终输出的一定是数字形式，这样才可度量，如果你希望输出的是字符串类的信息，我们有另一套输出体系，这将在之后的文章介绍。</p>
+</blockquote>
+<h3 id="累加型度量指标"><a class="markdown-anchor" href="#累加型度量指标">#</a> 累加型度量指标</h3>
+<p>Counter 是第二个介绍的类型，计数器和 Gauge 不太一样，它是累加型，适用于记录调用总量等类型的数据，比如某个接口的调用次数。</p>
+<p>如下图是计数器的继承接口和实现类。</p>
+<p><img src="https://img.alicdn.com/tfs/TB1OkX3ldrJ8KJjSspaXXXuKpXa-780-732.png" alt=""></p>
+<p>除了基础的 <code>BaseCounter</code> 实现之外，我们提供了 <code>BucketCounter</code> 分桶计数器。</p>
+<p>分桶计数的原理是定义一个时间间隔，将一段时间按照时间间隔分割为几个桶，每个桶保存当前时间间隔的计数。</p>
+<p>比如时间间隔为 5s ，桶的总数为 10 个，那么 0~5s 为一个桶，5~10s 为下一个，以此类推。当计数的执行的时间为 2s 时，那么将在第一桶中累加，如果为 7s 时，那么将在第二个桶累加，非常容易理解。</p>
+<p>在实际场景中，因为内存限制，不宜保存过多，桶的量会有限制，采用环形队列存储同时避免数据的挪动。</p>
+<p>举个常用例子，记录 koa 服务的请求数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 实际使用需要从 MetricsClient 拿到 BucketCounter</span></span><br><span class="line"><span class="keyword">let</span> counter = <span class="keyword">new</span> BucketCounter();</span><br><span class="line"></span><br><span class="line">app.use(<span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 累加 1 counter.inc(1);</span></span><br><span class="line">  counter.inc();</span><br><span class="line">  <span class="keyword">await</span> next()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="分布度量指标"><a class="markdown-anchor" href="#分布度量指标">#</a> 分布度量指标</h3>
+<p>第三个介绍的是 Histogram，直方分布指标，Pandora.js 包含一个基础实现类 <code>BaseHistogram</code>， 通过它可以用于统计某个接口的响应时间，可以展示 50%, 70%, 90% 的请求响应时间落在哪个区间内，通过这些你可以计算出 <a href="https://en.wikipedia.org/wiki/Apdex" target="_blank" rel="noopener">Apdex</a>。</p>
+<blockquote>
+<p>这边的分布暂时只考虑单机分布，在集群维度上不能这样计算。</p>
+</blockquote>
+<p>对于分布计算，核心就是维护一个数据集 <a href="http://www.midwayjs.org/pandora/api-reference/metrics/enums/reservoirtype.html" target="_blank" rel="noopener">Reservoir</a> ，数据集用来提供数据存储以及获取当前快照的能力。这其中最重要的就是数据更新的策略，目前 Pandora.js 只实现了随机采样（UniformReservoir）和 指数衰减随机采样（ExponentiallyDecayingReservoir）的实现，由于随机采样并不能很好的表现权重问题，默认的是指数衰减随机采样，其他的采样算法没有实现，有兴趣的同学可以补充。</p>
+<p>举个常用例子，记录 koa 服务的成功比率，采用随机采样算法，间隔 1s，2个分桶，展示获取了平均数等信息。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 实际使用需要从 MetricsClient 拿到 BaseHistogram</span></span><br><span class="line"><span class="keyword">let</span> histogram = <span class="keyword">new</span> BaseHistogram(ReservoirType.UNIFORM, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">app.use(<span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">  histogram.update(<span class="number">10</span>);</span><br><span class="line">  histogram.update(<span class="number">20</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// other biz</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// let snapshot = histogram.getSnapshot();</span></span><br><span class="line"><span class="comment">// expect(snapshot.getMean()).to.equal(15);</span></span><br><span class="line"><span class="comment">// expect(snapshot.getMax()).to.equal(20);</span></span><br><span class="line"><span class="comment">// expect(snapshot.getMin()).to.equal(10);</span></span><br><span class="line"><span class="comment">// expect(snapshot.getMedian()).to.equal(15);</span></span><br></pre></td></tr></table></figure>
+<h3 id="变化速率度量指标"><a class="markdown-anchor" href="#变化速率度量指标">#</a> 变化速率度量指标</h3>
+<p>第四个介绍的是 Meter，是一种用于度量一段时间内吞吐率的计量器。例如，一分钟内，五分钟内，十五分钟内的qps指标。</p>
+<p>这里要指出，变化的速率，我们一般情况下会关心两个地方，一个是瞬时爆发，超出平常正常值非常高的这样的波动变化，另一个是一段时间内的趋势，从平均的角度来看整体度量的一种方式，这种方式会将高低点进行平均来看。</p>
+<p>前一种在  Metrics 中使用  Rate 的概念，只记录事件的累计总次数，有外部系统来通过前后两次采集，来计算瞬时速率，这里我们称之为<code>Rate</code>。</p>
+<p>在rate的计算中，我们认为数据的增长是<code>线性</code>的。其计算方式为：rate = (v2 - v1) / (t2 - t1)，其中时间的单位是 s。</p>
+<p>这样的好处是，通过调整采集频率，可以支持任意时间间隔的瞬时速率计算。但缺点是，当两次采样之间系统重启的时候，会计算出负数，同时会有一部分数据丢失。</p>
+<p>后一种通过指数移动加权平均(Exponential Weighted Moving Average, EWMA）来计算。</p>
+<p>针对速率型度量指标，我们提供了1分钟(m1)，5分钟(m5)，15分钟的EWMA(m15)，分别用于反映距离当前时间点1分钟，5分钟，15分钟的速率变化。</p>
+<p>其具体的计算方法，和 Linux 系统中 load1, load5, load15 的计算方法完全一致。即，每 5 秒钟统计一次瞬时速率，并应用于如下的递推公式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">EWMA(t) = EWMA(t-1) + alpha * (instantRate - EWMA(t-1))</span><br></pre></td></tr></table></figure>
+<p>其中 alpha取值范围为 0~1, 称为衰减系数，该系数越大，则距离当前的时间点越老的数据权重衰减的越快。</p>
+<p>举个常用例子，记录 koa 某个路由的调用比率。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 实际使用需要从 MetricsClient 拿到 BaseMeter</span></span><br><span class="line"><span class="keyword">let</span> meter = <span class="keyword">new</span> BaseMeter();</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/home'</span>, <span class="keyword">async</span> (ctx) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 接口调用埋点</span></span><br><span class="line">  meter.mark(<span class="number">1</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// meter.getMeanRate(); 总数除以时间</span></span><br><span class="line"><span class="comment">// meter.getOneMinuteRate(); // 一分钟的 EWMA</span></span><br></pre></td></tr></table></figure>
+<h2 id="聚合型度量指标"><a class="markdown-anchor" href="#聚合型度量指标">#</a> 聚合型度量指标</h2>
+<p>这里引进一种特殊的指标，他相当于是多个指标的聚合。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> abstract <span class="class"><span class="keyword">class</span> <span class="title">MetricSet</span> <span class="title">implements</span> <span class="title">Metric</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  type: string = MetricType.METRICSET;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * A map of metric names to metrics.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @return the metrics</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  abstract getMetrics(): <span class="built_in">Array</span>&lt;&#123;</span><br><span class="line">    name,</span><br><span class="line">    metric</span><br><span class="line">  &#125;&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MetricSet 包含了一个抽象的 <code>getMetrics()</code> 方法，用于返回最终的多个 Metrics，我们利用它实现了一个上层 <code>CachedMetricSet</code>，用于将指标通过不同的 MetricsLevel 缓存一段时间。</p>
+<p>这里举个简单的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestCachedMetricSet</span> <span class="keyword">extends</span> <span class="title">CachedMetricSet</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  caches;</span><br><span class="line"></span><br><span class="line">  getValueInternal() &#123;</span><br><span class="line">    <span class="keyword">this</span>.caches = &#123;</span><br><span class="line">      a: <span class="built_in">Math</span>.random(),</span><br><span class="line">      b: <span class="built_in">Math</span>.random(),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getMetrics() &#123;</span><br><span class="line">    <span class="keyword">let</span> results = [];</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    results.push(&#123;</span><br><span class="line">      name: MetricName.build(<span class="string">'test.a'</span>),</span><br><span class="line">      metric: &lt;BaseGauge&lt;any&gt;&gt; &#123;</span><br><span class="line">        async getValue() &#123;</span><br><span class="line">          await self.refreshIfNecessary();</span><br><span class="line">          return self.caches['a'];</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    results.push(&#123;</span><br><span class="line">      name: MetricName.build('test.b'),</span><br><span class="line">      metric: &lt;GaugeProxy&lt;any&gt;&gt; &#123;</span><br><span class="line">        async getValue() &#123;</span><br><span class="line">          await self.refreshIfNecessary();</span><br><span class="line">          return self.caches['b'];</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return results;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里通过 <code>getMetrics()</code> 方法返回了两个 Gauge 指标，这两个指标通过内部缓存的值进行返回， <code>refreshIfNecessary()</code> 用于将内部的缓存值进行刷新操作。</p>
+<p>内置的大部分指标像 CPU、内存等等都是基于 <code>CachedMetricSet</code> 来实现的，更多的可以参考<a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/cpuusagegaugeset.html" target="_blank" rel="noopener">代码</a>实现。</p>
+<blockquote>
+<p>虽然注册时是一个指标，但是最后展示会进行分解，变成几个单独的指标</p>
+</blockquote>
+
+  </article>
+  <aside id="mobileAside" class="toc">
+  <div class="mobile-menu">
+    <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
+  </div>
+  <dl><dt><a href="/pandora/en/introduce.html">What is the Pandora.js</a></dt></ul></dd><dt><a href="/pandora/en/quickstart.html">Quick Start</a></dt></ul></dd><dt><a href="/pandora/en/glossary.html">Glossary</a></dt></ul></dd><dt>Basic Features</dt><dd><ul><li><a href="/pandora/en/base/command.html">Commands</a></li><li><a href="/pandora/en/base/procfile_mode.html">Understand procfile.js</a></li><li><a href="/pandora/en/base/dorapan.html">User SDK - Dorapan</a></li><li><a href="/pandora/en/base/logs.html">Logger</a></li><li><a href="/pandora/en/base/global_config.html">Global Config</a></li><li><a href="/pandora/en/base/quick_monitor.html">Monitoring Quick Start</a></li><li><a href="/pandora/en/base/debug.html">Debugging</a></li></ul></dd><dt>Advanced Processes Model</dt><dd><ul><li><a href="/pandora/en/process/process_std.html">Custom Process</a></li><li><a href="/pandora/en/process/service_std.html">Custom Service</a></li><li><a href="/pandora/en/process/fork_and_cluster.html">Fork And Cluster</a></li><li><a href="/pandora/en/process/environment_std.html">Custom Environment</a></li><li><a href="/pandora/en/process/application_life_cycle.html">Application Life Cycle</a></li><li><a href="/pandora/en/process/ipc_hub.html">IPC-Hub</a></li></ul></dd><dt>Application Monitoring</dt><dd><ul><li><a href="/pandora/en/monitor/monitor_std.html">Overview of Monitoring</a></li><li><a href="/pandora/en/monitor/endpoint.html">EndPoint usage and extension</a></li><li><a href="/pandora/en/monitor/resource.html">Expose RESTFul API</a></li><li><a href="/pandora/en/monitor/metrics.html">Metrics usage and extension</a></li><li><a href="/pandora/en/monitor/trace.html">Trace Monitoring</a></li><li><a href="/pandora/en/monitor/monitor_inner.html">Base Monitoring</a></li><li><a href="/pandora/en/monitor/report.html">Monitoring Data Report</a></li></ul></dd><dt>Monitoring Data Collection</dt><dd><ul><li><a href="/pandora/en/collect/health.html">Health Check</a></li></ul></dd><dt>Extension</dt><dd><ul><li><a href="/pandora/en/other/dashboard.html">GUI Dashboard</a></li><li><a href="/pandora/en/other/typescript.html">Start A TypeScript Project</a></li></ul></dd></dl>
+</aside>
+<script>
+var mobileTrigger = document.getElementById('mobileTrigger');
+var mobileAside = document.getElementById('mobileAside');
+mobileTrigger.onclick = function(e) {
+  e.preventDefault();
+  if (mobileAside.className.indexOf('mobile-show') === -1) {
+    mobileAside.className += ' mobile-show';
+  } else {
+    mobileAside.className = 'toc';
+  }
+};
+</script>
+
+</div>
+
+  </div>
+</body>
+<div class="cnzz">
+<script src="https://s19.cnzz.com/z_stat.php?id=1271324644&web_id=1271324644" language="JavaScript"></script>
+</div>
+
+</html>

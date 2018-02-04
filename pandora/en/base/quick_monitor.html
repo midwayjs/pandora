@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>API Reference - Ready to Boot</title>
+  <title>Quickly understand the monitoring - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -39,18 +39,34 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>API Reference</h1>
-    <h3 id="all-pandorajs-built-in-nodejs-packages"><a class="markdown-anchor" href="#all-pandorajs-built-in-nodejs-packages">#</a> All Pandora.js built-in Node.js packages</h3>
+    <h1>Quickly understand the monitoring</h1>
+    <p>If the application was started using the <code>pandora start</code> command (Daemon started), the monitoring routes are automatically started and we can quickly get to know the internal state of the application via these routes.</p>
+<blockquote>
+<p>Notice, dev command does not start Daemon process, don't have this feature</p>
+</blockquote>
+<p>These indicators include：</p>
 <ul>
-<li><a href="/pandora/api-reference/pandora/globals.html">pandora</a></li>
-<li><a href="/pandora/api-reference/metrics/globals.html">pandora-metrics</a></li>
-<li><a href="/pandora/api-reference/env/globals.html">pandora-env</a></li>
-<li><a href="/pandora/api-reference/hub/globals.html">pandora-hub</a></li>
-<li><a href="/pandora/api-reference/service-logger/globals.html">pandora-service-logger</a></li>
-<li><a href="/pandora/api-reference/messenger/globals.html">pandora-messenger</a></li>
-<li><a href="/pandora/api-reference/hook/globals.html">pandora-hook</a></li>
-<li><a href="/pandora/api-reference/dollar/globals.html">pandora-dollar</a></li>
+<li>Application of basic information, cpu, load and so on</li>
+<li>monitoring check status</li>
+<li>Error Logs</li>
+<li>Process information</li>
+<li>Tracing information</li>
+<li>...</li>
 </ul>
+<p>The above is only a few simple enumeration, all the monitoring can be configured through the configuration file and can also be extended in the code, the specific reference to custom monitoring related content.</p>
+<p>After application startup, a <code>7002</code> port will be opened to show data by some routes in default situation.</p>
+<p>For example, show application base information.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">GET http:<span class="comment">//127.1:7002/info</span></span><br><span class="line"></span><br><span class="line">RESPONSE</span><br><span class="line"></span><br><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="string">"appName"</span>: <span class="string">"xxx"</span>,</span><br><span class="line">    <span class="string">"appDir"</span>: <span class="string">"xxxx"</span>,</span><br><span class="line">    <span class="string">"node"</span>: &#123;</span><br><span class="line">      <span class="string">"node"</span>: <span class="string">"8.9.1"</span>,</span><br><span class="line">      <span class="string">"alinode"</span>: <span class="string">"2.3.0"</span>,</span><br><span class="line">      <span class="string">"versions"</span>: &#123;</span><br><span class="line">        <span class="string">"http_parser"</span>: <span class="string">"2.7.0"</span>,</span><br><span class="line">        <span class="string">"node"</span>: <span class="string">"6.9.4"</span>,</span><br><span class="line">        <span class="string">"v8"</span>: <span class="string">"5.1.281.89"</span>,</span><br><span class="line">        <span class="string">"uv"</span>: <span class="string">"1.9.1"</span>,</span><br><span class="line">        <span class="string">"zlib"</span>: <span class="string">"1.2.8"</span>,</span><br><span class="line">        <span class="string">"ares"</span>: <span class="string">"1.10.1-DEV"</span>,</span><br><span class="line">        <span class="string">"icu"</span>: <span class="string">"57.1"</span>,</span><br><span class="line">        <span class="string">"modules"</span>: <span class="string">"48"</span>,</span><br><span class="line">        <span class="string">"openssl"</span>: <span class="string">"1.0.2j"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"features"</span>: &#123;</span><br><span class="line">        <span class="string">"debug"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"uv"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"ipv6"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"tls_npn"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"tls_alpn"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"tls_sni"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"tls_ocsp"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"tls"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>Similar to some other routing, you can try it, for example:</p>
+<ul>
+<li>/info</li>
+<li>/metrics/list</li>
+<li>/process</li>
+<li>/error</li>
+<li>/health</li>
+</ul>
+<p>and so on。</p>
+<p>For more details on using these routes, refer to the Monitoring chapter, including customizing these routes.</p>
 
   </article>
   <aside id="mobileAside" class="toc">
