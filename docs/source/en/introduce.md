@@ -1,6 +1,32 @@
 title: What is the Pandora.js ?
 ---
 
+## Background
+
+The Pandora.js project is the first time of Alibaba Midway team to open source. and it also is a perfect summary of the Node.js operation and maintenance, management and monitoring of the production environment of Alibaba in these years since 2014.
+
+
+The main concepts of the Pandora.js has three points, Manageable, Measurable and Traceable:
+
+1. Manageable
+  * The standard management capabilities of applications, processes and basic services (such as middleware).
+  * Graceful online/offline.
+  * inter-process object proxying.
+  * and so on.
+2. Measurable
+  * The Metrics capability can measure any part of the application.
+  * May types, such as gauge value, counter, meter, histogram, and so on.
+3. Traceable
+  * Open-Tracing standarded tracking capability for business logic link.
+  * It can track each request has queried several times MySQL, several times Redis and so on. 
+  * Inspect business logic link is no longer difficult.
+
+All of the above data and capabilities are all passed to the RESTFul API or the text log file, so you can easily integrate that into your business environment.
+
+
+## Abstract
+
+
 > Note: In this documentation, Pandora and Pandora.js all refer to the same thing, that all means the Pandora.js project.
 
 Pandora.js is an Application Manager for Node.js Applications represented by [Alibaba Group](http://www.nasdaq.com/symbol/baba).
