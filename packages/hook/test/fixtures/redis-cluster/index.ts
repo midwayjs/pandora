@@ -26,7 +26,8 @@ RunUtil.run(function(done) {
     assert(report);
 
     const spans = report.spans;
-    assert(spans.length === 3);
+    // connection to new node may create `info` span
+    assert(spans.length >= 3);
 
     done();
   });
