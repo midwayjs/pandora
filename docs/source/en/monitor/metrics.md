@@ -13,7 +13,7 @@ In the industry, the Metrics have few standard types:
 - Meter - Meter
 - histogram - Histogram
 
-the Pandora. js has currently made certain support for these measure devices, the most common of these measures are gauge and counter, which can be said, 80% of the scenarios are only these two.
+the Pandora.js has currently made certain support for these metrics types, the most common used are the gauge type and the counter type, 80% of the situations are only used these two.
 
 
 ## Quick use
