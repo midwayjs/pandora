@@ -95,19 +95,18 @@ And another part is the MetricsLevel, Different MetricsLevel corresponds to diff
 That also means, if your MetricsLevel is `MetricLevel.MAJOR`, then the cache time is seconds. If your acquisition interval is 1 second, then the value returned in both the acquisition windows is the same.
 
 
-## The measure types
+## Measurement type
 
 >  Pandora.js is written by Typescript, and some code must be defined with type.
 >
 > All metric types are inherited with [Metric Interface](http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html)
 
 
-### Transient value measure type
+### Transient metric
 
 Most of the indicators are introduced from the transient gauge because it is the simplest, the most visual representation of the actual situation of data, nor the question of the time interval.
-大部分的度量指标都从瞬态值 Gauge 介绍起，因为它最简单，最直观的表示数据的真实情况，也不涉及时间间隔的问题。
 
-Gauge 只包含一个 `getValue` 方法，只需要实现这个方法即可，比如，你想要知道当前进程的 cpu 使用情况，就可以一句话解决。
+Gauge contains only one method called `getValue`, only implement this method when you want to use it. For example, if you want to know how the cpu of the current process works, you can solve it by Gauge.
 
 ```javascript
 <BaseGauge> {
@@ -119,35 +118,32 @@ Gauge 只包含一个 `getValue` 方法，只需要实现这个方法即可，�
 ```
 
 
+> Notice that all Metrics final output must be in the digital form, so that can be measured, if you want to output information about the string class, we have another output system, this will be introduced in the EndPoint.
 
-> 注意，所有的 Metrics 最终输出的一定是数字形式，这样才可度量，如果你希望输出的是字符串类的信息，我们有另一套输出体系，这将在之后的文章介绍。
+### Accumulative metric
 
-### 累加型度量指标
+Counter is the second introduction of the type, the counter is not the same with the Gauge, which is a cumulative type, suitable for recording the total number of calls and other types of data, such as the number of calls to an interface.
 
-Counter 是第二个介绍的类型，计数器和 Gauge 不太一样，它是累加型，适用于记录调用总量等类型的数据，比如某个接口的调用次数。
-
-如下图是计数器的继承接口和实现类。
+The following figure is the counter inheritance interface and implementation class.
 
 ![](https://img.alicdn.com/tfs/TB1OkX3ldrJ8KJjSspaXXXuKpXa-780-732.png)
 
-除了基础的 `BaseCounter` 实现之外，我们提供了 `BucketCounter` 分桶计数器。
+In addition to the basic `BaseCounter` implementation, we provide the `BucketCounter`.
 
-分桶计数的原理是定义一个时间间隔，将一段时间按照时间间隔分割为几个桶，每个桶保存当前时间间隔的计数。
+The principle of sub-bucket counting is to define a time interval, which is divided into several buckets according to the time interval for a period of time, and each bucket keeps a count of the current time interval.
 
-比如时间间隔为 5s ，桶的总数为 10 个，那么 0~5s 为一个桶，5~10s 为下一个，以此类推。当计数的执行的时间为 2s 时，那么将在第一桶中累加，如果为 7s 时，那么将在第二个桶累加，非常容易理解。
+For example, the time interval is 5s, the total number of buckets is 10, then 0 ~ 5s is a bucket, 5 ~ 10s is the next one, and so on. When the counting execution time is 2s, then it will accumulate in the first bucket. If it is 7s, it will be accumulated in the second bucket, which is very easy to understand.
 
-在实际场景中，因为内存限制，不宜保存过多，桶的量会有限制，采用环形队列存储同时避免数据的挪动。
+In actual scenarios, it is not advisable to save too much because of memory limitations. The amount of buckets can be limited. Circular queue storage is used to avoid data movement.
 
-
-
-举个常用例子，记录 koa 服务的请求数。
+As a common example, record the number of koa service requests.
 
 ```javascript
-// 实际使用需要从 MetricsClient 拿到 BucketCounter
+// The actual use needs to get BucketCounter from MetricsClient
 let counter = new BucketCounter();
 
 app.use(async (ctx, next) => {
-  // 累加 1 counter.inc(1);
+  // add 1 counter.inc(1);
   counter.inc();
   await next()
 });
@@ -155,18 +151,18 @@ app.use(async (ctx, next) => {
 
 
 
-### 分布度量指标
+### Distribution metrics
 
-第三个介绍的是 Histogram，直方分布指标，Pandora.js 包含一个基础实现类 `BaseHistogram`， 通过它可以用于统计某个接口的响应时间，可以展示 50%, 70%, 90% 的请求响应时间落在哪个区间内，通过这些你可以计算出 [Apdex](https://en.wikipedia.org/wiki/Apdex)。
+The third one is the Histogram, a histogram of distributions. Pandora.js contains a `BaseHistogram` which can be used to count the response time of an interface and can show 50%, 70%, 90% of the request responses Time falls within which range you can calculate [Apdex](https://en.wikipedia.org/wiki/Apdex).
 
-> 这边的分布暂时只考虑单机分布，在集群维度上不能这样计算。
+> The distribution here for the time being only consider the stand-alone distribution, in the cluster dimension can not be calculated in this way.
 
-对于分布计算，核心就是维护一个数据集 [Reservoir](http://www.midwayjs.org/pandora/api-reference/metrics/enums/reservoirtype.html) ，数据集用来提供数据存储以及获取当前快照的能力。这其中最重要的就是数据更新的策略，目前 Pandora.js 只实现了随机采样（UniformReservoir）和 指数衰减随机采样（ExponentiallyDecayingReservoir）的实现，由于随机采样并不能很好的表现权重问题，默认的是指数衰减随机采样，其他的采样算法没有实现，有兴趣的同学可以补充。
+For distributed computing, the core is to maintain a data set [Reservoir](http://www.midwayjs.org/pandora/api-reference/metrics/enums/reservoirtype.html), the data set is used to provide data storage and get the current snapshot Ability. The most important of these is the strategy of data updating. At present, Pandora.js only implements the realization of UniformReservoir and Exponentially Decaying Reservoir. Since random sampling does not perform well in weighting, the default is the index Attenuated random sampling, other sampling algorithms are not realized, interested students can add.
 
-举个常用例子，记录 koa 服务的成功比率，采用随机采样算法，间隔 1s，2个分桶，展示获取了平均数等信息。
+Take a common example, record the success rate of koa services, the use of random sampling algorithm, an interval of 1s, 2 sub-barrel, show access to the average and other information.
 
 ```javascript
-// 实际使用需要从 MetricsClient 拿到 BaseHistogram
+// The actual use needs to get BaseHistogram from MetricsClient
 let histogram = new BaseHistogram(ReservoirType.UNIFORM, 1, 2);
 
 app.use(async (ctx, next) => {
@@ -185,48 +181,47 @@ app.use(async (ctx, next) => {
 
 
 
-### 变化速率度量指标
+### Rate metric
 
-第四个介绍的是 Meter，是一种用于度量一段时间内吞吐率的计量器。例如，一分钟内，五分钟内，十五分钟内的qps指标。
+The fourth one, Meter, is a gauge that measures throughput over a period of time. For example, one minute, five minutes, fifteen minutes qps indicator.
 
-这里要指出，变化的速率，我们一般情况下会关心两个地方，一个是瞬时爆发，超出平常正常值非常高的这样的波动变化，另一个是一段时间内的趋势，从平均的角度来看整体度量的一种方式，这种方式会将高低点进行平均来看。
+Here we should point out that the rate of change, we generally care about two places, one is instantaneous burst, beyond the usual normal very high such fluctuations, and the other is a trend over time, from an average point of view A measure of the overall measure, this approach will be the average point of view.
 
-前一种在  Metrics 中使用  Rate 的概念，只记录事件的累计总次数，有外部系统来通过前后两次采集，来计算瞬时速率，这里我们称之为`Rate`。
+The former concept of using Rate in Metrics only records the cumulative total number of events. There is an external system to calculate the instantaneous rate by taking acquisitions twice before and after, which is what we call `Rate` here.
 
-在rate的计算中，我们认为数据的增长是`线性`的。其计算方式为：rate = (v2 - v1) / (t2 - t1)，其中时间的单位是 s。
+In the calculation of rate, we think the data growth is `linear`. It is calculated as: rate = (v2 - v1) / (t2 - t1), where the unit of time is s.
 
-这样的好处是，通过调整采集频率，可以支持任意时间间隔的瞬时速率计算。但缺点是，当两次采样之间系统重启的时候，会计算出负数，同时会有一部分数据丢失。
+The benefit of this is that by adjusting the acquisition frequency, instantaneous rate calculations can be supported at any time interval. But the downside is that when the system reboots between samples, a negative number is calculated and some of the data is lost.
 
-后一种通过指数移动加权平均(Exponential Weighted Moving Average, EWMA）来计算。
+The latter is calculated by the Exponential Weighted Moving Average (EWMA).
 
-针对速率型度量指标，我们提供了1分钟(m1)，5分钟(m5)，15分钟的EWMA(m15)，分别用于反映距离当前时间点1分钟，5分钟，15分钟的速率变化。
+For rate-based metrics, we provide 1 minute (m1), 5 minutes (m5) and 15 minutes of EWMA (m15) to reflect the rate changes of 1 minute, 5 minutes and 15 minutes respectively from the current time point.
 
-其具体的计算方法，和 Linux 系统中 load1, load5, load15 的计算方法完全一致。即，每 5 秒钟统计一次瞬时速率，并应用于如下的递推公式：
+The specific method of calculation, and Linux system load1, load5, load15 calculation method is exactly the same. That is, the instantaneous rate is counted every 5 seconds and applied to the following recurrence formula:
 
 ```
 EWMA(t) = EWMA(t-1) + alpha * (instantRate - EWMA(t-1))
 ```
 
-其中 alpha取值范围为 0~1, 称为衰减系数，该系数越大，则距离当前的时间点越老的数据权重衰减的越快。
+The alpha value ranges from 0 to 1, which is called the attenuation coefficient. The larger this coefficient is, the faster the weight of the older data decays from the current time point.
 
-举个常用例子，记录 koa 某个路由的调用比率。
+Take a common example, record koa routing of a call rate.
 
 ```javascript
-// 实际使用需要从 MetricsClient 拿到 BaseMeter
+// Actual use needs to get BaseMeter from MetricsClient
 let meter = new BaseMeter();
 
 router.get('/home', async (ctx) => {
-  // 接口调用埋点
   meter.mark(1);
 });
 
-// meter.getMeanRate(); 总数除以时间
-// meter.getOneMinuteRate(); // 一分钟的 EWMA
+// meter.getMeanRate(); Divide the total by time
+// meter.getOneMinuteRate(); // One minute EWMA
 ```
 
-## 聚合型度量指标
+## Aggregate metric
 
-这里引进一种特殊的指标，他相当于是多个指标的聚合。
+Here to introduce a special indicator, he is equivalent to the aggregation of multiple indicators.
 
 ```javascript
 export abstract class MetricSet implements Metric {
@@ -245,9 +240,9 @@ export abstract class MetricSet implements Metric {
 }
 ```
 
-MetricSet 包含了一个抽象的 `getMetrics()` 方法，用于返回最终的多个 Metrics，我们利用它实现了一个上层 `CachedMetricSet`，用于将指标通过不同的 MetricsLevel 缓存一段时间。
+MetricSet contains an abstract `getMetrics ()` method that returns the final multiple Metrics, and we use it to implement an upper `CachedMetricSet` that caches metrics for different periods of MetricsLevel.
 
-这里举个简单的例子：
+Here's a simple example:
 
 ```javascript
 class TestCachedMetricSet extends CachedMetricSet {
@@ -291,8 +286,8 @@ class TestCachedMetricSet extends CachedMetricSet {
 }
 ```
 
-这里通过 `getMetrics()` 方法返回了两个 Gauge 指标，这两个指标通过内部缓存的值进行返回， `refreshIfNecessary()` 用于将内部的缓存值进行刷新操作。 
+Two Gauge metrics are returned via the `getMetrics ()` method. These two metrics are returned by the value of the internal cache. `RefreshIfNecessary ()` is used to refresh the internal cache value.
 
-内置的大部分指标像 CPU、内存等等都是基于 `CachedMetricSet` 来实现的，更多的可以参考[代码](http://www.midwayjs.org/pandora/api-reference/metrics/classes/cpuusagegaugeset.html)实现。
+Most of the built-in metrics such as CPU, memory, etc., are based on `CachedMetricSet`, for more on [code](http://www.midwayjs.org/pandora/api-reference/metrics/classes/cpuusagegaugeset.html).
 
-> 虽然注册时是一个指标，但是最后展示会进行分解，变成几个单独的指标
+> Although registration is an indicator, the final display is broken down into several separate metrics.
