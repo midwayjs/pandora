@@ -65,15 +65,15 @@ export class RedisPatcher extends Patcher {
     };
   }
 
-  finish(tracer, span, isError) {
+  finish(tracer, span, isError, command, args) {
     tracer.setCurrentSpan(span);
     span.error(isError);
     span.finish();
 
-    this._finish(span, isError);
+    this._finish(span, isError, command, args);
   }
 
-  protected _finish(span, isError) {}
+  protected _finish(span, isError, command, args) {}
 
   shimmer(options) {
     const traceManager = this.getTraceManager();
@@ -114,13 +114,13 @@ export class RedisPatcher extends Patcher {
           reject = traceManager.bind(reject);
 
           const _resolve = function(this: any) {
-            self.finish(tracer, span, false);
+            self.finish(tracer, span, false, command, arguments);
 
             return resolve.apply(this, arguments);
           };
 
           const _reject = function(this: any) {
-            self.finish(tracer, span, true);
+            self.finish(tracer, span, true, command, arguments);
 
             return reject.apply(this, arguments);
           };
