@@ -92,18 +92,19 @@ And another part is the MetricsLevel, Different MetricsLevel corresponds to diff
   }
 ```
 
-That also means, if your MetricsLevel is `MetricLevel.MAJOR`, then the cache time is is seconds. If your acquisition interval is 1 second, then the value returned in both the acquisition windows is the same.
+That also means, if your MetricsLevel is `MetricLevel.MAJOR`, then the cache time is seconds. If your acquisition interval is 1 second, then the value returned in both the acquisition windows is the same.
 
 
 ## The measure types
 
->  目前 Pandora.js 全部使用 typescript 来编写，有些代码必须带类型定义。
+>  Pandora.js is written by Typescript, and some code must be defined with type.
 >
-> 所有的 Metric 类型都继承与 [Metric 接口](http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html)
+> All metric types are inherited with [Metric Interface](http://www.midwayjs.org/pandora/api-reference/metrics/interfaces/metric.html)
 
 
-### 瞬态型度量指标
+### Transient value measure type
 
+Most of the indicators are introduced from the transient gauge because it is the simplest, the most visual representation of the actual situation of data, nor the question of the time interval.
 大部分的度量指标都从瞬态值 Gauge 介绍起，因为它最简单，最直观的表示数据的真实情况，也不涉及时间间隔的问题。
 
 Gauge 只包含一个 `getValue` 方法，只需要实现这个方法即可，比如，你想要知道当前进程的 cpu 使用情况，就可以一句话解决。
