@@ -1,33 +1,31 @@
-title: What is the Pandora.js ?
+title: What is Pandora.js ?
 ---
 
 ## Background
 
-The Pandora.js project is the first time of Alibaba Midway team to open source. and it also is a perfect summary of the Node.js operation, management and monitoring of the production environment of Alibaba in these years since 2014.
+As a consequence of years of experiences on enterprise Node.js applications management, Midway team from Alibaba open-sourced Pandora.js finally. It is an application manager integrates many capabilities like monitoring, debugging, resiliency. You are more than welcome to use it, as well as build your operation infrastructure upon it.
 
-
-The main concepts of the Pandora.js has three points, Manageable, Measurable and Traceable:
+The main concepts of Pandora.js are:
 
 1. Manageable
-  * The standard management capabilities of applications, processes and basic services (such as middleware).
+  * Standard management capabilities of applications, processes and basic services (such as middleware).
   * Graceful online/offline.
-  * inter-process object proxying.
-  * and so on.
+  * Inter-process object proxying.
 2. Measurable
-  * The Metrics capability can measure any part of the application.
-  * May types, such as gauge value, counter, meter, histogram, and so on.
+  * Be able to measure different aspects of applications.
+  * Support tons of metrics types, gauge, counter, meter, histogram, etc.
 3. Traceable
-  * Open-Tracing standarded tracking capability for business logic link.
-  * It can track each request has queried several times MySQL, several times Redis and so on. 
-  * Inspect business logic link is no longer difficult.
+  * Be able to trace the whole execution stack, inspect applications at runtime.
+  * Support tons of 3rd party middlewares, MySQL, redis, etc. 
+  * Compatible with Open-Tracing standard
 
-All of the above data and capabilities are all passed to the RESTFul API or the text log file, so you can easily integrate that into your business environment.
+The data can be achieved via RESTFul API or local file system. It is super easy to integrate it with your monitoring system.
 
 
 ## Abstract
 
 
-> Note: In this documentation, Pandora and Pandora.js all refer to the same thing, that all means the Pandora.js project.
+> Note: In this documentation, Both pandora and pandora.js refer to the same concept, which is the Pandora.js project.
 
 Pandora.js is an Application Manager for Node.js Applications represented by [Alibaba Group](http://www.nasdaq.com/symbol/baba).
 
@@ -35,30 +33,31 @@ Pandora.js is an Application Manager for Node.js Applications represented by [Al
 The duties and responsibilities:
 
 * Provides a general Node.js application runtime model and related infrastructure
-  * Multi process model
-  * Providing infrastructure and specification for application frameworks ( such as the service feature )
-  * Provides a stable middleware SDK client and a consistent interface
+  * Multi-process model
+  * Infrastructure and specification for application frameworks (e.g. service feature)
+  * A stable middleware SDK client and a consistent interface
 * Provide a standard DevOps tool for Node.js
-  * Pandora.js operation and maintenance API in each layer
-  * Monitoring capacity, such as the Metrics and Trace 
+  * Operation and maintenance API in each layer
+  * Monitoring capabilities, such as the Metrics and Trace 
     
-Each part of The Pandora.js includes a specification and a standard implementation. In principle, each business domain can implement its own application layer framework based on this standard. For examples: 
-* Pandora.js provides a standard to Integrated middleware, And management dependencies.
-* For Web domain, such as the midway framework (Alibaba internal)
-* For micro service framework, it can also solve the infrastructure related problems such as middleware, logger, operation and maintenance specification based on Pandora.js.
+Each part of The Pandora.js includes a specification and a standard implementation. Each business domain can implement its own application layer framework based on the standard. For examples: 
+
+* Pandora.js provides a standard to integrate middlewares, and manage dependencies.
+  * For web domain, such as the midway framework (Alibaba internal)
+  * For micro service framework, it can also solve the infrastructure related problems such as middleware, logger, operation and maintenance specification based on Pandora.js.
 
 
 ## Design principles
    
-In the Node.js environment without threads, more and more applications choose to use Cluster mode to run multiple processes, which makes the performance to an ideal degree. However, the complex process models and IPC make many users fear it. In a lot of company users, we also often encounter framework selection difficulties. I just want to get a burger, but give me a set meal.
+In the Node.js environment without threads, more and more applications choose to use Cluster mode to run multiple processes, which max the CPU performance. However, complicated process models and IPC could be difficult to manage. People may also encounter framework selection dilemma. I just want to get a burger, but give me a set meal.
    
-We hope the business logic pure and simple, and only care about the business part. so that the local development and online deployment will be quite easy to done.
+We hope the business logic pure and simple. Application development cares only about the business part, leaves deployment and operation job quite easy to done.
    
 ![img](https://img.alicdn.com/tfs/TB1wR5mib_I8KJjy1XaXXbsxpXa-826-434.png)
 
-Of course, if the Pandora.js can only start and stop the application, that is too Big deal. Application operation has been a difficult problem, in the `Ops first` today, we combine the Metrics standard and Open-tracing Standard. Through those, you can get custom monitoring invoke link tracing and so on so on. that is bound to open the intelligent monitoring of Node.js.
+We believe `ops first`, as applications generate business value at runtime. Thus we empower Node.js applications with runtime operation capabilities. We adopt the metrics standard and open-tracing standard, so you can customize it easily and integrate with your own infrastructure.
 
-## A part of features of the Pandora.js
+## Some features of Pandora.js
 
 - Providing different kinds of frameworks, and the ability to start and stop a single file.
 - Providing multi applications management and deployment capabilities
