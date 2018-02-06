@@ -3,46 +3,46 @@ title: Quick Start
 
 ## Environment
 
-OS: macOS / Linux
-Node.js Runtime: >= 8.x.x, latest LTS version is recommended
+- OS: macOS / Linux
+- Node.js Runtime: >= 8.x.x, latest LTS version is recommended
 
 ## The goal of this chapter
 
-1. Understand the basic `procfile.js` file writing.
-2. Understand the most basic commands, such as start, stop, dev, exit, list.
+1. Understand `procfile.js` configuration.
+2. Understand basic commands: start, stop, dev, exit, and list.
 
 
 ## Installation
 
 
-Pandora.js can be installed directly in your Node.js project, and it can also be installed in the global.
+Pandora.js can be installed locally with your Node.js project. It can also be installed globally.
 
 ```sh
-npm i pandora -g  // Install in the global
-npm i pandora --save   // Install in your project
+npm i pandora -g  // Install with the global mode
+npm i pandora --save   // Install with the local mode
 ```
 
 ## Generate procfile.js
 
-Pandora.js defines the application process structure by a `procfile.js` in the project root directory, so you need to add a `procfile.js` file in the project root directory.
+Pandora.js defines the application process structure via the `procfile.js` file in project root directory, so you need to add a `procfile.js` file in the project root directory.
 
-This chapter will introduce the most simplest Fork and Cluster methods, and these two methods you only need to choose one.
+This chapter will introduce the basic Fork and Cluster modes, you can choose either mode based on your scenario.
 
-#### Fork method
+#### Fork mode
 
-the fork method is the most simplest way, it simply pull up a application, just like run `node app.js` directly.
+Fork mode is kind of straightforward, it just launch the application, say, run `node app.js` directly.
 
-Use the init command to generate a `procfile.js`:
+You can use the init command to generate a `procfile.js` with fork mode:
 
 ```bash
-$ pandora init ./app.js # The app.js is the path of your Node.js application
+$ pandora init ./app.js # Here app.js is the launch entry of your Node.js application
 ? Which type do you like to generate ? (Use arrow keys)
 ❯ fork 
   cluster 
-** The procfile.js was auto generated to location /xx/xx/procfile.js **
+** The procfile.js was generated to location /xx/xx/procfile.js **
 ```
 
-Then you will get a default `procfile.js` and you can take a look, and the contents are as bellow (removed comments):
+Here you have a `procfile.js` with default values. You can have a glimpse of file content here:
 
 ```javascript
 module.exports = (pandora) => {
@@ -51,40 +51,38 @@ module.exports = (pandora) => {
 }
 ```
 
-#### Cluster method
+#### Cluster mode
 
-The cluster method usually used for Node.js Web Server, and Pandora.js starts CPU number workers by default (but you can also change this default value).
+Cluster mode is frequently adopted by Node.js applications in production. Pandora.js launch multiple workers, the same number as cpu cores by default, for applications to max the CPU performance. You can tune this setting based on your own flavor.
 
-
-Use the init command to generate a `procfile.js`:
+You can use the init command to generate a `procfile.js` with cluster mode:
 
 ```bash
-$ pandora init ./app.js # The app.js is the path of your Node.js application
+$ pandora init ./app.js # Here app.js is the launch entry of your Node.js application
 ? Which type do you like to generate ? (Use arrow keys)
   fork 
 ❯ cluster 
 ** The procfile.js was auto generated to location /xx/xx/procfile.js **
 ```
 
-Then you will get a default `procfile.js` and you can take a look, and the contents are as bellow (removed comments):
+Here you have a `procfile.js` with default values. You can have a glimpse of file content here:
 
 ```javascript
 module.exports = (pandora) => {
 
   pandora
-  
-    // Default start to process group `worker`
+    // launch app.js using the cluster mode, with the default setting
     .cluster('./app.js'); 
  
   /* Custom the number of workers
   pandora
     .process('worker')
-    
-    // Modify the process group `worker` always to start 2 workers.
-    // The default is pandora.dev ? 1 : 'auto'.
-    // It means in dev mode will not start as a cluster.
-    // Otherwise if started by `pandora start`, that will start as a cluster.
-    .scale(2); 
+    // Change the `worker` process numbers to 2.
+    .scale(2);
+
+    // By the way, The default process number is defined as `pandora.dev ? 1 : 'auto'`.
+    // Which means if it is in development mode, pandora.js will not launch applications in cluster mode,
+    // otherwise it launches applications in cluster mode.
   */
     
 }
@@ -92,9 +90,9 @@ module.exports = (pandora) => {
 
 # Start or stop through `npm run` 
 
-In this scene, Pandora.js will join the whole development processes of the application.
+Other than process management, Pandora.js can also help with application lifecycle management.
 
-In general, put the Pandora.js commands in the scripts part of the package.json.
+We suggest you use pandora.js to start/stop your node.js applications. You define the script section of package.json as below:
 
 ```json
 // package.json
@@ -107,7 +105,7 @@ In general, put the Pandora.js commands in the scripts part of the package.json.
 }
 ```
 
-Then， you can use `npm run` to start, such as: 
+Now，you can use `npm run` to start/stop your application: 
 
 ```
 npm run dev // Local start
@@ -115,42 +113,41 @@ npm run start // Production start
 npm run stop // Production stop
 ```
 
-## Start and stop under global installation
+## Start and stop in global mode
 
 ```sh
 pandora start [--name xxx] [path]
 ```
-For example, in a application root directory, and it named `helloApp`.
 
+Here is an example, we launch the application in the application root directory, and name it `helloApp`.
 ```sh
 pandora start
 pandora start --name helloApp
 ```
 
-The first command will take the last part of the root directory or the name in package.json as the application name. Then the application will start silently, according to the definition from procfile.js and run in the background.
+If `name` is not specified, Pandora.js will take the last part of the root directory or the value of `name` property in package.json as the application name. The application will be launched silently, according to the default definition in `procfile.js` and run in the background.
 
-
-After the application is started, it can be viewed through the list command:
+As soon as the application is launched, it can be viewed through the `list` command:
 
 ```sh
 pandora list
 ```
 
-you can also stop it:
+you can also stop it with `stop` command:
 
 ```sh
 pandora stop
 ```
 
-> Because the Pandora.js global mode is generally started in the background, it is best to deploy to the server to do so.
+> Since Pandora.js used to run global mode in background, it is strongly suggested to deploy it on the server beforehand.
 
-After the start command is used to start the application, the Daemon process will still be resident in memory. At this scene, manual exit is needed to exit the Daemon process:
+After the application is launched, the daemon process will keep resident in memory even the application is stopped. You can quit the daemon process via the command below:
 
 ```sh
 pandora exit
 ```
 
-If you want to start a application at front, you can use the dev command ( only for local debugging ):
+If you do want to run the applications at foreground, you can choose the `dev` command ( only for local debugging):
 
 ```sh
 pandora dev
