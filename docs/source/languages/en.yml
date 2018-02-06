@@ -1,9 +1,49 @@
+header:
+  translations: 'English'
+
 index:
   getstart: "Get Start"
   slogan: "Ready to Boot"
-  desc: "An Ops First Application Manager for Node.js Applications"
+  desc: "A Manageable, Measurable and Traceable Node.js Application Manager"
 
 menu:
   guide: "Documentation"
   api: "API reference"
   release: "Change Log"
+guide_toc:
+  introduce: "What is the Pandora.js"
+  quickstart: "Quick Start"
+  glossary: "Glossary"
+  base: "Basic Features"
+  command: "Commands"
+  procfile_mode: "Understand procfile.js"
+  dorapan: "User SDK - Dorapan"
+  debug: "Debugging"
+  logs: "Logger"
+  global_config: "Global Config"
+  quick_monitor: "Monitoring Quick Start"
+  monitor_inner: "Base Monitoring"
+  process: "Advanced Processes Model"
+  fork_and_cluster: "Fork And Cluster"
+  process_std: "Custom Process"
+  service_std: "Custom Service"
+  environment_std: "Custom Environment"
+  application_life_cycle: "Application Life Cycle"
+  ipc_hub: "IPC-Hub"
+  #Monitoring
+  monitor: "Application Monitoring"
+  monitor_std: "Overview of Monitoring"
+  endpoint: "EndPoint usage and extension"
+  resource: "Expose RESTFul API"
+  metrics_std: "Metrics usage and extension"
+  trace_std: "Trace business logic link"
+  report: "Monitoring Data Report"
+  #Data Report
+  collect: "Monitoring Data Collection"
+  collect_health: "Health Check"
+  collect_info: "Application Information"
+  collect_process: "Process Information"
+  collect_error: "Error Detail"
+  other: "Extension"
+  dashboard: "GUI Dashboard"
+  typescript: "Start A TypeScript Project"

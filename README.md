@@ -17,17 +17,37 @@ $ npm install pandora@latest --save
 
 Node.js >= 8.0.0 required.
 
+## Docs
+
+* 中文文档 <http://www.midwayjs.org/pandora/zh-cn/>
+* English documents <http://www.midwayjs.org/pandora/en/>
+
+## What is Pandora.js ?
+
+As a consequence of years of experiences on enterprise Node.js applications management, Midway team from Alibaba open-sourced Pandora.js finally. It is an application manager integrates many capabilities like monitoring, debugging, resiliency. You are more than welcome to use it, as well as build your operation infrastructure upon it.
+
+The main concepts of Pandora.js are:
+
+1. Manageable
+  * Standard management capabilities of applications, processes and basic services (such as middleware).
+  * Graceful online/offline.
+  * Inter-process object proxying.
+2. Measurable
+  * Be able to measure different aspects of applications.
+  * Support tons of metrics types, gauge, counter, meter, histogram, etc.
+3. Traceable
+  * Be able to trace the whole execution stack, inspect applications at runtime.
+  * Support tons of 3rd party middlewares, MySQL, redis, etc. 
+  * Compatible with Open-Tracing standard
+
+The data can be achieved via RESTFul API or local file system. It is super easy to integrate it with your monitoring system.
+
 ## Features
 
 - ✔︎ Built-in process management
 - ✔︎ Dev Ops customization
 - ✔︎ Provide Metrics and Standard OpenTracing Implementation
 - ✔︎ Support lots of web frameworks
-
-## Docs
-
-* 中文文档 <http://www.midwayjs.org/pandora>
-
 
 ## How to Contribute
 

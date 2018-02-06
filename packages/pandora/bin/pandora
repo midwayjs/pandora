@@ -3,7 +3,7 @@
 
 if (Number(process.versions.node[0] < 8)) {
   const colors = require('colors');
-  console.error(colors.red('Pandora.js required Node.js >= 8.0.0, current version is ' + process.versions.node));
+  console.error(colors.red('Pandora.js requires Node.js >= 8.0.0, current version is ' + process.versions.node));
   process.exit(1);
 }
 
