@@ -147,6 +147,9 @@ export class ProcessBootstrap {
       2, process.argv.length - 2,
       ...(options.args || [])
     ]);
+    if(options.entryFile) {
+      process.argv[1] = options.entryFile;
+    }
 
     const processBootstrap = new ProcessBootstrap(options);
 
