@@ -330,8 +330,9 @@ export class MySQLShimmer {
     }
 
     // 找出 callback 参数
-    if (is.array(args[1])) {
+    if (is.array(args[1]) || is.object(args[1])) {
       // eg: query({opts|sql}, values, callback)
+      // values can be array or object
       callback = args[2];
       idx = 2;
     } else {
