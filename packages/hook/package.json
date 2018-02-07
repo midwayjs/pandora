@@ -1,6 +1,6 @@
 {
   "name": "pandora-hook",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "pandora module hook",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
