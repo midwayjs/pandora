@@ -177,6 +177,10 @@ export default {
     mysql2: {
       enabled: true,
       target: hooks.MySQL2Patcher
+    },
+    redis: {
+      enabled: true,
+      target: hooks.RedisPatcher
     }
   },
   reporterInterval: 15,
