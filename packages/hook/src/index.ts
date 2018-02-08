@@ -10,6 +10,7 @@ export { MySQL2Patcher } from './patch/MySQL2';
 export { MySQLShimmer } from './patch/shimmers/mysql/Shimmer';
 export { HttpClientShimmer } from './patch/shimmers/http-client/Shimmer';
 export { RedisPatcher } from './patch/Redis';
+export { MongodbPatcher } from './patch/Mongodb';
 export { extractPath } from './utils/Utils';
 export {
   INSTANCE_UNKNOWN as DB_INSTANCE_UNKNOWN,
