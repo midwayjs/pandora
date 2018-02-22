@@ -10,8 +10,13 @@ export interface Location {
 }
 
 export interface Selector extends Location {
+  subscriber?: boolean;
   objectName?: string;
   objectTag?: string;
+}
+
+export interface CallbackLocation extends Selector {
+  callback: string;
 }
 
 export const selectorSchema  = [
