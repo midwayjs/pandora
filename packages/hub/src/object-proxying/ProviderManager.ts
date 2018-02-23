@@ -6,8 +6,8 @@ import {ObjectUtils} from './ObjectUtils';
 
 export class ProviderManager {
 
-  protected hubClient: HubClient;
   protected objectMap: Map<string, any> = new Map();
+  public hubClient: HubClient;
 
   constructor (hubClient) {
     this.hubClient = hubClient;
@@ -62,3 +62,4 @@ export class ProviderManager {
   }
 
 }
+

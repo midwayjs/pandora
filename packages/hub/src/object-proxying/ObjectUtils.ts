@@ -7,7 +7,7 @@ export class ObjectUtils {
    * @return {string}
    */
   static objectDescriptionToId (objectDescription: ObjectDescription) {
-    const id = objectDescription.name + objectDescription.tag ? ( ':' + objectDescription.tag ) : '';
+    const id = objectDescription.name + (objectDescription.tag ? ( ':' + objectDescription.tag ) : '');
     return id;
   }
 }

@@ -2,15 +2,18 @@ import {HubClient} from '../hub/HubClient';
 import {ObjectConsumer} from './ObjectConsumer';
 import {ConsumerExtInfo, ObjectDescription} from '../domain';
 import {DefaultObjectProxy} from './DefaultObjectProxy';
+import {ProviderManager} from './ProviderManager';
 
 export class ConsumerManager {
 
   protected hubClient: HubClient;
   private consumerCache: Map<string, ObjectConsumer>;
+  private providerManager: ProviderManager;
 
-  constructor (hubClient) {
+  constructor (hubClient, providerManager: ProviderManager) {
     this.hubClient = hubClient;
     this.consumerCache = new Map;
+    this.providerManager = providerManager;
   }
 
   /**
@@ -22,7 +25,7 @@ export class ConsumerManager {
   public getConsumer (objectDescription: ObjectDescription, extInfo?: ConsumerExtInfo): ObjectConsumer {
     const key = objectDescription.name + ':' + objectDescription.tag;
     if(!this.consumerCache.has(key)) {
-      const consumer = new ObjectConsumer(objectDescription, this.hubClient, extInfo);
+      const consumer = new ObjectConsumer(objectDescription, this.hubClient, this.providerManager, extInfo);
       this.consumerCache.set(key, consumer);
       return consumer;
     }
