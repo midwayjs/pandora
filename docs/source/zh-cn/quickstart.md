@@ -12,6 +12,10 @@ title: 快速入门
 
 2. 了解 Pandora.js 最基础的 start, stop, dev, exit, list 命令
 
+## 关于可视化管理面板
+
+具体请移步 [可视化管理面板](http://www.midwayjs.org/pandora/zh-cn/other/dashboard.html)。
+
 
 ## 安装
 

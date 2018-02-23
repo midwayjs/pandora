@@ -11,6 +11,9 @@ title: Quick Start
 1. Understand `procfile.js` configuration.
 2. Understand basic commands: start, stop, dev, exit, and list.
 
+## About GUI Dashboard
+
+Plase check [GUI Dashboard](http://www.midwayjs.org/pandora/en/other/dashboard.html).
 
 ## Installation
 
