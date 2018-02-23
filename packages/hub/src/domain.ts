@@ -1,5 +1,6 @@
 import {MessengerClient} from 'pandora-messenger';
 import {ObjectConsumer} from './object-proxying/ObjectConsumer';
+import {HubClient} from './hub/HubClient';
 
 export interface Location {
   initialization?: boolean;
@@ -10,14 +11,10 @@ export interface Location {
 }
 
 export interface Selector extends Location {
-  subscriber?: boolean;
   objectName?: string;
   objectTag?: string;
 }
 
-export interface CallbackLocation extends Selector {
-  callback: string;
-}
 
 export const selectorSchema  = [
   'clientId',
@@ -30,6 +27,10 @@ export const selectorSchema  = [
 
 export interface ObjectMessage extends HubMessage {
   propertyName: string;
+}
+
+export interface SubscribeMessage extends HubMessage {
+  register: string;
 }
 
 export interface HubMessage extends MessagePackage {
@@ -102,10 +103,14 @@ export interface ObjectProxyBehaviour {
     invoke (host: any, method: string, params: any[]): Promise<any>;
     getProperty (host: any, name: string): Promise<any>;
     introspect(host: any): Introspection;
+    subscribe(hub: HubClient, objectDescription: ObjectDescription, host: any, register: string): Promise<any>;
+    unsubscribe(hub: HubClient, objectDescription: ObjectDescription, host: any, register: string): Promise<any>;
   };
   proxy: {
     invoke (proxy: any, consumer: ObjectConsumer, method: string, params: any[]): Promise<any>
     getProperty (proxy: any, consumer: ObjectConsumer, name: string): Promise<any>;
+    subscribe(proxy, consumer: ObjectConsumer, register: string, fn);
+    unsubscribe(proxy, consumer: ObjectConsumer, register: string, fn?);
   };
 }
 

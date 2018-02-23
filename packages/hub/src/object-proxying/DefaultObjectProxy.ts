@@ -41,4 +41,13 @@ export class DefaultObjectProxy {
   getProperty(name: string) {
     return this[BEHAVIOUR].proxy.getProperty(this, this[OBJECT_CONSUMER], name);
   }
+
+  subscribe(register: string, fn: (...x) => any) {
+    return this[BEHAVIOUR].proxy.subscribe(this, this[OBJECT_CONSUMER], register, fn);
+  }
+
+  unsubscribe(register: string, fn?: (...x) => any) {
+    return this[BEHAVIOUR].proxy.unsubscribe(this, this[OBJECT_CONSUMER], register, fn);
+  }
+
 }

@@ -1,10 +1,10 @@
 import {IntrospectionUtils} from './IntrospectionUtils';
 import {ObjectConsumer} from './ObjectConsumer';
-import {CallbackLocation, ObjectDescription, ObjectProxyBehaviour} from '../domain';
+import {ObjectDescription, ObjectProxyBehaviour} from '../domain';
 import {HubClient} from '../hub/HubClient';
 import {OBJECT_ACTION_INVOKE} from '../const';
 
-const hostWeakExtMap = new WeakMap();
+const hostWeakExtMap: WeakMap<any, any> = new WeakMap();
 
 export const DefaultObjectProxyBehaviour: ObjectProxyBehaviour = {
   host: {
@@ -17,53 +17,75 @@ export const DefaultObjectProxyBehaviour: ObjectProxyBehaviour = {
     introspect (host) {
       return IntrospectionUtils.introspect(host);
     },
-    subscribe(hub: HubClient, objectDescription: ObjectDescription, host, registor: string) {
+    async subscribe(hub: HubClient, objectDescription: ObjectDescription, host, register: string) {
+
       if(!hostWeakExtMap.has(host)) {
         hostWeakExtMap.set(host, new Map());
       }
-      const hostExt: Map = hostWeakExtMap.get(host);
-      const countKey = registor + '@count';
+      const hostExt: Map<string, any> = hostWeakExtMap.get(host);
+
+      const {countKey, cbKey} = getSubscribeKeys(register);
+
       if(!hostExt.has(countKey)) {
         hostExt.set(countKey, 0);
       }
       const cnt = hostExt.get(countKey) + 1;
       hostExt.set(countKey, cnt);
+
       if(cnt === 1) {
         const cb = async (...params) => {
           await hub.multipleInvoke({
             objectTag: objectDescription.tag,
-            objectName: objectDescription.name,
-            subscriber: true
+            objectName: objectDescription.name + '@subscriber',
           }, OBJECT_ACTION_INVOKE, {
-            data: params
+            propertyName: 'callback',
+            data: [register, params]
           });
         };
-        hostExt.set(registor, cb);
-        host.subscribe(registor, cb);
+        hostExt.set(cbKey, cb);
+        await host.subscribe(register, cb);
       }
+
+      return true;
+
     },
-    unsubscribe(hub: HubClient, objectDescription: ObjectDescription, host, registor: string) {
-      const map: Map = hostWeakExtMap.get(host);
-      const countKey = registor + '@count';
+    async unsubscribe(hub: HubClient, objectDescription: ObjectDescription, host, register: string) {
+
+      const map: Map<string, any> = hostWeakExtMap.get(host);
+
+      const {countKey, cbKey} = getSubscribeKeys(register);
+
       const cnt = map.get(countKey) - 1;
       map.set(countKey, cnt);
+
       if(cnt === 0) {
-        host.unsubscribe(registor, map.get(registor));
+        await host.unsubscribe(register, map.get(cbKey));
+        map.delete(countKey);
+        map.delete(cbKey);
       }
+
+      return true;
+
     },
   },
   proxy: {
     invoke (proxy, consumer: ObjectConsumer, method, params) {
       return consumer.invoke(method, params);
     },
-    subscribe(proxy, consumer, registor: string, callbackPosition: CallbackLocation) {
-
+    subscribe(proxy, consumer: ObjectConsumer, register: string, fn) {
+      return consumer.subscribe(register, fn);
     },
-    unsubscribe(proxy, consumer, registor: string, callbackPosition?: CallbackLocation) {
-
+    unsubscribe(proxy, consumer: ObjectConsumer, register: string, fn?) {
+      return consumer.unsubscribe(register, fn);
     },
     getProperty(proxy, consumer: ObjectConsumer, name) {
       return consumer.getProperty(name);
     },
   }
 };
+
+function getSubscribeKeys (register) {
+  const countKey = register + '@count';
+  const cbKey = register + '@cb';
+  return { countKey, cbKey };
+}

@@ -1,6 +1,9 @@
-import {DispatchHandler, Introspection, ObjectMessage} from '../domain';
+import {DispatchHandler, Introspection, ObjectMessage, SubscribeMessage} from '../domain';
 import {ProviderManager} from './ProviderManager';
-import {OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE} from '../const';
+import {
+  OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE,
+  OBJECT_ACTION_SUBSCRIBE, OBJECT_ACTION_UNSUBSCRIBE
+} from '../const';
 import {format} from 'util';
 import {ObjectProxyBehaviourManager} from './ObjectProxyBehaviourManager';
 
@@ -22,7 +25,7 @@ export class ObjectDispatchHandler implements DispatchHandler {
    * @param {ObjectMessage} message
    * @return {Promise<any>}
    */
-  async dispatch(message: ObjectMessage) {
+  async dispatch(message: ObjectMessage & SubscribeMessage) {
     if(message.action === OBJECT_ACTION_INVOKE) {
       return this.invoke(message);
     }
@@ -31,6 +34,12 @@ export class ObjectDispatchHandler implements DispatchHandler {
     }
     if(message.action === OBJECT_ACTION_INTROSPECT) {
       return this.introspect(message);
+    }
+    if(message.action === OBJECT_ACTION_SUBSCRIBE) {
+      return this.subscribe(message);
+    }
+    if(message.action === OBJECT_ACTION_UNSUBSCRIBE) {
+      return this.unsubscribe(message);
     }
   }
 
@@ -67,6 +76,38 @@ export class ObjectDispatchHandler implements DispatchHandler {
     if(obj[propertyName]) {
       return this.objectProxyBehaviourManager.getBehaviour(objectDescription).host.getProperty(obj, propertyName);
     }
+  }
+
+  /**
+   * Handle action OBJECT_ACTION_SUBSCRIBE
+   * @param {SubscribeMessage} message
+   * @return {Promise<any>}
+   */
+  async subscribe(message: SubscribeMessage) {
+    const register = message.register;
+    const objectDescription = {
+      name: message.remote.objectName,
+      tag: message.remote.objectTag
+    };
+    const obj = this.objectManager.getPublishedObject(objectDescription);
+    const behaviour = this.objectProxyBehaviourManager.getBehaviour(objectDescription);
+    await behaviour.host.subscribe(this.objectManager.hubClient, objectDescription, obj, register);
+  }
+
+  /**
+   * Handle action OBJECT_ACTION_UNSUBSCRIBE
+   * @param {SubscribeMessage} message
+   * @return {Promise<any>}
+   */
+  async unsubscribe(message: SubscribeMessage) {
+    const register = message.register;
+    const objectDescription = {
+      name: message.remote.objectName,
+      tag: message.remote.objectTag
+    };
+    const obj = this.objectManager.getPublishedObject(objectDescription);
+    const behaviour = this.objectProxyBehaviourManager.getBehaviour(objectDescription);
+    await behaviour.host.unsubscribe(this.objectManager.hubClient, objectDescription, obj, register);
   }
 
   /**
