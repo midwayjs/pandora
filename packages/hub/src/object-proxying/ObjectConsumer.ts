@@ -108,21 +108,19 @@ export class ObjectConsumer extends EventEmitter {
       this.removeAllListeners(register);
     }
 
-    let res;
     if(this.listenerCount(register) === 0) {
-      await this.hubClient.invoke({
+      const res = await this.hubClient.invoke({
         objectName: this.objectDescription.name,
         objectTag: this.objectDescription.tag,
       }, OBJECT_ACTION_UNSUBSCRIBE, {
         timeout: this.timeout,
         register: register
       });
+      if(res.error) {
+        throw res.error;
+      }
+      return res.data;
     }
-
-    if(res.error) {
-      throw res.error;
-    }
-    return res.data;
 
   }
 
