@@ -4,6 +4,7 @@ glossary: /glossary.html
 
 base:
   command: /base/command.html
+  dashboard: /other/dashboard.html
   procfile_mode: /base/procfile_mode.html
   dorapan: /base/dorapan.html
   logs: /base/logs.html
@@ -35,5 +36,4 @@ collect:
   # collect_error: /collect/error.html
 
 other:
-  dashboard: /other/dashboard.html
   typescript: /other/typescript.html
