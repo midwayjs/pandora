@@ -2,6 +2,7 @@
   "name": "pandora.js",
   "version": "0.0.1",
   "devDependencies": {
+    "eslint": "^4.18.1",
     "lerna": "^2.7.1",
     "lerna-relinker": "^1.4.0",
     "nyc": "^11.2.1",
@@ -9,7 +10,8 @@
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "typedoc": "^0.9.0",
-    "typescript": "~2.7.1"
+    "typescript": "~2.7.1",
+    "typescript-eslint-parser": "^14.0.0"
   },
   "scripts": {
     "test": "mocha",
