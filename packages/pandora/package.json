@@ -49,6 +49,7 @@
     "pandora-service-logger": "^1.7.7",
     "pandora-spawn-wrap": "^1.0.1",
     "read-last-lines": "^1.2.0",
+    "semver": "^5.5.0",
     "shimmer": "^1.1.0",
     "source-map-support": "^0.4.15",
     "table": "^4.0.1",
