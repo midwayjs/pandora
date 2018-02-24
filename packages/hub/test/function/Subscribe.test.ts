@@ -4,7 +4,6 @@ import {expect} from 'chai';
 
 describe('Subscribe', () => {
 
-
   class TestHub extends Hub {
     getRouteTable () {
       return this.routeTable;
@@ -13,7 +12,6 @@ describe('Subscribe', () => {
 
   let facade: Facade;
   let hub: TestHub;
-
 
   before(async () => {
     hub = new TestHub;
@@ -32,29 +30,47 @@ describe('Subscribe', () => {
     await hub.stop();
   });
 
+  let proxy;
+  let publisherSideCb = null;
+  let lastGot = null;
+
   it('should publish subscribable object be ok ', async () => {
 
       await facade.publish({
-        subscribe: async (a, cb) => {
-          await cb(a, Date.now());
-          await cb(a, Date.now());
-          await cb(a, Date.now());
+        subscribe: async (type, cb) => {
+          expect(type).to.be.equal('testType');
+          publisherSideCb = cb;
         },
-        unsubscribe: (a, b) => {
-          console.log('unsubscribe', a, b);
+        unsubscribe: async (type, cb?) => {
+          expect(type).to.be.equal('testType');
+          expect(publisherSideCb).to.be.equal(cb);
+          publisherSideCb = null;
         }
-      }, {
-        name: 'subscribableTag',
-        tag: 'latest'
-      });
+      }, { name: 'subscribableObject', tag: 'latest' });
 
+    proxy = await facade.getProxy<any>({name: 'subscribableObject', tag: 'latest'});
 
-    const proxy = await facade.getProxy<any>({name: 'subscribableTag', tag: 'latest'});
-
-    await proxy.subscribe('test', (a, b) => {
-      console.log(a, b);
+    await proxy.subscribe('testType', (a, b) => {
+      lastGot = [a, b];
     });
 
-
   });
+
+  it('should callback be ok / 1', async () => {
+    await publisherSideCb('1_arg1', '1_arg2');
+    expect(lastGot).to.be.deep.equal(['1_arg1', '1_arg2']);
+  });
+
+  it('should callback be ok / 2', async () => {
+    await publisherSideCb('2_arg1', '2_arg2');
+    expect(lastGot).to.be.deep.equal(['2_arg1', '2_arg2']);
+  });
+
+  it('should unpublish be ok', async () => {
+    const cbx = publisherSideCb;
+    await proxy.unsubscribe('testType');
+    expect(publisherSideCb).to.be.null;
+    await cbx('3_arg1', '3_arg2');
+  });
+
 });
