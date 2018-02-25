@@ -1,4 +1,4 @@
-export class ServiceA {
+module.exports = class ServiceA {
   async getPid() {
     return process.pid;
   }
