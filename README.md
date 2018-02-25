@@ -34,19 +34,19 @@ As a consequence of years of experiences on enterprise Node.js applications mana
 The main concepts of Pandora.js are:
 
 1. Manageable
-  * Standard management capabilities of applications, processes and basic services (such as middleware).
-  * Graceful online/offline.
-  * Inter-process object proxying.
+    * Standard management capabilities of applications, processes and basic services (such as middleware).
+    * Graceful online/offline.
+    * Inter-process object proxying.
 2. Measurable
-  * Be able to measure different aspects of applications.
-  * Support tons of metrics types, gauge, counter, meter, histogram, etc.
+    * Be able to measure different aspects of applications.
+    * Support tons of metrics types, gauge, counter, meter, histogram, etc.
 3. Traceable
-  * Be able to trace the whole execution stack, inspect applications at runtime.
-  * Support tons of 3rd party middlewares, MySQL, redis, etc. 
-  * Compatible with Open-Tracing standard
+    * Be able to trace the whole execution stack, inspect applications at runtime.
+    * Support tons of 3rd party middlewares, MySQL, redis, etc. 
+    * Compatible with Open-Tracing standard
 4. Highly available
-  * Provides mechanism to mock middleware failures, aims to enhance system resilience.
-  * Do trouble shooting by remote debugging.
+    * Provides mechanism to mock middleware failures, aims to enhance system resilience.
+    * Do trouble shooting by remote debugging.
 
 
 The data can be achieved via RESTFul API or local file system. It is super easy to integrate it with your monitoring system.
