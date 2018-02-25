@@ -44,6 +44,10 @@ The main concepts of Pandora.js are:
   * Be able to trace the whole execution stack, inspect applications at runtime.
   * Support tons of 3rd party middlewares, MySQL, redis, etc. 
   * Compatible with Open-Tracing standard
+4. Highly available
+  * Provides mechanism to mock middleware failures, aims to enhance system resilience.
+  * Do trouble shooting by remote debugging.
+
 
 The data can be achieved via RESTFul API or local file system. It is super easy to integrate it with your monitoring system.
 
