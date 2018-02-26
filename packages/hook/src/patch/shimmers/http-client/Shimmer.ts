@@ -225,7 +225,7 @@ export class HttpClientShimmer {
         type: 'bool'
       },
       'http.method': {
-        value: options.method,
+        value: options.method || '',
         type: 'string'
       },
       'http.hostname': {
