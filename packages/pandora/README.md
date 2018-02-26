@@ -12,10 +12,15 @@
 ## Installation
 
 ```bash
-$ npm install pandora@latest --save
+$ npm install -g pandora@latest --save
 ```
 
 Node.js >= 8.0.0 required.
+
+## Introductions and start with a example project
+
+* [Node.js Ops First with Pandora.js, Today](https://github.com/midwayjs/pandora/wiki/Node.js-Ops-First-with-Pandora.js,-Today)
+* [Pandora.js 专业的 Node.js 应用监控管理器，阿里开源](https://github.com/midwayjs/pandora/wiki/Pandora.js---%E4%B8%93%E4%B8%9A%E7%9A%84-Node.js-%E5%BA%94%E7%94%A8%E7%9B%91%E6%8E%A7%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%8C%E9%98%BF%E9%87%8C%E5%BC%80%E6%BA%90)
 
 ## Docs
 
@@ -29,16 +34,20 @@ As a consequence of years of experiences on enterprise Node.js applications mana
 The main concepts of Pandora.js are:
 
 1. Manageable
-  * Standard management capabilities of applications, processes and basic services (such as middleware).
-  * Graceful online/offline.
-  * Inter-process object proxying.
+    * Standard management capabilities of applications, processes and basic services (such as middleware).
+    * Graceful online/offline.
+    * Inter-process object proxying.
 2. Measurable
-  * Be able to measure different aspects of applications.
-  * Support tons of metrics types, gauge, counter, meter, histogram, etc.
+    * Be able to measure different aspects of applications.
+    * Support tons of metrics types, gauge, counter, meter, histogram, etc.
 3. Traceable
-  * Be able to trace the whole execution stack, inspect applications at runtime.
-  * Support tons of 3rd party middlewares, MySQL, redis, etc. 
-  * Compatible with Open-Tracing standard
+    * Be able to trace the whole execution stack, inspect applications at runtime.
+    * Support tons of 3rd party middlewares, MySQL, redis, etc. 
+    * Compatible with Open-Tracing standard
+4. Highly available
+    * Provides mechanism to mock middleware failures, aims to enhance system resilience.
+    * Do trouble shooting by remote debugging.
+
 
 The data can be achieved via RESTFul API or local file system. It is super easy to integrate it with your monitoring system.
 
