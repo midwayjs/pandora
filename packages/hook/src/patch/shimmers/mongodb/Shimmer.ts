@@ -29,6 +29,11 @@ export class MongodbShimmer {
     this.traceManager = traceManager;
   }
 
+  /**
+   * 注入 modules，有 mongodb apm 提供
+   * @param {Error} error - 错误信息
+   * @param {Array} instrumentations - 可注入的模块
+   */
   instrumentModules = (error, instrumentations) =>  {
     if (error) {
       debug('instrumentModules error. ', error);
@@ -38,6 +43,10 @@ export class MongodbShimmer {
     instrumentations.forEach(this.instrumentModule);
   }
 
+  /**
+   * 注入 module，处理每个大模块下的子方法
+   * @param {Object} module - 模块信息
+   */
   instrumentModule = (module) => {
     const object = module.obj;
     const instrumentations = module.instrumentations;
@@ -49,11 +58,20 @@ export class MongodbShimmer {
     }
   }
 
+  /**
+   * 执行模块注入
+   * @param {String} objectName - 模块名称
+   * @param {Object} object - 模块实例
+   * @param {Object} instrumentation - 注入的方法
+   */
   applyInstrumentation(objectName, object, instrumentation) {
     const methods = instrumentation.methods;
     const methodOptions = instrumentation.options;
 
+    // 可以判断是否为异步方法，mongodb 内部会给出类似 {callback: true, promise: true} 描述
+    // callback 为 true 时，promise 不一定为 true
     if (methodOptions.callback) {
+      console.log('wrap: ', objectName, methods, methodOptions);
       for (let j = 0; j < methods.length; j++) {
         let method = methods[j];
 
@@ -64,7 +82,7 @@ export class MongodbShimmer {
         if (is.nullOrUndefined(isQuery)) {
           debug('No wrapping method found for %s', objectName);
         } else {
-          this.wrapQuery(proto, method, extractQueryFunc(method), isQuery);
+          this.wrapQuery(proto, method, extractQueryFunc(method, methodOptions), isQuery);
         }
       }
     }
@@ -106,6 +124,8 @@ export class MongodbShimmer {
 
     // 透传 invokeInfo，但最后不输出 tag
     tags['invokeInfo'] = {
+      callback: invokeInfo.callback,
+      promise: invokeInfo.promise,
       callbackIdx: invokeInfo.callbackIdx
     };
 
@@ -154,7 +174,6 @@ export class MongodbShimmer {
     return this.shimmer.wrap(module, method, function queryWrapper(query) {
       return function wrappedQuery(this: any) {
         const tracer = traceManager.getCurrentTracer();
-        console.log('method, args: ', method, arguments);
 
         if (!tracer) {
           debug('No current tracer, skip trace');
@@ -173,13 +192,6 @@ export class MongodbShimmer {
 
         const invokeInfo = tags.invokeInfo;
         delete tags.invokeInfo;
-        const callbackIdx = invokeInfo.callbackIdx;
-        let callback = args[args.length + callbackIdx];
-
-        if (!callback) {
-          debug('query callback null, ignore trace.', args);
-          return query.apply(this, args);
-        }
 
         const span = self._createSpan(tracer, currentSpan);
 
@@ -190,30 +202,49 @@ export class MongodbShimmer {
 
         span.addTags(tags);
 
+        if (invokeInfo.callback) {
+          const callbackIdx = invokeInfo.callbackIdx;
+          const callback = args[args.length + callbackIdx];
+
+          if (!callback) {
+            debug('query callback null, won\'t wrap callback.', args);
+          } else {
+            // wrapCallback
+          }
+        }
+
         const ret = query.apply(this, args);
 
-        ret && ret.then && ret.then((data) => {
-          console.log('aaaa: ', arguments);
-          tracer.setCurrentSpan(span);
-          span.error(false);
-
-          span.finish();
-          self._finish(span);
-
-          return data;
-        }).catch((error) => {
-          tracer.setCurrentSpan(span);
-          span.error(true);
-
-          span.finish();
-          self._finish(span);
-
-          throw error;
-        });
-
-        console.log('====> ret: ', ret);
+        if (ret) {
+          if (invokeInfo.promise && is.promise(ret)) {
+            // wrapPromise
+          }
+        }
 
         return ret;
+
+        // ret && ret.then && ret.then((data) => {
+        //   console.log('aaaa: ', arguments);
+        //   tracer.setCurrentSpan(span);
+        //   span.error(false);
+        //
+        //   span.finish();
+        //   self._finish(span);
+        //
+        //   return data;
+        // }).catch((error) => {
+        //   tracer.setCurrentSpan(span);
+        //   span.error(true);
+        //
+        //   span.finish();
+        //   self._finish(span);
+        //
+        //   throw error;
+        // });
+        //
+        // console.log('====> ret: ', ret);
+        //
+        // return ret;
 
         // callback = traceManager.bind(callback);
         //
@@ -293,7 +324,10 @@ export class MongodbShimmer {
     };
   }
 
-  extractQueryFactory = (methodName) => {
+  extractQueryFactory = (methodName, methodOptions = {
+    callback: false,
+    promise: false
+  }) => {
     const self = this;
 
     return function extractQuery(ctx) {
@@ -302,6 +336,8 @@ export class MongodbShimmer {
 
       return {
         query: methodName,
+        callback: methodOptions.callback,
+        promise: methodOptions.promise,
         callbackIdx,
         instanceAttr
       };
@@ -313,10 +349,15 @@ export class MongodbShimmer {
     return {
       'Gridstore': {
         isQuery: false,
-        extractQuery: function gridQueryExtract(opName) {
+        extractQuery: function gridQueryExtract(opName, methodOptions = {
+          callback: false,
+          promise: false
+        }) {
           return {
             name: 'GridFS-' + opName,
-            callbackIdx: -1
+            callbackIdx: -1,
+            callback: methodOptions.callback,
+            promise: methodOptions.promise
           };
         }
       },
@@ -346,10 +387,15 @@ export class MongodbShimmer {
       },
       'Db': {
         isQuery: false,
-        extractQuery: function dbQueryExtract(opName) {
+        extractQuery: function dbQueryExtract(opName, methodOptions = {
+          callback: false,
+          promise: false
+        }) {
           return {
             name: 'DB-' + opName,
-            callbackIdx: -1
+            callbackIdx: -1,
+            callback: methodOptions.callback,
+            promise: methodOptions.promise
           };
         }
       }
@@ -377,7 +423,7 @@ export class MongodbShimmer {
       databaseName: database
     });
 
-    console.log('====> params: ', params);
+    return params;
   }
 
   /**

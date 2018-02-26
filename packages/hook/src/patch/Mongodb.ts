@@ -33,6 +33,7 @@ export class MongodbPatcher extends Patcher {
         mongodb.instrument({}, mongodbShimmer.instrumentModules);
 
         // console.log('run this3');
+        // 认为 startd 在 span 创建后，检查 span 里信息是否正确
         // instrumenter.on('started', function onMongoEventStarted(event) {
         //   const connId = event.connectionId;
         //   console.log('event: ', event);
