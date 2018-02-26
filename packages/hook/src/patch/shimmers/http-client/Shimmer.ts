@@ -225,7 +225,7 @@ export class HttpClientShimmer {
         type: 'bool'
       },
       'http.method': {
-        value: options.method || '',
+        value: options.method || 'GET', // 为空时默认 GET
         type: 'string'
       },
       'http.hostname': {
