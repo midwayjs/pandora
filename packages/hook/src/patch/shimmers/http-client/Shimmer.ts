@@ -225,7 +225,7 @@ export class HttpClientShimmer {
         type: 'bool'
       },
       'http.method': {
-        value: options.method,
+        value: options.method || 'GET', // use 'GET' default, like node.js
         type: 'string'
       },
       'http.hostname': {
@@ -237,7 +237,7 @@ export class HttpClientShimmer {
         type: 'string'
       },
       'http.path': {
-        value: request.path,
+        value: request.path || '/', // use '/' default, like node.js
         type: 'string'
       }
     };
