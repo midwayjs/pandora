@@ -7,8 +7,7 @@
 import * as assert from 'assert';
 import { INSTANCE_UNKNOWN } from '../../../utils/Constants';
 import * as is from 'is-type-of';
-import * as os from 'os';
-import { isLocalhost, hasOwn } from '../../../utils/Utils';
+import { normalizeInfo } from '../../../utils/Database';
 const debug = require('debug')('PandoraHook:Mongodb:Shimmer');
 
 export class MongodbShimmer {
@@ -30,7 +29,7 @@ export class MongodbShimmer {
   }
 
   /**
-   * 注入 modules，有 mongodb apm 提供
+   * 注入 modules，由 mongodb apm 提供
    * @param {Error} error - 错误信息
    * @param {Array} instrumentations - 可注入的模块
    */
@@ -71,7 +70,6 @@ export class MongodbShimmer {
     // 可以判断是否为异步方法，mongodb 内部会给出类似 {callback: true, promise: true} 描述
     // callback 为 true 时，promise 不一定为 true
     if (methodOptions.callback) {
-      console.log('wrap: ', objectName, methods, methodOptions);
       for (let j = 0; j < methods.length; j++) {
         let method = methods[j];
 
@@ -87,9 +85,7 @@ export class MongodbShimmer {
       }
     }
 
-    // the cursor object implements Readable stream and internally calls nextObject on
-    // each read, in which case we do not want to record each nextObject() call
-    if (objectName === 'Cursor') {
+    if (/Cursor$/.test(objectName)) {
       this.wrapQuery(object.prototype, 'pipe');
     }
   }
@@ -99,7 +95,7 @@ export class MongodbShimmer {
 
     if (isQuery) {
       tags['mongodb.method'] = {
-        value: invokeInfo.query,
+        value: parsedQuery.operation || invokeInfo.query,
         type: 'string'
       };
 
@@ -114,6 +110,10 @@ export class MongodbShimmer {
       tags['mongodb.database'] = {
         type: 'string',
         value: invokeInfo.instanceAttr.databaseName
+      };
+      tags['mongodb.collection'] = {
+        type: 'string',
+        value: parsedQuery.collection
       };
     } else {
       tags['mongodb.method'] = {
@@ -140,20 +140,20 @@ export class MongodbShimmer {
 
       if (isQuery) {
         if (invokeInfo.instanceAttr) {
-          invokeInfo.instanceAttr = self.normalizeInfo(invokeInfo.instanceAttr);
+          invokeInfo.instanceAttr = normalizeInfo(invokeInfo.instanceAttr);
         }
       }
       let parsedQuery = {};
       if (invokeInfo.query) {
-        parsedQuery = self.parseQuery(invokeInfo.query);
+        parsedQuery = self.parseQuery(ctx, invokeInfo.query);
       }
 
       return self.buildTags(invokeInfo, isQuery, parsedQuery);
     });
   }
 
-  parseQuery(query) {
-    return this.mongoQueryParser(query);
+  parseQuery(ctx, query) {
+    return this.mongoQueryParser(ctx, query);
   }
 
   protected _createSpan(tracer, currentSpan) {
@@ -166,6 +166,25 @@ export class MongodbShimmer {
   }
 
   protected _finish(span) {}
+
+  wrapCallback(callback, span, tracer) {
+    const self = this;
+    const traceManager = this.traceManager;
+    callback = traceManager.bind(callback);
+
+    let _callback = function wrapQueryCallback(error, results, fields) {
+      tracer.setCurrentSpan(span);
+
+      span.error(!!error);
+
+      span.finish();
+      self._finish(span);
+
+      return callback(error, results, fields);
+    };
+
+    return traceManager.bind(_callback);
+  }
 
   protected _wrapQuery(module, method, tagsBuilder) {
     const self = this;
@@ -201,84 +220,69 @@ export class MongodbShimmer {
         }
 
         span.addTags(tags);
-
+        let callbackSkip = false;
         if (invokeInfo.callback) {
           const callbackIdx = invokeInfo.callbackIdx;
-          const callback = args[args.length + callbackIdx];
+          let callback = args[args.length + callbackIdx];
 
-          if (!callback) {
-            debug('query callback null, won\'t wrap callback.', args);
+          if (callback && is.function(callback)) {
+            callback = self.wrapCallback(callback, span, tracer);
+            args[args.length + callbackIdx] = callback;
           } else {
-            // wrapCallback
+            callbackSkip = true;
+            debug('query callback null, won\'t wrap callback.', args);
           }
         }
 
-        const ret = query.apply(this, args);
+        let ret;
+
+        try {
+          ret = query.apply(this, args);
+        } finally {
+          if (callbackSkip && invokeInfo.callback && !invokeInfo.promise) {
+            tracer.setCurrentSpan(span);
+            span.error(false);
+            span.finish();
+            self._finish(span);
+          }
+        }
 
         if (ret) {
           if (invokeInfo.promise && is.promise(ret)) {
-            // wrapPromise
+
+            return ret.then((result) => {
+              tracer.setCurrentSpan(span);
+              span.error(false);
+
+              span.finish();
+              self._finish(span);
+
+              return result;
+            }).catch((error) => {
+              tracer.setCurrentSpan(span);
+              span.error(true);
+
+              span.finish();
+              self._finish(span);
+
+              throw error;
+            });
           }
         }
 
         return ret;
-
-        // ret && ret.then && ret.then((data) => {
-        //   console.log('aaaa: ', arguments);
-        //   tracer.setCurrentSpan(span);
-        //   span.error(false);
-        //
-        //   span.finish();
-        //   self._finish(span);
-        //
-        //   return data;
-        // }).catch((error) => {
-        //   tracer.setCurrentSpan(span);
-        //   span.error(true);
-        //
-        //   span.finish();
-        //   self._finish(span);
-        //
-        //   throw error;
-        // });
-        //
-        // console.log('====> ret: ', ret);
-        //
-        // return ret;
-
-        // callback = traceManager.bind(callback);
-        //
-        // let _callback = function wrappedQueryCallback(error, results, fields) {
-        //   tracer.setCurrentSpan(span);
-        //
-        //   span.error(!!error);
-        //
-        //   span.finish();
-        //   self._finish(span);
-        //
-        //   return callback(error, results, fields);
-        // };
-
-        // _callback = traceManager.bind(_callback);
-
-        // if (callbackIdx === -1) {
-        //   // 调用参数为 Query 实例的情况，只有一个参数
-        //   args[0]._callback = _callback;
-        // } else {
-        //   args[callbackIdx] = _callback;
-        // }
       };
     });
   }
 
-  mongoQueryParser(this: any, operation) {
-    let collection = this.collectionName || INSTANCE_UNKNOWN;
-    if (this.collection && this.collection.collectionName) {
-      collection = this.collection.collectionName;
-    } else if (this.s && this.s.name) {
-      collection = this.s.name;
-    } else if (this.ns) {
-      collection = this.ns.split(/\./)[1] || collection;
+  mongoQueryParser(ctx, operation) {
+    let collection = ctx.collectionName || INSTANCE_UNKNOWN;
+    if (ctx.collection && ctx.collection.collectionName) {
+      collection = ctx.collection.collectionName;
+    } else if (ctx.s && ctx.s.name) {
+      collection = ctx.s.name;
+    } else if (ctx.ns) {
+      collection = ctx.ns.split(/\./)[1] || collection;
     }
 
     return {
@@ -288,14 +292,19 @@ export class MongodbShimmer {
   }
 
   getInstanceAttr(ctx) {
-    if (ctx.db && ctx.db.serverConfig) {
-      const databaseName = (
-        ctx.db.serverConfig.db ||
-        ctx.db.serverConfig.dbInstance ||
-        { databaseName: null }
-      ).databaseName;
+    const innerState = ctx.s;
+    let databaseName, serverOptions;
 
-      return this._getInstanceAttr(ctx.db.serverConfig, databaseName);
+    databaseName = innerState.databaseName || innerState.dbName || null;
+
+    if (innerState.topology) {
+      serverOptions = innerState.topology.s && innerState.topology.s.options;
+    } else if (innerState.db && innerState.db.serverConfig) {
+      serverOptions = innerState.db.serverConfig;
+    }
+
+    if (serverOptions) {
+      return this._getInstanceAttr(serverOptions, databaseName);
     }
 
     debug('Can not find instance attr.');
@@ -400,71 +409,5 @@ export class MongodbShimmer {
         }
       }
     };
-  }
-
-  captureInstanceAttributes(this: any, host, port, database) {
-    const tracer = this.traceManager.getCurrentTracer();
-
-    if (!tracer) {
-      debug('No available tracer, skip.');
-      return;
-    }
-
-    const currentSpan = tracer.getCurrentSpan();
-
-    if (!currentSpan) {
-      debug('No current span was found, skip.');
-      return;
-    }
-
-    const params = this.normalizeInfo({
-      host: host,
-      portPath: port,
-      databaseName: database
-    });
-
-    return params;
-  }
-
-  /**
-   * 规范实例信息，主要是根据参数过滤以及处理空值
-   * @param {object} info - 实例信息
-   * @returns {object}
-   */
-  protected normalizeInfo = (info) => {
-    info = info || {};
-    const options = this.options;
-
-    if (!options.recordDatabaseName) {
-      delete info.databaseName;
-    } else if (
-      hasOwn(info, 'databaseName') &&
-      info.databaseName !== false
-    ) {
-      info.databaseName = is.number(info.databaseName)
-        ? String(info.databaseName)
-        : (info.databaseName || INSTANCE_UNKNOWN);
-    }
-
-    if (!options.recordInstance) {
-      delete info.host;
-      delete info.portPath;
-    } else {
-      if (hasOwn(info, 'portPath')) {
-        info.portPath = String(info.portPath || INSTANCE_UNKNOWN);
-      }
-
-      if (hasOwn(info, 'host')) {
-        if (info.host && isLocalhost(info.host)) {
-          info.host = os.hostname();
-        }
-
-        if (!info.host) {
-          info.host = INSTANCE_UNKNOWN;
-        }
-      }
-    }
-
-    return info;
   }
 }

@@ -54,6 +54,10 @@ export class PandoraSpan extends OpenTraceSpan {
     this.operationName = name;
   }
 
+  get name() {
+    return this.operationName;
+  }
+
   _addTags(tags) {
     const keys = Object.keys(tags);
 

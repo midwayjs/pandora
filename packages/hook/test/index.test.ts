@@ -218,7 +218,7 @@ describe('unit test', () => {
     });
   });
 
-  describe.only('mongodb', function () {
+  describe('mongodb', function () {
     let server;
 
     before(() => {

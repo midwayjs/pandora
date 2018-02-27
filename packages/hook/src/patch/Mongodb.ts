@@ -27,28 +27,11 @@ export class MongodbPatcher extends Patcher {
       const mongodb = loadModule('./index');
 
       if (mongodb.instrument) {
-        console.log('run this1');
         const mongodbShimmer = new MongodbShimmer(shimmer, traceManager, options);
-        console.log('run this2');
         mongodb.instrument({}, mongodbShimmer.instrumentModules);
-
-        // console.log('run this3');
-        // 认为 startd 在 span 创建后，检查 span 里信息是否正确
-        // instrumenter.on('started', function onMongoEventStarted(event) {
-        //   const connId = event.connectionId;
-        //   console.log('event: ', event);
-        //   if (connId) {
-        //     // Mongo sticks the path to the domain socket in the "host" slot, but we
-        //     // want it in the "port", so if we have a domain socket we need to change
-        //     // the order of our parameters.
-        //     if (connId.domainSocket) {
-        //       mongodbShimmer.captureInstanceAttributes('localhost', connId.host, event.databaseName);
-        //     } else {
-        //       mongodbShimmer.captureInstanceAttributes(connId.host, connId.port, event.databaseName);
-        //     }
-        //   }
-        // });
       }
+
+      // 暂时不考虑没有 apm 的低版本
 
       return;
     });

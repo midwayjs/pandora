@@ -21,22 +21,20 @@ RunUtil.run(function(done) {
   const mongodb = require('mongodb');
 
   process.on(<any>'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
-    console.log('====> report: ', JSON.stringify(report, null, 2));
     assert(report);
+    assert(report.spans.length > 4);
 
     done();
   });
 
   const server = http.createServer((req, res) => {
     mongodb.connect('mongodb://127.0.0.1:40001/test', (err, client) => {
-      console.log('connect error: ', err);
       const coll = client.db('foo').collection('bar');
 
       return coll
         .insert({ a: 42 })
         .then(() => coll.findOne({}, { readConcern: { level: 'majority' } }))
         .then(() => {
-          console.log('run ok');
           res.end('ok');
           return client.close();
         }).catch((err) => {
