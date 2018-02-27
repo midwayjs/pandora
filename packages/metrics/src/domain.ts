@@ -139,7 +139,8 @@ export interface Reporter {
 
 export interface ActuatorResource {
   prefix: string;
-  route(routers);
+  aliasPrefix?: Array<string>;
+  route(router);
 }
 
 export interface ActuatorServer {
