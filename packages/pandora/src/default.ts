@@ -139,7 +139,7 @@ export default {
         resource: TraceResource,
         initConfig: {
           cacheSize: 1000,
-          rate: 10,
+          rate: process.env.NODE_ENV === 'production' ? 100 : 10,
           priority: true // 优先级高的链路是否跳出采样率限制
         }
       }
