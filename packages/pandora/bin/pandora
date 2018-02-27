@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 
-if (Number(process.versions.node[0] < 8)) {
+const ver = require('semver').major(process.versions.node);;
+
+if (ver < 8) {
   const colors = require('colors');
   console.error(colors.red('Pandora.js requires Node.js >= 8.0.0, current version is ' + process.versions.node));
   process.exit(1);
