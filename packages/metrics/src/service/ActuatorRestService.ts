@@ -104,7 +104,7 @@ export class ActuatorRestService implements ActuatorService {
 
   static match(matchStore, matchValue) {
     for(let v of matchStore) {
-      if(matchValue.indexOf(v) !== -1) {
+      if(matchValue.startsWith(v)) {
         return true;
       }
     }
