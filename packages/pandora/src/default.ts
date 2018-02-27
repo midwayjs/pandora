@@ -181,6 +181,10 @@ export default {
     redis: {
       enabled: true,
       target: hooks.RedisPatcher
+    },
+    mongodb: {
+      enabled: false,
+      target: hooks.MongodbPatcher
     }
   },
   reporterInterval: 15,
