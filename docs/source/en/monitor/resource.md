@@ -6,6 +6,8 @@ In the Pandora.js, we provided a batch of built-in EndPoints, the data of those 
 
 ## Common behavior
 
+All API can access via `http://127.1:7002/`, such like `curl http://127.1:7002/info`. It only listen on loopback address (127.0.0.1), cannot access from outside, so that means no safety problem.
+
 All RESTFul resource APIs are packaged by a uniform data structure, the origin data is in the `data` field.
 
 ```javascript

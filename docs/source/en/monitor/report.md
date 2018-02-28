@@ -1,4 +1,4 @@
-title: Monitor Data Report
+title: Monitoring Data Report
 ---
 
 ## Default Reporter

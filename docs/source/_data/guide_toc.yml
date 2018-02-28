@@ -22,11 +22,11 @@ process:
 
 monitor:
   monitor_std: /monitor/monitor_std.html
-  endpoint: /monitor/endpoint.html
   resource: /monitor/resource.html
-  metrics_std: /monitor/metrics.html
   trace_std: /monitor/trace.html
   monitor_inner: /monitor/monitor_inner.html
+  endpoint: /monitor/endpoint.html
+  metrics_std: /monitor/metrics.html
   report: /monitor/report.html
 
 collect:

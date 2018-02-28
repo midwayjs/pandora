@@ -19,7 +19,7 @@ guide_toc:
   procfile_mode: "Understand procfile.js"
   dorapan: "User SDK - Dorapan"
   debug: "Debugging"
-  logs: "Logger"
+  logs: "Log management"
   global_config: "Global Config"
   quick_monitor: "Monitoring Quick Start"
   monitor_inner: "Base Monitoring"
@@ -36,7 +36,7 @@ guide_toc:
   endpoint: "EndPoint usage and extension"
   resource: "Expose RESTFul API"
   metrics_std: "Metrics usage and extension"
-  trace_std: "Trace business logic link"
+  trace_std: "Trace Each Requests"
   report: "Monitoring Data Report"
   #Data Report
   collect: "Monitoring Data Collection"

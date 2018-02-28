@@ -5,6 +5,8 @@ title: Log management
 
 Based on the directory specification, we have agreed on the following directory structure.
 
+loggDir default is `~/logs`, that can be changed via global config, please check the following sections.
+
 ```js
 - ${loggDir}
 	- pandorajs
@@ -24,10 +26,6 @@ Based on the directory specification, we have agreed on the following directory 
 1. Pandora. js will write stdout at `${logsDir}/${appName}/nodejs_stdout.log`
 2. log will be reload by date
 
-
-## Automatic log cleaning
-
-Pandora.js has cut the log by day (or size), and does not provide log cleaning. You can configure a simple `crontab` for` ~ / logs`, like [similar tutorial](https://www.cnblogs.com/peida/archive/2013/03/25/2980121.html)。
 
 ## Log default configuration
 
@@ -77,3 +75,8 @@ More detail [LoggerService](http://www.midwayjs.org/pandora/api-reference/servic
 ## Connect to log service
 
 Discussion：<https://github.com/midwayjs/pandora/issues/50>
+
+## Automatic log cleaning
+
+Pandora.js has cut the log by day (or size), and does not provide log cleaning. You can configure a simple `crontab` for` ~ / logs`, like [similar tutorial](https://www.cnblogs.com/peida/archive/2013/03/25/2980121.html)。
+
