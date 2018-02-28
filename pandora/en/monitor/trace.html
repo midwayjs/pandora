@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Trace business logic link - Ready to Boot</title>
+  <title>Trace Each Requests - Ready to Boot</title>
   <meta charset="utf-8">
   <meta name="description" content="index.description">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -17,7 +17,7 @@
     <ul class="nav-item">
       <li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li>
       <li class="translations">
-        <a class="nav-link">English</a>
+        <a class="nav-link">Language - English</a>
         <span class="arrow" style="border-top-color:#fff" ></span>
         <ul class="dropdown-content" >
           <li style="display: block; margin-left: 20px" ><a style="color: #008ce6" href="/pandora/zh-cn">中文</a></li>
@@ -39,15 +39,71 @@
   <div id="container" class="container">
     <div class="page-main">
   <article class="markdown-body">
-    <h1>Trace business logic link</h1>
-    <p>On the way</p>
+    <h1>Trace Each Requests</h1>
+    <h3 id="supported-trace-span-list"><a class="markdown-anchor" href="#supported-trace-span-list">#</a> Supported trace span list</h3>
+<p>All of the spands mentioned below are implemented and opened by default.</p>
+<table>
+<thead>
+<tr>
+<th>Span</th>
+<th>Version</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>http(s).createServer()</td>
+<td>-</td>
+<td>All HTTP(S) Server, it also includes npm: koa, npm: express and etc</td>
+</tr>
+<tr>
+<td>http(s).request()</td>
+<td>-</td>
+<td>All HTTP requests, it also includes npm: request, npm: urllib and etc</td>
+</tr>
+<tr>
+<td>npm: mongodb</td>
+<td>&gt;=2.2.x</td>
+<td>it also includes ORM Based on mongodb, such as mongoose</td>
+</tr>
+<tr>
+<td>npm: mysql</td>
+<td>^2.x</td>
+<td>it also includes ORM Based on mysql, such as sequelize</td>
+</tr>
+<tr>
+<td>npm: mysql2</td>
+<td>^1.5</td>
+<td>-</td>
+</tr>
+<tr>
+<td>npm: ioredis</td>
+<td>^3.x</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>Other requirements please <a href="https://github.com/midwayjs/pandora/issues" target="_blank" rel="noopener">create Issue on GitHub</a>.</p>
+<h3 id="how-to-view-trace-link"><a class="markdown-anchor" href="#how-to-view-trace-link">#</a> How to view trace link</h3>
+<p>You can view it via Restful API</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">curl http:<span class="comment">//127.0.0.1:7002/trace?appName=my-site # my-site 是您的应用名</span></span><br></pre></td></tr></table></figure>
+<p>It can also be viewed through GUI Dashboard, <a href="../other/dashboard.html">check docs</a>.</p>
+<h3 id="about-sampling-rate"><a class="markdown-anchor" href="#about-sampling-rate">#</a> about sampling rate</h3>
+<p>Default sampling rate is:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  rate: process.env.NODE_ENV === <span class="string">'production'</span> ? <span class="number">100</span> : <span class="number">10</span>,</span><br><span class="line">  <span class="comment">// If the trace with the highest priority is out of the sample rate limit,</span></span><br><span class="line">  <span class="comment">// such as a wrong trace.</span></span><br><span class="line">  priority: <span class="literal">true</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Production environment is 10%, otherwise 100%.</p>
+<p>That can be changed via global config, <a href="../base/global_config.html">docs</a>.</p>
+<h3 id="how-to-add-a-new-kind-of-spans"><a class="markdown-anchor" href="#how-to-add-a-new-kind-of-spans">#</a> How to add a new kind of spans</h3>
+<p>TODO</p>
+<h3 id="principle"><a class="markdown-anchor" href="#principle">#</a> Principle</h3>
+<p>TODO</p>
 
   </article>
   <aside id="mobileAside" class="toc">
   <div class="mobile-menu">
     <ul><li><a href="/pandora/en/introduce.html" alt="Documentation">Documentation</a></li><li><a href="/pandora/en/api.html" alt="API reference">API reference</a></li><li><a href="https://github.com/midwayjs/pandora/releases" alt="Change Log">Change Log</a></li></ul>
   </div>
-  <dl><dt><a href="/pandora/en/introduce.html">What is the Pandora.js</a></dt></ul></dd><dt><a href="/pandora/en/quickstart.html">Quick Start</a></dt></ul></dd><dt><a href="/pandora/en/glossary.html">Glossary</a></dt></ul></dd><dt>Basic Features</dt><dd><ul><li><a href="/pandora/en/base/command.html">Commands</a></li><li><a href="/pandora/en/other/dashboard.html">GUI Dashboard</a></li><li><a href="/pandora/en/base/procfile_mode.html">Understand procfile.js</a></li><li><a href="/pandora/en/base/dorapan.html">User SDK - Dorapan</a></li><li><a href="/pandora/en/base/logs.html">Logger</a></li><li><a href="/pandora/en/base/global_config.html">Global Config</a></li><li><a href="/pandora/en/base/quick_monitor.html">Monitoring Quick Start</a></li><li><a href="/pandora/en/base/debug.html">Debugging</a></li></ul></dd><dt>Advanced Processes Model</dt><dd><ul><li><a href="/pandora/en/process/process_std.html">Custom Process</a></li><li><a href="/pandora/en/process/service_std.html">Custom Service</a></li><li><a href="/pandora/en/process/fork_and_cluster.html">Fork And Cluster</a></li><li><a href="/pandora/en/process/environment_std.html">Custom Environment</a></li><li><a href="/pandora/en/process/application_life_cycle.html">Application Life Cycle</a></li><li><a href="/pandora/en/process/ipc_hub.html">IPC-Hub</a></li></ul></dd><dt>Application Monitoring</dt><dd><ul><li><a href="/pandora/en/monitor/monitor_std.html">Overview of Monitoring</a></li><li><a href="/pandora/en/monitor/endpoint.html">EndPoint usage and extension</a></li><li><a href="/pandora/en/monitor/resource.html">Expose RESTFul API</a></li><li><a href="/pandora/en/monitor/metrics.html">Metrics usage and extension</a></li><li><a href="/pandora/en/monitor/trace.html">Trace business logic link</a></li><li><a href="/pandora/en/monitor/monitor_inner.html">Base Monitoring</a></li><li><a href="/pandora/en/monitor/report.html">Monitoring Data Report</a></li></ul></dd><dt>Monitoring Data Collection</dt><dd><ul><li><a href="/pandora/en/collect/health.html">Health Check</a></li></ul></dd><dt>Extension</dt><dd><ul><li><a href="/pandora/en/other/typescript.html">Start A TypeScript Project</a></li></ul></dd></dl>
+  <dl><dt><a href="/pandora/en/introduce.html">What is the Pandora.js</a></dt></ul></dd><dt><a href="/pandora/en/quickstart.html">Quick Start</a></dt></ul></dd><dt><a href="/pandora/en/glossary.html">Glossary</a></dt></ul></dd><dt>Basic Features</dt><dd><ul><li><a href="/pandora/en/base/command.html">Commands</a></li><li><a href="/pandora/en/other/dashboard.html">GUI Dashboard</a></li><li><a href="/pandora/en/base/procfile_mode.html">Understand procfile.js</a></li><li><a href="/pandora/en/base/dorapan.html">User SDK - Dorapan</a></li><li><a href="/pandora/en/base/logs.html">Log management</a></li><li><a href="/pandora/en/base/global_config.html">Global Config</a></li><li><a href="/pandora/en/base/quick_monitor.html">Monitoring Quick Start</a></li><li><a href="/pandora/en/base/debug.html">Debugging</a></li></ul></dd><dt>Advanced Processes Model</dt><dd><ul><li><a href="/pandora/en/process/process_std.html">Custom Process</a></li><li><a href="/pandora/en/process/service_std.html">Custom Service</a></li><li><a href="/pandora/en/process/fork_and_cluster.html">Fork And Cluster</a></li><li><a href="/pandora/en/process/environment_std.html">Custom Environment</a></li><li><a href="/pandora/en/process/application_life_cycle.html">Application Life Cycle</a></li><li><a href="/pandora/en/process/ipc_hub.html">IPC-Hub</a></li></ul></dd><dt>Application Monitoring</dt><dd><ul><li><a href="/pandora/en/monitor/monitor_std.html">Overview of Monitoring</a></li><li><a href="/pandora/en/monitor/resource.html">Exposed RESTFul API</a></li><li><a href="/pandora/en/monitor/trace.html">Trace Each Requests</a></li><li><a href="/pandora/en/monitor/monitor_inner.html">Base Monitoring</a></li><li><a href="/pandora/en/monitor/endpoint.html">EndPoint usage and extension</a></li><li><a href="/pandora/en/monitor/metrics.html">Metrics usage and extension</a></li><li><a href="/pandora/en/monitor/report.html">Monitoring Data Report</a></li></ul></dd><dt>Monitoring Data Collection</dt><dd><ul><li><a href="/pandora/en/collect/health.html">Health Check</a></li></ul></dd><dt>Extension</dt><dd><ul><li><a href="/pandora/en/other/typescript.html">Start A TypeScript Project</a></li></ul></dd></dl>
 </aside>
 <script>
 var mobileTrigger = document.getElementById('mobileTrigger');
