@@ -1,4 +1,4 @@
-export class ServiceB {
+module.exports = class ServiceB {
   constructor(context) {
     this.context = context;
   }
