@@ -1,4 +1,4 @@
-title: Metrics usage and extension
+title: Metrics Usage and Extension
 ---
 
 The Metrics is a big part of the whole monitoring system, which is based on EndPoint system to transport data, and simplified it to use.

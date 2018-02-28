@@ -1,4 +1,4 @@
-title: Log management
+title: Log Management
 ---
 
 ## Log directory structure
