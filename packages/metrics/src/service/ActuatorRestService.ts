@@ -8,6 +8,7 @@ export class ActuatorRestService implements ActuatorService {
 
   endPointService;
   server;
+  aliasPrefixStore = [];
 
   constructor(endPointService) {
     this.endPointService = endPointService;
@@ -30,12 +31,16 @@ export class ActuatorRestService implements ActuatorService {
 
     app.use(async (ctx, next) => {
       ctx.ok = (data) => {
-        ctx.body = {
-          data,
-          timestamp: Date.now(),
-          success: true,
-          message: ''
-        };
+        if(ActuatorRestService.match(this.aliasPrefixStore, ctx.path)) {
+          ctx.body = data;
+        } else {
+          ctx.body = {
+            data,
+            timestamp: Date.now(),
+            success: true,
+            message: ''
+          };
+        }
       };
 
       ctx.fail = (message) => {
@@ -47,12 +52,6 @@ export class ActuatorRestService implements ActuatorService {
       };
 
       await next();
-
-      // if(ctx.result) {
-      //   ctx.body = ctx.result;
-      // } else {
-      //   ctx.body = ctx.fail('data not found');
-      // }
     });
 
     for(let endPointObjKey in endPointConfig) {
@@ -68,6 +67,15 @@ export class ActuatorRestService implements ActuatorService {
 
         app.use(router.routes())
           .use(router.allowedMethods());
+
+        // alias
+        if(resource.aliasPrefix && resource.aliasPrefix.length) {
+          resource.aliasPrefix.forEach((alias) => {
+            let aliasRouter = this.alias(resource, alias);
+            app.use(aliasRouter.routes())
+              .use(aliasRouter.allowedMethods());
+          });
+        }
       }
     }
 
@@ -84,5 +92,22 @@ export class ActuatorRestService implements ActuatorService {
     if(this.server) {
       this.server.close();
     }
+  }
+
+  alias(resource, alias) {
+    let aliasRouter = new Router();
+    this.aliasPrefixStore = this.aliasPrefixStore.concat(resource.aliasPrefix);
+    aliasRouter.prefix(alias);
+    resource.route(aliasRouter);
+    return aliasRouter;
+  }
+
+  static match(matchStore, matchValue) {
+    for(let v of matchStore) {
+      if(matchValue.startsWith(v)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -1,5 +1,7 @@
 import {Introspection} from '../domain';
 
+const SKIP_NAMES = ['subscribe', 'unsubscribe'];
+
 export class IntrospectionUtils {
 
   private static namesOfObject = getAllNames({});
@@ -16,7 +18,7 @@ export class IntrospectionUtils {
     const methods = [];
 
     for(const name of allNames) {
-      if(IntrospectionUtils.namesOfObject.indexOf(name) > -1) {
+      if(IntrospectionUtils.namesOfObject.indexOf(name) > -1 || SKIP_NAMES.indexOf(name) > -1) {
         continue;
       }
       if(typeof obj[name] === 'function') {

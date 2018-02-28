@@ -69,7 +69,7 @@ export class Facade {
    */
   getConsumerManager(): ConsumerManager {
     if(!this.consumerManager) {
-      this.consumerManager = new ConsumerManager(this.getHubClient());
+      this.consumerManager = new ConsumerManager(this.getHubClient(), this.getProviderManager());
     }
     return this.consumerManager;
   }
