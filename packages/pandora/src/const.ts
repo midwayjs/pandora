@@ -26,7 +26,7 @@ export const DAEMON_MESSENGER = 'pandora_daemon_messenger';
 
 // *********
 // Procfile.js
-export const PROCFILE_NAMES = ['procfile', 'procfile.js', 'procfile.ts'];
+export const PROCFILE_NAMES = ['procfile.js', 'procfile.ts'];
 export const defaultWorkerCount = process.env.DEFAULT_WORKER_COUNT ? parseInt(process.env.DEFAULT_WORKER_COUNT) : cpus().length;
 
 
