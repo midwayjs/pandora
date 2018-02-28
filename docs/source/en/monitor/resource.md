@@ -1,4 +1,4 @@
-title: Expose RESTFul API
+title: Exposed RESTFul API
 ---
 
 In the Pandora.js, we provided a batch of built-in EndPoints, the data of those EndPoints has exposed via HTTP. Each EndPoint can have a resource implementation to expose itself to outside via HTTP. The resource HTTP server has been created by `koa` and `koa-router`.
