@@ -5,7 +5,10 @@ title: 日志管理
 
 基于应用的目录规范，我们约定了以下的目录结构。
 
+
 结构如下：
+
+loggDir 默认在 `~/logs` 目录，可以通过全局配置修改，参见下面的章节。
 
 ```js
 - ${loggDir}
@@ -21,19 +24,16 @@ title: 日志管理
 		- ... 
 ```
 
-## Node.js 标准输出
+
+#### Node.js 标准输出
 
 1. Pandora.js 会将 Stdout 写在 `${logsDir}/${appName}/nodejs_stdout.log`
 2. 按照日期进行日志切割
 
 
-## 日志自动清理
-
-Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天切割（或尺寸）。可以针对 `~/logs` 配置一个简单 `crontab`，如[类似教程](https://www.cnblogs.com/peida/archive/2013/03/25/2980121.html)。
-
 ## 日志相关的默认配置
 
-日志的行为可以通过全局配置配置，具体是：
+日志的行为可以通过全局配置进行配置，具体是：
 
 ```javascript
 {
@@ -47,6 +47,8 @@ Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天
   }
 }
 ```
+
+如何进行全局配置参见[全局配置章节](../base/global_config.html)。
 
 ## 日志等级
 
@@ -80,4 +82,8 @@ Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天
 
 请参与讨论：<https://github.com/midwayjs/pandora/issues/50>
 
+
+## 日志自动清理
+
+Pandora.js 暂不提供日志清理功能，但 Pandora.js 已经将日志按天切割（或尺寸）。可以针对 `~/logs` 配置一个简单 `crontab`，如[类似教程](https://www.cnblogs.com/peida/archive/2013/03/25/2980121.html)。
 

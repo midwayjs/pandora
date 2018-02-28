@@ -1,4 +1,4 @@
-title: EndPoint usage and extension
+title: EndPoint Usage and Extension
 ----
 
 EndPoint are pre-defined acceptors in Daemon for collecting each process'es Indicator data and group them by applications.

@@ -1,7 +1,8 @@
 header:
-  translations: 'English'
+  translations: 'Language - English'
 
 index:
+  introduce: "Introduce"
   getstart: "Get Start"
   slogan: "Ready to Boot"
   desc: "A Manageable, Measurable and Traceable Node.js Application Manager"
@@ -19,12 +20,12 @@ guide_toc:
   procfile_mode: "Understand procfile.js"
   dorapan: "User SDK - Dorapan"
   debug: "Debugging"
-  logs: "Logger"
+  logs: "Log Management"
   global_config: "Global Config"
   quick_monitor: "Monitoring Quick Start"
   monitor_inner: "Base Monitoring"
   process: "Advanced Processes Model"
-  fork_and_cluster: "Fork And Cluster"
+  fork_and_cluster: "Fork and Cluster"
   process_std: "Custom Process"
   service_std: "Custom Service"
   environment_std: "Custom Environment"
@@ -33,10 +34,10 @@ guide_toc:
   #Monitoring
   monitor: "Application Monitoring"
   monitor_std: "Overview of Monitoring"
-  endpoint: "EndPoint usage and extension"
-  resource: "Expose RESTFul API"
-  metrics_std: "Metrics usage and extension"
-  trace_std: "Trace business logic link"
+  endpoint: "EndPoint Usage and Extension"
+  resource: "Exposed RESTFul API"
+  metrics_std: "Metrics Usage and Extension"
+  trace_std: "Trace Each Requests"
   report: "Monitoring Data Report"
   #Data Report
   collect: "Monitoring Data Collection"

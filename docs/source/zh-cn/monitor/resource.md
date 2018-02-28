@@ -1,9 +1,11 @@
-title: 对外暴露 Resource
+title: 对外暴露的 Restful API
 ---
 
-在 Pandora.js 中，我们提供了一批将内置的 EndPoint  汇聚的数据通过 Http 对外暴露的能力，每一个 EndPoint 都可以有配套的 Resource 资源对外输出，这里的数据格式是通过 `koa` 和 `koa-router` 来简单扩展的。
+在 Pandora.js 中，我们提供了一批将内置的 EndPoint 汇聚的数据通过 Http 对外暴露的能力，每一个 EndPoint 都可以有配套的 Resource 资源对外输出，这里的数据格式是通过 `koa` 和 `koa-router` 来简单扩展的。
 
 ## 通用行为
+
+这些接口可以通过 `http://127.1:7002/` 来访问，比如 `curl http://127.1:7002/info`。 该接口只监听了本地回环（127.0.0.1），外部无法访问，无安全问题。
 
 所有的接口都是通过统一的结构进行封装，真正的数据都是在 `data` 字段中。
 

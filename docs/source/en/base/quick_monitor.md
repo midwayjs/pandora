@@ -1,4 +1,4 @@
-title: Quickly understand the monitoring
+title: Quickly Understand the Monitoring
 ---
 
 If the application was started using the `pandora start` command (Daemon started), the monitoring routes are automatically started and we can quickly get to know the internal state of the application via these routes.

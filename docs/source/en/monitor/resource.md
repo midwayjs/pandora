@@ -1,10 +1,12 @@
-title: Expose RESTFul API
+title: Exposed RESTFul API
 ---
 
 In the Pandora.js, we provided a batch of built-in EndPoints, the data of those EndPoints has exposed via HTTP. Each EndPoint can have a resource implementation to expose itself to outside via HTTP. The resource HTTP server has been created by `koa` and `koa-router`.
 
 
 ## Common behavior
+
+All API can access via `http://127.1:7002/`, such like `curl http://127.1:7002/info`. It only listen on loopback address (127.0.0.1), cannot access from outside, so that means no safety problem.
 
 All RESTFul resource APIs are packaged by a uniform data structure, the origin data is in the `data` field.
 

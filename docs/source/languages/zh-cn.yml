@@ -1,7 +1,8 @@
 header:
-  translations: '中文'
+  translations: 'Language - 中文'
 
 index:
+  introduce: "介绍文章"
   getstart: 快速入门
   slogan: "向未来出发"
   desc: "一个可管理、可度量、可追踪的 Node.js 应用管理器"
@@ -21,9 +22,9 @@ guide_toc:
   dorapan: "用户空间 SDK - Dorapan"
   debug: "调试应用"
   logs: "日志管理"
-  global_config: "配置文件"
+  global_config: "全局配置"
   quick_monitor: "快速了解监控"
-  monitor_inner: "默认监控"
+  monitor_inner: "内置的监控"
   process: "进程管理进阶"
   fork_and_cluster: "Fork 和 Cluster"
   process_std: "自定义进程"
@@ -35,9 +36,9 @@ guide_toc:
   monitor: "应用监控"
   monitor_std: "监控体系总览"
   endpoint: "使用和扩展 EndPoint"
-  resource: "对外暴露 Resource"
+  resource: "对外暴露的 Restful API"
   metrics_std: "使用和扩展 Metrics"
-  trace_std: "链路监控"
+  trace_std: "链路追踪及监控"
   report: "监控数据上报"
   #数据上报
   collect: "监控数据采集"
