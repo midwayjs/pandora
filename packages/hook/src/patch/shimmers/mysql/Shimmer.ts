@@ -152,6 +152,8 @@ export class MySQLShimmer {
     });
   }
 
+  protected _beforeExecute(ctx, span) {}
+
   protected _finish(span) {}
 
   /**
@@ -197,6 +199,7 @@ export class MySQLShimmer {
         }
 
         const span = self._createSpan(tracer, currentSpan);
+        self._beforeExecute(this, span);
 
         if (!span) {
           debug('Create new span empty, skip trace');
@@ -211,20 +214,7 @@ export class MySQLShimmer {
 
         span.addTags(tags);
 
-        callback = traceManager.bind(callback);
-
-        let _callback = function wrappedQueryCallback(error, results, fields) {
-          tracer.setCurrentSpan(span);
-
-          span.error(!!error);
-
-          span.finish();
-          self._finish(span);
-
-          return callback(error, results, fields);
-        };
-
-        _callback = traceManager.bind(_callback);
+        const _callback = self.bindCallback(callback, span, tracer);
 
         if (callbackIdx === -1) {
           // 调用参数为 Query 实例的情况，只有一个参数
@@ -236,6 +226,26 @@ export class MySQLShimmer {
         return query.apply(this, args);
       };
     });
+  }
+
+  bindCallback(callback, span, tracer) {
+    const self = this;
+    const traceManager = self.traceManager;
+
+    callback = traceManager.bind(callback);
+
+    let _callback = function wrappedQueryCallback(error, results, fields) {
+      tracer.setCurrentSpan(span);
+
+      span.error(!!error);
+
+      span.finish();
+      self._finish(span);
+
+      return callback(error, results, fields);
+    };
+
+    return traceManager.bind(_callback);
   }
 
   /**

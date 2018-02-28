@@ -17,6 +17,10 @@ export class HttpServerPatcher extends Patcher {
     return 'httpServer';
   }
 
+  getModule() {
+    return http;
+  }
+
   getTraceId(req) {
     return req.headers[HEADER_TRACE_ID] || getRandom64();
   }
@@ -75,7 +79,7 @@ export class HttpServerPatcher extends Patcher {
     const self = this;
     const traceManager = this.getTraceManager();
 
-    this.getShimmer().wrap(http, 'createServer', function wrapCreateServer(createServer) {
+    this.getShimmer().wrap(this.getModule(), 'createServer', function wrapCreateServer(createServer) {
 
       return function wrappedCreateServer(this: any, requestListener) {
         if (requestListener) {
