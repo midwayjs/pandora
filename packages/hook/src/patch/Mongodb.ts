@@ -23,7 +23,7 @@ export class MongodbPatcher extends Patcher {
     const traceManager = this.getTraceManager();
     const shimmer = this.getShimmer();
 
-    this.hook('^3.x', (loadModule) => {
+    this.hook('>=2.2.x', (loadModule) => {
       const mongodb = loadModule('./index');
 
       if (mongodb.instrument) {

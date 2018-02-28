@@ -183,7 +183,7 @@ export default {
       target: hooks.RedisPatcher
     },
     mongodb: {
-      enabled: false,
+      enabled: true,
       target: hooks.MongodbPatcher
     }
   },
