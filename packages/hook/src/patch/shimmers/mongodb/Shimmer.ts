@@ -172,7 +172,7 @@ export class MongodbShimmer {
     const traceManager = this.traceManager;
     callback = traceManager.bind(callback);
 
-    let _callback = function wrapQueryCallback(error, results, fields) {
+    let _callback = function wrapQueryCallback(error, value1, value2) {
       tracer.setCurrentSpan(span);
 
       span.error(!!error);
@@ -180,7 +180,7 @@ export class MongodbShimmer {
       span.finish();
       self._finish(span);
 
-      return callback(error, results, fields);
+      return value2 ? callback(error, value1, value2) :  callback(error, value1);
     };
 
     return traceManager.bind(_callback);
