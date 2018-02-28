@@ -15,7 +15,7 @@ All of the spands mentioned below are implemented and opened by default.
 | npm: mysql2 | ^1.5 | - |
 | npm: ioredis | ^3.x | - |
 
-Other requirements please [create Issue on GitHub](https://github.com/midwayjs/pandora/issues). 
+Other requirements please [create a Issue on GitHub](https://github.com/midwayjs/pandora/issues). 
 
 ### How to view trace link 
 
