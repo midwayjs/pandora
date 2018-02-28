@@ -2,6 +2,7 @@ header:
   translations: 'Language - English'
 
 index:
+  introduce: "Introduce"
   getstart: "Get Start"
   slogan: "Ready to Boot"
   desc: "A Manageable, Measurable and Traceable Node.js Application Manager"
