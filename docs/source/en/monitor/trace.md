@@ -9,7 +9,7 @@ All of the spands mentioned below are implemented and opened by default.
 |     Span      | Version | Desc |
 |--------------|----------|-----|
 | http(s).createServer() | - | All HTTP(S) Server, it also includes npm: koa, npm: express and etc |
-| http(s).request() | - | All HTTP requests, it also includes npm: request, npm: urllib and etc |
+| http(s).request() | - | All HTTP(S) requests, it also includes npm: request, npm: urllib and etc |
 | npm: mongodb | >=2.2.x | it also includes ORM Based on mongodb, such as mongoose |
 | npm: mysql | ^2.x | it also includes ORM Based on mysql, such as sequelize |
 | npm: mysql2 | ^1.5 | - |

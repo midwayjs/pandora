@@ -9,7 +9,7 @@ title: 链路监控
 |     节点      | 支持版本 | 解释 |
 |--------------|----------|-----|
 | http(s).createServer() | - | 所有的 HTTP(S) 服务器，包括用 koa、express 等创建的 |
-| http(s).request() | - | 所有发出的 HTTP 请求，包括通过 request、urllib 等库发出的 |
+| http(s).request() | - | 所有发出的 HTTP(S) 请求，包括通过 request、urllib 等库发出的 |
 | npm: mongodb | >=2.2.x | 也包括依赖 mongodb 的 ORM 比如 mongoose |
 | npm: mysql | ^2.x | 也包括其他依赖 mysql 的 ORM 比如 sequelize |
 | npm: mysql2 | ^1.5 | - |
