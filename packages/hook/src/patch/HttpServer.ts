@@ -68,7 +68,7 @@ export class HttpServerPatcher extends Patcher {
     return false;
   }
 
-  _beforeExecute(span, req, res) {}
+  _beforeExecute(tracer, req, res) {}
 
   beforeFinish(span, res) {
     span.setTag('http.status_code', {
