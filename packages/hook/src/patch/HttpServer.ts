@@ -68,6 +68,8 @@ export class HttpServerPatcher extends Patcher {
     return false;
   }
 
+  _beforeExecute(span, req, res) {}
+
   beforeFinish(span, res) {
     span.setTag('http.status_code', {
       type: 'number',
@@ -93,6 +95,7 @@ export class HttpServerPatcher extends Patcher {
             traceManager.bindEmitter(res);
 
             const tracer = self.createTracer(req);
+            self._beforeExecute(tracer, req, res);
             const tags = self.buildTags(req);
             const span = self.createSpan(tracer, tags);
 

@@ -102,4 +102,8 @@ export class TraceManager {
     return this.ns.bindEmitter(emitter);
   }
 
+  get namespace() {
+    return this.ns;
+  }
+
 }
