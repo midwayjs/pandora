@@ -37,6 +37,18 @@ export class ConfigManager {
     }
   }
 
+  getAllTopics(prefix?: string) {
+    console.log(this.config);
+    const topics = Object.keys(this.config);
+    const ret = [];
+    for (const topic of topics) {
+      if(!prefix || topic.startsWith(prefix)) {
+        ret.push(topic);
+      }
+    }
+    return ret;
+  }
+
   getAllSubscribedTopics(prefix?: string) {
     const topics = this.callbackStore.keys();
     const ret = [];

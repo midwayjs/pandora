@@ -71,6 +71,20 @@ describe('ConfigManager', () => {
     expect(allConfig2).to.deep.eql( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
   });
 
+  it('should getAllTopics', async () => {
+
+    const configManager = facade.getConfigManager();
+    const configClient = facade.getConfigClient();
+
+    await configManager.publish('test_topic', '123');
+    await configManager.publish('prefix_topic1', '123');
+    await configManager.publish('prefix_topic2', '456');
+    await configManager.publish('prefix_topic3', '789');
+
+    const topics1 = configManager.getAllTopics('prefix_');
+    expect(topics1).to.deep.eql([ 'prefix_topic1', 'prefix_topic2', 'prefix_topic3' ]);
+  });
+
   it('should getAllSubscribedTopics() be ok', async () => {
 
     const configManager = facade.getConfigManager();
