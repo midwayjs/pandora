@@ -12,7 +12,7 @@
     "typescript": "~2.7.1"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "lerna run test",
     "cov": "sh scripts/cov.sh",
     "ci": "npm run build && npm run cov",
     "purge": "npm run clean && rm -rf node_modules",
