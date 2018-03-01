@@ -1,6 +1,6 @@
 {
   "name": "pandora-hook",
-  "version": "1.8.3-1",
+  "version": "1.8.6",
   "description": "pandora module hook",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
@@ -25,7 +25,7 @@
     "cls-bluebird": "^2.1.0",
     "debug": "^3.1.0",
     "is-type-of": "^1.2.0",
-    "pandora-metrics": "^1.8.3-1",
+    "pandora-metrics": "^1.8.6",
     "semver": "^5.4.1",
     "xorshift": "^1.1.1"
   },
@@ -49,7 +49,7 @@
     "nock": "^9.1.4",
     "nyc": "^11.3.0",
     "nyc-ts-patch": "^1.0.0",
-    "pandora-env": "^1.8.3-1",
+    "pandora-env": "^1.8.6",
     "pedding": "^1.1.0",
     "redis-parser": "^3.0.0",
     "safe-buffer": "^5.1.1",
