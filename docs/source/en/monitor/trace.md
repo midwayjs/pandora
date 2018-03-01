@@ -35,7 +35,7 @@ Default sampling rate is:
 
 ```javascript
 {
-  rate: process.env.NODE_ENV === 'production' ? 100 : 10,
+  rate: process.env.NODE_ENV !== 'production' ? 100 : 10,
   // If the trace with the highest priority is out of the sample rate limit,
   // such as a wrong trace.
   priority: true 
