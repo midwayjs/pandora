@@ -1,6 +1,6 @@
 {
   "name": "pandora-hook",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "pandora module hook",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
@@ -25,7 +25,7 @@
     "cls-bluebird": "^2.1.0",
     "debug": "^3.1.0",
     "is-type-of": "^1.2.0",
-    "pandora-metrics": "^1.8.4",
+    "pandora-metrics": "^1.8.5",
     "semver": "^5.4.1",
     "xorshift": "^1.1.1"
   },
