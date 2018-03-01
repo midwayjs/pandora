@@ -122,7 +122,7 @@ export default {
           // 缓存最近 1000 条链路
           cacheSize: 1000,
           // 采样率
-          rate: process.env.NODE_ENV === 'production' ? 100 : 10,
+          rate: process.env.NODE_ENV !== 'production' ? 100 : 10,
           // 优先级高的链路是否跳出采样率限制，比如错误的链路
           priority: true 
         }
