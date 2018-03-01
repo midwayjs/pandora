@@ -34,6 +34,12 @@ describe('ProcessBootstrap', function () {
         },
         bindService: () => {
           callBind = true;
+        },
+        getIPCHub: () => {
+          return {
+            start: () => {
+            },
+          };
         }
       });
 

@@ -76,6 +76,13 @@ export class ProcessBootstrap {
 
     process.env[PANDORA_PROCESS] = JSON.stringify(this.processRepresentation);
 
+    // Make sure start IPC Hub at very beginning, be course of injectMonitor() needs
+    if(!process.env.SKIP_IPC_HUB) {
+      const ipcHub = this.context.getIPCHub();
+      await ipcHub.start();
+      await ipcHub.initConfigClient();
+    }
+
     this.procfileReconciler.discover();
 
     this.injectMonitor();
