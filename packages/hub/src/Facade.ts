@@ -4,6 +4,8 @@ import {ProviderManager} from './object-proxying/ProviderManager';
 import {ConsumerManager} from './object-proxying/ConsumerManager';
 import {ObjectConsumer} from './object-proxying/ObjectConsumer';
 import {DefaultObjectProxy} from './object-proxying/DefaultObjectProxy';
+import {ConfigManager} from './config-manager/ConfigManager';
+import {ConfigClient} from './config-manager/ConfigClient';
 
 export class Facade {
 
@@ -12,6 +14,8 @@ export class Facade {
   logger: any;
   providerManager: ProviderManager;
   consumerManager: ConsumerManager;
+  configManager: ConfigManager;
+  configClient: ConfigClient;
 
   setup (options: FacadeSetupOptions) {
     this.location = options.location;
@@ -102,6 +106,26 @@ export class Facade {
    */
   getProxy <T extends any> (objectDescription: ObjectDescription, extInfo?: ConsumerExtInfo): Promise<T & DefaultObjectProxy> {
     return this.getConsumerManager().getProxy<T>(objectDescription, extInfo);
+  }
+
+  async initConfigManager() {
+    if(!this.configManager) {
+      this.configManager = await ConfigManager.create(this.getProviderManager());
+    }
+  }
+
+  async initConfigClient() {
+    if(!this.configClient) {
+      this.configClient = await ConfigClient.create(this.getConsumerManager());
+    }
+  }
+
+  getConfigManager(): ConfigManager {
+    return this.configManager;
+  }
+
+  getConfigClient(): ConfigClient {
+    return this.configClient;
   }
 
 }

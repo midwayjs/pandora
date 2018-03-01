@@ -16,7 +16,9 @@ async function main () {
     const context = SpawnWrapperUtils.shimProcessContext();
     // Make sure start IPC Hub at very beginning, be course of injectMonitor() needs
     if(!process.env.SKIP_IPC_HUB) {
-      await context.getIPCHub().start();
+      const ipcHub = context.getIPCHub();
+      await ipcHub.start();
+      await ipcHub.initConfigClient();
     }
     MonitorManager.injectProcessMonitor();
     await context.start();

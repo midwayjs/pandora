@@ -78,7 +78,9 @@ export class ProcessBootstrap {
 
     // Make sure start IPC Hub at very beginning, be course of injectMonitor() needs
     if(!process.env.SKIP_IPC_HUB) {
-      await this.context.getIPCHub().start();
+      const ipcHub = this.context.getIPCHub();
+      await ipcHub.start();
+      await ipcHub.initConfigClient();
     }
 
     this.procfileReconciler.discover();

@@ -66,14 +66,15 @@ export class ObjectConsumer extends EventEmitter {
     return res.data;
   }
 
+
+  private subscriberPublished = false;
   public async subscribe(register: string, fn) {
 
     const cnt = this.listenerCount(register);
-
     this.addListener(register, fn);
 
-    if(cnt === 0) {
-
+    if(!this.subscriberPublished) {
+      this.subscriberPublished = true;
       await this.providerManager.publish({
         callback: (register: string, params: any[]) => {
           this.emit(register, ...params);
@@ -82,6 +83,9 @@ export class ObjectConsumer extends EventEmitter {
         ...this.objectDescription,
         name: this.objectDescription.name + '@subscriber'
       });
+    }
+
+    if(cnt === 0) {
 
       const res = await this.hubClient.invoke({
         objectName: this.objectDescription.name,

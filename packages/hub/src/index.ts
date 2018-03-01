@@ -17,4 +17,7 @@ export * from './object-proxying/DefaultObjectProxy';
 export * from './object-proxying/IntrospectionUtils';
 export * from './object-proxying/ObjectUtils';
 
+export * from './config-manager/ConfigManager';
+export * from './config-manager/ConfigClient';
+
 export * from './domain';

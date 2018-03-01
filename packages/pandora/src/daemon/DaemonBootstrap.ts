@@ -53,6 +53,7 @@ export class DaemonBootstrap {
         logger: this.daemonLogger
       });
       await this.ipcHub.start();
+      await this.ipcHub.initConfigManager();
       MetricsInjectionBridge.setIPCHub(<any> this.ipcHub);
 
       this.daemon = new Daemon();
