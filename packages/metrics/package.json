@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "1.8.5",
+  "version": "1.8.7",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -31,7 +31,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^11.2.1",
-    "pandora-hub": "^1.8.5",
+    "pandora-hub": "^1.8.7",
     "sinon": "^4.1.2",
     "supertest": "^3.0.0",
     "yargs": "^6.6.0"
