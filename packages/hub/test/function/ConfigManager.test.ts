@@ -2,8 +2,7 @@ import {Facade} from '../../src/Facade';
 import {Hub} from '../../src/hub/Hub';
 import {expect} from 'chai';
 
-describe('Subscribe', () => {
-
+describe('ConfigManager', () => {
 
   let facade: Facade;
   let hub: Hub;
@@ -72,7 +71,7 @@ describe('Subscribe', () => {
     expect(allConfig2).to.deep.eql( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
   });
 
-  it('should getAllTopics() be ok', async () => {
+  it('should getAllSubscribedTopics() be ok', async () => {
 
     const configManager = facade.getConfigManager();
     const configClient = facade.getConfigClient();
