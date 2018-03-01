@@ -90,7 +90,7 @@
 <p>也可以通过可视化 Dashboard 查看，<a href="../other/dashboard.html">详情见文档</a>。</p>
 <h3 id="关于采样率"><a class="markdown-anchor" href="#关于采样率">#</a> 关于采样率</h3>
 <p>默认的采样率逻辑如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 采样率</span></span><br><span class="line">  rate: process.env.NODE_ENV === <span class="string">'production'</span> ? <span class="number">100</span> : <span class="number">10</span>,</span><br><span class="line">  <span class="comment">// 优先级高的链路是否跳出采样率限制，比如错误的链路</span></span><br><span class="line">  priority: <span class="literal">true</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 采样率</span></span><br><span class="line">  rate: process.env.NODE_ENV !== <span class="string">'production'</span> ? <span class="number">100</span> : <span class="number">10</span>,</span><br><span class="line">  <span class="comment">// 优先级高的链路是否跳出采样率限制，比如错误的链路</span></span><br><span class="line">  priority: <span class="literal">true</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>生产环境（NODE_ENV 为 production 时采样率）为 10%，其他情况 100%。</p>
 <p>这一设定可以通过全局配置修改，<a href="../base/global_config.html">详情见文档</a>。</p>
 <h3 id="如何新增一个链路节点"><a class="markdown-anchor" href="#如何新增一个链路节点">#</a> 如何新增一个链路节点</h3>
