@@ -37,8 +37,10 @@ export class Patcher implements IPatcher {
   applyPlugins() {
     for (let [name, plugin] of this.plugins.entries()) {
       if (plugin.enabled) {
-        plugin.target(this, plugin.initConfig || {});
-        debug(`Patcher ${this.getModuleName()} load plugin ${name}.`);
+        if (plugin.target && typeof plugin.target === 'function') {
+          new plugin.target(this, plugin.initConfig || {});
+          debug(`Patcher ${this.getModuleName()} load plugin ${name}.`);
+        }
       }
     }
   }
