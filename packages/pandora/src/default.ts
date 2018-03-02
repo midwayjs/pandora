@@ -187,7 +187,7 @@ export default {
       target: hooks.MongodbPatcher
     }
   },
-  reporterInterval: 15,
+  reporterInterval: 60,
   reporter: {
     file: {
       enabled: true,

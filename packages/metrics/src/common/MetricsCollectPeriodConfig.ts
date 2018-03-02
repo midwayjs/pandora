@@ -23,11 +23,11 @@ export class MetricsCollectPeriodConfig {
    * 预先填充map
    */
   private fillLevelPeriodMap() {
-    this.levelPeriodMap.set(MetricLevel.CRITICAL, 1);
-    this.levelPeriodMap.set(MetricLevel.MAJOR, 5);
-    this.levelPeriodMap.set(MetricLevel.NORMAL, 15);
-    this.levelPeriodMap.set(MetricLevel.MINOR, 30);
-    this.levelPeriodMap.set(MetricLevel.TRIVIAL, 60);
+    this.levelPeriodMap.set(MetricLevel.CRITICAL, 5);
+    this.levelPeriodMap.set(MetricLevel.MAJOR, 30);
+    this.levelPeriodMap.set(MetricLevel.NORMAL, 60);
+    this.levelPeriodMap.set(MetricLevel.MINOR, 90);
+    this.levelPeriodMap.set(MetricLevel.TRIVIAL, 120);
   }
 
   period(level: MetricLevel) {
@@ -55,17 +55,17 @@ export class MetricsCollectPeriodConfig {
 
     switch (level) {
       case MetricLevel.TRIVIAL:
-        return 50;
+        return 120;
       case MetricLevel.MINOR:
-        return 20;
+        return 90;
       case MetricLevel.NORMAL:
-        return 10;
+        return 60;
       case MetricLevel.MAJOR:
-        return 2;
+        return 30;
       case MetricLevel.CRITICAL:
-        return 1;
+        return 5;
       default:
-        return 50;
+        return 60;
     }
   }
 
