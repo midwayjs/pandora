@@ -2,6 +2,7 @@ import {ActuatorService} from '../domain';
 
 const KOA = require('koa');
 const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
 const debug = require('debug')('pandora:metrics:rest');
 
 export class ActuatorRestService implements ActuatorService {
@@ -22,6 +23,7 @@ export class ActuatorRestService implements ActuatorService {
     const endPointConfig = actuatorConfig['endPoint'];
 
     let app = new KOA();
+    app.use(bodyParser());
     let homeRouter = new Router();
     homeRouter.get('/', async (ctx) => {
       ctx.body = 'Pandora restful service start successful';

@@ -43,6 +43,7 @@
     "debug": "^2.6.8",
     "extend": "^3.0.1",
     "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
     "mixin": "^0.2.0",
     "module-hook": "^2.1.0",
