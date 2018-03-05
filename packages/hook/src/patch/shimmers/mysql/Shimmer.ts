@@ -346,16 +346,18 @@ export class MySQLShimmer {
       callback = args[2];
       idx = 2;
     } else {
-      /**
-       * 参数为 Mysql.Query 的实例
-       * 出现于 PoolNamespace query 重试时
-       */
       if (is.object(args[0])) {
-        callback = args[0]._callback;
-      } else {
-        // eg: query({opts|sql}, callback)
-        callback = args[1];
-        idx = 1;
+        if (!is.function(args[1])) {
+          /**
+           * 参数为 Mysql.Query 的实例
+           * 出现于 PoolNamespace query 重试时
+           */
+          callback = args[0]._callback;
+        } else {
+          // eg: query({opts|sql}, callback)
+          callback = args[1];
+          idx = 1;
+        }
       }
     }
 
