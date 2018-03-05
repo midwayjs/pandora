@@ -25,6 +25,10 @@ class MockResource implements ActuatorResource {
     router.get('/method2', (ctx, next) => {
       ctx.fail('error');
     });
+
+    router.get('/method3', (ctx, next) => {
+      ctx.ok('method3');
+    });
   }
 }
 
@@ -98,6 +102,22 @@ describe('/test/unit/ActuatorRestService.test.ts', () => {
       .expect(200)
       .then(res => {
         expect(res.body.result).to.equal(1);
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
+  });
+
+  it('query data from resource with alias prefix and test koa text response', (done) => {
+    request(app.listen())
+      .get('/easymock/method3')
+      .query({
+        appName: MetricsConstants.METRICS_DEFAULT_APP
+      })
+      .expect(200)
+      .then(res => {
+        expect(res.text).to.equal('method3');
         done();
       })
       .catch(err => {

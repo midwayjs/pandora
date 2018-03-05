@@ -189,7 +189,7 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     let name3 = MetricName.build('collector.histogram').setLevel(MetricLevel.MINOR);
     let h3 = MetricBuilder.HISTOGRAMS.newMetric(name3);
     let name4 = MetricName.build('collector.meter').setLevel(MetricLevel.TRIVIAL);
-    let m4 = MetricBuilder.METERS.newMetric(name4)
+    let m4 = MetricBuilder.METERS.newMetric(name4);
 
     await delay(2100);
 
@@ -201,7 +201,7 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     let results = collector.build();
     expect(findObject(results, 'collector.gauge').interval).to.equal(-1);
     expect(findObject(results, 'collector.counter.bucket_count').interval).to.equal(2);
-    expect(findObject(results, 'collector.basecounter.bucket_count').interval).to.equal(1);
+    expect(findObject(results, 'collector.basecounter.bucket_count').interval).to.equal(2);
     expect(findObject(results, 'collector.histogram.mean').interval).to.equal(-1);
     expect(findObject(results, 'collector.meter.m1').interval).to.equal(-1);
   });
