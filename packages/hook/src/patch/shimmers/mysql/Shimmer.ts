@@ -156,6 +156,8 @@ export class MySQLShimmer {
 
   protected _finish(span) {}
 
+  protected transformArgs(args, tracer) { return args; }
+
   /**
    * 包装 query 方法
    * @param {object} module - 要包装的模块
@@ -183,9 +185,9 @@ export class MySQLShimmer {
           return query.apply(this, arguments);
         }
 
-        const args = Array.from(arguments);
+        let args = Array.from(arguments);
+        args = self.transformArgs(args, tracer);
         const tags = tagsBuilder(this, args);
-
         const invokeInfo = tags.invokeInfo;
         delete tags.invokeInfo;
         let callback = invokeInfo.callback;
