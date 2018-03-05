@@ -63,31 +63,6 @@ client.register('test', name, {
 
 key 就是标准的字符串，一般由几个字符串通过 . 来拼接而成。而 tags 是一组对象 kv 对，key 加 tags 标识了唯一的一个 Metric。
 
-还有一部分是 MetricsLevel，不同的 MetricsLevel 对应了不同的指标缓存时间，默认时间如下，单位为秒。
-
-```javascript
-  getCachedTimeForLevel(level: MetricLevel) {
-
-    switch (level) {
-      case MetricLevel.TRIVIAL:
-        return 50;
-      case MetricLevel.MINOR:
-        return 20;
-      case MetricLevel.NORMAL:
-        return 10;
-      case MetricLevel.MAJOR:
-        return 2;
-      case MetricLevel.CRITICAL:
-        return 1;
-      default:
-        return 50;
-    }
-  }
-```
-
-也就是说，假如你的指标等级是 `MetricLevel.MAJOR`，那么缓存时间为 2 秒，如果你的采集周期是 1 秒的话，那么在两次采集窗口的时候，返回的值都是相同的。
-
-
 ## 度量类型
 
 >  目前 Pandora.js 全部使用 typescript 来编写，有些代码必须带类型定义。

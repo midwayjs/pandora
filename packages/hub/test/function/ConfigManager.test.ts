@@ -74,7 +74,6 @@ describe('ConfigManager', () => {
   it('should getAllTopics', async () => {
 
     const configManager = facade.getConfigManager();
-    const configClient = facade.getConfigClient();
 
     await configManager.publish('test_topic', '123');
     await configManager.publish('prefix_topic1', '123');

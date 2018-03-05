@@ -69,31 +69,6 @@ The most common are the key and the tags.
 
 The key is a normal string, joined by few strings with the separator dot(.),  and the tags is a K/V object.  the key and the tags identified a unique Metric.
 
-And another part is the MetricsLevel, Different MetricsLevel corresponds to different indicator cache times, the default time is as follows, and the unit is seconds.
-
-
-```javascript
-  getCachedTimeForLevel(level: MetricLevel) {
-
-    switch (level) {
-      case MetricLevel.TRIVIAL:
-        return 50;
-      case MetricLevel.MINOR:
-        return 20;
-      case MetricLevel.NORMAL:
-        return 10;
-      case MetricLevel.MAJOR:
-        return 2;
-      case MetricLevel.CRITICAL:
-        return 1;
-      default:
-        return 50;
-    }
-  }
-```
-
-That also means, if your MetricsLevel is `MetricLevel.MAJOR`, then the cache time is seconds. If your acquisition interval is 1 second, then the value returned in both the acquisition windows is the same.
-
 
 ## Measurement type
 

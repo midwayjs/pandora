@@ -101,9 +101,9 @@ export class MonitorManager {
     });
 
     // init metrics
-    client.register('node', MetricName.build('node.v8').setLevel(MetricLevel.MINOR).tagged({
+    client.register('node', MetricName.build('node.v8').tagged({
       pid: process.pid
-    }), new V8GaugeSet(periodConfig.getCachedTimeForLevel(MetricLevel.MINOR)));
+    }), new V8GaugeSet(periodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
 
     MonitorManager.injected = true;
 

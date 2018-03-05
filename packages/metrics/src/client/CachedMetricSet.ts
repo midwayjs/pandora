@@ -2,7 +2,7 @@ import {MetricSet} from '../common/MetricSet';
 
 export abstract class CachedMetricSet extends MetricSet {
 
-  static DEFAULT_DATA_TTL = 5;
+  static DEFAULT_DATA_TTL = 60;
 
   // The time (in milli-seconds) to live of cached data
   dataTTL;
