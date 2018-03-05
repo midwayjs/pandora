@@ -17,8 +17,8 @@ export class ConfigClient {
   }
 
   async subscribe(topic, cb) {
-    const config = await this.configManagerProxy.getConfig(topic);
     await this.configManagerProxy.subscribe(topic, cb);
+    const config = await this.configManagerProxy.getConfig(topic);
     cb(config);
   }
 
