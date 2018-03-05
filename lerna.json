@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "1.8.10",
+  "version": "1.8.11",
   "registry": "https://registry.npmjs.org/",
   "npmClient": "npm"
 }
