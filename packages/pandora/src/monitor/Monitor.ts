@@ -61,12 +61,12 @@ export class BaseMonitor {
   protected startMetrics() {
     // register some default metrics
     let metricsManager = this.server.getMetricsManager();
-    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new CpuUsageGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
-    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
-    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new NetworkTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
-    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new SystemMemoryGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
-    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.MAJOR), new SystemLoadGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.MAJOR)));
-    metricsManager.register('system', MetricName.build('system').setLevel(MetricLevel.TRIVIAL), new DiskStatGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.TRIVIAL)));
+    metricsManager.register('system', MetricName.build('system'), new CpuUsageGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
+    metricsManager.register('system', MetricName.build('system'), new NetTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
+    metricsManager.register('system', MetricName.build('system'), new NetworkTrafficGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
+    metricsManager.register('system', MetricName.build('system'), new SystemMemoryGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
+    metricsManager.register('system', MetricName.build('system'), new SystemLoadGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
+    metricsManager.register('system', MetricName.build('system'), new DiskStatGaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
   }
 
   protected startMetricsReporter() {
