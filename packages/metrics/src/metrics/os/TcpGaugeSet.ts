@@ -1,8 +1,6 @@
 import { CachedMetricSet } from '../../client/CachedMetricSet';
 import { MetricName } from '../../common/MetricName';
 import { Gauge } from '../../client/MetricsProxy';
-import { Mutex } from '../../util/Mutex';
-
 import * as Debug from 'debug';
 
 const debug = Debug('metrics:tcp');
@@ -49,8 +47,6 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
 
   retryRate = 0;
 
-  mutex = new Mutex();
-
   constructor(dataTTL = 5, filePath = NetworkTrafficGaugeSet.DEFAULT_FILE_PATH) {
     super(dataTTL);
     this.filePath = filePath;
@@ -82,24 +78,6 @@ export class NetworkTrafficGaugeSet extends CachedMetricSet {
       }
     });
     return gauges;
-  }
-
-  async refreshIfNecessary() {
-    let current = Date.now();
-
-    if (!this.lastCollectTime || current - this.lastCollectTime > this.dataTTL * 1000) {
-      if (this.mutex.tryLock(3000)) {
-        await this.getValueInternal();
-        this.mutex.unlock();
-      }
-
-      await new Promise((resolve) => {
-        this.mutex.wait(resolve);
-      });
-
-      // update the last collect time stamp
-      this.lastCollectTime = current;
-    }
   }
 
   getValueInternal() {
