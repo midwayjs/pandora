@@ -29,11 +29,12 @@ export abstract class CachedMetricSet extends MetricSet {
       if (this.mutex.tryLock(3000)) {
         await this.getValueInternal();
         this.mutex.unlock();
+      } else {
+        await new Promise((resolve) => {
+          this.mutex.wait(resolve);
+        });
       }
 
-      await new Promise((resolve) => {
-        this.mutex.wait(resolve);
-      });
       // update the last collect time stamp
       this.lastCollectTime = current;
     }

@@ -44,7 +44,7 @@ class TestCachedMetricSet extends CachedMetricSet {
 
 }
 
-describe.only('/test/unit/client/CachedMetricSet.test.ts', () => {
+describe('/test/unit/client/CachedMetricSet.test.ts', () => {
   it('create a cached metric set and compare after cache timeout', async () => {
 
     let metricSet = new TestCachedMetricSet(1);
