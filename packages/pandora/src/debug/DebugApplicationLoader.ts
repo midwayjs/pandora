@@ -3,7 +3,7 @@ import {ApplicationRepresentation} from '../domain';
 import {ApplicationHandler} from '../application/ApplicationHandler';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {isDaemonRunning} from '../daemon/DaemonHandler';
-import {Hub} from 'pandora-hub';
+import {Hub, Facade} from 'pandora-hub';
 import debugGlobalConfig from './debugGlobalConfig';
 const globalConfigProcessor = GlobalConfigProcessor.getInstance();
 
@@ -31,8 +31,19 @@ export class DebugApplicationLoader {
 
      // start a IPC-Hub when no daemon
      if(!daemonRunning) {
-         const ipcHub = new Hub();
-         await ipcHub.start();
+       const hubServer = new Hub();
+       await hubServer.start();
+       const ipcHub: Facade = new Facade();
+       ipcHub.setup({
+         location: {
+           appName: '__pandora_daemon',
+           processName: '__pandora_daemon',
+           pid: process.pid.toString()
+         },
+         logger: consoleLogger
+       });
+       await ipcHub.start();
+       await ipcHub.initConfigManager();
      }
 
     globalConfigProcessor.getAllProperties();
