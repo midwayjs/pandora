@@ -15,7 +15,7 @@
 $ npm install -g pandora --save
 ```
 
-Node.js >= 8.0.0 required.
+Node.js >= 8.2.1 required.
 
 ## Introductions and start with an example project
 
