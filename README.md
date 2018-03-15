@@ -12,7 +12,7 @@
 ## Installation
 
 ```bash
-$ npm install -g pandora --save
+$ npm install -g pandora
 ```
 
 Node.js >= 8.2.1 required.
