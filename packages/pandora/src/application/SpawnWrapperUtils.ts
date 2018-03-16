@@ -26,6 +26,7 @@ export class SpawnWrapperUtils {
   static setAsFirstLevel() {
     process.env.PANDORA_CURRENT_WRAP_LEVEL = '1';
     process.env.PANDORA_DO_NOT_FOLLOW_NPM = 'true';
+    process.env.PANDORA_DO_NOT_FOLLOW_SHEBANG = 'true';
   }
 
   static increaseLevel() {
