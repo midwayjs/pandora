@@ -4,6 +4,30 @@ import {PANDORA_CWD, PANDORA_GLOBAL_CONFIG} from '../const';
 import {consoleLogger} from './LoggerBroker';
 import extend = require('extend');
 
+const GLOBAL_PACKAGE_SPLIT = ':';
+
+const cwd = process.env[PANDORA_CWD] || process.cwd();
+const cwdRequire = makeRequire(cwd);
+let loadedConfigs = [require('../default').default];
+let loadedConfigPath: string[] = [require.resolve('../default')];
+
+function loadResource() {
+  const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GLOBAL_PACKAGE_SPLIT) : [];
+  for (const configPath of configPaths) {
+    if (configPath && configPath !== 'undefined') {
+      try {
+        let extendConfig = cwdRequire(configPath);
+        extendConfig = extendConfig.default ? extendConfig.default : extendConfig;
+        loadedConfigs.push(extendConfig);
+        loadedConfigPath.push(configPath);
+      } catch (err) {
+        // info
+        consoleLogger.info(`Can't find config from ${configPath}`);
+      }
+    }
+  }
+}
+
 export class GlobalConfigProcessor {
 
   private globalConfig = {};
@@ -12,9 +36,9 @@ export class GlobalConfigProcessor {
 
   private initialized = false;
 
-  static GLOBAL_PACKAGE_SPLIT = ':';
+  static GLOBAL_PACKAGE_SPLIT = GLOBAL_PACKAGE_SPLIT;
 
-  public loadedConfigPath: string[] = [require.resolve('../default')];
+  loadedConfigPath = loadedConfigPath;
 
   static getInstance(): GlobalConfigProcessor {
     if (!this.instance) {
@@ -25,24 +49,8 @@ export class GlobalConfigProcessor {
 
   getAllProperties(): any {
     if (!this.initialized) {
-      const cwd = process.env[PANDORA_CWD] || process.cwd();
-      const cwdRequire = makeRequire(cwd);
-      const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT) : [];
-      let globalConfig = require('../default').default;
-      this.mergeProperties(globalConfig);
-      for (const configPath of configPaths) {
-        if (configPath && configPath !== 'undefined') {
-          try {
-            let extendConfig = cwdRequire(configPath);
-            extendConfig = extendConfig.default ? extendConfig.default : extendConfig;
-            this.mergeProperties(extendConfig);
-            this.loadedConfigPath.push(configPath);
-          } catch (err) {
-            // info
-            consoleLogger.info(`Can't find config from ${configPath}`);
-            consoleLogger.warn(err);
-          }
-        }
+      for (const preloadConfig of loadedConfigs) {
+        this.mergeProperties(preloadConfig);
       }
       this.initialized = true;
     }
@@ -63,6 +71,15 @@ export class GlobalConfigProcessor {
   clearProperties() {
     this.globalConfig = {};
     this.initialized = false;
+    loadedConfigs = [require('../default').default];
+    loadedConfigPath = [require.resolve('../default')];
+  }
+
+  // for test
+  flushLoadedConfig() {
+    loadResource();
   }
 
 }
+
+loadResource();

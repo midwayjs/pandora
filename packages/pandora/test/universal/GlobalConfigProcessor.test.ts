@@ -9,34 +9,37 @@ describe('GlobalConfigProcessor', function () {
 
   let globalConfigProcessor: GlobalConfigProcessor = GlobalConfigProcessor.getInstance();
 
+  beforeEach(() => {
+    globalConfigProcessor.clearProperties();
+  });
+
   it('should getInstance() be ok', () => {
     expect(globalConfigProcessor.getAllProperties).to.be.ok;
   });
 
   it('should getAllProperties() be ok', () => {
-    globalConfigProcessor.clearProperties();
     const properties = globalConfigProcessor.getAllProperties();
     expect(properties).to.be.ok;
   });
 
   it('should getAllProperties() extend config from PANDORA_CONFIG be ok', () => {
-    globalConfigProcessor.clearProperties();
     mm(process.env, 'PANDORA_CONFIG', pathToGlobalConfigExt);
+    globalConfigProcessor.flushLoadedConfig();
     const properties = globalConfigProcessor.getAllProperties();
     expect((<any>properties).testKey).to.equal('testValue');
     mm.restore();
   });
 
   it('should getAllProperties() ignore error when given a wrong PANDORA_CONFIG', () => {
-    globalConfigProcessor.clearProperties();
     mm(process.env, 'PANDORA_CONFIG', pathToGlobalConfigExt + ':/sdf/dsfsdf/dsf');
+    globalConfigProcessor.flushLoadedConfig();
     const properties = globalConfigProcessor.getAllProperties();
     expect((<any>properties).testKey).to.equal('testValue');
     mm.restore();
   });
 
   it('shoud merge properties after global config initialized', () => {
-    globalConfigProcessor.clearProperties();
+    globalConfigProcessor.flushLoadedConfig();
     const properties = globalConfigProcessor.getAllProperties();
     globalConfigProcessor.mergeProperties({
       'hello': 'world'
