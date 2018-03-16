@@ -5,7 +5,7 @@ import {tmpdir} from 'os';
 import {readFileSync, unlinkSync} from 'fs';
 
 const pathToWrap2Level = join(__dirname, '../fixtures/project/wrap_2_level/');
-describe.only('SpawnWrapShouldOnly2Level', function () {
+describe('SpawnWrapShouldOnly2Level', function () {
   it('should be ok', async () => {
     const path = tmpdir() + '/pandora_test_level2.xxx';
     unlinkSync(path);
