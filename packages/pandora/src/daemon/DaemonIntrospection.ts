@@ -36,7 +36,7 @@ export class DaemonIntrospection {
   }
 
   getLoadedGlobalConfigPaths () {
-    return GlobalConfigProcessor.getInstance().loadedConfigPath;
+    return GlobalConfigProcessor.getInstance().getloadedConfigPath();
   }
 
   getLoadedEndPointNames() {
