@@ -42,7 +42,7 @@ export class DaemonIntrospection {
   getLoadedEndPointNames() {
     let loadedEndPoints = [];
     for(let endPointName in this.globalProperties['actuator']['endPoint']) {
-      if(this.globalProperties['actuator']['endPoint'][endPointName].enabled !== false) {
+      if(this.globalProperties['actuator']['endPoint'][endPointName].enabled) {
         loadedEndPoints.push(endPointName);
       }
     }
