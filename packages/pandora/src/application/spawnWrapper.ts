@@ -12,12 +12,12 @@ async function main () {
   if(!SpawnWrapperUtils.decideFollow()) {
     // unwrap it
     if(wrap.lastUnwrap) {
-      wrap.lastUnwrap();
+      wrap.lastUnwrap(true);
     }
   }
 
   if(process.argv[2].endsWith('/npm')) {
-    wrap.runMain(true);
+    wrap.runMain();
     return;
   }
 
