@@ -14,7 +14,7 @@ export class GlobalConfigProcessor {
 
   static GLOBAL_PACKAGE_SPLIT = ':';
 
-  public loadedConfigPath: string[] = [require.resolve('../default')];
+  public loadedConfigPath: Set<string> = new Set();
 
   static getInstance(): GlobalConfigProcessor {
     if (!this.instance) {
@@ -28,19 +28,21 @@ export class GlobalConfigProcessor {
       const cwd = process.env[PANDORA_CWD] || process.cwd();
       const cwdRequire = makeRequire(cwd);
       const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT) : [];
-      let globalConfig = require('../default').default;
-      this.mergeProperties(globalConfig);
+      // set default config first
+      configPaths.unshift(require.resolve('../default'));
       for (const configPath of configPaths) {
-        if (configPath && configPath !== 'undefined') {
+        if (configPath && configPath !== 'undefined' && !this.loadedConfigPath.has(configPath)) {
           try {
+            // require module maybe async method
+            // The CompilerDispatcher uses a combination of idle tasks and background tasks to parse and compile lazily parsed functions.
+            this.loadedConfigPath.add(configPath);
             let extendConfig = cwdRequire(configPath);
             extendConfig = extendConfig.default ? extendConfig.default : extendConfig;
             this.mergeProperties(extendConfig);
-            this.loadedConfigPath.push(configPath);
           } catch (err) {
             // info
+            this.loadedConfigPath.delete(configPath);
             consoleLogger.info(`Can't find config from ${configPath}`);
-            consoleLogger.warn(err);
           }
         }
       }
@@ -59,10 +61,15 @@ export class GlobalConfigProcessor {
     }
   }
 
+  getloadedConfigPath() {
+    return Array.from(this.loadedConfigPath);
+  }
+
   // for test
   clearProperties() {
     this.globalConfig = {};
     this.initialized = false;
+    this.loadedConfigPath.clear();
   }
 
 }
