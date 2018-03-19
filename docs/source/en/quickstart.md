@@ -95,12 +95,12 @@ module.exports = (pandora) => {
 
 Other than process management, Pandora.js can also help with application lifecycle management.
 
-We suggest you use pandora.js to start/stop your node.js applications. You define the script section of package.json as below:
+We suggest you use pandora.js to start/stop your node.js applications. You define the scripts section of package.json as below:
 
 ```json
 // package.json
 {
-  "script": {
+  "scripts": {
     "dev": "pandora dev",
     "start": "pandora start",
     "stop": "pandora stop"
