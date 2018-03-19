@@ -3,7 +3,7 @@ const res = cp.fork('./level3.js');
 const spawnargs = res.spawnargs;
 let wrong = false;
 for(const arg of spawnargs) {
-  if(arg.indexOf('node-spawn-wrap') > -1) {
+  if(arg.indexOf('.pandora-tmp-cache/.node-spawn-wrap') > -1) {
     wrong = true;
     break;
   }
