@@ -37,7 +37,7 @@ export class MetricsActuatorManager {
     const endPoints = this.actuatorConfig['endPoint'];
 
     for(let endPointName in endPoints) {
-      if(endPoints[endPointName].enabled !== false) {
+      if(endPoints[endPointName].enabled) {
         let ins = new endPoints[endPointName].target();
         if(endPoints[endPointName].initConfig) {
           ins.setConfig(endPoints[endPointName].initConfig);
