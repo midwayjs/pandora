@@ -38,7 +38,6 @@ export class ConfigManager {
   }
 
   getAllTopics(prefix?: string) {
-    console.log(this.config);
     const topics = Object.keys(this.config);
     const ret = [];
     for (const topic of topics) {
