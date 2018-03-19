@@ -8,7 +8,12 @@ const pathToWrap2Level = join(__dirname, '../fixtures/project/wrap_2_level/');
 describe('SpawnWrapShouldOnly2Level', function () {
   it('should be ok', async () => {
     const path = tmpdir() + '/pandora_test_level2.xxx';
-    unlinkSync(path);
+
+    try {
+      unlinkSync(path);
+    } catch (err) {
+      // Ignore
+    }
 
     const applicationHandler = new ApplicationHandler({
       appName: 'test',
