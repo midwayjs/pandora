@@ -99,7 +99,7 @@ module.exports = (pandora) => {
 ```json
 // package.json
 {
-  "script": {
+  "scripts": {
     "dev": "pandora dev",
     "start": "pandora start",
     "stop": "pandora stop"
