@@ -54,10 +54,16 @@ export class Mutex {
       clearTimeout(this.timer);
     }
 
-    if (this.waiting.length > 0) {
-      for (let waiter of this.waiting) {
+    if (this.waitingCount > 0) {
+      let waiter;
+      while ((waiter = this.waiting.shift()) && typeof waiter === 'function') {
         waiter.call(this);
       }
+
     }
+  }
+
+  get waitingCount() {
+    return this.waiting.length;
   }
 }
