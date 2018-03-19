@@ -72,6 +72,7 @@ export class ProcessBootstrap {
 
   async startAsWorker() {
 
+    SpawnWrapperUtils.setAsFirstLevel();
     SpawnWrapperUtils.wrap();
 
     process.env[PANDORA_PROCESS] = JSON.stringify(this.processRepresentation);

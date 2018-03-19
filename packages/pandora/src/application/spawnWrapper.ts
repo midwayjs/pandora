@@ -7,6 +7,15 @@ import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 
 async function main () {
 
+  SpawnWrapperUtils.increaseLevel();
+
+  if(!SpawnWrapperUtils.decideFollow()) {
+    // unwrap it
+    if(wrap.lastUnwrap) {
+      wrap.lastUnwrap(true);
+    }
+  }
+
   if(process.argv[2].endsWith('/npm')) {
     wrap.runMain();
     return;
