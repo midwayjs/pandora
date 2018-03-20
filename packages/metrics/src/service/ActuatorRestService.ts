@@ -58,7 +58,7 @@ export class ActuatorRestService implements ActuatorService {
 
     for(let endPointObjKey in endPointConfig) {
       debug(`loop endPoints Config key = ${endPointObjKey}`);
-      if(endPointConfig[endPointObjKey].resource) {
+      if(!!endPointConfig[endPointObjKey].enabled && endPointConfig[endPointObjKey].resource) {
         debug(`find resource in endPoints Config key = ${endPointObjKey}`);
         let resource = new endPointConfig[endPointObjKey].resource(this.endPointService);
         let router = new Router();
