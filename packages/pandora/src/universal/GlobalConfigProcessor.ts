@@ -25,6 +25,7 @@ export class GlobalConfigProcessor {
 
   getAllProperties(): any {
     if (!this.initialized) {
+      this.initialized = true;
       const cwd = process.env[PANDORA_CWD] || process.cwd();
       const cwdRequire = makeRequire(cwd);
       const configPaths = process.env[PANDORA_GLOBAL_CONFIG] ? process.env[PANDORA_GLOBAL_CONFIG].split(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT) : [];
@@ -46,7 +47,6 @@ export class GlobalConfigProcessor {
           }
         }
       }
-      this.initialized = true;
     }
     return this.globalConfig;
   }
