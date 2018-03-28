@@ -3,7 +3,7 @@
 const wrap = require('pandora-spawn-wrap');
 import {MonitorManager} from '../monitor/MonitorManager';
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
-
+import {Facade} from '../Facade';
 
 async function main () {
 
@@ -23,6 +23,7 @@ async function main () {
 
   try {
     const context = SpawnWrapperUtils.shimProcessContext();
+    Facade.set('processContext', context.processContextAccessor);
     // Make sure start IPC Hub at very beginning, be course of injectMonitor() needs
     if(!process.env.SKIP_IPC_HUB) {
       const ipcHub = context.getIPCHub();
