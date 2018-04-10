@@ -132,6 +132,10 @@ export class Tracer extends (mixin(OpenTrancer, EventEmitter) as { new(): any })
   }
 
   timeout() {
+    this.spans.forEach((span) => {
+      span.finish();
+    });
+
     this.setStatus(TIMEOUT_TRACE);
 
     this.finish();
