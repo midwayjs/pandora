@@ -244,6 +244,10 @@ describe('unit test', () => {
       fork('mongodb', done);
     });
 
+    it('should mongoose work ok', done => {
+      fork('mongoose', done);
+    });
+
     after(() => MockMongoServer.cleanup());
 
   });

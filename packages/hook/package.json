@@ -44,6 +44,7 @@
     "module-hook": "^1.0.0",
     "mongodb": "^3.0.2",
     "mongodb-mock-server": "^1.0.0",
+    "mongoose": "^5.0.14",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
     "nock": "^9.1.4",
