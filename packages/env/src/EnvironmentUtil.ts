@@ -9,10 +9,10 @@ export class EnvironmentUtil implements EnvironmentManager {
   private ready: boolean = false;
 
   static getInstance(): EnvironmentUtil {
-    if(!this.instance) {
-      this.instance = new EnvironmentUtil();
+    if (!EnvironmentUtil.instance) {
+      EnvironmentUtil.instance = new EnvironmentUtil();
     }
-    return this.instance;
+    return EnvironmentUtil.instance;
   }
 
   private current: Environment;
