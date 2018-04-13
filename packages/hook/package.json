@@ -42,7 +42,7 @@
     "ioredis": "^3.2.2",
     "mocha": "^3.5.0",
     "module-hook": "^1.0.0",
-    "mongodb": "^3.0.2",
+    "mongodb": "^2.2.0",
     "mongodb-mock-server": "^1.0.0",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
