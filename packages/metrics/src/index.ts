@@ -97,6 +97,9 @@ export * from './util/MessageCollector';
 export * from './trace/TraceManager';
 export * from './trace/Patcher';
 export * from './trace/Constants';
+export * from './trace/PandoraSpan';
+export * from './trace/Tracer';
+export * from './trace/SpanContext';
 
 
 /**
