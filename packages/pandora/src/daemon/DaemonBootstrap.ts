@@ -7,6 +7,9 @@ import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {getDaemonLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
 import {MetricsInjectionBridge} from 'pandora-metrics';
 import {Hub, Facade} from 'pandora-hub';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as util from 'util';
 
 /**
  * Class DaemonBootstrap
@@ -64,6 +67,8 @@ export class DaemonBootstrap {
       if (process.send) {
         process.send(DAEMON_READY);
       }
+
+      this.dumpConfig();
     } catch (err) {
       this.daemonLogger.error(err);
       throw err;
@@ -79,6 +84,23 @@ export class DaemonBootstrap {
     await this.daemon.stop();
     await this.ipcHub.stop();
     await this.ipcHubServer.stop();
+  }
+
+
+  /**
+   * save pandora global config to `run/pandora_config.json`
+   * @private
+   */
+  private dumpConfig() {
+    const rundir = getPandoraLogsDir();
+
+    try {
+      if (!fs.existsSync(rundir)) fs.mkdirSync(rundir);
+      const dumpFile = path.join(rundir, `run/pandora_config.json`);
+      fs.writeFileSync(dumpFile, util.inspect(this.globalConfig));
+    } catch (err) {
+      this.daemonLogger.warn(`dumpConfig error: ${err.message}`);
+    }
   }
 
 }
