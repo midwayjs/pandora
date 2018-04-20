@@ -10,6 +10,7 @@ import {Hub, Facade} from 'pandora-hub';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
+import * as mkdirp from 'mkdirp';
 
 /**
  * Class DaemonBootstrap
@@ -95,7 +96,7 @@ export class DaemonBootstrap {
     const rundir = getPandoraLogsDir();
 
     try {
-      if (!fs.existsSync(rundir)) fs.mkdirSync(rundir);
+      if (!fs.existsSync(rundir)) mkdirp.sync(rundir);
       const dumpFile = path.join(rundir, `run/pandora_config.json`);
       fs.writeFileSync(dumpFile, util.inspect(this.globalConfig));
     } catch (err) {
