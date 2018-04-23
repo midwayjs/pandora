@@ -110,8 +110,13 @@ export class HttpServerPatcher extends Patcher {
     return {};
   }
 
-  bufferTransformer(buffer): ParsedUrlQuery {
-    return parseQS(buffer.toString('utf8'));
+  bufferTransformer(buffer): ParsedUrlQuery | string {
+    try {
+      return parseQS(buffer.toString('utf8'));
+    } catch (error) {
+      debug('transform post data error. ', error);
+      return '';
+    }
   }
 
   shimmer(options) {
