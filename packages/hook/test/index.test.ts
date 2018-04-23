@@ -58,6 +58,26 @@ describe('unit test', () => {
     it('should timeout trace record', done => {
       fork('http-timeout', done);
     });
+
+    it('should record http get params', done => {
+      fork('http-record-get', done);
+    });
+
+    it('should record http post data', done => {
+      fork('http-record-post', done);
+    });
+
+    it('should filter request with custom', done => {
+      fork('http-custom-filter', done);
+    });
+
+    it('should transform post data with custom', done => {
+      fork('http-custom-transformer', done);
+    });
+
+    it('should record http post data and query params', done => {
+      fork('http-record-query-and-data', done);
+    });
   });
 
   describe('http client', () => {

@@ -3,14 +3,27 @@
 import { Patcher, getRandom64 } from 'pandora-metrics';
 import { extractPath } from '../utils/Utils';
 import { HEADER_TRACE_ID } from '../utils/Constants';
+import { parse as parseUrl } from 'url';
+import { parse as parseQS, ParsedUrlQuery } from 'querystring';
 import * as http from 'http';
+
+const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
+
+export type bufferTransformer = (buffer) => object | string;
+
+export type requestFilter = (req) => boolean;
 
 export class HttpServerPatcher extends Patcher {
 
-  constructor(options = {}) {
-    super(options);
+  constructor(options?: {
+    recordGetParams?: boolean,
+    recordPostData?: boolean,
+    bufferTransformer?: bufferTransformer,
+    requestFilter?: requestFilter
+  }) {
+    super(options || {});
 
-    this.shimmer(options);
+    this.shimmer(this.options);
   }
 
   getModuleName() {
@@ -77,6 +90,30 @@ export class HttpServerPatcher extends Patcher {
     });
   }
 
+  processGetParams(req) {
+    const url = req.url;
+
+    if (url) {
+      let urlParsed;
+
+      try {
+        urlParsed = parseUrl(url, true);
+      } catch (error) {
+        debug('process get params error. ', error);
+
+        return {};
+      }
+
+      return urlParsed.query;
+    }
+
+    return {};
+  }
+
+  bufferTransformer(buffer): ParsedUrlQuery {
+    return parseQS(buffer.toString('utf8'));
+  }
+
   shimmer(options) {
     const self = this;
     const traceManager = this.getTraceManager();
@@ -87,7 +124,10 @@ export class HttpServerPatcher extends Patcher {
         if (requestListener) {
 
           const listener = traceManager.bind(function(req, res) {
-            if (self.requestFilter(req)) {
+            const requestFilter = options.requestFilter || self.requestFilter;
+
+            if (requestFilter(req)) {
+              debug('request filter by requestFilter, skip trace.');
               return requestListener(req, res);
             }
 
@@ -99,10 +139,37 @@ export class HttpServerPatcher extends Patcher {
             const tags = self.buildTags(req);
             const span = self.createSpan(tracer, tags);
 
+            if (options.recordGetParams) {
+              const query = self.processGetParams(req);
+
+              span.log({
+                query
+              });
+            }
+
+            let chunks = [];
+            if (options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
+              req.on('data', (chunk) => {
+                chunks.push(chunk);
+              });
+            }
+
             tracer.named(`HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
             tracer.setCurrentSpan(span);
 
             res.once('finish', () => {
+
+              if (options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
+                const transformer = options.bufferTransformer || self.bufferTransformer;
+                const postData = transformer(chunks);
+
+                span.log({
+                  data: postData
+                });
+                // clear cache
+                chunks = [];
+              }
+
               self.beforeFinish(span, res);
               span.finish();
               tracer.finish(options);
@@ -114,6 +181,8 @@ export class HttpServerPatcher extends Patcher {
 
           return createServer.call(this, listener);
         }
+
+        debug('no requestListener, skip trace.');
         return createServer.call(this, requestListener);
       };
     });
