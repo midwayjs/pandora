@@ -4,8 +4,6 @@ import {statSync} from 'fs';
 import {PANDORA_GLOBAL_CONFIG} from '../const';
 import {GlobalConfigProcessor} from './GlobalConfigProcessor';
 const extend = require('extend');
-const util = require('util');
-const is = require('is-type-of');
 
 export function calcAppName(dir?) {
   let ret;
