@@ -2,15 +2,14 @@
 import {Daemon} from './Daemon';
 import {DefaultEnvironment, EnvironmentUtil} from 'pandora-env';
 import {DAEMON_READY, PANDORA_GLOBAL_CONFIG} from '../const';
-import {MetricsConstants} from 'pandora-metrics';
+import {MetricsConstants, MetricsInjectionBridge} from 'pandora-metrics';
 import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
 import {getDaemonLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
-import {MetricsInjectionBridge} from 'pandora-metrics';
-import {Hub, Facade} from 'pandora-hub';
+import {Facade, Hub} from 'pandora-hub';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
-import {convertObject} from '../universal/Helpers';
+import * as util from 'util';
 
 /**
  * Class DaemonBootstrap
@@ -100,7 +99,9 @@ export class DaemonBootstrap {
         mkdirp.sync(rundir);
       }
       const dumpFile = path.join(rundir, `pandora_daemon_config.json`);
-      fs.writeFileSync(dumpFile, JSON.stringify(convertObject(this.globalConfig), null, 2));
+      fs.writeFileSync(dumpFile, util.inspect(this.globalConfig, {
+        depth: 5,
+      }));
     } catch (err) {
       this.daemonLogger.warn(`dumpConfig error: ${err.message}`);
     }
