@@ -1,15 +1,12 @@
 import { RunUtil } from '../../RunUtil';
 import * as assert from 'assert';
-import * as url from 'url';
 import { HttpServerPatcher } from '../../../src/patch/HttpServer';
-import { SLOW_TRACE } from 'pandora-metrics';
 
-HttpServerPatcher.prototype.requestFilter = function(req) {
-  const urlParsed = url.parse(req.url, true);
-  return urlParsed.pathname.indexOf('ignore') > -1;
-};
 const httpServerPatcher = new HttpServerPatcher({
-  slowThreshold: 2 * 1000
+  recordPostData: true,
+  bufferTransformer: function(buffer) {
+    return buffer.toString('utf8');
+  }
 });
 
 RunUtil.run(function(done) {
@@ -18,26 +15,29 @@ RunUtil.run(function(done) {
   const urllib = require('urllib');
 
   process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
-
-    assert(report.name === 'HTTP-GET:/');
-    assert(report.spans.length > 0);
-    assert(report.status & SLOW_TRACE);
+    assert(report.name === 'HTTP-POST:/');
+    assert(report.spans.length === 1);
+    const logs = report.spans[0].logs;
+    const fields = logs[0].fields;
+    assert(fields[0].key === 'data');
+    assert(fields[0].value === 'age=100');
 
     done();
   });
 
   const server = http.createServer((req, res) => {
 
-    setTimeout(function() {
-      res.end('hello');
-    }, 3 * 1000);
+    res.end('hello');
   });
 
   server.listen(0, () => {
     const port = server.address().port;
 
-    setTimeout(function() {
-      urllib.request(`http://localhost:${port}`);
-    }, 1000);
+    urllib.request(`http://localhost:${port}/?name=test`, {
+      method: 'post',
+      data: {
+        age: 100
+      }
+    });
   });
 });

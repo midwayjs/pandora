@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
-
 import { Patcher } from 'pandora-metrics';
 const debug = require('debug')('PandoraHook:Redis');
 

@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
-
 const assert = require('assert');
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';

@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
-
 import { RunUtil } from '../../RunUtil';
 const assert = require('assert');
 const { HttpServerPatcher } = require('../../../src/patch/HttpServer');

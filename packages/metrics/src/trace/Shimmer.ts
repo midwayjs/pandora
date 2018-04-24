@@ -1,7 +1,4 @@
 /**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
  * Fork from othiym23/shimmer, support generator function and async function
  * 待原包更新支持 Generator 和 async 方法后，回归原包
  */
