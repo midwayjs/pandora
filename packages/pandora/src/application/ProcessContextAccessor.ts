@@ -105,7 +105,6 @@ export class ProcessContextAccessor {
   async publishObject(name: string, obj): Promise<void>;
   async publishObject(objectDescription: ObjectDescription, obj): Promise<void>;
   async publishObject(target: string | ObjectDescription, obj): Promise<void> {
-    console.log(target, obj);
     let objDesc = null;
     if(typeof target === 'string') {
       objDesc = {
