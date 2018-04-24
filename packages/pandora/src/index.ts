@@ -92,6 +92,13 @@ delegate(exports, 'facade')
   .method('publishObject')
   .method('getProxy');
 
+// Fix this
+exports.getService = exports.getService.bind(exports);
+exports.getServiceClass = exports.getServiceClass.bind(exports);
+exports.getHub = exports.getHub.bind(exports);
+exports.publishObject = exports.publishObject.bind(exports);
+exports.getProxy = exports.getProxy.bind(exports);
+
 export declare const processContext: typeof Facade.prototype.processContext;
 export declare const appName: typeof Facade.prototype.appName;
 export declare const appDir: typeof Facade.prototype.appDir;
