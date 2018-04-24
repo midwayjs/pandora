@@ -1,8 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
 
 // Copy from mysqljs/mysql test
 

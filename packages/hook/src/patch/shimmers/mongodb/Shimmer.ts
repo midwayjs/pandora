@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
-
 import * as assert from 'assert';
 import { INSTANCE_UNKNOWN } from '../../../utils/Constants';
 import * as is from 'is-type-of';

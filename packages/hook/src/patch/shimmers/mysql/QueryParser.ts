@@ -1,9 +1,4 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- * Inspired by node-newrelic
- */
+
 import * as is from 'is-type-of';
 import { StatementMatcher } from './StatementMatcher';
 import { OPERATION_UNKNOWN } from '../../../utils/Constants';

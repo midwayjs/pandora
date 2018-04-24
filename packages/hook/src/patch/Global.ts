@@ -1,8 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
 
 import { Patcher, MessageConstants, MessageSender } from 'pandora-metrics';
 import * as util from 'util';

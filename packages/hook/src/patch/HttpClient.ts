@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
-
 const http = require('http');
 const https = require('https');
 import { Patcher } from 'pandora-metrics';

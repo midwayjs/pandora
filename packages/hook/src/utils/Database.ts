@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2018 Alibaba Group.
- */
-
 import { hasOwn, isLocalhost } from './Utils';
 import { INSTANCE_UNKNOWN } from './Constants';
 import * as os from 'os';

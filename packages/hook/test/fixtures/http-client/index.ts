@@ -1,9 +1,3 @@
-/**
- * @fileOverview
- * @author 凌恒 <jiakun.dujk@alibaba-inc.com>
- * @copyright 2017 Alibaba Group.
- */
-
 import { RunUtil } from '../../RunUtil';
 import { HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../src/utils/Constants';
 import * as assert from 'assert';
