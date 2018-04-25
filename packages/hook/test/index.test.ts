@@ -92,6 +92,10 @@ describe('unit test', () => {
     it('should urllib work ok', done => {
       fork('urllib', done);
     });
+
+    it('should record response data', done => {
+      fork('http-client-record-response', done);
+    });
   });
 
   describe('mysql', () => {
