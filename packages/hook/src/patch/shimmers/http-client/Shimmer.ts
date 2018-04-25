@@ -1,14 +1,20 @@
-const assert = require('assert');
-const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
+import * as assert from 'assert';
 import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
 import { nodeVersion } from '../../../utils/Utils';
 import { ClientRequest } from 'http';
 
+const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
+
 // TODO: 接受参数，处理或记录请求详情
+
+export type bufferTransformer = (buffer) => object | string;
 
 export class HttpClientShimmer {
 
-  options = {};
+  options: {
+    recordResponse?: boolean
+    bufferTransformer?: bufferTransformer
+  } = {};
   shimmer = null;
   traceManager = null;
 
@@ -134,6 +140,11 @@ export class HttpClientShimmer {
   }
 
   protected _requestError(res, span) {
+
+    // clear cache when request error
+    delete res.__responseSize;
+    delete res.__chunks;
+
     span.setTag('http.error_code', {
       type: 'string',
       value: res.code
@@ -159,7 +170,10 @@ export class HttpClientShimmer {
   protected _responseEnd(res, span) {
     const socket = res.socket;
     const remoteIp = socket ? (socket.remoteAddress ? `${socket.remoteAddress}:${socket.remotePort}` : '') : '';
-    const responseSize = (res.headers && res.headers['content-length']) || res.responseSize;
+    const responseSize = (res.headers && res.headers['content-length']) || res.__responseSize;
+
+    delete res.__responseSize;
+    delete res.__chunks;
 
     span.setTag('http.status_code', {
       type: 'number',
@@ -179,18 +193,38 @@ export class HttpClientShimmer {
 
   protected _finish(res, span) {}
 
+  bufferTransformer(buffer): string {
+    try {
+      return buffer.toString('utf8');
+    } catch (error) {
+      debug('transform response data error. ', error);
+      return '';
+    }
+  }
+
   handleResponse(tracer, span, res) {
     const traceManager = this.traceManager;
     const shimmer = this.shimmer;
     const self = this;
+    const recordResponse = this.options.recordResponse;
+    const bufferTransformer = this.options.bufferTransformer || self.bufferTransformer;
 
-    res.responseSize = 0;
+    res.__responseSize = 0;
+    res.__chunks = [];
+
     shimmer.wrap(res, 'emit', function wrapResponseEmit(emit) {
       const bindResponseEmit = traceManager.bind(emit);
 
       return function wrappedResponseEmit(this: ClientRequest, event) {
         if (event === 'end') {
           if (span) {
+
+            if (recordResponse) {
+              const response = bufferTransformer(res.__chunks);
+              span.log({
+                response
+              });
+            }
 
             span.error(false);
 
@@ -201,8 +235,12 @@ export class HttpClientShimmer {
             self._finish(res, span);
           }
         } else if (event === 'data') {
-          const chunk = arguments[0];
-          res.responseSize += chunk.length;
+          const chunk = arguments[1] || [];
+          res.__responseSize += chunk.length;
+
+          if (recordResponse) {
+            res.__chunks.push(chunk);
+          }
         }
 
         return bindResponseEmit.apply(this, arguments);

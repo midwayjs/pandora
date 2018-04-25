@@ -4,9 +4,15 @@ import { Patcher } from 'pandora-metrics';
 import * as semver from 'semver';
 import { HttpClientShimmer } from './shimmers/http-client/Shimmer';
 
+export type bufferTransformer = (buffer) => object | string;
+
 export class HttpClientPatcher extends Patcher {
 
-  constructor(options = {}) {
+  constructor(options: {
+    forceHttps?: boolean,
+    recordResponse?: boolean,
+    bufferTransformer?: bufferTransformer
+  }) {
     super(Object.assign({
       shimmerClass: HttpClientShimmer,
       remoteTracing: true
