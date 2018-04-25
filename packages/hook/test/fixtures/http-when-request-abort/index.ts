@@ -1,46 +1,42 @@
 import { RunUtil } from '../../RunUtil';
 import * as assert from 'assert';
-import * as url from 'url';
 import { HttpServerPatcher } from '../../../src/patch/HttpServer';
-import { NORMAL_TRACE } from 'pandora-metrics';
 
-HttpServerPatcher.prototype.requestFilter = function(req) {
-  const urlParsed = url.parse(req.url, true);
-  return urlParsed.pathname.indexOf('ignore') > -1;
-};
 const httpServerPatcher = new HttpServerPatcher();
 
 RunUtil.run(function(done) {
   httpServerPatcher.run();
   const http = require('http');
-  const urllib = require('urllib');
+  const httpclient = require('urllib').create();
 
   process.on(<any> 'PANDORA_PROCESS_MESSAGE_TRACE', (report: any) => {
     assert(report.name === 'HTTP-GET:/');
-    assert(report.spans.length > 0);
-    assert(report.status === NORMAL_TRACE);
+    assert(report.spans.length === 1);
+    assert(report.duration <= 1000);
     const span = report.spans[0];
     const tag = span.tags['http.aborted'];
-    assert(!tag.value);
+    assert(tag.value);
 
     done();
   });
 
   const server = http.createServer((req, res) => {
 
-    res.end('hello');
+    setTimeout(function() {
+      res.end('hello');
+    }, 3000);
+
   });
 
   server.listen(0, () => {
     const port = server.address().port;
 
-    setTimeout(function() {
-      // should be ignore
-      urllib.request(`http://localhost:${port}/ignore`);
-    }, 500);
+    const req = httpclient.request(`http://localhost:${port}`, function(err, body) {
+      console.log('body size: %d', body.length);
+    });
 
     setTimeout(function() {
-      urllib.request(`http://localhost:${port}`);
+      req.abort();
     }, 1000);
   });
 });
