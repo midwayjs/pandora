@@ -28,7 +28,6 @@ curl http://127.0.0.1:7002/trace?appName=my-site # my-site 是您的应用名
 It can also be viewed through GUI Dashboard, [check docs](../other/dashboard.html).
 
 
-
 ### about sampling rate
 
 Default sampling rate is:
@@ -49,7 +48,24 @@ That can be changed via global config, [docs](../base/global_config.html).
 
 ### How to add a new kind of spans
 
-TODO
+You can access all the interfaces about tracing via the single instance TraceManager object.
+
+```javascript
+const {traceManager} = require('dorapan');
+```
+Get the current available tracer object via `getCurrentTracer()`, like: 
+
+```javascript
+const tracer = traceManager.getCurrentTracer(); // If not in a trace link, will got a  undefined
+const span = tracer.startSpan('custom_span');
+span.finish();
+```
+
+More please check API References:
+
+* [TraceManager](http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracemanager.html)
+* [Tracer](http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracer.html)
+* The Tracer object extended and implemented [OpenTracer](https://github.com/opentracing/opentracing-javascript), so please check it also.
 
 ### Principle
 

@@ -47,7 +47,25 @@ curl http://127.0.0.1:7002/trace?appName=my-site # my-site 是您的应用名
 
 ### 如何新增一个链路节点
 
-待补充
+通过获得单例 TraceManager 对象，可以实现对链路功能的全部接口访问。 
+
+```javascript
+const {traceManager} = require('dorapan');
+```
+
+可以通过 `getCurrentTracer()` 接口获得当前活跃的链路对象，通过：
+
+```javascript
+const tracer = traceManager.getCurrentTracer(); // 如果不在一个链路中，将会获得 undefined
+const span = tracer.startSpan('custom_span');
+span.finish();
+```
+
+更多请参考这两个对象的 API Reference：
+
+* [TraceManager](http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracemanager.html)
+* [Tracer](http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracer.html)
+* Tracer 对象继承和实现自 [OpenTracer](https://github.com/opentracing/opentracing-javascript，请同样参考一下。
 
 ### 实现原理
 
