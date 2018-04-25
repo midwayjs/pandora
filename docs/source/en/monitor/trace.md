@@ -56,7 +56,7 @@ const {traceManager} = require('dorapan');
 Get the current available tracer object via `getCurrentTracer()`, like: 
 
 ```javascript
-const tracer = traceManager.getCurrentTracer(); // If not in a trace link, will got a  undefined
+const tracer = traceManager.getCurrentTracer(); // If not in a trace link, will got a undefined
 const span = tracer.startSpan('custom_span');
 span.finish();
 ```
