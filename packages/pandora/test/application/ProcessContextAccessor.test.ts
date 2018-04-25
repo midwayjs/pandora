@@ -2,6 +2,7 @@ import {ProcessContextAccessor} from '../../src/application/ProcessContextAccess
 import {ProcessContext} from '../../src/application/ProcessContext';
 import {expect} from 'chai';
 import mm = require('mm');
+import {TraceManager} from 'pandora-metrics';
 
 describe('ProcessContextAccessor', function () {
 
@@ -131,6 +132,17 @@ describe('ProcessContextAccessor', function () {
     expect(times).to.equal(2);
     mm.restore();
 
+  });
+
+  it('should get traceManager be ok', async () => {
+    const processContext = new ProcessContext(precessRepresentation);
+    const accessor = new ProcessContextAccessor(processContext);
+    const x = {};
+    mm(TraceManager, 'getInstance', () => {
+      return x;
+    });
+    expect(accessor.traceManager).to.be.equal(x);
+    mm.restore();
   });
 
 });

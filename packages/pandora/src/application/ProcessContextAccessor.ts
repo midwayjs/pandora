@@ -6,6 +6,7 @@ import {Environment} from 'pandora-env';
 import {Service} from '../domain';
 import {Facade as HubFacade} from 'pandora-hub';
 import {DefaultObjectProxy, ObjectDescription, ConsumerExtInfo} from 'pandora-hub';
+import {TraceManager} from 'pandora-metrics';
 
 /**
  * Class ProcessContextAccessor
@@ -115,6 +116,11 @@ export class ProcessContextAccessor {
     }
     const hub = this.context.getIPCHub();
     return hub.publish(obj, objDesc);
+  }
+
+
+  get traceManager(): TraceManager {
+    return TraceManager.getInstance();
   }
 
 }
