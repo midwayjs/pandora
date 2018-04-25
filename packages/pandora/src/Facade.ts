@@ -10,6 +10,7 @@ export class Facade {
       .access('env')
       .access('environment')
       .access('hub')
+      .access('traceManager')
       .method('getService')
       .method('getServiceClass')
       .method('getHub')
@@ -24,6 +25,8 @@ export class Facade {
   processName: typeof ProcessContextAccessor.prototype.processName;
   env: typeof ProcessContextAccessor.prototype.env;
   environment: typeof ProcessContextAccessor.prototype.environment;
+  traceManager: typeof ProcessContextAccessor.prototype.traceManager;
+
   getService: typeof ProcessContextAccessor.prototype.getService;
   getServiceClass: typeof ProcessContextAccessor.prototype.getServiceClass;
   getHub: typeof ProcessContextAccessor.prototype.getHub;

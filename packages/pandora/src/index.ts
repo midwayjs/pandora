@@ -86,6 +86,7 @@ delegate(exports, 'facade')
   .access('env')
   .access('environment')
   .access('hub')
+  .access('traceManager')
   .method('getService')
   .method('getServiceClass')
   .method('getHub')
@@ -105,6 +106,8 @@ export declare const appDir: typeof Facade.prototype.appDir;
 export declare const processName: typeof Facade.prototype.processName;
 export declare const env: typeof Facade.prototype.env;
 export declare const environment: typeof Facade.prototype.environment;
+export declare const traceManager: typeof Facade.prototype.traceManager;
+
 export declare const getService: typeof Facade.prototype.getService;
 export declare const getServiceClass: typeof Facade.prototype.getServiceClass;
 export declare const getHub: typeof Facade.prototype.getHub;
