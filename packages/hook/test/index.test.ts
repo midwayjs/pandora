@@ -78,6 +78,10 @@ describe('unit test', () => {
     it('should record http post data and query params', done => {
       fork('http-record-query-and-data', done);
     });
+
+    it('should finish span when request aborted', done => {
+      fork('http-when-request-abort', done);
+    });
   });
 
   describe('http client', () => {

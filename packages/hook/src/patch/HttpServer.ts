@@ -162,24 +162,36 @@ export class HttpServerPatcher extends Patcher {
             tracer.named(`HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
             tracer.setCurrentSpan(span);
 
-            res.once('finish', () => {
+            function onFinishedFactory(eventName) {
+              return function onFinished() {
+                res.removeListener('finish', onFinished);
+                req.removeListener('aborted', onFinished);
 
-              if (options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
-                const transformer = options.bufferTransformer || self.bufferTransformer;
-                const postData = transformer(chunks);
+                if (eventName !== 'aborted' && options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
+                  const transformer = options.bufferTransformer || self.bufferTransformer;
+                  const postData = transformer(chunks);
 
-                span.log({
-                  data: postData
+                  span.log({
+                    data: postData
+                  });
+                  // clear cache
+                  chunks = [];
+                }
+
+                span.setTag('http.aborted', {
+                  type: 'bool',
+                  value: eventName === 'aborted'
                 });
-                // clear cache
-                chunks = [];
-              }
 
-              self.beforeFinish(span, res);
-              span.finish();
-              tracer.finish(options);
-              self.afterFinish(span, res);
-            });
+                self.beforeFinish(span, res);
+                span.finish();
+                tracer.finish(options);
+                self.afterFinish(span, res);
+              };
+            }
+
+            res.once('finish', onFinishedFactory('finish'));
+            req.once('aborted', onFinishedFactory('aborted'));
 
             return requestListener(req, res);
           });
