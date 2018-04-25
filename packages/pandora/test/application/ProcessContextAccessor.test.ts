@@ -110,4 +110,27 @@ describe('ProcessContextAccessor', function () {
 
   });
 
+  it('should publishObject() be ok', async () => {
+
+    const processContext = new ProcessContext(precessRepresentation);
+    const accessor = new ProcessContextAccessor(processContext);
+    let times = 0;
+    const obj = {};
+
+    mm(processContext, 'getIPCHub', () => {
+      return {
+        publish(obj2, objDesc) {
+          times++;
+          expect(objDesc.name).to.equal('nameValue');
+          expect(obj2).to.equal(obj);
+        }
+      };
+    });
+    await accessor.publishObject('nameValue', obj);
+    await accessor.publishObject({name: 'nameValue'}, obj);
+    expect(times).to.equal(2);
+    mm.restore();
+
+  });
+
 });

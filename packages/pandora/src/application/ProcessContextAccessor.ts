@@ -114,7 +114,7 @@ export class ProcessContextAccessor {
       objDesc = target;
     }
     const hub = this.context.getIPCHub();
-    return hub.publish(objDesc, obj);
+    return hub.publish(obj, objDesc);
   }
 
 }
