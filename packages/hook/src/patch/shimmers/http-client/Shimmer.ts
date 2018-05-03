@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
 import { nodeVersion } from '../../../utils/Utils';
-import { ClientRequest } from 'http';
+import { ClientRequest, ServerResponse } from 'http';
 
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 
@@ -127,7 +127,7 @@ export class HttpClientShimmer {
     shimmer.wrap(request, 'emit', function requestEmitWrapper(emit) {
       const bindRequestEmit = traceManager.bind(emit);
 
-      return function wrappedRequestEmit(this: ClientRequest, event, arg) {
+      return function wrappedRequestEmit(this: ServerResponse, event, arg) {
         if (event === 'error') {
           self.handleError(span, arg);
         } else if (event === 'response') {

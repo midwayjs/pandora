@@ -6,6 +6,7 @@ import { HEADER_TRACE_ID } from '../utils/Constants';
 import { parse as parseUrl } from 'url';
 import { parse as parseQS, ParsedUrlQuery } from 'querystring';
 import * as http from 'http';
+import { IncomingMessage } from 'http';
 
 const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
 
@@ -122,8 +123,9 @@ export class HttpServerPatcher extends Patcher {
   shimmer(options) {
     const self = this;
     const traceManager = this.getTraceManager();
+    const shimmer = this.getShimmer();
 
-    this.getShimmer().wrap(this.getModule(), 'createServer', function wrapCreateServer(createServer) {
+    shimmer.wrap(this.getModule(), 'createServer', function wrapCreateServer(createServer) {
 
       return function wrappedCreateServer(this: any, requestListener) {
         if (requestListener) {
@@ -154,8 +156,18 @@ export class HttpServerPatcher extends Patcher {
 
             let chunks = [];
             if (options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
-              req.on('data', (chunk) => {
-                chunks.push(chunk);
+              shimmer.wrap(req, 'emit', function wrapRequestEmit(emit) {
+                const bindRequestEmit = traceManager.bind(emit);
+
+                return function wrappedRequestEmit(this: IncomingMessage, event) {
+                  if (event === 'data') {
+                    const chunk = arguments[1] || [];
+
+                    chunks.push(chunk);
+                  }
+
+                  return bindRequestEmit.apply(this, arguments);
+                };
               });
             }
 
