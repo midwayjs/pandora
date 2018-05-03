@@ -1,6 +1,6 @@
 import { RunUtil } from '../../RunUtil';
 import * as assert from 'assert';
-import { HttpServerPatcher } from '../../../src/patch/HttpServer';
+import { HttpServerPatcher } from '../../../src/';
 
 const httpServerPatcher = new HttpServerPatcher({
   recordPostData: true
@@ -24,7 +24,15 @@ RunUtil.run(function(done) {
 
   const server = http.createServer((req, res) => {
 
-    res.end('hello');
+    const chunks = [];
+
+    req.on('data', (chunk) => {
+      chunks.push(chunk);
+    });
+
+    req.on('end', () => {
+      res.end('hello');
+    });
   });
 
   server.listen(0, () => {
