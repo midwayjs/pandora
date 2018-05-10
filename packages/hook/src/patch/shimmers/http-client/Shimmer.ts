@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
-import { nodeVersion } from '../../../utils/Utils';
-import { ClientRequest, ServerResponse } from 'http';
+import {DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID} from '../../../utils/Constants';
+import {nodeVersion} from '../../../utils/Utils';
+import {ClientRequest} from 'http';
 
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 
@@ -75,68 +75,99 @@ export class HttpClientShimmer {
 
   protected _createSpan(tracer, currentSpan) {
     const traceId = tracer.traceId;
-
     return tracer.startSpan('http-client', {
       childOf: currentSpan,
       traceId
     });
   }
 
+  initTracerAndSpan(request, args) {
+    const traceManager = this.traceManager;
+    const options = this.options;
+    const tracer = traceManager.getCurrentTracer();
+    if (!tracer) return {};
+    const span = this.createSpan(tracer);
+    if (!span) return {};
+
+    if ((<any>options).remoteTracing) {
+      args = this.remoteTracing(args, tracer, span);
+    }
+    const tags = this.buildTags(args, request);
+
+    span.addTags(tags);
+
+    return {tracer, span};
+  }
+
+  recordResponseWrap(req, res, tracer, span) {
+    const self = this;
+    const recordResponse = this.options.recordResponse;
+    const bufferTransformer = this.options.bufferTransformer || self.bufferTransformer;
+
+    res.__responseSize = 0;
+    res.__chunks = [];
+    res.on('data', (data) => {
+      const chunk = data || [];
+      res.__responseSize += chunk.length;
+      if (recordResponse) {
+        res.__chunks.push(chunk);
+      }
+    });
+    res.once('end', () => {
+      if (span && recordResponse) {
+        const response = bufferTransformer(res.__chunks);
+        span.log({
+          response
+        });
+        delete res.__responseSize;
+        delete res.__chunks;
+      }
+    });
+  }
+
+  /**
+   * 注册钩子
+   * @param req
+   * @param res
+   * @param tracer
+   * @param span
+   */
+  wrapRequest(req, res, tracer, span) {
+    // TODO this.recordQuery(req, tracer, span);
+    // TODO this.recordData(req, tracer, span);
+    this.recordResponseWrap(req, res, tracer, span);
+  }
+
   httpRequestWrapper = (request) => {
     const self = this;
-    const traceManager = this.traceManager;
-    const options = self.options;
 
     return function wrappedHttpRequest(this: ClientRequest) {
-      const tracer = traceManager.getCurrentTracer();
       let args = Array.from(arguments);
 
+      const {tracer, span} = self.initTracerAndSpan(request, args);
       if (!tracer) {
         debug('No current tracer, skip trace');
         return request.apply(this, args);
       }
-
-      const span = self.createSpan(tracer);
-
       if (!span) {
         debug('Create new span empty, skip trace');
         return request.apply(this, args);
       }
 
-      if ((<any>options).remoteTracing) {
-        args = self.remoteTracing(args, tracer, span);
-      }
-
       const _request = request.apply(this, args);
 
-      const tags = self.buildTags(args, _request);
+      // self.wrapRequest(_request, tracer, span);
 
-      span.addTags(tags);
+      _request.once('error', (res) => {
+        self.handleError(span, res);
+      });
 
-      self.wrapRequest(_request, tracer, span);
-
+      _request.once('response', (res) => {
+        self.wrapRequest(_request, res, tracer, span);
+        self.handleResponse(_request, res, tracer, span);
+      });
       return _request;
     };
-  }
-
-  wrapRequest = (request, tracer, span) => {
-    const traceManager = this.traceManager;
-    const shimmer = this.shimmer;
-    const self = this;
-
-    shimmer.wrap(request, 'emit', function requestEmitWrapper(emit) {
-      const bindRequestEmit = traceManager.bind(emit);
-
-      return function wrappedRequestEmit(this: ServerResponse, event, arg) {
-        if (event === 'error') {
-          self.handleError(span, arg);
-        } else if (event === 'response') {
-          self.handleResponse(tracer, span, arg);
-        }
-
-        return bindRequestEmit.apply(this, arguments);
-      };
-    });
   }
 
   protected _requestError(res, span) {
@@ -167,14 +198,22 @@ export class HttpClientShimmer {
     }
   }
 
+
+  handleResponse(req, res, tracer, span) {
+    const self = this;
+    res.once('end', () => {
+      span.error(false);
+      self._responseEnd(res, span);
+      tracer.setCurrentSpan(span);
+      span.finish();
+      self._finish(res, span);
+    });
+  }
+
   protected _responseEnd(res, span) {
     const socket = res.socket;
     const remoteIp = socket ? (socket.remoteAddress ? `${socket.remoteAddress}:${socket.remotePort}` : '') : '';
     const responseSize = (res.headers && res.headers['content-length']) || res.__responseSize;
-
-    delete res.__responseSize;
-    delete res.__chunks;
-
     span.setTag('http.status_code', {
       type: 'number',
       value: res.statusCode
@@ -191,7 +230,8 @@ export class HttpClientShimmer {
     });
   }
 
-  protected _finish(res, span) {}
+  protected _finish(res, span) {
+  }
 
   bufferTransformer(buffer): string {
     try {
@@ -200,52 +240,6 @@ export class HttpClientShimmer {
       debug('transform response data error. ', error);
       return '';
     }
-  }
-
-  handleResponse(tracer, span, res) {
-    const traceManager = this.traceManager;
-    const shimmer = this.shimmer;
-    const self = this;
-    const recordResponse = this.options.recordResponse;
-    const bufferTransformer = this.options.bufferTransformer || self.bufferTransformer;
-
-    res.__responseSize = 0;
-    res.__chunks = [];
-
-    shimmer.wrap(res, 'emit', function wrapResponseEmit(emit) {
-      const bindResponseEmit = traceManager.bind(emit);
-
-      return function wrappedResponseEmit(this: ClientRequest, event) {
-        if (event === 'end') {
-          if (span) {
-
-            if (recordResponse) {
-              const response = bufferTransformer(res.__chunks);
-              span.log({
-                response
-              });
-            }
-
-            span.error(false);
-
-            self._responseEnd(res, span);
-
-            tracer.setCurrentSpan(span);
-            span.finish();
-            self._finish(res, span);
-          }
-        } else if (event === 'data') {
-          const chunk = arguments[1] || [];
-          res.__responseSize += chunk.length;
-
-          if (recordResponse) {
-            res.__chunks.push(chunk);
-          }
-        }
-
-        return bindResponseEmit.apply(this, arguments);
-      };
-    });
   }
 
   protected buildTags(args, request) {

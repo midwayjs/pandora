@@ -8,7 +8,7 @@ export type bufferTransformer = (buffer) => object | string;
 
 export class HttpClientPatcher extends Patcher {
 
-  constructor(options: {
+  constructor(options?: {
     forceHttps?: boolean,
     recordResponse?: boolean,
     bufferTransformer?: bufferTransformer
