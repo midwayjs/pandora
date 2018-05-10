@@ -17,7 +17,8 @@ RunUtil.run(function(done) {
     const logs = report.spans[0].logs;
     const fields = logs[0].fields;
     assert(fields[0].key === 'data');
-    assert(JSON.stringify(fields[0].value) === '{"age":"100"}');
+    // assert(JSON.stringify(fields[0].value) === '{"age":"100"}');
+    assert.deepEqual(fields[0].value, {age: 100});
 
     done();
   });
@@ -40,6 +41,9 @@ RunUtil.run(function(done) {
 
     urllib.request(`http://localhost:${port}/?name=test`, {
       method: 'post',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
       data: {
         age: 100
       }
