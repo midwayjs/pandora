@@ -112,11 +112,29 @@ export class HttpServerPatcher extends Patcher {
   }
 
   bufferTransformer(buffer): ParsedUrlQuery | string {
+    const dataStr = buffer.toString('utf8');
+    let data = safeParse(dataStr);
+    if (typeof(data) === 'string') {
+      data = parseQS(dataStr);
+    }
     try {
-      return parseQS(buffer.toString('utf8'));
+      return data;
     } catch (error) {
       debug('transform post data error. ', error);
       return '';
+    }
+
+    /**
+     * TODO move to util
+     * @param str
+     * @returns {any}
+     */
+    function safeParse(str) {
+      try {
+        return JSON.parse(str);
+      } catch (e) {
+        return str;
+      }
     }
   }
 
