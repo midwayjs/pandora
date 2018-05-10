@@ -1,10 +1,10 @@
 'use strict';
 
-import {Patcher, getRandom64} from 'pandora-metrics';
-import {extractPath} from '../utils/Utils';
-import {HEADER_TRACE_ID} from '../utils/Constants';
-import {parse as parseUrl} from 'url';
-import {parse as parseQS, ParsedUrlQuery} from 'querystring';
+import { Patcher, getRandom64 } from 'pandora-metrics';
+import { extractPath } from '../utils/Utils';
+import { HEADER_TRACE_ID } from '../utils/Constants';
+import { parse as parseUrl } from 'url';
+import { parse as parseQS, ParsedUrlQuery } from 'querystring';
 import * as http from 'http';
 
 const debug = require('debug')('PandoraHook:HttpServerPatcher');

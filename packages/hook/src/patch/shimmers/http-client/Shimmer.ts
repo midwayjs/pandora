@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import {DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID} from '../../../utils/Constants';
-import {nodeVersion} from '../../../utils/Utils';
-import {ClientRequest} from 'http';
+import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
+import { nodeVersion } from '../../../utils/Utils';
+import { ClientRequest } from 'http';
 
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 
@@ -168,7 +168,7 @@ export class HttpClientShimmer {
       });
       return _request;
     };
-  }
+  };
 
   protected _requestError(res, span) {
 
