@@ -177,7 +177,7 @@ export interface SpanData {
   timestamp: number;
   duration: number;
   logs: Array<{
-    timestamp: string;
+    timestamp: number;
     fields: any;
   }>;
   tags: object;
