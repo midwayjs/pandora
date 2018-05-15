@@ -7,7 +7,7 @@ const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 
 // TODO: 接受参数，处理或记录请求详情
 
-export type bufferTransformer = (buffer) => object | string;
+export type bufferTransformer = (buffer, encoding?: string) => object | string;
 
 export class HttpClientShimmer {
 
@@ -193,9 +193,9 @@ export class HttpClientShimmer {
 
   protected _finish(res, span) {}
 
-  bufferTransformer(buffer): string {
+  bufferTransformer(buffer, encoding?: string): string {
     try {
-      return buffer.toString('utf8');
+      return buffer.toString(encoding || 'utf8');
     } catch (error) {
       debug('transform response data error. ', error);
       return '';
@@ -220,7 +220,8 @@ export class HttpClientShimmer {
           if (span) {
 
             if (recordResponse) {
-              const response = bufferTransformer(res.__chunks);
+              const encoding = res.headers && res.headers['content-encoding'];
+              const response = bufferTransformer(res.__chunks, encoding);
               span.log({
                 response
               });

@@ -30,7 +30,9 @@ RunUtil.run(function(done) {
 
   nock('https://www.taobao.com')
     .get('/')
-    .reply(200, 'Response from TaoBao.');
+    .reply(200, new Buffer('Response from TaoBao.', 'utf8'), {
+      'Content-Encoding': 'utf8'
+    });
 
   function request(agent, options) {
 
