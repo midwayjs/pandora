@@ -2,9 +2,10 @@ const http = require('http');
 const https = require('https');
 import { Patcher } from 'pandora-metrics';
 import * as semver from 'semver';
+import { IncomingMessage } from 'http';
 import { HttpClientShimmer } from './shimmers/http-client/Shimmer';
 
-export type bufferTransformer = (buffer) => object | string;
+export type bufferTransformer = (buffer, res?: IncomingMessage) => object | string;
 
 export class HttpClientPatcher extends Patcher {
 

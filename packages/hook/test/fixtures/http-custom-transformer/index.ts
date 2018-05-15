@@ -4,8 +4,15 @@ import { HttpServerPatcher } from '../../../src/patch/HttpServer';
 
 const httpServerPatcher = new HttpServerPatcher({
   recordPostData: true,
-  bufferTransformer: function(buffer) {
-    return buffer.toString('utf8');
+  bufferTransformer: function(buffer, req) {
+    const type = req.headers['content-type'];
+    let data = buffer.toString('utf8');
+
+    if (type === 'application/x-www-form-urlencoded') {
+      data = `~${data}~`;
+    }
+
+    return data;
   }
 });
 
@@ -20,7 +27,7 @@ RunUtil.run(function(done) {
     const logs = report.spans[0].logs;
     const fields = logs[0].fields;
     assert(fields[0].key === 'data');
-    assert(fields[0].value === 'age=100');
+    assert(fields[0].value === '~age=100~');
 
     done();
   });

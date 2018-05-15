@@ -10,7 +10,7 @@ import { IncomingMessage } from 'http';
 
 const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
 
-export type bufferTransformer = (buffer, contentType?: string) => object | string;
+export type bufferTransformer = (buffer, req?: IncomingMessage) => object | string;
 
 export type requestFilter = (req) => boolean;
 
@@ -112,7 +112,7 @@ export class HttpServerPatcher extends Patcher {
     return {};
   }
 
-  bufferTransformer(buffer, contentType?: string): ParsedUrlQuery | string {
+  bufferTransformer(buffer, req?: IncomingMessage): ParsedUrlQuery | string {
     try {
       return parseQS(buffer.toString('utf8'));
     } catch (error) {
@@ -189,8 +189,7 @@ export class HttpServerPatcher extends Patcher {
 
                 if (eventName !== 'aborted' && options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
                   const transformer = options.bufferTransformer || self.bufferTransformer;
-                  const contentType = req.headers && req.headers['content-type'];
-                  const postData = transformer(chunks, contentType);
+                  const postData = transformer(Buffer.concat(chunks), req);
 
                   span.log({
                     data: postData
