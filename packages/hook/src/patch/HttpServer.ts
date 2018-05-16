@@ -121,6 +121,16 @@ export class HttpServerPatcher extends Patcher {
     }
   }
 
+  getFullUrl(req: IncomingMessage): string {
+    if (!req) return '';
+
+    const secure = (<any>req.connection).encrypted || req.headers['x-forwarded-proto'] === 'https';
+
+    return 'http' + (secure ? 's' : '') + '://' +
+      req.headers.host +
+      req.url;
+  }
+
   shimmer(options) {
     const self = this;
     const traceManager = this.getTraceManager();
@@ -150,7 +160,7 @@ export class HttpServerPatcher extends Patcher {
             if (options.recordUrl) {
               // record origin url
               span.log({
-                originUrl: req.url
+                originUrl: self.getFullUrl(req)
               });
             }
 
