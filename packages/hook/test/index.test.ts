@@ -40,6 +40,10 @@ describe('unit test', () => {
     it('should egg-logger work ok', done => {
       fork('egg-logger', done);
     });
+
+    it('should egg-logger redirect work ok', done => {
+      fork('egg-logger-redirect', done);
+    });
   });
 
   describe('http server', () => {
