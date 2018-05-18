@@ -31,6 +31,12 @@ export class EggLoggerPatcher extends Patcher {
 
           if (_level === 'error' || _level === 'warn') {
 
+            const redirectLogger = this.redirectLoggers.get(level);
+
+            if (redirectLogger) {
+              return log.apply(this, arguments);
+            }
+
             process.nextTick(() => {
               let error = args[0];
 

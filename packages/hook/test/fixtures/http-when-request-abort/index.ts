@@ -32,7 +32,7 @@ RunUtil.run(function(done) {
     const port = server.address().port;
 
     const req = httpclient.request(`http://localhost:${port}`, function(err, body) {
-      console.log('body size: %d', body.length);
+      console.log('err ', err.message);
     });
 
     setTimeout(function() {
