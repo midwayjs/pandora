@@ -1,13 +1,13 @@
 import * as assert from 'assert';
 import { DEFAULT_HOST, DEFAULT_PORT, HEADER_SPAN_ID, HEADER_TRACE_ID } from '../../../utils/Constants';
 import { nodeVersion } from '../../../utils/Utils';
-import { ClientRequest, ServerResponse } from 'http';
+import { ClientRequest, ServerResponse, IncomingMessage } from 'http';
 
 const debug = require('debug')('PandoraHook:HttpClient:Shimmer');
 
 // TODO: 接受参数，处理或记录请求详情
 
-export type bufferTransformer = (buffer) => object | string;
+export type bufferTransformer = (buffer, res?: IncomingMessage) => object | string;
 
 export class HttpClientShimmer {
 
@@ -193,7 +193,7 @@ export class HttpClientShimmer {
 
   protected _finish(res, span) {}
 
-  bufferTransformer(buffer): string {
+  bufferTransformer(buffer, res?: IncomingMessage): string {
     try {
       return buffer.toString('utf8');
     } catch (error) {
@@ -220,7 +220,7 @@ export class HttpClientShimmer {
           if (span) {
 
             if (recordResponse) {
-              const response = bufferTransformer(res.__chunks);
+              const response = bufferTransformer(Buffer.concat(res.__chunks), res);
               span.log({
                 response
               });

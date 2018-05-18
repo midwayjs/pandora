@@ -4,9 +4,17 @@ import { HttpServerPatcher } from '../../../src/patch/HttpServer';
 
 const httpServerPatcher = new HttpServerPatcher({
   recordPostData: true,
-  bufferTransformer: function(buffer) {
-    return buffer.toString('utf8');
-  }
+  bufferTransformer: function(buffer, req) {
+    const type = req.headers['content-type'];
+    let data = buffer.toString('utf8');
+
+    if (type === 'application/x-www-form-urlencoded') {
+      data = `~${data}~`;
+    }
+
+    return data;
+  },
+  recordUrl: true
 });
 
 RunUtil.run(function(done) {
@@ -18,9 +26,14 @@ RunUtil.run(function(done) {
     assert(report.name === 'HTTP-POST:/');
     assert(report.spans.length === 1);
     const logs = report.spans[0].logs;
-    const fields = logs[0].fields;
-    assert(fields[0].key === 'data');
-    assert(fields[0].value === 'age=100');
+    const urlLog = logs[0];
+    const paramsLog = logs[1];
+    const urlFields = urlLog.fields;
+    assert(urlFields[0].key === 'originUrl');
+    assert(urlFields[0].value.match(/http:\/\/localhost:\d+\/\?name=test/));
+    const paramsFields = paramsLog.fields;
+    assert(paramsFields[0].key === 'data');
+    assert(paramsFields[0].value === '~age=100~');
 
     done();
   });

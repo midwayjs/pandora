@@ -1,5 +1,6 @@
 import { RunUtil } from '../../RunUtil';
 import * as assert from 'assert';
+import { gzipSync, unzipSync } from 'zlib';
 // 放在前面，把 http.ClientRequest 先复写
 const nock = require('nock');
 import { HttpServerPatcher, HttpClientPatcher } from '../../../src/';
@@ -7,7 +8,17 @@ const httpServerPatcher = new HttpServerPatcher();
 const httpClientPatcher = new HttpClientPatcher({
   // nock 复写了 https.request 方法，没有像原始一样调用 http.request，所以需要强制复写
   forceHttps: true,
-  recordResponse: true
+  recordResponse: true,
+  bufferTransformer: (buffer, res) => {
+    const encoding = res.headers['content-encoding'];
+    let data = buffer;
+
+    if (encoding === 'gzip') {
+      data = unzipSync(data);
+    }
+
+    return data.toString('utf8');
+  }
 });
 
 RunUtil.run(function(done) {
@@ -30,7 +41,9 @@ RunUtil.run(function(done) {
 
   nock('https://www.taobao.com')
     .get('/')
-    .reply(200, 'Response from TaoBao.');
+    .reply(200, gzipSync(Buffer.from('Response from TaoBao.')), {
+      'Content-Encoding': 'gzip'
+    });
 
   function request(agent, options) {
 

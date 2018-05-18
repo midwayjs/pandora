@@ -10,7 +10,7 @@ import { IncomingMessage } from 'http';
 
 const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
 
-export type bufferTransformer = (buffer) => object | string;
+export type bufferTransformer = (buffer, req?: IncomingMessage) => object | string;
 
 export type requestFilter = (req) => boolean;
 
@@ -20,7 +20,8 @@ export class HttpServerPatcher extends Patcher {
     recordGetParams?: boolean,
     recordPostData?: boolean,
     bufferTransformer?: bufferTransformer,
-    requestFilter?: requestFilter
+    requestFilter?: requestFilter,
+    recordUrl?: boolean
   }) {
     super(options || {});
 
@@ -111,13 +112,23 @@ export class HttpServerPatcher extends Patcher {
     return {};
   }
 
-  bufferTransformer(buffer): ParsedUrlQuery | string {
+  bufferTransformer(buffer, req?: IncomingMessage): ParsedUrlQuery | string {
     try {
       return parseQS(buffer.toString('utf8'));
     } catch (error) {
       debug('transform post data error. ', error);
       return '';
     }
+  }
+
+  getFullUrl(req: IncomingMessage): string {
+    if (!req) return '';
+
+    const secure = (<any>req.connection).encrypted || req.headers['x-forwarded-proto'] === 'https';
+
+    return 'http' + (secure ? 's' : '') + '://' +
+      req.headers.host +
+      req.url;
   }
 
   shimmer(options) {
@@ -145,6 +156,13 @@ export class HttpServerPatcher extends Patcher {
             self._beforeExecute(tracer, req, res);
             const tags = self.buildTags(req);
             const span = self.createSpan(tracer, tags);
+
+            if (options.recordUrl) {
+              // record origin url
+              span.log({
+                originUrl: self.getFullUrl(req)
+              });
+            }
 
             if (options.recordGetParams) {
               const query = self.processGetParams(req);
@@ -181,7 +199,7 @@ export class HttpServerPatcher extends Patcher {
 
                 if (eventName !== 'aborted' && options.recordPostData && req.method && req.method.toUpperCase() === 'POST') {
                   const transformer = options.bufferTransformer || self.bufferTransformer;
-                  const postData = transformer(chunks);
+                  const postData = transformer(Buffer.concat(chunks), req);
 
                   span.log({
                     data: postData
