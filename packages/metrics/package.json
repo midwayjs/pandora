@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics",
-  "version": "1.8.21",
+  "version": "1.8.26",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
