@@ -17,7 +17,7 @@ RunUtil.run(function(done) {
     const logs = report.spans[0].logs;
     const fields = logs[0].fields;
     assert(fields[0].key === 'data');
-    assert(JSON.stringify(fields[0].value) === '{"age":"100"}');
+    assert(fields[0].value === '{"age":"100"}');
 
     done();
   });
