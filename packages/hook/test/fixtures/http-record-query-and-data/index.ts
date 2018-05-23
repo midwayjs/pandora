@@ -20,9 +20,9 @@ RunUtil.run(function(done) {
     const getFields = logs[0].fields;
     const postFields = logs[1].fields;
     assert(getFields[0].key === 'query');
-    assert(JSON.stringify(getFields[0].value) === '{"name":"test"}');
+    assert(getFields[0].value === '{"name":"test"}');
     assert(postFields[0].key === 'data');
-    assert(JSON.stringify(postFields[0].value) === '{"age":"100"}');
+    assert(postFields[0].value === '{"age":"100"}');
 
     done();
   });

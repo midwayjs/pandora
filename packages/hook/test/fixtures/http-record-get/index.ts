@@ -18,7 +18,7 @@ RunUtil.run(function(done) {
     const fields = logs[0].fields;
 
     assert(fields[0].key === 'query');
-    assert(JSON.stringify(fields[0].value) === '{"name":"test"}');
+    assert(fields[0].value === '{"name":"test"}');
 
     done();
   });

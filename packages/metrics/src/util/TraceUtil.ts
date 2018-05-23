@@ -11,11 +11,19 @@ export function getRandom64() {
   return buf.toString('hex');
 }
 
+function isObjectLike(value) {
+  return typeof value === 'object' && value !== null;
+}
+
 export function convertObjectToTags(object) {
   const tags = [];
 
   Object.keys(object).forEach((key) => {
     let value = object[key];
+
+    if (isObjectLike(value)) {
+      value = JSON.stringify(value);
+    }
 
     tags.push({key, value});
   });
