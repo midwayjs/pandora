@@ -24,7 +24,7 @@ module.exports = function (pandora) {
 module.exports = function (pandora) {
   
   // 如果该进程定义存在则对其修改，否则就是新建
-  pandora('processName')
+  pandora.process('processName')
 
     // 重命名进程
     // 不传参数则获取

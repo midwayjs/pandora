@@ -47,7 +47,7 @@ module.exports = function (pandora) {
   // 定义一个叫 serviceA 的 Service 
   // 第二个参数为具体实现，可以是一个地址，或者一个实现类的引用
   // 如果不传第二参数，则是对已经定义的进行修改
-  pandora('serviceA', './ServiceA')
+  pandora.service('serviceA', './ServiceA')
 
     // 重命名 Service
     // 不传参数则获取

@@ -46,7 +46,7 @@ module.exports = function (pandora) {
   // Define a service named serviceA
   // The second parameter is a specific implementation, can be an address, or a reference to an implementation class
   // If the second parameter is not passed, the defined Service are modified
-  pandora('serviceA', './ServiceA')
+  pandora.service('serviceA', './ServiceA')
 
     // Rename Service
     // Obtained without passing parameters
