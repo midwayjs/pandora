@@ -94,7 +94,16 @@
 <p>生产环境（NODE_ENV 为 production 时采样率）为 10%，其他情况 100%。</p>
 <p>这一设定可以通过全局配置修改，<a href="../base/global_config.html">详情见文档</a>。</p>
 <h3 id="如何新增一个链路节点"><a class="markdown-anchor" href="#如何新增一个链路节点">#</a> 如何新增一个链路节点</h3>
-<p>待补充</p>
+<p>通过获得单例 TraceManager 对象，可以实现对链路功能的全部接口访问。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;traceManager&#125; = <span class="built_in">require</span>(<span class="string">'dorapan'</span>);</span><br></pre></td></tr></table></figure>
+<p>可以通过 <code>getCurrentTracer()</code> 接口获得当前活跃的链路对象，通过：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> tracer = traceManager.getCurrentTracer(); <span class="comment">// 如果不在一个链路中，将会获得 undefined</span></span><br><span class="line"><span class="keyword">const</span> span = tracer.startSpan(<span class="string">'custom_span'</span>);</span><br><span class="line">span.finish();</span><br></pre></td></tr></table></figure>
+<p>更多请参考这两个对象的 API Reference：</p>
+<ul>
+<li><a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracemanager.html" target="_blank" rel="noopener">TraceManager</a></li>
+<li><a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracer.html" target="_blank" rel="noopener">Tracer</a></li>
+<li>Tracer 对象继承和实现自 [OpenTracer](https://github.com/opentracing/opentracing-javascript，请同样参考一下。</li>
+</ul>
 <h3 id="实现原理"><a class="markdown-anchor" href="#实现原理">#</a> 实现原理</h3>
 <p>待解释</p>
 

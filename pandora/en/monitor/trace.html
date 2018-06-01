@@ -94,7 +94,16 @@
 <p>Production environment is 10%, otherwise 100%.</p>
 <p>That can be changed via global config, <a href="../base/global_config.html">docs</a>.</p>
 <h3 id="how-to-add-a-new-kind-of-spans"><a class="markdown-anchor" href="#how-to-add-a-new-kind-of-spans">#</a> How to add a new kind of spans</h3>
-<p>TODO</p>
+<p>You can access all the interfaces about tracing via the single instance TraceManager object.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;traceManager&#125; = <span class="built_in">require</span>(<span class="string">'dorapan'</span>);</span><br></pre></td></tr></table></figure>
+<p>Get the current available tracer object via <code>getCurrentTracer()</code>, like:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> tracer = traceManager.getCurrentTracer(); <span class="comment">// If not in a trace link, will got a undefined</span></span><br><span class="line"><span class="keyword">const</span> span = tracer.startSpan(<span class="string">'custom_span'</span>);</span><br><span class="line">span.finish();</span><br></pre></td></tr></table></figure>
+<p>More please check API References:</p>
+<ul>
+<li><a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracemanager.html" target="_blank" rel="noopener">TraceManager</a></li>
+<li><a href="http://www.midwayjs.org/pandora/api-reference/metrics/classes/tracer.html" target="_blank" rel="noopener">Tracer</a></li>
+<li>The Tracer object extended and implemented <a href="https://github.com/opentracing/opentracing-javascript" target="_blank" rel="noopener">OpenTracer</a>, so please check it also.</li>
+</ul>
 <h3 id="principle"><a class="markdown-anchor" href="#principle">#</a> Principle</h3>
 <p>TODO</p>
 
