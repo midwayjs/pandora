@@ -25,7 +25,7 @@ The following is a simple example：
 module.exports = function (pandora) {
 
   // If the process definition exists, modify it, otherwise it is new
-  pandora('processName')
+  pandora.process('processName')
 
     // rename process
     // obtained without passing parameters
