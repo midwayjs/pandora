@@ -1,4 +1,4 @@
-'use strict';
+
 import { Patcher, MessageConstants, MessageSender } from 'pandora-metrics';
 import * as util from 'util';
 const debug = require('debug')('PandoraHook:EggLogger');
@@ -37,43 +37,41 @@ export class EggLoggerPatcher extends Patcher {
               return log.apply(this, arguments);
             }
 
-            process.nextTick(() => {
-              let error = args[0];
+            let error = args[0];
 
-              try {
-                if (!(error instanceof Error)) {
-                  error = new Error(util.format.apply(util, args));
-                  error.name = 'Error';
-                }
-
-                let logPath = 'console';
-                let traceId = '';
-
-                const fileTrans = this.get('file');
-                if (fileTrans) {
-                  logPath = fileTrans.options.file;
-                }
-
-                const tracer = traceManager.getCurrentTracer();
-                if (tracer) {
-                  traceId = tracer.traceId;
-                }
-
-                const data = {
-                  method: _level,
-                  timestamp: Date.now(),
-                  errType: error.name,
-                  message: error.message,
-                  stack: error.stack,
-                  traceId: traceId,
-                  path: logPath
-                };
-
-                self.sender.send(MessageConstants.LOGGER, data);
-              } catch (err) {
-                debug(err);
+            try {
+              if (!(error instanceof Error)) {
+                error = new Error(util.format.apply(util, args));
+                error.name = 'Error';
               }
-            });
+
+              let logPath = 'console';
+              let traceId = '';
+
+              const fileTrans = this.get('file');
+              if (fileTrans) {
+                logPath = fileTrans.options.file;
+              }
+
+              const tracer = traceManager.getCurrentTracer();
+              if (tracer) {
+                traceId = tracer.traceId;
+              }
+
+              const data = {
+                method: _level,
+                timestamp: Date.now(),
+                errType: error.name,
+                message: error.message,
+                stack: error.stack,
+                traceId: traceId,
+                path: logPath
+              };
+
+              self.sender.send(MessageConstants.LOGGER, data);
+            } catch (err) {
+              debug(err);
+            }
           }
 
           return log.apply(this, arguments);
