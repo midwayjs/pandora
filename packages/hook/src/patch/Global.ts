@@ -32,42 +32,40 @@ export class GlobalPatcher extends Patcher {
 
     this.getShimmer().massWrap(console, ['error', 'warn'], function wrapLog(log, name) {
       return function wrappedLog(this: NodeJS.ConsoleConstructor) {
-        process.nextTick(() => {
-          let args = arguments;
-          let err = args[0];
+        let args = arguments;
+        let err = args[0];
 
-          // 因为已经被 process.unhandledRejection 采集，故不再采集
-          if (typeof err === 'string' && err.indexOf('Unhandled promise rejection') > -1) {
-            return;
+        // 因为已经被 process.unhandledRejection 采集，故不再采集
+        if (typeof err === 'string' && err.indexOf('Unhandled promise rejection') > -1) {
+          return;
+        }
+
+        try {
+          if (!(err instanceof Error)) {
+            err = new Error(util.format.apply(util, args));
+            err.name = 'Error';
           }
 
-          try {
-            if (!(err instanceof Error)) {
-              err = new Error(util.format.apply(util, args));
-              err.name = 'Error';
-            }
-
-            let traceId = '';
-            const tracer = traceManager.getCurrentTracer();
-            if (tracer) {
-              traceId = tracer.traceId;
-            }
-
-            const data = {
-              method: name,
-              timestamp: Date.now(),
-              errType: err.name,
-              message: err.message,
-              stack: err.stack,
-              traceId: traceId,
-              path: 'console'
-            };
-
-            self.sender.send(MessageConstants.LOGGER, data);
-          } catch (err) {
-            debug('collect console error failed. ', err);
+          let traceId = '';
+          const tracer = traceManager.getCurrentTracer();
+          if (tracer) {
+            traceId = tracer.traceId;
           }
-        });
+
+          const data = {
+            method: name,
+            timestamp: Date.now(),
+            errType: err.name,
+            message: err.message,
+            stack: err.stack,
+            traceId: traceId,
+            path: 'console'
+          };
+
+          self.sender.send(MessageConstants.LOGGER, data);
+        } catch (err) {
+          debug('collect console error failed. ', err);
+        }
 
         return log.apply(this, arguments);
       };
