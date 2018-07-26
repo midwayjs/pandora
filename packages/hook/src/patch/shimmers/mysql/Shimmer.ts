@@ -297,7 +297,24 @@ export class MySQLShimmer {
    * @returns {object}
    */
   parseQuery(query) {
-    let parsed = parseSql(query);
+    let parsed = {
+      operation: null,
+      collection: null,
+      query: ''
+    };
+
+    try {
+      parsed = parseSql(query);
+    } catch (error) {
+      debug(`parse sql error, origin sql is ${query}. `, error);
+      console.warn(`[Pandora Hook] parse sql error, please report this message to us. Origin sql is: ${query}`, error);
+
+      return {
+        operation: INSTANCE_UNKNOWN,
+        collection: INSTANCE_UNKNOWN,
+        raw: query
+      };
+    }
 
     let collection = parsed.collection;
     // strip enclosing special characters from collection (table) name
