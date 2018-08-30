@@ -40,6 +40,7 @@
     "egg-logger": "^1.6.0",
     "globby": "^6.1.0",
     "ioredis": "^3.2.2",
+    "log4js": "^3.0.5",
     "mocha": "^3.5.0",
     "module-hook": "^1.0.0",
     "mongodb": "^2.2.0",
