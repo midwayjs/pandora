@@ -9,13 +9,13 @@ module.exports = {
       description: 'A Manageable, Measurable and Traceable Node.js Application Manager'
     },
     '/zh-cn/': {
-      lang: 'zh-cn-CN',
+      lang: 'zh-CN',
       title: 'Pandora.js',
       description: '一个可管理、可度量、可追踪的 Node.js 应用管理器'
     }
   },
   themeConfig: {
-    lang: 'zh-cn-CN',
+    lang: 'zh-CN',
     title: 'Pandora.js',
     description: '一个可管理、可度量、可追踪的 Node.js 应用管理器',
     repo: 'midwayjs/pandora',
