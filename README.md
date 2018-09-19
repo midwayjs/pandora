@@ -28,7 +28,7 @@ alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 ## Docs
 
 * 中文文档 <http://www.midwayjs.org/pandora/zh-cn/>
-* English documents <http://www.midwayjs.org/pandora/en/>
+* English documents <http://www.midwayjs.org/pandora/>
 
 ## What is Pandora.js ?
 

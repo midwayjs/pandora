@@ -11,7 +11,7 @@
     "test": "npm run lint && mocha",
     "cov": "nyc mocha",
     "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/service-logger src/"
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/service-logger src/"
   },
   "keywords": [
     "logger"
