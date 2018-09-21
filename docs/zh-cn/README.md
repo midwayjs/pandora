@@ -2,7 +2,7 @@
 home: true
 heroImage: https://img.alicdn.com/tfs/TB1hUh8bxYaK1RjSZFnXXa80pXa-950-700.png
 actionText: 快速上手 →
-actionLink: /guide/introduce
+actionLink: /zh-cn/quickstart
 footer: Copyright © 2018-present MidwayJs
 ---
 
