@@ -16,7 +16,7 @@ sidebar: auto
 
 ## About GUI Dashboard
 
-Please check [GUI Dashboard](http://www.midwayjs.org/pandora/other/dashboard.html).
+Please check [GUI Dashboard](http://www.midwayjs.org/pandora/guide/other/dashboard.html).
 
 ## Installation
 

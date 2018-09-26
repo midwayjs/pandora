@@ -17,7 +17,7 @@ sidebar: auto
 
 ## 关于可视化管理面板
 
-具体请移步 [可视化管理面板](http://www.midwayjs.org/pandora/zh-cn/other/dashboard.html)。
+具体请移步 [可视化管理面板](http://www.midwayjs.org/pandora/zh-cn/guide/other/dashboard.html)。
 
 
 ## 安装
