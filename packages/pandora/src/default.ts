@@ -20,6 +20,7 @@ const {
   ProcessResource,
   DaemonResource,
   FileMetricsManagerReporter,
+  TraceReporter,
   MetricsClient,
   MetricsServerManager,
   CompactMetricsCollector,
@@ -195,6 +196,10 @@ export default {
       initConfig: {
         collector: CompactMetricsCollector
       }
+    },
+    trace: {
+      enabled: true,
+      target: TraceReporter
     }
   }
 };
