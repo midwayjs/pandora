@@ -21,7 +21,7 @@ export class EggLoggerPatcher extends Patcher {
     const self = this;
     const traceManager = this.getTraceManager();
 
-    this.hook('^1.6.x', (loadModule) => {
+    this.hook('^2.x||^1.6.x', (loadModule) => {
       const logger = loadModule('lib/logger.js');
 
       self.getShimmer().wrap(logger.prototype, 'log', function logWrapper(log) {
