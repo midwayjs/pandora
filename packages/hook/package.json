@@ -37,7 +37,7 @@
     "@types/node": "^8.5.2",
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
-    "egg-logger": "^1.6.0",
+    "egg-logger": "^2.0.1",
     "globby": "^6.1.0",
     "ioredis": "^3.2.2",
     "log4js": "^3.0.5",
