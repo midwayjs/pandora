@@ -86,7 +86,9 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#counter" class="tsd-kind-icon">counter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#fastcompass" class="tsd-kind-icon">fast<wbr>Compass</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#getcounters" class="tsd-kind-icon">get<wbr>Counters</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#getfastcompasses" class="tsd-kind-icon">get<wbr>Fast<wbr>Compasses</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#getgauges" class="tsd-kind-icon">get<wbr>Gauges</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#gethistograms" class="tsd-kind-icon">get<wbr>Histograms</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="imetricsregistry.html#getkeys" class="tsd-kind-icon">get<wbr>Keys</a></li>
@@ -118,7 +120,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L19">common/MetricsRegistry.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L24">common/MetricsRegistry.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -132,6 +134,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="fastcompass" class="tsd-anchor"></a>
+					<h3>fast<wbr>Compass</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">fast<wbr>Compass<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="../classes/metricname.html" class="tsd-signature-type">MetricName</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ifastcompass.html" class="tsd-signature-type">IFastCompass</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L32">common/MetricsRegistry.ts:32</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <a href="../classes/metricname.html" class="tsd-signature-type">MetricName</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="ifastcompass.html" class="tsd-signature-type">IFastCompass</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="getcounters" class="tsd-anchor"></a>
 					<h3>get<wbr>Counters</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -141,7 +166,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L26">common/MetricsRegistry.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L40">common/MetricsRegistry.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -155,6 +180,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="getfastcompasses" class="tsd-anchor"></a>
+					<h3>get<wbr>Fast<wbr>Compasses</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Fast<wbr>Compasses<span class="tsd-signature-symbol">(</span>filter<span class="tsd-signature-symbol">?: </span><a href="../classes/metricfilter.html" class="tsd-signature-type">MetricFilter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="ifastcompass.html" class="tsd-signature-type">IFastCompass</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L48">common/MetricsRegistry.ts:48</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> filter: <a href="../classes/metricfilter.html" class="tsd-signature-type">MetricFilter</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="ifastcompass.html" class="tsd-signature-type">IFastCompass</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="getgauges" class="tsd-anchor"></a>
 					<h3>get<wbr>Gauges</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -164,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L25">common/MetricsRegistry.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L38">common/MetricsRegistry.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,7 +235,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L27">common/MetricsRegistry.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L42">common/MetricsRegistry.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -210,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L18">common/MetricsRegistry.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L22">common/MetricsRegistry.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -227,7 +275,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L28">common/MetricsRegistry.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L44">common/MetricsRegistry.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -250,7 +298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L23">common/MetricsRegistry.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L34">common/MetricsRegistry.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -273,7 +321,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L30">common/MetricsRegistry.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L50">common/MetricsRegistry.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -290,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L24">common/MetricsRegistry.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L36">common/MetricsRegistry.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -316,7 +364,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L29">common/MetricsRegistry.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L46">common/MetricsRegistry.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -339,7 +387,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L20">common/MetricsRegistry.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L26">common/MetricsRegistry.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -362,7 +410,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L21">common/MetricsRegistry.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L28">common/MetricsRegistry.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -385,7 +433,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L16">common/MetricsRegistry.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L18">common/MetricsRegistry.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -411,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L17">common/MetricsRegistry.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L20">common/MetricsRegistry.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -437,7 +485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L31">common/MetricsRegistry.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L52">common/MetricsRegistry.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -460,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/d7ee046/packages/metrics/src/common/MetricsRegistry.ts#L22">common/MetricsRegistry.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/6e5c8b8/packages/metrics/src/common/MetricsRegistry.ts#L30">common/MetricsRegistry.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -494,7 +542,13 @@
 								<a href="imetricsregistry.html#counter" class="tsd-kind-icon">counter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="imetricsregistry.html#fastcompass" class="tsd-kind-icon">fast<wbr>Compass</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="imetricsregistry.html#getcounters" class="tsd-kind-icon">get<wbr>Counters</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="imetricsregistry.html#getfastcompasses" class="tsd-kind-icon">get<wbr>Fast<wbr>Compasses</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="imetricsregistry.html#getgauges" class="tsd-kind-icon">get<wbr>Gauges</a>
