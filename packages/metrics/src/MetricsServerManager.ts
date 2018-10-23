@@ -1,22 +1,24 @@
-import {MessengerClient} from 'pandora-messenger';
-import {MetricsMessengerServer} from './util/MessengerUtil';
-import {MetricsConstants} from './MetricsConstants';
+import { MessengerClient } from 'pandora-messenger';
+import { MetricsMessengerServer } from './util/MessengerUtil';
+import { MetricsConstants } from './MetricsConstants';
 import {
-  MetricsRegistry,
-  Metric,
-  MetricFilter,
-  MetricsManager,
-  MetricType,
-  MetricName,
   BaseGauge,
   ICounter,
+  Metric,
+  MetricFilter,
+  MetricName,
+  MetricsManager,
+  MetricsRegistry,
+  MetricType,
 } from './common/index';
-import {ProxyCreateMessage, ProxyUpdateMessage} from './domain';
-import {AbstractIndicator} from './indicator/AbstractIndicator';
-import {IMeter} from './common/metrics/Meter';
-import {IHistogram} from './common/metrics/Histogram';
-import {ITimer} from './common/metrics/Timer';
-import {IMetricsRegistry} from './common/MetricsRegistry';
+import { ProxyCreateMessage, ProxyUpdateMessage } from './domain';
+import { AbstractIndicator } from './indicator/AbstractIndicator';
+import { IMeter } from './common/metrics/Meter';
+import { IHistogram } from './common/metrics/Histogram';
+import { ITimer } from './common/metrics/Timer';
+import { IMetricsRegistry } from './common/MetricsRegistry';
+import { IFastCompass } from './common/metrics/FastCompass';
+
 const util = require('util');
 
 export class MetricsServerManager extends AbstractIndicator implements MetricsManager {
@@ -44,7 +46,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
   static instance;
 
   static getInstance() {
-    if(!this.instance) {
+    if (!this.instance) {
       this.instance = new MetricsServerManager();
     }
     return this.instance;
@@ -86,9 +88,9 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
   protected buildReportLink(client) {
     // 处理接受的数据
     client.on(this.getClientUplinkKey(client._APP_NAME, client._CLIENT_ID), (data) => {
-      if(data.action === MetricsConstants.EVT_METRIC_CREATE) {
+      if (data.action === MetricsConstants.EVT_METRIC_CREATE) {
         this.registerMetric(data);
-      } else if(data.action === MetricsConstants.EVT_METRIC_UPDATE) {
+      } else if (data.action === MetricsConstants.EVT_METRIC_UPDATE) {
         this.updateMetric(data);
       }
     });
@@ -106,7 +108,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
       let storeMetricsArr = this.metricsAndClientMap.get(remove_id);
       this.removeMetricInRegistry(this.allMetricsRegistry, storeMetricsArr);
       // remove in group map
-      for(let registry of this.metricRegistryMap.values()) {
+      for (let registry of this.metricRegistryMap.values()) {
         this.removeMetricInRegistry(registry, storeMetricsArr);
       }
       // remove from metricsAndClientMap
@@ -115,7 +117,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
   }
 
   private removeMetricInRegistry(registry, storeMetricsArr) {
-    for(let key of (storeMetricsArr || [])) {
+    for (let key of (storeMetricsArr || [])) {
       registry.remove(key);
     }
   }
@@ -130,7 +132,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     let metric;
     let metricName = MetricName.parseKey(data.name);
 
-    if(!this.metricsAndClientMap.has(data.clientId)) {
+    if (!this.metricsAndClientMap.has(data.clientId)) {
       this.metricsAndClientMap.set(data.clientId, []);
     }
 
@@ -138,7 +140,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     let storeMetricsArr = this.metricsAndClientMap.get(data.clientId);
     storeMetricsArr.push(data.name);
 
-    switch(data.type) {
+    switch (data.type) {
       case 'GAUGE':
         metric = this.createGaugeProxy(metricName);
         break;
@@ -153,6 +155,9 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
         break;
       case 'HISTOGRAM':
         metric = this.allMetricsRegistry.histogram(metricName);
+        break;
+      case 'FASTCOMPASS':
+        metric = this.allMetricsRegistry.fastCompass(metricName);
         break;
       default:
         metric = this.createGaugeProxy(metricName);
@@ -176,11 +181,11 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     // 找指标
     let metricName = MetricName.parseKey(data.name);
     let metric = this.allMetricsRegistry.getMetric(metricName);
-    if(metric) {
+    if (metric) {
       this.debug(`Invoke: find metric(${data.name}), type = ${metric.type}`);
-      if(metric.type === data.type) {
+      if (metric.type === data.type) {
         this.debug(`Invoke: type equal and call ${data.method}(${data.value})`);
-        metric[data.method].apply(metric, data.value);
+        metric[ data.method ].apply(metric, data.value);
       }
     } else {
       this.debug(`Invoke: can't find msetric(${data.name})`);
@@ -216,7 +221,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
    * @returns {Promise<void>}
    */
   async invoke(args?: any) {
-    for(let client of this.getClients()) {
+    for (let client of this.getClients()) {
       let result = await new Promise((resolve) => {
         this.debug(`Invoke: eventKey(${this.getClientDownlinkKey((<any>client)._APP_NAME, (<any>client)._CLIENT_ID)}), args = ${args}`);
         client.send(this.getClientDownlinkKey((<any>client)._APP_NAME, (<any>client)._CLIENT_ID), args, (err, result) => {
@@ -225,7 +230,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
         }, MetricsConstants.CLIENT_TIME_OUT);
       });
 
-      if(result !== null && result !== undefined) {
+      if (result !== null && result !== undefined) {
         return result;
       }
     }
@@ -249,7 +254,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
 
   destroy() {
     this.enabled = false;
-    for(let client of this.metricsClients.values()) {
+    for (let client of this.metricsClients.values()) {
       client.close();
     }
   }
@@ -260,7 +265,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     }
 
     let newName;
-    if(typeof name === 'string') {
+    if (typeof name === 'string') {
       newName = MetricName.build(name);
     } else {
       newName = name;
@@ -310,6 +315,11 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     return metricRegistry.getTimers(filter);
   }
 
+  getFastCompasses(group: string, filter: MetricFilter = MetricFilter.ALL) {
+    let metricRegistry = <IMetricsRegistry>this.getMetricRegistryByGroup(group);
+    return metricRegistry.getFastCompasses(filter);
+  }
+
   getMetrics(group: string): Map<string, Metric> {
     let metricRegistry: IMetricsRegistry = this.metricRegistryMap.get(group);
     if (metricRegistry) {
@@ -320,7 +330,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
 
   getCategoryMetrics(group: string, filter: MetricFilter = MetricFilter.ALL): Map<string, Map<string, Metric>> {
     const metricRegistry = this.metricRegistryMap.get(group);
-    const result:  Map<string, Map<string, Metric>> = new Map();
+    const result: Map<string, Map<string, Metric>> = new Map();
 
     result.set(MetricType.GAUGE, metricRegistry.getGauges(filter));
     result.set(MetricType.COUNTER, metricRegistry.getCounters(filter));
@@ -332,7 +342,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
   }
 
   getAllCategoryMetrics(filter: MetricFilter = MetricFilter.ALL): Map<string, Map<string, Metric>> {
-    const result:  Map<string, Map<string, Metric>> = new Map();
+    const result: Map<string, Map<string, Metric>> = new Map();
     const allMetricsRegistry = this.getAllMetricsRegistry();
 
     result.set(MetricType.GAUGE, allMetricsRegistry.getGauges(filter));
@@ -367,14 +377,14 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
 
     let result = new Map();
 
-    for (let [group, metricRegistry] of this.metricRegistryMap.entries()) {
+    for (let [ group, metricRegistry ] of this.metricRegistryMap.entries()) {
       result.set(group, metricRegistry.getMetricNames());
     }
     return result;
   }
 
   getMeter(group: string, name: MetricName): IMeter {
-    const meter =  this.getMetricRegistryByGroup(group).meter(name);
+    const meter = this.getMetricRegistryByGroup(group).meter(name);
     this.allMetricsRegistry.register(name, meter);
     return meter;
   }
@@ -395,6 +405,12 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     const timer = this.getMetricRegistryByGroup(group).timer(name);
     this.allMetricsRegistry.register(name, timer);
     return timer;
+  }
+
+  getFastCompass(group: string, name: MetricName): IFastCompass {
+    const fastcompass = (<IMetricsRegistry>this.getMetricRegistryByGroup(group)).fastCompass(name);
+    this.allMetricsRegistry.register(name, fastcompass);
+    return fastcompass;
   }
 
   destory() {

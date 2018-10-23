@@ -7,6 +7,7 @@ import {IMetricsRegistry} from './MetricsRegistry';
 import {MetricFilter} from './MetricFilter';
 import {BaseGauge} from './metrics/Gauge';
 import {Metric} from './domain';
+import { IFastCompass } from './metrics/FastCompass';
 
 export interface MetricsManager {
   /**
@@ -48,6 +49,8 @@ export interface MetricsManager {
    * @return an instance of timer
    */
   getTimer(group: string, name: MetricName): ITimer;
+
+  getFastCompasses(group: string, filter?: MetricFilter): Map<string, IFastCompass>;
 
   /**
    * Register a customized metric to specified group.
@@ -96,6 +99,15 @@ export interface MetricsManager {
   getMeters(group: string, filter?: MetricFilter): Map<string, IMeter>;
 
   getTimers(group: string, filter?: MetricFilter): Map<string, ITimer>;
+
+  /**
+   * Create a {@link BaseFastCompass} metric in give group, name, and type
+   * if not exist, an instance will be created.
+   * @param group the group of MetricRegistry
+   * @param name the name of the metric
+   * @return an instance of {@link BaseFastCompass}
+   */
+  getFastCompass(group: string, name: MetricName): IFastCompass;
 
   /**
    * A map of metric names to metrics.

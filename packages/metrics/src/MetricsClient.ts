@@ -1,12 +1,10 @@
-import {Metric, MetricName, MetricsRegistry, MetricType} from './common/index';
-import {ProxyCreateMessage, ProxyUpdateMessage} from './domain';
-import {MetricsConstants} from './MetricsConstants';
-import {EnvironmentUtil, Environment} from 'pandora-env';
-import {MetricsMessengerClient} from './util/MessengerUtil';
-import {Proxiable, Gauge, Counter, Histogram, Meter, Timer} from './client/index';
-import {AbstractIndicator} from './indicator/AbstractIndicator';
-import {MetricSet} from './common';
-import {IMetricsRegistry} from './common/MetricsRegistry';
+import { IMetricsRegistry, Metric, MetricName, MetricSet, MetricsRegistry, MetricType } from './common';
+import { ProxyCreateMessage, ProxyUpdateMessage } from './domain';
+import { MetricsConstants } from './MetricsConstants';
+import { Environment, EnvironmentUtil } from 'pandora-env';
+import { MetricsMessengerClient } from './util/MessengerUtil';
+import { Counter, FastCompass, Gauge, Histogram, Meter, Proxiable, Timer } from './client';
+import { AbstractIndicator } from './indicator/AbstractIndicator';
 
 export class MetricsClient extends AbstractIndicator {
 
@@ -62,13 +60,13 @@ export class MetricsClient extends AbstractIndicator {
    * @param {} name
    * @param {Proxiable} metric
    */
-  register(group: string, name: MetricName | string, metric: Proxiable | Metric ) {
+  register(group: string, name: MetricName | string, metric: Proxiable | Metric) {
     this.debug(`Register: wait register a metrics name = ${name}`);
     let newName = this.buildName(name);
     // 把应用名加上
     newName = newName.tagged('appName', this.getAppName());
 
-    if(!metric.type) {
+    if (!metric.type) {
       metric.type = MetricType.GAUGE;
     }
 
@@ -78,7 +76,7 @@ export class MetricsClient extends AbstractIndicator {
     // Gauge 比较特殊，是实际的类，而服务端才是一个代理，和其他 metric 都不同，不需要 proxy
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
       for (let method of (<Proxiable>metric).proxyMethod) {
-        metric[method] = (...args) => {
+        metric[ method ] = (...args) => {
           this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${args}`);
           this.report({
             action: MetricsConstants.EVT_METRIC_UPDATE,
@@ -128,7 +126,7 @@ export class MetricsClient extends AbstractIndicator {
   }) {
     this.debug(`Invoke: invoked, key = ${args.metricKey} `);
     let metric = this.allMetricsRegistry.getMetric(MetricName.parseKey(args.metricKey));
-    if(metric && metric.type === args.type) {
+    if (metric && metric.type === args.type) {
       return await Promise.resolve((<Gauge<any>>metric).getValue());
     } else {
       this.debug(`Invoke: can not find metric(${args.metricKey}) or type different`);
@@ -140,7 +138,7 @@ export class MetricsClient extends AbstractIndicator {
    */
   protected registerDownlink() {
     this.debug(`Register: down link eventKey = ${this.getClientDownlinkKey()}`);
-    this.messengerClient.query(this.getClientDownlinkKey(), async(message, reply) => {
+    this.messengerClient.query(this.getClientDownlinkKey(), async (message, reply) => {
       try {
         reply && reply(await this.invoke(message));
       } catch (err) {
@@ -179,8 +177,14 @@ export class MetricsClient extends AbstractIndicator {
     return histogram;
   }
 
+  getFastCompass(group: string, name: MetricName | string) {
+    const fastCompass = new FastCompass();
+    this.register(group, name, fastCompass);
+    return fastCompass;
+  }
+
   private buildName(name: MetricName | string): MetricName {
-    if(typeof name === 'string') {
+    if (typeof name === 'string') {
       name = MetricName.build(<string>name);
     }
 
