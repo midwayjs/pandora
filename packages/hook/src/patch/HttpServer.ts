@@ -1,13 +1,10 @@
-'use strict';
-
 import { getRandom64, MetricLevel, MetricName, MetricsClientUtil, Patcher } from 'pandora-metrics';
-import { extractPath } from '../utils/Utils';
+import { extractPath } from '..';
 import { HEADER_TRACE_ID } from '../utils/Constants';
 import { parse as parseUrl } from 'url';
 import { parse as parseQS, ParsedUrlQuery } from 'querystring';
 import * as http from 'http';
 import { IncomingMessage } from 'http';
-import parseInt = require('lodash/fp/parseInt');
 
 const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
 
@@ -267,9 +264,7 @@ export class HttpServerPatcher extends Patcher {
     }
 
     let global = new MetricName(MetricsStat.HTTP_REQUEST, {}, MetricLevel.NORMAL);
-
     let client = MetricsClientUtil.getMetricsClient();
-
     let globalCompass = client.getFastCompass(MetricsStat.HTTP_GROUP, global);
 
     if (MetricsStat.HTTP_ERROR_CODE > parseInt(responseCode)) {
