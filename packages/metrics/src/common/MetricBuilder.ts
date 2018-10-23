@@ -7,6 +7,7 @@ import {BaseTimer} from './metrics/Timer';
 import {BucketCounter} from './metrics/BucketCounter';
 import {ReservoirType} from './Reservoir';
 import {Metric} from './domain';
+import { BaseFastCompass } from './metrics/FastCompass';
 
 export class MetricBuilder {
 
@@ -49,6 +50,15 @@ export class MetricBuilder {
     },
     isInstance(metric: Metric) {
       return metric instanceof BaseTimer;
+    }
+  };
+
+  static FASTCOMPASSES = {
+    newMetric(name: MetricName) {
+      return new BaseFastCompass(MetricBuilder.config.period(name.getMetricLevel()));
+    },
+    isInstance(metric: Metric) {
+      return metric instanceof BaseFastCompass;
     }
   };
 

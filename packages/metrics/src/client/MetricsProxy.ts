@@ -44,3 +44,13 @@ export class Meter implements Metric, Proxiable {
 
   }
 }
+
+
+export class FastCompass implements Metric, Proxiable {
+  type = MetricType.FASTCOMPASS;
+  proxyMethod = ['record'];
+
+  record(duration, subCategory) {
+
+  }
+}

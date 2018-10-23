@@ -1,5 +1,5 @@
-import {MetricName, MetricType} from '../common/index';
-import {Counter, Histogram, Meter, Timer} from './MetricsProxy';
+import {MetricName, MetricType} from '../common';
+import {Counter, Histogram, Meter, Timer, FastCompass} from './MetricsProxy';
 import {MetricsProcessChannel} from './MetricsProcessChannel';
 import {Proxiable} from './domain';
 
@@ -40,6 +40,12 @@ export class MetricsManagerClient {
     const histogram = new Histogram();
     this.register(group, name, histogram);
     return histogram;
+  }
+
+  static getFastCompass(group: string, name: MetricName | string) {
+    const fastCompass = new FastCompass();
+    this.register(group, name, fastCompass);
+    return fastCompass;
   }
 
 }

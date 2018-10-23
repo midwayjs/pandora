@@ -1,8 +1,8 @@
 import {MetricsServerManager} from '../../src/MetricsServerManager';
 import {MetricsClient} from '../../src/MetricsClient';
 import {expect} from 'chai';
-import {Counter as CounterProxy, Gauge as GaugeProxy, Timer as TimerProxy, Histogram as HistogramProxy, Meter as MeterProxy} from '../../src/client/index';
-import {MetricName, BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer} from '../../src/common/index';
+import {Counter as CounterProxy, Gauge as GaugeProxy, Timer as TimerProxy, Histogram as HistogramProxy, Meter as MeterProxy, FastCompass as FastCompassProxy} from '../../src/client/index';
+import {MetricName, BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer, BaseFastCompass} from '../../src/common/index';
 import {MetricsConstants} from '../../src/MetricsConstants';
 
 describe('/test/unit/MetricsServerManager.test.ts', () => {
@@ -33,6 +33,7 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     expect(server.getCounters('empty').size).to.equal(0);
     expect(server.getTimers('empty').size).to.equal(0);
     expect(server.getMeters('empty').size).to.equal(0);
+    expect(server.getFastCompasses('empty').size).to.equal(0);
   });
 
   it('create a new client and register it', () => {
@@ -86,6 +87,9 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
 
     let meter = new MeterProxy();
     client.register('test_extra', MetricName.build('test.qps.meter'), meter);
+
+    let fastCompass = new FastCompassProxy();
+    client.register('test_extra', MetricName.build('test.qps.fastCompass'), fastCompass);
   });
 
 
@@ -124,8 +128,11 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     const meter = server.getMeter('middleware', MetricName.build('reporter.test.meter'));
     expect(meter).to.be.an.instanceof(BaseMeter);
 
+    const fastCompass = server.getFastCompass('middleware', MetricName.build('reporter.test.fastCompass'));
+    expect(fastCompass).to.be.an.instanceof(BaseFastCompass);
+
     expect(server.listMetricNamesByGroup().size > 0).to.be.true;
-    expect(server.listMetricNamesByGroup().get('middleware').length).to.equal(4);
+    expect(server.listMetricNamesByGroup().get('middleware').length).to.equal(5);
     expect(server.getAllCategoryMetrics().size).to.equal(5);
   });
 

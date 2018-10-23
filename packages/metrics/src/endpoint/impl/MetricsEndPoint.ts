@@ -1,10 +1,8 @@
-import {EndPoint} from '../EndPoint';
-import {MetricsServerManager} from '../../MetricsServerManager';
-import {MetricFilter, MetricName, IMetricsRegistry, Metric} from '../../common/index';
-import {MetricObject} from '../../collect/MetricObject';
-import {MetricsManager} from '../../common/MetricsManager';
-import {NormalMetricsCollector} from '../../collect/NormalMetricsCollector';
-import {MetricsInjectionBridge} from '../../util/MetricsInjectionBridge';
+import { EndPoint } from '../EndPoint';
+import { MetricsServerManager } from '../../MetricsServerManager';
+import { IMetricsRegistry, Metric, MetricFilter, MetricName, MetricsManager } from '../../common';
+import { MetricObject, MetricsInjectionBridge, NormalMetricsCollector } from '../..';
+
 const debug = require('debug')('pandora:metrics:MetricEndPoint');
 
 export class AppNameFilter implements MetricFilter {
@@ -17,10 +15,10 @@ export class AppNameFilter implements MetricFilter {
 
   matches(name: MetricName, metric: Metric): boolean {
     let tags = name.getTags() || {};
-    if(!tags['appName']) {
+    if (!tags[ 'appName' ]) {
       return true;
     } else {
-      return tags['appName'] === this.appName;
+      return tags[ 'appName' ] === this.appName;
     }
   }
 }
@@ -34,20 +32,20 @@ export class MetricsEndPoint extends EndPoint {
 
   async listMetrics(group?: string, appName?: string): Promise<{}> {
     let filter;
-    if(appName) {
+    if (appName) {
       filter = new AppNameFilter(appName);
     }
     if (this.manager.isEnabled()) {
       let resultMap = {};
       for (let groupName of this.manager.listMetricGroups()) {
-        if(!group || (group && groupName === group)) {
+        if (!group || (group && groupName === group)) {
           let registry = this.manager.getMetricRegistryByGroup(groupName);
           let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
-          resultMap[groupName] = results.map((o) => {
+          resultMap[ groupName ] = results.map((o) => {
             let result = o.toJSON();
             // list 接口过滤掉 value 和 timestamp
-            delete result['value'];
-            delete result['timestamp'];
+            delete result[ 'value' ];
+            delete result[ 'timestamp' ];
             return result;
           });
         }
@@ -76,27 +74,32 @@ export class MetricsEndPoint extends EndPoint {
 
     Array.from(registry.getGauges().keys()).forEach((key, index) => {
       debug(`collect gauge key = ${key}`);
-      collector.collectGauge(MetricName.parseKey(key), results[index], timestamp);
+      collector.collectGauge(MetricName.parseKey(key), results[ index ], timestamp);
     });
 
-    for (let [key, counter] of registry.getCounters().entries()) {
+    for (let [ key, counter ] of registry.getCounters().entries()) {
       debug(`collect counter key = ${key}`);
       collector.collectCounter(MetricName.parseKey(key), counter, timestamp);
     }
 
-    for (let [key, histogram] of registry.getHistograms().entries()) {
+    for (let [ key, histogram ] of registry.getHistograms().entries()) {
       debug(`collect histogram key = ${key}`);
       collector.collectHistogram(MetricName.parseKey(key), histogram, timestamp);
     }
 
-    for (let [key, meter] of registry.getMeters().entries()) {
+    for (let [ key, meter ] of registry.getMeters().entries()) {
       debug(`collect meter key = ${key}`);
       collector.collectMeter(MetricName.parseKey(key), meter, timestamp);
     }
 
-    for (let [key, timer] of registry.getTimers().entries()) {
+    for (let [ key, timer ] of registry.getTimers().entries()) {
       debug(`collect timer key = ${key}`);
       collector.collectTimer(MetricName.parseKey(key), timer, timestamp);
+    }
+
+    for (let [ key, fastcompass ] of registry.getFastCompasses().entries()) {
+      debug(`collect fastcompass key = ${key}`);
+      collector.collectFastCompass(MetricName.parseKey(key), fastcompass, timestamp);
     }
 
     return collector.build();
@@ -104,7 +107,7 @@ export class MetricsEndPoint extends EndPoint {
 
   async getMetricsByGroup(groupName: string, appName?: string): Promise<Array<any>> {
     let filter;
-    if(appName) {
+    if (appName) {
       filter = new AppNameFilter(appName);
     }
     let registry = this.manager.getMetricRegistryByGroup(groupName);
@@ -119,7 +122,7 @@ export class MetricsEndPoint extends EndPoint {
   }
 
   protected getCollector() {
-    return this.config['collector'] || NormalMetricsCollector;
+    return this.config[ 'collector' ] || NormalMetricsCollector;
   }
 
 }

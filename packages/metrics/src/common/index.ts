@@ -8,6 +8,7 @@ export * from './metrics/Gauge';
 export * from './metrics/Histogram';
 export * from './metrics/Meter';
 export * from './metrics/Timer';
+export * from './metrics/FastCompass';
 export * from './MetricName';
 export * from './MetricSet';
 export * from './MetricsRegistry';

@@ -1,18 +1,35 @@
 'use strict';
 
-import { Patcher, getRandom64 } from 'pandora-metrics';
+import { getRandom64, MetricLevel, MetricName, MetricsClientUtil, Patcher } from 'pandora-metrics';
 import { extractPath } from '../utils/Utils';
 import { HEADER_TRACE_ID } from '../utils/Constants';
 import { parse as parseUrl } from 'url';
 import { parse as parseQS, ParsedUrlQuery } from 'querystring';
 import * as http from 'http';
 import { IncomingMessage } from 'http';
+import parseInt = require('lodash/fp/parseInt');
 
 const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
 
 export type bufferTransformer = (buffer, req?: IncomingMessage) => object | string;
 
 export type requestFilter = (req) => boolean;
+
+
+const MetricsStat = {
+  /** HTTP */
+  HTTP_REQUEST: 'middleware.http.request',
+
+  HTTP_REQUEST_PATH: 'middleware.http.request.path',
+
+  HTTP_GROUP: 'http',
+
+  HTTP_PATH: 'path',
+
+  HTTP_ERROR_CODE: 400,
+
+  HTTP_ILLEGAL_PATH: 'illegal_path'
+};
 
 export class HttpServerPatcher extends Patcher {
 
@@ -37,7 +54,7 @@ export class HttpServerPatcher extends Patcher {
   }
 
   getTraceId(req) {
-    return req.headers[HEADER_TRACE_ID] || getRandom64();
+    return req.headers[ HEADER_TRACE_ID ] || getRandom64();
   }
 
   createSpan(tracer, tags) {
@@ -83,7 +100,8 @@ export class HttpServerPatcher extends Patcher {
     return false;
   }
 
-  _beforeExecute(tracer, req, res) {}
+  _beforeExecute(tracer, req, res) {
+  }
 
   beforeFinish(span, res) {
     span.setTag('http.status_code', {
@@ -124,7 +142,7 @@ export class HttpServerPatcher extends Patcher {
   getFullUrl(req: IncomingMessage): string {
     if (!req) return '';
 
-    const secure = (<any>req.connection).encrypted || req.headers['x-forwarded-proto'] === 'https';
+    const secure = (<any>req.connection).encrypted || req.headers[ 'x-forwarded-proto' ] === 'https';
 
     return 'http' + (secure ? 's' : '') + '://' +
       req.headers.host +
@@ -141,7 +159,7 @@ export class HttpServerPatcher extends Patcher {
       return function wrappedCreateServer(this: any, requestListener) {
         if (requestListener) {
 
-          const listener = traceManager.bind(function(req, res) {
+          const listener = traceManager.bind(function (req, res) {
             const requestFilter = options.requestFilter || self.requestFilter;
 
             if (requestFilter(req)) {
@@ -179,7 +197,7 @@ export class HttpServerPatcher extends Patcher {
 
                 return function wrappedRequestEmit(this: IncomingMessage, event) {
                   if (event === 'data') {
-                    const chunk = arguments[1] || [];
+                    const chunk = arguments[ 1 ] || [];
 
                     chunks.push(chunk);
                   }
@@ -189,7 +207,7 @@ export class HttpServerPatcher extends Patcher {
               });
             }
 
-            tracer.named(`HTTP-${tags['http.method'].value}:${tags['http.url'].value}`);
+            tracer.named(`HTTP-${tags[ 'http.method' ].value}:${tags[ 'http.url' ].value}`);
             tracer.setCurrentSpan(span);
 
             function onFinishedFactory(eventName) {
@@ -236,6 +254,29 @@ export class HttpServerPatcher extends Patcher {
   }
 
   afterFinish(span, res) {
-    // overwrite
+    this.reportMetrics({
+      rt: span.duration,
+      resultCode: res.statusCode
+    });
+  }
+
+  reportMetrics(ctx) {
+    let responseCode = ctx.resultCode;
+    if (!responseCode) {
+      return;
+    }
+
+    let global = new MetricName(MetricsStat.HTTP_REQUEST, {}, MetricLevel.NORMAL);
+
+    let client = MetricsClientUtil.getMetricsClient();
+
+    let globalCompass = client.getFastCompass(MetricsStat.HTTP_GROUP, global);
+
+    if (MetricsStat.HTTP_ERROR_CODE > parseInt(responseCode)) {
+      globalCompass.record(ctx.rt, 'success');
+    } else {
+      globalCompass.record(ctx.rt, 'error');
+    }
+
   }
 }

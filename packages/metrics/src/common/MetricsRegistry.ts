@@ -1,33 +1,54 @@
-import {MetricName} from './MetricName';
-import {MetricSet} from './MetricSet';
-import {BaseGauge} from './metrics/Gauge';
-import {ICounter} from './metrics/Counter';
-import {IHistogram} from './metrics/Histogram';
-import {IMeter} from './metrics/Meter';
-import {ITimer} from './metrics/Timer';
-import {MetricBuilder} from './MetricBuilder';
-import {MetricFilter} from './MetricFilter';
-import {MetricType} from './MetricType';
-import {ReservoirType} from './Reservoir';
-import {Metric} from './domain';
+import { MetricName } from './MetricName';
+import { MetricSet } from './MetricSet';
+import { BaseGauge } from './metrics/Gauge';
+import { ICounter } from './metrics/Counter';
+import { IHistogram } from './metrics/Histogram';
+import { IMeter } from './metrics/Meter';
+import { ITimer } from './metrics/Timer';
+import { MetricBuilder } from './MetricBuilder';
+import { MetricFilter } from './MetricFilter';
+import { MetricType } from './MetricType';
+import { ReservoirType } from './Reservoir';
+import { Metric } from './domain';
+import { IFastCompass } from './metrics/FastCompass';
+
 const debug = require('debug')('pandora:metrics-common:registry');
 
 export interface IMetricsRegistry {
   register(name: MetricName, metric: Metric): Metric;
+
   registerAll(prefix, metrics?: MetricSet);
+
   getKeys();
+
   counter(name: MetricName): ICounter;
+
   histogram(name: MetricName): IHistogram;
+
   meter(name: MetricName): IMeter;
+
   timer(name: MetricName): ITimer;
+
+  fastCompass(name: MetricName): IFastCompass;
+
   getMetric(name: MetricName): Metric;
+
   getMetrics(metricType?: string, filter?: MetricFilter);
+
   getGauges(filter?: MetricFilter): Map<string, BaseGauge<any>>;
+
   getCounters(filter?: MetricFilter): Map<string, ICounter>;
+
   getHistograms(filter?: MetricFilter): Map<string, IHistogram>;
+
   getMeters(filter?: MetricFilter): Map<string, IMeter>;
+
   getTimers(filter?: MetricFilter): Map<string, ITimer>;
+
+  getFastCompasses(filter?: MetricFilter): Map<string, IFastCompass>;
+
   getMetricNames();
+
   remove(metricsKey: string);
 }
 
@@ -46,7 +67,7 @@ export class MetricsRegistry implements IMetricsRegistry {
       this.registerAll(name, <MetricSet> metric);
     } else {
       debug('------------> metrics is normal:', name.getNameKey());
-      if(!metric.type) {
+      if (!metric.type) {
         metric.type = MetricType.GAUGE;
       }
 
@@ -63,8 +84,8 @@ export class MetricsRegistry implements IMetricsRegistry {
       metrics = <any>prefix;
       prefix = MetricName.EMPTY;
     }
-    for (let {name, metric} of metrics.getMetrics()) {
-      if(typeof name === 'string') {
+    for (let { name, metric } of metrics.getMetrics()) {
+      if (typeof name === 'string') {
         name = MetricName.parseKey(name);
       }
 
@@ -96,8 +117,12 @@ export class MetricsRegistry implements IMetricsRegistry {
     return <ITimer>this.getOrAdd(name, MetricBuilder.TIMERS);
   }
 
+  fastCompass(name: MetricName): IFastCompass {
+    return <IFastCompass>this.getOrAdd(name, MetricBuilder.FASTCOMPASSES);
+  }
+
   protected getOrAdd(name: MetricName, builder, type?: ReservoirType) {
-    if(this.metricsSet.has(name.getNameKey())) {
+    if (this.metricsSet.has(name.getNameKey())) {
       return this.metricsSet.get(name.getNameKey()).metric;
     } else {
       // add
@@ -109,7 +134,7 @@ export class MetricsRegistry implements IMetricsRegistry {
     const key = name.getNameKey();
     debug(`find metric in registry name = ${key}, metrics num = ${this.metricsSet.size}`);
 
-    if(this.metricsSet.has(key)) {
+    if (this.metricsSet.has(key)) {
       return this.metricsSet.get(key).metric;
     } else {
       return null;
@@ -118,19 +143,19 @@ export class MetricsRegistry implements IMetricsRegistry {
 
   getMetrics(metricType?: string, filter?: MetricFilter) {
     const filterMap: Map<string, Metric> = new Map();
-    if(!filter) {
+    if (!filter) {
       filter = MetricFilter.ALL;
     }
 
-    if(metricType) {
-      for(let [key, value] of this.metricsSet.entries()) {
+    if (metricType) {
+      for (let [ key, value ] of this.metricsSet.entries()) {
         debug(key + ' => ' + value.metric.type, metricType);
-        if(value.metric.type === metricType && filter.matches(value.name, value.metric)) {
+        if (value.metric.type === metricType && filter.matches(value.name, value.metric)) {
           filterMap.set(key, value.metric);
         }
       }
     } else {
-      for(let [key, value] of this.metricsSet.entries()) {
+      for (let [ key, value ] of this.metricsSet.entries()) {
         filterMap.set(key, value.metric);
       }
     }
@@ -158,9 +183,13 @@ export class MetricsRegistry implements IMetricsRegistry {
     return <Map<string, ITimer>> this.getMetrics(MetricType.TIMER, filter);
   }
 
+  getFastCompasses(filter?: MetricFilter): Map<string, IFastCompass> {
+    return <Map<string, IFastCompass>> this.getMetrics(MetricType.FASTCOMPASS, filter);
+  }
+
   getMetricNames() {
     let names = [];
-    for(let metricObject of this.metricsSet.values()) {
+    for (let metricObject of this.metricsSet.values()) {
       names.push(metricObject.name);
     }
     return names;

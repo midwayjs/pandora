@@ -5,4 +5,5 @@ export let MetricType = {
   HISTOGRAM: 'HISTOGRAM',
   METER: 'METER',
   TIMER: 'TIMER',
+  FASTCOMPASS: 'FASTCOMPASS'
 };
