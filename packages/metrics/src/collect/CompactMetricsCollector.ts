@@ -1,12 +1,8 @@
-import {MetricsCollector} from './MetricsCollector';
-import { BucketCounter, IFastCompass, MetricName } from '../common/index';
-import {MetricObject} from './MetricObject';
-import {ITimer} from '../common/metrics/Timer';
-import {IHistogram} from '../common/metrics/Histogram';
-import {ICounter} from '../common/metrics/Counter';
-import {IMeter} from '../common/metrics/Meter';
-import {Snapshot} from '../common/domain';
+import { MetricsCollector } from './MetricsCollector';
+import { BucketCounter, ICounter, IFastCompass, IHistogram, IMeter, ITimer, MetricName, Snapshot } from '../common';
+import { MetricObject } from './MetricObject';
 
+const BigNumber = require('long');
 /**
  * 根据采集周期获取采集点，支持多个采集点的输出
  */
@@ -17,7 +13,7 @@ export class CompactMetricsCollector extends MetricsCollector {
     let startTime = timestamp - this.reportInterval * 1000 + 1;
 
     let totalCounts = timer.getInstantCount(startTime);
-    for(let [time, metricValue] of totalCounts.entries()) {
+    for (let [ time, metricValue ] of totalCounts.entries()) {
       this.addMetricWithSuffix(name, 'bucket_count', metricValue, time, MetricObject.MetricType.DELTA, this.metricsCollectPeriodConfig.period(name.getMetricLevel()));
     }
 
@@ -46,7 +42,7 @@ export class CompactMetricsCollector extends MetricsCollector {
 
     if (counter instanceof BucketCounter) {
       let totalCounts = (<BucketCounter> counter).getBucketCounts(startTime);
-      for(let [time, metricValue] of totalCounts.entries()) {
+      for (let [ time, metricValue ] of totalCounts.entries()) {
         this.addMetricWithSuffix(name, 'bucket_count', metricValue, time, MetricObject.MetricType.DELTA, this.metricsCollectPeriodConfig.period(name.getMetricLevel()));
       }
     }
@@ -60,7 +56,7 @@ export class CompactMetricsCollector extends MetricsCollector {
     let startTime = timestamp - this.reportInterval * 1000 + 1;
     let totalCounts = meter.getInstantCount(startTime);
 
-    for(let [time, metricValue] of totalCounts.entries()) {
+    for (let [ time, metricValue ] of totalCounts.entries()) {
       this.addMetricWithSuffix(name, 'bucket_count', metricValue, time, MetricObject.MetricType.DELTA, this.metricsCollectPeriodConfig.period(name.getMetricLevel()));
     }
 
@@ -73,23 +69,24 @@ export class CompactMetricsCollector extends MetricsCollector {
     let bucketInterval = fastCompass.getBucketInterval();
 
     let start = this.getNormalizedStartTime(timestamp, bucketInterval);
-    let totalCount = 0;
-    let totalRt = 0;
-    let successCount = 0;
-    let hitCount = -1;
+    let totalCount = new BigNumber();
+    let totalRt = new BigNumber();
+    let successCount = new BigNumber();
+    let hitCount = new BigNumber(-1, -1);
 
     let countPerCategory = fastCompass.getMethodCountPerCategory(start);
-    for (let [key, value] of countPerCategory.entries()) {
+    for (let [ key, value ] of countPerCategory.entries()) {
       if (value.has(start)) {
-        this.addMetricWithSuffix(name, key + '_bucket_count', value.get(start), start,
+        this.addMetricWithSuffix(name, key + '_bucket_count', value.get(start).toString(), start,
           MetricObject.MetricType.DELTA, bucketInterval);
-        totalCount += value.get(start);
+
+        totalCount = totalCount.add(value.get(start));
         if ('success' === key) {
-          successCount += value.get(start);
+          successCount = successCount.add(value.get(start));
         }
         if ('hit' === key) {
           hitCount = value.get(start);
-          successCount += value.get(start);
+          successCount = successCount.add(value.get(start));
         }
       } else {
         this.addMetricWithSuffix(name, key + '_bucket_count', 0, start,
@@ -99,12 +96,12 @@ export class CompactMetricsCollector extends MetricsCollector {
 
     for (let value of fastCompass.getMethodRtPerCategory(start).values()) {
       if (value.has(start)) {
-        totalRt += value.get(start);
+        totalRt = totalRt.add(value.get(start));
       }
     }
-    this.addMetricWithSuffix(name, 'bucket_count', totalCount, start,
+    this.addMetricWithSuffix(name, 'bucket_count', totalCount.toString(), start,
       MetricObject.MetricType.DELTA, bucketInterval);
-    this.addMetricWithSuffix(name, 'bucket_sum', totalRt, start,
+    this.addMetricWithSuffix(name, 'bucket_sum', totalRt.toString(), start,
       MetricObject.MetricType.DELTA, bucketInterval);
     this.addMetricWithSuffix(name, 'qps', this.rate(totalCount, bucketInterval), start,
       MetricObject.MetricType.GAUGE, bucketInterval);
@@ -112,7 +109,7 @@ export class CompactMetricsCollector extends MetricsCollector {
       MetricObject.MetricType.GAUGE, bucketInterval);
     this.addMetricWithSuffix(name, 'success_rate', this.ratio(successCount, totalCount), start,
       MetricObject.MetricType.GAUGE, bucketInterval);
-    if (hitCount >= 0) {
+    if (hitCount.gte(0)) {
       this.addMetricWithSuffix(name, 'hit_rate', this.ratio(hitCount, successCount), start,
         MetricObject.MetricType.GAUGE, bucketInterval);
     }

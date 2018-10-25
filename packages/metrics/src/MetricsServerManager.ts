@@ -337,6 +337,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     result.set(MetricType.HISTOGRAM, metricRegistry.getHistograms(filter));
     result.set(MetricType.METER, metricRegistry.getMeters(filter));
     result.set(MetricType.TIMER, metricRegistry.getTimers(filter));
+    result.set(MetricType.FASTCOMPASS, metricRegistry.getFastCompasses(filter));
 
     return result;
   }
@@ -350,6 +351,7 @@ export class MetricsServerManager extends AbstractIndicator implements MetricsMa
     result.set(MetricType.HISTOGRAM, allMetricsRegistry.getHistograms(filter));
     result.set(MetricType.METER, allMetricsRegistry.getMeters(filter));
     result.set(MetricType.TIMER, allMetricsRegistry.getTimers(filter));
+    result.set(MetricType.FASTCOMPASS, allMetricsRegistry.getFastCompasses(filter));
 
     return result;
   }

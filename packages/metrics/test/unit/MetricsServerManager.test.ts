@@ -133,7 +133,7 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
 
     expect(server.listMetricNamesByGroup().size > 0).to.be.true;
     expect(server.listMetricNamesByGroup().get('middleware').length).to.equal(5);
-    expect(server.getAllCategoryMetrics().size).to.equal(5);
+    expect(server.getAllCategoryMetrics().size).to.equal(6);
   });
 
 

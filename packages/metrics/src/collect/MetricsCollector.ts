@@ -1,5 +1,6 @@
-import {MetricFilter, MetricName, MetricsCollectPeriodConfig} from '../common/index';
-import {CollectMetricType, MetricObject} from './MetricObject';
+import { MetricFilter, MetricName, MetricsCollectPeriodConfig } from '../common/index';
+import { CollectMetricType, MetricObject } from './MetricObject';
+import { Long } from '../domain';
 
 export class MetricsCollector {
   protected metrics: Array<MetricObject> = [];
@@ -13,7 +14,7 @@ export class MetricsCollector {
    */
   protected filter: MetricFilter;
 
-  constructor(options: { globalTags, rateFactor, durationFactor, filter?, reportInterval?}) {
+  constructor(options: { globalTags, rateFactor, durationFactor, filter?, reportInterval? }) {
     this.globalTags = options.globalTags;
     this.rateFactor = options.rateFactor;
     this.durationFactor = options.durationFactor;
@@ -77,12 +78,24 @@ export class MetricsCollector {
 
   public rate(data, interval) {
     if (interval === 0) return 0.0;
-    return data / interval;
+    if (typeof interval !== 'number' && interval.isZero()) return 0.0;
+
+    if (typeof data !== 'number') {
+      return <Long>data.div(interval).toString();
+    } else {
+      return data / interval;
+    }
   }
 
   public ratio(data, total) {
-    if (data > total) return 1.0;
-    if (total === 0) return 0.0;
-    return 1.0 * data / total;
+    if (typeof data !== 'number') {
+      if (<Long>data.gt(total)) return 1.0;
+      if (<Long>total.eq(0)) return 0.0;
+      return <Long>data.div(total).toString();
+    } else {
+      if (data > total) return 1.0;
+      if (total === 0) return 0.0;
+      return 1.0 * data / total;
+    }
   }
 }

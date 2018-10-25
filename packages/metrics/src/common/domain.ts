@@ -13,7 +13,7 @@ export interface Counting {
    *
    * @return the current count
    */
-  getCount(): number;
+  getCount(): number | string;
 }
 
 

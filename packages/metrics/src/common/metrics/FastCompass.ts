@@ -1,6 +1,9 @@
 import { MetricType } from '../MetricType';
 import { Metric } from '../domain';
-import { BucketCounter } from './BucketCounter';
+import { LongBucketCounter } from './LongBucketCounter';
+import { Long } from '../../domain';
+
+const BigNumber = require("long");
 
 export interface IFastCompass extends Metric {
 
@@ -20,7 +23,7 @@ export interface IFastCompass extends Metric {
    * return method count per bucket per category
    * @return
    */
-  getMethodCountPerCategory(startTime?): Map<string, Map<number, number>>;
+  getMethodCountPerCategory(startTime?): Map<string, Map<number, Long>>;
 
 
   /**
@@ -28,14 +31,14 @@ export interface IFastCompass extends Metric {
    * return method execution time and count per bucket per category
    * @return
    */
-  getMethodRtPerCategory(startTime?): Map<string, Map<number, number>>;
+  getMethodRtPerCategory(startTime?): Map<string, Map<number, Long>>;
 
   /**
    * 对于每个子类别，返回每个统计间隔的执行总时间和次数，按位分离操作放到下一层进行
    * return method execution time and count per bucket per category
    * @return
    */
-  getCountAndRtPerCategory(startTime): Map<string, Map<number, number>>;
+  getCountAndRtPerCategory(startTime): Map<string, Map<number, Long>>;
 
   /**
    * 获取统计间隔
@@ -59,14 +62,14 @@ const COUNT_OFFSET = 38;
  * The base number of count that is added to total rt,
  * to derive a number which will be added to {@link LongAdder}
  */
-const COUNT_BASE = 1 << 38;
+const COUNT_BASE = new BigNumber(1).shiftLeft(38);
 
 /**
  * 总数和此数进行二进制与得到总rt统计
  * The base number is used to do BITWISE AND operation with the value of {@link LongAdder}
  * to derive the total number of execution time
  */
-const RT_BITWISE_AND_BASE = (1 << 38) - 1;
+const RT_BITWISE_AND_BASE = new BigNumber(1).shiftLeft(38).sub(1);
 
 const MAX_SUBCATEGORY_SIZE = 20;
 
@@ -86,13 +89,12 @@ export class BaseFastCompass implements IFastCompass {
   bucketInterval;
   numberOfBuckets;
   maxCategoryCount;
-  subCategories: Map<string, BucketCounter>;
+  subCategories: Map<string, LongBucketCounter> = new Map();
 
-  constructor(bucketInterval, numberOfBuckets = DEFAULT_BUCKET_COUNT, maxCategoryCount = MAX_SUBCATEGORY_SIZE) {
+  constructor(bucketInterval = 60, numberOfBuckets = DEFAULT_BUCKET_COUNT, maxCategoryCount = MAX_SUBCATEGORY_SIZE) {
     this.bucketInterval = bucketInterval;
     this.numberOfBuckets = numberOfBuckets;
     this.maxCategoryCount = maxCategoryCount;
-    this.subCategories = new Map();
   }
 
 
@@ -105,18 +107,18 @@ export class BaseFastCompass implements IFastCompass {
         // ignore if maxCategoryCount is exceeded, no exception will be thrown
         return;
       }
-      this.subCategories.set(subCategory, new BucketCounter(this.bucketInterval, this.numberOfBuckets, false));
+      this.subCategories.set(subCategory, new LongBucketCounter(this.bucketInterval, this.numberOfBuckets, false));
     }
-    let data = COUNT_BASE + duration;
+    let data = COUNT_BASE.add(duration);
     this.subCategories.get(subCategory).update(data);
   }
 
-  getMethodCountPerCategory(startTime = 0): Map<string, Map<number, number>> {
-    let countPerCategory: Map<string, Map<number, number>> = new Map();
+  getMethodCountPerCategory(startTime = 0) {
+    let countPerCategory: Map<string, Map<number, Long>> = new Map();
     for (let [ key, value ] of this.subCategories.entries()) {
-      let bucketCount: Map<number, number> = new Map();
+      let bucketCount: Map<number, Long> = new Map();
       for (let [ innerKey, innerValue ] of value.getBucketCounts(startTime).entries()) {
-        bucketCount.set(innerKey, innerValue >> COUNT_OFFSET);
+        bucketCount.set(innerKey, <Long>innerValue.shiftRight(COUNT_OFFSET));
       }
       countPerCategory.set(key, bucketCount);
     }
@@ -124,11 +126,11 @@ export class BaseFastCompass implements IFastCompass {
   }
 
   getMethodRtPerCategory(startTime = 0) {
-    let rtPerCategory: Map<string, Map<number, number>> = new Map();
+    let rtPerCategory: Map<string, Map<number, Long>> = new Map();
     for (let [ key, value ] of this.subCategories.entries()) {
-      let bucketCount: Map<number, number> = new Map();
+      let bucketCount: Map<number, Long> = new Map();
       for (let [ innerKey, innerValue ] of value.getBucketCounts(startTime).entries()) {
-        bucketCount.set(innerKey, innerValue & RT_BITWISE_AND_BASE);
+        bucketCount.set(innerKey, <Long>innerValue.and(RT_BITWISE_AND_BASE));
       }
       rtPerCategory.set(key, bucketCount);
     }
@@ -141,9 +143,9 @@ export class BaseFastCompass implements IFastCompass {
   }
 
   getCountAndRtPerCategory(startTime = 0) {
-    let countAndRtPerCategory: Map<string, Map<number, number>> = new Map();
+    let countAndRtPerCategory: Map<string, Map<number, Long>> = new Map();
     for (let [ key, value ] of this.subCategories.entries()) {
-      let bucketCount: Map<number, number> = new Map();
+      let bucketCount: Map<number, Long> = new Map();
       for (let [ innerKey, innerValue ] of value.getBucketCounts(startTime).entries()) {
         bucketCount.set(innerKey, innerValue);
       }

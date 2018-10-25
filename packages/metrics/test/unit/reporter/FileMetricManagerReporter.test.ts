@@ -1,8 +1,16 @@
-import {expect} from 'chai';
-import {BaseCounter, MetricName, BaseHistogram, BaseTimer, BaseMeter, BaseGauge} from '../../../src/common/index';
-import {MetricsServerManager} from '../../../src/MetricsServerManager';
-import {FileMetricsManagerReporter} from '../../../src/reporter/FileMetricsManagerReporter';
-import {join} from 'path';
+import { expect } from 'chai';
+import {
+  BaseCounter,
+  BaseFastCompass,
+  BaseGauge,
+  BaseHistogram,
+  BaseMeter,
+  BaseTimer,
+  MetricName
+} from '../../../src/common';
+import { FileMetricsManagerReporter, MetricsServerManager } from '../../../src';
+import { join } from 'path';
+
 const fs = require('fs');
 const os = require('os');
 
@@ -11,7 +19,7 @@ describe('/test/unit/reporter/FileMetricManagerReporter.test.ts', () => {
   const metricsPath = join(os.tmpdir(), 'pandorajs/metrics.log');
 
   before(() => {
-    if(fs.existsSync(metricsPath)) {
+    if (fs.existsSync(metricsPath)) {
       fs.unlinkSync(metricsPath);
     }
   });
@@ -30,7 +38,8 @@ describe('/test/unit/reporter/FileMetricManagerReporter.test.ts', () => {
     manager.register('test', MetricName.build('reporter.register.histogram'), new BaseHistogram());
     manager.register('test', MetricName.build('reporter.register.timer'), new BaseTimer());
     manager.register('test', MetricName.build('reporter.register.meter'), new BaseMeter());
-    const reporter = new FileMetricsManagerReporter(null , {});
+    manager.register('test', MetricName.build('reporter.register.fastCompass'), new BaseFastCompass());
+    const reporter = new FileMetricsManagerReporter(null, {});
     reporter.setMetricsManager(manager);
     reporter.start(0.4);
 
