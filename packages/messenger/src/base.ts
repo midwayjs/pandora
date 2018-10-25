@@ -4,7 +4,7 @@ import assert = require('assert');
 import eventName from './eventName';
 import * as os from 'os';
 import * as path from 'path';
-const tmpDir = os.tmpdir();
+const tmpDir = process.env.PANDORA_TMP_DIR || os.tmpdir();
 const sockPath = Symbol('sockpath');
 
 class MessengerBase extends Base {

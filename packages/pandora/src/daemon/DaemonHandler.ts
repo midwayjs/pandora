@@ -13,7 +13,7 @@ import mkdirp = require('mkdirp');
 const {consoleLogger} = require('../../cli/util/cliUtils');
 
 const is = require('is-type-of');
-const tmpDir = os.tmpdir();
+const tmpDir = process.env.PANDORA_TMP_DIR || os.tmpdir();
 const pidFile = path.join(tmpDir, 'nodejs_pandora.pid');
 const pathDaemonBootstrap = require.resolve('./DaemonBootstrap');
 let preparedClient: MessengerClient = null;

@@ -13,8 +13,9 @@ import {ProcfileReconcilerAccessor} from './ProcfileReconcilerAccessor';
 import {exec} from 'child_process';
 import uuid = require('uuid');
 import mzFs = require('mz/fs');
-import {tmpdir} from 'os';
+import * as os from 'os';
 
+const tmpdir = process.env.PANDORA_TMP_DIR || os.tmpdir();
 const foundAll = Symbol();
 
 /**
@@ -402,7 +403,7 @@ export class ProcfileReconciler {
    */
   public static async getStructureViaNewProcess(appRepresentation: ApplicationRepresentation): Promise<ApplicationStructureRepresentation> {
 
-    const tmpFile = join(tmpdir(), uuid.v4());
+    const tmpFile = join(tmpdir, uuid.v4());
     const isTs = /\.ts$/.test(__filename);
 
     await new Promise((resolve, reject) => {
