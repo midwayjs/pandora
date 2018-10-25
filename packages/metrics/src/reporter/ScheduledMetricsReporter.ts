@@ -5,7 +5,7 @@ import {
   BaseHistogram,
   BaseMeter,
   BaseTimer,
-  MetricType,
+  MetricType, BaseFastCompass,
 } from '../common/index';
 const debug = require('debug')('pandora:metrics:schedule-reporter');
 
@@ -44,7 +44,8 @@ export abstract class ScheduledMetricsReporter implements Reporter {
               counters: categoryMetrics.get(MetricType.COUNTER),
               histograms: categoryMetrics.get(MetricType.HISTOGRAM),
               meters: categoryMetrics.get(MetricType.METER),
-              timers: categoryMetrics.get(MetricType.TIMER)
+              timers: categoryMetrics.get(MetricType.TIMER),
+              fastCompasses: categoryMetrics.get(MetricType.FASTCOMPASS)
             }
           );
         } catch (err) {
@@ -60,6 +61,7 @@ export abstract class ScheduledMetricsReporter implements Reporter {
     histograms: Map<string, BaseHistogram>,
     meters: Map<string, BaseMeter>,
     timers: Map<string, BaseTimer>,
+    fastCompasses: Map<string, BaseFastCompass>
   });
 
   stop() {

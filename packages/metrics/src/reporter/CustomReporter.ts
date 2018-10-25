@@ -42,7 +42,8 @@ export abstract class CustomReporter implements Reporter {
       counters: categoryMetrics.get(MetricType.COUNTER),
       histograms: categoryMetrics.get(MetricType.HISTOGRAM),
       meters: categoryMetrics.get(MetricType.METER),
-      timers: categoryMetrics.get(MetricType.TIMER)
+      timers: categoryMetrics.get(MetricType.TIMER),
+      fastCompassees: categoryMetrics.get(MetricType.FASTCOMPASS)
     };
   }
 

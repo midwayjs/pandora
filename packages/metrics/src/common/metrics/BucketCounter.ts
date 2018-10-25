@@ -1,5 +1,4 @@
-import {BaseCounter, ICounter} from './Counter';
-import {MetricType} from '../MetricType';
+import { BaseCounter, ICounter } from './Counter';
 
 /**
  * 提供分桶计数功能，每个桶统计一定时间间隔内的计数。
@@ -34,12 +33,12 @@ export interface IBucketCounter extends ICounter {
   getBucketInterval();
 }
 
-interface Bucket {
+export interface Bucket {
   timestamp;
   count;
 }
 
-class BucketDeque {
+export class BucketDeque {
 
   private queue: Array<Bucket> = [];
 
@@ -51,20 +50,24 @@ class BucketDeque {
     this.size = length;
     // init buckets
     for (let i = 0; i < length; i++) {
-      this.queue[i] = {
-        timestamp: -1,
-        count: 0,
-      };
+      this.queue[ i ] = this.createQueueItem();
     }
+  }
+
+  protected createQueueItem(): Bucket {
+    return {
+      timestamp: -1,
+      count: 0,
+    };
   }
 
   addLast(e: Bucket) {
     this.current = (this.current + 1) % this.size;
-    this.queue[this.current] = e;
+    this.queue[ this.current ] = e;
   }
 
   peek(): Bucket {
-    return this.queue[this.current];
+    return this.queue[ this.current ];
   }
 
   /**
@@ -83,19 +86,19 @@ class BucketDeque {
     let length = this.queue.length - 1;
     let bucketList: Array<Bucket> = [];
     let startPos = this.current;
-    let startTs = this.queue[this.current].timestamp;
+    let startTs = this.queue[ this.current ].timestamp;
     if (startPos < 0) {
       startPos = 0;
     }
     for (let i = startPos; i >= 0 && startPos - i < length; i--) {
-      bucketList.push(this.queue[i]);
+      bucketList.push(this.queue[ i ]);
     }
     for (let i = length; i > startPos + 1; i--) {
-      if (this.queue[i].timestamp > startTs) {
+      if (this.queue[ i ].timestamp > startTs) {
         // the current index has been update during this iteration
         // therefore the data shall not be collected
       } else {
-        bucketList.push(this.queue[i]);
+        bucketList.push(this.queue[ i ]);
       }
     }
     return bucketList;
@@ -105,12 +108,10 @@ class BucketDeque {
 
 export class BucketCounter extends BaseCounter implements IBucketCounter {
 
-  type = MetricType.COUNTER;
-
   /**
    * 保存从创建开始累积的计数
    */
-  private totalCount: BaseCounter;
+  private totalCount: ICounter;
 
   /**
    * 保存最近N次的精确计数, 采用环形队列避免数据的挪动
@@ -178,7 +179,7 @@ export class BucketCounter extends BaseCounter implements IBucketCounter {
   }
 
   getCount() {
-    return this.totalCount.getCount();
+    return <number>this.totalCount.getCount();
   }
 
   inc(n?) {

@@ -35,7 +35,7 @@ export class BaseTimer implements ITimer {
   }
 
   getCount() {
-    return this.histogram.getCount();
+    return <number>this.histogram.getCount();
   }
 
   getFifteenMinuteRate() {

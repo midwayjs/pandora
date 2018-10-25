@@ -39,7 +39,7 @@ export class FileMetricsManagerReporter extends ScheduledMetricsReporter {
   }
 
   async report(metricsData) {
-    let {gauges, counters, histograms, meters, timers} = metricsData;
+    let {gauges, counters, histograms, meters, timers, fastCompasses} = metricsData;
     const timestamp = Date.now();
 
     const collector = new this.collectorCls({
@@ -72,6 +72,10 @@ export class FileMetricsManagerReporter extends ScheduledMetricsReporter {
 
     for (let [key, timer] of timers.entries()) {
       collector.collectTimer(MetricName.parseKey(key), timer, timestamp);
+    }
+
+    for (let [key, fastCompass] of fastCompasses.entries()) {
+      collector.collectFastCompass(MetricName.parseKey(key), fastCompass, timestamp);
     }
 
     try {

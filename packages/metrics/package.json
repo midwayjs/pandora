@@ -45,6 +45,7 @@
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
+    "long": "^4.0.0",
     "mixin": "^0.2.0",
     "module-hook": "^2.1.0",
     "node-df": "^0.1.1",
