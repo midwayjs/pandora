@@ -128,19 +128,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Fast<wbr>Compass<span class="tsd-signature-symbol">(</span>bucketInterval<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, numberOfBuckets<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, maxCategoryCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="basefastcompass.html" class="tsd-signature-type">BaseFastCompass</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Fast<wbr>Compass<span class="tsd-signature-symbol">(</span>bucketInterval<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, numberOfBuckets<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, maxCategoryCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="basefastcompass.html" class="tsd-signature-type">BaseFastCompass</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L89">common/metrics/FastCompass.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L92">common/metrics/FastCompass.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>bucketInterval: <span class="tsd-signature-type">any</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> bucketInterval: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> numberOfBuckets: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;DEFAULT_BUCKET_COUNT</span></h5>
@@ -162,7 +162,7 @@
 					<div class="tsd-signature tsd-kind-icon">bucket<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L86">common/metrics/FastCompass.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L89">common/metrics/FastCompass.ts:89</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +172,7 @@
 					<div class="tsd-signature tsd-kind-icon">max<wbr>Category<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L88">common/metrics/FastCompass.ts:88</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L91">common/metrics/FastCompass.ts:91</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -182,17 +182,17 @@
 					<div class="tsd-signature tsd-kind-icon">number<wbr>OfBuckets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L87">common/metrics/FastCompass.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L90">common/metrics/FastCompass.ts:90</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="subcategories" class="tsd-anchor"></a>
 					<h3>sub<wbr>Categories</h3>
-					<div class="tsd-signature tsd-kind-icon">sub<wbr>Categories<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="bucketcounter.html" class="tsd-signature-type">BucketCounter</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">sub<wbr>Categories<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="longbucketcounter.html" class="tsd-signature-type">LongBucketCounter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L89">common/metrics/FastCompass.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L92">common/metrics/FastCompass.ts:92</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +203,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ifastcompass.html">IFastCompass</a>.<a href="../interfaces/ifastcompass.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L84">common/metrics/FastCompass.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L87">common/metrics/FastCompass.ts:87</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -221,7 +221,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ifastcompass.html">IFastCompass</a>.<a href="../interfaces/ifastcompass.html#getbucketinterval">getBucketInterval</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L139">common/metrics/FastCompass.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L141">common/metrics/FastCompass.ts:141</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -232,13 +232,13 @@
 					<a name="getcountandrtpercategory" class="tsd-anchor"></a>
 					<h3>get<wbr>Count<wbr>And<wbr>RtPer<wbr>Category</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Count<wbr>And<wbr>RtPer<wbr>Category<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Count<wbr>And<wbr>RtPer<wbr>Category<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/long.html" class="tsd-signature-type">Long</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L143">common/metrics/FastCompass.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L145">common/metrics/FastCompass.ts:145</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -247,7 +247,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/long.html" class="tsd-signature-type">Long</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -255,13 +255,13 @@
 					<a name="getmethodcountpercategory" class="tsd-anchor"></a>
 					<h3>get<wbr>Method<wbr>Count<wbr>Per<wbr>Category</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Method<wbr>Count<wbr>Per<wbr>Category<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Method<wbr>Count<wbr>Per<wbr>Category<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/long.html" class="tsd-signature-type">Long</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L114">common/metrics/FastCompass.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L116">common/metrics/FastCompass.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -270,7 +270,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/long.html" class="tsd-signature-type">Long</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -278,13 +278,13 @@
 					<a name="getmethodrtpercategory" class="tsd-anchor"></a>
 					<h3>get<wbr>Method<wbr>RtPer<wbr>Category</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Method<wbr>RtPer<wbr>Category<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Method<wbr>RtPer<wbr>Category<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/long.html" class="tsd-signature-type">Long</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L126">common/metrics/FastCompass.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L128">common/metrics/FastCompass.ts:128</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -293,7 +293,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/long.html" class="tsd-signature-type">Long</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -307,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/a28f503/packages/metrics/src/common/metrics/FastCompass.ts#L99">common/metrics/FastCompass.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/midwayjs/pandora/blob/290e988/packages/metrics/src/common/metrics/FastCompass.ts#L101">common/metrics/FastCompass.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
