@@ -1,5 +1,6 @@
 import {
   BaseCounter,
+  BaseFastCompass,
   BaseHistogram,
   BaseMeter,
   BaseTimer,
@@ -29,8 +30,6 @@ function delay(interval) {
 
 describe('/test/unit/collector/MetricsCollector.test.ts', () => {
 
-  let timestamp = Date.now();
-
   it('should create new CompactMetricsCollector', async () => {
     const globalReportInterval = 2;
     MetricsCollectPeriodConfig.getInstance().configGlobalPeriod(globalReportInterval);
@@ -41,10 +40,16 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     let h1 = new BaseHistogram();
     let m1 = new BaseMeter();
     let t1 = new BaseTimer();
+    let f1 = new BaseFastCompass(2);
 
     c1.inc();
     c2.inc();
 
+    f1.record(2, 'success');
+    f1.record(4, 'error');
+    f1.record(3, 'success');
+
+    let timestamp = Date.now();
     await delay(2100);
 
     collector.collectGauge(MetricName.build('collector.gauge'), 10, timestamp);
@@ -53,6 +58,8 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     collector.collectHistogram(MetricName.build('collector.histogram'), h1, timestamp);
     collector.collectMeter(MetricName.build('collector.meter'), m1, timestamp);
     collector.collectTimer(MetricName.build('collector.timer'), t1, timestamp);
+    collector.collectTimer(MetricName.build('collector.timer'), t1, timestamp);
+    collector.collectFastCompass(MetricName.build('collector.fastcompass'), f1, timestamp + 2000);
     let results = collector.build();
 
     expect(findObject(results, 'collector.gauge').interval).to.equal(-1);
@@ -99,9 +106,20 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     expect(findObject(results, 'collector.timer.p95')).to.not.exist;
     expect(findObject(results, 'collector.timer.p75')).to.not.exist;
     expect(findObject(results, 'collector.timer.bucket_count').metricType).to.equal('DELTA');
+
+    expect(findObject(results, 'collector.fastcompass.success_bucket_count').timestamp.toString().length).to.equal(13);
+    expect(findObject(results, 'collector.fastcompass.success_bucket_count').value).to.equal(2);
+    expect(findObject(results, 'collector.fastcompass.error_bucket_count').value).to.equal(1);
+    expect(findObject(results, 'collector.fastcompass.bucket_count')).to.exist;
+    expect(findObject(results, 'collector.fastcompass.bucket_sum')).to.exist;
+    expect(findObject(results, 'collector.fastcompass.qps')).to.exist;
+    expect(findObject(results, 'collector.fastcompass.rt')).to.exist;
+    expect(findObject(results, 'collector.fastcompass.success_rate')).to.exist;
+
   });
 
   it('should create new NormalMetricsCollector', async () => {
+    let timestamp = Date.now();
     let collector = new NormalMetricsCollector({globalTags: {}, rateFactor: 10, durationFactor: 10});
     collector.collectGauge(MetricName.build('collector.gauge'), 10, timestamp);
     collector.collectCounter(MetricName.build('collector.counter'), new BucketCounter(), timestamp);
@@ -171,10 +189,13 @@ describe('/test/unit/collector/MetricsCollector.test.ts', () => {
     expect(collector.getNormalizedStartTime(1514887712411, 10)).to.equal(1514887700000);
     expect(collector.getNormalizedStartTime(1514887712411, 15)).to.equal(1514887695000);
     expect(collector.getNormalizedStartTime(1514887712411, 20)).to.equal(1514887680000);
+    expect(collector.getNormalizedStartTime(1540958764377, 2)).to.equal(1540958762000);
+    expect(collector.getNormalizedStartTime(1540960034686, 2)).to.equal(1540960032000);
   });
 
   it('should test output interval value', async () => {
     const globalReportInterval = 2;
+    const timestamp = Date.now();
     MetricsCollectPeriodConfig.getInstance().configGlobalPeriod(globalReportInterval);
 
     let collector = new CompactMetricsCollector({globalTags: {}, rateFactor: 10, durationFactor: 10, reportInterval: globalReportInterval});
