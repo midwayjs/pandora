@@ -24,7 +24,7 @@ export class ComponentWeightCalculator {
       return Infinity;
     }
     chain.push(name);
-    assert(this.compoents.has(name), `Could not found compoent, name: ${name}`);
+    assert(this.compoents.has(name), `Could not found component, name: ${name}`);
     const componentDeclaration = this.compoents.get(name);
     if (!componentDeclaration.dependencies || !componentDeclaration.dependencies.length) {
       return 1;

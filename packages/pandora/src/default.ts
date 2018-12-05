@@ -1,7 +1,6 @@
 import {ProcfileReconcilerAccessor} from './application/ProcfileReconcilerAccessor';
 import {join} from 'path';
 import {homedir} from 'os';
-import {BaseMonitor} from './monitor/Monitor';
 
 const {DefaultEnvironment} = require('pandora-env');
 const {
@@ -26,7 +25,6 @@ const {
   CompactMetricsCollector,
   NormalMetricsCollector,
 } = require('pandora-metrics');
-const {LoggerService} = require('pandora-service-logger');
 const hooks = require('pandora-hook');
 
 export default {
@@ -34,13 +32,6 @@ export default {
   environment: DefaultEnvironment,
 
   procfile (pandora: ProcfileReconcilerAccessor) {
-
-    const globalConfig = require('./universal/GlobalConfigProcessor')
-      .GlobalConfigProcessor.getInstance().getAllProperties();
-
-    pandora.defaultServiceCategory('worker');
-
-    pandora.environment(globalConfig.environment);
 
     pandora.process('agent')
       .scale(1)
@@ -53,10 +44,6 @@ export default {
     pandora.process('background')
       .scale(1)
       .env({background: 'true'});
-
-    pandora.service('logger', LoggerService)
-      .name('logger')
-      .process('weak-all');
 
   },
 
@@ -79,7 +66,6 @@ export default {
 
   metricsManager: MetricsServerManager,
   metricsClient: MetricsClient,
-  monitor: BaseMonitor,
 
   actuator: {
     http: {

@@ -2,7 +2,6 @@
 import {dirname, join, resolve} from 'path';
 import {statSync} from 'fs';
 import {PANDORA_GLOBAL_CONFIG} from '../const';
-import {GlobalConfigProcessor} from './GlobalConfigProcessor';
 const extend = require('extend');
 
 export function calcAppName(dir?) {
@@ -35,9 +34,6 @@ export function attachEntryParams(command, cliConfig, defaultConfig = {}): any {
 
     // set global config to environment
     pandoraConfig['config'].unshift(process.env[PANDORA_GLOBAL_CONFIG] || '');
-    process.env[PANDORA_GLOBAL_CONFIG] = pandoraConfig['config'].filter((text) => {
-      return !!text;
-    }).join(GlobalConfigProcessor.GLOBAL_PACKAGE_SPLIT);
   } catch (err) {
     // console.log(err);
     pandoraConfig = {};

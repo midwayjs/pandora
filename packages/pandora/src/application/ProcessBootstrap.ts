@@ -2,17 +2,14 @@
 require('source-map-support').install();
 import program = require('commander');
 import {PROCESS_ERROR, FINISH_SHUTDOWN, PROCESS_READY, SHUTDOWN, PANDORA_PROCESS} from '../const';
-import {ProcessContext} from './ProcessContext';
 import {ProcessRepresentation} from '../domain';
-import {ProcfileReconciler} from './ProcfileReconciler';
 import assert = require('assert');
-import {EnvironmentUtil} from 'pandora-env';
-import {consoleLogger, getPandoraLogsDir} from '../universal/LoggerBroker';
-import {MonitorManager} from '../monitor/MonitorManager';
-import {Facade} from '../Facade';
 import {makeRequire} from 'pandora-dollar';
 import {ScalableMaster} from './ScalableMaster';
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
+
+// TODO: 替换成带有 pandora 前缀的 logger
+const consoleLogger = console;
 
 /**
  * class ProcessBootstrap
@@ -21,79 +18,41 @@ import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 export class ProcessBootstrap {
 
   public master: ScalableMaster;
-  public context: ProcessContext;
   public processRepresentation: ProcessRepresentation;
-  private procfileReconciler: ProcfileReconciler;
 
   constructor(processRepresentation: ProcessRepresentation) {
-
     this.processRepresentation = processRepresentation;
-    this.procfileReconciler = new ProcfileReconciler(processRepresentation);
-
     if(this.processRepresentation.scale > 1) {
       this.master = new ScalableMaster(processRepresentation);
       return;
     }
-
-    this.context = new ProcessContext(processRepresentation);
-    Facade.set('processContext', this.context.processContextAccessor);
-
   }
 
   async start() {
-
     if(this.master) {
       await this.startAsMaster();
       return;
     }
     await this.startAsWorker();
-
   }
 
   async stop() {
-
     if(this.master) {
       await this.master.stop();
       return;
     }
-
-    // Stop as worker
-    await this.context.stop();
     SpawnWrapperUtils.unwrap();
-
   }
 
   async startAsMaster() {
-
-    this.injectMonitor();
     await this.master.start();
-
   }
 
   async startAsWorker() {
 
     SpawnWrapperUtils.setAsFirstLevel();
     SpawnWrapperUtils.wrap();
-
     process.env[PANDORA_PROCESS] = JSON.stringify(this.processRepresentation);
-
-    // Make sure start IPC Hub at very beginning, be course of injectMonitor() needs
-    if(!process.env.SKIP_IPC_HUB) {
-      const ipcHub = this.context.getIPCHub();
-      await ipcHub.start();
-      await ipcHub.initConfigClient();
-    }
-
-    this.procfileReconciler.discover();
-
-    this.injectMonitor();
-
-    // Handing the services injecting
-    const servicesByCurrentCategory = this.procfileReconciler.getServicesByCategory(this.processRepresentation.processName);
-    this.context.bindService(servicesByCurrentCategory);
-
-    // To start process by ProcessContext
-    await this.context.start();
 
     // Require the entryFile if there given it, pandora.fork() dep on it
     if(this.processRepresentation.entryFile) {
@@ -101,25 +60,6 @@ export class ProcessBootstrap {
       const ownRequire = entryFileBaseDir ? makeRequire(entryFileBaseDir) : require;
       ownRequire(this.processRepresentation.entryFile);
     }
-
-  }
-
-  injectMonitor() {
-
-    if(!EnvironmentUtil.getInstance().isReady()) {
-      // Handing the environment object injecting
-      const Environment = this.procfileReconciler.getEnvironment();
-      const environment = new Environment({
-        appDir: this.processRepresentation.appDir,
-        appName: this.processRepresentation.appName,
-        processName: this.processRepresentation.processName,
-        pandoraLogsDir: getPandoraLogsDir()
-      });
-      EnvironmentUtil.getInstance().setCurrentEnvironment(environment);
-    }
-
-    // To start worker process monitoring
-    MonitorManager.injectProcessMonitor();
 
   }
 

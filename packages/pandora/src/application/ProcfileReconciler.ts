@@ -1,10 +1,7 @@
 'use strict';
 import {makeRequire, resolveSymlink} from 'pandora-dollar';
-import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
-import {
-  Entry, EntryClass, ApplicationRepresentation, ApplicationStructureRepresentation
-  , ProcessRepresentation, ServiceRepresentation, CategoryReg
-} from '../domain';
+import { EntryClass, ApplicationRepresentation, ApplicationStructureRepresentation
+  , ProcessRepresentation } from '../domain';
 import assert = require('assert');
 import {join, dirname, basename, extname} from 'path';
 import {existsSync, writeFileSync} from 'fs';
@@ -26,30 +23,9 @@ export class ProcfileReconciler {
 
   public appRepresentation: ApplicationRepresentation = null;
   public procfileBasePath: string = null;
-
   protected discovered = false;
-
   protected procfileReconcilerAccessor: ProcfileReconcilerAccessor = null;
-
-  protected defaultServiceCategory: CategoryReg;
-
-  protected environmentClass: EntryClass = null;
-
   protected processes: Array<ProcessRepresentation> = [];
-  protected services: Array<ServiceRepresentation> = [];
-
-
-  protected get uniqServices(): Array<ServiceRepresentation> {
-    const nameMap: Map<string, boolean> = new Map;
-    const ret = [];
-    for (const service of this.services.reverse()) {
-      if (!nameMap.has(service.serviceName)) {
-        nameMap.set(service.serviceName, true);
-        ret.push(service);
-      }
-    }
-    return ret.reverse();
-  }
 
   protected get appDir() {
     assert(
@@ -60,14 +36,8 @@ export class ProcfileReconciler {
   }
 
   constructor(appRepresentation: ApplicationRepresentation) {
-
     this.appRepresentation = appRepresentation;
     this.procfileReconcilerAccessor = new ProcfileReconcilerAccessor(this);
-
-    // Attach default procfile
-    const {procfile: defaultProcfile} = GlobalConfigProcessor.getInstance().getAllProperties();
-    this.callProcfile(defaultProcfile);
-
   }
 
   /**
@@ -157,26 +127,6 @@ export class ProcfileReconciler {
     return entry;
   }
 
-
-  /**
-   * setDefaultServiceCategory
-   * @param {CategoryReg} name
-   */
-  setDefaultServiceCategory (name: CategoryReg) {
-    this.defaultServiceCategory = name;
-  }
-
-  /**
-   * getDefaultServiceCategory
-   * @return {CategoryReg}
-   */
-  getDefaultServiceCategory () {
-    if(!this.defaultServiceCategory) {
-      throw new Error('Should ProcfileReconciler.setDefaultServiceCategory() before ProcfileReconciler.getDefaultServiceCategory().');
-    }
-    return this.defaultServiceCategory;
-  }
-
   /**
    * Define process representation
    * @param processRepresentation
@@ -222,124 +172,12 @@ export class ProcfileReconciler {
   }
 
   /**
-   * Inject environment class
-   * @param {Entry} entry
-   */
-  injectEnvironment(entry: Entry) {
-    this.environmentClass = this.normalizeEntry(entry);
-  }
-
-  /**
-   * Get environment class
-   * @return {EntryClass}
-   */
-  getEnvironment(): EntryClass {
-    if (!this.environmentClass) {
-      throw new Error('Should ProcfileReconciler.injectEnvironment() before ProcfileReconciler.getEnvironment().');
-    }
-    return this.environmentClass;
-  }
-
-  /**
-   * Inject service class
-   * @param serviceRepresentation
-   * @return {ServiceRepresentation}
-   */
-  injectService(serviceRepresentation): ServiceRepresentation {
-    const serviceEntry = this.normalizeEntry(serviceRepresentation.serviceEntry);
-    const ret = {
-      config: {},
-      ...serviceRepresentation,
-      serviceName: serviceRepresentation.serviceName || (<any> serviceEntry).lazyName ||  (<any> serviceEntry).serviceName || (<any> serviceEntry).name,
-      category: serviceRepresentation.category || this.getDefaultServiceCategory(),
-      serviceEntry: serviceEntry
-    };
-    this.services.push(ret);
-    return ret;
-  }
-
-  /**
-   * Get a service representation by name
-   * @param lookingFor
-   * @return {ServiceRepresentation}
-   */
-  getServiceByName (lookingFor): ServiceRepresentation {
-    for(const service of this.services) {
-      if(lookingFor === service.serviceName) {
-        return service;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Drop a service representation by name
-   */
-  dropServiceByName (lookingFor) {
-    for(let idx = 0, len = this.services.length; idx < len; idx++) {
-      const service = this.services[idx];
-      if(lookingFor === service.serviceName) {
-        this.services.splice(idx, 1);
-        return;
-      }
-    }
-    throw new Error(`Can\'t drop a service named ${lookingFor} it not exist`);
-  }
-
-  /**
-   * Get services by category
-   * @param {string} category
-   * @return {ServiceRepresentation[]}
-   */
-  getServicesByCategory(category: string, simple?): ServiceRepresentation[] {
-    const serviceFullSet = this.uniqServices;
-    const retSet = [];
-    for (const service of serviceFullSet) {
-      if (service.category === category || category === 'all'
-        || service.category === 'all' || service.category === 'weak-all') {
-
-        if(simple) {
-          retSet.push(service);
-          continue;
-        }
-
-        const serviceEntry = (<any> service.serviceEntry).getLazyClass
-          ? (<any> service.serviceEntry).getLazyClass() : service.serviceEntry;
-
-        // Sucks code below, just unique the dependencies array...
-        service.dependencies = <string[]> [...new Set((serviceEntry.dependencies || []).concat(service.dependencies || []))];
-
-        retSet.push(service);
-      }
-    }
-    return retSet;
-  }
-
-  /**
    * Get all available processes
    * @return {any}
    */
   protected getAvailableProcessMap () {
 
     const availableProcessMap = {};
-
-    /**
-     * Allocate services
-     */
-    for (const service of this.getServicesByCategory('all', true)) {
-      if(service.category === 'all') {
-        return foundAll;
-      }
-      if (service.category === 'weak-all') {
-        continue;
-      }
-      const process = this.getProcessByName(service.category);
-      if (!process) {
-        throw new Error(`Can't allocate service ${service.serviceName} at category ${service.category} to any process.`);
-      }
-      availableProcessMap[service.category] = true;
-    }
-
     for(const process of this.processes) {
       if(process.entryFile && !availableProcessMap.hasOwnProperty(process.processName)) {
         availableProcessMap[process.processName] = true;
@@ -425,7 +263,6 @@ export class ProcfileReconciler {
 
     const fileContent = fileBuffer.toString();
     const structure: ApplicationStructureRepresentation = JSON.parse(fileContent);
-
     return structure;
 
   }

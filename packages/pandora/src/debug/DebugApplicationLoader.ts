@@ -1,12 +1,6 @@
 'use strict';
 import {ApplicationRepresentation} from '../domain';
 import {ApplicationHandler} from '../application/ApplicationHandler';
-import {GlobalConfigProcessor} from '../universal/GlobalConfigProcessor';
-import {isDaemonRunning} from '../daemon/DaemonHandler';
-import {Hub, Facade} from 'pandora-hub';
-import debugGlobalConfig from './debugGlobalConfig';
-const globalConfigProcessor = GlobalConfigProcessor.getInstance();
-
 const {consoleLogger} = require('../../cli/util/cliUtils');
 
 /**
@@ -26,31 +20,6 @@ export class DebugApplicationLoader {
    * @return {Promise<void>}
    */
   async start() {
-
-     const daemonRunning = await isDaemonRunning();
-
-     // start a IPC-Hub when no daemon
-     if(!daemonRunning) {
-       const hubServer = new Hub();
-       await hubServer.start();
-       const ipcHub: Facade = new Facade();
-       ipcHub.setup({
-         location: {
-           appName: '__pandora_daemon',
-           processName: '__pandora_daemon',
-           pid: process.pid.toString()
-         },
-         logger: consoleLogger
-       });
-       await ipcHub.start();
-       await ipcHub.initConfigManager();
-     }
-
-    globalConfigProcessor.getAllProperties();
-    globalConfigProcessor.mergeProperties(debugGlobalConfig);
-
-    process.env.PANDORA_CONFIG = (process.env.PANDORA_CONFIG ?
-      process.env.PANDORA_CONFIG + ':' : '') + require.resolve('./debugGlobalConfig');
 
     process.env.PANDORA_DEV = 'true';
     process.env.NODE_ENV = process.env.NODE_ENV || 'local';

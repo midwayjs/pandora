@@ -4,6 +4,7 @@ import * as extend from 'extend';
 import {IComponent, IComponentDeclaration, IComponentDeclarationStrict, ICoreSDKOptions} from './domain';
 import {ComponentWeightCalculator, ISortedItem} from './ComponentWeightCalculator';
 import {ComponentReflector} from './ComponentReflector';
+import * as defaultConfig from './pandoraConfig';
 
 
 export class CoreSDK {
@@ -16,6 +17,8 @@ export class CoreSDK {
 
   constructor(options: ICoreSDKOptions) {
     this.options = options;
+    this.coreContext.config = this.config;
+    this.loadConfig(defaultConfig);
   }
 
   async start(): Promise<void> {

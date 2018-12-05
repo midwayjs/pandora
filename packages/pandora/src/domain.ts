@@ -1,5 +1,3 @@
-import {ProcessContextAccessor} from './application/ProcessContextAccessor';
-import {ServiceCore} from './service/ServiceCore';
 import {State} from './const';
 
 export type ProcessScale = number | 'auto';
@@ -37,7 +35,6 @@ export interface ProcessRepresentation extends ApplicationRepresentation {
   env?: any;
   execArgv?: any[];
   args?: any[];
-  service?: Array<ServiceRepresentation>;
   entryFileBaseDir?: string;
   entryFile?: string;
 }
@@ -46,49 +43,6 @@ export interface ApplicationStructureRepresentation extends ApplicationRepresent
   process: Array<ProcessRepresentation>;
 }
 
-
-// ************************
-// Service
-
-export interface ServiceRepresentation {
-  serviceEntry: Entry;
-  serviceName: string;
-  category?: CategoryReg;
-  config?: any;
-  configResolver?: (context: any, oldConfig?: any) => any;
-  dependencies?: Array<string>;
-  publishToHub?: boolean;
-}
-
-export interface ServiceInstanceReference {
-  serviceInstance?: Service;
-  serviceCoreInstance?: ServiceCore;
-  serviceRepresentation: ServiceRepresentation;
-  state: 'noinstance' | 'instanced' | 'booting' | 'booted' | 'stopping';
-  depInstances?: DepInstances;
-}
-
-export interface ServiceOptions {
-  context: ProcessContextAccessor;
-  representation: ServiceRepresentation;
-  depInstances: DepInstances;
-}
-
-export interface DepInstances {
-  [serviceNmae: string]: ServiceCore;
-}
-
-export {MessengerClient, MessengerServer} from 'pandora-messenger';
-
-export interface ServiceConstructor {
-  dependencies: string[];
-}
-
-export interface Service {
-  // new(context?: ServiceContextAccessor): Service;
-  start?(): Promise<void> | void;
-  stop?(): Promise<void> | void;
-}
 
 
 // ************************

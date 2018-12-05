@@ -4,13 +4,13 @@ import {
   RELOAD, RELOAD_SUCCESS, RELOAD_ERROR, PANDORA_CWD,
   State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT, PANDORA_HOME
 } from '../const';
-import {getDaemonLogger, createAppLogger} from '../universal/LoggerBroker';
 import {ProcessRepresentation} from '../domain';
-import {ILogger} from 'pandora-service-logger/src/domain';
 import {join} from 'path';
-import {DebugUtils} from '../debug/DebugUtils';
 
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
+
+// TODO: 替换成带有 pandora 前缀的 logger
+const consoleLogger = console;
 
 /**
  * Class ApplicationHandler
@@ -18,8 +18,6 @@ const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
 export class ProcessHandler {
   public state: State;
   public processRepresentation: ProcessRepresentation;
-  private nodejsStdout: ILogger;
-  private daemonLogger: ILogger;
   private forkedProcess: ChildProcess;
 
   public get appName() {
@@ -41,14 +39,9 @@ export class ProcessHandler {
   public startCount: number = 0;
 
   // TODO: make nodejsStdout is required
-  constructor(processRepresentation: ProcessRepresentation, nodejsStdout?) {
-
+  constructor(processRepresentation: ProcessRepresentation) {
     this.state = State.pending;
     this.processRepresentation = processRepresentation;
-
-    this.daemonLogger = getDaemonLogger();
-    this.nodejsStdout = nodejsStdout || createAppLogger(processRepresentation.appName, 'nodejs_stdout');
-
   }
 
   /**
@@ -67,8 +60,6 @@ export class ProcessHandler {
 
   protected doFork(args): Promise<void> {
 
-    const nodejsStdout = this.nodejsStdout;
-    const daemonLogger = this.daemonLogger;
     const representation = this.processRepresentation;
 
     const execArgv: string[] = process.execArgv.slice(0);
@@ -82,8 +73,6 @@ export class ProcessHandler {
     if(userExecArgv && userExecArgv.length) {
       execArgv.push.apply(execArgv, userExecArgv);
     }
-
-    DebugUtils.attachExecArgv(representation, execArgv);
 
     const env = {
       [PANDORA_HOME]: join(__dirname, '../../'),
@@ -101,12 +90,7 @@ export class ProcessHandler {
         cwd: representation.appDir,
         execArgv,
         detached: true,
-        stdio: [
-          'ignore',
-          DebugUtils.isUnderPandoraDev ? process.stdout : 'pipe',
-          DebugUtils.isUnderPandoraDev ? process.stderr : 'pipe',
-          'ipc'
-        ],
+        stdio: [ 'ignore', process.stdout, process.stderr, 'ipc' ],
         env
       });
 
@@ -116,18 +100,15 @@ export class ProcessHandler {
 
           const msg = `Process [name = ${this.processRepresentation.processName}, pid = ${forkedProcess.pid}] Started successfully!`;
           this.state = State.complete;
-          daemonLogger.info(msg);
-          nodejsStdout.info(msg);
+          consoleLogger.info(msg);
           resolve();
 
         } else if (message.action === PROCESS_ERROR) {
 
           this.stop().catch((err) => {
             const msg = `Process [name = ${this.processRepresentation.processName}, pid = ${forkedProcess.pid}] Start error!`;
-            daemonLogger.error(err);
-            nodejsStdout.error(err);
-            daemonLogger.error(msg);
-            nodejsStdout.error(msg);
+            consoleLogger.error(err);
+            consoleLogger.error(msg);
             reject(new Error(msg));
           });
 
@@ -135,33 +116,18 @@ export class ProcessHandler {
 
       });
 
-      if(!DebugUtils.isUnderPandoraDev) {
-        const fileTransport = (<any> nodejsStdout).get('file');
-        forkedProcess.stdout.on('data', (data) => {
-          // FIXME: 用到了私有方法，需要考虑清楚
-          // 现在锁死了 egg-logger 的版本
-          fileTransport._write(data);
-        });
-        forkedProcess.stderr.on('data', (err) => {
-          fileTransport._write(err);
-        });
-      }
-
       // Here just to distinguish normal exits and exceptional exits, exceptional exits need to restart
       forkedProcess.once('exit', (code, signal) => {
 
         const msg = `Process [name = ${this.processRepresentation.processName}, pid = ${forkedProcess.pid}] Exit with code ${code} and signal ${signal}`;
-        daemonLogger.info(msg);
-        nodejsStdout.info(msg);
+        consoleLogger.info(msg);
 
         switch (this.state) {
           case State.complete:
             // Restart it automatically when it exceptional exits after it start successful
             this.start().catch(err => {
-              daemonLogger.error('Restart application error');
-              nodejsStdout.error('Restart application error');
-              daemonLogger.error(err);
-              nodejsStdout.error(err);
+              consoleLogger.error('Restart application error');
+              consoleLogger.error(err);
             });
             break;
           case State.pending:

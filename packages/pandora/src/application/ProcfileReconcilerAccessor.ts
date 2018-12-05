@@ -1,9 +1,5 @@
 import {ProcfileReconciler} from './ProcfileReconciler';
-import {CategoryReg, Entry} from '../domain';
-import {ServiceRepresentationChainModifier} from './ServiceRepresentationChainModifier';
 import {ProcessRepresentationChainModifier} from './ProcessRepresentationChainModifier';
-import {makeRequire} from 'pandora-dollar';
-import {ServiceUtils} from '../service/ServiceUtils';
 
 /**
  * Class ProcfileReconcilerAccessor
@@ -29,24 +25,6 @@ export class ProcfileReconcilerAccessor {
     this.procfileReconciler = procfileReconciler;
   }
 
-  defaultServiceCategory(name?: CategoryReg) {
-    if(!name) {
-      return this.procfileReconciler.getDefaultServiceCategory();
-    }
-    this.procfileReconciler.setDefaultServiceCategory(name);
-  }
-
-  /**
-   * Inject environment class
-   * @param {Entry} entry
-   */
-  environment(entry?: Entry): any {
-    if(!entry) {
-      return this.procfileReconciler.getEnvironment();
-    }
-    this.procfileReconciler.injectEnvironment(entry);
-  }
-
   /**
    * define process
    * @param processName
@@ -69,11 +47,7 @@ export class ProcfileReconcilerAccessor {
    * @param entryFile
    * @return {ProcessRepresentationChainModifier}
    */
-  fork(processName: string, entryFile?): ProcessRepresentationChainModifier {
-    const savedRepresentation = this.procfileReconciler.getProcessByName(processName);
-    if(savedRepresentation) {
-      return new ProcessRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
-    }
+  fork(processName: string, entryFile): ProcessRepresentationChainModifier {
     const representation = this.procfileReconciler.defineProcess({
       entryFile,
       processName
@@ -81,47 +55,23 @@ export class ProcfileReconcilerAccessor {
     return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }
 
-  /**
-   * Inject service class
-   * @param serviceName
-   * @param serviceEntry
-   * @return {ServiceRepresentationChainModifier}
-   */
-  service(serviceName: string, serviceEntry?): ServiceRepresentationChainModifier {
-    ServiceUtils.checkName(serviceName);
-    const savedRepresentation = this.procfileReconciler.getServiceByName(serviceName);
-    if(savedRepresentation && serviceEntry) {
-      throw new Error(`Service already exist! Use pandora.service('${serviceName}').entry('a new place') to change the entry.`);
-    }
-    if(savedRepresentation) {
-      return new ServiceRepresentationChainModifier(savedRepresentation, this.procfileReconciler);
-    }
-    const representation = this.procfileReconciler.injectService({
-      serviceName, serviceEntry
-    });
-    return new ServiceRepresentationChainModifier(representation, this.procfileReconciler);
-  }
-
   private clusterCount = 0;
 
   /**
-   * An alias to service()
    * @param path
-   * @return {ServiceRepresentationChainModifier}
+   * @return {ProcessRepresentationChainModifier}
    */
-  cluster(path): ServiceRepresentationChainModifier {
-    const baseDir = this.procfileReconciler.procfileBasePath;
-    class ClusterService {
-      static dependencies = ['all'];
-      async start() {
-        if(baseDir) {
-          makeRequire(baseDir)(path);
-        } else {
-          require(path);
-        }
-      }
-    }
-    return this.service('cluster' + this.clusterCount++, ClusterService);
+  cluster(entryFile): ProcessRepresentationChainModifier;
+  cluster(processName: string, entryFile): ProcessRepresentationChainModifier;
+  cluster(a, b?): ProcessRepresentationChainModifier {
+    const entryFile = (arguments.length === 1) ? a : b;
+    const processName = (arguments.length === 1) ? 'cluster' + this.clusterCount++ : a;
+    const representation = this.procfileReconciler.defineProcess({
+      entryFile,
+      processName,
+      scale: 'auto'
+    });
+    return new ProcessRepresentationChainModifier(representation, this.procfileReconciler);
   }
 
 }
