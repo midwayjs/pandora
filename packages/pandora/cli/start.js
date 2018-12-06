@@ -1,13 +1,27 @@
 'use strict';
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
-const {calcAppName, attachEntryParams} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
+const {cliParamsToApplicationRepresentation} = require(path.join(PANDORA_LIB_HOME, 'common/Helpers'));
+const { FrontApplicationLoader } = require(path.join(PANDORA_LIB_HOME, 'action/FrontApplicationLoader'));
 const cliUtils = require('./util/cliUtils');
 const {consoleLogger} = cliUtils;
 
 exports.command = 'start [targetPath]';
 exports.desc = 'Start an application';
 exports.builder = (yargs) => {
+
+  yargs.option('config', {
+    alias: 'c',
+    // TODO: describe
+    describe: 'Config'
+  });
+
+  yargs.option('daemon', {
+    alias: 'd',
+    // TODO: describe
+    describe: 'Daemon',
+    boolean: true
+  });
 
   yargs.option('name', {
     alias: 'n',
@@ -72,27 +86,19 @@ exports.handler = function (argv) {
 
   argv.entry = argv.targetPath;
 
-  let sendParams;
+  let loaderOpts;
   try {
-    sendParams = attachEntryParams('start', argv, {
-      appName: calcAppName(argv.targetPath || process.cwd())
-    });
+    loaderOpts = cliParamsToApplicationRepresentation('start', argv);
   } catch(err) {
     consoleLogger.error(err);
     process.exit(1);
   }
 
-  const send = require(path.join(PANDORA_LIB_HOME, 'daemon/DaemonHandler')).send;
-  consoleLogger.info('Starting ' + sendParams.appName + ' at ' + sendParams.appDir);
-
-  send('start', sendParams, (err, data) => {
-    if (err) {
-      consoleLogger.error(err);
-      process.exit(1);
-      return;
-    }
-    consoleLogger.info(data);
-    process.exit(0);
+  const loader = new FrontApplicationLoader(loaderOpts);
+  loader.start().catch((err) => {
+    consoleLogger.error(err);
+    process.exit(1);
   });
+
 
 };

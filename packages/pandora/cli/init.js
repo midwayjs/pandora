@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const PANDORA_LIB_HOME = path.join(__dirname, '../dist');
-const {calcAppName} = require(path.join(PANDORA_LIB_HOME, 'universal/Helpers'));
+const {calcAppName} = require(path.join(PANDORA_LIB_HOME, 'common/Helpers'));
 const cliUtils = require('./util/cliUtils');
 
 exports.command = 'init <filePath>';

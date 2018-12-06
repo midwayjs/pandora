@@ -166,7 +166,6 @@ module.exports = (pandora) => {
 
 }
 
-
 exports.dirnameUntilPkgJson = function (targetPath) {
 
   let cur = targetPath;

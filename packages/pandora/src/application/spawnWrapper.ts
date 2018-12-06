@@ -2,6 +2,9 @@
 
 const wrap = require('pandora-spawn-wrap');
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
+import {consoleLogger} from '../common/Helpers';
+import {CoreSDK} from 'pandora-core-sdk';
+import {PANDORA_PROCESS} from '../const';
 
 async function main () {
 
@@ -20,12 +23,19 @@ async function main () {
   }
 
   try {
-    // TODO: SOMETHING
+    const processRepresentation = JSON.parse(process.env[PANDORA_PROCESS]);
+    const {appName, appDir} = processRepresentation;
+    const coreSdk = new CoreSDK({
+      mode: 'worker',
+      appName, appDir
+    });
+    // TODO: facade require('pandora') also needs in version 2
+    await coreSdk.start();
   } catch (err) {
-    console.error(err);
+    consoleLogger.error(err);
   }
   wrap.runMain();
 
 }
 
-main().catch(console.error);
+main().catch(consoleLogger.error.bind(consoleLogger));

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import Helpers = require('../../src/universal/Helpers');
+import Helpers = require('../../src/common/Helpers');
 import mm = require('mm');
 import {join, resolve} from 'path';
 
@@ -9,14 +9,11 @@ describe('Helpers', function () {
       return __dirname;
     });
     const name = Helpers.calcAppName(__dirname);
-    expect(name).to.equal('universal');
+    expect(name).to.equal('common');
     mm.restore();
   });
   it('should calcAppName() by package.json be ok', () => {
-    mm(process, 'cwd', function () {
-      return join(__dirname, '../../');
-    });
-    const name = Helpers.calcAppName(__dirname);
+    const name = Helpers.calcAppName(join(__dirname, '../../'));
     expect(name).to.equal('pandora');
     mm.restore();
   });
@@ -42,10 +39,9 @@ describe('Helpers', function () {
 
     // pandora start --name test
     expect(() => {
-      Helpers.attachEntryParams('start', {
+      Helpers.cliParamsToApplicationRepresentation('start', {
         appName: 'test',
-      }, {
-        appName: Helpers.calcAppName(process.cwd())
+        targetPath: __filename
       });
     }).to.throw('Pandora.js can only start a Pandora.js project directory');
 
@@ -58,12 +54,11 @@ describe('Helpers', function () {
     });
 
     // pandora start --name test
-    const forkEntryConfig = Helpers.attachEntryParams('start', {
-      entry: '../../',
-    }, {
+    const forkEntryConfig = Helpers.cliParamsToApplicationRepresentation('start', {
+      targetPath: '../../',
     });
     expect(forkEntryConfig.appDir).to.equal(resolve('../../'));
-    expect(forkEntryConfig.entryFile).to.equal(undefined);
+    expect(forkEntryConfig.targetPath).to.equal(undefined);
 
     mm.restore();
   });

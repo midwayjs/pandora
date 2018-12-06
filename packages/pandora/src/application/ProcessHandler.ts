@@ -6,11 +6,9 @@ import {
 } from '../const';
 import {ProcessRepresentation} from '../domain';
 import {join} from 'path';
+import {consoleLogger} from '../common/Helpers';
 
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
-
-// TODO: 替换成带有 pandora 前缀的 logger
-const consoleLogger = console;
 
 /**
  * Class ApplicationHandler

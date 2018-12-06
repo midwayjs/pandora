@@ -7,9 +7,8 @@ import assert = require('assert');
 import {makeRequire} from 'pandora-dollar';
 import {ScalableMaster} from './ScalableMaster';
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
-
-// TODO: 替换成带有 pandora 前缀的 logger
-const consoleLogger = console;
+import {consoleLogger} from '../common/Helpers';
+import {CoreSDK} from 'pandora-core-sdk';
 
 /**
  * class ProcessBootstrap
@@ -19,12 +18,19 @@ export class ProcessBootstrap {
 
   public master: ScalableMaster;
   public processRepresentation: ProcessRepresentation;
+  protected coreSdk: CoreSDK;
 
   constructor(processRepresentation: ProcessRepresentation) {
     this.processRepresentation = processRepresentation;
     if(this.processRepresentation.scale > 1) {
       this.master = new ScalableMaster(processRepresentation);
       return;
+    } else {
+      const {appName, appDir} = this.processRepresentation;
+      this.coreSdk = new CoreSDK({
+        mode: 'worker',
+        appName, appDir
+      });
     }
   }
 
@@ -53,6 +59,8 @@ export class ProcessBootstrap {
     SpawnWrapperUtils.setAsFirstLevel();
     SpawnWrapperUtils.wrap();
     process.env[PANDORA_PROCESS] = JSON.stringify(this.processRepresentation);
+
+    await this.coreSdk.start();
 
     // Require the entryFile if there given it, pandora.fork() dep on it
     if(this.processRepresentation.entryFile) {

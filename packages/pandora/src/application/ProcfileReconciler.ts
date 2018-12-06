@@ -17,7 +17,6 @@ const foundAll = Symbol();
 
 /**
  * Class ProcfileReconciler
- * TODO: Add more description
  */
 export class ProcfileReconciler {
 

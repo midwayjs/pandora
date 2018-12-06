@@ -7,10 +7,8 @@ import {
   PROCESS_READY, WORKER_READY, RELOAD, SHUTDOWN, WORKER_EXIT, PROCESS_ERROR,
   RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN, defaultWorkerCount
 } from '../const';
+import {consoleLogger} from '../common/Helpers';
 
-
-// TODO: 替换成带有 pandora 前缀的 logger
-const consoleLogger = console;
 
 const cFork = require('../../3rd/fork');
 const pathToProcessBootstrap = require.resolve('./ProcessBootstrap');

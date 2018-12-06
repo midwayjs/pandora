@@ -1,5 +1,9 @@
+export type ICoreSDKMode = 'supervisor' | 'worker';
+
 export interface ICoreSDKOptions {
-  mode: string;
+  mode: ICoreSDKMode;
+  appName: string;
+  appDir: string;
 }
 
 export interface IComponent {

@@ -12,7 +12,7 @@ export class CoreSDK {
   protected options: ICoreSDKOptions;
   protected coreContext: any = {};
   protected config: any = {};
-  protected components: Map<string, IComponentDeclaration>;
+  protected components: Map<string, IComponentDeclaration> = new Map();
   protected componentInstances: Map<string, IComponent>;
 
   constructor(options: ICoreSDKOptions) {
@@ -90,6 +90,11 @@ export class CoreSDK {
 
   protected addComponent(component: IComponentDeclarationStrict) {
     this.components.set(component.name, component);
+  }
+
+
+  async stop(): Promise<void> {
+    // TODO: do something here
   }
 
 }

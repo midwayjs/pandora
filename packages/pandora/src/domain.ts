@@ -84,10 +84,3 @@ export interface Monitor {
 }
 
 
-// ************************
-// Other
-
-export {Environment} from 'pandora-env';
-export {LoggerService, LoggerConfig, ILogger} from 'pandora-service-logger';
-
-
