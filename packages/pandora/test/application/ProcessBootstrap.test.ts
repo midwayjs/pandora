@@ -2,7 +2,6 @@ import {ProcessBootstrap} from '../../src/application/ProcessBootstrap';
 import {expect} from 'chai';
 import mm = require('mm');
 import {SpawnWrapperUtils} from '../../src/application/SpawnWrapperUtils';
-import {MonitorManager} from '../../src/monitor/MonitorManager';
 
 describe('ProcessBootstrap', function () {
 
@@ -22,64 +21,22 @@ describe('ProcessBootstrap', function () {
     });
 
     it('should start as worker be ok', async () => {
-
       const pb = new ProcessBootstrap(rp);
-      let callStart = false;
-      let callBind = false;
-      let calledInject = false;
-
-      mm(pb, 'context', {
-        start: () => {
-          callStart = true;
-        },
-        bindService: () => {
-          callBind = true;
-        },
-        getIPCHub: () => {
-          return {
-            start: () => {
-            },
-          };
-        }
+      let calledWrap = false;
+      mm(SpawnWrapperUtils, 'wrap', () => {
+        calledWrap = true;
       });
-
-      mm(MonitorManager, 'injectProcessMonitor', () => {
-        calledInject = true;
-      });
-
-      mm(pb, 'procfileReconciler', {
-        discover () {},
-        getServicesByCategory(processName) {
-          expect(processName).to.equal(rp.processName);
-        }
-      });
-
       await pb.start();
-
-      expect(calledInject).to.equal(true);
-      expect(callStart).to.equal(true);
-      expect(callBind).to.equal(true);
-
+      expect(calledWrap).to.equal(true);
     });
 
     it('should stop as worker be ok', async () => {
-
       const pb = new ProcessBootstrap(rp);
-      let callStop = false;
       let callUnwrap = false;
-      mm(pb, 'context', {
-        stop: () => {
-          callStop = true;
-        }
-      });
-
       mm(SpawnWrapperUtils, 'unwrap', () => {
         callUnwrap = true;
       });
-
       await pb.stop();
-
-      expect(callStop).to.equal(true);
       expect(callUnwrap).to.equal(true);
 
     });
@@ -102,18 +59,13 @@ describe('ProcessBootstrap', function () {
     it('should start as master be ok', async () => {
       const pb = new ProcessBootstrap(rp);
       let callStartAsMaster = false;
-      let calledInject = false;
       mm(pb, 'master', {
         start: () => {
           callStartAsMaster = true;
         }
       });
-      mm(MonitorManager, 'injectProcessMonitor', () => {
-        calledInject = true;
-      });
       await pb.start();
       expect(callStartAsMaster).to.equal(true);
-      expect(calledInject).to.equal(true);
     });
 
     it('should stop as master be ok', async () => {

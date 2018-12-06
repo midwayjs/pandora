@@ -16,7 +16,8 @@ describe('ProcessHandler', function () {
         appName: 'test',
         processName: 'worker',
         appDir: pathProjectMaster,
-        scale: 2
+        scale: 2,
+        entryFile: join(pathProjectMaster, 'SimpleHTTPServer.js')
       });
     });
 

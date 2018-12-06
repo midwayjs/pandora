@@ -1,6 +1,6 @@
 const http = require('http');
 
-module.exports = class SimpleHTTPServer {
+class SimpleHTTPServer {
 
   start() {
     const {port, host} = this.getPort();
@@ -33,4 +33,7 @@ module.exports = class SimpleHTTPServer {
     return {port: 1338, host: '127.0.0.1'};
   }
 
-};
+}
+
+const server = new SimpleHTTPServer();
+server.start();

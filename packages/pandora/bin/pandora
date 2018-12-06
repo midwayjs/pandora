@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const ver = require('semver').major(process.versions.node);;
+const ver = require('semver').major(process.versions.node);
 
 if (ver < 8) {
   const colors = require('colors');
@@ -20,7 +20,6 @@ if (process.env.npm_config_argv && !process.env.npm_run_pandora_l2) {
   });
   return;
 }
-
 
 require('source-map-support').install();
 const fs = require('fs');

@@ -1,8 +1,4 @@
 import wrap = require('pandora-spawn-wrap');
-import {PANDORA_PROCESS} from '../const';
-import {ProcessRepresentation} from '../domain';
-import {ProcessContext} from './ProcessContext';
-import {Facade} from '../Facade';
 
 const wrapFile = require.resolve('./spawnWrapper');
 const DEFAULT_WRAP_MAX_DEPTH = 2; // Level 2 means first level children
@@ -55,18 +51,6 @@ export class SpawnWrapperUtils {
 
     return !(currentLevel >= maxLevel);
 
-  }
-
-  static shimProcessContext() {
-    let processRepresentation: ProcessRepresentation = <any> {};
-    try {
-      processRepresentation = JSON.parse(process.env[PANDORA_PROCESS]);
-    } catch (err) {
-      // ignore
-    }
-    const context = new ProcessContext(processRepresentation);
-    Facade.set('processContext', context.processContextAccessor);
-    return context;
   }
 
 }

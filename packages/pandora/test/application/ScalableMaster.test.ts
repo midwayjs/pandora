@@ -94,7 +94,8 @@ describe('ScalableMaster', function () {
         appName: 'test',
         scale: 2,
         processName: 'worker',
-        appDir: dirname(pathSimpleClusterApp)
+        appDir: dirname(pathSimpleClusterApp),
+        entryFile: pathSimpleClusterApp,
       });
     });
 
@@ -137,7 +138,8 @@ describe('ScalableMaster', function () {
       const scalableMaster2 = new ScalableMaster({
         appName: 'test',
         processName: 'worker',
-        appDir: dirname(pathSimpleClusterApp)
+        appDir: dirname(pathSimpleClusterApp),
+        entryFile: pathSimpleClusterApp,
       });
       await scalableMaster2.start();
       expect(scalableMaster2.getWorkers().length).equal(2);

@@ -21,8 +21,6 @@ export class DebugApplicationLoader {
    */
   async start() {
 
-    process.env.PANDORA_DEV = 'true';
-    process.env.NODE_ENV = process.env.NODE_ENV || 'local';
     const appName = this.representation.appName || 'debug';
     const options = {
       ...this.representation,

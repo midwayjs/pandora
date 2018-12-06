@@ -2,7 +2,6 @@ import {expect} from 'chai';
 import Helpers = require('../../src/universal/Helpers');
 import mm = require('mm');
 import {join, resolve} from 'path';
-import {PANDORA_GLOBAL_CONFIG} from '../../src/const';
 
 describe('Helpers', function () {
   it('should calcAppName() by dirname be ok', () => {
@@ -35,19 +34,6 @@ describe('Helpers', function () {
 
   });
 
-  it('should attach env config from outside', () => {
-    mm(process, 'cwd', function () {
-      return join(__dirname, '../fixtures/universal/test-test2');
-    });
-    const forkEntryConfig = Helpers.attachEntryParams('start', {
-      appName: 'test-app3',
-    });
-    expect(forkEntryConfig.globalEnv.a).to.equal('1');
-    expect(forkEntryConfig.appName).to.equal('test-app3');
-    expect(process.env[PANDORA_GLOBAL_CONFIG]).to.equal('pandora-taobao:pandora-ali');
-
-    mm.restore();
-  });
 
   it('test merge config with default mode and outside property', () => {
     mm(process, 'cwd', function () {
