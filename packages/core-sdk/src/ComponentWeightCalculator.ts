@@ -8,10 +8,10 @@ export interface ISortedItem {
 
 export class ComponentWeightCalculator {
 
-  private compoents: Map<string, IComponentDeclaration>;
+  private components: Map<string, IComponentDeclaration>;
 
-  constructor(compoents: Map<string, IComponentDeclaration>) {
-    this.compoents = compoents;
+  constructor(components: Map<string, IComponentDeclaration>) {
+    this.components = components;
   }
 
   getWeight(name, chain?: string[]) {
@@ -24,8 +24,8 @@ export class ComponentWeightCalculator {
       return Infinity;
     }
     chain.push(name);
-    assert(this.compoents.has(name), `Could not found component, name: ${name}`);
-    const componentDeclaration = this.compoents.get(name);
+    assert(this.components.has(name), `Could not found component, name: ${name}`);
+    const componentDeclaration = this.components.get(name);
     if (!componentDeclaration.dependencies || !componentDeclaration.dependencies.length) {
       return 1;
     } else {
@@ -39,7 +39,7 @@ export class ComponentWeightCalculator {
 
   getSortedComponentNames(order: 'asc' | 'desc'): ISortedItem[] {
     const ret = [];
-    for (const name of this.compoents.keys()) {
+    for (const name of this.components.keys()) {
       ret.push({name, weight: this.getWeight(name)});
     }
     return ret.sort((a, b) => {
