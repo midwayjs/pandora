@@ -1,7 +1,7 @@
 {
-  "name": "pandora-core-sdk",
+  "name": "pandora-component-decorator",
   "version": "2.0.0",
-  "description": "Pandora 2 Core SDK",
+  "description": "Pandora 2 Component Decorators",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -53,9 +53,6 @@
     "src"
   ],
   "dependencies": {
-    "extend": "^3.0.2",
-    "pandora-component-decorator": "^2.0.0",
-    "reflect-metadata": "^0.1.12",
-    "resolve": "^1.8.1"
+    "reflect-metadata": "^0.1.12"
   }
 }

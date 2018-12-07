@@ -1,4 +1,5 @@
 export type ICoreSDKMode = 'supervisor' | 'worker';
+import {IComponentConstructor} from 'pandora-component-decorator';
 
 export interface ICoreSDKOptions {
   mode: ICoreSDKMode;
@@ -6,20 +7,12 @@ export interface ICoreSDKOptions {
   appDir: string;
 }
 
-export interface IComponent {
-  start(): Promise<void>;
-  startAtSupervisor(): Promise<void>;
-}
-
-export interface IComponentConstructor {
-  new(ctx: any): IComponent;
-}
-
 export interface IComponentDeclaration {
   name: string;
   path: string;
   dependencies?: string[];
   klass?: IComponentConstructor;
+  configDir?: string;
 }
 
 export interface IComponentDeclarationStrict extends IComponentDeclaration {
