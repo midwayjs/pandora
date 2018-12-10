@@ -104,7 +104,10 @@ export class CoreSDK {
     const components: {[name: string]: Partial<IComponentDeclaration>} = this.config.components;
     for(const name of Object.keys(components)) {
       const {path, configDir} = components[name];
-      const resolvedPath = await resolve(path, {basedir: configDir});
+      const resolvedPath = await resolve(path, {
+        basedir: configDir,
+        extensions: ['.js', '.ts']
+      });
       let klass = require(resolvedPath);
       klass = klass.default ? klass.default : klass;
 
