@@ -5,6 +5,11 @@ export interface ICoreSDKOptions {
   mode: ICoreSDKMode;
   appName: string;
   appDir: string;
+  extendConfig?: Array<{
+    config: any;
+    configDir: string;
+  }>;
+  extendContext?: any;
 }
 
 export interface IComponentDeclaration {

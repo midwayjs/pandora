@@ -21,6 +21,9 @@ export class CoreSDK {
   constructor(options: ICoreSDKOptions) {
     this.options = options;
     this.coreContext.config = this.config;
+    if(this.options.extendContext) {
+      Object.assign(this.coreContext, this.options.extendContext);
+    }
     this.loadConfig(defaultConfig, dirname(require.resolve('./pandoraConfig')));
   }
 
@@ -72,11 +75,17 @@ export class CoreSDK {
     const configLoadDirs = ['/etc/', os.homedir(), process.cwd()];
     for(const dir of configLoadDirs) {
       try {
-        const tartget = path.join(dir, 'pandoraConfig');
-        const extConfig = require(tartget);
+        const target = path.join(dir, 'pandoraConfig');
+        const extConfig = require(target);
         this.loadConfig(extConfig, dir);
       } catch(err) {
         // ignore
+      }
+    }
+
+    if(this.options.extendConfig) {
+      for(const {config, configDir} of this.options.extendConfig) {
+        this.loadConfig(config, configDir);
       }
     }
   }
