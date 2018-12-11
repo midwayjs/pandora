@@ -86,13 +86,13 @@ export class MetricsClient extends AbstractIndicator {
     if ((<Proxiable>metric).proxyMethod && (<Proxiable>metric).proxyMethod.length) {
       for (let method of (<Proxiable>metric).proxyMethod) {
         metric[ method ] = (...args) => {
-          this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${metric.type}, method = ${method}, value = ${args}`);
+          this.debug(`Invoke: invoke name = ${newName.getNameKey()}, type = ${(<Proxiable>metric).type}, method = ${method}, value = ${args}`);
           this.report({
             action: MetricsConstants.EVT_METRIC_UPDATE,
             name: newName.getNameKey(),
             method: method,
             value: args,
-            type: metric.type,
+            type: (<Proxiable>metric).type,
             clientId: this.clientId
           });
         };
