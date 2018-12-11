@@ -154,32 +154,47 @@ export class MetricsClient extends AbstractIndicator {
   }
 
   getCounter(group: string, name: MetricName | string) {
-    const counter = new Counter();
-    this.register(group, name, counter);
+    let counter = this.allMetricsRegistry.getMetric(this.buildName(name));
+    if (!counter) {
+      counter = new Counter();
+      this.register(group, name, counter);
+    }
     return counter;
   }
 
   getTimer(group: string, name: MetricName | string) {
-    const timer = new Timer();
-    this.register(group, name, timer);
+    let timer = this.allMetricsRegistry.getMetric(this.buildName(name));
+    if (!timer) {
+      timer = new Timer();
+      this.register(group, name, timer);
+    }
     return timer;
   }
 
   getMeter(group: string, name: MetricName | string) {
-    const meter = new Meter();
-    this.register(group, name, meter);
+    let meter = this.allMetricsRegistry.getMetric(this.buildName(name));
+    if (!meter) {
+      meter = new Meter();
+      this.register(group, name, meter);
+    }
     return meter;
   }
 
   getHistogram(group: string, name: MetricName | string) {
-    const histogram = new Histogram();
-    this.register(group, name, histogram);
+    let histogram = this.allMetricsRegistry.getMetric(this.buildName(name));
+    if (!histogram) {
+      histogram = new Histogram();
+      this.register(group, name, histogram);
+    }
     return histogram;
   }
 
   getFastCompass(group: string, name: MetricName | string) {
-    const fastCompass = new FastCompass();
-    this.register(group, name, fastCompass);
+    let fastCompass = this.allMetricsRegistry.getMetric(this.buildName(name));
+    if (!fastCompass) {
+      fastCompass = new FastCompass();
+      this.register(group, name, fastCompass);
+    }
     return fastCompass;
   }
 
