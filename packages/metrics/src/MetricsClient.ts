@@ -5,7 +5,6 @@ import { Environment, EnvironmentUtil } from 'pandora-env';
 import { MetricsMessengerClient } from './util/MessengerUtil';
 import { Counter, FastCompass, Gauge, Histogram, Meter, Proxiable, Timer } from './client';
 import { AbstractIndicator } from './indicator/AbstractIndicator';
-import { type } from 'os';
 
 export class MetricsClient extends AbstractIndicator {
 
@@ -196,7 +195,7 @@ export class MetricsClient extends AbstractIndicator {
     return new MetricsRegistry();
   }
 
-  private createMetricProxy(type) {
+  private createMetricProxy(type: string) {
     switch (type) {
       case 'COUNTER':
         return new Counter();
