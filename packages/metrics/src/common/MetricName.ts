@@ -176,7 +176,9 @@ export class MetricName {
     let tagsArr = [];
 
     for(let key in this.tags) {
-      tagsArr.push(key + MetricName.TAGS_CONCAT + this.tags[key]);
+      if(this.tags.hasOwnProperty(key)) {
+          tagsArr.push(key + MetricName.TAGS_CONCAT + this.tags[key]);
+      }
     }
 
     tagsArr.sort();

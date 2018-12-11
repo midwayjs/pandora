@@ -60,17 +60,26 @@ export class MetricsClient extends AbstractIndicator {
    * @param {} name
    * @param {Proxiable} metric
    */
-  register(group: string, name: MetricName | string, metric: Proxiable | Metric) {
+  register(group: string, name: MetricName | string, metric: Proxiable | Metric | string) {
     this.debug(`Register: wait register a metrics name = ${name}`);
     let newName = this.buildName(name);
     // 把应用名加上
     newName = newName.tagged('appName', this.getAppName());
 
+    if(typeof metric === 'string') {
+      let newMetric = this.allMetricsRegistry.getMetric(newName);
+      if(newMetric) {
+        // 去重，并返回原指标
+        return newMetric;
+      } else {
+        metric = this.createMetricProxy(metric);
+      }
+    }
+
     if (!metric.type) {
       metric.type = MetricType.GAUGE;
     }
 
-    // 这边暂时不做去重
     this.allMetricsRegistry.register(newName, <Metric> <any> metric);
 
     // Gauge 比较特殊，是实际的类，而服务端才是一个代理，和其他 metric 都不同，不需要 proxy
@@ -100,6 +109,7 @@ export class MetricsClient extends AbstractIndicator {
       this.reportMetric(newName, metric, group);
     }
 
+    return metric;
   }
 
   reportMetric(name: MetricName, metric: Metric, group: string) {
@@ -154,48 +164,23 @@ export class MetricsClient extends AbstractIndicator {
   }
 
   getCounter(group: string, name: MetricName | string) {
-    let counter = this.allMetricsRegistry.getMetric(this.buildName(name));
-    if (!counter) {
-      counter = new Counter();
-      this.register(group, name, counter);
-    }
-    return counter;
+    return this.register(group, name, 'COUNTER');
   }
 
   getTimer(group: string, name: MetricName | string) {
-    let timer = this.allMetricsRegistry.getMetric(this.buildName(name));
-    if (!timer) {
-      timer = new Timer();
-      this.register(group, name, timer);
-    }
-    return timer;
+    return this.register(group, name, 'TIMER');
   }
 
   getMeter(group: string, name: MetricName | string) {
-    let meter = this.allMetricsRegistry.getMetric(this.buildName(name));
-    if (!meter) {
-      meter = new Meter();
-      this.register(group, name, meter);
-    }
-    return meter;
+    return this.register(group, name, 'METER');
   }
 
   getHistogram(group: string, name: MetricName | string) {
-    let histogram = this.allMetricsRegistry.getMetric(this.buildName(name));
-    if (!histogram) {
-      histogram = new Histogram();
-      this.register(group, name, histogram);
-    }
-    return histogram;
+    return this.register(group, name, 'HISTOGRAM');
   }
 
   getFastCompass(group: string, name: MetricName | string) {
-    let fastCompass = this.allMetricsRegistry.getMetric(this.buildName(name));
-    if (!fastCompass) {
-      fastCompass = new FastCompass();
-      this.register(group, name, fastCompass);
-    }
-    return fastCompass;
+    return this.register(group, name, 'FASTCOMPASS');
   }
 
   private buildName(name: MetricName | string): MetricName {
@@ -208,6 +193,21 @@ export class MetricsClient extends AbstractIndicator {
 
   getNewMetricRegistry(): IMetricsRegistry {
     return new MetricsRegistry();
+  }
+
+  private createMetricProxy(type: string) {
+    switch (type) {
+      case 'COUNTER':
+        return new Counter();
+      case 'METER':
+        return new Meter();
+      case 'TIMER':
+        return new Timer();
+      case 'HISTOGRAM':
+        return new Histogram();
+      case 'FASTCOMPASS':
+        return new FastCompass();
+    }
   }
 
 }

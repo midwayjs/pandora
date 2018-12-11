@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {Counter as CounterProxy, Gauge as GaugeProxy, Timer as TimerProxy, Histogram as HistogramProxy, Meter as MeterProxy, FastCompass as FastCompassProxy} from '../../src/client/index';
 import {MetricName, BaseCounter, BaseGauge, BaseHistogram, BaseMeter, BaseTimer, BaseFastCompass} from '../../src/common/index';
 import {MetricsConstants} from '../../src/MetricsConstants';
+import * as assert from 'assert';
 
 describe('/test/unit/MetricsServerManager.test.ts', () => {
 
@@ -136,5 +137,26 @@ describe('/test/unit/MetricsServerManager.test.ts', () => {
     expect(server.getAllCategoryMetrics().size).to.equal(6);
   });
 
+  it('should test get method', () => {
+    const counter1 = client.getCounter('getter', 'getter.test.counter');
+    const counter2 = client.getCounter('getter', 'getter.test.counter');
+    assert(counter1 === counter2);
+
+    const meter1 = client.getMeter('getter', 'getter.test.meter');
+    const meter2 = client.getMeter('getter', 'getter.test.meter');
+    assert(meter1 === meter2);
+
+    const timer1 = client.getTimer('getter', 'getter.test.timer');
+    const timer2 = client.getTimer('getter', 'getter.test.timer');
+    assert(timer1 === timer2);
+
+    const fastCompass1 = client.getFastCompass('getter', 'getter.test.fastCompass');
+    const fastCompass2 = client.getFastCompass('getter', 'getter.test.fastCompass');
+    assert(fastCompass1 === fastCompass2);
+
+    const histogram1 = client.getHistogram('getter', 'getter.test.histogram');
+    const histogram2 = client.getHistogram('getter', 'getter.test.histogram');
+    assert(histogram1 === histogram2);
+  });
 
 });
