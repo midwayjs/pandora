@@ -15,3 +15,4 @@ export * from './built-in-component/indicator/ComponentIndicator';
 export * from './built-in-component/metrics/ComponentMetrics';
 export * from './built-in-component/reporter-manager/ComponentReporterManager';
 export * from './built-in-component/trace/ComponentTrace';
+export * from './built-in-component/test-component/TestComponent';

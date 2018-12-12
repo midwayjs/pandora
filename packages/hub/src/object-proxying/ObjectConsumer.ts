@@ -1,4 +1,4 @@
-import {ConsumerExtInfo, Introspection, ObjectDescription} from '../domain';
+import {ConsumerExtInfo, Introspection, ObjectDescription, ReplyPackage, Selector} from '../domain';
 import {HubClient} from '../hub/HubClient';
 import {
   OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE,
@@ -45,6 +45,25 @@ export class ObjectConsumer extends EventEmitter {
       throw res.error;
     }
     return res.data;
+  }
+
+  /**
+   * Invoke a method from Remote Object
+   * @param {string} method
+   * @param {any[]} params
+   * @return {Promise<any>}
+   */
+  public async multipleInvoke(method: string, params: any[], selectors?: Selector): Promise<ReplyPackage[]> {
+    const res = await this.hubClient.multipleInvoke({
+      objectName: this.objectDescription.name,
+      objectTag: this.objectDescription.tag,
+      ...(selectors || {})
+    }, OBJECT_ACTION_INVOKE, {
+      timeout: this.timeout,
+      propertyName: method,
+      data: params
+    });
+    return res;
   }
 
   /**

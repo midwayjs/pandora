@@ -23,4 +23,7 @@ export const components = {
   commander: {
     path: './built-in-component/commander/ComponentCommander'
   },
+  test: {
+    path: './built-in-component/test-component/TestComponent'
+  },
 };

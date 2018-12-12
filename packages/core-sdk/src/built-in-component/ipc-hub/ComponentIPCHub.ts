@@ -7,26 +7,30 @@ export default class ComponentIPCHub {
 
   ctx: any;
   hubServer: HubServer;
-  ipcHub: HubFacade;
+  hubFacade: HubFacade;
   constructor(ctx) {
     this.ctx = ctx;
     if(ctx.mode === 'supervisor') {
       this.hubServer = new HubServer;
       ctx.hubServer = this.hubServer;
-    } else {
-      this.ipcHub = new HubFacade;
-      ctx.ipcHub = this.ipcHub;
     }
+    this.hubFacade = new HubFacade;
+    ctx.hubFacade = this.hubFacade;
   }
 
   async startAtSupervisor() {
     await this.hubServer.start();
     consoleLogger.info(`IPC Hub Server started`);
+    await this.startClient();
   }
 
   async start() {
+    await this.startClient();
+  }
+
+  async startClient() {
     const {appName, processName} = this.ctx;
-    this.ipcHub.setup({
+    this.hubFacade.setup({
       location: {
         appName: appName,
         processName: processName,
@@ -34,7 +38,7 @@ export default class ComponentIPCHub {
       },
       logger: consoleLogger
     });
-    await this.ipcHub.start();
+    await this.hubFacade.start();
     consoleLogger.info(`IPC Hub Client started`);
   }
 

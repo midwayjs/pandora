@@ -12,8 +12,8 @@ const resolve = promisify(require('resolve'));
 
 export class CoreSDK {
 
+  public coreContext: any;
   protected options: ICoreSDKOptions;
-  protected coreContext: any;
   protected components: Map<string, IComponentDeclaration> = new Map();
   protected componentInstances: Map<string, IComponent> = new Map();
 
