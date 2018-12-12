@@ -3,3 +3,7 @@ export interface IEndPoint {
   aliasPrefix?: Array<string>;
   route(router);
 }
+
+export interface IActuatorConfig {
+  http: any;
+}

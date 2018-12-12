@@ -1,6 +1,6 @@
 export interface IComponent {
-  start(): Promise<void>;
-  startAtSupervisor(): Promise<void>;
+  start()?: Promise<void>;
+  startAtSupervisor()?: Promise<void>;
 }
 
 export interface IComponentConstructor {

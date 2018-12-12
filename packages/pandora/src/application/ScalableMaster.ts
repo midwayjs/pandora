@@ -7,7 +7,7 @@ import {
   PROCESS_READY, WORKER_READY, RELOAD, SHUTDOWN, WORKER_EXIT, PROCESS_ERROR,
   RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN, defaultWorkerCount
 } from '../const';
-import {consoleLogger} from '../common/Helpers';
+import {consoleLogger} from 'pandora-dollar';
 
 
 const cFork = require('../../3rd/fork');

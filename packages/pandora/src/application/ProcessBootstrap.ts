@@ -7,7 +7,7 @@ import assert = require('assert');
 import {makeRequire} from 'pandora-dollar';
 import {ScalableMaster} from './ScalableMaster';
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
-import {consoleLogger} from '../common/Helpers';
+import {consoleLogger} from 'pandora-dollar';
 import {CoreSDK} from 'pandora-core-sdk';
 
 /**

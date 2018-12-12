@@ -2,7 +2,7 @@
 import {dirname, join, resolve} from 'path';
 import {statSync} from 'fs';
 import {ApplicationRepresentation} from '../domain';
-const colors = require('colors');
+import {consoleLogger} from 'pandora-dollar';
 
 export function calcAppName(dir?) {
 
@@ -96,22 +96,3 @@ export function parseInspectPort(inspect: string): { host: string, port: number 
   return { host, port };
 }
 
-export class MyConsole extends console.Console {
-  constructor() {
-    super(process.stdout, process.stderr);
-  }
-  important(msg) {
-    super.log(colors.green(`[Pandora.js] ** ${msg} **`));
-  }
-  error(msg) {
-    super.error(colors.red(`[Pandora.js] ${msg}`));
-    if(msg.stack) {
-      super.error(colors.red(msg.stack));
-    }
-  }
-  info(msg) {
-    super.info(colors.cyan(`[Pandora.js] ${msg}`));
-  }
-}
-
-export const consoleLogger = new MyConsole();

@@ -3,6 +3,7 @@ import * as uuid from 'uuid';
 import {join, dirname} from 'path';
 import {lstatSync, readlinkSync} from 'fs';
 const Module = require('module');
+const colors = require('colors');
 
 export const TemplatePattern = /{{([\s\S]+?)}}/g;
 
@@ -83,3 +84,23 @@ export function resolveSymlink(targetPath) {
   }
   return targetPath;
 }
+
+export class MyConsole extends console.Console {
+  constructor() {
+    super(process.stdout, process.stderr);
+  }
+  important(msg) {
+    super.log(colors.green(`[Pandora.js] ** ${msg} **`));
+  }
+  error(msg) {
+    super.error(colors.red(`[Pandora.js] ${msg}`));
+    if(msg.stack) {
+      super.error(colors.red(msg.stack));
+    }
+  }
+  info(msg) {
+    super.info(colors.cyan(`[Pandora.js] ${msg}`));
+  }
+}
+
+export const consoleLogger = new MyConsole();

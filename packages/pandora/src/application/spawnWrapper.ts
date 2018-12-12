@@ -2,7 +2,7 @@
 
 const wrap = require('pandora-spawn-wrap');
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
-import {consoleLogger} from '../common/Helpers';
+import {consoleLogger} from 'pandora-dollar';
 import {CoreSDK} from 'pandora-core-sdk';
 import {PANDORA_PROCESS} from '../const';
 

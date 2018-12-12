@@ -14,13 +14,20 @@ export class CoreSDK {
 
   protected options: ICoreSDKOptions;
   protected coreContext: any = {};
-  protected config: any = {};
   protected components: Map<string, IComponentDeclaration> = new Map();
   protected componentInstances: Map<string, IComponent> = new Map();
 
+  get config(): any {
+    return this.coreContext.config;
+  }
+
+  set config(newConfig) {
+    this.coreContext.config = newConfig;
+  }
+
   constructor(options: ICoreSDKOptions) {
     this.options = options;
-    this.coreContext.config = this.config;
+    this.coreContext.config = {};
     if(this.options.extendContext) {
       Object.assign(this.coreContext, this.options.extendContext);
     }
@@ -90,14 +97,18 @@ export class CoreSDK {
     }
   }
 
-  protected loadConfig(extConfig: any, configDir: string) {
+  protected loadConfig(extConfig: any, configDir: string, reverseExtend: boolean = false) {
     const components: {[name: string]: Partial<IComponentDeclaration>} = extConfig.components;
     if(components) {
       for(const comp of Object.values(components)) {
         comp.configDir = configDir;
       }
     }
-    extend(true, this.config, extConfig);
+    if(reverseExtend) {
+      this.config = extend(true, extConfig, this.config);
+    } else {
+      extend(true, this.config, extConfig);
+    }
   }
 
   protected async loadComponentsFromConfig() {
@@ -113,9 +124,14 @@ export class CoreSDK {
 
       const dependencies = ComponentReflector.getDependencies(klass) || [];
       const metaName = ComponentReflector.getComponentName(klass);
+      const componentDefaultConfig = ComponentReflector.getComponentConfig(klass);
 
       if(metaName && metaName !== name) {
         throw new Error(`Component decorated name ${metaName}, but config name is ${name}`);
+      }
+
+      if(componentDefaultConfig) {
+        this.loadConfig(componentDefaultConfig, dirname(resolvedPath), true);
       }
 
       this.addComponent({ name, path, klass, dependencies });
