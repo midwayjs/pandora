@@ -1,6 +1,6 @@
 import mm = require('mm');
 import {expect} from 'chai';
-import {Hub} from '../../src/hub/Hub';
+import {HubServer} from '../../src/hub/HubServer';
 import {HubClient} from '../../src/hub/HubClient';
 import {EventEmitter} from 'events';
 import {PANDORA_HUB_ACTION_MSG_DOWN, PANDORA_HUB_ACTION_MSG_UP} from '../../src/const';
@@ -9,9 +9,9 @@ describe('HubClient', () => {
 
   describe('start and stop', () => {
 
-    let hub: Hub;
+    let hub: HubServer;
     before(async () => {
-      hub = new Hub();
+      hub = new HubServer();
       await hub.start();
     });
 

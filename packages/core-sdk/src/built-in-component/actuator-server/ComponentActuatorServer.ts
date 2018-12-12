@@ -1,12 +1,14 @@
 import {componentName, componentConfig} from 'pandora-component-decorator';
 import {EndPointManager} from './EndPointManager';
 import {ActuatorRestServer} from './ActuatorRestServer';
+import {consoleLogger} from 'pandora-dollar';
 
 @componentName('actuatorServer')
 @componentConfig({
   actuatorServer: {
     http: {
       enabled: true,
+      host: '127.0.0.1',
       port: 7002
     }
   }
@@ -21,6 +23,10 @@ export default class ComponentActuatorServer {
     ctx.endPointManager = new EndPointManager(this.actuatorRestServer);
   }
   async startAtSupervisor() {
-    this.actuatorRestServer.start();
+    await this.actuatorRestServer.start();
+    if(this.actuatorRestServer.server) {
+      const {address, port} = this.actuatorRestServer.server.address();
+      consoleLogger.info(`Actuator restful server started at http://${address}:${port}`);
+    }
   }
 }

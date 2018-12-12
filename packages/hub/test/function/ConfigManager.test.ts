@@ -1,15 +1,15 @@
-import {Facade} from '../../src/Facade';
-import {Hub} from '../../src/hub/Hub';
+import {HubFacade} from '../../src/HubFacade';
+import {HubServer} from '../../src/hub/HubServer';
 import {expect} from 'chai';
 
 describe('ConfigManager', () => {
 
-  let facade: Facade;
-  let hub: Hub;
+  let facade: HubFacade;
+  let hub: HubServer;
 
   before(async () => {
-    hub = new Hub;
-    facade = new Facade;
+    hub = new HubServer;
+    facade = new HubFacade;
     facade.setup({
       location: {
         appName: 'test'

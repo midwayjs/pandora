@@ -5,6 +5,7 @@ export interface ICoreSDKOptions {
   mode: ICoreSDKMode;
   appName: string;
   appDir: string;
+  processName?: string;
   extendConfig?: Array<{
     config: any;
     configDir: string;

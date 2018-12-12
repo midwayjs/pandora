@@ -60,6 +60,7 @@
     "koa-router": "^7.4.0",
     "pandora-dollar": "^1.10.2",
     "pandora-component-decorator": "^2.0.0",
+    "pandora-hub": "^1.10.2",
     "reflect-metadata": "^0.1.12",
     "resolve": "^1.8.1"
   }

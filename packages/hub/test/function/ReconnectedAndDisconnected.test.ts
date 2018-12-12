@@ -1,10 +1,10 @@
 import {expect} from 'chai';
 import {HubClient} from '../../src/hub/HubClient';
-import {Hub} from '../../src/hub/Hub';
+import {HubServer} from '../../src/hub/HubServer';
 
 describe('ReconnectedAndDisconnected', () => {
 
-  class TestHub extends Hub {
+  class TestHub extends HubServer {
     getRouteTable () {
       return this.routeTable;
     }

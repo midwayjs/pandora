@@ -1,4 +1,4 @@
-import {Hub} from '../src/hub/Hub';
+import {HubServer} from '../src/hub/HubServer';
 import {HubClient} from '../src/hub/HubClient';
 
 const testTimes = 10;
@@ -6,7 +6,7 @@ const expectTimes = 50000;
 const expectConcurrency = 10;
 
 async function init() {
-  const hub = new Hub;
+  const hub = new HubServer;
   const clientA = new HubClient({
     location: {
       appName: 'testApp',

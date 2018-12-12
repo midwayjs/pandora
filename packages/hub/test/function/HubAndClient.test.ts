@@ -1,10 +1,10 @@
 import {expect} from 'chai';
-import {Hub} from '../../src/hub/Hub';
+import {HubServer} from '../../src/hub/HubServer';
 import {HubClient} from '../../src/hub/HubClient';
 import {Selector} from '../../src/domain';
 describe('HubAndClient', () => {
 
-  class TestHub extends Hub {
+  class TestHub extends HubServer {
     getRouteTable () {
       return this.routeTable;
     }

@@ -7,7 +7,7 @@ import {DefaultObjectProxy} from './object-proxying/DefaultObjectProxy';
 import {ConfigManager} from './config-manager/ConfigManager';
 import {ConfigClient} from './config-manager/ConfigClient';
 
-export class Facade {
+export class HubFacade {
 
   location: Location;
   hubClient: HubClient;

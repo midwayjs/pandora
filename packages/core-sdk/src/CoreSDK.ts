@@ -13,7 +13,7 @@ const resolve = promisify(require('resolve'));
 export class CoreSDK {
 
   protected options: ICoreSDKOptions;
-  protected coreContext: any = {};
+  protected coreContext: any;
   protected components: Map<string, IComponentDeclaration> = new Map();
   protected componentInstances: Map<string, IComponent> = new Map();
 
@@ -27,7 +27,13 @@ export class CoreSDK {
 
   constructor(options: ICoreSDKOptions) {
     this.options = options;
-    this.coreContext.config = {};
+    this.coreContext = {
+      mode: options.mode,
+      appName: options.appName,
+      appDir: options.appDir,
+      processName: options.processName || options.mode,
+      config: {}
+    };
     if(this.options.extendContext) {
       Object.assign(this.coreContext, this.options.extendContext);
     }
@@ -37,7 +43,7 @@ export class CoreSDK {
   async start(): Promise<void> {
     this.loadConfigFromDefaultPlaces();
     await this.loadComponentsFromConfig();
-    if(this.options.mode === 'supervisor') {
+    if(this.coreContext.mode === 'supervisor') {
       return this.startAtSupervisor();
     }
     return this.startAtWorker();

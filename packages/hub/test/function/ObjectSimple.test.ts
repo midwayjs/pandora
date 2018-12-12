@@ -1,22 +1,22 @@
-import {Facade} from '../../src/Facade';
-import {Hub} from '../../src/hub/Hub';
+import {HubFacade} from '../../src/HubFacade';
+import {HubServer} from '../../src/hub/HubServer';
 import {expect} from 'chai';
 
 describe('ObjectSimple', function () {
 
-  class TestHub extends Hub {
+  class TestHub extends HubServer {
     getRouteTable () {
       return this.routeTable;
     }
   }
 
-  let facade: Facade;
+  let facade: HubFacade;
   let hub: TestHub;
 
 
   before(async () => {
     hub = new TestHub;
-    facade = new Facade;
+    facade = new HubFacade;
     facade.setup({
       location: {
         appName: 'test'

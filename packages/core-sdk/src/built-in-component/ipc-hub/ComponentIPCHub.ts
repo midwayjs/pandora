@@ -1,22 +1,41 @@
 import {componentName} from 'pandora-component-decorator';
-import {IPCHub} from './IPCHub';
+import {HubServer, HubFacade} from 'pandora-hub';
+import {consoleLogger} from 'pandora-dollar';
 
 @componentName('ipcHub')
 export default class ComponentIPCHub {
 
   ctx: any;
-  ipcHub: IPCHub = new IPCHub;
+  hubServer: HubServer;
+  ipcHub: HubFacade;
   constructor(ctx) {
-    ctx.ipcHub = this.ipcHub;
     this.ctx = ctx;
+    if(ctx.mode === 'supervisor') {
+      this.hubServer = new HubServer;
+      ctx.hubServer = this.hubServer;
+    } else {
+      this.ipcHub = new HubFacade;
+      ctx.ipcHub = this.ipcHub;
+    }
   }
 
   async startAtSupervisor() {
-    console.log('>>>>>>> Start IPC Hub Server at Supervisor');
+    await this.hubServer.start();
+    consoleLogger.info(`IPC Hub Server started`);
   }
 
   async start() {
-    console.log('>>>>>>> Start IPC Hub Server at worker');
+    const {appName, processName} = this.ctx;
+    this.ipcHub.setup({
+      location: {
+        appName: appName,
+        processName: processName,
+        pid: process.pid.toString()
+      },
+      logger: consoleLogger
+    });
+    await this.ipcHub.start();
+    consoleLogger.info(`IPC Hub Client started`);
   }
 
 }

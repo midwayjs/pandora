@@ -12,7 +12,7 @@ import {format} from 'util';
 /**
  * IPC-Hub
  */
-export class Hub {
+export class HubServer {
 
   protected messengerServer: MessengerServer;
   protected routeTable: RouteTable = new RouteTable;

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Hub} from '../../src/hub/Hub';
+import {HubServer} from '../../src/hub/HubServer';
 import {MessagePackage, Selector} from '../../src/domain';
 import {
   PANDORA_HUB_ACTION_MSG_DOWN, PANDORA_HUB_ACTION_OFFLINE_UP,
@@ -13,7 +13,7 @@ describe('Hub', function () {
   describe('start and stop', () => {
 
     it('should start() and stop() be ok', async () => {
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
       const msgServer = (<any> hub).messengerServer;
       expect(msgServer).to.be.ok;
@@ -23,7 +23,7 @@ describe('Hub', function () {
     });
 
     it('should throw an error when start twice and stop twice', async () => {
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
       await expect(hub.start()).to.be.rejectedWith('Hub already started');
       await hub.stop();
@@ -31,7 +31,7 @@ describe('Hub', function () {
     });
 
     it('should get an error when messengerServer.close() get an error', async () => {
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
       await new Promise(resolve => (<any> hub).messengerServer.close(resolve));
       await expect(hub.stop()).to.be.rejectedWith('Not running');
@@ -45,7 +45,7 @@ describe('Hub', function () {
 
     it('should broadcast to all clients be ok', async () => {
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       let selectClientsCalled = false;
@@ -99,7 +99,7 @@ describe('Hub', function () {
 
     it('should get an error when broadcast to all clients thrown an error', async () => {
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'messengerServer', {
@@ -137,7 +137,7 @@ describe('Hub', function () {
 
     it('should ignore error when broadcast to all clients without reply', async () => {
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       const messagePackage: MessagePackage = {
@@ -165,7 +165,7 @@ describe('Hub', function () {
 
     it('should broadcast to all clients without reply', async () => {
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       const messagePackage: MessagePackage = {
@@ -214,7 +214,7 @@ describe('Hub', function () {
         }
       };
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'routeTable', {
@@ -276,7 +276,7 @@ describe('Hub', function () {
         }
       };
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'routeTable', {
@@ -340,7 +340,7 @@ describe('Hub', function () {
         }
       };
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'routeTable', {
@@ -401,7 +401,7 @@ describe('Hub', function () {
         }
       };
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'routeTable', {
@@ -465,7 +465,7 @@ describe('Hub', function () {
         }
       };
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'routeTable', {
@@ -523,7 +523,7 @@ describe('Hub', function () {
         }
       };
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'routeTable', {
@@ -568,7 +568,7 @@ describe('Hub', function () {
 
     it('should get an error when looking for an non-existent selector', async () => {
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       const messagePackage: MessagePackage = {
@@ -601,7 +601,7 @@ describe('Hub', function () {
 
     it('should ignore error when looking for an non-existent selector and without reply', async () => {
 
-      const hub = new Hub();
+      const hub = new HubServer();
       await hub.start();
 
       const messagePackage: MessagePackage = {
@@ -635,7 +635,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           setRelation (client, selector) {
             expect(client).to.equal(client);
@@ -656,7 +656,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           forgetClient (client) {
             expect(client).to.equal(client);
@@ -677,7 +677,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           setRelation (client, ownSelector) {
             expect(client).to.equal(client);
@@ -709,7 +709,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           setRelation (client) {
             throw new Error('fake error');
@@ -739,7 +739,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           forgetClient (client) {
             expect(client).to.equal(client);
@@ -768,7 +768,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           forgetClient () {
             throw new Error('fake error');
@@ -798,7 +798,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           setRelation (client, ownSelector) {
             expect(client).to.equal(client);
@@ -830,7 +830,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           setRelation () {
             throw new Error('fake error');
@@ -862,7 +862,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           forgetRelation (client, ownSelector) {
             expect(client).to.equal(client);
@@ -894,7 +894,7 @@ describe('Hub', function () {
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> Hub.prototype).startListen,
+        startListen: (<any> HubServer.prototype).startListen,
         routeTable: {
           forgetRelation () {
             throw new Error('fake error');

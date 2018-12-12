@@ -1,7 +1,6 @@
 import KOA = require('koa');
 import bodyParser = require('koa-bodyparser');
 import Router = require('koa-router');
-import {consoleLogger} from 'pandora-dollar';
 
 export class ActuatorRestServer {
 
@@ -14,7 +13,7 @@ export class ActuatorRestServer {
     this.app = new KOA;
   }
 
-  start() {
+  start(): Promise<void> | void {
     const httpConfig = this.config.http;
     const app = this.app;
     app.use(bodyParser());
@@ -42,8 +41,11 @@ export class ActuatorRestServer {
       await next();
     });
     if(httpConfig.enabled) {
-      this.server = app.listen(httpConfig.port, () => {
-        consoleLogger.info(`Pandora restful server start at http://127.1:${httpConfig.port}`);
+      return new Promise((resolve) => {
+        this.server = app.listen({
+          host: httpConfig.host,
+          port: httpConfig.port
+        }, resolve);
       });
     }
   }
