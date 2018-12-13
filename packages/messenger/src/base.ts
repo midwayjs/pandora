@@ -24,7 +24,6 @@ class MessengerBase extends Base {
     });
   }
 
-
   _throwError(error) {
     this.emit('error', error);
   }

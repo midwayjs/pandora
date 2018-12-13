@@ -98,6 +98,9 @@ export class MyConsole extends console.Console {
       super.error(colors.red(msg.stack));
     }
   }
+  warn(msg) {
+    super.warn(colors.yellow(`[Pandora.js] ${msg}`));
+  }
   info(msg) {
     super.info(colors.cyan(`[Pandora.js] ${msg}`));
   }

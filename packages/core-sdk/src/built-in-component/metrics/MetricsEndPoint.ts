@@ -1,14 +1,26 @@
 import {IEndPoint} from '../actuator-server/domain';
+import {IndicatorManager} from '../indicator/IndicatorManager';
 
 export class MetricsEndPoint implements IEndPoint {
 
   prefix = '/metrics';
 
+  ctx: any;
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
+
   route(router) {
+
+    const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
 
     router.get('/list', async (ctx, next) => {
       try {
-        ctx.ok('/list');
+        const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
+          action: 'list',
+          appName: ctx.query['appName']
+        });
+        ctx.ok(res);
       } catch (err) {
         ctx.fail(err.message);
       }
@@ -16,31 +28,30 @@ export class MetricsEndPoint implements IEndPoint {
 
     router.get('/list/:group', async (ctx, next) => {
       try {
-        ctx.ok('/list/:group');
+        const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
+          action: 'list',
+          appName: ctx.query['appName'],
+          group: ctx.params.group
+        });
+        ctx.ok(res);
       } catch (err) {
         ctx.fail(err.message);
       }
     });
 
-    // router.get('/:group', async (ctx, next) => {
-    //   try {
-    //     if(metricsEndPoint.hasMetricsGroup(ctx.params.group)) {
-    //       ctx.ok(await metricsEndPoint.getMetricsByGroup(ctx.params.group, ctx.query['appName']));
-    //     } else {
-    //       ctx.fail('The specified group is not found!');
-    //     }
-    //   } catch (err) {
-    //     ctx.fail(err.message);
-    //   }
-    // });
+    router.get('/:group', async (ctx, next) => {
+      try {
+        const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
+          action: 'group',
+          appName: ctx.query['appName'],
+          group: ctx.params.group
+        });
+        ctx.ok(res);
+      } catch (err) {
+        ctx.fail(err.message);
+      }
+    });
 
-    // this.router.get('/:name/level/:level', function (ctx, next) {
-    //   // ...
-    // });
-    //
-    // this.router.get('/:name/:metric', function (ctx, next) {
-    //   // ...
-    // });
   }
 
 }

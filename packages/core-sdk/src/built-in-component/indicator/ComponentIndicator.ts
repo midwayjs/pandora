@@ -19,7 +19,12 @@ export default class ComponentIndicator {
     await this.publish();
   }
   async publish() {
-    await this.indicatorManager.publish();
-    consoleLogger.info('Indicator manager published on IPC hub');
+    try {
+      await this.indicatorManager.publish();
+      consoleLogger.info('Indicator manager published on IPC hub at PID ' + process.pid);
+    } catch(err) {
+      consoleLogger.warn('Indicator manager publish failed on IPC hub at PID ' + process.pid + ', ' + err);
+
+    }
   }
 }

@@ -20,7 +20,7 @@ export default class ComponentIPCHub {
 
   async startAtSupervisor() {
     await this.hubServer.start();
-    consoleLogger.info(`IPC Hub Server started`);
+    consoleLogger.info('IPC Hub Server started');
     await this.startClient();
   }
 
@@ -38,8 +38,12 @@ export default class ComponentIPCHub {
       },
       logger: consoleLogger
     });
-    await this.hubFacade.start();
-    consoleLogger.info(`IPC Hub Client started`);
+    try {
+      await this.hubFacade.start();
+      consoleLogger.info('IPC Hub Client started at PID ' + process.pid);
+    } catch(err) {
+      consoleLogger.warn('IPC Hub Client start failed at PID ' + process.pid + ', ' + err);
+    }
   }
 
 }

@@ -67,18 +67,18 @@ export class HubClient extends EventEmitter {
       throw new Error('HubClient already started');
     }
 
-    this.messengerClient = new MessengerClient({
-      name: HUB_SOCKET_NAME,
-      reConnectTimes: 10,
-      responseTimeout: TIMEOUT_OF_RESPONSE,
-      unref: true
+    await new Promise((resolve, reject) => {
+      this.messengerClient = new MessengerClient({
+        name: HUB_SOCKET_NAME,
+        reConnectTimes: 10,
+        responseTimeout: TIMEOUT_OF_RESPONSE,
+        unref: true
+      });
+      this.messengerClient.once('error', reject);
+      this.messengerClient.ready(resolve);
     });
 
     this.startListen();
-
-    await new Promise(resolve => {
-      this.messengerClient.ready(resolve);
-    });
 
     await this.sendOnline();
 
@@ -93,7 +93,7 @@ export class HubClient extends EventEmitter {
   }
 
 
-  protected async sendOnline () {
+  protected async sendOnline() {
     await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_ONLINE_UP);
   }
 

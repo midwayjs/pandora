@@ -218,6 +218,10 @@ export default class Client extends MessengerBase {
 
   // 清理未发出的请求
   _cleanQueue() {
+    for(const record of this._queue) {
+      const callback = record[1];
+      callback && callback(new Error('socket not available'));
+    }
     this._queue = [];
   }
 
@@ -288,12 +292,16 @@ export default class Client extends MessengerBase {
     this._socket.removeAllListeners();
     this._socket = null;
 
+    if(!this._ready && !this.options.reConnectAtFirstTime) {
+      this._reConnectTimes = 0;
+    }
+
     if (err) {
       this._throwError(err);
     }
 
     // 自动重连接
-    if (this._reConnectTimes && (this._ready || this.options.reConnectAtFirstTime)) {
+    if (this._reConnectTimes) {
       const timer = setTimeout(() => {
         this._reConnectTimes--;
         this._connect(() => {

@@ -2,9 +2,11 @@ import {componentName, dependencies} from 'pandora-component-decorator';
 import {IIndicator, IndicatorScope} from '../indicator/domain';
 import {EndPointManager} from '../actuator-server/EndPointManager';
 import {IEndPoint} from '../actuator-server/domain';
+import {MetricsManager} from '../metrics/MetricsManager';
+import {MetricName} from 'metrics-common';
 
 @componentName('test')
-@dependencies(['actuatorServer', 'indicator'])
+@dependencies(['actuatorServer', 'indicator', 'metrics'])
 export default class TestComponent {
   ctx: any;
   constructor(ctx) {
@@ -17,6 +19,9 @@ export default class TestComponent {
   }
   async start() {
     await this.indicator();
+    const metricsManager: MetricsManager = this.ctx.metricsManager;
+    const cnter = metricsManager.getCounter('a', MetricName.build('x'));
+    cnter.inc();
   }
   async indicator() {
     this.ctx.indicatorManager.register(new TestIndicator());
