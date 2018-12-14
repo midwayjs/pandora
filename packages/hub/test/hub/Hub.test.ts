@@ -34,7 +34,7 @@ describe('Hub', function () {
       const hub = new Hub();
       await hub.start();
       await new Promise(resolve => (<any> hub).messengerServer.close(resolve));
-      await expect(hub.stop()).to.be.rejectedWith('not running');
+      await expect(hub.stop()).to.be.rejectedWith(/not running/i);
     });
 
   });
