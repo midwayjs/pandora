@@ -5,6 +5,7 @@ import { parse as parseUrl } from 'url';
 import { parse as parseQS, ParsedUrlQuery } from 'querystring';
 import * as http from 'http';
 import { IncomingMessage } from 'http';
+import * as is from 'is-type-of';
 
 const debug = require('debug')('Pandora:Hook:HttpServerPatcher');
 
@@ -35,7 +36,8 @@ export class HttpServerPatcher extends Patcher {
     recordPostData?: boolean,
     bufferTransformer?: bufferTransformer,
     requestFilter?: requestFilter,
-    recordUrl?: boolean
+    recordUrl?: boolean,
+    traceName?: (span) => string
   }) {
     super(options || {});
 
@@ -204,7 +206,12 @@ export class HttpServerPatcher extends Patcher {
               });
             }
 
-            tracer.named(`HTTP-${tags[ 'http.method' ].value}:${tags[ 'http.url' ].value}`);
+            if (options.traceName && is.isFunction(options.traceName)) {
+              tracer.named(`HTTP-${options.traceName(span)}`);
+            } else {
+              tracer.named(`HTTP-${tags[ 'http.method' ].value}:${tags[ 'http.url' ].value}`);
+            }
+
             tracer.setCurrentSpan(span);
 
             function onFinishedFactory(eventName) {
