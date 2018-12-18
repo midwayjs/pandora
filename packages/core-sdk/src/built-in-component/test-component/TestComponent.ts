@@ -4,9 +4,10 @@ import {EndPointManager} from '../actuator-server/EndPointManager';
 import {IEndPoint} from '../actuator-server/domain';
 import {MetricsManager} from '../metrics/MetricsManager';
 import {MetricName} from 'metrics-common';
+import {IReporter} from '../reporter-manager/doamin';
 
 @componentName('test')
-@dependencies(['actuatorServer', 'indicator', 'metrics'])
+@dependencies(['actuatorServer', 'indicator', 'metrics', 'reporterManager'])
 export default class TestComponent {
   ctx: any;
   constructor(ctx) {
@@ -16,12 +17,14 @@ export default class TestComponent {
     const endPointManager: EndPointManager = this.ctx.endPointManager;
     endPointManager.register(new TestEndPoint(this.ctx));
     await this.indicator();
+    this.ctx.reporterManager.register('test', new TestReporter);
   }
   async start() {
     await this.indicator();
     const metricsManager: MetricsManager = this.ctx.metricsManager;
     const cnter = metricsManager.getCounter('a', MetricName.build('x'));
     cnter.inc();
+    this.ctx.reporterManager.register('test', new TestReporter);
   }
   async indicator() {
     this.ctx.indicatorManager.register(new TestIndicator());
@@ -63,5 +66,13 @@ class TestIndicator implements IIndicator {
       execPath: process.execPath,
       uptime: process.uptime(),
     };
+  }
+}
+
+
+class TestReporter implements IReporter {
+  type = 'metrics';
+  async report(data: any): Promise<void> {
+    console.log('TestReporter', JSON.stringify(data, null, 2));
   }
 }

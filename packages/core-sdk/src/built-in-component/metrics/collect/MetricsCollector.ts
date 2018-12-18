@@ -2,22 +2,31 @@ import { IFastCompass, MetricFilter, MetricName, MetricsCollectPeriodConfig } fr
 import { CollectMetricType, MetricObject } from './MetricObject';
 import { Long } from 'metrics-common';
 
+
+export interface MetricsCollectorOption {
+  globalTags?: any;
+  rateFactor?: number;
+  durationFactor?: number;
+  filter?: MetricFilter;
+  reportInterval: number;
+}
+
 export class MetricsCollector {
   protected metrics: Array<MetricObject> = [];
   protected globalTags = {};
-  protected rateFactor: number;
-  protected durationFactor: number;
+  protected rateFactor: number = 1;
+  protected durationFactor: number = 1.0;
   protected metricsCollectPeriodConfig = MetricsCollectPeriodConfig.getInstance();
-  protected reportInterval = -1;
+  protected reportInterval: number;
   /**
    * Use this filer to filter out any metric object that is not needed.
    */
   protected filter: MetricFilter;
 
-  constructor(options: { globalTags, rateFactor, durationFactor, filter?, reportInterval? }) {
-    this.globalTags = options.globalTags;
-    this.rateFactor = options.rateFactor;
-    this.durationFactor = options.durationFactor;
+  constructor(options: MetricsCollectorOption) {
+    this.globalTags = options.globalTags || {};
+    this.rateFactor = options.rateFactor || this.rateFactor;
+    this.durationFactor = options.durationFactor || this.durationFactor;
     this.filter = options.filter;
     this.reportInterval = options.reportInterval;
   }
