@@ -22,7 +22,7 @@ class TestIndicator implements Indicator {
 }
 
 
-describe.only('function/indicator', function () {
+describe('function/indicator', function () {
   it('should invoke indicator over all processes be ok', async () => {
     const supervisor = new CoreSDK({
       mode: 'supervisor',
