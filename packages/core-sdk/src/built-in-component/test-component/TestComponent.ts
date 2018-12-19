@@ -17,15 +17,20 @@ export default class TestComponent {
     const endPointManager: EndPointManager = this.ctx.endPointManager;
     endPointManager.register(new TestEndPoint(this.ctx));
     await this.indicator();
-    this.ctx.reporterManager.register('test', new TestReporter);
+    this.metrics();
   }
   async start() {
     await this.indicator();
+    this.metrics();
+  }
+
+  metrics() {
     const metricsManager: MetricsManager = this.ctx.metricsManager;
     const cnter = metricsManager.getCounter('a', MetricName.build('x'));
     cnter.inc();
-    this.ctx.reporterManager.register('test', new TestReporter);
+    this.ctx.reporterManager.register('test', new TestReporter(this.ctx));
   }
+
   async indicator() {
     this.ctx.indicatorManager.register(new TestIndicator());
   }
@@ -72,7 +77,11 @@ class TestIndicator implements IIndicator {
 
 class TestReporter implements IReporter {
   type = 'metrics';
+  ctx: any;
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
   async report(data: any): Promise<void> {
-    console.log('TestReporter', JSON.stringify(data, null, 2));
+    console.log('TestReporter', this.ctx.mode, JSON.stringify(data, null, 2));
   }
 }

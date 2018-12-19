@@ -8,6 +8,7 @@ import * as defaultConfig from './pandoraConfig';
 import {dirname} from 'path';
 import {promisify} from 'util';
 const resolve = promisify(require('resolve'));
+const debug = require('debug')('pandora:CoreSDK');
 
 
 export class CoreSDK {
@@ -55,6 +56,7 @@ export class CoreSDK {
       const instance: IComponent = this.getInstance(name);
       if(instance.start) {
         await instance.start();
+        debug(`started component ${name} at worker`);
       }
     }
   }
@@ -65,6 +67,7 @@ export class CoreSDK {
       const instance: IComponent = this.getInstance(name);
       if(instance.startAtSupervisor) {
         await instance.startAtSupervisor();
+        debug(`started component ${name} at supervisor`);
       }
     }
   }
@@ -145,6 +148,7 @@ export class CoreSDK {
   }
 
   protected addComponent(component: IComponentDeclarationStrict) {
+    debug(`addComponent ${component.name}`);
     this.components.set(component.name, component);
   }
 

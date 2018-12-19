@@ -107,3 +107,22 @@ export class MyConsole extends console.Console {
 }
 
 export const consoleLogger = new MyConsole();
+
+export function startsWith(str, target, position = 0) {
+  const {length} = str;
+  if (position < 0) {
+    position = 0;
+  } else if (position > length) {
+    position = length;
+  }
+  target = `${target}`;
+  return str.slice(position, position + target.length) === target;
+}
+
+export function extractInt(str) {
+  try {
+    return parseInt(str.match(/\d+/g)[0], 10);
+  } catch (e) {
+    return null;
+  }
+}

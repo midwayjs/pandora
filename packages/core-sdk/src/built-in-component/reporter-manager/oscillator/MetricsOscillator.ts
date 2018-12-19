@@ -63,15 +63,15 @@ export class MetricsOscillator extends EventEmitter {
     fastCompasses: Map<string, BaseFastCompass>
   }) {
 
-    const {gauges, counters, histograms, meters, timers/*, fastCompasses*/} = metricsData;
+    const {gauges, counters, histograms, meters, timers, fastCompasses} = metricsData;
     const timestamp = Date.now();
 
     const collector = new CompactMetricsCollector({
       reportInterval: this.interval,
     });
 
-    let gaugesArr: BaseGauge<any>[] = Array.from(gauges.values());
-    let results: number[] = await Promise.all(gaugesArr.map((gauge) => {
+    const gaugesArr: BaseGauge<any>[] = Array.from(gauges.values());
+    const results: number[] = await Promise.all(gaugesArr.map((gauge) => {
       return gauge.getValue();
     }));
 
@@ -79,25 +79,25 @@ export class MetricsOscillator extends EventEmitter {
       collector.collectGauge(MetricName.parseKey(key), results[index], timestamp);
     });
 
-    for (let [key, counter] of counters.entries()) {
+    for (const [key, counter] of counters.entries()) {
       collector.collectCounter(MetricName.parseKey(key), counter, timestamp);
     }
 
-    for (let [key, histogram] of histograms.entries()) {
+    for (const [key, histogram] of histograms.entries()) {
       collector.collectHistogram(MetricName.parseKey(key), histogram, timestamp);
     }
 
-    for (let [key, meter] of meters.entries()) {
+    for (const [key, meter] of meters.entries()) {
       collector.collectMeter(MetricName.parseKey(key), meter, timestamp);
     }
 
-    for (let [key, timer] of timers.entries()) {
+    for (const [key, timer] of timers.entries()) {
       collector.collectTimer(MetricName.parseKey(key), timer, timestamp);
     }
 
-    // for (let [key, fastCompass] of fastCompasses.entries()) {
-    //   collector.collectFastCompass(MetricName.parseKey(key), fastCompass, timestamp);
-    // }
+    for (const [key, fastCompass] of fastCompasses.entries()) {
+      collector.collectFastCompass(MetricName.parseKey(key), fastCompass, timestamp);
+    }
     try {
       const list = [];
       for (const metricObject of collector.build()) {

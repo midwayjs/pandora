@@ -6,7 +6,7 @@ import {ReporterManager} from './ReporterManager';
 @dependencies(['metrics', 'trace', 'errorLog'])
 @componentConfig({
   reporterManager: {
-    reporterInterval: 5
+    reporterInterval: 60 // seconds
   }
 })
 export default class ComponentReporterManager {

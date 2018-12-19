@@ -26,4 +26,10 @@ export const components = {
   test: {
     path: './built-in-component/test-component/TestComponent'
   },
+  systemMetrics: {
+    path: 'pandora-component-system-metrics'
+  },
+  nodeMetrics: {
+    path: 'pandora-component-node-metrics'
+  },
 };
