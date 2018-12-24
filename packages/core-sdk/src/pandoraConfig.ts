@@ -22,14 +22,5 @@ export const components = {
   },
   commander: {
     path: 'pandora-component-commander'
-  },
-  test: {
-    path: 'pandora-component-test-component'
-  },
-  systemMetrics: {
-    path: 'pandora-component-system-metrics'
-  },
-  nodeMetrics: {
-    path: 'pandora-component-node-metrics'
-  },
+  }
 };

@@ -1,7 +1,3 @@
-/**
- * 系统指标
- */
-
 import * as pusage from 'pidusage';
 import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
 
