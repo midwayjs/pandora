@@ -7,5 +7,12 @@ export const components = {
   },
   processInfo: {
     path: 'pandora-component-process-info'
-  }
+  },
+  sandboxFileReporter: {
+    path: 'pandora-component-sandbox-file-reporter'
+  },
+  fileLoggerService: {
+    path: 'pandora-component-file-logger-service'
+  },
+
 };

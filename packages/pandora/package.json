@@ -46,6 +46,8 @@
     "pandora-component-node-metrics": "^2.0.0",
     "pandora-component-system-metrics": "^2.0.0",
     "pandora-component-process-info": "^2.0.0",
+    "pandora-component-file-logger-service": "^2.0.0",
+    "pandora-component-sandbox-file-reporter": "^2.0.0",
     "read-last-lines": "^1.4.0",
     "semver": "^5.5.0",
     "shimmer": "^1.2.0",

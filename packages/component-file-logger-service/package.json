@@ -1,0 +1,66 @@
+{
+  "name": "pandora-component-file-logger-service",
+  "version": "2.0.0",
+  "description": "Pandora 2 Component File Logger Service",
+  "main": "dist/ComponentFileLoggerService",
+  "typings": "dist/ComponentFileLoggerService.d.ts",
+  "scripts": {
+    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
+  },
+  "keywords": [
+    "pandora"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/extend": "^3.0.0",
+    "@types/node": "^8.5.2",
+    "chai": "^3.5.0",
+    "mm": "^2.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^8.4.0"
+  },
+  "nyc": {
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "typings"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "json",
+      "html"
+    ],
+    "all": true
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "metrics-common": "^1.1.6",
+    "pandora-dollar": "^1.10.2",
+    "pandora-component-decorator": "^2.0.0",
+    "pandora-component-reporter-manager": "^2.0.0",
+    "co": "^4.6.0",
+    "egg-logger": "1.6.1",
+    "humanize-ms": "^1.2.1",
+    "moment": "^2.18.1",
+    "mz": "^2.6.0",
+    "pandora-messenger": "^1.10.2"
+  }
+}

@@ -17,8 +17,8 @@ import {EventEmitter} from 'events';
 
 export class HubClient extends EventEmitter {
 
-  protected location: Location;
   protected messengerClient: MessengerClient = null;
+  protected location: Location;
   protected publishedSelectors: Array<Selector> = [];
   protected logger;
   protected dispatchHandlers: DispatchHandler[];
@@ -352,6 +352,10 @@ export class HubClient extends EventEmitter {
     await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_OFFLINE_UP);
     this.messengerClient.close();
     this.messengerClient = null;
+  }
+
+  getMessengerClient() {
+    return this.messengerClient;
   }
 
 }

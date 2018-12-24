@@ -80,7 +80,7 @@ class TestReporter implements IReporter {
   constructor(ctx) {
     this.ctx = ctx;
   }
-  async report(data: any): Promise<void> {
-    console.log('TestReporter', this.ctx.mode, JSON.stringify(data, null, 2));
+  async report(data: any[]): Promise<void> {
+    console.log('TestReporter', this.ctx.mode, data.length);
   }
 }
