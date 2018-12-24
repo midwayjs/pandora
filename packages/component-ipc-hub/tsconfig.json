@@ -18,7 +18,6 @@
         "test"
     ],
     "files": [
-        "src/index",
-        "src/pandoraConfig"
+        "src/ComponentIPCHub"
     ]
 }

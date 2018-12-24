@@ -1,4 +1,4 @@
-import {IIndicator, IndicatorScope} from '../indicator/domain';
+import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
 import {MetricsManager} from './MetricsManager';
 import { IMetricsRegistry, MetricFilter, MetricName, Metric } from 'metrics-common';
 import { MetricObject } from './collect/MetricObject';

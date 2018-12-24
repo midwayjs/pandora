@@ -1,14 +1,14 @@
 {
-  "name": "pandora-core-sdk",
+  "name": "pandora-component-metrics",
   "version": "2.0.0",
-  "description": "Pandora 2 Core SDK",
-  "main": "dist/index",
-  "typings": "dist/index.d.ts",
+  "description": "Pandora 2 Component Node.js Metrics",
+  "main": "dist/ComponentMetrics",
+  "typings": "dist/ComponentMetrics.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
-    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
+    "test": "npm run lint && true",
     "cov": "nyc mocha",
     "ci": "npm run test",
     "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
@@ -22,7 +22,6 @@
     "@types/mocha": "^2.2.41",
     "@types/extend": "^3.0.0",
     "@types/node": "^8.5.2",
-    "@types/reflect-metadata": "^0.1.0",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
@@ -53,23 +52,10 @@
     "src"
   ],
   "dependencies": {
-    "debug": "^4.1.0",
-    "extend": "^3.0.2",
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0",
     "pandora-component-actuator-server": "^2.0.0",
-    "pandora-component-ipc-hub": "^2.0.0",
     "pandora-component-indicator": "^2.0.0",
-    "pandora-component-metrics": "^2.0.0",
-    "pandora-component-error-log": "^2.0.0",
-    "pandora-component-reporter-manager": "^2.0.0",
-    "pandora-component-commander": "^2.0.0",
-    "pandora-component-test-component": "^2.0.0",
-    "pandora-component-system-metrics": "^2.0.0",
-    "pandora-component-node-metrics": "^2.0.0",
-    "pandora-dollar": "^1.10.2",
-    "pandora-hub": "^1.10.2",
-    "reflect-metadata": "^0.1.12",
-    "resolve": "^1.8.1"
+    "pandora-component-decorator": "^2.0.0",
+    "pandora-dollar": "^1.10.2"
   }
 }

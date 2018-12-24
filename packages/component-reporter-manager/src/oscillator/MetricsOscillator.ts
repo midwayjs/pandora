@@ -1,4 +1,4 @@
-import {MetricsManager} from '../../metrics/MetricsManager';
+import {MetricsManager} from 'pandora-component-metrics';
 const debug = require('debug')('pandora:reporter-manager:MetricsOscillatorOption');
 import {
   BaseGauge,
@@ -10,7 +10,7 @@ import {
   MetricName
 } from 'metrics-common';
 import {EventEmitter} from 'events';
-import {CompactMetricsCollector} from '../../metrics/collect/CompactMetricsCollector';
+import {CompactMetricsCollector} from 'pandora-component-metrics';
 
 export interface MetricsOscillatorOption {
   interval: number;

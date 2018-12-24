@@ -1,10 +1,9 @@
 import {componentName, dependencies} from 'pandora-component-decorator';
-import {IIndicator, IndicatorScope} from '../indicator/domain';
-import {EndPointManager} from '../actuator-server/EndPointManager';
-import {IEndPoint} from '../actuator-server/domain';
-import {MetricsManager} from '../metrics/MetricsManager';
+import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
+import {EndPointManager, IEndPoint} from 'pandora-component-actuator-server';
+import {MetricsManager} from 'pandora-component-metrics';
 import {MetricName} from 'metrics-common';
-import {IReporter} from '../reporter-manager/doamin';
+import {IReporter} from 'pandora-component-reporter-manager';
 
 @componentName('test')
 @dependencies(['actuatorServer', 'indicator', 'metrics', 'reporterManager'])

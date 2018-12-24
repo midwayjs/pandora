@@ -1,9 +1,9 @@
 import {componentName, dependencies} from 'pandora-component-decorator';
-import {EndPointManager} from '../actuator-server/EndPointManager';
+import {EndPointManager} from 'pandora-component-actuator-server';
 import {MetricsEndPoint} from './MetricsEndPoint';
 import {MetricsManager} from './MetricsManager';
 import {MetricsIndicator} from './MetricsIndicator';
-import {IndicatorManager} from '../indicator/IndicatorManager';
+import {IndicatorManager} from 'pandora-component-indicator';
 
 @componentName('metrics')
 @dependencies(['actuatorServer', 'indicator'])
@@ -29,3 +29,11 @@ export default class ComponentMetrics {
   }
 }
 
+export * from './MetricsCollectorManager';
+export * from './MetricsEndPoint';
+export * from './MetricsIndicator';
+export * from './MetricsManager';
+export * from './collect/CompactMetricsCollector';
+export * from './collect/MetricObject';
+export * from './collect/MetricsCollector';
+export * from './collect/NormalMetricsCollector';

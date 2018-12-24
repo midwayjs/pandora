@@ -47,3 +47,7 @@ export default class ComponentReporterManager {
   }
 
 }
+
+export * from './doamin';
+export * from './ReporterManager';
+export * from './oscillator/MetricsOscillator';
