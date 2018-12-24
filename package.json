@@ -50,5 +50,8 @@
   "engines": {
     "node": ">= 8.2.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "opentracing": "^0.14.3"
+  }
 }
