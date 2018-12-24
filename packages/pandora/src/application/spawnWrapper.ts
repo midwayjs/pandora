@@ -3,8 +3,8 @@
 const wrap = require('pandora-spawn-wrap');
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 import {consoleLogger} from 'pandora-dollar';
-import {CoreSDK} from 'pandora-core-sdk';
 import {PANDORA_PROCESS} from '../const';
+import {CoreSDKWithExtendedConfig} from '../util/CoreSDKWithExtendedConfig';
 
 async function main () {
 
@@ -25,7 +25,7 @@ async function main () {
   try {
     const processRepresentation = JSON.parse(process.env[PANDORA_PROCESS]);
     const {appName, appDir} = processRepresentation;
-    const coreSdk = new CoreSDK({
+    const coreSdk = new CoreSDKWithExtendedConfig({
       mode: 'worker',
       appName, appDir
     });

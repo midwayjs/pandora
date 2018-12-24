@@ -9,6 +9,7 @@ import {ScalableMaster} from './ScalableMaster';
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
 import {consoleLogger} from 'pandora-dollar';
 import {CoreSDK} from 'pandora-core-sdk';
+import {CoreSDKWithExtendedConfig} from '../util/CoreSDKWithExtendedConfig';
 
 /**
  * class ProcessBootstrap
@@ -27,7 +28,7 @@ export class ProcessBootstrap {
       return;
     } else {
       const {appName, appDir} = this.processRepresentation;
-      this.coreSdk = new CoreSDK({
+      this.coreSdk = new CoreSDKWithExtendedConfig({
         mode: 'worker',
         appName, appDir
       });

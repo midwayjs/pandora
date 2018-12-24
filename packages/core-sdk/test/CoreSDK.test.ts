@@ -1,6 +1,6 @@
 import {CoreSDK} from '../src/CoreSDK';
 import {expect} from 'chai';
-describe.only('CoreSDK', function () {
+describe('CoreSDK', function () {
 
   it('should extendConfig works when constructing', () => {
     class TestCoreSDK extends CoreSDK {

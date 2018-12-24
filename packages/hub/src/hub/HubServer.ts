@@ -238,5 +238,9 @@ export class HubServer {
     });
   }
 
+  public getMessengerServer() {
+    return this.messengerServer;
+  }
+
 }
 

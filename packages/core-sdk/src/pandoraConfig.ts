@@ -1,35 +1,26 @@
 export const components = {
   actuatorServer: {
-    path: './built-in-component/actuator-server/ComponentActuatorServer'
+    path: 'pandora-component-actuator-server'
   },
   ipcHub: {
-    path: './built-in-component/ipc-hub/ComponentIPCHub'
+    path: 'pandora-component-ipc-hub'
   },
   indicator: {
-    path: './built-in-component/indicator/ComponentIndicator'
+    path: 'pandora-component-indicator'
   },
   metrics: {
-    path: './built-in-component/metrics/ComponentMetrics'
+    path: 'pandora-component-metrics'
   },
   trace: {
     path: './built-in-component/trace/ComponentTrace'
   },
   errorLog: {
-    path: './built-in-component/error-log/ComponentErrorLog'
+    path: 'pandora-component-error-log'
   },
   reporterManager: {
-    path: './built-in-component/reporter-manager/ComponentReporterManager'
+    path: 'pandora-component-reporter-manager'
   },
   commander: {
-    path: './built-in-component/commander/ComponentCommander'
-  },
-  test: {
-    path: './built-in-component/test-component/TestComponent'
-  },
-  systemMetrics: {
-    path: 'pandora-component-system-metrics'
-  },
-  nodeMetrics: {
-    path: 'pandora-component-node-metrics'
-  },
+    path: 'pandora-component-commander'
+  }
 };

@@ -3,6 +3,7 @@ import {ApplicationRepresentation} from '../domain';
 import {ApplicationHandler} from '../application/ApplicationHandler';
 import {consoleLogger} from 'pandora-dollar';
 import {CoreSDK} from 'pandora-core-sdk';
+import {CoreSDKWithExtendedConfig} from '../util/CoreSDKWithExtendedConfig';
 
 /**
  * Class FrontApplicationLoader
@@ -21,7 +22,7 @@ export class FrontApplicationLoader {
     };
 
     const {appName, appDir} = this.representation;
-    this.coreSdk = new CoreSDK({
+    this.coreSdk = new CoreSDKWithExtendedConfig({
       mode: 'supervisor',
       appName, appDir
     });
