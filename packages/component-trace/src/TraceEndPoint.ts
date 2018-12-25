@@ -1,5 +1,5 @@
-import { IEndPoint } from '../actuator-server/domain';
-import { IndicatorManager } from '../indicator/IndicatorManager';
+import { IEndPoint } from 'pandora-component-actuator-server';
+import { IndicatorManager } from 'pandora-component-indicator';
 
 export class TraceEndPoint implements IEndPoint {
 

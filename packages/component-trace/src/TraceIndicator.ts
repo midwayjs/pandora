@@ -1,5 +1,5 @@
 import { orderBy } from 'lodash';
-import { IIndicator, IndicatorScope } from '../indicator/domain';
+import { IIndicator, IndicatorScope } from 'pandora-component-indicator';
 import { TraceManager } from './TraceManager';
 import { TraceData } from './TraceData';
 const debug = require('debug')('pandora:trace:TraceIndicator');

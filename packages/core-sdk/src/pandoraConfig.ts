@@ -12,7 +12,7 @@ export const components = {
     path: 'pandora-component-metrics'
   },
   trace: {
-    path: './built-in-component/trace/ComponentTrace'
+    path: 'pandora-component-trace'
   },
   errorLog: {
     path: 'pandora-component-error-log'
