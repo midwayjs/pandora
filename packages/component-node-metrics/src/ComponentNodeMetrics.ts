@@ -32,5 +32,3 @@ export default class ComponentNodeMetrics {
 }
 
 export * from './node/V8GaugeSet';
-export * from './util/CachedMetricSet';
-export * from './util/Mutex';

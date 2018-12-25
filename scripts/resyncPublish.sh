@@ -10,7 +10,7 @@ do
       cd $pkg
       echo ">>>>>> Publishing"
       echo ">>>>>>" $pkg
-      npm publish
+      npm publish --tag=pre
     fi
 done
 cd $cwd

@@ -2,7 +2,7 @@ import {MetricName, BaseGauge} from 'metrics-common';
 import fs = require('fs');
 import os = require('os');
 import {promisify} from 'util';
-import {CachedMetricSet} from '../util/CachedMetricSet';
+import {CachedMetricSet} from 'pandora-metrics-util';
 const exec = promisify(require('child_process').exec);
 
 enum LoadAvg {

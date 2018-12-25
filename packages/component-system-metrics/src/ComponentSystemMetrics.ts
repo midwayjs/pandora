@@ -48,5 +48,3 @@ export * from './os/NetTrafficGaugeSet';
 export * from './os/SystemLoadGaugeSet';
 export * from './os/SystemMemoryGaugeSet';
 export * from './os/TcpGaugeSet';
-export * from './util/CachedMetricSet';
-export * from './util/Mutex';

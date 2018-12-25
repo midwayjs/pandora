@@ -2,7 +2,7 @@ import {MetricName} from 'metrics-common';
 import {BaseGauge} from 'metrics-common';
 import {startsWith, extractInt} from 'pandora-dollar';
 import * as fs from 'fs';
-import {CachedMetricSet} from '../util/CachedMetricSet';
+import {CachedMetricSet} from 'pandora-metrics-util';
 
 
 const debug = require('debug')('metrics:cpu');

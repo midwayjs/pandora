@@ -1,5 +1,5 @@
 import {MetricName, BaseGauge} from 'metrics-common';
-import {CachedMetricSet} from '../util/CachedMetricSet';
+import {CachedMetricSet} from 'pandora-metrics-util';
 const debug = require('debug')('metrics:v8');
 const v8 = require('v8');
 
