@@ -35,6 +35,7 @@ export class CoreSDK {
       processName: options.processName || options.mode,
       config: {}
     };
+    debug('constructing CoreSDK %j', options);
     if(this.options.extendContext) {
       Object.assign(this.coreContext, this.options.extendContext);
     }
@@ -107,6 +108,7 @@ export class CoreSDK {
   }
 
   protected loadConfig(extConfig: any, configDir: string, reverseExtend: boolean = false) {
+    debug('loadConfig configDir %s, config %j', configDir, extConfig);
     const components: {[name: string]: Partial<IComponentDeclaration>} = extConfig.components;
     if(components) {
       for(const comp of Object.values(components)) {

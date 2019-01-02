@@ -24,10 +24,15 @@ export class CoreSDKWithExtendedConfig extends CoreSDK {
     }
     const paths = PANDORA_CONFIG.split(':');
     for(const path of paths) {
-      ret.push({
-        config: path,
-        configDir: dirname(path)
-      });
+      try {
+        ret.push({
+          config: require(path),
+          configDir: dirname(path)
+        });
+      } catch(err) {
+        // pass
+      }
     }
+    return ret;
   }
 }
