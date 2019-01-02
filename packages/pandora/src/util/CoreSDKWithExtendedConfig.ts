@@ -10,6 +10,24 @@ export class CoreSDKWithExtendedConfig extends CoreSDK {
       config: require('../pandoraConfig'),
       configDir: dirname(require.resolve('../pandoraConfig'))
     });
+    for(const item of CoreSDKWithExtendedConfig.parsePandoraConfigFromEnvVar()) {
+      options.extendConfig.push(item);
+    }
     super(options);
+  }
+
+  static parsePandoraConfigFromEnvVar(): {config: string; configDir: string}[] {
+    const PANDORA_CONFIG: string = process.env.PANDORA_CONFIG;
+    const ret = [];
+    if(!PANDORA_CONFIG) {
+      return ret;
+    }
+    const paths = PANDORA_CONFIG.split(':');
+    for(const path of paths) {
+      ret.push({
+        config: path,
+        configDir: dirname(path)
+      });
+    }
   }
 }
