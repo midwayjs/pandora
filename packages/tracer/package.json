@@ -1,6 +1,6 @@
 {
   "name": "pandora-tracer",
-  "version": "2.0.0",
+  "version": "2.0.0-1",
   "description": "Pandora 2 Node.js Tracer",
   "main": "dist/PandoraTracer",
   "typings": "dist/PandoraTracer.d.ts",
@@ -18,16 +18,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/lodash": "^4.14.119",
     "@types/chai": "^3.5.2",
     "@types/extend": "^3.0.0",
+    "@types/lodash": "^4.14.119",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
-    "pandora-component-trace": "^2.0.0-0"
+    "pandora-component-trace": "^2.0.0-1"
   },
   "nyc": {
     "include": [
