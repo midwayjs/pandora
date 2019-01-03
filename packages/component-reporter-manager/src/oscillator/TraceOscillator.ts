@@ -18,7 +18,7 @@ export class TraceOscillator extends EventEmitter {
 
   start() {
     this.handler = (list) => {
-      console.log('#####', list);
+      this.emit('oscillate', list);
     };
     this.traceManager.on(TRACE_DATA_DUMP, this.handler);
   }
