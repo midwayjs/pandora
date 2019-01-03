@@ -22,5 +22,8 @@ export const components = {
   },
   commander: {
     path: 'pandora-component-commander'
+  },
+  httpServerMetrics: {
+    path: 'pandora-component-http-server-metrics'
   }
 };

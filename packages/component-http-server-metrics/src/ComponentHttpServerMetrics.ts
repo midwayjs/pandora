@@ -12,14 +12,15 @@ export const MetricsStat = {
   HTTP_ILLEGAL_PATH: 'illegal_path'
 };
 
-@componentName('nodeMetrics')
+@componentName('httpServerMetrics')
 @dependencies(['metrics'])
-export default class ComponentMetricsHttpSeverMetrics {
+export default class ComponentHttpServerMetrics {
 
   globalCompass: IFastCompass;
   constructor(ctx) {
     const globalName = new MetricName(MetricsStat.HTTP_REQUEST, {}, MetricLevel.NORMAL);
     this.globalCompass = ctx.metricsManager.getFastCompass(MetricsStat.HTTP_GROUP, globalName);
+    ctx.httpServerMetrics = this;
   }
 
   recordRequest(reportCtx) {

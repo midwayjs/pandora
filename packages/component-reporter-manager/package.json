@@ -55,6 +55,7 @@
     "metrics-common": "^1.1.6",
     "pandora-component-decorator": "^2.0.0-0",
     "pandora-component-metrics": "^2.0.0-0",
+    "pandora-component-trace": "^2.0.0-0",
     "pandora-dollar": "^2.0.0-0"
   }
 }

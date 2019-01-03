@@ -65,6 +65,7 @@
     "pandora-component-metrics": "^2.0.0-0",
     "pandora-component-reporter-manager": "^2.0.0-0",
     "pandora-component-trace": "^2.0.0-0",
+    "pandora-component-http-server-metrics": "^2.0.0-0",
     "pandora-dollar": "^2.0.0-0",
     "pandora-hub": "^2.0.0-0",
     "reflect-metadata": "^0.1.12",

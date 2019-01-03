@@ -1,9 +1,9 @@
 {
-  "name": "pandora-component-http-sever-metrics",
+  "name": "pandora-component-http-server-metrics",
   "version": "2.0.0-0",
-  "description": "Pandora 2 Component Node.js Metrics",
-  "main": "dist/ComponentMetricsHttpSeverMetrics",
-  "typings": "dist/ComponentMetricsHttpSeverMetrics.d.ts",
+  "description": "Pandora 2 Component HTTP Server Metrics",
+  "main": "dist/ComponentHttpServerMetrics",
+  "typings": "dist/ComponentHttpServerMetrics.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -53,9 +53,6 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.0.0-0",
-    "pandora-dollar": "^2.0.0-0",
-    "pandora-metrics-util": "^2.0.0-0"
+    "pandora-component-decorator": "^2.0.0-0"
   }
 }

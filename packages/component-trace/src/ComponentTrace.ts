@@ -22,3 +22,10 @@ export default class ComponentTrace {
     await this.traceManager.stop();
   }
 }
+
+export * from './constants';
+export * from './domain';
+export * from './TraceData';
+export * from './TraceEndPoint';
+export * from './TraceIndicator';
+export * from './TraceManager';

@@ -1,5 +1,6 @@
 import {componentName, dependencies, componentConfig} from 'pandora-component-decorator';
 import {MetricsOscillator} from './oscillator/MetricsOscillator';
+import {TraceOscillator} from './oscillator/TraceOscillator';
 import {ReporterManager} from './ReporterManager';
 
 @componentName('reporterManager')
@@ -12,6 +13,7 @@ import {ReporterManager} from './ReporterManager';
 export default class ComponentReporterManager {
 
   metricsOscillator: MetricsOscillator;
+  traceOscillator: TraceOscillator;
   reporterManager: ReporterManager;
   ctx: any;
 
@@ -21,11 +23,12 @@ export default class ComponentReporterManager {
     this.reporterManager = new ReporterManager;
     ctx.reporterManager = this.reporterManager;
 
-    const {metricsManager} = ctx;
+    const {metricsManager, traceManager} = ctx;
     const config = this.ctx.config.reporterManager;
     this.metricsOscillator = new MetricsOscillator(metricsManager, {
       interval: config.reporterInterval
     });
+    this.traceOscillator = new TraceOscillator(traceManager);
 
     this.bindOscillators();
 
