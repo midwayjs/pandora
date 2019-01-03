@@ -1,9 +1,9 @@
 {
-  "name": "pandora-component-actuator-server",
-  "version": "2.0.0-0",
-  "description": "Pandora 2 Component Actuator Server",
-  "main": "dist/ComponentActuatorServer",
-  "typings": "dist/ComponentActuatorServer.d.ts",
+  "name": "pandora-tracer",
+  "version": "2.0.0",
+  "description": "Pandora 2 Node.js Tracer",
+  "main": "dist/PandoraTracer",
+  "typings": "dist/PandoraTracer.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -18,6 +18,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.14.119",
     "@types/chai": "^3.5.2",
     "@types/extend": "^3.0.0",
     "@types/mocha": "^2.2.41",
@@ -25,7 +26,8 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^8.4.0",
+    "pandora-component-trace": "^2.0.0"
   },
   "nyc": {
     "include": [
@@ -52,10 +54,7 @@
     "src"
   ],
   "dependencies": {
-    "koa": "^2.6.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "pandora-component-decorator": "^2.0.0-0",
-    "pandora-dollar": "^2.0.0-0"
+    "lodash": "^4.17.11",
+    "opentracing": "^0.14.3"
   }
 }

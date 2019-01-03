@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-sandbox-file-reporter",
-  "version": "2.0.0",
+  "version": "2.0.0-0",
   "description": "Pandora 2 Component Sandbox File Reporter",
   "main": "dist/ComponentSandboxFileReporter",
   "typings": "dist/ComponentSandboxFileReporter.d.ts",
@@ -18,16 +18,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "pandora-component-reporter-manager": "^2.0.0",
-    "pandora-component-file-logger-service": "^2.0.0",
     "@types/chai": "^3.5.2",
-    "@types/mocha": "^2.2.41",
     "@types/extend": "^3.0.0",
+    "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^8.4.0",
+    "pandora-component-file-logger-service": "^2.0.0-0",
+    "pandora-component-reporter-manager": "^2.0.0-0"
   },
   "nyc": {
     "include": [
@@ -55,7 +55,7 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "pandora-dollar": "^1.10.2",
-    "pandora-component-decorator": "^2.0.0"
+    "pandora-component-decorator": "^2.0.0-0",
+    "pandora-dollar": "^2.0.0-0"
   }
 }

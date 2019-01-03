@@ -1,9 +1,9 @@
 {
-  "name": "pandora-component-actuator-server",
+  "name": "pandora-metrics-util",
   "version": "2.0.0-0",
-  "description": "Pandora 2 Component Actuator Server",
-  "main": "dist/ComponentActuatorServer",
-  "typings": "dist/ComponentActuatorServer.d.ts",
+  "description": "Pandora 2 Metrics Util",
+  "main": "dist/index",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -52,10 +52,6 @@
     "src"
   ],
   "dependencies": {
-    "koa": "^2.6.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "pandora-component-decorator": "^2.0.0-0",
-    "pandora-dollar": "^2.0.0-0"
+    "metrics-common": "^1.1.6"
   }
 }

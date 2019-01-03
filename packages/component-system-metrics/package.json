@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-system-metrics",
-  "version": "2.0.0",
+  "version": "2.0.0-0",
   "description": "Pandora 2 Component System Metrics",
   "main": "dist/ComponentSystemMetrics",
   "typings": "dist/ComponentSystemMetrics.d.ts",
@@ -19,8 +19,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.5.2",
-    "@types/mocha": "^2.2.41",
     "@types/extend": "^3.0.0",
+    "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
@@ -52,9 +52,10 @@
     "src"
   ],
   "dependencies": {
-    "node-df": "^0.1.1",
     "metrics-common": "^1.1.6",
-    "pandora-dollar": "^1.10.2",
-    "pandora-component-decorator": "^2.0.0"
+    "node-df": "^0.1.1",
+    "pandora-component-decorator": "^2.0.0-0",
+    "pandora-dollar": "^2.0.0-0",
+    "pandora-metrics-util": "^2.0.0-0"
   }
 }

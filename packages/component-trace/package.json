@@ -1,6 +1,10 @@
 {
   "name": "pandora-component-trace",
+<<<<<<< HEAD
   "version": "2.0.0",
+=======
+  "version": "2.0.0-0",
+>>>>>>> 615ea46bce95b6e68fd313df3d5cf730a8ce79c7
   "description": "Pandora 2 Component Node.js Trace",
   "main": "dist/ComponentTrace",
   "typings": "dist/ComponentTrace.d.ts",
@@ -18,17 +22,28 @@
   ],
   "license": "MIT",
   "devDependencies": {
+<<<<<<< HEAD
     "@types/lodash": "^4.14.119",
     "@types/chai": "^3.5.2",
     "@types/extend": "^3.0.0",
+=======
+    "@types/chai": "^3.5.2",
+    "@types/extend": "^3.0.0",
+    "@types/lodash": "^4.14.119",
+>>>>>>> 615ea46bce95b6e68fd313df3d5cf730a8ce79c7
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
+<<<<<<< HEAD
     "pandora-component-actuator-server": "^2.0.0",
     "pandora-component-indicator": "^2.0.0"
+=======
+    "pandora-component-actuator-server": "^2.0.0-0",
+    "pandora-component-indicator": "^2.0.0-0"
+>>>>>>> 615ea46bce95b6e68fd313df3d5cf730a8ce79c7
   },
   "nyc": {
     "include": [
@@ -57,7 +72,12 @@
   "dependencies": {
     "lodash": "^4.17.11",
     "opentracing": "^0.14.3",
+<<<<<<< HEAD
     "pandora-component-decorator": "^2.0.0",
     "pandora-dollar": "^1.10.2"
+=======
+    "pandora-component-decorator": "^2.0.0-0",
+    "pandora-dollar": "^2.0.0-0"
+>>>>>>> 615ea46bce95b6e68fd313df3d5cf730a8ce79c7
   }
 }
