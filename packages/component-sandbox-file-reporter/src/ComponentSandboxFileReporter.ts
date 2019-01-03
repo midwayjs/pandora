@@ -3,6 +3,7 @@ import {componentName, dependencies, componentConfig} from 'pandora-component-de
 import {join} from 'path';
 import {homedir} from 'os';
 import {SandboxMetricsFileReporter} from './SandboxMetricsFileReporter';
+import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
 
 @componentName('sandboxFileReporter')
 @dependencies(['reporterManager', 'fileLoggerService'])
@@ -35,6 +36,7 @@ export default class ComponentSandboxFileReporter {
   startAtAllProcesses() {
     const reporterManager: ReporterManager = this.ctx.reporterManager;
     reporterManager.register('sandboxMetricsFileReporter', new SandboxMetricsFileReporter(this.ctx));
+    reporterManager.register('sandboxTraceFileReporter', new SandboxTraceFileReporter(this.ctx));
   }
 
 }

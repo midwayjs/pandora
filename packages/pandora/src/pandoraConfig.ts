@@ -14,5 +14,4 @@ export const components = {
   fileLoggerService: {
     path: 'pandora-component-file-logger-service'
   },
-
 };
