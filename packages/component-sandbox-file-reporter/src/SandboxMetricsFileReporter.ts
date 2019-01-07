@@ -19,7 +19,14 @@ export class SandboxMetricsFileReporter implements IReporter {
   }
   async report (data: any[]): Promise<void> {
     for(const metricObject of data) {
-      this.logger.write(JSON.stringify(metricObject));
+      this.logger.write(JSON.stringify({
+        ...metricObject,
+        ...this.getGlobalTags()
+      }));
     }
+  }
+  getGlobalTags() {
+    const {sandboxFileReporter: config} = this.ctx.config;
+    return config.globalTags;
   }
 }

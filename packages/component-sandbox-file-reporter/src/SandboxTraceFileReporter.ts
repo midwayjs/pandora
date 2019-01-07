@@ -31,7 +31,14 @@ export class SandboxTraceFileReporter implements IReporter {
           }
         }
       }
-      this.logger.write(JSON.stringify(traceData2nd));
+      this.logger.write(JSON.stringify({
+        ...traceData2nd,
+        ...this.getGlobalTags()
+      }));
     }
+  }
+  getGlobalTags() {
+    const {sandboxFileReporter: config} = this.ctx.config;
+    return config.globalTags;
   }
 }

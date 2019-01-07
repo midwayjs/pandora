@@ -10,6 +10,7 @@ import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
 @componentConfig({
   sandboxFileReporter: {
     logsDir: join(homedir(), 'logs'),
+    globalTags: {},
     metrics: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
