@@ -1,6 +1,6 @@
 {
   "name": "pandora-hub",
-  "version": "2.0.0-1",
+  "version": "2.0.0-2",
   "description": "pandora.js messenge hub",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
@@ -21,7 +21,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "pandora-messenger": "^2.0.0-1",
+    "pandora-messenger": "^2.0.0-2",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

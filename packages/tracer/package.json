@@ -1,6 +1,6 @@
 {
   "name": "pandora-tracer",
-  "version": "2.0.0-1",
+  "version": "2.0.0-2",
   "description": "Pandora 2 Node.js Tracer",
   "main": "dist/PandoraTracer",
   "typings": "dist/PandoraTracer.d.ts",
@@ -27,7 +27,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
-    "pandora-component-trace": "^2.0.0-1"
+    "pandora-component-trace": "^2.0.0-2"
   },
   "nyc": {
     "include": [

@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-file-logger-service",
-  "version": "2.0.0-1",
+  "version": "2.0.0-2",
   "description": "Pandora 2 Component File Logger Service",
   "main": "dist/ComponentFileLoggerService",
   "typings": "dist/ComponentFileLoggerService.d.ts",
@@ -58,9 +58,9 @@
     "metrics-common": "^1.1.6",
     "moment": "^2.18.1",
     "mz": "^2.6.0",
-    "pandora-component-decorator": "^2.0.0-1",
-    "pandora-component-reporter-manager": "^2.0.0-1",
-    "pandora-dollar": "^2.0.0-1",
-    "pandora-messenger": "^2.0.0-1"
+    "pandora-component-decorator": "^2.0.0-2",
+    "pandora-component-reporter-manager": "^2.0.0-2",
+    "pandora-dollar": "^2.0.0-2",
+    "pandora-messenger": "^2.0.0-2"
   }
 }
