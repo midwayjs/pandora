@@ -19,7 +19,19 @@ export class SandboxTraceFileReporter implements IReporter {
   }
   async report (data: any[]): Promise<void> {
     for(const traceData of data) {
-      this.logger.write(JSON.stringify(traceData));
+      const traceData2nd = {...traceData};
+      if(traceData.spans) {
+        traceData2nd.spans = [];
+        for(const span of traceData.spans) {
+          if(span.toJSON) {
+            // 如果 span 有 toJSON 接口，则使用 toJSON 接口获得序列化对象
+            traceData2nd.spans.push(span.toJSON());
+          } else {
+            traceData2nd.spans.push(span);
+          }
+        }
+      }
+      this.logger.write(JSON.stringify(traceData2nd));
     }
   }
 }

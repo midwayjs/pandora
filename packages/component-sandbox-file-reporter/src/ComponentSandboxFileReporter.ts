@@ -12,10 +12,16 @@ import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
     logsDir: join(homedir(), 'logs'),
     metrics: {
       type: 'size',
-      maxFileSize: 200 * 1024 * 1024,
+      maxFileSize: 100 * 1024 * 1024,
       stdoutLevel: 'NONE',
       level: 'ALL'
-    }
+    },
+    trace: {
+      type: 'size',
+      maxFileSize: 100 * 1024 * 1024,
+      stdoutLevel: 'NONE',
+      level: 'ALL'
+    },
   }
 })
 export default class ComponentSandboxFileReporter {
