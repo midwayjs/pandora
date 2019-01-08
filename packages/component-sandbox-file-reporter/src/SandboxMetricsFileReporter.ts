@@ -12,7 +12,7 @@ export class SandboxMetricsFileReporter implements IReporter {
     const {appName} = ctx;
     const {sandboxFileReporter: config} = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
-    this.logger = fileLoggerManager.createLogger('metrics', {
+    this.logger = fileLoggerManager.createLogger('sandbox-metrics', {
       ...config.metrics,
       dir: join(config.logsDir, appName)
     });
