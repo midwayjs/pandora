@@ -10,7 +10,7 @@ export interface IPandoraSpan extends Span {
   startTime: number;
   duration: number;
   error: boolean;
-  traceName: () => string;
+  traceName: string;
   context: () => IPandoraContext;
   tagValue: (key: string) => string | number;
   on: (eventName: string, callback: (span: IPandoraSpan) => void) => void;

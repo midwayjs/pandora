@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-error-log",
-  "version": "2.0.0-0",
+  "version": "2.0.0-4",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/ComponentErrorLog",
   "typings": "dist/ComponentErrorLog.d.ts",
@@ -54,7 +54,7 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.0.0-0",
-    "pandora-dollar": "^2.0.0-0"
+    "pandora-component-decorator": "^2.0.0-4",
+    "pandora-dollar": "^2.0.0-4"
   }
 }

@@ -38,15 +38,20 @@ export default class ComponentReporterManager {
     this.metricsOscillator.on('oscillate', (data) => {
       this.reporterManager.dispatch('metrics', data).catch(console.error);
     });
+    this.traceOscillator.on('oscillate', (data) => {
+      this.reporterManager.dispatch('trace', data).catch(console.error);
+    });
   }
 
 
   async start() {
     await this.metricsOscillator.start();
+    await this.traceOscillator.start();
   }
 
   async startAtSupervisor() {
     await this.metricsOscillator.start();
+    await this.traceOscillator.start();
   }
 
 }

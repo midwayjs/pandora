@@ -52,7 +52,7 @@ export class TraceManager extends EventEmitter {
       return;
     }
 
-    const traceName = options.traceName ? options.traceName(span) : span.traceName();
+    const traceName = options.traceName ? options.traceName(span) : span.traceName;
     const traceData = new TraceData();
     traceData.setTraceId(traceId);
     traceData.setTraceName(traceName);

@@ -3,18 +3,26 @@ import {componentName, dependencies, componentConfig} from 'pandora-component-de
 import {join} from 'path';
 import {homedir} from 'os';
 import {SandboxMetricsFileReporter} from './SandboxMetricsFileReporter';
+import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
 
 @componentName('sandboxFileReporter')
 @dependencies(['reporterManager', 'fileLoggerService'])
 @componentConfig({
   sandboxFileReporter: {
     logsDir: join(homedir(), 'logs'),
+    globalTags: {},
     metrics: {
       type: 'size',
-      maxFileSize: 200 * 1024 * 1024,
+      maxFileSize: 100 * 1024 * 1024,
       stdoutLevel: 'NONE',
       level: 'ALL'
-    }
+    },
+    trace: {
+      type: 'size',
+      maxFileSize: 100 * 1024 * 1024,
+      stdoutLevel: 'NONE',
+      level: 'ALL'
+    },
   }
 })
 export default class ComponentSandboxFileReporter {
@@ -35,6 +43,7 @@ export default class ComponentSandboxFileReporter {
   startAtAllProcesses() {
     const reporterManager: ReporterManager = this.ctx.reporterManager;
     reporterManager.register('sandboxMetricsFileReporter', new SandboxMetricsFileReporter(this.ctx));
+    reporterManager.register('sandboxTraceFileReporter', new SandboxTraceFileReporter(this.ctx));
   }
 
 }
