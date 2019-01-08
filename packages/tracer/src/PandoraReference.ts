@@ -1,19 +1,19 @@
 import { Reference } from 'opentracing';
-import { EagleeyeContext } from './EagleeyeContext';
+import { PandoraSpanContext } from './PandoraSpanContext';
 
-export class EagleeyeReference extends Reference {
+export class PandoraReference extends Reference {
   protected _type: string;
-  protected _referencedContext: EagleeyeContext;
+  protected _referencedContext: PandoraSpanContext;
 
   type(): string {
     return this._type;
   }
 
-  referencedContext(): EagleeyeContext {
+  referencedContext(): PandoraSpanContext {
     return this._referencedContext;
   }
 
-  constructor(type: string, referencedContext: EagleeyeContext) {
+  constructor(type: string, referencedContext: PandoraSpanContext) {
     super(type, referencedContext);
     this._type = type;
     this._referencedContext = referencedContext;

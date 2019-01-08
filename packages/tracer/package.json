@@ -55,6 +55,8 @@
   ],
   "dependencies": {
     "lodash": "^4.17.11",
-    "opentracing": "^0.14.3"
+    "opentracing": "^0.14.3",
+    "xorshift": "^1.1.1",
+    "pandora-dollar": "^2.0.0-0"
   }
 }
