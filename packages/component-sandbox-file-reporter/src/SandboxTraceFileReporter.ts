@@ -33,6 +33,11 @@ export class SandboxTraceFileReporter implements IReporter {
       }
       this.logger.write(JSON.stringify({
         ...traceData2nd,
+
+        // rename traceName to name
+        traceName: undefined,
+        name: traceData2nd.traceName,
+
         ...this.getGlobalTags()
       }));
     }
