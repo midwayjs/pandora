@@ -1,6 +1,7 @@
 import {IReporter} from 'pandora-component-reporter-manager';
 import {FileLoggerManager} from 'pandora-component-file-logger-service';
 import {join} from 'path';
+import {FileReporterUtil} from './FileReporterUtil';
 
 
 export class SandboxMetricsFileReporter implements IReporter {
@@ -18,10 +19,16 @@ export class SandboxMetricsFileReporter implements IReporter {
     });
   }
   async report (data: any[]): Promise<void> {
+    const globalTags = this.getGlobalTags();
     for(const metricObject of data) {
       this.logger.write(JSON.stringify({
         ...metricObject,
-        ...this.getGlobalTags()
+        ...globalTags,
+        tags: {
+          ...(metricObject.tags || {}),
+          ...globalTags
+        },
+        unix_timestamp: FileReporterUtil.unix(metricObject.timestamp),
       }));
     }
   }

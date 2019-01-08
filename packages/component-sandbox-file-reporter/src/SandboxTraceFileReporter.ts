@@ -1,6 +1,7 @@
 import {IReporter} from 'pandora-component-reporter-manager';
 import {FileLoggerManager} from 'pandora-component-file-logger-service';
 import {join} from 'path';
+import {FileReporterUtil} from './FileReporterUtil';
 
 
 export class SandboxTraceFileReporter implements IReporter {
@@ -18,6 +19,7 @@ export class SandboxTraceFileReporter implements IReporter {
     });
   }
   async report (data: any[]): Promise<void> {
+    const globalTags = this.getGlobalTags();
     for(const traceData of data) {
       const traceData2nd = {...traceData};
       if(traceData.spans) {
@@ -37,8 +39,8 @@ export class SandboxTraceFileReporter implements IReporter {
         // rename traceName to name
         traceName: undefined,
         name: traceData2nd.traceName,
-
-        ...this.getGlobalTags()
+        unix_timestamp: FileReporterUtil.unix(traceData2nd.timestamp),
+        ...globalTags
       }));
     }
   }
