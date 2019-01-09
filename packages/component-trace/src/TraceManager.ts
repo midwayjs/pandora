@@ -107,7 +107,11 @@ export class TraceManager extends EventEmitter {
     if (!this.running) {
       this.running = true;
       this.intervalId = setInterval(() => {
-        this.dump();
+        try {
+          this.dump();
+        } catch (err) {
+          console.error(err);
+        }
       }, this.interval);
     }
   }
