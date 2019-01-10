@@ -1,9 +1,9 @@
 {
-  "name": "pandora-component-test-component",
+  "name": "pandora-component-dead-counter",
   "version": "2.0.0-7",
-  "description": "Pandora 2 Component Node.js Metrics",
-  "main": "dist/TestComponent",
-  "typings": "dist/TestComponent.d.ts",
+  "description": "Pandora 2 Component Dead Counter",
+  "main": "dist/ComponentDeadCounter",
+  "typings": "dist/ComponentDeadCounter.d.ts",
   "scripts": {
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
@@ -25,7 +25,8 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^8.4.0",
+    "pandora-hub": "^2.0.0-7"
   },
   "nyc": {
     "include": [
@@ -52,12 +53,11 @@
     "src"
   ],
   "dependencies": {
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
     "metrics-common": "^1.1.6",
-    "pandora-component-actuator-server": "^2.0.0-7",
     "pandora-component-decorator": "^2.0.0-7",
-    "pandora-component-indicator": "^2.0.0-7",
-    "pandora-component-metrics": "^2.0.0-7",
-    "pandora-component-reporter-manager": "^2.0.0-7",
     "pandora-dollar": "^2.0.0-7"
   }
 }

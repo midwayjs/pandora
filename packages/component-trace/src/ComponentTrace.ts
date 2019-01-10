@@ -14,13 +14,22 @@ export default class ComponentTrace {
     ctx.traceManager = this.traceManager;
   }
 
+  async startAtSupervisor() {
+    this.traceManager.start();
+  }
+
   async start() {
-    await this.traceManager.start();
+    this.traceManager.start();
+  }
+
+  async stopAtSupervisor() {
+    this.traceManager.stop();
   }
 
   async stop() {
-    await this.traceManager.stop();
+    this.traceManager.stop();
   }
+
 }
 
 export * from './constants';

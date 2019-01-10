@@ -45,6 +45,7 @@
     "pandora-component-process-info": "^2.0.0-7",
     "pandora-component-sandbox-file-reporter": "^2.0.0-7",
     "pandora-component-system-metrics": "^2.0.0-7",
+    "pandora-component-dead-counter": "^2.0.0-7",
     "pandora-core-sdk": "^2.0.0-7",
     "pandora-dollar": "^2.0.0-7",
     "pandora-spawn-wrap": "^1.0.3",

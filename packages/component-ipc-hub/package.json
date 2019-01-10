@@ -1,7 +1,7 @@
 {
   "name": "pandora-component-ipc-hub",
   "version": "2.0.0-7",
-  "description": "Pandora 2 Component Node.js Metrics",
+  "description": "Pandora 2 Component IPC Hub",
   "main": "dist/ComponentIPCHub",
   "typings": "dist/ComponentIPCHub.d.ts",
   "scripts": {

@@ -19,8 +19,14 @@ export default class ComponentErrorLog {
     });
     ctx.errorLogManager = this.errorLogManager;
   }
+  async startAtSupervisor() {
+    this.errorLogManager.start();
+  }
   async start() {
     this.errorLogManager.start();
+  }
+  async stopAtSupervisor() {
+    this.errorLogManager.stop();
   }
   async stop() {
     this.errorLogManager.stop();

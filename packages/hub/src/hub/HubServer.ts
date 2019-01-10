@@ -8,11 +8,12 @@ import {
 import {RouteTable} from './RouteTable';
 import {Balancer} from './Balancer';
 import {format} from 'util';
+import {EventEmitter} from 'events';
 
 /**
  * IPC-Hub
  */
-export class HubServer {
+export class HubServer extends EventEmitter {
 
   protected messengerServer: MessengerServer;
   protected routeTable: RouteTable = new RouteTable;
@@ -166,7 +167,9 @@ export class HubServer {
     });
     this.messengerServer.on('disconnected', (client: MessengerClient) => {
       // this.messengerServer will ignore error
+      const selectors = this.routeTable.getSelectorsByClient(client);
       this.routeTable.forgetClient(client);
+      this.emit('client_disconnected', selectors);
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_ONLINE_UP, (message: MessagePackage, reply: ForceReplyFn, client: MessengerClient) => {
       try {

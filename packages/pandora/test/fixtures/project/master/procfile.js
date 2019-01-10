@@ -1,3 +1,3 @@
 module.exports = function (pandora) {
-  pandora.cluster('worker', './SimpleHTTPServer').scale(1);
+  pandora.cluster('worker', './SimpleHTTPServer').scale(3);
 };

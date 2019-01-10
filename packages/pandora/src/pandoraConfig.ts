@@ -14,4 +14,7 @@ export const components = {
   fileLoggerService: {
     path: 'pandora-component-file-logger-service'
   },
+  deadCounter: {
+    path: 'pandora-component-dead-counter'
+  }
 };
