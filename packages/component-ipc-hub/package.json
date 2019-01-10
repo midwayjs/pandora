@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-ipc-hub",
-  "version": "2.0.0-5",
+  "version": "2.0.0-6",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/ComponentIPCHub",
   "typings": "dist/ComponentIPCHub.d.ts",
@@ -52,8 +52,8 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.0.0-5",
-    "pandora-dollar": "^2.0.0-5",
-    "pandora-hub": "^2.0.0-5"
+    "pandora-component-decorator": "^2.0.0-6",
+    "pandora-dollar": "^2.0.0-6",
+    "pandora-hub": "^2.0.0-6"
   }
 }
