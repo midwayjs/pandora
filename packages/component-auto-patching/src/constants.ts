@@ -1,0 +1,1 @@
+export const CURRENT_CONTEXT = 'current_context';

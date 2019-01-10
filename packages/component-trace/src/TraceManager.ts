@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { consoleLogger } from 'pandora-dollar';
 import { TraceData } from './TraceData';
-import { IPandoraSpan, TraceManagerOptions } from './domain';
+import { IPandoraSpan, TraceManagerOptions, ITracer } from './domain';
 import { SPAN_FINISHED, TraceStatus, TRACE_DATA_DUMP } from './constants';
 
 // 默认最多存储数据量
@@ -19,6 +19,7 @@ export class TraceManager extends EventEmitter {
   private intervalId: NodeJS.Timer;
   private slowThreshold: number;
   private running: boolean = false;
+  private _tracer: ITracer;
 
   constructor(options: TraceManagerOptions = {}) {
     super();
@@ -26,6 +27,12 @@ export class TraceManager extends EventEmitter {
     this.interval = options.interval || DEFAULT_INTERVAL;
     this.slowThreshold = options.slowThreshold || DEFAULT_SLOW_THRESHOLD;
     this.options = options;
+    const Tracer = options.kTracer;
+    this._tracer = new Tracer();
+  }
+
+  get tracer(): ITracer {
+    return this._tracer;
   }
 
   list(): TraceData[] {
@@ -48,7 +55,7 @@ export class TraceManager extends EventEmitter {
     const timestamp = span.startTime;
 
     if (this.pool.has(traceId)) {
-      consoleLogger.warn(`Entry [${traceId}] was duplicated in pool, skip this span, please check!`);
+      consoleLogger.warn(`[TraceManager] entry [${traceId}] was duplicated in pool, skip this span, please check!`);
       return;
     }
 
@@ -109,8 +116,8 @@ export class TraceManager extends EventEmitter {
       this.intervalId = setInterval(() => {
         try {
           this.dump();
-        } catch (err) {
-          console.error(err);
+        } catch (error) {
+          consoleLogger.error('[TraceManager] interval dump data error. ', error);
         }
       }, this.interval);
     }
@@ -121,7 +128,11 @@ export class TraceManager extends EventEmitter {
       this.running = false;
       clearInterval(this.intervalId);
       this.intervalId = null;
-      this.dump();
+      try {
+        this.dump();
+      } catch (error) {
+        consoleLogger.error('[TraceManager] dump data before stop error. ', error);
+      }
     }
   }
 }

@@ -1,0 +1,67 @@
+{
+  "name": "pandora-component-auto-patching",
+  "version": "2.0.0-4",
+  "description": "Pandora 2 module auto patching for trace and console",
+  "main": "dist/index",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "true",
+    "start": "npm run build && node dist/index",
+    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run lint && true",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
+  },
+  "keywords": [
+    "pandora"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/extend": "^3.0.0",
+    "@types/lodash": "^4.14.119",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.5.2",
+    "chai": "^3.5.0",
+    "mm": "^2.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^8.4.0",
+    "pandora-component-trace": "^2.0.0-4",
+    "pandora-component-error-log": "^2.0.0-4"
+  },
+  "nyc": {
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "typings"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "json",
+      "html"
+    ],
+    "all": true
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "assert": "^1.4.1",
+    "cls-hooked": "^4.2.2",
+    "is-type-of": "^1.2.1",
+    "lodash": "^4.17.11",
+    "module-hook": "^2.1.2",
+    "opentracing": "^0.14.3",
+    "pandora-dollar": "^2.0.0-4",
+    "pandora-component-decorator": "^2.0.0-4"
+  }
+}

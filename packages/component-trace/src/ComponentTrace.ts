@@ -8,8 +8,9 @@ export default class ComponentTrace {
   ctx: any;
   traceManager: TraceManager;
 
-  constructor(ctx: any, options?: TraceManagerOptions) {
+  constructor(ctx: any) {
     this.ctx = ctx;
+    const options: TraceManagerOptions = ctx.config.trace || {};
     this.traceManager = new TraceManager(options);
     ctx.traceManager = this.traceManager;
   }
