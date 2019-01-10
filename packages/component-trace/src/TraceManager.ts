@@ -72,7 +72,7 @@ export class TraceManager extends EventEmitter {
 
       if (duration >= this.slowThreshold) {
         traceData.setStatus(TraceStatus.Slow);
-      } else if (span.tagValue('error')) {
+      } else if (span.tag('error')) {
         traceData.setStatus(TraceStatus.Error);
       } else {
         traceData.setStatus(TraceStatus.Normal);
