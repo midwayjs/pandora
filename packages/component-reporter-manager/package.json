@@ -25,7 +25,10 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^8.4.0",
+    "pandora-component-metrics": "^2.0.0-4",
+    "pandora-component-trace": "^2.0.0-4",
+    "pandora-component-error-log": "^2.0.0-4"
   },
   "nyc": {
     "include": [
@@ -54,8 +57,6 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "pandora-component-decorator": "^2.0.0-4",
-    "pandora-component-metrics": "^2.0.0-4",
-    "pandora-component-trace": "^2.0.0-4",
     "pandora-dollar": "^2.0.0-4"
   }
 }

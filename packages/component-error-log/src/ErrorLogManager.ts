@@ -1,11 +1,6 @@
 import {ErrorLog, ErrorLogManagerOptions} from './domain';
 import {EventEmitter} from 'events';
 
-// 默认最多存储数据量
-export const DEFAULT_POOL_SIZE = 1000;
-// 默认 60s dump 一次数据
-export const DEFAULT_INTERVAL = 60 * 1000;
-
 export class ErrorLogManager extends EventEmitter {
   poolSize: number;
   interval: number;
@@ -14,8 +9,8 @@ export class ErrorLogManager extends EventEmitter {
   pool: ErrorLog[] = [];
   constructor(options: ErrorLogManagerOptions) {
     super();
-    this.poolSize = options.poolSize || DEFAULT_POOL_SIZE;
-    this.interval = options.interval || DEFAULT_INTERVAL;
+    this.poolSize = options.poolSize;
+    this.interval = options.interval;
   }
   record(errorLog: ErrorLog) {
     this.pool.push(errorLog);

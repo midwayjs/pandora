@@ -1,10 +1,15 @@
 import {MessengerServer, MessengerClient} from 'pandora-messenger';
-import {componentName, dependencies} from 'pandora-component-decorator';
+import {componentName, dependencies, componentConfig} from 'pandora-component-decorator';
 import {FileLoggerRotator} from './FileLoggerRotator';
 import {FileLoggerManager} from './FileLoggerManager';
 
 @componentName('fileLoggerService')
 @dependencies(['ipcHub'])
+@componentConfig({
+  fileLoggerService: {
+    stopWriteWhenNoSupervisor: true,
+  }
+})
 export default class ComponentFileLoggerService {
 
   ctx: any;

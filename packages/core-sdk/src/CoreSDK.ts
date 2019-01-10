@@ -6,8 +6,7 @@ import {IComponent, ComponentReflector} from 'pandora-component-decorator';
 import {ComponentWeightCalculator, ISortedItem} from './ComponentWeightCalculator';
 import * as defaultConfig from './pandoraConfig';
 import {dirname} from 'path';
-import {promisify} from 'util';
-const resolve = promisify(require('resolve'));
+const resolve = require('resolve');
 const debug = require('debug')('pandora:CoreSDK');
 
 
@@ -17,6 +16,7 @@ export class CoreSDK {
   protected options: ICoreSDKOptions;
   protected components: Map<string, IComponentDeclaration> = new Map();
   protected componentInstances: Map<string, IComponent> = new Map();
+  protected instantiated: boolean = false;
 
   get config(): any {
     return this.coreContext.config;
@@ -42,9 +42,21 @@ export class CoreSDK {
     this.loadConfig(defaultConfig, dirname(require.resolve('./pandoraConfig')));
   }
 
-  async start(): Promise<void> {
+  instantiate() {
+    if(this.instantiated) {
+      return;
+    }
     this.loadConfigFromDefaultPlaces();
-    await this.loadComponentsFromConfig();
+    this.loadComponentsFromConfig();
+    const startQueue = this.getStartQueue();
+    for(const { name } of startQueue) {
+      this.getInstance(name);
+    }
+    this.instantiated = true;
+  }
+
+  async start(): Promise<void> {
+    this.instantiate();
     if(this.coreContext.mode === 'supervisor') {
       return this.startAtSupervisor();
     }
@@ -122,11 +134,11 @@ export class CoreSDK {
     }
   }
 
-  protected async loadComponentsFromConfig() {
+  protected loadComponentsFromConfig() {
     const components: {[name: string]: Partial<IComponentDeclaration>} = this.config.components;
     for(const name of Object.keys(components)) {
       const {path, configDir} = components[name];
-      const resolvedPath = await resolve(path, {
+      const resolvedPath = resolve.sync(path, {
         basedir: configDir,
         extensions: ['.js', '.ts']
       });

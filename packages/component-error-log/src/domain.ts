@@ -1,5 +1,6 @@
 export interface ErrorLog {
   timestamp: number;
+  method?: string;
   errType?: string;
   message?: string;
   stack?: string;
@@ -9,7 +10,7 @@ export interface ErrorLog {
 
 export interface ErrorLogManagerOptions {
   // 最多缓存数据数
-  poolSize?: number;
+  poolSize: number;
   // dump 数据周期，ms
-  interval?: number;
+  interval: number;
 }

@@ -54,6 +54,7 @@
     "src"
   ],
   "dependencies": {
+    "md5": "^2.2.1",
     "metrics-common": "^1.1.6",
     "pandora-component-decorator": "^2.0.0-4",
     "pandora-dollar": "^2.0.0-4"
