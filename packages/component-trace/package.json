@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-trace",
-  "version": "2.0.0-6",
+  "version": "2.0.0-7",
   "description": "Pandora 2 Component Node.js Trace",
   "main": "dist/ComponentTrace",
   "typings": "dist/ComponentTrace.d.ts",
@@ -27,8 +27,8 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
-    "pandora-component-actuator-server": "^2.0.0-6",
-    "pandora-component-indicator": "^2.0.0-6"
+    "pandora-component-actuator-server": "^2.0.0-7",
+    "pandora-component-indicator": "^2.0.0-7"
   },
   "nyc": {
     "include": [
@@ -57,7 +57,7 @@
   "dependencies": {
     "lodash": "^4.17.11",
     "opentracing": "^0.14.3",
-    "pandora-component-decorator": "^2.0.0-6",
-    "pandora-dollar": "^2.0.0-6"
+    "pandora-component-decorator": "^2.0.0-7",
+    "pandora-dollar": "^2.0.0-7"
   }
 }

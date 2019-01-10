@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-test-component",
-  "version": "2.0.0-6",
+  "version": "2.0.0-7",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/TestComponent",
   "typings": "dist/TestComponent.d.ts",
@@ -53,11 +53,11 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "pandora-component-actuator-server": "^2.0.0-6",
-    "pandora-component-decorator": "^2.0.0-6",
-    "pandora-component-indicator": "^2.0.0-6",
-    "pandora-component-metrics": "^2.0.0-6",
-    "pandora-component-reporter-manager": "^2.0.0-6",
-    "pandora-dollar": "^2.0.0-6"
+    "pandora-component-actuator-server": "^2.0.0-7",
+    "pandora-component-decorator": "^2.0.0-7",
+    "pandora-component-indicator": "^2.0.0-7",
+    "pandora-component-metrics": "^2.0.0-7",
+    "pandora-component-reporter-manager": "^2.0.0-7",
+    "pandora-dollar": "^2.0.0-7"
   }
 }
