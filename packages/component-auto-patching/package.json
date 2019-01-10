@@ -2,10 +2,10 @@
   "name": "pandora-component-auto-patching",
   "version": "2.0.0-4",
   "description": "Pandora 2 module auto patching for trace and console",
-  "main": "dist/index",
-  "typings": "dist/index.d.ts",
+  "main": "dist/ComponentAutoPatching",
+  "typings": "dist/ComponentAutoPatching.d.ts",
   "scripts": {
-    "build": "true",
+    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
     "test": "npm run lint && true",

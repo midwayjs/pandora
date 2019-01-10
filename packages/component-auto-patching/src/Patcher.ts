@@ -2,7 +2,7 @@ import { hook, IHook } from 'module-hook';
 import * as shimmer from './Shimmer';
 import { IShimmer, PatcherOptions } from './domain';
 import { ITracer, IPandoraContext } from 'pandora-component-trace';
-import assert from 'assert';
+import * as assert from 'assert';
 import { CLS } from './cls';
 import { CURRENT_CONTEXT } from './constants';
 
@@ -13,10 +13,10 @@ export class Patcher {
   protected options: PatcherOptions;
   protected cls: CLS = CLS.getInstance();
 
-  constructor(ctx) {
+  constructor(ctx: any) {
     this.ctx = ctx;
-    const patcherConfig = ctx.config.autoPatching || {};
-    this.options = patcherConfig[this.moduleName] || {
+    const patcherConfig = ctx.config.autoPatching || { patchers: {} };
+    this.options = patcherConfig.patchers[this.moduleName] || {
       enabled: true
     };
 
@@ -51,7 +51,7 @@ export class Patcher {
     this.cls.set(CURRENT_CONTEXT, context);
   }
 
-  protected getModule() {}
-  protected attach() {}
-  protected unattach() {}
+  target() {}
+  attach() {}
+  unattach() {}
 }

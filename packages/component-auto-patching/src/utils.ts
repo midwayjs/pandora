@@ -1,4 +1,6 @@
-import url, { UrlWithStringQuery } from 'url';
+import * as url from 'url';
+import { UrlWithStringQuery } from 'url';
+import * as semver from 'semver';
 
 /**
  * 提取 path 信息，去掉尾部反斜杠
@@ -21,4 +23,8 @@ export function extractPath(requestUrl: string | UrlWithStringQuery): string {
   }
 
   return path;
+}
+
+export function nodeVersion(rule: string) {
+  return semver.satisfies((<NodeJS.Process>process).version, rule);
 }

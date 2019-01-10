@@ -1,5 +1,5 @@
-import util from 'util';
-import events from 'events';
+import * as util from 'util';
+import * as events from 'events';
 import { consoleLogger } from 'pandora-dollar';
 import { ErrorLog, ErrorLogManager } from 'pandora-component-error-log';
 import { Patcher } from '../Patcher';

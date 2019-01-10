@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { IPandoraSpan } from 'pandora-component-trace';
 import { IncomingMessage, ServerResponse } from 'http';
+import { Patcher } from './Patcher';
 
 export type OriginalModule = any;
 export type WrappedModule = any;
@@ -43,7 +43,8 @@ export interface ICLSNamespace {
 }
 
 export interface PatcherOptions {
-  enabled: boolean;
+  enabled?: boolean;
+  klass?: Patcher;
 }
 
 export type CustomTraceName = (tags: HttpServerTags) => string;
@@ -81,11 +82,61 @@ export interface HttpServerTags extends Tags {
   'http.pathname'?: string;
   'http.client'?: boolean;
   'http.status_code'?: number;
-
 }
 
 export interface GlobalPatcherOptions extends PatcherOptions {
   recordConsole?: boolean;
   recordUnhandled?: boolean;
   recordFatal?: boolean;
+}
+
+export interface IWrapper {
+  new (ctx: any, options: PatcherOptions): IWrapper;
+  wrap: (target: any) => void;
+  unwrap: (target: any) => void;
+}
+
+export type ResponseTransformer = (buffer: Buffer, res?: ServerResponse) => string;
+
+export interface HttpClientPatcherOptions extends PatcherOptions {
+  // 通常情况下，https 的 request 方法调用的是 http 的 request
+  // 但有部分版本使用了基础实现，需要单独处理
+  forcePatchHttps?: boolean;
+  // 记录请求结果
+  recordResponse?: boolean;
+  // 请求结果处理函数
+  responseTransformer?: ResponseTransformer;
+  // 是否开启下游追踪，开启会在请求中植入参数
+  tracing?: boolean;
+  // http client wrapper
+  kWrapper?: IWrapper;
+}
+
+export interface HttpClientTags extends Tags {
+  'http.method'?: string;
+  'http.pathname'?: string;
+  'http.hostname'?: string;
+  'http.port'?: string;
+  'http.client'?: boolean;
+  'http.status_code'?: number;
+}
+
+export type SQLMask = (sql: string) => string;
+
+export interface MySQLPatcherOptions extends PatcherOptions {
+  // 是否记录 sql
+  recordSql?: boolean;
+  // sql 脱敏函数
+  sqlMask?: SQLMask;
+  // mysql wrapper
+  kWrapper?: IWrapper;
+}
+
+export interface MySQLTags extends Tags {
+  'mysql.method'?: string;
+  'mysql.host'?: string;
+  'mysql.portPath'?: string;
+  'mysql.database'?: string;
+  'mysql.table'?: boolean;
+  'mysql.operation'?: number;
 }

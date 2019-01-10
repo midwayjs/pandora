@@ -1,4 +1,5 @@
-import http, { IncomingMessage, ServerResponse } from 'http';
+import * as http from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 import is from 'is-type-of';
 import { consoleLogger } from 'pandora-dollar';
 import { IPandoraSpan } from 'pandora-component-trace';
@@ -72,7 +73,6 @@ export class HttpServerPatcher extends Patcher {
         self.recordBody(req, chunks);
 
         function onFinishedFactory(eventName: string) {
-          const self = this;
           return function onFinished() {
             res.removeListener('finish', onFinished);
             req.removeListener('aborted', onFinished);
