@@ -9,7 +9,6 @@ export interface IPandoraSpan extends Span {
   traceId: string;
   startTime: number;
   duration: number;
-  error: boolean;
   traceName: string;
   context: () => IPandoraContext;
   tagValue: (key: string) => string | number;
