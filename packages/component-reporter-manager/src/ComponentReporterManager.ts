@@ -2,12 +2,13 @@ import {componentName, dependencies, componentConfig} from 'pandora-component-de
 import {MetricsOscillator} from './oscillator/MetricsOscillator';
 import {TraceOscillator} from './oscillator/TraceOscillator';
 import {ReporterManager} from './ReporterManager';
+import {ErrorLogOscillator} from './oscillator/ErrorLogOscillator';
 
 @componentName('reporterManager')
 @dependencies(['metrics', 'trace', 'errorLog'])
 @componentConfig({
-  reporterManager: {
-    reporterInterval: 60 // seconds
+  metrics: {
+    interval: 60 * 1000
   }
 })
 export default class ComponentReporterManager {
@@ -15,6 +16,7 @@ export default class ComponentReporterManager {
   metricsOscillator: MetricsOscillator;
   traceOscillator: TraceOscillator;
   reporterManager: ReporterManager;
+  errorLogOscillator: ErrorLogOscillator;
   ctx: any;
 
   constructor(ctx: any) {
@@ -23,12 +25,13 @@ export default class ComponentReporterManager {
     this.reporterManager = new ReporterManager;
     ctx.reporterManager = this.reporterManager;
 
-    const {metricsManager, traceManager} = ctx;
-    const config = this.ctx.config.reporterManager;
+    const {metricsManager, traceManager, errorLogManager} = ctx;
+    const metricsConfig = this.ctx.config.metrics;
     this.metricsOscillator = new MetricsOscillator(metricsManager, {
-      interval: config.reporterInterval
+      interval: metricsConfig.interval / 1000
     });
     this.traceOscillator = new TraceOscillator(traceManager);
+    this.errorLogOscillator = new ErrorLogOscillator(errorLogManager);
 
     this.bindOscillators();
 
@@ -41,17 +44,22 @@ export default class ComponentReporterManager {
     this.traceOscillator.on('oscillate', (data) => {
       this.reporterManager.dispatch('trace', data).catch(console.error);
     });
+    this.errorLogOscillator.on('oscillate', (data) => {
+      this.reporterManager.dispatch('errorLog', data).catch(console.error);
+    });
   }
 
 
   async start() {
     await this.metricsOscillator.start();
     await this.traceOscillator.start();
+    await this.errorLogOscillator.start();
   }
 
   async startAtSupervisor() {
     await this.metricsOscillator.start();
     await this.traceOscillator.start();
+    await this.errorLogOscillator.start();
   }
 
 }

@@ -4,6 +4,7 @@ import {join} from 'path';
 import {homedir} from 'os';
 import {SandboxMetricsFileReporter} from './SandboxMetricsFileReporter';
 import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
+import {SandboxErrorLogFileReporter} from './SandboxErrorLogFileReporter';
 
 @componentName('sandboxFileReporter')
 @dependencies(['reporterManager', 'fileLoggerService'])
@@ -18,6 +19,12 @@ import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
       level: 'ALL'
     },
     trace: {
+      type: 'size',
+      maxFileSize: 100 * 1024 * 1024,
+      stdoutLevel: 'NONE',
+      level: 'ALL'
+    },
+    error: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
       stdoutLevel: 'NONE',
@@ -44,6 +51,7 @@ export default class ComponentSandboxFileReporter {
     const reporterManager: ReporterManager = this.ctx.reporterManager;
     reporterManager.register('sandboxMetricsFileReporter', new SandboxMetricsFileReporter(this.ctx));
     reporterManager.register('sandboxTraceFileReporter', new SandboxTraceFileReporter(this.ctx));
+    reporterManager.register('sandboxErrorLogFileReporter', new SandboxErrorLogFileReporter(this.ctx));
   }
 
 }
