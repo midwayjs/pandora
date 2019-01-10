@@ -100,10 +100,7 @@ export class PandoraSpan extends Span {
   }
 
   setTag(key: string, value: any): this {
-    this._tags.set(key, {
-      value,
-      type: typeof value
-    });
+    this._tags.set(key, value);
 
     return this;
   }
@@ -119,20 +116,12 @@ export class PandoraSpan extends Span {
     return this;
   }
 
-  getTag(key: string): Tag {
-    const tag = this._tags.get(key);
-
-    return tag;
-  }
-
-  tagValue(key: string): any {
-    const tag = this.getTag(key);
-
-    if (tag) {
-      return tag.value;
+  tag(key: string): any {
+    if (this._tags.has(key)) {
+      return this._tags.get(key);
+    } else {
+      return null;
     }
-
-    return null;
   }
 
   log(keyValuePairs: {[key: string]: string}, timestamp?: number): this {
@@ -160,7 +149,7 @@ export class PandoraSpan extends Span {
     this._duration = this._finishTime - this._startTime;
 
     (<any>this).emit(SPAN_FINISHED, this);
-    tracer.report(this);
+    // this.tracer.report(this);
   }
 }
 

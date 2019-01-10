@@ -2,8 +2,8 @@
   "name": "pandora-tracer",
   "version": "2.0.0-4",
   "description": "Pandora 2 Node.js Tracer",
-  "main": "dist/PandoraTracer",
-  "typings": "dist/PandoraTracer.d.ts",
+  "main": "dist/index",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "true",
     "start": "npm run build && node dist/index",
