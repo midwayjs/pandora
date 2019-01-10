@@ -59,7 +59,7 @@ export default class ComponentReporterManager {
   async startAtSupervisor() {
     await this.metricsOscillator.start();
     await this.traceOscillator.start();
-    await this.errorLogOscillator.stop();
+    await this.errorLogOscillator.start();
   }
 
 }
