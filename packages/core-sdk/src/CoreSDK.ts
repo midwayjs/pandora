@@ -85,6 +85,35 @@ export class CoreSDK {
     }
   }
 
+  async stop(): Promise<void> {
+    if(this.coreContext.mode === 'supervisor') {
+      return this.stopAtSupervisor();
+    }
+    return this.stopAtWorker();
+  }
+
+  protected async stopAtWorker(): Promise<void> {
+    const stopQueue = this.getStopQueue();
+    for(const { name } of stopQueue) {
+      const instance: IComponent = this.getInstance(name);
+      if(instance.stop) {
+        await instance.stop();
+        debug(`stopped component ${name} at worker`);
+      }
+    }
+  }
+
+  protected async stopAtSupervisor(): Promise<void> {
+    const stopQueue = this.getStopQueue();
+    for(const { name } of stopQueue) {
+      const instance: IComponent = this.getInstance(name);
+      if(instance.stopAtSupervisor) {
+        await instance.stopAtSupervisor();
+        debug(`stopped component ${name} at supervisor`);
+      }
+    }
+  }
+
   protected getInstance(name): IComponent {
     if(!this.componentInstances.has(name)) {
       const componentDeclaration = this.components.get(name);
@@ -98,6 +127,11 @@ export class CoreSDK {
   protected getStartQueue(): ISortedItem[] {
     const calculator = new ComponentWeightCalculator(this.components);
     return calculator.getSortedComponentNames('asc');
+  }
+
+  protected getStopQueue(): ISortedItem[] {
+    const calculator = new ComponentWeightCalculator(this.components);
+    return calculator.getSortedComponentNames('desc');
   }
 
   protected loadConfigFromDefaultPlaces() {
@@ -164,11 +198,6 @@ export class CoreSDK {
   protected addComponent(component: IComponentDeclarationStrict) {
     debug(`addComponent ${component.name}`);
     this.components.set(component.name, component);
-  }
-
-
-  async stop(): Promise<void> {
-    // TODO: do something here
   }
 
 }

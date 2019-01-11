@@ -1,4 +1,4 @@
-export type ICoreSDKMode = 'supervisor' | 'worker';
+export type ICoreSDKMode = string;
 import {IComponentConstructor} from 'pandora-component-decorator';
 
 export interface ICoreSDKOptions {

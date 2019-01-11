@@ -26,7 +26,7 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^13.1.0"
   },
   "nyc": {
     "include": [
@@ -34,7 +34,8 @@
       "src/**/*.ts"
     ],
     "exclude": [
-      "typings"
+      "typings",
+      "dist"
     ],
     "extension": [
       ".ts"
