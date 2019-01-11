@@ -114,7 +114,7 @@ export class HttpClientWrapper extends Wrapper {
       // defaultPort: https://github.com/nodejs/node/blob/eb664c3b6df2ec618fa1c9339dbd418e858bfcfa/lib/_http_agent.js#L48
       'http.port': options.port || options._defaultAgent && (<any>options._defaultAgent).defaultPort || DEFAULT_PORT,
       // use '/' default, like node.js
-      'http.pathname': clientRequest.path || '/'
+      // 'http.pathname': clientRequest.path || '/'
     };
   }
 
