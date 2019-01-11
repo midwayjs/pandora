@@ -9,7 +9,7 @@ import { nodeVersion, urlToOptions } from '../../../utils';
 import { RequestOptions, ClientRequest } from 'http';
 import { URL, parse } from 'url';
 import { IPandoraSpan } from 'pandora-component-trace';
-import { CURRENT_CONTEXT, DEFAULT_HOST } from '../../../constants';
+import { CURRENT_CONTEXT, DEFAULT_HOST, DEFAULT_PORT } from '../../../constants';
 import { Wrapper } from '../Wrapper';
 
 export class HttpClientWrapper extends Wrapper {
@@ -110,7 +110,11 @@ export class HttpClientWrapper extends Wrapper {
     return {
       // use 'GET' default, like node.js
       'http.method': (options.method || 'GET').toUpperCase(),
-      'http.hostname': options.hostname || options.host || DEFAULT_HOST
+      'http.hostname': options.hostname || options.host || DEFAULT_HOST,
+      // defaultPort: https://github.com/nodejs/node/blob/eb664c3b6df2ec618fa1c9339dbd418e858bfcfa/lib/_http_agent.js#L48
+      'http.port': options.port || options._defaultAgent && (<any>options._defaultAgent).defaultPort || DEFAULT_PORT,
+      // use '/' default, like node.js
+      'http.pathname': clientRequest.path || '/'
     };
   }
 

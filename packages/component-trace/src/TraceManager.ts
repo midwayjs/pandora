@@ -28,7 +28,10 @@ export class TraceManager extends EventEmitter {
     this.slowThreshold = options.slowThreshold || DEFAULT_SLOW_THRESHOLD;
     this.options = options;
     const Tracer = options.kTracer;
-    this._tracer = new Tracer();
+
+    if (Tracer) {
+      this._tracer = new Tracer();
+    }
   }
 
   get tracer(): ITracer {
