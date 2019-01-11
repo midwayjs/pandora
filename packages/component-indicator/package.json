@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-indicator",
-  "version": "2.0.0-7",
+  "version": "2.0.0-8",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/ComponentIndicator",
   "typings": "dist/ComponentIndicator.d.ts",
@@ -53,8 +53,8 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0-7",
-    "pandora-dollar": "^2.0.0-7",
-    "pandora-hub": "^2.0.0-7"
+    "pandora-component-decorator": "^2.0.0-8",
+    "pandora-dollar": "^2.0.0-8",
+    "pandora-hub": "^2.0.0-8"
   }
 }
