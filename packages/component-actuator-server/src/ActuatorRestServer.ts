@@ -57,6 +57,7 @@ export class ActuatorRestServer {
   stop() {
     if(this.server) {
       this.server.close();
+      this.server = null;
     }
   }
 
