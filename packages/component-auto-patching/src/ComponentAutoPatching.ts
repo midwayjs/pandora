@@ -1,5 +1,5 @@
 import { componentName, dependencies } from 'pandora-component-decorator';
-import { PatcherOptions } from './domain';
+import { AutoPatchingConfig } from './domain';
 
 @componentName('autoPatching')
 @dependencies(['trace', 'errorLog'])
@@ -8,12 +8,13 @@ export default class ComponentAutoPatching {
 
   constructor(ctx) {
     this.ctx = ctx;
-    const config = this.ctx.options.autoPatching;
+    const config: AutoPatchingConfig = this.ctx.options.autoPatching;
     const patchers = config.patchers;
 
-    for (const patcher in patchers) {
-      const Klass = (<PatcherOptions>patcher).klass;
-      if ((<PatcherOptions>patcher).enabled) {
+    for (const name in patchers) {
+      const patcher = patchers[name];
+      const Klass = patcher.klass;
+      if (patcher.enabled) {
         const pInstance = new Klass(ctx);
         pInstance.attach();
       }

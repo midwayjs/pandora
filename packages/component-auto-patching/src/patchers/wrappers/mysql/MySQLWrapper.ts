@@ -1,12 +1,8 @@
-import { IWrapper, MySQLPatcherOptions } from '../../../domain';
+import { MySQLPatcherOptions } from '../../../domain';
 import * as shimmer from '../../../Shimmer';
+import { Wrapper } from '../Wrapper';
 
-export class MySQLWrapper implements IWrapper {
-
-  constructor(ctx: any, options: MySQLPatcherOptions) {
-
-  }
-
+export class MySQLWrapper extends Wrapper {
   wrap(target: any): void {}
 
   unWrap(target: any): void {}

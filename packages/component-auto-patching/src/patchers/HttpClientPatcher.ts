@@ -1,5 +1,4 @@
 import { Patcher } from '../Patcher';
-import * as semver from 'semver';
 import * as http from 'http';
 import * as https from 'https';
 import { HttpClientWrapper } from './wrappers/http-client/HttpClientWrapper';
@@ -15,7 +14,7 @@ export class HttpClientPatcher extends Patcher {
   constructor(ctx) {
     super(ctx);
     const KWrapper = this.options.kWrapper || HttpClientWrapper;
-    this.wrapper = new KWrapper(this.ctx, this.options);
+    this.wrapper = new KWrapper(this.ctx, this.tracer, this.cls, this.moduleName, this.options);
   }
 
   target() {

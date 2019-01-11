@@ -1,6 +1,8 @@
 import { EventEmitter } from 'events';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Patcher } from './Patcher';
+import { Wrapper } from './patchers/wrappers/Wrapper';
+import { HttpClientWrapper } from './patchers/wrappers/http-client/HttpClientWrapper';
 
 export type OriginalModule = any;
 export type WrappedModule = any;
@@ -44,7 +46,13 @@ export interface ICLSNamespace {
 
 export interface PatcherOptions {
   enabled?: boolean;
-  klass?: Patcher;
+  klass?: typeof Patcher;
+}
+
+export interface AutoPatchingConfig {
+  patchers: {
+    [key: string]: PatcherOptions;
+  };
 }
 
 export type CustomTraceName = (tags: HttpServerTags) => string;
@@ -74,7 +82,7 @@ export interface HttpCreateServerOptions {
 }
 
 export interface Tags {
-  is_entry: boolean;
+  is_entry?: boolean;
 }
 
 export interface HttpServerTags extends Tags {
@@ -90,12 +98,6 @@ export interface GlobalPatcherOptions extends PatcherOptions {
   recordFatal?: boolean;
 }
 
-export interface IWrapper {
-  new (ctx: any, options: PatcherOptions): IWrapper;
-  wrap: (target: any) => void;
-  unwrap: (target: any) => void;
-}
-
 export type ResponseTransformer = (buffer: Buffer, res?: ServerResponse) => string;
 
 export interface HttpClientPatcherOptions extends PatcherOptions {
@@ -109,7 +111,7 @@ export interface HttpClientPatcherOptions extends PatcherOptions {
   // 是否开启下游追踪，开启会在请求中植入参数
   tracing?: boolean;
   // http client wrapper
-  kWrapper?: IWrapper;
+  kWrapper?: typeof HttpClientWrapper;
 }
 
 export interface HttpClientTags extends Tags {
@@ -121,6 +123,8 @@ export interface HttpClientTags extends Tags {
   'http.status_code'?: number;
 }
 
+export type HttpRequestCallback = (res: IncomingMessage) => void;
+
 export type SQLMask = (sql: string) => string;
 
 export interface MySQLPatcherOptions extends PatcherOptions {
@@ -129,7 +133,7 @@ export interface MySQLPatcherOptions extends PatcherOptions {
   // sql 脱敏函数
   sqlMask?: SQLMask;
   // mysql wrapper
-  kWrapper?: IWrapper;
+  kWrapper?: typeof Wrapper;
 }
 
 export interface MySQLTags extends Tags {

@@ -50,7 +50,7 @@ export class HttpServerPatcher extends Patcher {
       }
 
       if (!_requestListener) {
-        consoleLogger.log('no requestListener, skip trace.');
+        consoleLogger.log('[HttpServerPatcher] no requestListener, skip trace.');
         return createServer.apply(null, arguments);
       }
 
@@ -58,7 +58,7 @@ export class HttpServerPatcher extends Patcher {
         const filtered = self.requestFilter(req);
 
         if (filtered) {
-          consoleLogger.log('request filter by requestFilter, skip trace.');
+          consoleLogger.log('[HttpServerPatcher] request filter by requestFilter, skip trace.');
           return _requestListener(req, res);
         }
 
@@ -66,6 +66,11 @@ export class HttpServerPatcher extends Patcher {
         self.cls.bindEmitter(res);
 
         const span = self.createSpan(req);
+
+        if (!span) {
+          consoleLogger.log('[HttpServerPatcher] span is null, skip trace.');
+          return _requestListener(req, res);
+        }
 
         let chunks = [];
         self.recordFullUrl(span, req);
