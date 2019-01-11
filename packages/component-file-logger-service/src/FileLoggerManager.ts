@@ -13,9 +13,10 @@ export class FileLoggerManager {
   protected messengerClient: MessengerClient;
   protected loggerMap: Map<string, any> = new Map();
   protected connectRotator = false;
+  protected stopWriteWhenNoSupervisor: boolean = true;
   protected heartbeatTime: number = HEARTBEAT_TIME;
 
-  constructor(options?: { connectRotator?: boolean; heartbeatTime?: number; }) {
+  constructor(options?: { connectRotator?: boolean; heartbeatTime?: number; stopWriteWhenNoSupervisor?: boolean }) {
 
     options = options || {};
 
@@ -25,6 +26,10 @@ export class FileLoggerManager {
 
     if(options.connectRotator != null) {
       this.connectRotator = options.connectRotator;
+    }
+
+    if(options.stopWriteWhenNoSupervisor != null) {
+      this.stopWriteWhenNoSupervisor = options.stopWriteWhenNoSupervisor;
     }
 
   }
@@ -86,9 +91,10 @@ export class FileLoggerManager {
     const uuid = $.genereateUUID();
     const fileName = loggerConfig.name ? loggerConfig.name : loggerName + '.log';
     const filePath = join(loggerConfig.dir, fileName);
+    const skipWriteFile = this.stopWriteWhenNoSupervisor && (!this.connectRotator || !this.messengerClient.isOK);
     const newLogger = new EggLogger({
       file: filePath,
-      level: loggerConfig.level,
+      level: skipWriteFile ? 'NONE' : loggerConfig.level,
       consoleLevel: loggerConfig.stdoutLevel,
       eol: loggerConfig.eol
     });
