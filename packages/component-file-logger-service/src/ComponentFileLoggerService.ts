@@ -17,8 +17,6 @@ export default class ComponentFileLoggerService {
   fileLoggerManager: FileLoggerManager;
   constructor(ctx) {
     this.ctx = ctx;
-    this.fileLoggerManager = new FileLoggerManager();
-    ctx.fileLoggerManager = this.fileLoggerManager;
   }
 
   async startAtSupervisor() {
@@ -35,6 +33,11 @@ export default class ComponentFileLoggerService {
 
   async startAtAllProcesses() {
     const messengerClient: MessengerClient = this.ctx.hubFacade.getHubClient().getMessengerClient();
+    this.fileLoggerManager = new FileLoggerManager({
+      connectRotator: messengerClient.isOK,
+      stopWriteWhenNoSupervisor: this.ctx.config.fileLoggerService.stopWriteWhenNoSupervisor
+    });
+    this.ctx.fileLoggerManager = this.fileLoggerManager;
     this.fileLoggerManager.setMessengerClient(messengerClient);
     await this.fileLoggerManager.start();
   }

@@ -89,20 +89,20 @@ export class MyConsole extends console.Console {
   constructor() {
     super(process.stdout, process.stderr);
   }
-  important(msg) {
-    super.log(colors.green(`[Pandora.js] ** ${msg} **`));
+  important(msg, ...more) {
+    super.log(colors.green(`[Pandora.js] ** ${msg} **`), ...more);
   }
-  error(msg) {
-    super.error(colors.red(`[Pandora.js] ${msg}`));
+  error(msg, ...more) {
+    super.error(colors.red(`[Pandora.js] ${msg}`), ...more);
     if(msg.stack) {
-      super.error(colors.red(msg.stack));
+      super.error(colors.red(msg.stack), ...more);
     }
   }
-  warn(msg) {
-    super.warn(colors.yellow(`[Pandora.js] ${msg}`));
+  warn(msg, ...more) {
+    super.warn(colors.yellow(`[Pandora.js] ${msg}`), ...more);
   }
-  info(msg) {
-    super.info(colors.cyan(`[Pandora.js] ${msg}`));
+  info(msg, ...more) {
+    super.info(colors.cyan(`[Pandora.js] ${msg}`), ...more);
   }
 }
 
