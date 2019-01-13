@@ -2,7 +2,7 @@ import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from 'http';
 import { consoleLogger } from 'pandora-dollar';
 import { PandoraCodec } from './PandoraCodec';
 import { PandoraSpanContext } from '../PandoraSpanContext';
-import { HEADER_TRACE_ID } from '../constants';
+import { HEADER_TRACE_ID, HEADER_SPAN_ID } from '../constants';
 import { getRandom64 } from '../utils';
 
 export class PandoraHttpCodec implements PandoraCodec {
@@ -16,8 +16,22 @@ export class PandoraHttpCodec implements PandoraCodec {
    */
   inject(context: PandoraSpanContext, carrier: ClientRequest): void {
     const traceId = context.traceId;
+    const spanId = context.spanId;
 
-    carrier.setHeader(HEADER_TRACE_ID, traceId);
+    const hTraceId = carrier.getHeader(HEADER_TRACE_ID);
+    const hSpanId = carrier.getHeader(HEADER_SPAN_ID);
+
+    if (!hTraceId) {
+      carrier.setHeader(HEADER_TRACE_ID, traceId);
+    } else {
+      consoleLogger.log(`[PandoraHttpCodec] use user define ${HEADER_TRACE_ID}: ${hTraceId}`);
+    }
+
+    if (!hSpanId) {
+      carrier.setHeader(HEADER_SPAN_ID, spanId);
+    } else {
+      consoleLogger.log(`[PandoraHttpCodec] use user define ${HEADER_SPAN_ID}: ${hSpanId}`);
+    }
   }
 
   /**
@@ -30,8 +44,10 @@ export class PandoraHttpCodec implements PandoraCodec {
     const headers = carrier.headers || {};
 
     const traceId = this.getTraceId(headers);
+    const spanId = this.getSpanId(headers);
     const context = new PandoraSpanContext({
-      traceId
+      traceId,
+      spanId
     });
 
     return context;
@@ -54,6 +70,16 @@ export class PandoraHttpCodec implements PandoraCodec {
     return traceId;
   }
 
+  getSpanId(headers: IncomingHttpHeaders): string {
+    let spanId: string;
+
+    spanId = this.getSpanIdFromHeader(headers);
+
+    spanId = spanId || getRandom64();
+
+    return spanId;
+  }
+
   /**
    * 从请求头部获取 traceId
    * @param headers {IncomingHttpHeaders} - 请求头
@@ -64,5 +90,12 @@ export class PandoraHttpCodec implements PandoraCodec {
     traceId = traceId && traceId.trim();
 
     return traceId;
+  }
+
+  getSpanIdFromHeader(headers: IncomingHttpHeaders): string {
+    let spanId: string = String(headers[HEADER_SPAN_ID]);
+    spanId = spanId && spanId.trim();
+
+    return spanId;
   }
 }

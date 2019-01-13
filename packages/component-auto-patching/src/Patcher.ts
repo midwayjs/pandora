@@ -5,6 +5,7 @@ import { ITracer, IPandoraContext } from 'pandora-component-trace';
 import * as assert from 'assert';
 import { CLS } from './cls';
 import { CURRENT_CONTEXT } from './constants';
+import { Wrapper } from './patchers/wrappers/Wrapper';
 
 export class Patcher {
 
@@ -12,6 +13,7 @@ export class Patcher {
   protected _moduleName: string;
   protected options: PatcherOptions;
   protected cls: CLS = CLS.getInstance();
+  protected wrapper: Wrapper;
 
   constructor(ctx: any) {
     this.ctx = ctx;
@@ -19,6 +21,11 @@ export class Patcher {
     this.options = patcherConfig.patchers[this.moduleName] || {
       enabled: true
     };
+
+    if (this.options.kWrapper) {
+      const KWrapper = this.options.kWrapper;
+      this.wrapper = new KWrapper(this.ctx, this.tracer, this.cls, this.moduleName, this.options);
+    }
 
     if (this.options.enabled) {
       this.attach();

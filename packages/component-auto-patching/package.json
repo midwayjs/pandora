@@ -26,9 +26,10 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
+    "mysql": "^2.16.0",
     "nyc": "^8.4.0",
-    "pandora-component-trace": "^2.0.0-4",
-    "pandora-component-error-log": "^2.0.0-4"
+    "pandora-component-error-log": "^2.0.0-4",
+    "pandora-component-trace": "^2.0.0-4"
   },
   "nyc": {
     "include": [

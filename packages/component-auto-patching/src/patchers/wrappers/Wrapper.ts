@@ -17,6 +17,8 @@ export class Wrapper {
     this.options = options;
   }
 
-  wrap(target: any): void {}
-  unwrap(target: any): void {}
+  wrap?(target: any): void {}
+  unwrap?(target: any): void {}
+
+  wrapFactory?(target: any, property: string, factory: Function): void;
 }

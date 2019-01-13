@@ -2,7 +2,8 @@ import { consoleLogger } from 'pandora-dollar';
 import {
   HttpClientPatcherOptions,
   HttpRequestCallback,
-  HttpClientTags
+  HttpClientTags,
+  ExIncomingMessage
 } from '../../../domain';
 import * as shimmer from '../../../Shimmer';
 import { nodeVersion, urlToOptions } from '../../../utils';
@@ -67,8 +68,16 @@ export class HttpClientWrapper extends Wrapper {
 
       const _request = request.apply(null, arguments);
 
+      // 追加请求前的 tags
       const args = self.argsCompatible(url, options, cb);
-      self.appendTags(span, args, _request);
+      const staticTags = self.staticTags(args, _request);
+      span.addTags(staticTags);
+
+      if (self.options.tracing) {
+        self.tracing(span, _request);
+      }
+
+      self.wrapRequest(span, _request);
 
       return _request;
     };
@@ -105,7 +114,7 @@ export class HttpClientWrapper extends Wrapper {
     return span;
   }
 
-  buildTags(options: RequestOptions, clientRequest: ClientRequest): HttpClientTags {
+  staticTags(options: RequestOptions, clientRequest: ClientRequest): HttpClientTags {
 
     return {
       // use 'GET' default, like node.js
@@ -114,15 +123,134 @@ export class HttpClientWrapper extends Wrapper {
       // defaultPort: https://github.com/nodejs/node/blob/eb664c3b6df2ec618fa1c9339dbd418e858bfcfa/lib/_http_agent.js#L48
       'http.port': options.port || options._defaultAgent && (<any>options._defaultAgent).defaultPort || DEFAULT_PORT,
       // use '/' default, like node.js
-      // 'http.pathname': clientRequest.path || '/'
+      'http.pathname': options.path || '/'
     };
   }
 
-  tracing() {}
+  tracing(span: IPandoraSpan, clientRequest: ClientRequest): void {
+    const context = span.context();
 
-  appendTags(span: IPandoraSpan, options: RequestOptions, clientRequest: ClientRequest): void {}
+    try {
+      this.tracer.inject(context, 'http', clientRequest);
+    } catch (error) {
+      consoleLogger.log('[HttpClientWrapper] inject tracing context to headers error. ', error);
+    }
+  }
 
-  wrapRequest() {}
+  wrapRequest(span: IPandoraSpan, clientRequest: ClientRequest): void {
+    const self = this;
+
+    shimmer.wrap(clientRequest, 'emit', function requestEmitWrapper(emit) {
+      const bindRequestEmit = self.cls.bind(emit);
+
+      return function wrappedRequestEmit(this: ClientRequest, event: string, args: any) {
+        if (event === 'error') {
+          self.handleRequestError(span, args);
+        } else if (event === 'response') {
+          self.handleResponse(span, args);
+        }
+
+        return bindRequestEmit.apply(this, arguments);
+      };
+    });
+  }
+
+  handleRequestError(span: IPandoraSpan, error: Error): void {
+    if (span) {
+      span.error(true);
+      this._handleRequestError(span, error);
+      span.finish();
+    }
+  }
+
+  _handleRequestError(span: IPandoraSpan, error: Error): void {
+    span.setTag('http.status_code', -1);
+
+    span.log({
+      requestError: error.message
+    });
+  }
+
+  handleResponse(span: IPandoraSpan, res: ExIncomingMessage): void {
+    const self = this;
+
+    res.__responseSize = 0;
+    res.__chunks = [];
+
+    shimmer.wrap(res, 'emit', function wrapResponseEmit(emit) {
+      const bindResponseEmit = self.cls.bind(emit);
+
+      return function wrappedResponseEmit(this: ExIncomingMessage, event) {
+        if (event === 'end') {
+          if (span) {
+            self.exportResponse(span, res);
+            span.error(false);
+            span.finish();
+          }
+        } else if (event === 'data') {
+          const chunk = arguments[1] || [];
+          res.__responseSize += chunk.length;
+
+          self.recordResponse(chunk, res);
+        }
+
+        return bindResponseEmit.apply(this, arguments);
+      };
+    });
+  }
+
+  recordResponse(chunk: any, res: ExIncomingMessage) {
+    if (this.options.recordResponse) {
+      const size = this.responseSize(res);
+
+      if (size <= this.options.maxResponseSize) {
+        res.__chunks.push(chunk);
+      }
+    }
+  }
+
+  exportResponse(span: IPandoraSpan, res: ExIncomingMessage) {
+    if (this.options.recordResponse) {
+      const response = this.responseTransformer(Buffer.concat(res.__chunks), res);
+
+      span.log({
+        response
+      });
+    }
+  }
+
+  _handleResponse(span: IPandoraSpan, res: ExIncomingMessage) {
+    const socket = res.socket;
+    const remoteIp = socket ? (socket.remoteAddress ? `${socket.remoteAddress}:${socket.remotePort}` : '') : '';
+    const responseSize = this.responseSize(res);
+
+    // 清除记录
+    delete res.__responseSize;
+    delete res.__chunks;
+
+    span.setTag('http.status_code', res.statusCode);
+    span.setTag('http.remote_ip', remoteIp);
+    span.setTag('http.response_size', responseSize);
+  }
+
+  responseTransformer(buffer: Buffer, res?: ExIncomingMessage): string {
+    const responseTransformer = this.options.responseTransformer;
+
+    try {
+      return responseTransformer && responseTransformer(buffer, res) || buffer.toString('utf8');
+    } catch (error) {
+      consoleLogger.log('transform response data error. ', error);
+      return '';
+    }
+  }
+
+  responseSize(res: ExIncomingMessage): number {
+    if (res.headers && res.headers['content-length']) {
+      return parseInt(res.headers['content-length'], 10);
+    } else {
+      return res.__responseSize;
+    }
+  }
 
   unwrap(target: any): void {
     shimmer.unwrap(target, 'request');

@@ -11,12 +11,6 @@ export class HttpClientPatcher extends Patcher {
   protected wrapper: HttpClientWrapper;
   protected wrapHttps: boolean = nodeVersion('<0.11 || >=9.0.0 || 8.9.0');
 
-  constructor(ctx) {
-    super(ctx);
-    const KWrapper = this.options.kWrapper || HttpClientWrapper;
-    this.wrapper = new KWrapper(this.ctx, this.tracer, this.cls, this.moduleName, this.options);
-  }
-
   target() {
     return {
       http,

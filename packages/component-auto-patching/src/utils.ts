@@ -3,6 +3,16 @@ import { UrlWithStringQuery, URL } from 'url';
 import * as semver from 'semver';
 import { RequestOptions } from 'http';
 
+const LOCALHOST_NAMES = {
+  'localhost': true,
+  '127.0.0.1': true,
+  '0.0.0.0': true,
+  '0:0:0:0:0:0:0:1': true,
+  '::1': true,
+  '0:0:0:0:0:0:0:0': true,
+  '::': true
+};
+
 /**
  * 提取 path 信息，去掉尾部反斜杠
  * @param requestUrl {string|UrlWithStringQuery}
@@ -56,4 +66,16 @@ export function urlToOptions(url: URL): RequestOptions {
   }
 
   return options;
+}
+
+export function getDatabaseConfigFromQuery(sql: string) {
+  // The character ranges for this were pulled from
+  // http://dev.mysql.com/doc/refman/5.7/en/identifiers.html
+  const match = /^\s*use[^\w`]+([\w$_\u0080-\uFFFF]+|`[^`]+`)[\s;]*$/i.exec(sql);
+
+  return match && match[1] || null;
+}
+
+export function isLocalhost(host) {
+  return !!LOCALHOST_NAMES[host];
 }

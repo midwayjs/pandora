@@ -3,6 +3,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { Patcher } from './Patcher';
 import { Wrapper } from './patchers/wrappers/Wrapper';
 import { HttpClientWrapper } from './patchers/wrappers/http-client/HttpClientWrapper';
+import { MySQLWrapper } from './patchers/wrappers/mysql/MySQLWrapper';
 
 export type OriginalModule = any;
 export type WrappedModule = any;
@@ -47,6 +48,7 @@ export interface ICLSNamespace {
 export interface PatcherOptions {
   enabled?: boolean;
   klass?: typeof Patcher;
+  kWrapper?: typeof Wrapper;
 }
 
 export interface AutoPatchingConfig {
@@ -98,7 +100,7 @@ export interface GlobalPatcherOptions extends PatcherOptions {
   recordFatal?: boolean;
 }
 
-export type ResponseTransformer = (buffer: Buffer, res?: ServerResponse) => string;
+export type ResponseTransformer = (buffer: Buffer, res?: ExIncomingMessage) => string;
 
 export interface HttpClientPatcherOptions extends PatcherOptions {
   // 通常情况下，https 的 request 方法调用的是 http 的 request
@@ -106,6 +108,8 @@ export interface HttpClientPatcherOptions extends PatcherOptions {
   forcePatchHttps?: boolean;
   // 记录请求结果
   recordResponse?: boolean;
+  // 最大记录请求结果大小，有的请求结果会比较大，导致内存占用过大
+  maxResponseSize?: number;
   // 请求结果处理函数
   responseTransformer?: ResponseTransformer;
   // 是否开启下游追踪，开启会在请求中植入参数
@@ -125,6 +129,11 @@ export interface HttpClientTags extends Tags {
 
 export type HttpRequestCallback = (res: IncomingMessage) => void;
 
+export interface ExIncomingMessage extends IncomingMessage {
+  __responseSize: number;
+  __chunks: Buffer[];
+}
+
 export type SQLMask = (sql: string) => string;
 
 export interface MySQLPatcherOptions extends PatcherOptions {
@@ -132,8 +141,14 @@ export interface MySQLPatcherOptions extends PatcherOptions {
   recordSql?: boolean;
   // sql 脱敏函数
   sqlMask?: SQLMask;
+  // 是否记录数据库名称
+  recordDatabaseName?: boolean;
+  // 是否记录数据库实例
+  recordInstance?: boolean;
+  // 是否开启下游追踪，开启后使用 hint 传递参数，暂时空实现，有需要时增加
+  tracing?: boolean;
   // mysql wrapper
-  kWrapper?: typeof Wrapper;
+  kWrapper?: typeof MySQLWrapper;
 }
 
 export interface MySQLTags extends Tags {
