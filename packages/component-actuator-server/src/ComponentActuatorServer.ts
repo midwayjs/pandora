@@ -29,6 +29,9 @@ export default class ComponentActuatorServer {
       consoleLogger.info(`Actuator restful server started at http://${address}:${port}`);
     }
   }
+  async stopAtSupervisor() {
+    await this.actuatorRestServer.stop();
+  }
 }
 
 export * from './domain';

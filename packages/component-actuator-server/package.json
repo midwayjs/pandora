@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-actuator-server",
-  "version": "2.0.0-7",
+  "version": "2.0.0-8",
   "description": "Pandora 2 Component Actuator Server",
   "main": "dist/ComponentActuatorServer",
   "typings": "dist/ComponentActuatorServer.d.ts",
@@ -8,7 +8,7 @@
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
-    "test": "npm run lint && true",
+    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
     "cov": "nyc mocha",
     "ci": "npm run test",
     "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
@@ -25,7 +25,8 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^13.1.0",
+    "supertest": "^3.3.0"
   },
   "nyc": {
     "include": [
@@ -33,7 +34,9 @@
       "src/**/*.ts"
     ],
     "exclude": [
-      "typings"
+      "typings",
+      "dist",
+      "src/domain.ts"
     ],
     "extension": [
       ".ts"
@@ -55,7 +58,7 @@
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "pandora-component-decorator": "^2.0.0-7",
-    "pandora-dollar": "^2.0.0-7"
+    "pandora-component-decorator": "^2.0.0-8",
+    "pandora-dollar": "^2.0.0-8"
   }
 }

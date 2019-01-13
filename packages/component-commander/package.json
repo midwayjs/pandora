@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-commander",
-  "version": "2.0.0-7",
+  "version": "2.0.0-8",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/ComponentCommander",
   "typings": "dist/ComponentCommander.d.ts",
@@ -52,7 +52,7 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.0.0-7",
-    "pandora-dollar": "^2.0.0-7"
+    "pandora-component-decorator": "^2.0.0-8",
+    "pandora-dollar": "^2.0.0-8"
   }
 }

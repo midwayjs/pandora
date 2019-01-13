@@ -8,10 +8,10 @@
     "lerna-relinker": "^1.4.0",
     "nyc": "^11.2.1",
     "pandora-site-tools": "^1.0.0",
-    "ts-node": "^4.1.0",
+    "ts-node": "^7.0.1",
     "tslint": "^5.9.1",
     "typedoc": "^0.13.0",
-    "typescript": "^3.2.1",
+    "typescript": "^3.2.2",
     "vuepress": "^0.14.4"
   },
   "scripts": {

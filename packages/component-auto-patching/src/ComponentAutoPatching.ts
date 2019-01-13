@@ -37,9 +37,9 @@ export default class ComponentAutoPatching {
 }
 
 export * from './Patcher';
-export * from './patchers/GlobalPatcher';
-export * from './patchers/HttpServerPatcher';
+export * from './patchers/index';
 export * from './Shimmer';
 export * from './cls';
 export * from './domain';
 export * from './constants';
+export * from './utils';

@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-reporter-manager",
-  "version": "2.0.0-7",
+  "version": "2.0.0-8",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/ComponentReporterManager",
   "typings": "dist/ComponentReporterManager.d.ts",
@@ -26,9 +26,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
-    "pandora-component-error-log": "^2.0.0-7",
-    "pandora-component-metrics": "^2.0.0-7",
-    "pandora-component-trace": "^2.0.0-7"
+    "pandora-component-error-log": "^2.0.0-8",
+    "pandora-component-metrics": "^2.0.0-8",
+    "pandora-component-trace": "^2.0.0-8"
   },
   "nyc": {
     "include": [
@@ -56,7 +56,7 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0-7",
-    "pandora-dollar": "^2.0.0-7"
+    "pandora-component-decorator": "^2.0.0-8",
+    "pandora-dollar": "^2.0.0-8"
   }
 }
