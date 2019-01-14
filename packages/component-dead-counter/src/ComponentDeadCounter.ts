@@ -1,6 +1,8 @@
 import {componentName, dependencies} from 'pandora-component-decorator';
 import {HubServer, Selector} from 'pandora-hub';
 import {MetricsManager, MetricName} from 'metrics-common';
+const debug = require('debug')('pandora:ComponentDeadCounter');
+
 
 @componentName('deadCounter')
 @dependencies(['ipcHub', 'metrics', 'errorLog'])
@@ -26,7 +28,7 @@ export default class ComponentDeadCounter {
             path: 'component-dead-counter'
           });
         } catch(err) {
-          // TODO: add a debug info here
+          debug(err);
         }
       });
     }

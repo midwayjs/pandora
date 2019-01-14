@@ -22,10 +22,11 @@
     "@types/extend": "^3.0.0",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
+    "pandora-component-ipc-hub": "^2.0.0-8",
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "nyc": "^13.1.0"
   },
   "nyc": {
     "include": [
@@ -33,7 +34,8 @@
       "src/**/*.ts"
     ],
     "exclude": [
-      "typings"
+      "typings",
+      "dist"
     ],
     "extension": [
       ".ts"

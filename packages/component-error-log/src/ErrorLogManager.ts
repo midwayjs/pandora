@@ -27,17 +27,17 @@ export class ErrorLogManager extends EventEmitter {
     }
     const dumped = Array.from(this.pool);
     this.pool.length = 0;
-    this.emit('dump', dumped);
+    try {
+      this.emit('dump', dumped);
+    } catch (err) {
+      console.error(err);
+    }
   }
   start(): void {
     if (!this.running) {
       this.running = true;
       this.intervalId = setInterval(() => {
-        try {
-          this.dump();
-        } catch (err) {
-          console.error(err);
-        }
+        this.dump();
       }, this.interval);
     }
   }

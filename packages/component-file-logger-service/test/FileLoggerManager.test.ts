@@ -1,7 +1,7 @@
 import * as $ from 'pandora-dollar';
 
 import {expect} from 'chai';
-import {FileLoggerManager} from '../../src/FileLoggerManager';
+import {FileLoggerManager} from '../src/FileLoggerManager';
 import Path = require('path');
 import mkdirp = require('mkdirp');
 import mm = require('mm');
