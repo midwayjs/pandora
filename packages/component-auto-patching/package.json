@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-auto-patching",
-  "version": "2.0.0-8",
+  "version": "2.0.0-9",
   "description": "Pandora 2 module auto patching for trace and console",
   "main": "dist/ComponentAutoPatching",
   "typings": "dist/ComponentAutoPatching.d.ts",
@@ -30,8 +30,8 @@
     "nock": "^10.0.6",
     "nyc": "^8.4.0",
     "nyc-ts-patch": "^1.0.0",
-    "pandora-component-error-log": "^2.0.0-8",
-    "pandora-component-trace": "^2.0.0-8",
+    "pandora-component-error-log": "^2.0.0-9",
+    "pandora-component-trace": "^2.0.0-9",
     "pedding": "^1.1.0",
     "sinon": "^7.2.2",
     "urllib": "^2.33.0"
@@ -67,8 +67,8 @@
     "lodash": "^4.17.11",
     "module-hook": "^2.1.2",
     "opentracing": "^0.14.3",
-    "pandora-component-decorator": "^2.0.0-8",
-    "pandora-dollar": "^2.0.0-8",
-    "pandora-tracer": "^2.0.0-8"
+    "pandora-component-decorator": "^2.0.0-9",
+    "pandora-dollar": "^2.0.0-9",
+    "pandora-tracer": "^2.0.0-9"
   }
 }
