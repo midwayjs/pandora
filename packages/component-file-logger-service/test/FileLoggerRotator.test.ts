@@ -1,7 +1,7 @@
-import {MsgHeartbeatPayload, MsgPkg, MsgSendStrategyPayload, SOCKET_FILE_NAME} from '../../src/domain';
+import {MsgHeartbeatPayload, MsgPkg, MsgSendStrategyPayload} from '../src/domain';
 import {expect} from 'chai';
 import * as $ from 'pandora-dollar';
-import {FileLoggerRotator} from '../../src/FileLoggerRotator';
+import {FileLoggerRotator} from '../src/FileLoggerRotator';
 
 import mm = require('mm');
 import mkdirp = require('mkdirp');
