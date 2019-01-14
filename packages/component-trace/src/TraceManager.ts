@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { consoleLogger } from 'pandora-dollar';
 import { TraceData } from './TraceData';
 import { IPandoraSpan, TraceManagerOptions, ITracer } from './domain';
-import { SPAN_FINISHED, TraceStatus, TRACE_DATA_DUMP } from './constants';
+import { SPAN_FINISHED, TraceStatus, TRACE_DATA_DUMP, SPAN_CREATED } from './constants';
 
 // 默认最多存储数据量
 export const DEFAULT_POOL_SIZE = 1000;
@@ -31,6 +31,9 @@ export class TraceManager extends EventEmitter {
 
     if (Tracer) {
       this._tracer = new Tracer();
+      this._tracer.on(SPAN_CREATED, (span) => {
+        this.record(span, span.isEntry);
+      });
     }
   }
 

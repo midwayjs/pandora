@@ -45,6 +45,7 @@ export class PandoraHttpCodec implements PandoraCodec {
 
     const traceId = this.getTraceId(headers);
     const spanId = this.getSpanId(headers);
+
     const context = new PandoraSpanContext({
       traceId,
       spanId
@@ -75,8 +76,6 @@ export class PandoraHttpCodec implements PandoraCodec {
 
     spanId = this.getSpanIdFromHeader(headers);
 
-    spanId = spanId || getRandom64();
-
     return spanId;
   }
 
@@ -86,14 +85,14 @@ export class PandoraHttpCodec implements PandoraCodec {
    * @returns {string} - traceId
    */
   getTraceIdFromHeader(headers: IncomingHttpHeaders): string {
-    let traceId: string = String(headers[HEADER_TRACE_ID]);
+    let traceId: any = headers[HEADER_TRACE_ID] || null;
     traceId = traceId && traceId.trim();
 
     return traceId;
   }
 
   getSpanIdFromHeader(headers: IncomingHttpHeaders): string {
-    let spanId: string = String(headers[HEADER_SPAN_ID]);
+    let spanId: any = headers[HEADER_SPAN_ID] || null;
     spanId = spanId && spanId.trim();
 
     return spanId;

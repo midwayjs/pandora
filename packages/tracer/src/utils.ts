@@ -1,4 +1,4 @@
-import xorshift from 'xorshift';
+import * as xorshift from 'xorshift';
 import { LogItem } from './domain';
 
 /**

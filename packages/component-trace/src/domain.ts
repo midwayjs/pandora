@@ -1,4 +1,5 @@
 import { Span, SpanContext } from 'opentracing';
+import { EventEmitter } from 'events';
 
 export interface IPandoraContext extends SpanContext {
   traceId: string;
@@ -30,7 +31,7 @@ export interface ISpanOptions {
   startTime?: number;
 }
 
-export interface ITracer {
+export interface ITracer extends EventEmitter {
   new(): ITracer;
   extract: (format: string, carrier: any) => IPandoraContext;
   inject: (spanContext: IPandoraContext, format: string, carrier: any) => void;

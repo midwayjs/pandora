@@ -134,6 +134,7 @@ export class GlobalPatcher extends Patcher {
   }
 
   attach() {
+    this.init();
     const options = this.options;
 
     if (!options.enabled) return;

@@ -6,4 +6,5 @@ export enum TraceStatus {
 }
 
 export const SPAN_FINISHED = 'span_finished';
+export const SPAN_CREATED = 'span_created';
 export const TRACE_DATA_DUMP = 'Trace:Data_Dump';

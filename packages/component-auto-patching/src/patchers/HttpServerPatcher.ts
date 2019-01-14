@@ -1,6 +1,6 @@
 import * as http from 'http';
 import { IncomingMessage, ServerResponse } from 'http';
-import is from 'is-type-of';
+import * as is from 'is-type-of';
 import { consoleLogger } from 'pandora-dollar';
 import { IPandoraSpan } from 'pandora-component-trace';
 import { URL } from 'url';
@@ -32,7 +32,7 @@ export class HttpServerPatcher extends Patcher {
     return false;
   }
 
-  wrapCreateServer(createServer) {
+  wrapCreateServer = (createServer) => {
     const self = this;
 
     return function wrappedCreateServer(opts?: HttpCreateServerOptions, requestListener?: RequestListener) {
@@ -244,9 +244,11 @@ export class HttpServerPatcher extends Patcher {
   }
 
   attach() {
+    this.init();
     const shimmer = this.shimmer;
     const target = this.target();
 
+    consoleLogger.log(`[HttpServerPatcher] patching http createServer.`);
     shimmer.wrap(target, 'createServer', this.wrapCreateServer);
   }
 

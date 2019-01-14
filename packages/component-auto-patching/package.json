@@ -8,7 +8,7 @@
     "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
-    "test": "npm run lint && true",
+    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
     "cov": "nyc mocha",
     "ci": "npm run test",
     "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
@@ -27,9 +27,14 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "mysql": "^2.16.0",
+    "nock": "^10.0.6",
     "nyc": "^8.4.0",
+    "nyc-ts-patch": "^1.0.0",
     "pandora-component-error-log": "^2.0.0-8",
-    "pandora-component-trace": "^2.0.0-8"
+    "pandora-component-trace": "^2.0.0-8",
+    "pedding": "^1.1.0",
+    "sinon": "^7.2.2",
+    "urllib": "^2.33.0"
   },
   "nyc": {
     "include": [
@@ -63,6 +68,7 @@
     "module-hook": "^2.1.2",
     "opentracing": "^0.14.3",
     "pandora-component-decorator": "^2.0.0-8",
-    "pandora-dollar": "^2.0.0-8"
+    "pandora-dollar": "^2.0.0-8",
+    "pandora-tracer": "^2.0.0-8"
   }
 }

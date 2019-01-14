@@ -71,6 +71,10 @@ export class PandoraSpan extends Span {
     return this.context().traceName || this._operationName;
   }
 
+  get isEntry(): boolean {
+    return this.tag('is_entry') || false;
+  }
+
   tracer(): PandoraTracer {
     return this.__tracer;
   }
@@ -149,7 +153,6 @@ export class PandoraSpan extends Span {
     this._duration = this._finishTime - this._startTime;
 
     (<any>this).emit(SPAN_FINISHED, this);
-    // this.tracer.report(this);
   }
 }
 

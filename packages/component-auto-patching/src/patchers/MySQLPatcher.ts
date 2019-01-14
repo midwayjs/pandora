@@ -4,7 +4,7 @@ import { MySQLPatcherOptions } from '../domain';
 
 export class MySQLPatcher extends Patcher {
   protected options: MySQLPatcherOptions;
-  protected _moduleName = 'MySQL';
+  protected _moduleName = 'mySQL';
   protected wrapper: MySQLWrapper;
 
   target() {
@@ -16,6 +16,7 @@ export class MySQLPatcher extends Patcher {
   }
 
   attach() {
+    this.init();
     const target = this.target();
     const version = this.version();
     const hook = this.hook;

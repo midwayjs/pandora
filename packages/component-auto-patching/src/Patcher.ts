@@ -14,21 +14,24 @@ export class Patcher {
   protected options: PatcherOptions;
   protected cls: CLS = CLS.getInstance();
   protected wrapper: Wrapper;
+  protected inited: boolean = false;
 
   constructor(ctx: any) {
     this.ctx = ctx;
-    const patcherConfig = ctx.config.autoPatching || { patchers: {} };
-    this.options = patcherConfig.patchers[this.moduleName] || {
-      enabled: true
-    };
+  }
 
-    if (this.options.kWrapper) {
-      const KWrapper = this.options.kWrapper;
-      this.wrapper = new KWrapper(this.ctx, this.tracer, this.cls, this.moduleName, this.options);
-    }
+  init() {
+    if (!this.inited) {
+      const patcherConfig = this.ctx.options.autoPatching || { patchers: {} };
+      this.options = patcherConfig.patchers[this.moduleName] || {
+        enabled: true
+      };
+      if (this.options.kWrapper) {
+        const KWrapper = this.options.kWrapper;
+        this.wrapper = new KWrapper(this.ctx, this.tracer, this.cls, this.moduleName, this.options);
+      }
 
-    if (this.options.enabled) {
-      this.attach();
+      this.inited = true;
     }
   }
 
@@ -47,6 +50,7 @@ export class Patcher {
   get tracer(): ITracer {
     const traceManager = this.ctx.traceManager;
     assert(traceManager, 'pandora-component-trace is need!');
+    assert(traceManager.tracer, 'pandora-component-trace is need!');
     return traceManager.tracer;
   }
 

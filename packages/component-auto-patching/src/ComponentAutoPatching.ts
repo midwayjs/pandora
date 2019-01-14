@@ -1,13 +1,50 @@
-import { componentName, dependencies } from 'pandora-component-decorator';
+import { componentName, dependencies, componentConfig } from 'pandora-component-decorator';
+import { PandoraTracer } from 'pandora-tracer';
 import { AutoPatchingConfig } from './domain';
 import { Patcher } from './Patcher';
+import {
+  GlobalPatcher,
+  HttpServerPatcher,
+  HttpClientPatcher,
+  MySQLPatcher,
+  MySQL2Patcher
+} from './patchers';
 
 @componentName('autoPatching')
 @dependencies(['trace', 'errorLog'])
+@componentConfig({
+  trace: {
+    kTracer: PandoraTracer
+  },
+  autoPatching: {
+    patchers: {
+      global: {
+        enabled: true,
+        klass: GlobalPatcher
+      },
+      httpServer: {
+        enabled: true,
+        klass: HttpServerPatcher
+      },
+      httpClient: {
+        enabled: true,
+        klass: HttpClientPatcher
+      },
+      mySQL: {
+        enabled: true,
+        klass: MySQLPatcher
+      },
+      mySQL2: {
+        enabled: true,
+        klass: MySQL2Patcher
+      }
+    }
+  }
+})
 export default class ComponentAutoPatching {
   ctx: any;
   patchers;
-  instances: Map<string, Patcher>;
+  instances: Map<string, Patcher> = new Map();
 
   constructor(ctx) {
     this.ctx = ctx;
@@ -33,6 +70,8 @@ export default class ComponentAutoPatching {
     for (const instance of this.instances.values()) {
       instance.unattach();
     }
+
+    this.instances.clear();
   }
 }
 

@@ -70,7 +70,7 @@ export class MySQLWrapper extends Wrapper {
           return query.apply(this, arguments);
         }
 
-        this.recordSql(span, args);
+        self.recordSql(span, args);
 
         const callback = args.cb;
 
@@ -82,7 +82,7 @@ export class MySQLWrapper extends Wrapper {
         const options = self.transformArgs(args.options, span);
         const bindCallback = self.bindCallback(callback, span);
 
-        return query.apply(this, options, bindCallback);
+        return query.apply(this, [options, bindCallback]);
       };
     });
   }
@@ -349,6 +349,7 @@ export class MySQLWrapper extends Wrapper {
       collection,
       raw: parsed.query
     };
+  }
 
   unWrap(target: any): void {}
 }

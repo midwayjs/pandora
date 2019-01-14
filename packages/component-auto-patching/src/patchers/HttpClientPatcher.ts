@@ -19,6 +19,7 @@ export class HttpClientPatcher extends Patcher {
   }
 
   attach() {
+    this.init();
     const target = this.target();
 
     this.wrapper.wrap(target.http);

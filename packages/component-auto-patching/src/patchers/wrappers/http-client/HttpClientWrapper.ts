@@ -55,7 +55,7 @@ export class HttpClientWrapper extends Wrapper {
     return _options;
   }
 
-  httpRequestWrapper(request) {
+  httpRequestWrapper = (request) => {
     const self = this;
 
     return function wrappedHttpRequest(url: string | URL, options: RequestOptions, cb: HttpRequestCallback): ClientRequest {
