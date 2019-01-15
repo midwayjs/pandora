@@ -124,9 +124,8 @@ describe('IndicatorManager', () => {
     });
 
     after(async () => {
-      await ctxWorker.hubFacade.stop();
-      await ctxSupervisor.hubFacade.stop();
-      await ctxSupervisor.hubServer.stop();
+      await componentIPCHubWorker.stop();
+      await componentIPCHubSupervisor.stopAtSupervisor();
     });
 
     it('should publish() and register() be ok', async () => {

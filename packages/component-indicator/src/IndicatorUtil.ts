@@ -1,7 +1,7 @@
 import {IndicatorResultObject, IndicatorScope} from './domain';
 
 export class IndicatorUtil {
-  static mergeRawIndicatorResultRows(rows: IndicatorResultObject[]): any {
+  static mergeRawIndicatorResultRows(rows: IndicatorResultObject[]): IndicatorResultObject[] {
 
     const hitMap: Map<string, boolean> = new Map;
     const ret = [];
