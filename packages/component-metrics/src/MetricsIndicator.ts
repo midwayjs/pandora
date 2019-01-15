@@ -1,6 +1,6 @@
 import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
 import {MetricsManager} from './MetricsManager';
-import { IMetricsRegistry, MetricFilter, MetricName, Metric } from 'metrics-common';
+import { IMetricsRegistry, MetricName } from 'metrics-common';
 import { MetricObject } from 'pandora-metrics-util';
 import {NormalMetricsCollector} from 'pandora-metrics-util';
 const debug = require('debug')('pandora:metrics:MetricsIndicator');
@@ -9,7 +9,6 @@ const debug = require('debug')('pandora:metrics:MetricsIndicator');
 export interface MetricsIndicatorInvokeQuery {
   action: 'list' | 'group';
   group?: string;
-  appName?: string;
 }
 
 export class MetricsIndicator implements IIndicator {
@@ -25,11 +24,11 @@ export class MetricsIndicator implements IIndicator {
   async invoke(query: MetricsIndicatorInvokeQuery) {
 
     if(query.action === 'list') {
-      return this.listMetrics(query.group, query.appName);
+      return this.listMetrics(query.group);
     }
 
     if(query.action === 'group') {
-      return this.getMetricsByGroup(query.group, query.appName);
+      return this.getMetricsByGroup(query.group);
     }
 
   }
@@ -37,37 +36,30 @@ export class MetricsIndicator implements IIndicator {
   rateFactor = 1;
   durationFactor = 1.0;
 
-  async listMetrics(group?: string, appName?: string): Promise<{}> {
-    let filter;
-    if (appName) {
-      filter = new AppNameFilter(appName);
-    }
-    if (this.metricsManager.isEnabled()) {
-      let resultMap = {};
-      for (let groupName of this.metricsManager.listMetricGroups()) {
-        if (!group || (group && groupName === group)) {
-          let registry = this.metricsManager.getMetricRegistryByGroup(groupName);
-          let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
-          resultMap[ groupName ] = results.map((o) => {
-            let result = o.toJSON();
-            // list 接口过滤掉 value 和 timestamp
-            delete result[ 'value' ];
-            delete result[ 'timestamp' ];
-            return result;
-          });
-        }
+  async listMetrics(group?: string): Promise<{[groupName: string]: MetricObject[]}> {
+    let resultMap = {};
+    for (let groupName of this.metricsManager.listMetricGroups()) {
+      if (!group || (group && groupName === group)) {
+        let registry = this.metricsManager.getMetricRegistryByGroup(groupName);
+        let results: Array<MetricObject> = await this.buildMetricRegistry(registry);
+        resultMap[ groupName ] = results.map((o) => {
+          let result = o.toJSON();
+          // list 接口过滤掉 value 和 timestamp
+          delete result[ 'value' ];
+          delete result[ 'timestamp' ];
+          return result;
+        });
       }
-      return resultMap;
     }
+    return resultMap;
   }
 
-  protected async buildMetricRegistry(registry: IMetricsRegistry, filter: MetricFilter = MetricFilter.ALL) {
+  async buildMetricRegistry(registry: IMetricsRegistry) {
     let collector = new NormalMetricsCollector({
       globalTags: {},
       rateFactor: this.rateFactor,
       durationFactor: this.durationFactor,
-      reportInterval: -1,
-      filter
+      reportInterval: -1
     });
 
     const timestamp = Date.now();
@@ -110,16 +102,12 @@ export class MetricsIndicator implements IIndicator {
     return collector.build();
   }
 
-  async getMetricsByGroup(groupName: string, appName?: string): Promise<Array<any>> {
+  async getMetricsByGroup(groupName: string): Promise<Array<any>> {
     if(!this.hasMetricsGroup(groupName)) {
       throw new Error('The specified group is not found!');
     }
-    let filter;
-    if (appName) {
-      filter = new AppNameFilter(appName);
-    }
     let registry = this.metricsManager.getMetricRegistryByGroup(groupName);
-    let results: Array<MetricObject> = await this.buildMetricRegistry(registry, filter);
+    let results: Array<MetricObject> = await this.buildMetricRegistry(registry);
     return results.map((o) => {
       return o.toJSON();
     });
@@ -131,20 +119,3 @@ export class MetricsIndicator implements IIndicator {
 
 }
 
-export class AppNameFilter implements MetricFilter {
-
-  appName;
-
-  constructor(appName) {
-    this.appName = appName;
-  }
-
-  matches(name: MetricName, metric: Metric): boolean {
-    let tags = name.getTags() || {};
-    if (!tags[ 'appName' ]) {
-      return true;
-    } else {
-      return tags[ 'appName' ] === this.appName;
-    }
-  }
-}

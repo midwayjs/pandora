@@ -17,8 +17,7 @@ export class MetricsEndPoint implements IEndPoint {
     router.get('/list', async (ctx, next) => {
       try {
         const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
-          action: 'list',
-          appName: ctx.query['appName']
+          action: 'list'
         });
         ctx.ok(res);
       } catch (err) {
@@ -30,7 +29,6 @@ export class MetricsEndPoint implements IEndPoint {
       try {
         const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
           action: 'list',
-          appName: ctx.query['appName'],
           group: ctx.params.group
         });
         ctx.ok(res);
@@ -43,7 +41,6 @@ export class MetricsEndPoint implements IEndPoint {
       try {
         const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
           action: 'group',
-          appName: ctx.query['appName'],
           group: ctx.params.group
         });
         ctx.ok(res);
