@@ -10,7 +10,7 @@ import {
   MetricName
 } from 'metrics-common';
 import {EventEmitter} from 'events';
-import {CompactMetricsCollector} from 'pandora-component-metrics';
+import {CompactMetricsCollector} from 'pandora-metrics-util';
 
 export interface MetricsOscillatorOption {
   interval: number;

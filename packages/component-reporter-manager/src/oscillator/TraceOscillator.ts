@@ -1,5 +1,7 @@
 import {EventEmitter} from 'events';
-import {TraceManager, TRACE_DATA_DUMP} from 'pandora-component-trace';
+import {TraceManager} from 'pandora-component-trace';
+
+const TRACE_DATA_DUMP = 'Trace:Data_Dump';
 
 export interface TraceOscillatorOption {
 }

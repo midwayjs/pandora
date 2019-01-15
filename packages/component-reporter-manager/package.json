@@ -27,7 +27,6 @@
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
     "pandora-component-error-log": "^2.0.0-9",
-    "pandora-component-metrics": "^2.0.0-9",
     "pandora-component-trace": "^2.0.0-9"
   },
   "nyc": {
@@ -56,6 +55,8 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
+    "pandora-component-metrics": "^2.0.0-9",
+    "pandora-metrics-util": "^2.0.0-9",
     "pandora-component-decorator": "^2.0.0-9",
     "pandora-dollar": "^2.0.0-9"
   }

@@ -1,8 +1,8 @@
 import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
 import {MetricsManager} from './MetricsManager';
 import { IMetricsRegistry, MetricFilter, MetricName, Metric } from 'metrics-common';
-import { MetricObject } from './collect/MetricObject';
-import {NormalMetricsCollector} from './collect/NormalMetricsCollector';
+import { MetricObject } from 'pandora-metrics-util';
+import {NormalMetricsCollector} from 'pandora-metrics-util';
 const debug = require('debug')('pandora:metrics:MetricsIndicator');
 
 
