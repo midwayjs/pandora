@@ -83,15 +83,15 @@ describe('IndicatorManager', () => {
     });
 
     it('should invoke() be ok', async () => {
-      // TODO: mergeRawIndicatorResultRows have not completed yet
       const ctx = {};
       const indicatorManager = new IndicatorManager(ctx);
       indicatorManager.register(indicator1);
       indicatorManager.register(indicator2);
+      indicatorManager.register(indicator3);
       const res1 = await indicatorManager.invoke('testGroup', {x: 'XFactor'});
-      expect(res1.length).to.be.equal(2);
+      expect(res1.length).to.be.equal(3);
       const res2 = await indicatorManager.invoke('testGroup');
-      expect(res2.length).to.be.equal(2);
+      expect(res2.length).to.be.equal(3);
     });
 
   });
@@ -151,11 +151,10 @@ describe('IndicatorManager', () => {
     });
 
     it('should invokeAllProcesses() be ok', async () => {
-      // TODO: mergeRawIndicatorResultRows have not completed yet
       const res1 = await indicatorManagerSupervisor.invokeAllProcesses('testGroup', {x: 'XFactor'});
-      expect(res1.length).to.be.equal(6);
+      expect(res1.length).to.be.equal(5);
       const res2 = await indicatorManagerSupervisor.invokeAllProcesses('testGroup');
-      expect(res2.length).to.be.equal(6);
+      expect(res2.length).to.be.equal(5);
     });
 
   });
