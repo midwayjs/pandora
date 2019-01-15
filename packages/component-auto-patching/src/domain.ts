@@ -92,6 +92,7 @@ export interface HttpServerTags extends Tags {
   'http.pathname'?: string;
   'http.client'?: boolean;
   'http.status_code'?: number;
+  [key: string]: any;
 }
 
 export interface GlobalPatcherOptions extends PatcherOptions {

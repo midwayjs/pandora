@@ -183,6 +183,7 @@ export class HttpClientWrapper extends Wrapper {
       return function wrappedResponseEmit(this: ExIncomingMessage, event) {
         if (event === 'end') {
           if (span) {
+            self._handleResponse(span, res);
             self.exportResponse(span, res);
             span.error(false);
             span.finish();
