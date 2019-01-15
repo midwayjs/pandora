@@ -29,11 +29,6 @@ export default class ComponentMetrics {
   }
 }
 
-export * from './MetricsCollectorManager';
 export * from './MetricsEndPoint';
 export * from './MetricsIndicator';
 export * from './MetricsManager';
-export * from './collect/CompactMetricsCollector';
-export * from './collect/MetricObject';
-export * from './collect/MetricsCollector';
-export * from './collect/NormalMetricsCollector';

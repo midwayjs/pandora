@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-dead-counter",
-  "version": "2.0.0-8",
+  "version": "2.0.0-9",
   "description": "Pandora 2 Component Dead Counter",
   "main": "dist/ComponentDeadCounter",
   "typings": "dist/ComponentDeadCounter.d.ts",
@@ -27,7 +27,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-hub": "^2.0.0-8"
+    "pandora-hub": "^2.0.0-9"
   },
   "nyc": {
     "include": [
@@ -60,7 +60,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0-8",
-    "pandora-dollar": "^2.0.0-8"
+    "pandora-component-decorator": "^2.0.0-9",
+    "pandora-dollar": "^2.0.0-9"
   }
 }

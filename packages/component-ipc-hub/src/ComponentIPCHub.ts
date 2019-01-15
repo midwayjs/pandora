@@ -46,4 +46,13 @@ export default class ComponentIPCHub {
     }
   }
 
+  async stop() {
+    await this.hubFacade.stop();
+  }
+
+  async stopAtSupervisor() {
+    await this.hubFacade.stop();
+    await this.hubServer.stop();
+  }
+
 }
