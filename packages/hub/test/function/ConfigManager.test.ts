@@ -65,10 +65,10 @@ describe('ConfigManager', () => {
     await configManager.publish('test_topic2', 'test_content_2');
 
     const allConfig1 = await configClient.getConfig();
-    expect(allConfig1).to.deep.eql( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
+    expect(allConfig1).to.deep.equal( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
 
     const allConfig2 = configManager.getConfig();
-    expect(allConfig2).to.deep.eql( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
+    expect(allConfig2).to.deep.equal( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
   });
 
   it('should getAllTopics', async () => {
@@ -81,7 +81,7 @@ describe('ConfigManager', () => {
     await configManager.publish('prefix_topic3', '789');
 
     const topics1 = configManager.getAllTopics('prefix_');
-    expect(topics1).to.deep.eql([ 'prefix_topic1', 'prefix_topic2', 'prefix_topic3' ]);
+    expect(topics1).to.deep.equal([ 'prefix_topic1', 'prefix_topic2', 'prefix_topic3' ]);
   });
 
   it('should getAllSubscribedTopics() be ok', async () => {
@@ -100,10 +100,10 @@ describe('ConfigManager', () => {
 
 
     const topics1 = configManager.getAllSubscribedTopics('prefix_');
-    expect(topics1).to.deep.eql([ 'prefix_topic1', 'prefix_topic3' ]);
+    expect(topics1).to.deep.equal([ 'prefix_topic1', 'prefix_topic3' ]);
 
     const topics2 = configManager.getAllSubscribedTopics();
-    expect(topics2).to.deep.eql([ 'test_topic', 'prefix_topic1', 'prefix_topic3' ]);
+    expect(topics2).to.deep.equal([ 'test_topic', 'prefix_topic1', 'prefix_topic3' ]);
 
   });
 
