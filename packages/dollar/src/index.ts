@@ -5,22 +5,6 @@ import {lstatSync, readlinkSync} from 'fs';
 const Module = require('module');
 const colors = require('colors');
 
-export const TemplatePattern = /{{([\s\S]+?)}}/g;
-
-export function template(str: string, options): string {
-  return _.template(str, {
-    interpolate: new RegExp(TemplatePattern)
-  })(options);
-}
-
-export function getObjectByPath(obj: any, path: string, defaultValue = undefined): any {
-  return _.get(obj, path, defaultValue);
-}
-
-export function mergeProperties(obj, source) {
-  return _.defaultsDeep(obj, source);
-}
-
 export function genereateUUID(): string {
   return uuid.v4();
 }
@@ -54,18 +38,6 @@ export const promise = {
     };
   }
 };
-
-/**
- * 以后标记废弃接口用
- * @param msg
- */
-export function alert(msg) {
-  try {
-    require('child_process').execSync(`osascript -e 'tell app "System Events" to display dialog ${JSON.stringify(msg.toString())}'`);
-  } catch(err) {
-    // dismiss
-  }
-}
 
 export function makeRequire(dir) {
   if(!Module._extensions['.$requireAnyWhere']) {
