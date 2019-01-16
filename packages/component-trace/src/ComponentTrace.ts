@@ -1,9 +1,16 @@
-import { componentName, dependencies } from 'pandora-component-decorator';
+import { componentName, dependencies, componentConfig } from 'pandora-component-decorator';
 import { TraceManager } from './TraceManager';
 import { TraceManagerOptions } from './domain';
 
 @componentName('trace')
 @dependencies(['indicator'])
+@componentConfig({
+  trace: {
+    poolSize: 100,
+    interval: 60 * 1000,
+    slowThreshold: 10 * 1000
+  }
+})
 export default class ComponentTrace {
   ctx: any;
   traceManager: TraceManager;

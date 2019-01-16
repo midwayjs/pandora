@@ -38,7 +38,7 @@ export interface LoggerConfig {
 
 export const DEFAULT_ROTATION_CONFIG = {
   type: <RotationType> 'date',
-  maxFiles: 10,
+  maxFiles: 5,
   maxFileSize: 300 * 1024 * 1024,
   rotateDuration: 5 * 60 * 1000,
 };

@@ -25,7 +25,7 @@ export class SandboxMetricsFileReporter implements IReporter {
         ...metricObject,
         ...globalTags,
         tags: {
-          ...(metricObject.tags || {}),
+          ...metricObject.tags,
           ...globalTags
         },
         unix_timestamp: FileReporterUtil.unix(metricObject.timestamp),

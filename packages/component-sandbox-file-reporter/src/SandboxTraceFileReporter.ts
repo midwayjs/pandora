@@ -22,6 +22,7 @@ export class SandboxTraceFileReporter implements IReporter {
     const globalTags = this.getGlobalTags();
     for(const traceData of data) {
       const traceData2nd = {...traceData};
+      /* istanbul ignore else */
       if(traceData.spans) {
         traceData2nd.spans = [];
         for(const span of traceData.spans) {

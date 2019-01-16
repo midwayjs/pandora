@@ -5,12 +5,12 @@ const pid = process.pid;
 let seedIndex = 1;
 
 export class FileReporterUtil {
-  static unix(timestamp) {
+  static unix(timestamp?) {
     timestamp = timestamp || Date.now();
     return Math.floor(timestamp / 1000);
   }
   static getSeed() {
-    return md5(hostname + pid + Date.now() + seedIndex ++);
+    return md5(hostname + pid + Date.now() + seedIndex++);
   }
 }
 
