@@ -1,5 +1,6 @@
 import {EventEmitter} from 'events';
 import {TraceManager} from 'pandora-component-trace';
+const debug = require('debug')('pandora:reporter-manager:TraceOscillator');
 
 const TRACE_DATA_DUMP = 'Trace:Data_Dump';
 
@@ -20,7 +21,11 @@ export class TraceOscillator extends EventEmitter {
 
   start() {
     this.handler = (list) => {
-      this.emit('oscillate', list);
+      try {
+        this.emit('oscillate', list);
+      } catch(err) {
+        debug(err);
+      }
     };
     this.traceManager.on(TRACE_DATA_DUMP, this.handler);
   }

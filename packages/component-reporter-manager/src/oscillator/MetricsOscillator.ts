@@ -1,5 +1,4 @@
 import {MetricsManager} from 'pandora-component-metrics';
-const debug = require('debug')('pandora:reporter-manager:MetricsOscillatorOption');
 import {
   BaseGauge,
   BaseCounter,
@@ -11,16 +10,17 @@ import {
 } from 'metrics-common';
 import {EventEmitter} from 'events';
 import {CompactMetricsCollector} from 'pandora-metrics-util';
+const debug = require('debug')('pandora:reporter-manager:MetricsOscillator');
 
 export interface MetricsOscillatorOption {
-  interval: number;
+  interval: number; // ms
 }
 
 export class MetricsOscillator extends EventEmitter {
 
   options;
   interval: number;
-  intervalHandler;
+  intervalHandler = null;
   metricsManager: MetricsManager;
 
   constructor(metricsManager: MetricsManager, options: MetricsOscillatorOption) {
@@ -34,24 +34,26 @@ export class MetricsOscillator extends EventEmitter {
     const {interval} = this;
     if(!this.intervalHandler) {
       this.intervalHandler = setInterval(async () => {
-        try {
-          debug('exec report once');
-          const categoryMetrics = this.metricsManager.getAllCategoryMetrics();
-          await this.report(
-            {
-              gauges: <Map<string, BaseGauge<any>>> categoryMetrics.get(MetricType.GAUGE),
-              counters: <Map<string, BaseCounter>> categoryMetrics.get(MetricType.COUNTER),
-              histograms: <Map<string, BaseHistogram>> categoryMetrics.get(MetricType.HISTOGRAM),
-              meters: <Map<string, BaseMeter>> categoryMetrics.get(MetricType.METER),
-              timers: <Map<string, BaseTimer>> categoryMetrics.get(MetricType.TIMER),
-              fastCompasses: <Map<string, BaseFastCompass>> categoryMetrics.get(MetricType.FASTCOMPASS)
-            }
-          );
-        } catch (err) {
-          console.error(err);
-        }
-      }, interval * 1000);
+        this.collect().catch((err) => {
+          debug('collect error', err);
+        });
+      }, interval);
     }
+  }
+
+  async collect() {
+    debug('exec report once');
+    const categoryMetrics = this.metricsManager.getAllCategoryMetrics();
+    await this.report(
+      {
+        gauges: <Map<string, BaseGauge<any>>> categoryMetrics.get(MetricType.GAUGE),
+        counters: <Map<string, BaseCounter>> categoryMetrics.get(MetricType.COUNTER),
+        histograms: <Map<string, BaseHistogram>> categoryMetrics.get(MetricType.HISTOGRAM),
+        meters: <Map<string, BaseMeter>> categoryMetrics.get(MetricType.METER),
+        timers: <Map<string, BaseTimer>> categoryMetrics.get(MetricType.TIMER),
+        fastCompasses: <Map<string, BaseFastCompass>> categoryMetrics.get(MetricType.FASTCOMPASS)
+      }
+    );
   }
 
   async report(metricsData: {
@@ -67,7 +69,7 @@ export class MetricsOscillator extends EventEmitter {
     const timestamp = Date.now();
 
     const collector = new CompactMetricsCollector({
-      reportInterval: this.interval,
+      reportInterval: this.interval / 1000,
     });
 
     const gaugesArr: BaseGauge<any>[] = Array.from(gauges.values());
@@ -101,6 +103,7 @@ export class MetricsOscillator extends EventEmitter {
     try {
       const list = [];
       for (const metricObject of collector.build()) {
+        /* istanbul ignore else */
         if (metricObject && metricObject.toJSON) {
           list.push(metricObject.toJSON());
         }
@@ -109,13 +112,14 @@ export class MetricsOscillator extends EventEmitter {
         this.emit('oscillate', list);
       }
     } catch (err) {
-      console.error('report metrics data error!', err);
+      debug('report metrics data error!', err);
     }
 
   }
 
   stop() {
     this.intervalHandler && clearInterval(this.intervalHandler);
+    this.intervalHandler = null;
   }
 
 }

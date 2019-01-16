@@ -1,5 +1,6 @@
 import {EventEmitter} from 'events';
 import {ErrorLogManager} from 'pandora-component-error-log';
+const debug = require('debug')('pandora:reporter-manager:ErrorLogOscillator');
 
 export interface ErrorLogOscillatorOption {
 }
@@ -18,7 +19,11 @@ export class ErrorLogOscillator extends EventEmitter {
 
   start() {
     this.handler = (list) => {
+      try {
       this.emit('oscillate', list);
+      } catch(err) {
+        debug(err);
+      }
     };
     this.errorLogManager.on('dump', this.handler);
   }
@@ -28,4 +33,3 @@ export class ErrorLogOscillator extends EventEmitter {
   }
 
 }
-
