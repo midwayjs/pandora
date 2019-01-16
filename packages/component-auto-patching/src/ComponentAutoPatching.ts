@@ -53,7 +53,7 @@ export default class ComponentAutoPatching {
 
   constructor(ctx) {
     this.ctx = ctx;
-    const config: AutoPatchingConfig = this.ctx.options.autoPatching;
+    const config: AutoPatchingConfig = this.ctx.config.autoPatching;
     this.patchers = config.patchers || {};
   }
 

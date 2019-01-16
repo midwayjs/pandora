@@ -11,7 +11,7 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
 
   before(async () => {
     const ctx = {
-      options: {
+      config: {
         trace: {
           kTracer: PandoraTracer
         }
@@ -19,7 +19,7 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
     };
     componentTrace = new ComponentTrace(ctx);
     await componentTrace.start();
-    Object.assign(ctx.options, {
+    Object.assign(ctx.config, {
       autoPatching: {
         patchers: {
           httpClient: {

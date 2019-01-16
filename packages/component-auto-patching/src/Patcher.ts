@@ -22,7 +22,7 @@ export class Patcher {
 
   init() {
     if (!this.inited) {
-      const patcherConfig = this.ctx.options.autoPatching || { patchers: {} };
+      const patcherConfig = this.ctx.config.autoPatching || { patchers: {} };
       this.options = patcherConfig.patchers[this.moduleName] || {
         enabled: true
       };

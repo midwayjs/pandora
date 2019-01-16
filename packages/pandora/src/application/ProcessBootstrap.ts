@@ -48,6 +48,11 @@ export class ProcessBootstrap {
       await this.master.stop();
       return;
     }
+    try {
+      await this.coreSdk.stop();
+    } catch(err) {
+      // ignore
+    }
     SpawnWrapperUtils.unwrap();
   }
 

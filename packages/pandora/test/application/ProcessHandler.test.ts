@@ -27,13 +27,13 @@ describe('ProcessHandler', function () {
       expect(processHandler.pid).to.be.ok;
       expect(processHandler.appName).equal('test');
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('okay');
+      expect((<any>ret.res).data.toString()).equal('okay');
     });
 
     it('should reload be ok', async () => {
       await processHandler.reload();
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('okay');
+      expect((<any>ret.res).data.toString()).equal('okay');
     });
 
     it('should stop be ok', async () => {
@@ -61,13 +61,13 @@ describe('ProcessHandler', function () {
       expect(processHandler.pid).to.be.ok;
       expect(processHandler.appName).equal('test');
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('simple_fork');
+      expect((<any>ret.res).data.toString()).equal('simple_fork');
     });
 
     it('should reload be ok', async () => {
       await processHandler.reload();
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('simple_fork');
+      expect((<any>ret.res).data.toString()).equal('simple_fork');
     });
 
     it('should stop be ok', async () => {

@@ -16,7 +16,7 @@ describe('ComponentReflector', function () {
     expect(ComponentReflector.getComponentConfig(TestClass)).to.be.equal(expectConfig);
   });
   it('should decorating dependencies be ok', () => {
-    const expectDependencies = [1, 2, 3];
+    const expectDependencies = ['1', '2', '3'];
     @dependencies(expectDependencies)
     class TestClass {
     }

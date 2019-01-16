@@ -50,14 +50,14 @@ export class Fixture {
 
   async init() {
     const ctx = {
-      options: {
+      config: {
         trace: {
           kTracer: PandoraTracer
         }
       }
     };
     this.componentTrace = new ComponentTrace(ctx);
-    Object.assign(ctx.options, {
+    Object.assign(ctx.config, {
       autoPatching: this.config()
     });
     this.autoPatching = new ComponentAutoPatching(ctx);

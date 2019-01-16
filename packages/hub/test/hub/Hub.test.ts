@@ -657,11 +657,12 @@ describe('Hub', function () {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
         startListen: (<any> HubServer.prototype).startListen,
+        emit: () => {},
         routeTable: {
           forgetClient (client) {
             expect(client).to.equal(client);
-
-          }
+          },
+          getSelectorsByClient() {}
         }
       };
       fakeHub.startListen();

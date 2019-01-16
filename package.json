@@ -6,7 +6,7 @@
     "git-hooks": "^1.1.10",
     "lerna": "^2.7.1",
     "lerna-relinker": "^1.4.0",
-    "nyc": "^11.2.1",
+    "nyc": "^13.1.0",
     "pandora-site-tools": "^1.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.9.1",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "lerna run test",
-    "cov": "sh scripts/cov.sh",
+    "cov": "nyc lerna run cov --concurrency=1",
     "ci": "npm run build && npm run cov",
     "purge": "npm run clean && rm -rf node_modules",
     "reset": "npm run purge && npm i && npm run ci",
@@ -51,5 +51,26 @@
   "engines": {
     "node": ">= 8.2.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "nyc": {
+    "include": [
+      "packages/**/src/*.ts",
+      "packages/**/src/**/*.ts"
+    ],
+    "exclude": [
+      "**/typings",
+      "**/*.d.ts",
+      "**/dist",
+      "**/src/index.ts",
+      "**/src/domain.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "json",
+      "html"
+    ],
+    "all": true
+  }
 }

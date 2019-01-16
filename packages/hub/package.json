@@ -25,14 +25,16 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/lodash": "^4.14.99",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mm": "^2.2.0",
     "mocha": "^3.5.0",
-    "nyc": "^11.2.1"
+    "nyc": "^13.1.0"
   },
   "nyc": {
     "include": [
@@ -42,7 +44,8 @@
     "exclude": [
       "src/index.ts",
       "typings",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "dist"
     ],
     "extension": [
       ".ts"

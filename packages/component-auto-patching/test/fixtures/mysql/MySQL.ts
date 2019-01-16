@@ -1,4 +1,4 @@
-import { Fixture, sleep, request } from '../../TestUtil';
+import { Fixture, sleep } from '../../TestUtil';
 import { HttpServerPatcher, MySQLPatcher, MySQLWrapper } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';

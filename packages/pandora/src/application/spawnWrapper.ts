@@ -34,6 +34,20 @@ async function main () {
   } catch (err) {
     consoleLogger.error(err);
   }
+
+  // unref all active handles
+  try {
+    for(const handler of (<any> process)._getActiveHandles()) {
+      try {
+        handler.unref();
+      } catch(err) {
+        // ignore
+      }
+    }
+  } catch(err) {
+    // ignore
+  }
+
   wrap.runMain();
 
 }

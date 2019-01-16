@@ -103,7 +103,7 @@ describe('ScalableMaster', function () {
       await scalableMaster.start();
       expect(scalableMaster.getWorkers().length).equal(defaultWorkerCount);
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('okay');
+      expect((<any>ret.res).data.toString()).equal('okay');
     });
 
     it('should reload be ok', async () => {
@@ -113,7 +113,7 @@ describe('ScalableMaster', function () {
       expect(beforeWorkers.length).equal(afterWorkers.length);
       expect(beforeWorkers[0].pid).not.equal(afterWorkers[0].pid);
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('okay');
+      expect((<any>ret.res).data.toString()).equal('okay');
     });
 
     it('should reload be over process msg ok', async () => {
@@ -124,7 +124,7 @@ describe('ScalableMaster', function () {
       expect(beforeWorkers.length).equal(afterWorkers.length);
       expect(beforeWorkers[0].pid).not.equal(afterWorkers[0].pid);
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('okay');
+      expect((<any>ret.res).data.toString()).equal('okay');
     });
 
     it('should stop be ok', async () => {
@@ -144,7 +144,7 @@ describe('ScalableMaster', function () {
       await scalableMaster2.start();
       expect(scalableMaster2.getWorkers().length).equal(2);
       const ret = await urllib.request('http://127.0.0.1:1338/');
-      expect(ret.res.data.toString()).equal('okay');
+      expect((<any>ret.res).data.toString()).equal('okay');
       await scalableMaster.stop();
       const workers = scalableMaster.getWorkers();
       expect(workers.length).equal(0);

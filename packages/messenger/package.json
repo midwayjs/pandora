@@ -24,12 +24,12 @@
     "sdk-base": "^2.0.1"
   },
   "devDependencies": {
-    "@types/chai": "^3.5.2",
+    "@types/chai": "^4.1.7",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.5.2",
-    "chai": "^3.5.0",
+    "chai": "^4.2.0",
     "mocha": "^3.5.0",
-    "nyc": "^11.2.1",
+    "nyc": "^13.1.0",
     "pedding": "^1.1.0",
     "should": "^11.2.1",
     "uncaughtException": "^1.0.0"
@@ -41,7 +41,8 @@
     ],
     "exclude": [
       "typings",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "dist"
     ],
     "extension": [
       ".ts"

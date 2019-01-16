@@ -59,19 +59,19 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "@types/chai": "^3.5.2",
+    "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
     "@types/lodash": "^4.14.105",
     "@types/mocha": "^2.2.48",
     "@types/mz": "^0.0.32",
     "@types/node": "^8.9.5",
-    "chai": "^3.5.0",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^11.6.0",
+    "nyc": "^13.1.0",
     "nyc-ts-patch": "^1.0.0",
-    "urllib": "^2.26.0"
+    "urllib": "^2.33.0"
   },
   "nyc": {
     "include": [
@@ -85,7 +85,8 @@
       "typings",
       "doc",
       "test.bak",
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "dist"
     ],
     "extension": [
       ".ts"
