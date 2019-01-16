@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-metrics",
-  "version": "2.0.0-9",
+  "version": "2.0.0-y.0",
   "description": "Pandora 2 Component Metrics",
   "main": "dist/ComponentMetrics",
   "typings": "dist/ComponentMetrics.d.ts",
@@ -28,9 +28,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-actuator-server": "^2.0.0-9",
-    "pandora-component-indicator": "^2.0.0-9",
-    "pandora-component-ipc-hub": "^2.0.0-9",
+    "pandora-component-actuator-server": "^2.0.0-y.0",
+    "pandora-component-indicator": "^2.0.0-y.0",
+    "pandora-component-ipc-hub": "^2.0.0-y.0",
     "supertest": "^3.3.0"
   },
   "nyc": {
@@ -60,8 +60,8 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0-9",
-    "pandora-metrics-util": "^2.0.0-9",
-    "pandora-dollar": "^2.0.0-9"
+    "pandora-component-decorator": "^2.0.0-y.0",
+    "pandora-dollar": "^2.0.0-y.0",
+    "pandora-metrics-util": "^2.0.0-y.0"
   }
 }
