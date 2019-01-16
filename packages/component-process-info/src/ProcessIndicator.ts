@@ -11,7 +11,7 @@ export class ProcessInfoIndicator implements IIndicator {
     this.ctx = ctx;
   }
 
-  async invoke(query) {
+  async invoke(query?) {
     let stat;
     try {
       stat = await new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ export class ProcessInfoIndicator implements IIndicator {
         });
       });
     } catch (err) {
-      stat = this.tryGetCpuAndMem();
+      stat = this.tryGetCpuAndMem() || {};
     }
     return {
       processName: this.ctx.processName,

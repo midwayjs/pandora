@@ -5,7 +5,7 @@ import {ProcessInfoIndicator} from './ProcessIndicator';
 import {ProcessEndPoint} from './ProcessEndPoint';
 
 @componentName('processInfo')
-@dependencies(['indicator'])
+@dependencies(['actuatorServer', 'indicator'])
 export default class ComponentProcessInfo {
 
   ctx: any;
