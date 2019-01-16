@@ -56,8 +56,9 @@ export class V8GaugeSet extends CachedMetricSet {
 
     for (const stats of heapSpaceStats) {
       const spaceName = stats['space_name'];
+      /* istanbul ignore else */
       if (spaceName) {
-        for (const key in stats) {
+        for (const key of Object.keys(stats)) {
           if (key !== 'space_name') {
             this.heapSpaceStats[`${spaceName}.${key}`] = stats[key];
           }
