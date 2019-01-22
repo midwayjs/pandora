@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {TraceManager} from '../src/TraceManager';
 import {EventEmitter} from 'events';
-import {SPAN_FINISHED, TRACE_DATA_DUMP, TraceStatus} from '../src/constants';
+import {SPAN_CREATED, SPAN_FINISHED, TRACE_DATA_DUMP, TraceStatus} from '../src/constants';
 
 
 describe('TraceManager', () => {
@@ -264,6 +264,53 @@ describe('TraceManager', () => {
 
     traceManager.stop();
     traceManager.stop();
+
+  });
+
+  it('should avoid dump() error at timer handler', async () => {
+
+    const traceManager: TraceManager = new TraceManager({
+      interval: 10,
+      poolSize: 500
+    });
+    (<any> traceManager).dump = () => {
+      throw new Error('fake error');
+    };
+
+    traceManager.start();
+
+    await new Promise(resolve => {
+      setTimeout(resolve, 20);
+    });
+
+    traceManager.stop();
+
+  });
+
+  it('should call record() when this._tracer got a SPAN_CREATED event', () => {
+
+    class Tracer extends EventEmitter {
+    }
+
+    const traceManager: TraceManager = new TraceManager({
+      kTracer: <any> Tracer
+    });
+
+    let got = null;
+    (<any> traceManager).record = (span, isEntry) => {
+      got = [span, isEntry];
+    };
+
+    const fakeSpan = {
+      traceId: 'test_traceId',
+      traceName: 'test_name',
+      duration: 500,
+      startTime: Date.now(),
+      isEntry: true
+    };
+
+    traceManager.tracer.emit(SPAN_CREATED, fakeSpan);
+    expect(got).to.deep.equal([fakeSpan, fakeSpan.isEntry]);
 
   });
 
