@@ -37,6 +37,10 @@ export class TraceData {
     this.spans.push(span);
   }
 
+  getSpans() {
+    return this.spans;
+  }
+
   setTimestamp(timestamp: number) {
     assert(timestamp, 'timestamp should exist!');
 
