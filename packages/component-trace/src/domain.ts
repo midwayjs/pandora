@@ -39,6 +39,8 @@ export interface ITracer extends EventEmitter {
   createChildContext: (parent: IPandoraContext) =>  IPandoraContext;
 }
 
+export type SamplingFunction = (span: IPandoraSpan) => boolean;
+
 export interface TraceManagerOptions {
   // 最多缓存数据数
   poolSize?: number;
@@ -46,6 +48,10 @@ export interface TraceManagerOptions {
   interval?: number;
   // 慢链路阈值，ms
   slowThreshold?: number;
+  // 链路超时阈值，ms
+  timeout?: number;
+  // 采样率，10 ~ 100，或者采样函数，返回 true 为采集
+  sampling?: number | SamplingFunction;
   // 自定义链路名方法
   traceName?: (span: IPandoraSpan) => string;
   // 自定义 Tracer 实现类

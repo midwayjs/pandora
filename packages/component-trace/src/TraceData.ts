@@ -70,4 +70,15 @@ export class TraceData {
   getStatus(): TraceStatus {
     return this.status;
   }
+
+  isTimeout(timeout: number): boolean {
+    const duration = Date.now() - this.timestamp;
+
+    if (duration >= timeout) {
+      this.setDuration(duration);
+      return true;
+    }
+
+    return false;
+  }
 }

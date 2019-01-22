@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { consoleLogger } from 'pandora-dollar';
 import { TraceData } from './TraceData';
-import { IPandoraSpan, TraceManagerOptions, ITracer } from './domain';
+import { IPandoraSpan, TraceManagerOptions, ITracer, SamplingFunction } from './domain';
 import { SPAN_FINISHED, TraceStatus, TRACE_DATA_DUMP, SPAN_CREATED } from './constants';
 
 // 默认最多存储数据量
@@ -10,6 +10,10 @@ export const DEFAULT_POOL_SIZE = 1000;
 export const DEFAULT_INTERVAL = 60 * 1000;
 // 默认慢链路阈值
 export const DEFAULT_SLOW_THRESHOLD = 10 * 1000;
+// 默认链路超时阈值
+export const DEFAULT_TIMEOUT = 30 * 1000;
+// 默认采样率
+export const DEFAULT_SAMPLING = 100;
 
 export class TraceManager extends EventEmitter {
   private options: TraceManagerOptions;
@@ -18,6 +22,8 @@ export class TraceManager extends EventEmitter {
   private interval: number;
   private intervalId: NodeJS.Timer;
   private slowThreshold: number;
+  private sampling: number | SamplingFunction;
+  private timeout: number;
   private running: boolean = false;
   private _tracer: ITracer;
 
@@ -26,6 +32,8 @@ export class TraceManager extends EventEmitter {
     this.poolSize = options.poolSize || DEFAULT_POOL_SIZE;
     this.interval = options.interval || DEFAULT_INTERVAL;
     this.slowThreshold = options.slowThreshold || DEFAULT_SLOW_THRESHOLD;
+    this.timeout = options.timeout || DEFAULT_TIMEOUT;
+    this.sampling = options.sampling || DEFAULT_SAMPLING;
     this.options = options;
     const Tracer = options.kTracer;
 
@@ -45,13 +53,32 @@ export class TraceManager extends EventEmitter {
     return Array.from(this.pool.values());
   }
 
+  random(): number {
+    return Math.random();
+  }
+
+  isSampled(span: IPandoraSpan): boolean {
+    if (typeof this.sampling === 'function') {
+      return this.sampling(span);
+    }
+
+    const rate = this.sampling / 100;
+
+    return this.random() <= rate;
+  }
+
   record(span: IPandoraSpan, isEntry: boolean): void {
     if (isEntry) {
       this.recordEntrySpan(span);
     } else {
       const traceId = span.traceId;
       const traceData = this.pool.get(traceId);
-      traceData.putSpan(span);
+
+      if (traceData) {
+        traceData.putSpan(span);
+      } else {
+        consoleLogger.warn(`[TraceManager] trace maybe timeout and dumped, skip this span, please check!`);
+      }
     }
   }
 
@@ -62,6 +89,11 @@ export class TraceManager extends EventEmitter {
 
     if (this.pool.has(traceId)) {
       consoleLogger.warn(`[TraceManager] entry [${traceId}] was duplicated in pool, skip this span, please check!`);
+      return;
+    }
+
+    if (!this.isSampled(span)) {
+      consoleLogger.warn(`[TraceManager] entry [${traceId}] can't record by sampling.`);
       return;
     }
 
@@ -99,7 +131,11 @@ export class TraceManager extends EventEmitter {
     const unfinished: TraceData[] = [];
 
     for (const traceData of this.pool.values()) {
-      if (!dumpAll && traceData.getStatus() === TraceStatus.Unfinished) {
+      if (
+        !dumpAll &&
+        traceData.getStatus() === TraceStatus.Unfinished &&
+        !traceData.isTimeout(this.timeout)
+        ) {
         unfinished.push(traceData);
       } else {
         dumped.push(traceData);
@@ -121,7 +157,7 @@ export class TraceManager extends EventEmitter {
       this.running = true;
       this.intervalId = setInterval(() => {
         try {
-          this.dump();
+          this.dump(false);
         } catch (error) {
           consoleLogger.error('[TraceManager] interval dump data error. ', error);
         }
@@ -135,7 +171,7 @@ export class TraceManager extends EventEmitter {
       clearInterval(this.intervalId);
       this.intervalId = null;
       try {
-        this.dump();
+        this.dump(true);
       } catch (error) {
         consoleLogger.error('[TraceManager] dump data before stop error. ', error);
       }
