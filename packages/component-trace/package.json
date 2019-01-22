@@ -28,7 +28,8 @@
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
     "pandora-component-actuator-server": "^2.0.0-y.0",
-    "pandora-component-indicator": "^2.0.0-y.0"
+    "pandora-component-indicator": "^2.0.0-y.0",
+    "supertest": "^3.4.1"
   },
   "nyc": {
     "include": [
@@ -37,7 +38,8 @@
     ],
     "exclude": [
       "typings",
-      "dist"
+      "dist",
+      "src/domain.ts"
     ],
     "extension": [
       ".ts"
