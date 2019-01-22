@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {TraceData} from '../src/TraceData';
-import {TraceStatus} from '../src/constants';
+import { expect } from 'chai';
+import { TraceData } from '../src/TraceData';
+import { TraceStatus } from '../src/constants';
 
 describe('TraceData', () => {
 
@@ -128,6 +128,21 @@ describe('TraceData', () => {
     const expected = <any> {traceId: 'test'};
     traceData.putSpan(expected);
     expect(traceData.getSpans()).to.deep.equal([expected]);
+
+  });
+
+  it('should putSpan() be ok', (done) => {
+
+    const traceData = new TraceData();
+    traceData.setTimestamp(Date.now());
+
+    setTimeout(() => {
+      const isTimeout = traceData.isTimeout(1000);
+      expect(isTimeout).to.be.true;
+      expect(traceData.getDuration()).to.greaterThan(1000);
+      expect(traceData.getStatus()).to.equal(TraceStatus.Unfinished);
+      done();
+    }, 2000);
 
   });
 

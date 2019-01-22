@@ -1,8 +1,15 @@
-import {expect} from 'chai';
-import {TraceManager} from '../src/TraceManager';
-import {EventEmitter} from 'events';
-import {SPAN_CREATED, SPAN_FINISHED, TRACE_DATA_DUMP, TraceStatus} from '../src/constants';
+import { expect } from 'chai';
+import { TraceManager } from '../src/TraceManager';
+import { EventEmitter } from 'events';
+import { SPAN_CREATED, SPAN_FINISHED, TRACE_DATA_DUMP, TraceStatus } from '../src/constants';
+import * as sinon from 'sinon';
+import { consoleLogger } from 'pandora-dollar';
 
+async function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 describe('TraceManager', () => {
 
@@ -233,7 +240,7 @@ describe('TraceManager', () => {
   it('should dump by interval be ok', async () => {
 
     const traceManager: TraceManager = new TraceManager({
-      interval: 10,
+      interval: 1000,
       poolSize: 500
     });
 
@@ -256,9 +263,7 @@ describe('TraceManager', () => {
     traceManager.record(entrySpan, true);
     entrySpan.emit(SPAN_FINISHED, entrySpan);
 
-    await new Promise(resolve => {
-      setTimeout(resolve, 20);
-    });
+    await sleep(2000);
 
     expect(gotDump.length).to.be.equal(1);
 
@@ -270,7 +275,7 @@ describe('TraceManager', () => {
   it('should avoid dump() error at timer handler', async () => {
 
     const traceManager: TraceManager = new TraceManager({
-      interval: 10,
+      interval: 1000,
       poolSize: 500
     });
     (<any> traceManager).dump = () => {
@@ -279,9 +284,7 @@ describe('TraceManager', () => {
 
     traceManager.start();
 
-    await new Promise(resolve => {
-      setTimeout(resolve, 20);
-    });
+    await sleep(2000);
 
     traceManager.stop();
 
@@ -312,6 +315,191 @@ describe('TraceManager', () => {
     traceManager.tracer.emit(SPAN_CREATED, fakeSpan);
     expect(got).to.deep.equal([fakeSpan, fakeSpan.isEntry]);
 
+  });
+
+  it('should trace sampling work well with 100%', () => {
+
+    class Tracer extends EventEmitter {
+    }
+
+    const traceManager: TraceManager = new TraceManager({
+      sampling: 100,
+      kTracer: <any> Tracer
+    });
+
+    const spy = sinon.spy(traceManager, 'isSampled');
+
+    for (let idx = 0; idx < 10; idx ++) {
+      const entrySpan: any = new EventEmitter;
+
+      Object.assign(entrySpan, {
+        traceId: `test_traceId_${idx}`,
+        traceName: `test_name_${idx}`,
+        duration: 500,
+        startTime: Date.now(),
+        tag: () => {}
+      });
+
+      traceManager.record(entrySpan, true);
+    }
+
+    expect(spy.callCount).to.equal(10);
+    expect(spy.alwaysReturned(true)).to.be.true;
+  });
+
+  it('should trace sampling work well with 10%', () => {
+
+    class Tracer extends EventEmitter {
+    }
+
+    const traceManager: TraceManager = new TraceManager({
+      sampling: 10,
+      kTracer: <any> Tracer
+    });
+
+    const spy = sinon.spy(traceManager, 'isSampled');
+
+    for (let idx = 0; idx < 100; idx ++) {
+      const entrySpan: any = new EventEmitter;
+
+      Object.assign(entrySpan, {
+        traceId: `test_traceId_${idx}`,
+        traceName: `test_name_${idx}`,
+        duration: 500,
+        startTime: Date.now(),
+        tag: () => {}
+      });
+
+      traceManager.record(entrySpan, true);
+    }
+
+    expect(spy.callCount).to.equal(100);
+    expect(spy.returned(true)).to.be.true;
+    spy.restore();
+  });
+
+  it('should trace sampling work well with function', () => {
+
+    class Tracer extends EventEmitter {
+    }
+
+    const traceManager: TraceManager = new TraceManager({
+      sampling: (span) => {
+        return span.traceId === 'test_traceId_3';
+      },
+      kTracer: <any> Tracer
+    });
+
+    const spy = sinon.spy(traceManager, 'isSampled');
+
+    for (let idx = 0; idx < 10; idx ++) {
+      const entrySpan: any = new EventEmitter;
+
+      Object.assign(entrySpan, {
+        traceId: `test_traceId_${idx}`,
+        traceName: `test_name_${idx}`,
+        duration: 500,
+        startTime: Date.now(),
+        tag: () => {}
+      });
+
+      traceManager.record(entrySpan, true);
+    }
+
+    expect(spy.callCount).to.equal(10);
+    expect(spy.returned(true)).to.be.true;
+    spy.restore();
+  });
+
+  it('should skip span when trace is timeout or dumped', () => {
+    class Tracer extends EventEmitter {
+    }
+
+    const traceManager: TraceManager = new TraceManager({
+      kTracer: <any> Tracer
+    });
+
+    const spy = sinon.spy(consoleLogger, 'warn');
+
+    const fakeSpan = {
+      traceId: 'test_traceId',
+      traceName: 'test_name',
+      duration: 500,
+      startTime: Date.now(),
+      tag: () => {}
+    };
+
+    traceManager.tracer.emit(SPAN_CREATED, fakeSpan);
+
+    expect(spy.calledOnceWith('[TraceManager] trace maybe timeout and dumped, skip this span, please check!')).to.be.true;
+    spy.restore();
+  });
+
+  it('should dump timeout trace data', async () => {
+    class Tracer extends EventEmitter {
+    }
+
+    class Span extends EventEmitter {
+      finish() {
+        this.emit('span_finished', this);
+      }
+    }
+
+    const traceManager: TraceManager = new TraceManager({
+      interval: 1000,
+      timeout: 3000,
+      kTracer: <any> Tracer
+    });
+
+    traceManager.start();
+
+    const entrySpanF: any = new Span;
+
+    Object.assign(entrySpanF, {
+      traceId: `test_traceId_1`,
+      traceName: `test_name_1`,
+      duration: 200,
+      startTime: Date.now(),
+      tag: () => {}
+    });
+
+    traceManager.record(entrySpanF, true);
+
+    const entrySpanUF: any = new Span;
+
+    Object.assign(entrySpanUF, {
+      traceId: `test_traceId_2`,
+      traceName: `test_name_2`,
+      startTime: Date.now(),
+      tag: () => {}
+    });
+
+    traceManager.record(entrySpanUF, true);
+
+    await sleep(100);
+    entrySpanF.finish();
+
+    await new Promise((resolve) => {
+      let finished = false;
+      traceManager.on(TRACE_DATA_DUMP, (data) => {
+        if (finished) resolve();
+        const entry = data[0];
+
+        if (entry) {
+          const traceId = entry.getTraceId();
+
+          if (traceId === 'test_traceId_1') {
+            expect(data.length).to.be.equal(1);
+            expect(entry.getStatus()).to.be.equal(TraceStatus.Normal);
+          } else if (traceId === 'test_traceId_2') {
+            expect(data.length).to.be.equal(1);
+            expect(entry.getStatus()).to.be.equal(TraceStatus.Unfinished);
+            expect(entry.getDuration()).to.gte(3000);
+            finished = true;
+          }
+        }
+      });
+    });
   });
 
 });

@@ -63,7 +63,6 @@ export class TraceManager extends EventEmitter {
     }
 
     const rate = this.sampling / 100;
-
     return this.random() <= rate;
   }
 
@@ -120,10 +119,11 @@ export class TraceManager extends EventEmitter {
     const size = this.pool.size;
 
     if (size >= this.poolSize) {
+      consoleLogger.warn(`[TraceManager] pool is full, dump finished trace before, skip current trace [${traceId}].`);
       this.dump(false);
+    } else {
+      this.pool.set(traceId, traceData);
     }
-
-    this.pool.set(traceId, traceData);
   }
 
   dump(dumpAll?: boolean): void {
