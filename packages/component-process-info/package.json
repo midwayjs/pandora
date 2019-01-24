@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-process-info",
-  "version": "2.0.0-y.1",
+  "version": "2.0.0-y.2",
   "description": "Pandora 2 Component Process Info",
   "main": "dist/ComponentProcessInfo",
   "typings": "dist/ComponentProcessInfo.d.ts",
@@ -26,9 +26,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-actuator-server": "^2.0.0-y.1",
-    "pandora-component-indicator": "^2.0.0-y.1",
-    "pandora-component-ipc-hub": "^2.0.0-y.1",
+    "pandora-component-actuator-server": "^2.0.0-y.2",
+    "pandora-component-indicator": "^2.0.0-y.2",
+    "pandora-component-ipc-hub": "^2.0.0-y.2",
     "supertest": "^3.3.0"
   },
   "nyc": {
@@ -57,7 +57,7 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.0.0-y.1",
+    "pandora-component-decorator": "^2.0.0-y.2",
     "pidusage": "^1.1.6"
   }
 }
