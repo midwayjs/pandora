@@ -22,7 +22,7 @@
     "reset": "npm run purge && npm i && npm run ci",
     "canary": "sh scripts/publish.sh --canary",
     "beta": "sh scripts/publish.sh --npm-tag beta --force-publish=*",
-    "pre": "sh scripts/publish.sh --npm-tag pre --force-publish=*",
+    "pandora2-beta": "sh scripts/publish.sh --npm-tag pandora2-beta --force-publish=*",
     "next": "sh scripts/publish.sh --npm-tag next",
     "publish": "rm -f ./packages/.DS*; sh scripts/publish.sh",
     "bootstrap": "rm -f ./packages/.DS*; lerna bootstrap",
