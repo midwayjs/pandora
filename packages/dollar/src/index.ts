@@ -80,6 +80,14 @@ export class MyConsole extends console.Console {
 
 export const consoleLogger = new MyConsole();
 
+export const avoidLogger = {
+  log() {},
+  warn() {},
+  error() {},
+  info() {},
+  important() {},
+};
+
 export function startsWith(str, target, position = 0) {
   const {length} = str;
   if (position < 0) {

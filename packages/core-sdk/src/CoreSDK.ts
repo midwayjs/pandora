@@ -6,9 +6,10 @@ import {IComponent, ComponentReflector} from 'pandora-component-decorator';
 import {ComponentWeightCalculator, ISortedItem} from './ComponentWeightCalculator';
 import * as defaultConfig from './pandoraConfig';
 import {dirname} from 'path';
+import {Logger} from 'egg-logger';
+
 const resolve = require('resolve');
 const debug = require('debug')('pandora:CoreSDK');
-
 
 export class CoreSDK {
 
@@ -33,7 +34,8 @@ export class CoreSDK {
       appName: options.appName,
       appDir: options.appDir,
       processName: options.processName || options.mode,
-      config: {}
+      config: {},
+      logger: new Logger({}),
     };
     debug('constructing CoreSDK %j', options);
     if(this.options.extendContext) {

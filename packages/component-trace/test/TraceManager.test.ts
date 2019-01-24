@@ -3,7 +3,6 @@ import { TraceManager } from '../src/TraceManager';
 import { EventEmitter } from 'events';
 import { SPAN_CREATED, SPAN_FINISHED, TRACE_DATA_DUMP, TraceStatus } from '../src/constants';
 import * as sinon from 'sinon';
-import { consoleLogger } from 'pandora-dollar';
 
 async function sleep(ms: number) {
   return new Promise((resolve) => {
@@ -419,7 +418,7 @@ describe('TraceManager', () => {
       kTracer: <any> Tracer
     });
 
-    const spy = sinon.spy(consoleLogger, 'warn');
+    const spy = sinon.spy((<any> traceManager).logger, 'warn');
 
     const fakeSpan = {
       traceId: 'test_traceId',
