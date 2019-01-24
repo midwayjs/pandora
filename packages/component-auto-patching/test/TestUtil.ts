@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as childProcess from 'child_process';
 import ComponentTrace from 'pandora-component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
+import ComponentErrorLog from 'pandora-component-error-log';
 import { PandoraTracer } from 'pandora-tracer';
 import { find } from 'lodash';
 
@@ -30,6 +31,7 @@ export class Fixture {
   static instance = null;
   componentTrace = null;
   autoPatching = null;
+  componentErrorLog = null;
 
   static async run() {
     if (!this.instance) {
@@ -50,13 +52,17 @@ export class Fixture {
   }
 
   async init() {
-    const ctx = {
+    const ctx: any = {
       config: {
         trace: {
           kTracer: PandoraTracer
-        }
+        },
+        errorLog: {}
       }
     };
+
+    this.componentErrorLog = new ComponentErrorLog(ctx);
+    ctx.errorLogManager = this.componentErrorLog.errorLogManager;
     this.componentTrace = new ComponentTrace(ctx);
     Object.assign(ctx.config, {
       autoPatching: this.config()

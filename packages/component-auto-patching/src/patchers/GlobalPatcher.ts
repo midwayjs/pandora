@@ -137,8 +137,6 @@ export class GlobalPatcher extends Patcher {
     this.init();
     const options = this.options;
 
-    if (!options.enabled) return;
-
     if (!this.errorLogManager) {
       consoleLogger.error('pandora-component-error-log is need.');
       return;
