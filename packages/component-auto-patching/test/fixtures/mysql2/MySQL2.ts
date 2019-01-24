@@ -1,10 +1,9 @@
 import { Fixture, sleep } from '../../TestUtil';
-import { HttpServerPatcher, MySQLPatcher, MySQLWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, MySQL2Patcher, MySQLWrapper } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
 import { SPAN_FINISHED } from 'pandora-component-trace';
-import { registerLanguage } from '_@types_highlight.js@9.12.3@@types/highlight.js';
 
 export default class MySQLFixture extends Fixture {
 
@@ -16,12 +15,10 @@ export default class MySQLFixture extends Fixture {
           enabled: true,
           klass: HttpServerPatcher
         },
-        mySQL: {
+        mySQL2: {
           enabled: true,
-          klass: MySQLPatcher,
-          kWrapper: MySQLWrapper,
-          recordDatabaseName: true,
-          recordInstance: true
+          klass: MySQL2Patcher,
+          kWrapper: MySQLWrapper
         }
       }
     };
@@ -30,7 +27,7 @@ export default class MySQLFixture extends Fixture {
   async case(done) {
     const http = require('http');
     const urllib = require('urllib');
-    const mysql = require('mysql');
+    const mysql = require('mysql2');
     const _done = pedding(done, 2);
 
     const stub = sinon.stub(this.componentTrace.traceManager, 'record').callsFake(function(span, isEntry) {
@@ -46,7 +43,7 @@ export default class MySQLFixture extends Fixture {
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
         const connection = mysql.createConnection({
-          port: 32893
+          port: 32883
         });
 
         connection.connect();

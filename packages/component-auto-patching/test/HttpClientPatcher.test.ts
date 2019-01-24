@@ -7,6 +7,7 @@ import { PandoraTracer } from 'pandora-tracer';
 import { fork } from './TestUtil';
 import * as semver from 'semver';
 import { consoleLogger } from 'pandora-dollar';
+import { URL } from 'url';
 
 describe('ComponentAutoPatching -> HttpClientPatcher', function () {
   let autoPatching, componentTrace;
@@ -27,7 +28,8 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
           httpClient: {
             enabled: true,
             klass: HttpClientPatcher,
-            kWrapper: HttpClientWrapper
+            kWrapper: HttpClientWrapper,
+            forcePatchHttps: true
           }
         }
       }
@@ -98,6 +100,14 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
     spy.restore();
   });
 
+  it('should argsCompatible work well with URL instance', () => {
+    const httpClientPatcher = autoPatching.instances.get('httpClient');
+    const wrapper = httpClientPatcher.wrapper;
+
+    const options = wrapper.argsCompatible(new URL('http://www.taobao.com/'));
+    expect(options.hostname).to.equal('www.taobao.com');
+  });
+
   it('should use _defaultAgent port when port undefined and agent exist', () => {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
     const wrapper = httpClientPatcher.wrapper;
@@ -109,6 +119,25 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
     });
 
     expect(tags['http.port']).to.equal(8080);
+  });
+
+  it('should get remoteIp use socket', () => {
+    const httpClientPatcher = autoPatching.instances.get('httpClient');
+    const wrapper = httpClientPatcher.wrapper;
+    const tags = {};
+
+    wrapper._handleResponse({
+      setTag(key, value) {
+        tags[key] = value;
+      }
+    }, {
+      socket: {
+        remoteAddress: '127.0.0.1',
+        remotePort: 80
+      }
+    });
+
+    expect(tags['http.remote_ip']).to.equal('127.0.0.1:80');
   });
 
   it('should not get remoteIp when socket is null', () => {
@@ -159,5 +188,9 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
 
   it('should not create span when no tracer', (done) => {
     fork('http-client/HttpClientNoTracer', done);
+  });
+
+  it('should work with https', (done) => {
+    fork('http-client/HttpClientWithHttps', done);
   });
 });

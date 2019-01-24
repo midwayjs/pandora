@@ -6,12 +6,12 @@ import { Patcher } from '../Patcher';
 import { CURRENT_CONTEXT } from '../constants';
 import { GlobalPatcherOptions } from '../domain';
 
-function listenerCount(emitter, evnt) {
+function listenerCount(emitter, event) {
   if (emitter.listenerCount) {
-    return emitter.listenerCount(evnt);
+    return emitter.listenerCount(event);
   }
 
-  return events.EventEmitter.listenerCount(emitter, evnt);
+  return events.EventEmitter.listenerCount(emitter, event);
 }
 
 export class GlobalPatcher extends Patcher {
@@ -34,6 +34,7 @@ export class GlobalPatcher extends Patcher {
         }
 
         try {
+          /* istanbul ignore next */
           if (!(err instanceof Error)) {
             err = new Error(util.format.apply(util, args));
             err.name = 'Error';

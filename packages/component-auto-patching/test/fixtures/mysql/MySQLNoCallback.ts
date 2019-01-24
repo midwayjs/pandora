@@ -3,8 +3,7 @@ import { HttpServerPatcher, MySQLPatcher, MySQLWrapper } from '../../../src/patc
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
-import { SPAN_FINISHED } from 'pandora-component-trace';
-import { registerLanguage } from '_@types_highlight.js@9.12.3@@types/highlight.js';
+import { consoleLogger } from 'pandora-dollar';
 
 export default class MySQLFixture extends Fixture {
 
@@ -19,9 +18,7 @@ export default class MySQLFixture extends Fixture {
         mySQL: {
           enabled: true,
           klass: MySQLPatcher,
-          kWrapper: MySQLWrapper,
-          recordDatabaseName: true,
-          recordInstance: true
+          kWrapper: MySQLWrapper
         }
       }
     };
@@ -31,17 +28,8 @@ export default class MySQLFixture extends Fixture {
     const http = require('http');
     const urllib = require('urllib');
     const mysql = require('mysql');
-    const _done = pedding(done, 2);
 
-    const stub = sinon.stub(this.componentTrace.traceManager, 'record').callsFake(function(span, isEntry) {
-      const context = span.context();
-      assert(context.traceId === '1234567890');
-
-      span.once(SPAN_FINISHED, (s) => {
-        assert(s.duration > 0);
-        _done();
-      });
-    });
+    const spy = sinon.spy(consoleLogger, 'log');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
@@ -50,11 +38,13 @@ export default class MySQLFixture extends Fixture {
         });
 
         connection.connect();
+        connection.query('SELECT 1');
 
-        connection.query('SELECT 1', function(err, row, fields) {
-          connection.end();
-          res.end('ok');
-        });
+        assert(spy.calledWith(sinon.match('[MySQLWrapper] query callback null, ignore trace.')));
+        spy.restore();
+        connection.end();
+        sleep(1000);
+        done();
       },  Math.floor(1 + Math.random() * 10) * 100);
     });
 
@@ -69,7 +59,5 @@ export default class MySQLFixture extends Fixture {
         'x-trace-id': '1234567890'
       }
     });
-
-    stub.restore();
   }
 }

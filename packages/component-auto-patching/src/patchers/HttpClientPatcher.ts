@@ -33,6 +33,7 @@ export class HttpClientPatcher extends Patcher {
     const target = this.target();
     this.wrapper.unwrap(target.http);
 
+    /* istanbul ignore next */
     if (this.wrapHttps || this.options.forcePatchHttps) {
       this.wrapper.unwrap(target.https);
     }

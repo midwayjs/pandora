@@ -9,7 +9,7 @@ import { fork } from './TestUtil';
 import * as semver from 'semver';
 import { consoleLogger } from 'pandora-dollar';
 
-describe.only('ComponentAutoPatching -> GlobalPatcher', function () {
+describe('ComponentAutoPatching -> GlobalPatcher', function () {
   let autoPatching, componentTrace, componentErrorLog, ctx: any;
 
   before(async () => {
@@ -106,5 +106,25 @@ describe.only('ComponentAutoPatching -> GlobalPatcher', function () {
 
   it('should record fatal error', (done) => {
     fork('global/GlobalFatal', done);
+  });
+
+  it('should record use console when unhandledRejection listened', (done) => {
+    fork('global/GlobalHandled', done);
+  });
+
+  it('should use global listener count', (done) => {
+    fork('global/GlobalHandledEvent', done);
+  });
+
+  it('should attach traceId for console', (done) => {
+    fork('global/GlobalTraced', done);
+  });
+
+  it('should attach traceId for unhandled', (done) => {
+    fork('global/GlobalTracedUnhandled', done);
+  });
+
+  it('should attach traceId for fatal', (done) => {
+    fork('global/GlobalTracedFatal', done);
   });
 });

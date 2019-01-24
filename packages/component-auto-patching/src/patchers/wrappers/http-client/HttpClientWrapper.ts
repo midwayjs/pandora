@@ -205,6 +205,7 @@ export class HttpClientWrapper extends Wrapper {
   }
 
   recordResponse(chunk: any, res: ExIncomingMessage) {
+    /* istanbul ignore next */
     if (this.options.recordResponse) {
       const size = this.responseSize(res);
 

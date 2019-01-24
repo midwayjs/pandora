@@ -4,7 +4,6 @@ import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
 import { SPAN_FINISHED } from 'pandora-component-trace';
-import { registerLanguage } from '_@types_highlight.js@9.12.3@@types/highlight.js';
 
 export default class MySQLFixture extends Fixture {
 
@@ -19,9 +18,7 @@ export default class MySQLFixture extends Fixture {
         mySQL: {
           enabled: true,
           klass: MySQLPatcher,
-          kWrapper: MySQLWrapper,
-          recordDatabaseName: true,
-          recordInstance: true
+          kWrapper: MySQLWrapper
         }
       }
     };
@@ -32,6 +29,7 @@ export default class MySQLFixture extends Fixture {
     const urllib = require('urllib');
     const mysql = require('mysql');
     const _done = pedding(done, 2);
+    const fakeServerPort = 32893;
 
     const stub = sinon.stub(this.componentTrace.traceManager, 'record').callsFake(function(span, isEntry) {
       const context = span.context();
@@ -45,14 +43,22 @@ export default class MySQLFixture extends Fixture {
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
-        const connection = mysql.createConnection({
-          port: 32893
+        const cluster = mysql.createPoolCluster({
+          port: fakeServerPort
         });
 
-        connection.connect();
+        cluster.add('SLAVE1', {
+          port: fakeServerPort
+        });
 
-        connection.query('SELECT 1', function(err, row, fields) {
-          connection.end();
+        cluster.add('SLAVE2', {
+          port: fakeServerPort
+        });
+
+        const pool = cluster.of('SLAVE*', 'ORDER');
+
+        pool.query('SELECT 1', function(err, row, fields) {
+          cluster.end();
           res.end('ok');
         });
       },  Math.floor(1 + Math.random() * 10) * 100);

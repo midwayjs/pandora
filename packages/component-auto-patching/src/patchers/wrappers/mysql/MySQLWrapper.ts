@@ -8,7 +8,7 @@ import { IPandoraSpan } from 'pandora-component-trace';
 import { getDatabaseConfigFromQuery, isLocalhost } from '../../../utils';
 import * as is from 'is-type-of';
 import * as os from 'os';
-import { parseSql } from './SqlParser';
+import * as Parser from './SqlParser';
 
 export class MySQLWrapper extends Wrapper {
   options: MySQLPatcherOptions;
@@ -60,7 +60,8 @@ export class MySQLWrapper extends Wrapper {
 
       return function wrappedQuery(this: Connection, sql, values, cb) {
         const args = self.argsNormalize(sql, values, cb);
-        const instanceInfo = self.getInstanceInfo(this, args.options);
+        const _instanceInfo = self.getInstanceInfo(this, args.options);
+        const instanceInfo = self.normalizeInfo(_instanceInfo);
         const sqlInfo = self.parseQuery(args.options);
         const tags = self.buildTags(instanceInfo, sqlInfo, isPoolQuery);
         const span = self.createSpan(tags);
@@ -112,9 +113,11 @@ export class MySQLWrapper extends Wrapper {
         const callbackIndex = args.length - 1;
         const callback = args[callbackIndex];
 
+        /* istanbul ignore next */
         if (is.function(callback) && !callback.__wrapped) {
           args[callbackIndex] = function _callback(error, connection) {
             try {
+              /* istanbul ignore next */
               if (!error) {
                 self.wrapQueriable(connection, true);
               }
@@ -168,6 +171,7 @@ export class MySQLWrapper extends Wrapper {
     tags['mysql.portPath'] = instanceInfo.portPath;
     tags['mysql.database'] = instanceInfo.databaseName;
 
+    /* istanbul ignore next */
     if (sqlInfo) {
       tags['mysql.table'] = sqlInfo.collection || TABLE_UNKNOWN;
       tags['mysql.operation'] = sqlInfo.operation;
@@ -204,7 +208,7 @@ export class MySQLWrapper extends Wrapper {
 
   argsNormalize(sql, values, cb) {
     let _options: any = {};
-    let _cb = null;
+    let _cb = cb && typeof cb === 'function' ? cb : null;
 
     if (typeof sql === 'function') {
       _cb = sql;
@@ -219,6 +223,11 @@ export class MySQLWrapper extends Wrapper {
         _cb = values;
       } else if (values !== undefined) {
         _options.values = values;
+      }
+
+      // pool cluster query use one args `Query`
+      if(!_cb && _options._callback) {
+        _cb = _options._callback;
       }
 
       return {
@@ -293,11 +302,14 @@ export class MySQLWrapper extends Wrapper {
       delete info.host;
       delete info.portPath;
     } else {
+      /* istanbul ignore next */
       if (Object.hasOwnProperty.call(info, 'portPath')) {
         info.portPath = String(info.portPath || INSTANCE_UNKNOWN);
       }
 
+      /* istanbul ignore next */
       if (Object.hasOwnProperty.call(info, 'host')) {
+        /* istanbul ignore next */
         if (info.host && isLocalhost(info.host)) {
           info.host = os.hostname();
         }
@@ -322,7 +334,7 @@ export class MySQLWrapper extends Wrapper {
     };
 
     try {
-      parsed = parseSql(options);
+      parsed = Parser.parseSql(options);
     } catch (error) {
       consoleLogger.log(`parse sql error, origin options is ${JSON.stringify(options)}. `, error);
 
@@ -335,6 +347,7 @@ export class MySQLWrapper extends Wrapper {
 
     let collection = parsed.collection;
     // strip enclosing special characters from collection (table) name
+    /* istanbul ignore next */
     if (typeof collection === 'string' && collection.length > 2) {
       if (/^[\[{'"`]/.test(collection)) {
         collection = collection.substr(1);
@@ -351,5 +364,5 @@ export class MySQLWrapper extends Wrapper {
     };
   }
 
-  unWrap(target: any): void {}
+  unwrap(target: any): void {}
 }

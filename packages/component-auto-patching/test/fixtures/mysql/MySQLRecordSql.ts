@@ -1,10 +1,9 @@
-import { Fixture, sleep } from '../../TestUtil';
+import { Fixture, sleep, extractLog } from '../../TestUtil';
 import { HttpServerPatcher, MySQLPatcher, MySQLWrapper } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
 import { SPAN_FINISHED } from 'pandora-component-trace';
-import { registerLanguage } from '_@types_highlight.js@9.12.3@@types/highlight.js';
 
 export default class MySQLFixture extends Fixture {
 
@@ -20,8 +19,7 @@ export default class MySQLFixture extends Fixture {
           enabled: true,
           klass: MySQLPatcher,
           kWrapper: MySQLWrapper,
-          recordDatabaseName: true,
-          recordInstance: true
+          recordSql: true
         }
       }
     };
@@ -39,6 +37,10 @@ export default class MySQLFixture extends Fixture {
 
       span.once(SPAN_FINISHED, (s) => {
         assert(s.duration > 0);
+        if (!isEntry) {
+          const sql = extractLog(s.logs, 'sql');
+          assert(sql === 'SELECT 1');
+        }
         _done();
       });
     });

@@ -3,7 +3,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import * as is from 'is-type-of';
 import { consoleLogger } from 'pandora-dollar';
 import { IPandoraSpan } from 'pandora-component-trace';
-import { URL } from 'url';
+import { URL, parse } from 'url';
 import { Patcher } from '../Patcher';
 import {
   HttpServerPatcherOptions,
@@ -32,6 +32,30 @@ export class HttpServerPatcher extends Patcher {
     return false;
   }
 
+  argsCompatible(opts?: HttpCreateServerOptions, requestListener?: RequestListener) {
+    let _requestListener;
+    let withOpts = false;
+
+    /* istanbul ignore next */
+    if (opts) {
+      if (is.function(opts)) {
+        _requestListener = opts;
+      } else {
+        withOpts = true;
+        _requestListener = requestListener;
+      }
+    }
+
+    return {
+      requestListener: _requestListener,
+      withOpts
+    };
+  }
+
+  argsTransform(withOpts: boolean, requestListener?: Function, opts?: HttpCreateServerOptions) {
+    return withOpts ? [opts, requestListener] : [requestListener];
+  }
+
   wrapCreateServer = (createServer) => {
     const self = this;
 
@@ -40,14 +64,9 @@ export class HttpServerPatcher extends Patcher {
       let withOpts = false;
 
       // args compatible
-      if (opts) {
-        if (is.function(opts)) {
-          _requestListener = opts;
-        } else {
-          withOpts = true;
-          _requestListener = requestListener;
-        }
-      }
+      const argsCompatible = self.argsCompatible(opts, requestListener);
+      _requestListener = argsCompatible.requestListener;
+      withOpts = argsCompatible.withOpts;
 
       if (!_requestListener) {
         consoleLogger.log('[HttpServerPatcher] no requestListener, skip trace.');
@@ -109,7 +128,7 @@ export class HttpServerPatcher extends Patcher {
         return _requestListener(req, res);
       });
 
-      const args = withOpts ? [opts, bindRequestListener] : [bindRequestListener];
+      const args = self.argsTransform(withOpts, bindRequestListener, opts);
       return createServer.apply(null, args);
     };
   }
@@ -182,25 +201,21 @@ export class HttpServerPatcher extends Patcher {
     if (this.options.recordSearchParams) {
       const uri = req.url;
 
+      /* istanbul ignore next */
       if (uri) {
         let parsed;
 
         try {
-          parsed = new URL(uri);
+          parsed = parse(uri, true);
         } catch (error) {
           consoleLogger.error('[HttpServerPatcher] record search params error. ', error);
           return;
         }
 
-        const searchParams = parsed.searchParams;
-        const result = {};
-
-        for (const [name, value] of searchParams) {
-          result[name] = value;
-        }
+        const searchParams = parsed.query;
 
         span.log({
-          searchParams: result
+          searchParams
         });
       }
     }
@@ -217,8 +232,8 @@ export class HttpServerPatcher extends Patcher {
 
         return function wrappedRequestEmit(this: IncomingMessage, event: string) {
           if (event === 'data') {
-            const chunk = arguments[1] || [];
-
+            // may be string or Buffer, not null
+            const chunk = arguments[1];
             chunks.push(chunk);
           }
 

@@ -12,7 +12,8 @@ export default class GlobalFixture extends Fixture {
         global: {
           enabled: true,
           klass: GlobalPatcher,
-          recordFatal: true
+          recordConsole: true,
+          recordUnhandled: true
         }
       }
     };
@@ -22,14 +23,18 @@ export default class GlobalFixture extends Fixture {
     const globalPatcher = this.autoPatching.instances.get('global');
     const stub = sinon.stub(globalPatcher, 'errorLogManager').value({
       record(data) {
-        assert(data.path === 'uncaughtException');
-        stub.restore();
+        assert(data.path === 'console');
         done();
       }
     });
 
-    setTimeout(() => {
-      throw new Error('uncaughtException');
-    }, 1000);
+    process.on('unhandledRejection', (error) => {
+      console.error('handle error: ', error);
+      stub.restore();
+    });
+
+    new Promise((resolve, reject) => {
+      reject(new Error('promise error'));
+    });
   }
 }

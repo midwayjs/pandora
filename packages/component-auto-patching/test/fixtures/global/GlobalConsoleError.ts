@@ -22,12 +22,13 @@ export default class GlobalFixture extends Fixture {
 
   async case(done) {
     const globalPatcher = this.autoPatching.instances.get('global');
-    const stub = sinon.stub(globalPatcher, 'errorLogManager').throws(new Error('collect error'));
+    const errorLogManager = globalPatcher.errorLogManager;
+    const stub = sinon.stub(errorLogManager, 'record').throws(new Error('collect error'));
     const spy = sinon.spy(consoleLogger, 'error');
 
     console.error('error test');
 
-    spy.calledWith(sinon.match('collect console error failed.'));
+    assert(spy.calledWith(sinon.match('collect console error failed.')));
 
     stub.restore();
     spy.restore();

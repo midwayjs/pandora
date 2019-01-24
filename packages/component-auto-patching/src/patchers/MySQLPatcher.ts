@@ -26,6 +26,7 @@ export class MySQLPatcher extends Patcher {
       const self = this;
 
       this.wrapper.wrapFactory(mysql, 'createConnection', function wrapCreateConnection(connection) {
+        /* istanbul ignore next */
         if (self.wrapper.wrapQueriable(connection, false)) {
           self.shimmer.unwrap(mysql, 'createConnection');
         }
@@ -33,6 +34,7 @@ export class MySQLPatcher extends Patcher {
 
       // 底层调用的还是 connection.query，但回调在 pool.query 上处理方便
       this.wrapper.wrapFactory(mysql, 'createPool', function wrapCreatePool(pool) {
+        /* istanbul ignore next */
         if (self.wrapper.wrapQueriable(pool, true)) {
           self.shimmer.unwrap(mysql, 'createPool');
         }
@@ -40,6 +42,7 @@ export class MySQLPatcher extends Patcher {
 
       // 底层调用的还是 connection.query，请求时会出现 Query 实例参数
       this.wrapper.wrapFactory(mysql, 'createPoolCluster', function wrapCreatePoolCluster(poolCluster) {
+        /* istanbul ignore next */
         if (self.wrapper.wrapGetConnection(poolCluster)) {
           self.shimmer.unwrap(mysql, 'createPoolCluster');
         }
@@ -47,5 +50,7 @@ export class MySQLPatcher extends Patcher {
     });
   }
 
-  unattach() {}
+  unattach() {
+    this.wrapper.unwrap({});
+  }
 }

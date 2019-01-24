@@ -4,7 +4,6 @@ import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
 import { SPAN_FINISHED } from 'pandora-component-trace';
-import { registerLanguage } from '_@types_highlight.js@9.12.3@@types/highlight.js';
 
 export default class MySQLFixture extends Fixture {
 
@@ -19,9 +18,7 @@ export default class MySQLFixture extends Fixture {
         mySQL: {
           enabled: true,
           klass: MySQLPatcher,
-          kWrapper: MySQLWrapper,
-          recordDatabaseName: true,
-          recordInstance: true
+          kWrapper: MySQLWrapper
         }
       }
     };
@@ -45,14 +42,12 @@ export default class MySQLFixture extends Fixture {
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
-        const connection = mysql.createConnection({
+        const pool = mysql.createPool({
           port: 32893
         });
 
-        connection.connect();
-
-        connection.query('SELECT 1', function(err, row, fields) {
-          connection.end();
+        pool.query('SELECT 1', function(err, row, fields) {
+          pool.end();
           res.end('ok');
         });
       },  Math.floor(1 + Math.random() * 10) * 100);
