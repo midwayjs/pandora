@@ -55,4 +55,5 @@ export interface TraceManagerOptions {
   traceName?: (span: IPandoraSpan) => string;
   // 自定义 Tracer 实现类
   kTracer?: ITracer;
+  logger?: any;
 }

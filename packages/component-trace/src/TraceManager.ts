@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { consoleLogger } from 'pandora-dollar';
+import { avoidLogger } from 'pandora-dollar';
 import { TraceData } from './TraceData';
 import { IPandoraSpan, TraceManagerOptions, ITracer, SamplingFunction } from './domain';
 import { SPAN_FINISHED, TraceStatus, TRACE_DATA_DUMP, SPAN_CREATED } from './constants';
@@ -26,6 +26,7 @@ export class TraceManager extends EventEmitter {
   private timeout: number;
   private running: boolean = false;
   private _tracer: ITracer;
+  private logger: any;
 
   constructor(options: TraceManagerOptions = {}) {
     super();
@@ -35,6 +36,7 @@ export class TraceManager extends EventEmitter {
     this.timeout = options.timeout || DEFAULT_TIMEOUT;
     this.sampling = options.sampling || DEFAULT_SAMPLING;
     this.options = options;
+    this.logger = options.logger || avoidLogger;
     const Tracer = options.kTracer;
 
     if (Tracer) {
@@ -76,7 +78,7 @@ export class TraceManager extends EventEmitter {
       if (traceData) {
         traceData.putSpan(span);
       } else {
-        consoleLogger.warn(`[TraceManager] trace maybe timeout and dumped, skip this span, please check!`);
+        this.logger.warn(`[TraceManager] trace maybe timeout and dumped, skip this span, please check!`);
       }
     }
   }
@@ -87,12 +89,12 @@ export class TraceManager extends EventEmitter {
     const timestamp = span.startTime;
 
     if (this.pool.has(traceId)) {
-      consoleLogger.warn(`[TraceManager] entry [${traceId}] was duplicated in pool, skip this span, please check!`);
+      this.logger.warn(`[TraceManager] entry [${traceId}] was duplicated in pool, skip this span, please check!`);
       return;
     }
 
     if (!this.isSampled(span)) {
-      consoleLogger.warn(`[TraceManager] entry [${traceId}] can't record by sampling.`);
+      this.logger.warn(`[TraceManager] entry [${traceId}] can't record by sampling.`);
       return;
     }
 
@@ -119,7 +121,7 @@ export class TraceManager extends EventEmitter {
     const size = this.pool.size;
 
     if (size >= this.poolSize) {
-      consoleLogger.warn(`[TraceManager] pool is full, dump finished trace before, skip current trace [${traceId}].`);
+      this.logger.warn(`[TraceManager] pool is full, dump finished trace before, skip current trace [${traceId}].`);
       this.dump(false);
     } else {
       this.pool.set(traceId, traceData);
@@ -159,7 +161,7 @@ export class TraceManager extends EventEmitter {
         try {
           this.dump(false);
         } catch (error) {
-          consoleLogger.error('[TraceManager] interval dump data error. ', error);
+          this.logger.error('[TraceManager] interval dump data error. ', error);
         }
       }, this.interval);
     }
@@ -173,7 +175,7 @@ export class TraceManager extends EventEmitter {
       try {
         this.dump(true);
       } catch (error) {
-        consoleLogger.error('[TraceManager] dump data before stop error. ', error);
+        this.logger.error('[TraceManager] dump data before stop error. ', error);
       }
     }
   }
