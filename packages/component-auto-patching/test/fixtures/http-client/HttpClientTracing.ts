@@ -21,7 +21,8 @@ export default class HttpClientFixture extends Fixture {
         httpClient: {
           enabled: true,
           klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper
+          kWrapper: HttpClientWrapper,
+          tracing: true
         }
       }
     };
@@ -53,8 +54,9 @@ export default class HttpClientFixture extends Fixture {
           method: 'GET'
         }).then((response) => {
           const headers = response[0].req.headers;
-          assert(!headers[HEADER_TRACE_ID]);
-          assert(!headers[HEADER_SPAN_ID]);
+          assert(headers[HEADER_TRACE_ID]);
+          assert(headers[HEADER_SPAN_ID]);
+
           res.end('OK');
         });
       },  Math.floor(1 + Math.random() * 10) * 100);

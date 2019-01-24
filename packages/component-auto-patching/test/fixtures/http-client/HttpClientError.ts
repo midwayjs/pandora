@@ -41,6 +41,9 @@ export default class HttpClientFixture extends Fixture {
 
       span.once(SPAN_FINISHED, (s) => {
         assert(s.duration > 0);
+        if (!isEntry) {
+          assert(s.tag('error'));
+        }
         _done();
       });
     });
@@ -48,16 +51,14 @@ export default class HttpClientFixture extends Fixture {
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
         request(http, {
-          hostname: 'www.taobao.com',
+          hostname: `www.${Date.now()}notfound.com`,
           path: '/',
           method: 'GET'
-        }).then((response) => {
-          const headers = response[0].req.headers;
-          assert(!headers[HEADER_TRACE_ID]);
-          assert(!headers[HEADER_SPAN_ID]);
+        }).catch((err) => {
+          assert(err);
           res.end('OK');
         });
-      },  Math.floor(1 + Math.random() * 10) * 100);
+      }, Math.floor(1 + Math.random() * 10) * 100);
     });
 
     server.listen(0);

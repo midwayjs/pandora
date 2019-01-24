@@ -3,6 +3,7 @@ import * as childProcess from 'child_process';
 import ComponentTrace from 'pandora-component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { PandoraTracer } from 'pandora-tracer';
+import { find } from 'lodash';
 
 export function fork(name, done) {
   const filePath = require.resolve(path.join(__dirname, `fixtures/${name}`));
@@ -100,4 +101,41 @@ export function request(agent, options) {
 
     req.end();
   });
+}
+
+export function requestUrl(agent, url, options) {
+  return new Promise((resolve, reject) => {
+    const req = agent.request(url, options, (res) => {
+      let data = '';
+
+      res.on('data', (d) => {
+        data += d;
+      });
+
+      res.on('end', () => {
+        resolve([res, data]);
+      });
+    });
+
+    req.on('error', (e) => {
+      reject(e);
+    });
+
+    req.end();
+  });
+}
+
+export function extractLog(logs: [], key: string): string {
+  let i = 0;
+  logs = logs || [];
+
+  for (i; i < logs.length; i++) {
+    const log = find((<any>logs[i]).fields, ['key', key]);
+
+    if (log) {
+      return log.value;
+    }
+  }
+
+  return null;
 }

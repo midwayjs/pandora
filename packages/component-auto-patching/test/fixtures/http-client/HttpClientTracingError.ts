@@ -4,9 +4,8 @@ import { Fixture, sleep, request } from '../../TestUtil';
 import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
-import * as pedding from 'pedding';
-import { SPAN_FINISHED } from 'pandora-component-trace';
 import { HEADER_TRACE_ID, HEADER_SPAN_ID } from 'pandora-tracer';
+import { consoleLogger } from 'pandora-dollar';
 
 export default class HttpClientFixture extends Fixture {
 
@@ -21,7 +20,8 @@ export default class HttpClientFixture extends Fixture {
         httpClient: {
           enabled: true,
           klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper
+          kWrapper: HttpClientWrapper,
+          tracing: true
         }
       }
     };
@@ -29,21 +29,14 @@ export default class HttpClientFixture extends Fixture {
 
   async case(done) {
     const http = require('http');
-    const _done = pedding(done, 2);
 
     nock('http://www.taobao.com')
       .get('/')
       .reply(200);
 
-    const stub = sinon.stub(this.componentTrace.traceManager, 'record').callsFake(function(span, isEntry) {
-      const context = span.context();
-      assert(context.traceId === '1234567890');
-
-      span.once(SPAN_FINISHED, (s) => {
-        assert(s.duration > 0);
-        _done();
-      });
-    });
+    const httpClientPatcher = this.autoPatching.instances.get('httpClient');
+    const stub = sinon.stub(httpClientPatcher.wrapper.tracer, 'inject').throws('inject error');
+    const spy = sinon.spy(consoleLogger, 'log');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
@@ -55,6 +48,10 @@ export default class HttpClientFixture extends Fixture {
           const headers = response[0].req.headers;
           assert(!headers[HEADER_TRACE_ID]);
           assert(!headers[HEADER_SPAN_ID]);
+          assert(spy.calledWith(sinon.match('[HttpClientWrapper] inject tracing context to headers error.')));
+          stub.restore();
+          spy.restore();
+          done();
           res.end('OK');
         });
       },  Math.floor(1 + Math.random() * 10) * 100);
@@ -75,7 +72,5 @@ export default class HttpClientFixture extends Fixture {
         'X-Trace-Id': '1234567890'
       }
     });
-
-    stub.restore();
   }
 }

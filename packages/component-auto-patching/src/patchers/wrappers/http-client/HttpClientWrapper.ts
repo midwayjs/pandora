@@ -19,6 +19,7 @@ export class HttpClientWrapper extends Wrapper {
   wrap(target: any): void {
     shimmer.wrap(target, 'request', this.httpRequestWrapper);
 
+    /* istanbul ignore next */
     if (nodeVersion('>=8')) {
       shimmer.wrap(target, 'get', this.httpRequestWrapper);
     }
@@ -156,6 +157,7 @@ export class HttpClientWrapper extends Wrapper {
   }
 
   handleRequestError(span: IPandoraSpan, error: Error): void {
+    /* istanbul ignore next */
     if (span) {
       span.error(true);
       this._handleRequestError(span, error);
@@ -182,6 +184,7 @@ export class HttpClientWrapper extends Wrapper {
 
       return function wrappedResponseEmit(this: ExIncomingMessage, event) {
         if (event === 'end') {
+          /* istanbul ignore next */
           if (span) {
             self._handleResponse(span, res);
             self.exportResponse(span, res);
@@ -189,7 +192,8 @@ export class HttpClientWrapper extends Wrapper {
             span.finish();
           }
         } else if (event === 'data') {
-          const chunk = arguments[1] || [];
+          // may be string or Buffer, not null
+          const chunk = arguments[1];
           res.__responseSize += chunk.length;
 
           self.recordResponse(chunk, res);
@@ -206,28 +210,31 @@ export class HttpClientWrapper extends Wrapper {
 
       if (size <= this.options.maxResponseSize) {
         res.__chunks.push(chunk);
+      } else {
+        consoleLogger.log('[HttpClientWrapper] response size greater than maxResponseSize, ignore chunk.');
       }
     }
   }
 
   exportResponse(span: IPandoraSpan, res: ExIncomingMessage) {
     if (this.options.recordResponse) {
-      const response = this.responseTransformer(Buffer.concat(res.__chunks), res);
+      const chunks = res.__chunks;
+      const response = this.responseTransformer(Buffer.concat(chunks), res);
 
       span.log({
         response
       });
     }
+
+    // 清除记录
+    delete res.__responseSize;
+    delete res.__chunks;
   }
 
   _handleResponse(span: IPandoraSpan, res: ExIncomingMessage) {
     const socket = res.socket;
     const remoteIp = socket ? (socket.remoteAddress ? `${socket.remoteAddress}:${socket.remotePort}` : '') : '';
     const responseSize = this.responseSize(res);
-
-    // 清除记录
-    delete res.__responseSize;
-    delete res.__chunks;
 
     span.setTag('http.status_code', res.statusCode);
     span.setTag('http.remote_ip', remoteIp);
@@ -256,6 +263,7 @@ export class HttpClientWrapper extends Wrapper {
   unwrap(target: any): void {
     shimmer.unwrap(target, 'request');
 
+    /* istanbul ignore next */
     if (nodeVersion('>=8')) {
       shimmer.unwrap(target, 'get');
     }
