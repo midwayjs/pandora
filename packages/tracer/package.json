@@ -1,6 +1,6 @@
 {
   "name": "pandora-tracer",
-  "version": "2.0.0-y.0",
+  "version": "2.0.0-y.2",
   "description": "Pandora 2 Node.js Tracer",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^8.4.0",
-    "pandora-component-trace": "^2.0.0-y.0"
+    "pandora-component-trace": "^2.0.0-y.2"
   },
   "nyc": {
     "include": [
@@ -56,7 +56,7 @@
   "dependencies": {
     "lodash": "^4.17.11",
     "opentracing": "^0.14.3",
-    "pandora-dollar": "^2.0.0-y.0",
+    "pandora-dollar": "^2.0.0-y.2",
     "xorshift": "^1.1.1"
   }
 }

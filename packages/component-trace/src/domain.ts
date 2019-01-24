@@ -7,7 +7,6 @@ export interface IPandoraContext extends SpanContext {
 }
 
 export interface IPandoraSpan extends Span {
-  _spanContext: IPandoraContext;
   traceId: string;
   startTime: number;
   duration: number;
