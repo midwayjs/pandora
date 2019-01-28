@@ -3,7 +3,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import * as is from 'is-type-of';
 import { consoleLogger } from 'pandora-dollar';
 import { IPandoraSpan } from 'pandora-component-trace';
-import { URL, parse } from 'url';
+import { parse } from 'url';
 import { Patcher } from '../Patcher';
 import {
   HttpServerPatcherOptions,
