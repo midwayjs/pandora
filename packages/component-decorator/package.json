@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-decorator",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "Pandora 2 Component Decorators",
   "main": "dist/index",
   "typings": "dist/index.d.ts",

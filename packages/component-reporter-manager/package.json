@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-reporter-manager",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "Pandora 2 Component Reporter Manager",
   "main": "dist/ComponentReporterManager",
   "typings": "dist/ComponentReporterManager.d.ts",
@@ -26,9 +26,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-error-log": "^2.0.0-beta.1",
-    "pandora-component-metrics": "^2.0.0-beta.1",
-    "pandora-component-trace": "^2.0.0-beta.1"
+    "pandora-component-error-log": "^2.0.0-beta.2",
+    "pandora-component-metrics": "^2.0.0-beta.2",
+    "pandora-component-trace": "^2.0.0-beta.2"
   },
   "nyc": {
     "include": [
@@ -59,8 +59,8 @@
   "dependencies": {
     "debug": "^4.1.1",
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0-beta.1",
-    "pandora-dollar": "^2.0.0-beta.1",
-    "pandora-metrics-util": "^2.0.0-beta.1"
+    "pandora-component-decorator": "^2.0.0-beta.2",
+    "pandora-dollar": "^2.0.0-beta.2",
+    "pandora-metrics-util": "^2.0.0-beta.2"
   }
 }
