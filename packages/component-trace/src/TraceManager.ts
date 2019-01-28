@@ -40,7 +40,8 @@ export class TraceManager extends EventEmitter {
     const Tracer = options.kTracer;
 
     if (Tracer) {
-      this._tracer = new Tracer();
+      const tracerConfig = options.tracerConfig;
+      this._tracer = new Tracer(tracerConfig || {});
       this._tracer.on(SPAN_CREATED, (span) => {
         this.record(span, span.isEntry);
       });
