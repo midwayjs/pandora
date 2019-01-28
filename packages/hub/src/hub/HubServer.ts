@@ -169,7 +169,9 @@ export class HubServer extends EventEmitter {
       // this.messengerServer will ignore error
       const selectors = this.routeTable.getSelectorsByClient(client);
       this.routeTable.forgetClient(client);
-      this.emit('client_disconnected', selectors);
+      if(selectors) {
+        this.emit('client_disconnected', selectors);
+      }
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_ONLINE_UP, (message: MessagePackage, reply: ForceReplyFn, client: MessengerClient) => {
       try {
@@ -181,7 +183,11 @@ export class HubServer extends EventEmitter {
     });
     this.messengerServer.on(PANDORA_HUB_ACTION_OFFLINE_UP, (message: MessagePackage, reply: ForceReplyFn, client: MessengerClient) => {
       try {
+        const selectors = this.routeTable.getSelectorsByClient(client);
         this.routeTable.forgetClient(client);
+        if(selectors) {
+          this.emit('client_disconnected', selectors);
+        }
         reply(<ReplyPackage> {success: true});
       } catch (error) {
         reply(<ReplyPackage> {success: false, error});

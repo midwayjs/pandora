@@ -744,7 +744,8 @@ describe('Hub', function () {
         routeTable: {
           forgetClient (client) {
             expect(client).to.equal(client);
-          }
+          },
+          getSelectorsByClient() {}
         }
       };
       fakeHub.startListen();
@@ -773,7 +774,8 @@ describe('Hub', function () {
         routeTable: {
           forgetClient () {
             throw new Error('fake error');
-          }
+          },
+          getSelectorsByClient() {}
         }
       };
       fakeHub.startListen();
