@@ -31,7 +31,7 @@ export interface ISpanOptions {
 }
 
 export interface ITracer extends EventEmitter {
-  new(config?: any): ITracer;
+  new(ctx?: any): ITracer;
   extract: (format: string, carrier: any) => IPandoraContext;
   inject: (spanContext: IPandoraContext, format: string, carrier: any) => void;
   startSpan: (operationName: string, options: ISpanOptions) => IPandoraSpan;
@@ -53,9 +53,13 @@ export interface TraceManagerOptions {
   sampling?: number | SamplingFunction;
   // 自定义链路名方法
   traceName?: (span: IPandoraSpan) => string;
+  logger?: any;
+  // tracer 实例
+  tracer?: ITracer;
+}
+
+export interface ComponentTraceConfig extends TraceManagerOptions {
+  createTracer?(ctx: any): ITracer;
   // 自定义 Tracer 实现类
   kTracer?: ITracer;
-  // tracer config
-  tracerConfig?: any;
-  logger?: any;
 }

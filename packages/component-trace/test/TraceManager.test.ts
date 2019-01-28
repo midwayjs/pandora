@@ -22,9 +22,12 @@ describe('TraceManager', () => {
     class Tracer extends EventEmitter {
     }
 
+    const tracer: any = new Tracer();
+
     const traceManager: TraceManager = new TraceManager({
-      kTracer: <any> Tracer
+      tracer
     });
+
     expect(traceManager.tracer).to.be.an.instanceof(Tracer);
 
   });
@@ -293,9 +296,9 @@ describe('TraceManager', () => {
 
     class Tracer extends EventEmitter {
     }
-
+    const tracer: any = new Tracer();
     const traceManager: TraceManager = new TraceManager({
-      kTracer: <any> Tracer
+      tracer
     });
 
     let got = null;
@@ -320,10 +323,10 @@ describe('TraceManager', () => {
 
     class Tracer extends EventEmitter {
     }
-
+    const tracer: any = new Tracer();
     const traceManager: TraceManager = new TraceManager({
       sampling: 100,
-      kTracer: <any> Tracer
+      tracer
     });
 
     const spy = sinon.spy(traceManager, 'isSampled');
@@ -350,10 +353,10 @@ describe('TraceManager', () => {
 
     class Tracer extends EventEmitter {
     }
-
+    const tracer: any = new Tracer();
     const traceManager: TraceManager = new TraceManager({
       sampling: 10,
-      kTracer: <any> Tracer
+      tracer
     });
 
     const spy = sinon.spy(traceManager, 'isSampled');
@@ -381,12 +384,12 @@ describe('TraceManager', () => {
 
     class Tracer extends EventEmitter {
     }
-
+    const tracer: any = new Tracer();
     const traceManager: TraceManager = new TraceManager({
       sampling: (span) => {
         return span.traceId === 'test_traceId_3';
       },
-      kTracer: <any> Tracer
+      tracer
     });
 
     const spy = sinon.spy(traceManager, 'isSampled');
@@ -413,9 +416,9 @@ describe('TraceManager', () => {
   it('should skip span when trace is timeout or dumped', () => {
     class Tracer extends EventEmitter {
     }
-
+    const tracer: any = new Tracer();
     const traceManager: TraceManager = new TraceManager({
-      kTracer: <any> Tracer
+      tracer
     });
 
     const spy = sinon.spy((<any> traceManager).logger, 'warn');
@@ -443,11 +446,11 @@ describe('TraceManager', () => {
         this.emit('span_finished', this);
       }
     }
-
+    const tracer: any = new Tracer();
     const traceManager: TraceManager = new TraceManager({
       interval: 1000,
       timeout: 3000,
-      kTracer: <any> Tracer
+      tracer
     });
 
     traceManager.start();

@@ -37,19 +37,24 @@ export class TraceManager extends EventEmitter {
     this.sampling = options.sampling || DEFAULT_SAMPLING;
     this.options = options;
     this.logger = options.logger || avoidLogger;
-    const Tracer = options.kTracer;
 
-    if (Tracer) {
-      const tracerConfig = options.tracerConfig;
-      this._tracer = new Tracer(tracerConfig || {});
-      this._tracer.on(SPAN_CREATED, (span) => {
-        this.record(span, span.isEntry);
-      });
+    if (options.tracer) {
+      this.tracer = options.tracer;
     }
   }
 
   get tracer(): ITracer {
     return this._tracer;
+  }
+
+  set tracer(tracer: ITracer) {
+    if (!this._tracer) {
+      this._tracer = tracer;
+
+      this._tracer.on(SPAN_CREATED, (span) => {
+        this.record(span, span.isEntry);
+      });
+    }
   }
 
   list(): TraceData[] {
