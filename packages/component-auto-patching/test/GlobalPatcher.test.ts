@@ -6,7 +6,6 @@ import { GlobalPatcher } from '../src/patchers';
 import { PandoraTracer } from 'pandora-tracer';
 import ComponentErrorLog from 'pandora-component-error-log';
 import { fork } from './TestUtil';
-import * as semver from 'semver';
 import { consoleLogger } from 'pandora-dollar';
 
 describe('ComponentAutoPatching -> GlobalPatcher', function () {
