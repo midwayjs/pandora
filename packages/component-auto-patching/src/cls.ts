@@ -1,24 +1,6 @@
 process.env.NODE_ASYNC_HOOK_NO_WARNING = 'true';
-const asyncWrap = (<any>process).binding('async_wrap');
-import { wrap } from './Shimmer';
 import { EventEmitter } from 'events';
 import { ICLSNamespace, ICLSContext } from './domain';
-
-wrap(asyncWrap, 'setupHooks', function(setupHooks) {
-  return function _setupHooks(hooks) {
-    try {
-      setupHooks.call(asyncWrap, hooks);
-    } catch (err) {
-      setupHooks.call(
-        asyncWrap,
-        hooks.init,
-        hooks.pre,
-        hooks.post,
-        hooks.destroy
-      );
-    }
-  };
-});
 
 const cls = require('cls-hooked');
 

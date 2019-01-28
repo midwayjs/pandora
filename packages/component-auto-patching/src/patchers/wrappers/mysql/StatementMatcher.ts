@@ -16,12 +16,14 @@ export class StatementMatcher {
     this.matcher.lastIndex = 0;
     CLEANER.lastIndex = 0;
 
+    /* istanbul ignore next */
     if (this.matcher.test(sql)) {
       let queryMatch = this.operationPattern.exec(sql);
       let collection = queryMatch ? queryMatch[1] : 'unknown';
       let database = null;
 
       let cleanerMatch = CLEANER.exec(collection);
+      /* istanbul ignore next */
       if (cleanerMatch && cleanerMatch[4]) {
         collection = cleanerMatch[4];
         if (cleanerMatch[2]) {

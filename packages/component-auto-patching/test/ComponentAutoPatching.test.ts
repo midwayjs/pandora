@@ -9,4 +9,14 @@ describe('ComponentAutoPatching', function () {
     expect(ComponentReflector.getComponentConfig<any>(ComponentAutoPatching).trace).to.be.ok;
     expect(ComponentReflector.getComponentConfig<any>(ComponentAutoPatching).autoPatching).to.be.ok;
   });
+
+  it('should work without pathcers config', () => {
+    const autoPatching = new ComponentAutoPatching({
+      config: {
+        autoPatching: {}
+      }
+    });
+
+    expect(autoPatching).to.be.exist;
+  });
 });

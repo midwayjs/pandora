@@ -5,11 +5,11 @@
 
 import { consoleLogger } from 'pandora-dollar';
 
-function isAsyncFunction(funktion) {
+export function isAsyncFunction(funktion) {
   return funktion && {}.toString.call(funktion) === '[object AsyncFunction]';
 }
 
-function isGeneratorFunction(funktion) {
+export function isGeneratorFunction(funktion) {
   const constructor = funktion.constructor;
 
   if (!constructor) {
@@ -61,6 +61,7 @@ export function wrap(nodule, name, wrapper) {
 
   defineProperty(wrapped, '__original', original);
   defineProperty(wrapped, '__unwrap', function() {
+    /* istanbul ignore next */
     if (nodule[name] === wrapped) defineProperty(nodule, name, original);
   });
   defineProperty(wrapped, '__wrapped', true);
@@ -70,6 +71,7 @@ export function wrap(nodule, name, wrapper) {
 }
 
 export function massWrap(nodules, names, wrapper) {
+  /* istanbul ignore next */
   if (!nodules) {
     consoleLogger.log('must provide one or more modules to patch');
     consoleLogger.log((new Error()).stack);
@@ -105,6 +107,7 @@ export function unwrap(nodule, name) {
 }
 
 export function massUnwrap(nodules, names) {
+  /* istanbul ignore next */
   if (!nodules) {
     consoleLogger.log('must provide one or more modules to patch');
     consoleLogger.log((new Error()).stack);

@@ -19,6 +19,7 @@ const LOCALHOST_NAMES = {
  * @returns {string}
  */
 export function extractPath(requestUrl: string | UrlWithStringQuery): string {
+  /* istanbul ignore next */
   if (typeof requestUrl === 'string') {
     requestUrl = url.parse(requestUrl);
   }

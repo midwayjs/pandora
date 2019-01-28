@@ -19,6 +19,7 @@ const OPERATIONS = [
 const COMMENT_PATTERN = /\/\\*.*?\\*\//g;
 
 export function parseSql(sql) {
+  /* istanbul ignore next */
   if (is.object(sql) && sql.sql !== undefined) sql = sql.sql;
   if (!is.string(sql)) {
     consoleLogger.log('got an non-string sql like: ', JSON.stringify(sql));
@@ -36,11 +37,13 @@ export function parseSql(sql) {
 
   for (let i = 0, l = OPERATIONS.length; i < l; i++) {
     parsedStatement = OPERATIONS[i].getParsedStatement(sql);
+    /* istanbul ignore next */
     if (parsedStatement) {
       break;
     }
   }
 
+  /* istanbul ignore next */
   if (parsedStatement) {
     return parsedStatement;
   }
