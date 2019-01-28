@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-actuator-server",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "Pandora 2 Component Actuator Server",
   "main": "dist/ComponentActuatorServer",
   "typings": "dist/ComponentActuatorServer.d.ts",
@@ -58,7 +58,7 @@
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "pandora-component-decorator": "^2.0.0-beta.2",
-    "pandora-dollar": "^2.0.0-beta.2"
+    "pandora-component-decorator": "^2.0.0-beta.3",
+    "pandora-dollar": "^2.0.0-beta.3"
   }
 }

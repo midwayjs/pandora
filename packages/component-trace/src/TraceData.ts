@@ -52,7 +52,7 @@ export class TraceData {
   }
 
   setDuration(duration: number) {
-    assert(duration, 'duration should exist!');
+    assert(duration != null, 'duration should exist!');
 
     this.duration = duration;
   }
@@ -62,7 +62,7 @@ export class TraceData {
   }
 
   setStatus(status: TraceStatus) {
-    assert(status, 'status should exist!');
+    assert(status != null, 'status should exist!');
 
     this.status = status;
   }
