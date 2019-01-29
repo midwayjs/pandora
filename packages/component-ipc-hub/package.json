@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-ipc-hub",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "description": "Pandora 2 Component IPC Hub",
   "main": "dist/ComponentIPCHub",
   "typings": "dist/ComponentIPCHub.d.ts",
@@ -53,8 +53,8 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "2.0.0-beta.6",
-    "pandora-dollar": "2.0.0-beta.6",
-    "pandora-hub": "2.0.0-beta.6"
+    "pandora-component-decorator": "^2.0.0-beta.7",
+    "pandora-dollar": "^2.0.0-beta.7",
+    "pandora-hub": "^2.0.0-beta.7"
   }
 }
