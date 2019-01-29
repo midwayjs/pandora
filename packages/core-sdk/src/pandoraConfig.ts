@@ -20,9 +20,6 @@ export const components = {
   reporterManager: {
     path: 'pandora-component-reporter-manager'
   },
-  commander: {
-    path: 'pandora-component-commander'
-  },
   httpServerMetrics: {
     path: 'pandora-component-http-server-metrics'
   }

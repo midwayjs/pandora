@@ -22,10 +22,12 @@ export default class ComponentIPCHub {
     await this.hubServer.start();
     consoleLogger.info('IPC Hub Server started');
     await this.startClient();
+    await this.hubFacade.initConfigManager();
   }
 
   async start() {
     await this.startClient();
+    await this.hubFacade.initConfigClient();
   }
 
   async startClient() {
