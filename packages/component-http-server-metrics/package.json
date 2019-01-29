@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-http-server-metrics",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "Pandora 2 Component HTTP Server Metrics",
   "main": "dist/ComponentHttpServerMetrics",
   "typings": "dist/ComponentHttpServerMetrics.d.ts",
@@ -55,6 +55,6 @@
   ],
   "dependencies": {
     "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.0.0-beta.4"
+    "pandora-component-decorator": "^2.0.0-beta.5"
   }
 }
