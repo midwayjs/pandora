@@ -1,7 +1,6 @@
 import { componentName, dependencies, componentConfig } from 'pandora-component-decorator';
 import { TraceManager } from './TraceManager';
 import { TraceManagerOptions, ComponentTraceConfig } from './domain';
-import { isFunction } from 'lodash';
 
 @componentName('trace')
 @dependencies(['indicator'])
@@ -20,7 +19,7 @@ export default class ComponentTrace {
     this.ctx = ctx;
     const traceConfig = ctx.config.trace || {};
     const tracer = this.initTracer();
-    const { kTracer, createTracer, ...managerConfig } = traceConfig;
+    const { kTracer, tracerConfig, ...managerConfig } = traceConfig;
 
     const options: TraceManagerOptions = {
       ...managerConfig,
@@ -37,11 +36,7 @@ export default class ComponentTrace {
     const trace: ComponentTraceConfig = ctx.config.trace || {};
 
     if (trace) {
-      const { kTracer: Tracer, createTracer } = trace;
-
-      if (createTracer && isFunction(createTracer)) {
-        return createTracer(ctx);
-      }
+      const { kTracer: Tracer } = trace;
 
       if (Tracer) {
         return new Tracer(ctx);

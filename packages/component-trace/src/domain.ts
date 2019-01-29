@@ -59,7 +59,8 @@ export interface TraceManagerOptions {
 }
 
 export interface ComponentTraceConfig extends TraceManagerOptions {
-  createTracer?(ctx: any): ITracer;
   // 自定义 Tracer 实现类
   kTracer?: ITracer;
+  // 自定义 Tracer Config
+  tracerConfig?: any;
 }
