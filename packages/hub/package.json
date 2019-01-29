@@ -21,7 +21,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "pandora-messenger": "^2.0.0-beta.6",
+    "pandora-messenger": "2.0.0-beta.6",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

@@ -56,7 +56,7 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.0.0-beta.6",
-    "pandora-dollar": "^2.0.0-beta.6"
+    "pandora-component-decorator": "2.0.0-beta.6",
+    "pandora-dollar": "2.0.0-beta.6"
   }
 }

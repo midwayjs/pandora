@@ -53,8 +53,8 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.0.0-beta.6",
-    "pandora-dollar": "^2.0.0-beta.6",
-    "pandora-hub": "^2.0.0-beta.6"
+    "pandora-component-decorator": "2.0.0-beta.6",
+    "pandora-dollar": "2.0.0-beta.6",
+    "pandora-hub": "2.0.0-beta.6"
   }
 }
