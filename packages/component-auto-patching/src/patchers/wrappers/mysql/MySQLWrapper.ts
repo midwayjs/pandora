@@ -72,8 +72,6 @@ export class MySQLWrapper extends Wrapper {
           return query.apply(this, arguments);
         }
 
-        self.recordSql(span, args);
-
         const callback = args.cb;
 
         if (!callback) {
@@ -82,6 +80,7 @@ export class MySQLWrapper extends Wrapper {
         }
 
         const options = self.transformArgs(args.options, span);
+        self.recordSql(span, options);
         const bindCallback = self.bindCallback(callback, span);
 
         return query.apply(this, [options, bindCallback]);
@@ -153,10 +152,8 @@ export class MySQLWrapper extends Wrapper {
 
   transformArgs(args, span: IPandoraSpan) { return args; }
 
-  recordSql(span: IPandoraSpan, args) {
+  recordSql(span: IPandoraSpan, options) {
     if (this.options.recordSql) {
-      const options = args.options;
-
       span.log({
         sql: options.sql
       });
