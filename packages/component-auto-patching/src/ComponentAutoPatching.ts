@@ -65,6 +65,7 @@ export default class ComponentAutoPatching {
       const Klass = patcher.klass;
       if (patcher.enabled) {
         const pInstance = new Klass(this.ctx);
+        pInstance.init();
         pInstance.attach();
         this.instances.set(name, pInstance);
       }

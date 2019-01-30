@@ -23,7 +23,8 @@ export class Patcher {
   init() {
     /* istanbul ignore next */
     if (!this.inited) {
-      const patcherConfig = this.ctx.config.autoPatching || { patchers: {} };
+      const config = this.ctx.config || {};
+      const patcherConfig = config.autoPatching || { patchers: {} };
       this.options = patcherConfig.patchers[this.moduleName] || {
         enabled: true
       };

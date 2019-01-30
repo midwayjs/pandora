@@ -16,7 +16,6 @@ export class MySQLPatcher extends Patcher {
   }
 
   attach() {
-    this.init();
     const target = this.target();
     const version = this.version();
     const hook = this.hook;

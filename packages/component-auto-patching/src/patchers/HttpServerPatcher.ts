@@ -259,7 +259,6 @@ export class HttpServerPatcher extends Patcher {
   }
 
   attach() {
-    this.init();
     const shimmer = this.shimmer;
     const target = this.target();
 
