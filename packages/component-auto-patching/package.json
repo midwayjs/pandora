@@ -44,7 +44,8 @@
     ],
     "exclude": [
       "typings",
-      "dist"
+      "dist",
+      "src/domain.ts"
     ],
     "extension": [
       ".ts"

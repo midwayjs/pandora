@@ -12,6 +12,7 @@ import * as Parser from './SqlParser';
 
 export class MySQLWrapper extends Wrapper {
   options: MySQLPatcherOptions;
+  tagPrefix: string = 'mysql';
 
   wrapFactory(target: any, property: string, wrapper: Function) {
 
@@ -165,16 +166,16 @@ export class MySQLWrapper extends Wrapper {
   buildTags(instanceInfo, sqlInfo, isPoolQuery) {
     const tags = {};
 
-    tags['mysql.method'] = isPoolQuery ? 'pool#query' : 'query';
+    tags[`${this.tagPrefix}.method`] = isPoolQuery ? 'pool#query' : 'query';
 
-    tags['mysql.host'] = instanceInfo.host;
-    tags['mysql.portPath'] = instanceInfo.portPath;
-    tags['mysql.database'] = instanceInfo.databaseName;
+    tags[`${this.tagPrefix}.host`] = instanceInfo.host;
+    tags[`${this.tagPrefix}.portPath`] = instanceInfo.portPath;
+    tags[`${this.tagPrefix}.database`] = instanceInfo.databaseName;
 
     /* istanbul ignore next */
     if (sqlInfo) {
-      tags['mysql.table'] = sqlInfo.collection || TABLE_UNKNOWN;
-      tags['mysql.operation'] = sqlInfo.operation;
+      tags[`${this.tagPrefix}.table`] = sqlInfo.collection || TABLE_UNKNOWN;
+      tags[`${this.tagPrefix}.operation`] = sqlInfo.operation;
     }
 
     return tags;

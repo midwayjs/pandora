@@ -1,13 +1,12 @@
 // 放在前面，把 http.ClientRequest 先复写
 import * as nock from 'nock';
 import { gzipSync } from 'zlib';
-import { Fixture, sleep, request, extractLog } from '../../TestUtil';
+import { Fixture, sleep, request } from '../../TestUtil';
 import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
 import { SPAN_FINISHED } from 'pandora-component-trace';
-import { HEADER_TRACE_ID, HEADER_SPAN_ID } from 'pandora-tracer';
 import { consoleLogger } from 'pandora-dollar';
 
 export default class HttpClientFixture extends Fixture {
