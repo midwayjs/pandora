@@ -27,6 +27,7 @@ export class ProcessInfoIndicator implements IIndicator {
       stat = this.tryGetCpuAndMem() || {};
     }
     return {
+      v: 2, // mark it as Pandora.js 2
       processName: this.ctx.processName,
       ppid: (<any> process).ppid,
       pid: process.pid,
@@ -34,6 +35,7 @@ export class ProcessInfoIndicator implements IIndicator {
       argv: (<any> process).__pandoraOriginArgv || process.argv,
       execArgv: process.execArgv,
       debugPort: (<any> process).debugPort,
+      inspectorUrl: ProcessInfoIndicator.getInspectorUrl(),
       execPath: process.execPath,
       cpu: stat.cpu,
       memory: stat.memory,
@@ -47,6 +49,14 @@ export class ProcessInfoIndicator implements IIndicator {
         cpu: (<any> process).cpuUsage(),
         memory: process.memoryUsage()
       };
+    }
+  }
+
+  static getInspectorUrl() {
+    try {
+      return require('inspector').url();
+    } catch(err) {
+      return null;
     }
   }
 
