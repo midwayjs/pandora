@@ -4,7 +4,6 @@ import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
 import { SPAN_FINISHED } from 'pandora-component-trace';
-import { registerLanguage } from '_@types_highlight.js@9.12.3@@types/highlight.js';
 
 export default class MySQLFixture extends Fixture {
 
