@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-error-log",
-  "version": "2.0.0-zbeta.2",
+  "version": "2.0.0-zbeta.3",
   "description": "Pandora 2 Component Error Log",
   "main": "dist/ComponentErrorLog",
   "typings": "dist/ComponentErrorLog.d.ts",
@@ -56,7 +56,7 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.0.0-zbeta.2",
-    "pandora-dollar": "^2.0.0-zbeta.2"
+    "pandora-component-decorator": "^2.0.0-zbeta.3",
+    "pandora-dollar": "^2.0.0-zbeta.3"
   }
 }
