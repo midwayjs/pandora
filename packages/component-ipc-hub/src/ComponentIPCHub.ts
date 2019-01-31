@@ -22,12 +22,20 @@ export default class ComponentIPCHub {
     await this.hubServer.start();
     consoleLogger.info('IPC Hub Server started');
     await this.startClient();
-    await this.hubFacade.initConfigManager();
+    try {
+      await this.hubFacade.initConfigManager();
+    } catch (err) {
+      consoleLogger.warn('IPC Hub init ConfigManager failed at PID ' + process.pid + ', ' + err);
+    }
   }
 
   async start() {
     await this.startClient();
-    await this.hubFacade.initConfigClient();
+    try {
+      await this.hubFacade.initConfigClient();
+    } catch(err) {
+      consoleLogger.warn('IPC Hub init ConfigClient failed at PID ' + process.pid + ', ' + err);
+    }
   }
 
   async startClient() {
