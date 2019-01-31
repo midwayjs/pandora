@@ -50,7 +50,9 @@ export default class ComponentTrace {
 
   async start() {
     const tracer = this.initTracer();
-    this.traceManager.tracer = tracer;
+    if(tracer) {
+      this.traceManager.tracer = tracer;
+    }
     this.traceManager.start();
   }
 
