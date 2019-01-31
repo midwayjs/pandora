@@ -1,5 +1,6 @@
 import {CoreSDK, ICoreSDKOptions} from 'pandora-core-sdk';
 import {dirname} from 'path';
+import {consoleLogger} from 'pandora-dollar';
 
 export class CoreSDKWithExtendedConfig extends CoreSDK {
   constructor(options: ICoreSDKOptions) {
@@ -24,13 +25,17 @@ export class CoreSDKWithExtendedConfig extends CoreSDK {
     }
     const paths = PANDORA_CONFIG.split(':');
     for(const path of paths) {
+      if(!path.trim()) {
+        continue;
+      }
       try {
         ret.push({
           config: require(path),
           configDir: dirname(path)
         });
       } catch(err) {
-        // pass
+        consoleLogger.warn('Load config error from', path);
+        consoleLogger.warn(err);
       }
     }
     return ret;

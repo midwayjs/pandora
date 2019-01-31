@@ -18,13 +18,11 @@ export default class ComponentTrace {
   constructor(ctx: any) {
     this.ctx = ctx;
     const traceConfig = ctx.config.trace || {};
-    const tracer = this.initTracer();
     const { kTracer, tracerConfig, ...managerConfig } = traceConfig;
 
     const options: TraceManagerOptions = {
       ...managerConfig,
-      logger: ctx.logger,
-      tracer
+      logger: ctx.logger
     };
 
     this.traceManager = new TraceManager(options);
@@ -51,6 +49,8 @@ export default class ComponentTrace {
   }
 
   async start() {
+    const tracer = this.initTracer();
+    this.traceManager.tracer = tracer;
     this.traceManager.start();
   }
 
