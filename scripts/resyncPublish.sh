@@ -10,7 +10,7 @@ do
       cd $pkg
       echo ">>>>>> Publishing"
       echo ">>>>>>" $pkg
-      npm publish --tag=pre
+      npm publish --tag=pandora2-beta
     fi
 done
 cd $cwd
