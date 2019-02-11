@@ -1,6 +1,6 @@
 {
   "name": "pandora-metrics-util",
-  "version": "2.0.0-zbeta.5",
+  "version": "2.0.0-zbeta.6",
   "description": "Pandora 2 Metrics Util",
   "main": "dist/index",
   "typings": "dist/index.d.ts",
