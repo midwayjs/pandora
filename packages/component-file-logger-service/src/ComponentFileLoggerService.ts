@@ -17,7 +17,7 @@ import {join} from 'path';
     type: 'size',
     maxFileSize: 100 * 1024 * 1024,
     stdoutLevel: 'NONE',
-    level: 'ALL'
+    level: 'WARN'
   }
 })
 export default class ComponentFileLoggerService {
