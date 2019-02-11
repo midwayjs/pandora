@@ -127,7 +127,7 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     const stub = sinon.stub(wrapper, 'wrapQueriable').callsFake(() => {
       throw new Error('wrapQueriable');
     });
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
     wrapper.wrapGetConnection();
 
     expect(spy.calledWith(sinon.match('[MySQLWrapper] Wrap PoolConnection#query failed.')));
@@ -181,7 +181,7 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     expect(args2.options.sql).to.equal('select 1');
     expect(args2.options.values).to.be.exist;
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     wrapper.argsNormalize('select 1', {}, 'test');
 
@@ -198,7 +198,7 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     const mySQLPatcher = autoPatching.instances.get('mySQL');
     const wrapper = mySQLPatcher.wrapper;
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
     wrapper.getInstanceInfo({}, {});
     expect(spy.calledWith(sinon.match('No query config, just try to get database name from query'))).to.be.true;
 
@@ -244,7 +244,7 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     const stub = sinon.stub(Parser, 'parseSql').callsFake(() => {
       throw new Error('parseSql');
     });
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
     wrapper.parseQuery({});
     expect(spy.calledWith(sinon.match('parse sql error, origin options is')));
     spy.restore();

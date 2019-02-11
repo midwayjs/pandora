@@ -31,7 +31,7 @@ export default class MySQLFixture extends Fixture {
     const mySQLPatcher = this.autoPatching.instances.get('mySQL');
     const stub = sinon.stub(mySQLPatcher.wrapper, 'tracer').value(null);
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {

@@ -59,7 +59,7 @@ export default class HttpClientFixture extends Fixture {
       });
     });
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {

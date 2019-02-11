@@ -32,7 +32,7 @@ export default class HttpClientFixture extends Fixture {
       .get('/')
       .reply(200);
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
     const httpClientPatcher = this.autoPatching.instances.get('httpClient');
     const stub = sinon.stub(httpClientPatcher.wrapper, 'tracer').value(null);
 

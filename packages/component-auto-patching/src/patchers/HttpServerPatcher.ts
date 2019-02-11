@@ -68,7 +68,7 @@ export class HttpServerPatcher extends Patcher {
       withOpts = argsCompatible.withOpts;
 
       if (!_requestListener) {
-        self.logger.log('[HttpServerPatcher] no requestListener, skip trace.');
+        self.logger.info('[HttpServerPatcher] no requestListener, skip trace.');
         return createServer.apply(null, arguments);
       }
 
@@ -76,7 +76,7 @@ export class HttpServerPatcher extends Patcher {
         const filtered = self.requestFilter(req);
 
         if (filtered) {
-          self.logger.log('[HttpServerPatcher] request filter by requestFilter, skip trace.');
+          self.logger.info('[HttpServerPatcher] request filter by requestFilter, skip trace.');
           return _requestListener(req, res);
         }
 
@@ -86,7 +86,7 @@ export class HttpServerPatcher extends Patcher {
         const span = self.createSpan(req);
 
         if (!span) {
-          self.logger.log('[HttpServerPatcher] span is null, skip trace.');
+          self.logger.info('[HttpServerPatcher] span is null, skip trace.');
           return _requestListener(req, res);
         }
 
@@ -261,7 +261,7 @@ export class HttpServerPatcher extends Patcher {
     const shimmer = this.shimmer;
     const target = this.target();
 
-    this.logger.log(`[HttpServerPatcher] patching http createServer.`);
+    this.logger.info(`[HttpServerPatcher] patching http createServer.`);
     shimmer.wrap(target, 'createServer', this.wrapCreateServer);
   }
 

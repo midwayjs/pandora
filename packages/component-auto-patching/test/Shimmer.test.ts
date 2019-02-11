@@ -22,7 +22,7 @@ describe('Shimmer', () => {
   };
 
   it('should not wrap when module no that method', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     Shimmer.wrap(target, 'unexist', () => {});
 
@@ -32,7 +32,7 @@ describe('Shimmer', () => {
   });
 
   it('should not wrap method without wrapper', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).wrap(target, 'wrap');
 
@@ -42,7 +42,7 @@ describe('Shimmer', () => {
   });
 
   it('should not wrap method when it not function', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     Shimmer.wrap(target, 'nonFunction', () => {});
 
@@ -52,7 +52,7 @@ describe('Shimmer', () => {
   });
 
   it('should not massWrap when no module', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).massWrap();
 
@@ -62,7 +62,7 @@ describe('Shimmer', () => {
   });
 
   it('should not massWrap when no names', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).massWrap(target);
 
@@ -72,7 +72,7 @@ describe('Shimmer', () => {
   });
 
   it('should not unwrap when no module', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).unwrap();
 
@@ -82,7 +82,7 @@ describe('Shimmer', () => {
   });
 
   it('should not unwrap twice', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).unwrap(target, 'unwrap');
 
@@ -92,7 +92,7 @@ describe('Shimmer', () => {
   });
 
   it('should not massUnwrap when no nodules', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).massUnwrap();
 
@@ -102,7 +102,7 @@ describe('Shimmer', () => {
   });
 
   it('should not massUnwrap when no names', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     (<any>Shimmer).massUnwrap(target);
 

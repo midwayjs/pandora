@@ -52,7 +52,7 @@ describe('Patcher', () => {
 
       expect(cp.target()).to.equal('custom');
 
-      const spy = sinon.spy(consoleLogger, 'log');
+      const spy = sinon.spy(consoleLogger, 'info');
 
       cp.attach();
 

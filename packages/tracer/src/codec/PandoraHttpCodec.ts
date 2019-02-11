@@ -27,13 +27,13 @@ export class PandoraHttpCodec implements PandoraCodec {
     if (!hTraceId) {
       carrier.setHeader(HEADER_TRACE_ID, traceId);
     } else {
-      this.logger.log(`[PandoraHttpCodec] use user define ${HEADER_TRACE_ID}: ${hTraceId}`);
+      this.logger.info(`[PandoraHttpCodec] use user define ${HEADER_TRACE_ID}: ${hTraceId}`);
     }
 
     if (!hSpanId) {
       carrier.setHeader(HEADER_SPAN_ID, spanId);
     } else {
-      this.logger.log(`[PandoraHttpCodec] use user define ${HEADER_SPAN_ID}: ${hSpanId}`);
+      this.logger.info(`[PandoraHttpCodec] use user define ${HEADER_SPAN_ID}: ${hSpanId}`);
     }
   }
 

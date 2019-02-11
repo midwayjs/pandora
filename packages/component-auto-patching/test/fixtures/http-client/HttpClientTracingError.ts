@@ -36,7 +36,7 @@ export default class HttpClientFixture extends Fixture {
 
     const httpClientPatcher = this.autoPatching.instances.get('httpClient');
     const stub = sinon.stub(httpClientPatcher.wrapper.tracer, 'inject').throws('inject error');
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {

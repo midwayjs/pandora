@@ -28,7 +28,7 @@ export default class MySQLFixture extends Fixture {
     const urllib = require('urllib');
     const mysql = require('mysql');
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {

@@ -22,7 +22,7 @@ export default class HttpServerFixture extends Fixture {
     const http = require('http');
     const urllib = require('urllib');
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer();
 

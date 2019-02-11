@@ -8,7 +8,7 @@ import { OPERATION_UNKNOWN } from '../src/constants';
 describe('SqlParser', () => {
 
   it('should not support non string sql', () => {
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const res = SqlParser.parseSql({
       method: 'select',

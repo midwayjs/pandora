@@ -36,7 +36,7 @@ export class HttpClientWrapper extends Wrapper {
       try {
         _url = urlToOptions(new URL(url));
       } catch (error) {
-        this.logger.log('[HttpClientWrapper] URL parse failed, use origin parse. ', error);
+        this.logger.info('[HttpClientWrapper] URL parse failed, use origin parse. ', error);
         _url = parse(url);
       }
     } else if (url && url instanceof URL) {
@@ -62,7 +62,7 @@ export class HttpClientWrapper extends Wrapper {
       const span = self.createSpan();
 
       if (!span) {
-        self.logger.log('[HttpClientWrapper] span is null, skip trace.');
+        self.logger.info('[HttpClientWrapper] span is null, skip trace.');
         return request.apply(null, arguments);
       }
 
@@ -87,14 +87,14 @@ export class HttpClientWrapper extends Wrapper {
     const tracer = this.tracer;
 
     if (!tracer) {
-      this.logger.log('[HttpClientWrapper] no tracer, skip trace.');
+      this.logger.info('[HttpClientWrapper] no tracer, skip trace.');
       return null;
     }
 
     const context = this.cls.get(CURRENT_CONTEXT);
 
     if (!context) {
-      this.logger.log('[HttpClientWrapper] no current context, skip trace.');
+      this.logger.info('[HttpClientWrapper] no current context, skip trace.');
       return null;
     }
 
@@ -133,7 +133,7 @@ export class HttpClientWrapper extends Wrapper {
     try {
       this.tracer.inject(context, 'http', clientRequest);
     } catch (error) {
-      this.logger.log('[HttpClientWrapper] inject tracing context to headers error. ', error);
+      this.logger.info('[HttpClientWrapper] inject tracing context to headers error. ', error);
     }
   }
 
@@ -211,7 +211,7 @@ export class HttpClientWrapper extends Wrapper {
       if (size <= this.options.maxResponseSize) {
         res.__chunks.push(chunk);
       } else {
-        this.logger.log('[HttpClientWrapper] response size greater than maxResponseSize, ignore chunk.');
+        this.logger.info('[HttpClientWrapper] response size greater than maxResponseSize, ignore chunk.');
       }
     }
   }
@@ -247,7 +247,7 @@ export class HttpClientWrapper extends Wrapper {
     try {
       return responseTransformer && responseTransformer(buffer, res) || buffer.toString('utf8');
     } catch (error) {
-      this.logger.log('transform response data error. ', error);
+      this.logger.info('transform response data error. ', error);
       return '';
     }
   }

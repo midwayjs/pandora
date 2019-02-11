@@ -95,7 +95,7 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
     const wrapper = httpClientPatcher.wrapper;
 
-    const spy = sinon.spy(consoleLogger, 'log');
+    const spy = sinon.spy(consoleLogger, 'info');
     wrapper.argsCompatible('abc');
     expect(spy.calledWith(sinon.match('[HttpClientWrapper] URL parse failed, use origin parse.'))).to.be.true;
     spy.restore();
