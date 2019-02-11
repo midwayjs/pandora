@@ -9,6 +9,10 @@ export class Wrapper {
   options: PatcherOptions;
   moduleName: string;
 
+  get logger() {
+    return this.ctx.logger;
+  }
+
   constructor(ctx: any, tracer: ITracer, cls: CLS, moduleName: string, options: PatcherOptions) {
     this.ctx = ctx;
     this.tracer = tracer;

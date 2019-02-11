@@ -16,6 +16,10 @@ export class Patcher {
   protected wrapper: Wrapper;
   protected inited: boolean = false;
 
+  get logger() {
+    return this.ctx.logger;
+  }
+
   constructor(ctx: any) {
     this.ctx = ctx;
   }

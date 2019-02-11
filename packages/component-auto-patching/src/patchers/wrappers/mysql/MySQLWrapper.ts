@@ -1,4 +1,3 @@
-import { consoleLogger } from 'pandora-dollar';
 import { MySQLPatcherOptions } from '../../../domain';
 import * as shimmer from '../../../Shimmer';
 import { Wrapper } from '../Wrapper';
@@ -16,8 +15,10 @@ export class MySQLWrapper extends Wrapper {
 
   wrapFactory(target: any, property: string, wrapper: Function) {
 
+    const self = this;
+
     shimmer.wrap(target, property, function wrapFactory(original: any, name: string) {
-      consoleLogger.log(`[MySQLWrapper] wrap factory function ${name}`);
+      self.logger.log(`[MySQLWrapper] wrap factory function ${name}`);
 
       function wrappedFactory(this: any) {
         const origin = original.apply(this, arguments);
@@ -68,14 +69,14 @@ export class MySQLWrapper extends Wrapper {
         const span = self.createSpan(tags);
 
         if (!span) {
-          consoleLogger.log('[MySQLWrapper] create span return null, skip trace.');
+          self.logger.log('[MySQLWrapper] create span return null, skip trace.');
           return query.apply(this, arguments);
         }
 
         const callback = args.cb;
 
         if (!callback) {
-          consoleLogger.log('[MySQLWrapper] query callback null, ignore trace.', args);
+          self.logger.log('[MySQLWrapper] query callback null, ignore trace.', args);
           return query.apply(this, arguments);
         }
 
@@ -122,7 +123,7 @@ export class MySQLWrapper extends Wrapper {
                 self.wrapQueriable(connection, true);
               }
             } catch (error) {
-              consoleLogger.log('[MySQLWrapper] Wrap PoolConnection#query failed. ', error);
+              self.logger.log('[MySQLWrapper] Wrap PoolConnection#query failed. ', error);
             }
 
             return callback.apply(this, arguments);
@@ -182,14 +183,14 @@ export class MySQLWrapper extends Wrapper {
     const tracer = this.tracer;
 
     if (!tracer) {
-      consoleLogger.log('[MySQLWrapper] no tracer, skip trace.');
+      this.logger.log('[MySQLWrapper] no tracer, skip trace.');
       return null;
     }
 
     const context = this.cls.get(CURRENT_CONTEXT);
 
     if (!context) {
-      consoleLogger.log('[MySQLWrapper] no current context, skip trace.');
+      this.logger.log('[MySQLWrapper] no current context, skip trace.');
       return null;
     }
 
@@ -243,7 +244,7 @@ export class MySQLWrapper extends Wrapper {
     }
 
     if (_cb === null && cb !== undefined) {
-      consoleLogger.log('[MySQLWrapper] argument callback must be a function when provided');
+      this.logger.log('[MySQLWrapper] argument callback must be a function when provided');
     }
 
     return {
@@ -274,7 +275,7 @@ export class MySQLWrapper extends Wrapper {
         info.portPath = conf.port;
       }
     } else {
-      consoleLogger.log('No query config, just try to get database name from query');
+      this.logger.log('No query config, just try to get database name from query');
       info.databaseName = getDatabaseConfigFromQuery(options.sql);
     }
 
@@ -334,7 +335,7 @@ export class MySQLWrapper extends Wrapper {
     try {
       parsed = Parser.parseSql(options);
     } catch (error) {
-      consoleLogger.log(`parse sql error, origin options is ${JSON.stringify(options)}. `, error);
+      this.logger.log(`parse sql error, origin options is ${JSON.stringify(options)}. `, error);
 
       return {
         operation: INSTANCE_UNKNOWN,

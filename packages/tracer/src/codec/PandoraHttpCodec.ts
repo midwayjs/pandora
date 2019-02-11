@@ -1,5 +1,4 @@
 import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from 'http';
-import { consoleLogger } from 'pandora-dollar';
 import { PandoraCodec } from './PandoraCodec';
 import { PandoraSpanContext } from '../PandoraSpanContext';
 import { HEADER_TRACE_ID, HEADER_SPAN_ID } from '../constants';
@@ -7,7 +6,11 @@ import { getRandom64 } from '../utils';
 
 export class PandoraHttpCodec implements PandoraCodec {
   name = 'http';
-  logger = consoleLogger;
+
+  logger: any;
+  constructor(ctx) {
+    this.logger = ctx.logger;
+  }
 
   /**
    * 将链路上下文转换到 http 请求头部，向下透传
@@ -24,13 +27,13 @@ export class PandoraHttpCodec implements PandoraCodec {
     if (!hTraceId) {
       carrier.setHeader(HEADER_TRACE_ID, traceId);
     } else {
-      consoleLogger.log(`[PandoraHttpCodec] use user define ${HEADER_TRACE_ID}: ${hTraceId}`);
+      this.logger.log(`[PandoraHttpCodec] use user define ${HEADER_TRACE_ID}: ${hTraceId}`);
     }
 
     if (!hSpanId) {
       carrier.setHeader(HEADER_SPAN_ID, spanId);
     } else {
-      consoleLogger.log(`[PandoraHttpCodec] use user define ${HEADER_SPAN_ID}: ${hSpanId}`);
+      this.logger.log(`[PandoraHttpCodec] use user define ${HEADER_SPAN_ID}: ${hSpanId}`);
     }
   }
 

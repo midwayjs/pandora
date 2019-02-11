@@ -1,9 +1,9 @@
+const debug = require('debug')('pandora:auto-patching:SqlParser');
 /**
  * Fork from othiym23/shimmer, add support for generator function and async function
  * TODO: 待原包更新支持 Generator 和 async 方法后，使用原包
  */
 
-import { consoleLogger } from 'pandora-dollar';
 
 export function isAsyncFunction(funktion) {
   return funktion && {}.toString.call(funktion) === '[object AsyncFunction]';
@@ -41,18 +41,18 @@ function defineProperty(obj, name, value) {
 
 export function wrap(nodule, name, wrapper) {
   if (!nodule || !nodule[name]) {
-    consoleLogger.log('no original function ' + name + ' to wrap');
+    debug('no original function ' + name + ' to wrap');
     return;
   }
 
   if (!wrapper) {
-    consoleLogger.log('no wrapper function');
-    consoleLogger.log((new Error()).stack);
+    debug('no wrapper function');
+    debug((new Error()).stack);
     return;
   }
 
   if (!isFunction(nodule[name]) || !isFunction(wrapper)) {
-    consoleLogger.log('original object and wrapper must be functions');
+    debug('original object and wrapper must be functions');
     return;
   }
 
@@ -73,15 +73,15 @@ export function wrap(nodule, name, wrapper) {
 export function massWrap(nodules, names, wrapper) {
   /* istanbul ignore next */
   if (!nodules) {
-    consoleLogger.log('must provide one or more modules to patch');
-    consoleLogger.log((new Error()).stack);
+    debug('must provide one or more modules to patch');
+    debug((new Error()).stack);
     return;
   } else if (!Array.isArray(nodules)) {
     nodules = [nodules];
   }
 
   if (!(names && Array.isArray(names))) {
-    consoleLogger.log('must provide one or more functions to wrap on modules');
+    debug('must provide one or more functions to wrap on modules');
     return;
   }
 
@@ -94,13 +94,13 @@ export function massWrap(nodules, names, wrapper) {
 
 export function unwrap(nodule, name) {
   if (!nodule || !nodule[name]) {
-    consoleLogger.log('no function to unwrap.');
-    consoleLogger.log((new Error()).stack);
+    debug('no function to unwrap.');
+    debug((new Error()).stack);
     return;
   }
 
   if (!nodule[name].__unwrap) {
-    consoleLogger.log('no original to unwrap to -- has ' + name + ' already been unwrapped?');
+    debug('no original to unwrap to -- has ' + name + ' already been unwrapped?');
   } else {
     return nodule[name].__unwrap();
   }
@@ -109,15 +109,15 @@ export function unwrap(nodule, name) {
 export function massUnwrap(nodules, names) {
   /* istanbul ignore next */
   if (!nodules) {
-    consoleLogger.log('must provide one or more modules to patch');
-    consoleLogger.log((new Error()).stack);
+    debug('must provide one or more modules to patch');
+    debug((new Error()).stack);
     return;
   } else if (!Array.isArray(nodules)) {
     nodules = [nodules];
   }
 
   if (!(names && Array.isArray(names))) {
-    consoleLogger.log('must provide one or more functions to unwrap on modules');
+    debug('must provide one or more functions to unwrap on modules');
     return;
   }
 

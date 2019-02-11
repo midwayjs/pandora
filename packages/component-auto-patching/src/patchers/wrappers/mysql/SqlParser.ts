@@ -1,7 +1,7 @@
 import * as is from 'is-type-of';
 import { StatementMatcher } from './StatementMatcher';
 import { OPERATION_UNKNOWN } from '../../../constants';
-import { consoleLogger } from 'pandora-dollar';
+const debug = require('debug')('pandora:auto-patching:SqlParser');
 
 const OPERATIONS = [
   new StatementMatcher(
@@ -22,7 +22,7 @@ export function parseSql(sql) {
   /* istanbul ignore next */
   if (is.object(sql) && sql.sql !== undefined) sql = sql.sql;
   if (!is.string(sql)) {
-    consoleLogger.log('got an non-string sql like: ', JSON.stringify(sql));
+    debug('got an non-string sql like: ', JSON.stringify(sql));
 
     return {
       operation: OPERATION_UNKNOWN,

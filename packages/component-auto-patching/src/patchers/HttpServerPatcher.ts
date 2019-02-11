@@ -1,7 +1,6 @@
 import * as http from 'http';
 import { IncomingMessage, ServerResponse } from 'http';
 import * as is from 'is-type-of';
-import { consoleLogger } from 'pandora-dollar';
 import { IPandoraSpan } from 'pandora-component-trace';
 import { parse } from 'url';
 import { Patcher } from '../Patcher';
@@ -69,7 +68,7 @@ export class HttpServerPatcher extends Patcher {
       withOpts = argsCompatible.withOpts;
 
       if (!_requestListener) {
-        consoleLogger.log('[HttpServerPatcher] no requestListener, skip trace.');
+        self.logger.log('[HttpServerPatcher] no requestListener, skip trace.');
         return createServer.apply(null, arguments);
       }
 
@@ -77,7 +76,7 @@ export class HttpServerPatcher extends Patcher {
         const filtered = self.requestFilter(req);
 
         if (filtered) {
-          consoleLogger.log('[HttpServerPatcher] request filter by requestFilter, skip trace.');
+          self.logger.log('[HttpServerPatcher] request filter by requestFilter, skip trace.');
           return _requestListener(req, res);
         }
 
@@ -87,7 +86,7 @@ export class HttpServerPatcher extends Patcher {
         const span = self.createSpan(req);
 
         if (!span) {
-          consoleLogger.log('[HttpServerPatcher] span is null, skip trace.');
+          self.logger.log('[HttpServerPatcher] span is null, skip trace.');
           return _requestListener(req, res);
         }
 
@@ -179,7 +178,7 @@ export class HttpServerPatcher extends Patcher {
     try {
       secure = (<any>req.connection).encrypted || req.headers[ 'x-forwarded-proto' ] === 'https';
     } catch (error) {
-      consoleLogger.error('[HttpServerPatcher] check secure failed when record full url. ', error);
+      this.logger.error('[HttpServerPatcher] check secure failed when record full url. ', error);
     }
 
     return 'http' + (secure ? 's' : '') + '://' +
@@ -208,7 +207,7 @@ export class HttpServerPatcher extends Patcher {
         try {
           parsed = parse(uri, true);
         } catch (error) {
-          consoleLogger.error('[HttpServerPatcher] record search params error. ', error);
+          this.logger.error('[HttpServerPatcher] record search params error. ', error);
           return;
         }
 
@@ -253,7 +252,7 @@ export class HttpServerPatcher extends Patcher {
         return buffer.toString('utf8');
       }
     } catch (error) {
-      consoleLogger.error('[HttpServerPatcher] transform body data error. ', error);
+      this.logger.error('[HttpServerPatcher] transform body data error. ', error);
       return '';
     }
   }
@@ -262,7 +261,7 @@ export class HttpServerPatcher extends Patcher {
     const shimmer = this.shimmer;
     const target = this.target();
 
-    consoleLogger.log(`[HttpServerPatcher] patching http createServer.`);
+    this.logger.log(`[HttpServerPatcher] patching http createServer.`);
     shimmer.wrap(target, 'createServer', this.wrapCreateServer);
   }
 

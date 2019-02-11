@@ -1,6 +1,5 @@
 import * as util from 'util';
 import * as events from 'events';
-import { consoleLogger } from 'pandora-dollar';
 import { ErrorLog, ErrorLogManager } from 'pandora-component-error-log';
 import { Patcher } from '../Patcher';
 import { CURRENT_CONTEXT } from '../constants';
@@ -59,7 +58,7 @@ export class GlobalPatcher extends Patcher {
 
           self.errorLogManager.record(data);
         } catch (err) {
-          consoleLogger.error('collect console error failed. ', err);
+          self.logger.error('collect console error failed. ', err);
         }
 
         return log.apply(this, arguments);
@@ -138,7 +137,7 @@ export class GlobalPatcher extends Patcher {
     const options = this.options;
 
     if (!this.errorLogManager) {
-      consoleLogger.error('pandora-component-error-log is need.');
+      this.logger.error('pandora-component-error-log is need.');
       return;
     }
 

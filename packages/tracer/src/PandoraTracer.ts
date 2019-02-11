@@ -14,11 +14,11 @@ export class PandoraTracer extends Tracer {
 
   private _codec: Map<string, PandoraCodec> = new Map();
 
-  constructor() {
+  constructor(ctx?) {
     super();
     EventEmitter.call(this);
 
-    this.registerCodec('http', new PandoraHttpCodec());
+    this.registerCodec('http', new PandoraHttpCodec(ctx));
   }
 
   registerCodec(name: string, codec: PandoraCodec): void {

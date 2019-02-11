@@ -13,6 +13,7 @@ describe('ComponentAutoPatching -> GlobalPatcher', function () {
 
   before(async () => {
     ctx = {
+      logger: consoleLogger,
       config: {
         errorLog: {}
       }

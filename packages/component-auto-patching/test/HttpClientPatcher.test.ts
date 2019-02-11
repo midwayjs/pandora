@@ -14,6 +14,7 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
 
   before(async () => {
     const ctx = {
+      logger: consoleLogger,
       config: {
         trace: {
           kTracer: PandoraTracer

@@ -6,6 +6,7 @@ import { MySQL2Patcher, MySQLWrapper } from '../src/patchers';
 import { PandoraTracer } from 'pandora-tracer';
 import { fork } from './TestUtil';
 import { createServer } from 'mysql2';
+import { consoleLogger } from 'pandora-dollar';
 const ClientFlags = require('mysql2/lib/constants/client.js');
 
 describe('ComponentAutoPatching -> MySQL2Patcher', function () {
@@ -13,6 +14,7 @@ describe('ComponentAutoPatching -> MySQL2Patcher', function () {
 
   before(async () => {
     const ctx = {
+      logger: consoleLogger,
       config: {
         trace: {
           kTracer: PandoraTracer

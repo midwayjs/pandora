@@ -5,6 +5,7 @@ import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import ComponentErrorLog from 'pandora-component-error-log';
 import { PandoraTracer } from 'pandora-tracer';
 import { find } from 'lodash';
+import { consoleLogger } from 'pandora-dollar';
 
 export function fork(name, done) {
   const filePath = require.resolve(path.join(__dirname, `fixtures/${name}`));
@@ -53,6 +54,7 @@ export class Fixture {
 
   async init() {
     const ctx: any = {
+      logger: consoleLogger,
       config: {
         trace: {
           kTracer: PandoraTracer
