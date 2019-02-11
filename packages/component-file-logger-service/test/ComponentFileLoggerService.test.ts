@@ -15,6 +15,9 @@ describe('ComponentFileLoggerService', () => {
     const ctx: any = {
       mode: 'supervisor',
       config: {
+        coreLogger: {
+          enable: false
+        },
         fileLoggerService: {
           stopWriteWhenNoSupervisor: true,
         }
@@ -31,6 +34,9 @@ describe('ComponentFileLoggerService', () => {
     const ctx: any = {
       mode: 'worker',
       config: {
+        coreLogger: {
+          enable: false
+        },
         fileLoggerService: {
           stopWriteWhenNoSupervisor: true,
         }
