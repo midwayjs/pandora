@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-error-log",
-  "version": "2.0.0-zbeta.7",
+  "version": "2.0.0-zbeta.8",
   "description": "Pandora 2 Component Error Log",
   "main": "dist/ComponentErrorLog",
   "typings": "dist/ComponentErrorLog.d.ts",
@@ -26,9 +26,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-actuator-server": "^2.0.0-zbeta.7",
-    "pandora-component-indicator": "^2.0.0-zbeta.7",
-    "pandora-component-ipc-hub": "^2.0.0-zbeta.7",
+    "pandora-component-actuator-server": "^2.0.0-zbeta.8",
+    "pandora-component-indicator": "^2.0.0-zbeta.8",
+    "pandora-component-ipc-hub": "^2.0.0-zbeta.8",
     "supertest": "^3.3.0"
   },
   "nyc": {
@@ -60,7 +60,7 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.0.0-zbeta.7",
-    "pandora-dollar": "^2.0.0-zbeta.7"
+    "pandora-component-decorator": "^2.0.0-zbeta.8",
+    "pandora-dollar": "^2.0.0-zbeta.8"
   }
 }
