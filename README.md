@@ -37,8 +37,7 @@ As a consequence of years of experiences on enterprise Node.js applications mana
 The main concepts of Pandora.js are:
 
 1. Manageable
-    * Standard management capabilities of applications, processes and basic services (such as middleware).
-    * Graceful online/offline.
+    * Standard management capabilities of processes and basic services (such as middleware).
     * Inter-process object proxying.
 2. Measurable
     * Be able to measure different aspects of applications.
