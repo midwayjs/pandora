@@ -15,8 +15,8 @@
     "vuepress": "^0.14.4"
   },
   "scripts": {
-    "test": "lerna run test --concurrency=1",
-    "cov": "nyc lerna run cov --concurrency=1",
+    "test": "lerna run test --concurrency=1 --stream",
+    "cov": "nyc lerna run cov --concurrency=1 --stream",
     "ci": "npm run build && npm run cov",
     "purge": "npm run clean && rm -rf node_modules",
     "reset": "npm run purge && npm i && npm run ci",
