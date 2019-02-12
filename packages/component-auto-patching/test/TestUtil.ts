@@ -55,6 +55,8 @@ export class Fixture {
   async init() {
     const ctx: any = {
       logger: consoleLogger,
+      endPointManager: { register() {} },
+      indicatorManager: { register() {} },
       config: {
         trace: {
           kTracer: PandoraTracer

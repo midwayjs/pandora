@@ -7,7 +7,7 @@ import { TraceManagerOptions, ComponentTraceConfig } from './domain';
 @componentConfig({
   trace: {
     poolSize: 100,
-    interval: 60 * 1000,
+    interval: 15 * 1000,
     slowThreshold: 10 * 1000
   }
 })

@@ -14,13 +14,14 @@ describe('ComponentAutoPatching -> GlobalPatcher', function () {
   before(async () => {
     ctx = {
       logger: consoleLogger,
+      endPointManager: { register() {} },
+      indicatorManager: { register() {} },
       config: {
         errorLog: {}
       }
     };
 
     componentErrorLog = new ComponentErrorLog(ctx);
-    await componentErrorLog.start();
 
     Object.assign(ctx.config, {
       trace: {

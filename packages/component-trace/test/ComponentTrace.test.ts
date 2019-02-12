@@ -11,7 +11,7 @@ describe('ComponentTrace', () => {
     expect(ComponentReflector.getComponentConfig(<IComponentConstructor> ComponentTrace)).to.deep.equal({
       trace: {
         poolSize: 100,
-        interval: 60 * 1000,
+        interval: 15 * 1000,
         slowThreshold: 10 * 1000
       }
     });

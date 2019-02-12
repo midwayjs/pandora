@@ -25,7 +25,11 @@
     "chai": "^3.5.0",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "pandora-component-actuator-server": "^2.0.0-zbeta.7",
+    "pandora-component-indicator": "^2.0.0-zbeta.7",
+    "pandora-component-ipc-hub": "^2.0.0-zbeta.7",
+    "supertest": "^3.3.0"
   },
   "nyc": {
     "include": [

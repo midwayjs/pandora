@@ -1,35 +1,49 @@
 import {componentName, dependencies, componentConfig} from 'pandora-component-decorator';
+import {EndPointManager} from 'pandora-component-actuator-server';
+import {IndicatorManager} from 'pandora-component-indicator';
 import {ErrorLogManager} from './ErrorLogManager';
+import {RecentWindow} from './RecentWindow';
+import {ErrorLog} from './domain';
+import {ErrorLogEndPoint} from './ErrorLogEndPoint';
+import {ErrorLogIndicator} from './ErrorLogIndicator';
 
 @componentName('errorLog')
 @dependencies(['indicator'])
 @componentConfig({
   errorLog: {
-    interval: 60 * 1000,
-    poolSize: 100
+    poolSize: 50
   }
 })
 export default class ComponentErrorLog {
+
+  ctx: any;
   errorLogManager: ErrorLogManager;
+  recentWindow: RecentWindow<ErrorLog>;
+  errorLogIndicator: ErrorLogIndicator;
+
   constructor(ctx) {
+
+    this.ctx = ctx;
+
     const errorLogConfig = ctx.config.errorLog;
-    this.errorLogManager = new ErrorLogManager({
-      interval: errorLogConfig.interval,
+    ctx.errorLogManager = this.errorLogManager = new ErrorLogManager({logger: ctx.logger});
+    this.recentWindow = new RecentWindow<ErrorLog>({
       poolSize: errorLogConfig.poolSize
     });
-    ctx.errorLogManager = this.errorLogManager;
+    this.errorLogManager.on('dump', (set) => {
+      for(const item of set) {
+        this.recentWindow.push(item);
+      }
+    });
+
+    const indicatorManager: IndicatorManager = ctx.indicatorManager;
+    this.errorLogIndicator = new ErrorLogIndicator(this.recentWindow);
+    indicatorManager.register(this.errorLogIndicator);
+
   }
   async startAtSupervisor() {
-    this.errorLogManager.start();
-  }
-  async start() {
-    this.errorLogManager.start();
-  }
-  async stopAtSupervisor() {
-    this.errorLogManager.stop();
-  }
-  async stop() {
-    this.errorLogManager.stop();
+    const endPointManager: EndPointManager = this.ctx.endPointManager;
+    endPointManager.register(new ErrorLogEndPoint(this.ctx));
   }
 }
 
