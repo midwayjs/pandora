@@ -22,7 +22,7 @@ describe('SpawnWrapShouldOnly2Level', function () {
     await applicationHandler.start();
 
     await new Promise(resolve => {
-      setTimeout(resolve, 2000);
+      setTimeout(resolve, 5000);
     });
 
     const content = readFileSync(path);
