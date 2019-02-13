@@ -64,7 +64,9 @@ describe('utils', () => {
 
       expect(res.auth).to.equal('test:test');
     });
+  });
 
+  describe('recordError', () => {
     it('should support not record error', () => {
       const log = new Map();
       const span = {
