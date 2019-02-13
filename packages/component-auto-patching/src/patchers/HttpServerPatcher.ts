@@ -10,7 +10,7 @@ import {
   HttpCreateServerOptions,
   HttpServerTags
 } from '../domain';
-import { extractPath } from '../utils';
+import { extractPath, recordError } from '../utils';
 import { CURRENT_CONTEXT } from '../constants';
 
 export class HttpServerPatcher extends Patcher {
@@ -114,6 +114,7 @@ export class HttpServerPatcher extends Patcher {
             span.setTag('http.status_code', statusCode);
             if (statusCode >= 400) {
               span.error(true);
+              recordError(span, new Error(res.statusMessage), self.recordErrorDetail);
             } else {
               span.error(false);
             }

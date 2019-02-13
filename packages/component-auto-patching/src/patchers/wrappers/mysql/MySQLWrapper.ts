@@ -4,7 +4,7 @@ import { Wrapper } from '../Wrapper';
 import { CURRENT_CONTEXT, INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../../../constants';
 import { Connection, PoolCluster } from 'mysql';
 import { IPandoraSpan } from 'pandora-component-trace';
-import { getDatabaseConfigFromQuery, isLocalhost } from '../../../utils';
+import { getDatabaseConfigFromQuery, isLocalhost, recordError } from '../../../utils';
 import * as is from 'is-type-of';
 import * as os from 'os';
 import * as Parser from './SqlParser';
@@ -142,8 +142,8 @@ export class MySQLWrapper extends Wrapper {
     callback = this.cls.bind(callback);
 
     const _callback = function wrappedQueryCallback(error, results, fields) {
-      self.cls.set(CURRENT_CONTEXT, span.context());
       span.error(!!error);
+      recordError(span, error, self.recordErrorDetail);
       span.finish();
       return callback(error, results, fields);
     };
@@ -201,6 +201,8 @@ export class MySQLWrapper extends Wrapper {
       tags,
       startTime: Date.now()
     });
+
+    this.cls.set(CURRENT_CONTEXT, span.context());
 
     return span;
   }

@@ -1,6 +1,6 @@
 // 放在前面，把 http.ClientRequest 先复写
 import * as nock from 'nock';
-import { Fixture, sleep, request } from '../../TestUtil';
+import { Fixture, sleep, request, extractLog } from '../../TestUtil';
 import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
@@ -42,6 +42,9 @@ export default class HttpClientFixture extends Fixture {
         assert(s.duration > 0);
         if (!isEntry) {
           assert(s.tag('error'));
+          const logs = s.logs;
+          const error = extractLog(logs, 'error');
+          assert(error);
         }
         _done();
       });

@@ -20,6 +20,10 @@ export class Patcher {
     return this.ctx.logger;
   }
 
+  get recordErrorDetail() {
+    return this.options.recordErrorDetail || false;
+  }
+
   constructor(ctx: any) {
     this.ctx = ctx;
   }

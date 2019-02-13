@@ -13,6 +13,10 @@ export class Wrapper {
     return this.ctx.logger;
   }
 
+  get recordErrorDetail() {
+    return this.options.recordErrorDetail || false;
+  }
+
   constructor(ctx: any, tracer: ITracer, cls: CLS, moduleName: string, options: PatcherOptions) {
     this.ctx = ctx;
     this.tracer = tracer;

@@ -2,6 +2,7 @@ import * as url from 'url';
 import { UrlWithStringQuery, URL } from 'url';
 import * as semver from 'semver';
 import { RequestOptions } from 'http';
+import { IPandoraSpan } from 'pandora-component-trace';
 
 const LOCALHOST_NAMES = {
   'localhost': true,
@@ -79,4 +80,18 @@ export function getDatabaseConfigFromQuery(sql: string) {
 
 export function isLocalhost(host) {
   return !!LOCALHOST_NAMES[host];
+}
+
+export function recordError(span: IPandoraSpan, error: Error, recordErrorDetail: boolean): void {
+  if (!error || !(error instanceof Error)) return;
+
+  span.log({
+    error: `[${error.name}] ${error.message}`
+  });
+
+  if (recordErrorDetail) {
+    span.log({
+      errorStack: error.stack
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Fixture, sleep } from '../../TestUtil';
+import { Fixture, sleep, extractLog } from '../../TestUtil';
 import { HttpServerPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
@@ -29,6 +29,9 @@ export default class HttpServerFixture extends Fixture {
       span.on(SPAN_FINISHED, (s) => {
         assert(s.duration >= 100);
         assert(s.tag('error'));
+        const logs = s.logs;
+        const error = extractLog(logs, 'error');
+        assert(error);
         done();
       });
     });

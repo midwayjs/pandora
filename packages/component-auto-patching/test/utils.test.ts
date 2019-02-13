@@ -64,5 +64,37 @@ describe('utils', () => {
 
       expect(res.auth).to.equal('test:test');
     });
+
+    it('should support not record error', () => {
+      const log = new Map();
+      const span = {
+        log(content) {
+          Object.keys(content).forEach((key) => {
+            log.set(key, content[key]);
+          });
+        }
+      };
+
+      utils.recordError(<any>span, null, false);
+      utils.recordError(<any>span, <any>'test', false);
+
+      expect(log.get('error')).to.not.exist;
+    });
+
+    it('should support record error detail', () => {
+      const log = new Map();
+      const span = {
+        log(content) {
+          Object.keys(content).forEach((key) => {
+            log.set(key, content[key]);
+          });
+        }
+      };
+
+      utils.recordError(<any>span, new Error('test'), true);
+
+      expect(log.get('error')).to.equal('[Error] test');
+      expect(log.get('errorStack')).to.exist;
+    });
   });
 });

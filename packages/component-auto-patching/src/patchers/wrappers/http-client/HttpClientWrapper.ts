@@ -5,7 +5,7 @@ import {
   ExIncomingMessage
 } from '../../../domain';
 import * as shimmer from '../../../Shimmer';
-import { nodeVersion, urlToOptions } from '../../../utils';
+import { nodeVersion, urlToOptions, recordError } from '../../../utils';
 import { RequestOptions, ClientRequest } from 'http';
 import { URL, parse } from 'url';
 import { IPandoraSpan } from 'pandora-component-trace';
@@ -167,9 +167,7 @@ export class HttpClientWrapper extends Wrapper {
   _handleRequestError(span: IPandoraSpan, error: Error): void {
     span.setTag('http.status_code', -1);
 
-    span.log({
-      requestError: error.message
-    });
+    recordError(span, error, this.recordErrorDetail);
   }
 
   handleResponse(span: IPandoraSpan, res: ExIncomingMessage): void {

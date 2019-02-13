@@ -49,6 +49,8 @@ export interface PatcherOptions {
   enabled?: boolean;
   klass?: typeof Patcher;
   kWrapper?: typeof Wrapper;
+  // 是否记录错误详情，默认只记录 message，开启则记录详情
+  recordErrorDetail?: boolean;
 }
 
 export interface AutoPatchingConfig {
