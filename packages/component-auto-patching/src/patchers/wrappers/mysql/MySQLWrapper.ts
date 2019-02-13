@@ -202,8 +202,6 @@ export class MySQLWrapper extends Wrapper {
       startTime: Date.now()
     });
 
-    this.cls.set(CURRENT_CONTEXT, span.context());
-
     return span;
   }
 
