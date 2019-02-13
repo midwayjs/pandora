@@ -91,6 +91,7 @@ export class HttpClientWrapper extends Wrapper {
       return null;
     }
 
+    // 一律视为 http server 的子节点，不做层级处理，因为难以确认最终调用结束
     const context = this.cls.get(CURRENT_CONTEXT);
 
     if (!context) {
@@ -108,8 +109,6 @@ export class HttpClientWrapper extends Wrapper {
       tags,
       startTime: Date.now()
     });
-
-    this.cls.set(CURRENT_CONTEXT, span.context());
 
     return span;
   }

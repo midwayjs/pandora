@@ -16,16 +16,16 @@ export class Patcher {
   protected wrapper: Wrapper;
   protected inited: boolean = false;
 
+  constructor(ctx: any) {
+    this.ctx = ctx;
+  }
+
   get logger() {
     return this.ctx.logger;
   }
 
   get recordErrorDetail() {
     return this.options.recordErrorDetail || false;
-  }
-
-  constructor(ctx: any) {
-    this.ctx = ctx;
   }
 
   init() {
