@@ -1,8 +1,5 @@
 import { Fixture, sleep, extractLog } from '../../TestUtil';
-import {
-  HttpServerPatcher,
-  MySQLPatcher
-} from '../../../src/patchers';
+import { HttpServerPatcher, MySQLPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -38,12 +35,11 @@ export default class MySQLFixture extends Fixture {
 
       span.once(SPAN_FINISHED, (s) => {
         assert(s.duration > 0);
-        const logs = s.logs;
-        const error = extractLog(logs, 'error');
-        assert(!error);
-
         if (!isEntry) {
-          assert(s.operationName === 'mysql');
+          const sql = extractLog(s.logs, 'sql');
+          assert(sql);
+          const values = extractLog(s.logs, 'values');
+          assert(values);
         }
         _done();
       });
@@ -57,7 +53,7 @@ export default class MySQLFixture extends Fixture {
 
         connection.connect();
 
-        connection.query('SELECT 1', function(err, row, fields) {
+        connection.query('SELECT count(*) FROM users WHERE id=?;', [8], function(err, row, fields) {
           connection.end();
           res.end('ok');
         });

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import ComponentTrace from 'pandora-component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
-import { MySQL2Patcher, MySQLWrapper } from '../src/patchers';
+import { MySQL2Patcher } from '../src/patchers';
 import { PandoraTracer } from 'pandora-tracer';
 import { fork } from './TestUtil';
 import { createServer } from 'mysql2';
@@ -26,10 +26,9 @@ describe('ComponentAutoPatching -> MySQL2Patcher', function () {
     Object.assign(ctx.config, {
       autoPatching: {
         patchers: {
-          mySQL2: {
+          mysql2: {
             enabled: true,
-            klass: MySQL2Patcher,
-            kWrapper: MySQLWrapper
+            klass: MySQL2Patcher
           }
         }
       }
@@ -72,10 +71,9 @@ describe('ComponentAutoPatching -> MySQL2Patcher', function () {
     await autoPatching.stop();
 
     const stub = sinon.stub(autoPatching, 'patchers').value({
-      mySQL: {
+      mysql2: {
         enabled: false,
-        klass: MySQL2Patcher,
-        kWrapper: MySQLWrapper
+        klass: MySQL2Patcher
       }
     });
 

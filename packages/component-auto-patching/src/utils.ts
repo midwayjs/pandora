@@ -95,3 +95,12 @@ export function recordError(span: IPandoraSpan, error: Error, recordErrorDetail:
     });
   }
 }
+
+export function setInternalProperty(target, key, value) {
+  Object.defineProperty(target, key, {
+    enumerable: false,
+    configurable: true,
+    writable: false,
+    value: value
+  });
+}

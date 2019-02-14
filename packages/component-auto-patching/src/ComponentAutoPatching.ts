@@ -7,9 +7,7 @@ import {
   HttpServerPatcher,
   HttpClientPatcher,
   MySQLPatcher,
-  MySQL2Patcher,
-  HttpClientWrapper,
-  MySQLWrapper
+  MySQL2Patcher
 } from './patchers';
 
 @componentName('autoPatching')
@@ -30,18 +28,15 @@ import {
       },
       httpClient: {
         enabled: true,
-        klass: HttpClientPatcher,
-        kWrapper: HttpClientWrapper
+        klass: HttpClientPatcher
       },
-      mySQL: {
+      mysql: {
         enabled: true,
-        klass: MySQLPatcher,
-        kWrapper: MySQLWrapper
+        klass: MySQLPatcher
       },
-      mySQL2: {
+      mysql2: {
         enabled: true,
-        klass: MySQL2Patcher,
-        kWrapper: MySQLWrapper
+        klass: MySQL2Patcher
       }
     }
   }

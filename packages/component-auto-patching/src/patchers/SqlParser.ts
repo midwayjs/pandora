@@ -1,6 +1,6 @@
 import * as is from 'is-type-of';
 import { StatementMatcher } from './StatementMatcher';
-import { OPERATION_UNKNOWN } from '../../../constants';
+import { OPERATION_UNKNOWN } from '../constants';
 const debug = require('debug')('pandora:auto-patching:SqlParser');
 
 const OPERATIONS = [

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import ComponentTrace from 'pandora-component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
-import { HttpClientPatcher, HttpClientWrapper } from '../src/patchers';
+import { HttpClientPatcher } from '../src/patchers';
 import { PandoraTracer } from 'pandora-tracer';
 import { fork } from './TestUtil';
 import * as semver from 'semver';
@@ -29,7 +29,6 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
           httpClient: {
             enabled: true,
             klass: HttpClientPatcher,
-            kWrapper: HttpClientWrapper,
             forcePatchHttps: true
           }
         }
@@ -51,8 +50,7 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
     const stub = sinon.stub(autoPatching, 'patchers').value({
       httpClient: {
         enabled: false,
-        klass: HttpClientPatcher,
-        kWrapper: HttpClientWrapper
+        klass: HttpClientPatcher
       }
     });
 
@@ -93,27 +91,24 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
 
   it('should work well when parse string url use URL error', () => {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
-    const wrapper = httpClientPatcher.wrapper;
 
     const spy = sinon.spy(consoleLogger, 'info');
-    wrapper.argsCompatible('abc');
-    expect(spy.calledWith(sinon.match('[HttpClientWrapper] URL parse failed, use origin parse.'))).to.be.true;
+    httpClientPatcher.argsCompatible('abc');
+    expect(spy.calledWith(sinon.match('[HttpClientPatcher] URL parse failed, use origin parse.'))).to.be.true;
     spy.restore();
   });
 
   it('should argsCompatible work well with URL instance', () => {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
-    const wrapper = httpClientPatcher.wrapper;
 
-    const options = wrapper.argsCompatible(new URL('http://www.taobao.com/'));
+    const options = httpClientPatcher.argsCompatible(new URL('http://www.taobao.com/'));
     expect(options.hostname).to.equal('www.taobao.com');
   });
 
   it('should use _defaultAgent port when port undefined and agent exist', () => {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
-    const wrapper = httpClientPatcher.wrapper;
 
-    const tags = wrapper.staticTags({
+    const tags = httpClientPatcher.staticTags({
       _defaultAgent: {
         defaultPort: 8080
       }
@@ -124,10 +119,9 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
 
   it('should get remoteIp use socket', () => {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
-    const wrapper = httpClientPatcher.wrapper;
     const tags = {};
 
-    wrapper._handleResponse({
+    httpClientPatcher._handleResponse({
       setTag(key, value) {
         tags[key] = value;
       }
@@ -138,21 +132,20 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
       }
     });
 
-    expect(tags['http.remote_ip']).to.equal('127.0.0.1:80');
+    expect(tags[httpClientPatcher.tagName('remote_ip')]).to.equal('127.0.0.1:80');
   });
 
   it('should not get remoteIp when socket is null', () => {
     const httpClientPatcher = autoPatching.instances.get('httpClient');
-    const wrapper = httpClientPatcher.wrapper;
     const tags = {};
 
-    wrapper._handleResponse({
+    httpClientPatcher._handleResponse({
       setTag(key, value) {
         tags[key] = value;
       }
     }, {});
 
-    expect(tags['http.remote_ip']).to.equal('');
+    expect(tags[httpClientPatcher.tagName('remote_ip')]).to.equal('');
   });
 
   it('should remote tracing work', (done) => {

@@ -225,6 +225,13 @@ export class FakeConnection extends EventEmitter {
       return;
     }
 
+    if ((match = /^SELECT count\(\*\) FROM users WHERE id=([0-9]+);?$/i.exec(sql))) {
+      const num = match[1];
+
+      this._writePacketStream(num);
+      return;
+    }
+
     if ((match = /^SHOW STATUS LIKE 'Ssl_cipher';?$/i.exec(sql))) {
       this._sendPacket(new Packets.ResultSetHeaderPacket({
         fieldCount: 2

@@ -1,9 +1,8 @@
-const debug = require('debug')('pandora:auto-patching:SqlParser');
+const debug = require('debug')('pandora:auto-patching:Shimmer');
 /**
  * Fork from othiym23/shimmer, add support for generator function and async function
  * TODO: 待原包更新支持 Generator 和 async 方法后，使用原包
  */
-
 
 export function isAsyncFunction(funktion) {
   return funktion && {}.toString.call(funktion) === '[object AsyncFunction]';

@@ -5,16 +5,16 @@ import { ITracer, IPandoraContext } from 'pandora-component-trace';
 import * as assert from 'assert';
 import { CLS } from './cls';
 import { CURRENT_CONTEXT } from './constants';
-import { Wrapper } from './patchers/wrappers/Wrapper';
 
 export class Patcher {
 
   protected ctx;
   protected _moduleName: string;
+  protected _spanName: string;
   protected options: PatcherOptions;
   protected cls: CLS = CLS.getInstance();
-  protected wrapper: Wrapper;
   protected inited: boolean = false;
+  protected _tagPrefix = '';
 
   constructor(ctx: any) {
     this.ctx = ctx;
@@ -28,6 +28,10 @@ export class Patcher {
     return this.options.recordErrorDetail || false;
   }
 
+  get tagPrefix() {
+    return this.options.tagPrefix || this._tagPrefix;
+  }
+
   init() {
     /* istanbul ignore next */
     if (!this.inited) {
@@ -36,10 +40,6 @@ export class Patcher {
       this.options = patcherConfig.patchers[this.moduleName] || {
         enabled: true
       };
-      if (this.options.kWrapper) {
-        const KWrapper = this.options.kWrapper;
-        this.wrapper = new KWrapper(this.ctx, this.tracer, this.cls, this.moduleName, this.options);
-      }
 
       this.inited = true;
     }
@@ -51,6 +51,10 @@ export class Patcher {
 
   get moduleName(): string {
     return this._moduleName;
+  }
+
+  get spanName(): string {
+    return this._spanName || this._moduleName;
   }
 
   get shimmer(): IShimmer {
@@ -70,6 +74,14 @@ export class Patcher {
 
   set currentContext(context: IPandoraContext) {
     this.cls.set(CURRENT_CONTEXT, context);
+  }
+
+  tagName(name: string): string {
+    if (this.tagPrefix) {
+      return `${this.tagPrefix}.${name}`;
+    }
+
+    return name;
   }
 
   target() {}

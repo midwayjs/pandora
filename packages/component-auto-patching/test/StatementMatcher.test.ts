@@ -1,4 +1,4 @@
-import { StatementMatcher } from '../src/patchers/wrappers/mysql/StatementMatcher';
+import { StatementMatcher } from '../src/patchers/StatementMatcher';
 import { expect } from 'chai';
 
 describe('StatementMatcher', () => {

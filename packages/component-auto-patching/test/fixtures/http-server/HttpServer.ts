@@ -28,6 +28,7 @@ export default class HttpServerFixture extends Fixture {
 
       span.on(SPAN_FINISHED, (s) => {
         assert(s.duration >= 100);
+        assert(s.operationName === 'http-server');
         done();
       });
     });

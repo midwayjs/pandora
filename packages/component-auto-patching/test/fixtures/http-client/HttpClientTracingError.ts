@@ -1,7 +1,7 @@
 // 放在前面，把 http.ClientRequest 先复写
 import * as nock from 'nock';
 import { Fixture, sleep, request } from '../../TestUtil';
-import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import { HEADER_TRACE_ID, HEADER_SPAN_ID } from 'pandora-tracer';
@@ -20,7 +20,6 @@ export default class HttpClientFixture extends Fixture {
         httpClient: {
           enabled: true,
           klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper,
           tracing: true
         }
       }
@@ -35,7 +34,7 @@ export default class HttpClientFixture extends Fixture {
       .reply(200);
 
     const httpClientPatcher = this.autoPatching.instances.get('httpClient');
-    const stub = sinon.stub(httpClientPatcher.wrapper.tracer, 'inject').throws('inject error');
+    const stub = sinon.stub(httpClientPatcher.tracer, 'inject').throws('inject error');
     const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer(function(req, res) {
@@ -48,7 +47,7 @@ export default class HttpClientFixture extends Fixture {
           const headers = response[0].req.headers;
           assert(!headers[HEADER_TRACE_ID]);
           assert(!headers[HEADER_SPAN_ID]);
-          assert(spy.calledWith(sinon.match('[HttpClientWrapper] inject tracing context to headers error.')));
+          assert(spy.calledWith(sinon.match('[HttpClientPatcher] inject tracing context to headers error.')));
           stub.restore();
           spy.restore();
           done();
