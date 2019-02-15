@@ -160,22 +160,18 @@ export class MySQLPatcher extends Patcher {
   }
 
   transformSql(span: IPandoraSpan, query: Query): void {
-    const sql = query.sql;
-    let transformed = false;
-
-    if (!sql) return;
-
     if (this.options.tracing) {
-      transformed = this.tracing(span, query);
-    }
-
-    if (transformed) {
-      span.log({ originSql: sql });
+      this.tracing(span, query);
     }
   }
 
-  tracing(span: IPandoraSpan, query: Query): boolean {
-    return false;
+  tracing(span: IPandoraSpan, query: Query): void {
+    const sql = query.sql;
+
+    if (!sql) return;
+    if (!span) return;
+
+    this.logger.warn('[MySQLPatcher] Tracing not implement.');
   }
 
   queryTraced(query: Query) {
