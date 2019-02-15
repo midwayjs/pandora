@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-trace",
-  "version": "2.0.3",
+  "version": "2.0.6",
   "description": "Pandora 2 Component Trace",
   "main": "dist/ComponentTrace",
   "typings": "dist/ComponentTrace.d.ts",
