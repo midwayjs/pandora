@@ -2,7 +2,7 @@
 import * as nock from 'nock';
 import { gzipSync } from 'zlib';
 import { Fixture, sleep, request } from '../../TestUtil';
-import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -22,7 +22,6 @@ export default class HttpClientFixture extends Fixture {
         httpClient: {
           enabled: true,
           klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper,
           recordResponse: true,
           maxResponseSize: 20
         }
@@ -63,7 +62,7 @@ export default class HttpClientFixture extends Fixture {
           path: '/',
           method: 'GET'
         }).then(() => {
-          assert(spy.calledWith(sinon.match('[HttpClientWrapper] response size greater than maxResponseSize, ignore chunk.')));
+          assert(spy.calledWith(sinon.match('[HttpClientPatcher] response size greater than maxResponseSize, ignore chunk.')));
 
           spy.restore();
           res.end('OK');

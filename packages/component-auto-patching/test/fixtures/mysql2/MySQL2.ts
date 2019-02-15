@@ -1,5 +1,5 @@
 import { Fixture, sleep } from '../../TestUtil';
-import { HttpServerPatcher, MySQL2Patcher, MySQLWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, MySQL2Patcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -15,10 +15,9 @@ export default class MySQLFixture extends Fixture {
           enabled: true,
           klass: HttpServerPatcher
         },
-        mySQL2: {
+        mysql2: {
           enabled: true,
-          klass: MySQL2Patcher,
-          kWrapper: MySQLWrapper
+          klass: MySQL2Patcher
         }
       }
     };
@@ -36,6 +35,9 @@ export default class MySQLFixture extends Fixture {
 
       span.once(SPAN_FINISHED, (s) => {
         assert(s.duration > 0);
+        if (!isEntry) {
+          assert(s.operationName === 'mysql');
+        }
         _done();
       });
     });

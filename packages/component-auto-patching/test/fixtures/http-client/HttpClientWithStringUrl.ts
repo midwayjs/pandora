@@ -1,7 +1,7 @@
 // 放在前面，把 http.ClientRequest 先复写
 // import * as nock from 'nock';
 import { Fixture, sleep, requestUrl } from '../../TestUtil';
-import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -19,8 +19,7 @@ export default class HttpClientFixture extends Fixture {
         },
         httpClient: {
           enabled: true,
-          klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper
+          klass: HttpClientPatcher
         }
       }
     };

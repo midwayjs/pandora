@@ -1,9 +1,6 @@
 import { EventEmitter } from 'events';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Patcher } from './Patcher';
-import { Wrapper } from './patchers/wrappers/Wrapper';
-import { HttpClientWrapper } from './patchers/wrappers/http-client/HttpClientWrapper';
-import { MySQLWrapper } from './patchers/wrappers/mysql/MySQLWrapper';
 
 export type OriginalModule = any;
 export type WrappedModule = any;
@@ -48,9 +45,10 @@ export interface ICLSNamespace {
 export interface PatcherOptions {
   enabled?: boolean;
   klass?: typeof Patcher;
-  kWrapper?: typeof Wrapper;
   // 是否记录错误详情，默认只记录 message，开启则记录详情
   recordErrorDetail?: boolean;
+  // tag 前缀
+  tagPrefix?: string;
 }
 
 export interface AutoPatchingConfig {
@@ -117,8 +115,6 @@ export interface HttpClientPatcherOptions extends PatcherOptions {
   responseTransformer?: ResponseTransformer;
   // 是否开启下游追踪，开启会在请求中植入参数
   tracing?: boolean;
-  // http client wrapper
-  kWrapper?: typeof HttpClientWrapper;
 }
 
 export interface HttpClientTags extends Tags {
@@ -144,14 +140,8 @@ export interface MySQLPatcherOptions extends PatcherOptions {
   recordSql?: boolean;
   // sql 脱敏函数
   sqlMask?: SQLMask;
-  // 是否记录数据库名称
-  recordDatabaseName?: boolean;
-  // 是否记录数据库实例
-  recordInstance?: boolean;
   // 是否开启下游追踪，开启后使用 hint 传递参数，暂时空实现，有需要时增加
   tracing?: boolean;
-  // mysql wrapper
-  kWrapper?: typeof MySQLWrapper;
 }
 
 export interface MySQLTags extends Tags {

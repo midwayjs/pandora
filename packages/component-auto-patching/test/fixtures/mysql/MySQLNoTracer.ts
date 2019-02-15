@@ -1,5 +1,5 @@
 import { Fixture, sleep } from '../../TestUtil';
-import { HttpServerPatcher, MySQLPatcher, MySQLWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, MySQLPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import { consoleLogger } from 'pandora-dollar';
@@ -14,10 +14,9 @@ export default class MySQLFixture extends Fixture {
           enabled: true,
           klass: HttpServerPatcher
         },
-        mySQL: {
+        mysql: {
           enabled: true,
-          klass: MySQLPatcher,
-          kWrapper: MySQLWrapper
+          klass: MySQLPatcher
         }
       }
     };
@@ -28,8 +27,8 @@ export default class MySQLFixture extends Fixture {
     const urllib = require('urllib');
     const mysql = require('mysql');
 
-    const mySQLPatcher = this.autoPatching.instances.get('mySQL');
-    const stub = sinon.stub(mySQLPatcher.wrapper, 'tracer').value(null);
+    const mysqlPatcher = this.autoPatching.instances.get('mysql');
+    const stub = sinon.stub(mysqlPatcher, 'tracer').value(null);
 
     const spy = sinon.spy(consoleLogger, 'info');
 
@@ -43,7 +42,7 @@ export default class MySQLFixture extends Fixture {
 
         connection.query('SELECT 1', function(err, row, fields) {
           connection.end();
-          assert(spy.calledWith(sinon.match('[MySQLWrapper] create span return null, skip trace.')));
+          assert(spy.calledWith(sinon.match('[MySQLPatcher] create span return null, skip trace.')));
           spy.restore();
           stub.restore();
           res.end('ok');

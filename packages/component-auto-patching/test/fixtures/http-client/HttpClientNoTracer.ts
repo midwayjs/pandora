@@ -1,7 +1,7 @@
 // 放在前面，把 http.ClientRequest 先复写
 import * as nock from 'nock';
 import { Fixture, sleep, request } from '../../TestUtil';
-import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import { consoleLogger } from 'pandora-dollar';
@@ -18,8 +18,7 @@ export default class HttpClientFixture extends Fixture {
         },
         httpClient: {
           enabled: true,
-          klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper
+          klass: HttpClientPatcher
         }
       }
     };
@@ -34,7 +33,7 @@ export default class HttpClientFixture extends Fixture {
 
     const spy = sinon.spy(consoleLogger, 'info');
     const httpClientPatcher = this.autoPatching.instances.get('httpClient');
-    const stub = sinon.stub(httpClientPatcher.wrapper, 'tracer').value(null);
+    const stub = sinon.stub(httpClientPatcher, 'tracer').value(null);
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
@@ -43,7 +42,7 @@ export default class HttpClientFixture extends Fixture {
           path: '/',
           method: 'GET'
         }).then(() => {
-          assert(spy.calledWith('[HttpClientWrapper] no tracer, skip trace.'));
+          assert(spy.calledWith('[HttpClientPatcher] no tracer, skip trace.'));
           stub.restore();
           spy.restore();
           done();

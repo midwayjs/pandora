@@ -16,6 +16,8 @@ import { CURRENT_CONTEXT } from '../constants';
 export class HttpServerPatcher extends Patcher {
   protected options: HttpServerPatcherOptions;
   protected _moduleName = 'httpServer';
+  protected _spanName = 'http-server';
+  protected _tagPrefix = 'http';
 
   target() {
     return http;
@@ -109,9 +111,9 @@ export class HttpServerPatcher extends Patcher {
 
             // clear cache
             chunks = null;
-            span.setTag('http.aborted', eventName === 'aborted');
+            span.setTag(self.tagName('aborted'), eventName === 'aborted');
             const statusCode = res.statusCode;
-            span.setTag('http.status_code', statusCode);
+            span.setTag(self.tagName('status_code'), statusCode);
             if (statusCode >= 400) {
               span.error(true);
               recordError(span, new Error(res.statusMessage), self.recordErrorDetail);
@@ -142,7 +144,7 @@ export class HttpServerPatcher extends Patcher {
 
     const context = tracer.extract('http', req);
     const tags = this.buildTags(req);
-    let traceName = `HTTP:${tags['http.method']}:${tags['http.pathname']}`;
+    let traceName = `HTTP:${tags[this.tagName('method')]}:${tags[this.tagName('pathname')]}`;
 
     if (this.options.traceName && is.function(this.options.traceName)) {
       traceName = this.options.traceName(tags);
@@ -150,7 +152,7 @@ export class HttpServerPatcher extends Patcher {
 
     context.traceName = traceName;
 
-    const span = tracer.startSpan(this.moduleName, {
+    const span = tracer.startSpan(this.spanName, {
       childOf: context,
       tags,
       startTime: Date.now()
@@ -164,9 +166,9 @@ export class HttpServerPatcher extends Patcher {
   buildTags(req: IncomingMessage): HttpServerTags {
 
     return {
-      'http.method': req.method.toUpperCase(),
-      'http.pathname': extractPath(req.url),
-      'http.client': false,
+      [this.tagName('method')]: req.method.toUpperCase(),
+      [this.tagName('pathname')]: extractPath(req.url),
+      [this.tagName('client')]: false,
       is_entry: true
     };
   }
@@ -261,8 +263,7 @@ export class HttpServerPatcher extends Patcher {
   attach() {
     const shimmer = this.shimmer;
     const target = this.target();
-
-    this.logger.info(`[HttpServerPatcher] patching http createServer.`);
+    this.logger.info(`[HttpServerPatcher] patching http [createServer].`);
     shimmer.wrap(target, 'createServer', this.wrapCreateServer);
   }
 

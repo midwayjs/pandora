@@ -2,7 +2,7 @@
 import * as nock from 'nock';
 import { gzipSync } from 'zlib';
 import { Fixture, sleep, request, extractLog } from '../../TestUtil';
-import { HttpServerPatcher, HttpClientPatcher, HttpClientWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -23,7 +23,6 @@ export default class HttpClientFixture extends Fixture {
         httpClient: {
           enabled: true,
           klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper,
           recordResponse: true,
           maxResponseSize: 1000,
           responseTransformer: (buffer, res) => {

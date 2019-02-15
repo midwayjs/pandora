@@ -1,8 +1,5 @@
 import { Fixture, sleep, extractLog } from '../../TestUtil';
-import {
-  HttpServerPatcher,
-  MySQLPatcher
-} from '../../../src/patchers';
+import { HttpServerPatcher, MySQLPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -20,7 +17,10 @@ export default class MySQLFixture extends Fixture {
         },
         mysql: {
           enabled: true,
-          klass: MySQLPatcher
+          klass: MySQLPatcher,
+          sqlMask: function sqlMask(sql: string): string {
+            return `**${sql}**`;
+          }
         }
       }
     };
@@ -38,12 +38,9 @@ export default class MySQLFixture extends Fixture {
 
       span.once(SPAN_FINISHED, (s) => {
         assert(s.duration > 0);
-        const logs = s.logs;
-        const error = extractLog(logs, 'error');
-        assert(!error);
-
         if (!isEntry) {
-          assert(s.operationName === 'mysql');
+          const sql = extractLog(s.logs, 'sql');
+          assert(sql === '**SELECT 1**');
         }
         _done();
       });

@@ -14,6 +14,9 @@ describe('Patcher', () => {
 
   it('should custom patcher work well', (done) => {
     class CustomPatcher extends Patcher {
+      _tagPrefix = '';
+      options = {};
+
       target() {
         super.target();
         return 'custom';
@@ -63,6 +66,10 @@ describe('Patcher', () => {
       const ns = cls.namespace;
 
       expect(ns).to.exist;
+
+      const tagName = cp.tagName('test');
+
+      expect(tagName).to.equal('test');
 
       done();
     });

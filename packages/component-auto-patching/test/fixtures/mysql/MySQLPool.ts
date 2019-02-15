@@ -1,5 +1,5 @@
 import { Fixture, sleep } from '../../TestUtil';
-import { HttpServerPatcher, MySQLPatcher, MySQLWrapper } from '../../../src/patchers';
+import { HttpServerPatcher, MySQLPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
@@ -15,10 +15,9 @@ export default class MySQLFixture extends Fixture {
           enabled: true,
           klass: HttpServerPatcher
         },
-        mySQL: {
+        mysql: {
           enabled: true,
-          klass: MySQLPatcher,
-          kWrapper: MySQLWrapper
+          klass: MySQLPatcher
         }
       }
     };

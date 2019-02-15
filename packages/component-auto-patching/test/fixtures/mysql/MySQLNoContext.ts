@@ -1,12 +1,8 @@
-import { Fixture, sleep, extractLog } from '../../TestUtil';
-import {
-  HttpServerPatcher,
-  MySQLPatcher
-} from '../../../src/patchers';
+import { Fixture, sleep } from '../../TestUtil';
+import { HttpServerPatcher, MySQLPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
-import * as pedding from 'pedding';
-import { SPAN_FINISHED } from 'pandora-component-trace';
+import { consoleLogger } from 'pandora-dollar';
 
 export default class MySQLFixture extends Fixture {
 
@@ -30,24 +26,15 @@ export default class MySQLFixture extends Fixture {
     const http = require('http');
     const urllib = require('urllib');
     const mysql = require('mysql');
-    const _done = pedding(done, 2);
 
-    const stub = sinon.stub(this.componentTrace.traceManager, 'record').callsFake(function(span, isEntry) {
-      const context = span.context();
-      assert(context.traceId === '1234567890');
-
-      span.once(SPAN_FINISHED, (s) => {
-        assert(s.duration > 0);
-        const logs = s.logs;
-        const error = extractLog(logs, 'error');
-        assert(!error);
-
-        if (!isEntry) {
-          assert(s.operationName === 'mysql');
-        }
-        _done();
-      });
+    const mysqlPatcher = this.autoPatching.instances.get('mysql');
+    const stub = sinon.stub(mysqlPatcher, 'cls').value({
+      get() {
+        return null;
+      }
     });
+
+    const spy = sinon.spy(consoleLogger, 'info');
 
     const server = http.createServer(function(req, res) {
       setTimeout(() => {
@@ -59,7 +46,11 @@ export default class MySQLFixture extends Fixture {
 
         connection.query('SELECT 1', function(err, row, fields) {
           connection.end();
+          assert(spy.calledWith(sinon.match('[MySQLPatcher] create span return null, skip trace.')));
+          spy.restore();
+          stub.restore();
           res.end('ok');
+          done();
         });
       },  Math.floor(1 + Math.random() * 10) * 100);
     });
@@ -75,7 +66,5 @@ export default class MySQLFixture extends Fixture {
         'x-trace-id': '1234567890'
       }
     });
-
-    stub.restore();
   }
 }

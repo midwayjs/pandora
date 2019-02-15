@@ -4,9 +4,7 @@ import { Fixture, sleep, request } from '../TestUtil';
 import {
   HttpServerPatcher,
   HttpClientPatcher,
-  HttpClientWrapper,
-  MySQLPatcher,
-  MySQLWrapper
+  MySQLPatcher
 } from '../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
@@ -26,13 +24,11 @@ export default class HttpClientFixture extends Fixture {
         },
         httpClient: {
           enabled: true,
-          klass: HttpClientPatcher,
-          kWrapper: HttpClientWrapper
+          klass: HttpClientPatcher
         },
         mySQL: {
           enabled: true,
-          klass: MySQLPatcher,
-          kWrapper: MySQLWrapper
+          klass: MySQLPatcher
         }
       }
     };

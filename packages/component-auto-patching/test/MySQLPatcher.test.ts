@@ -2,12 +2,13 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import ComponentTrace from 'pandora-component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
-import { MySQLPatcher, MySQLWrapper } from '../src/patchers';
+import { MySQLPatcher } from '../src/patchers';
 import { PandoraTracer } from 'pandora-tracer';
 import { fork } from './TestUtil';
 import { FakeMySQLServer } from './helpers/fake-mysql-server/FakeMySQLServer';
 import { consoleLogger } from 'pandora-dollar';
-import * as Parser from '../src/patchers/wrappers/mysql/SqlParser';
+import * as Parser from '../src/patchers/SqlParser';
+import * as os from 'os';
 
 describe('ComponentAutoPatching -> MySQLPatcher', function () {
   let autoPatching, componentTrace, fakeServer;
@@ -27,10 +28,9 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     Object.assign(ctx.config, {
       autoPatching: {
         patchers: {
-          mySQL: {
+          mysql: {
             enabled: true,
-            klass: MySQLPatcher,
-            kWrapper: MySQLWrapper
+            klass: MySQLPatcher
           }
         }
       }
@@ -49,20 +49,19 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     fakeServer.destroy();
   });
 
-  it('should only load mySQL patcher', () => {
+  it('should only load mysql patcher', () => {
     const instances = autoPatching.instances;
 
     expect(instances.size).to.equal(1);
   });
 
-  it('should not load mySQL patcher when enabled=false', async () => {
+  it('should not load mysql patcher when enabled=false', async () => {
     await autoPatching.stop();
 
     const stub = sinon.stub(autoPatching, 'patchers').value({
-      mySQL: {
+      mysql: {
         enabled: false,
-        klass: MySQLPatcher,
-        kWrapper: MySQLWrapper
+        klass: MySQLPatcher
       }
     });
 
@@ -91,162 +90,53 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     fork('mysql/MySQLPoolCluster', done);
   });
 
-  it('should record sql', (done) => {
-    fork('mysql/MySQLRecordSql', done);
+  it('should support unattach patcher', (done) => {
+    fork('mysql/MySQLUnattach', done);
   });
 
-  it('should skip trace when span is null', (done) => {
+  it('should skip trace when tracer is null', (done) => {
     fork('mysql/MySQLNoTracer', done);
   });
 
-  it('should skip trace when no callback', (done) => {
+  it('should skip trace when CURRENT_CONTEXT is null', (done) => {
+    fork('mysql/MySQLNoContext', done);
+  });
+
+  it('should not record sql when disabled', (done) => {
+    fork('mysql/MySQLNotRecordSql', done);
+  });
+
+  it('should use custom sql mask', (done) => {
+    fork('mysql/MySQLSqlMask', done);
+  });
+
+  it('should should record values when exist', (done) => {
+    fork('mysql/MySQLValues', done);
+  });
+
+  it('should trace when no callback', (done) => {
     fork('mysql/MySQLNoCallback', done);
   });
 
-  it('should return false when wrapper non queriable', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-
-    const res = wrapper.wrapQueriable();
-
-    expect(res).to.be.false;
-  });
-
-  it('should return false when wrapper non connectable', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-
-    const res = wrapper.wrapGetConnection();
-
-    expect(res).to.be.false;
-  });
-
-  it('should work well when wrapQueriable throw error in wrap connection', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-    const stub = sinon.stub(wrapper, 'wrapQueriable').callsFake(() => {
-      throw new Error('wrapQueriable');
-    });
-    const spy = sinon.spy(consoleLogger, 'info');
-    wrapper.wrapGetConnection();
-
-    expect(spy.calledWith(sinon.match('[MySQLWrapper] Wrap PoolConnection#query failed.')));
-    stub.restore();
-    spy.restore();
-  });
-
-  it('should not create span when context is null', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-    const stub = sinon.stub(wrapper.cls, 'get').callsFake(() => {
-      return null;
-    });
-
-    const span = wrapper.createSpan();
-
-    expect(span).to.be.null;
-
-    stub.restore();
-  });
-
-  it('should use default table name', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-
-    const tags = wrapper.buildTags({}, {});
-
-    expect(tags['mysql.table']).to.equal('UnknownTable');
-  });
-
-  it('should normalize args', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-
-    const args = wrapper.argsNormalize(() => {});
-    expect(args.cb).to.be.exist;
-
-    const args1 = wrapper.argsNormalize({
-      sql: 'select 1'
-    }, () => {});
-
-    expect(args1.cb).to.be.exist;
-    expect(args1.options.sql).to.equal('select 1');
-
-    const args2 = wrapper.argsNormalize({
-      sql: 'select 1',
-      _callback: () => {}
-    }, {});
-
-    expect(args2.cb).to.be.exist;
-    expect(args2.options.sql).to.equal('select 1');
-    expect(args2.options.values).to.be.exist;
-
-    const spy = sinon.spy(consoleLogger, 'info');
-
-    wrapper.argsNormalize('select 1', {}, 'test');
-
-    expect(spy.calledWith(sinon.match('[MySQLWrapper] argument callback must be a function when provided'))).to.be.true;
-
-    spy.restore();
-
-    const args3 = wrapper.argsNormalize('select 1', {}, () => {});
-    expect(args3.options.sql).to.equal('select 1');
-    expect(args3.cb).to.be.exist;
-  });
-
-  it('should get instance info', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-
-    const spy = sinon.spy(consoleLogger, 'info');
-    wrapper.getInstanceInfo({}, {});
-    expect(spy.calledWith(sinon.match('No query config, just try to get database name from query'))).to.be.true;
-
-    spy.restore();
-
-    const info = wrapper.getInstanceInfo({
-      config: {
-        socketPath: '/'
-      }
-    }, {});
-
-    expect(info.host).to.equal('localhost');
-    expect(info.portPath).to.equal('/');
-  });
-
-  it('should normalize info', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
-
-    const stub = sinon.stub(wrapper, 'options').value({
-      recordDatabaseName: true,
-      recordInstance: true
-    });
-
-    const info = wrapper.normalizeInfo({
-      host: null,
-      databaseName: 1,
-      portPath: ''
-    });
-
-    expect(info.host).to.equal('UnknownHost');
-    expect(info.databaseName).to.equal('1');
-    expect(info.portPath).to.equal('Unknown');
-
-    wrapper.normalizeInfo();
-    stub.restore();
-  });
-
-  it('should parse query', () => {
-    const mySQLPatcher = autoPatching.instances.get('mySQL');
-    const wrapper = mySQLPatcher.wrapper;
+  it('should recordTable work well', () => {
+    const mysqlPatcher = autoPatching.instances.get('mysql');
 
     const stub = sinon.stub(Parser, 'parseSql').callsFake(() => {
       throw new Error('parseSql');
     });
+
+    const tags = new Map();
+
+    const span = {
+      setTag(key, value) {
+        tags.set(key, value);
+      }
+    };
+
     const spy = sinon.spy(consoleLogger, 'info');
-    wrapper.parseQuery({});
-    expect(spy.calledWith(sinon.match('parse sql error, origin options is')));
+
+    mysqlPatcher.recordTable(span, {});
+    expect(spy.calledWith(sinon.match('parse sql error, origin sql is')));
     spy.restore();
     stub.restore();
 
@@ -256,8 +146,93 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
       };
     });
 
-    const res = wrapper.parseQuery({});
-    expect(res.collection).to.equal('test');
+    mysqlPatcher.recordTable(span, {});
+    expect(tags.get('mysql.table')).to.equal('test');
     stub1.restore();
+  });
+
+  it('should transformSql work well', () => {
+    const mysqlPatcher = autoPatching.instances.get('mysql');
+    const stubOptions = sinon.stub(mysqlPatcher, 'options').value({
+      tracing: true
+    });
+
+    const logs = [];
+
+    const span = {
+      log(content) {
+        logs.push(content);
+      }
+    };
+
+    const empty = {};
+    mysqlPatcher.transformSql(span, empty);
+    expect(empty).to.deep.equal({});
+
+    const query = {
+      sql: 'SELECT 1'
+    };
+    mysqlPatcher.transformSql(span, query);
+
+    expect(query.sql).to.equal('SELECT 1');
+
+    const stubTracing = sinon.stub(mysqlPatcher, 'tracing').callsFake((span, query) => {
+      query.sql = `/*tracing*/${query.sql}`;
+      return true;
+    });
+
+    mysqlPatcher.transformSql(span, query);
+    expect(logs.length).to.equal(1);
+    expect(logs[0]).to.deep.equal({
+      originSql: 'SELECT 1'
+    });
+    expect(query.sql).to.equal('/*tracing*/SELECT 1');
+
+    stubOptions.restore();
+    stubTracing.restore();
+  });
+
+  it('should recordConnectionInfo work well', () => {
+    const mysqlPatcher = autoPatching.instances.get('mysql');
+
+    const tags = new Map();
+    const span = {
+      setTag(key, value) {
+        tags.set(key, value);
+      }
+    };
+
+    mysqlPatcher.recordConnectionInfo(span, {
+      _connection: {
+        config: {
+          socketPath: '/tmpdir/123.sock'
+        }
+      }
+    });
+
+    expect(tags.get('mysql.host')).to.equal(os.hostname());
+    expect(tags.get('mysql.portPath')).to.equal('/tmpdir/123.sock');
+    expect(tags.get('mysql.database')).to.equal('Unknown');
+    tags.clear();
+
+    mysqlPatcher.recordConnectionInfo(span, {
+      sql: 'use pandora;',
+      _connection: {
+        config: {
+          host: '30.30.30.30',
+          port: 3036
+        }
+      }
+    });
+
+    expect(tags.get('mysql.host')).to.equal('30.30.30.30');
+    expect(tags.get('mysql.portPath')).to.equal(3036);
+    expect(tags.get('mysql.database')).to.equal('pandora');
+
+    const spy = sinon.spy(consoleLogger, 'info');
+    mysqlPatcher.recordConnectionInfo(span, {});
+
+    expect(spy.calledWith(sinon.match('[MySQLPatcher] query without connection info'))).to.be.true;
+    spy.restore();
   });
 });
