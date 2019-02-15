@@ -421,7 +421,7 @@ describe('TraceManager', () => {
       tracer
     });
 
-    const spy = sinon.spy((<any> traceManager).logger, 'warn');
+    const spy = sinon.spy((<any> traceManager).logger, 'info');
 
     const fakeSpan = {
       traceId: 'test_traceId',
