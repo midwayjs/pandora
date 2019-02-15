@@ -15,6 +15,7 @@ import {join} from 'path';
     enable: false,
     dir: join(homedir(), 'logs', 'pandorajs'),
     type: 'size',
+    maxFiles: 2,
     maxFileSize: 100 * 1024 * 1024,
     stdoutLevel: 'NONE',
     level: 'WARN'

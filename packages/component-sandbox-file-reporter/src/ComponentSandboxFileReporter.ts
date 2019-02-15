@@ -15,18 +15,21 @@ import {SandboxErrorLogFileReporter} from './SandboxErrorLogFileReporter';
     metrics: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
+      maxFiles: 2,
       stdoutLevel: 'NONE',
       level: 'ALL'
     },
     trace: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
+      maxFiles: 2,
       stdoutLevel: 'NONE',
       level: 'ALL'
     },
     error: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
+      maxFiles: 2,
       stdoutLevel: 'NONE',
       level: 'ALL'
     },

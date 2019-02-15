@@ -84,7 +84,7 @@ export class TraceManager extends EventEmitter {
       if (traceData) {
         traceData.putSpan(span);
       } else {
-        this.logger.warn(`[TraceManager] trace maybe timeout and dumped, skip this span, please check!`);
+        this.logger.info(`[TraceManager] trace maybe timeout and dumped, skip this span, please check!`);
       }
     }
   }
@@ -100,7 +100,7 @@ export class TraceManager extends EventEmitter {
     }
 
     if (!this.isSampled(span)) {
-      this.logger.warn(`[TraceManager] entry [${traceId}] can't record by sampling.`);
+      this.logger.info(`[TraceManager] entry [${traceId}] can't record by sampling.`);
       return;
     }
 
@@ -127,7 +127,7 @@ export class TraceManager extends EventEmitter {
     const size = this.pool.size;
 
     if (size >= this.poolSize) {
-      this.logger.warn(`[TraceManager] pool is full, dump finished trace before, skip current trace [${traceId}].`);
+      this.logger.info(`[TraceManager] pool is full, dump finished trace before, skip current trace [${traceId}].`);
       this.dump(false);
     } else {
       this.pool.set(traceId, traceData);
