@@ -176,9 +176,15 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
 
     expect(query.sql).to.equal('SELECT 1');
 
+    mysqlPatcher.transformSql(null, query);
+
+    expect(query.sql).to.equal('SELECT 1');
+
     const stubTracing = sinon.stub(mysqlPatcher, 'tracing').callsFake((span, query) => {
+      span.log({
+        originSql: query.sql
+      });
       query.sql = `/*tracing*/${query.sql}`;
-      return true;
     });
 
     mysqlPatcher.transformSql(span, query);
@@ -188,8 +194,14 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     });
     expect(query.sql).to.equal('/*tracing*/SELECT 1');
 
-    stubOptions.restore();
     stubTracing.restore();
+
+    const spyLogger = sinon.spy(mysqlPatcher.logger, 'warn');
+    mysqlPatcher.transformSql(span, query);
+    expect(spyLogger.calledWith(sinon.match('[MySQLPatcher] Tracing not implement.')));
+    spyLogger.restore();
+
+    stubOptions.restore();
   });
 
   it('should recordConnectionInfo work well', () => {
