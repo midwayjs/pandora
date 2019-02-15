@@ -26,7 +26,7 @@
     "clean": "lerna clean --yes; rm -rf ./packages/**/package-lock.json",
     "reset": "npm run purge && npm i && npm run ci",
 
-    "publish": "rm -f ./packages/.DS*; sh scripts/publish.sh --npm-tag release-2.x --force-publish=*",
+    "publish": "rm -f ./packages/.DS*; sh scripts/publish.sh --npm-tag release-2.x",
     "beta": "sh scripts/publish.sh --npm-tag pandora2-beta --force-publish=*",
     "canary": "sh scripts/publish.sh --canary",
 
