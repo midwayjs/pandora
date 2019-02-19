@@ -125,7 +125,7 @@ export class HttpClientPatcher extends Patcher {
       // defaultPort: https://github.com/nodejs/node/blob/eb664c3b6df2ec618fa1c9339dbd418e858bfcfa/lib/_http_agent.js#L48
       [this.tagName('port')]: options.port || options._defaultAgent && (<any>options._defaultAgent).defaultPort || DEFAULT_PORT,
       // use '/' default, like node.js
-      [this.tagName('pathname')]: options.path || '/'
+      [this.tagName('url')]: options.path || '/'
     };
   }
 
