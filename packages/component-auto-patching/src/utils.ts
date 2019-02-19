@@ -96,11 +96,19 @@ export function recordError(span: IPandoraSpan, error: Error, recordErrorDetail:
   }
 }
 
-export function setInternalProperty(target, key, value) {
+export function setInternalProperty(target: any, key: string, value: any, writable: boolean = false) {
   Object.defineProperty(target, key, {
     enumerable: false,
     configurable: true,
-    writable: false,
+    writable,
     value: value
   });
+}
+
+export function isURL(value: any): value is URL {
+  if (semver.satisfies(process.version, '>=7')) {
+    return value instanceof URL;
+  }
+
+  return false;
 }

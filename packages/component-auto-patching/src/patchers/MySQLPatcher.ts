@@ -3,7 +3,7 @@ import { IPandoraSpan } from 'pandora-component-trace';
 import * as is from 'is-type-of';
 import * as os from 'os';
 import { Patcher } from '../Patcher';
-import { MySQLPatcherOptions } from '../domain';
+import { MySQLPatcherOptions, MySQLCallback } from '../domain';
 import { CURRENT_CONTEXT, INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../constants';
 import { recordError, getDatabaseConfigFromQuery, setInternalProperty, isLocalhost } from '../utils';
 import * as Parser from './SqlParser';
@@ -62,7 +62,7 @@ export class MySQLPatcher extends Patcher {
     return span;
   }
 
-  recordQueryInfo(span: IPandoraSpan, query: Query, error: Error) {
+  recordQueryInfo(span: IPandoraSpan, query: Query, error: Error): void {
     this.recordTable(span, query);
     this.recordConnectionInfo(span, query);
     this.recordSql(span, query);
@@ -70,7 +70,7 @@ export class MySQLPatcher extends Patcher {
     recordError(span, error, this.recordErrorDetail);
   }
 
-  recordTable(span: IPandoraSpan, query: Query) {
+  recordTable(span: IPandoraSpan, query: Query): void {
     const sql = query.sql;
     let parsedSql;
     let operation = INSTANCE_UNKNOWN;
@@ -99,25 +99,25 @@ export class MySQLPatcher extends Patcher {
     span.setTag(this.tagName('table'), collection);
   }
 
-  recordSql(span: IPandoraSpan, query: Query) {
-    if (this.shouldRecordSql) {
-      let sql = query.sql;
-      const values = query.values;
-      const sqlMask = this.options.sqlMask;
+  recordSql(span: IPandoraSpan, query: Query): void {
+    if (!this.shouldRecordSql) return;
 
-      if (sqlMask && is.function(sqlMask)) {
-        sql = sqlMask(sql);
-      }
+    let sql = query.sql;
+    const values = query.values;
+    const sqlMask = this.options.sqlMask;
 
-      span.log({ sql });
+    if (sqlMask && is.function(sqlMask)) {
+      sql = sqlMask(sql);
+    }
 
-      if (values) {
-        span.log({ values });
-      }
+    span.log({ sql });
+
+    if (values) {
+      span.log({ values });
     }
   }
 
-  recordConnectionInfo(span: IPandoraSpan, query: Query) {
+  recordConnectionInfo(span: IPandoraSpan, query: Query): void {
     const sql = query.sql;
     const connection = query._connection;
 
@@ -146,7 +146,7 @@ export class MySQLPatcher extends Patcher {
 
   wrapCallback(span: IPandoraSpan, query: Query): Function {
     const self = this;
-    const callback = this.cls.bind(query._callback);
+    const callback = this.cls.bind(query._callback as MySQLCallback);
 
     const _callback = function wrappedQueryCallback(error, results, fields) {
       self.recordQueryInfo(span, query, error);
@@ -173,7 +173,7 @@ export class MySQLPatcher extends Patcher {
     this.logger.warn('[MySQLPatcher] Tracing not implement.');
   }
 
-  queryTraced(query: Query) {
+  queryTraced(query: Query): void {
     setInternalProperty(query, '__pandora_traced__', true);
   }
 

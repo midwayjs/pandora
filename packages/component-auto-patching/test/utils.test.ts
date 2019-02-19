@@ -99,4 +99,40 @@ describe('utils', () => {
       expect(log.get('errorStack')).to.exist;
     });
   });
+
+  describe('isURL', () => {
+
+    it('should isURL well', () => {
+      const stub = sinon.stub(process, 'version').value('6.0.0');
+
+      expect(utils.isURL({})).to.equal(false);
+
+      stub.restore();
+    });
+  });
+
+  describe('setInternalProperty', () => {
+
+    it('should setInternalProperty well', () => {
+      const obj = {
+        a: 1
+      };
+
+      utils.setInternalProperty(obj, '__readonly__', 2);
+
+      function setValue(obj, target, value) {
+        obj[target] = value;
+      }
+
+      try {
+        expect(setValue(obj, '__readonly__', 3)).to.throws('TypeError');
+      } catch(e) {}
+
+      utils.setInternalProperty(obj, '__writable__', 3, true);
+
+      expect(setValue(obj, '__writable__', 4)).not.throws;
+
+      expect(Object.keys(obj).length).to.equal(1);
+    });
+  });
 });

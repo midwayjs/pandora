@@ -1,3 +1,4 @@
+import { Socket } from 'net';
 import * as http from 'http';
 import { IncomingMessage, ServerResponse } from 'http';
 import * as is from 'is-type-of';
@@ -139,12 +140,13 @@ export class HttpServerPatcher extends Patcher {
     const tracer = this.tracer;
 
     if (!tracer) {
+      this.logger.info('[HttpServerPatcher] no tracer, create span is null.');
       return null;
     }
 
     const context = tracer.extract('http', req);
     const tags = this.buildTags(req);
-    let traceName = `HTTP:${tags[this.tagName('method')]}:${tags[this.tagName('url')]}`;
+    let traceName = `HTTP:${tags[this.tagName('method')]}:${tags[this.tagName('pathname')]}`;
 
     if (this.options.traceName && is.function(this.options.traceName)) {
       traceName = this.options.traceName(tags);
@@ -167,7 +169,7 @@ export class HttpServerPatcher extends Patcher {
 
     return {
       [this.tagName('method')]: req.method.toUpperCase(),
-      [this.tagName('url')]: extractPath(req.url),
+      [this.tagName('pathname')]: extractPath(req.url),
       [this.tagName('client')]: false,
       is_entry: true
     };
@@ -179,7 +181,7 @@ export class HttpServerPatcher extends Patcher {
     let secure = false;
 
     try {
-      secure = (<any>req.connection).encrypted || req.headers[ 'x-forwarded-proto' ] === 'https';
+      secure = (req.connection as Socket & { encrypted: boolean }).encrypted || req.headers[ 'x-forwarded-proto' ] === 'https';
     } catch (error) {
       this.logger.error('[HttpServerPatcher] check secure failed when record full url. ', error);
     }
@@ -190,36 +192,36 @@ export class HttpServerPatcher extends Patcher {
   }
 
   recordFullUrl(span: IPandoraSpan, req: IncomingMessage): void {
-    if (this.options.recordFullUrl) {
-      const fullUrl = this.getFullUrl(req);
+    if (!this.options.recordFullUrl) return;
 
-      span.log({
-        fullUrl
-      });
-    }
+    const fullUrl = this.getFullUrl(req);
+
+    span.log({
+      fullUrl
+    });
   }
 
   recordSearchParams(span: IPandoraSpan, req: IncomingMessage): void {
-    if (this.options.recordSearchParams) {
-      const uri = req.url;
+    if (!this.options.recordSearchParams) return;
 
-      /* istanbul ignore next */
-      if (uri) {
-        let parsed;
+    const uri = req.url;
 
-        try {
-          parsed = parse(uri, true);
-        } catch (error) {
-          this.logger.error('[HttpServerPatcher] record search params error. ', error);
-          return;
-        }
+    /* istanbul ignore next */
+    if (uri) {
+      let parsed;
 
-        const searchParams = parsed.query;
-
-        span.log({
-          searchParams
-        });
+      try {
+        parsed = parse(uri, true);
+      } catch (error) {
+        this.logger.error('[HttpServerPatcher] record search params error. ', error);
+        return;
       }
+
+      const searchParams = parsed.query;
+
+      span.log({
+        searchParams
+      });
     }
   }
 

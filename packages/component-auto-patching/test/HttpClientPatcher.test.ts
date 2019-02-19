@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import ComponentTrace from 'pandora-component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { HttpClientPatcher } from '../src/patchers';
+import { DEFAULT_PROTOCOL } from '../src/constants';
 import { PandoraTracer } from 'pandora-tracer';
 import { fork } from './TestUtil';
 import * as semver from 'semver';
@@ -148,8 +149,51 @@ describe('ComponentAutoPatching -> HttpClientPatcher', function () {
     expect(tags[httpClientPatcher.tagName('remote_ip')]).to.equal('');
   });
 
+  it('should getFullUrl work well', () => {
+    const httpClientPatcher = autoPatching.instances.get('httpClient');
+
+    let res = httpClientPatcher.getFullUrl(new URL('http://www.taobao.com/'), DEFAULT_PROTOCOL);
+    expect(res).to.equal('http://www.taobao.com/');
+
+    res = httpClientPatcher.getFullUrl({
+      _defaultAgent: {
+        protocol: 'https:'
+      }
+    }, DEFAULT_PROTOCOL);
+
+    expect(res).to.equal('https://localhost/');
+
+    res = httpClientPatcher.getFullUrl({
+      _defaultAgent: {}
+    }, DEFAULT_PROTOCOL);
+
+    expect(res).to.equal('http://localhost/');
+
+    res = httpClientPatcher.getFullUrl(new URL('http://www.taobao.com:8080/'), DEFAULT_PROTOCOL);
+
+    expect(res).to.equal('http://www.taobao.com:8080/');
+  });
+
+  it('should work well without span', () => {
+    const httpClientPatcher = autoPatching.instances.get('httpClient');
+
+    expect(httpClientPatcher.handleRequestError(null)).not.throw;
+
+    const stub = sinon.stub(httpClientPatcher, 'options').value({
+      recordResponse: false
+    });
+
+    expect(httpClientPatcher.recordResponse(null)).not.throw;
+
+    stub.restore();
+  });
+
   it('should remote tracing work', (done) => {
     fork('http-client/HttpClientTracing', done);
+  });
+
+  it('should record full url', (done) => {
+    fork('http-client/HttpClientFullUrl', done);
   });
 
   it('should work well when remote tracing throw error', (done) => {

@@ -14,7 +14,7 @@ export default class HttpServerFixture extends Fixture {
           enabled: true,
           klass: HttpServerPatcher,
           traceName: function traceName(tags) {
-            return `HTTP-Custom:${tags['http.method']}:${tags['http.url']}`;
+            return `HTTP-Custom:${tags['http.method']}:${tags['http.pathname']}`;
           }
         }
       }
