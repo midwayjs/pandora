@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-auto-patching",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Pandora 2 module auto patching for trace and console",
   "main": "dist/ComponentAutoPatching",
   "typings": "dist/ComponentAutoPatching.d.ts",
