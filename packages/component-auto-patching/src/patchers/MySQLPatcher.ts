@@ -63,7 +63,6 @@ export class MySQLPatcher extends Patcher {
   }
 
   recordQueryInfo(span: IPandoraSpan, query: Query, error: Error) {
-    span.setTag(this.tagName('method'), 'query');
     this.recordTable(span, query);
     this.recordConnectionInfo(span, query);
     this.recordSql(span, query);
@@ -96,7 +95,7 @@ export class MySQLPatcher extends Patcher {
       this.logger.info(`parse sql error, origin sql is ${sql}. `, error);
     }
 
-    span.setTag(this.tagName('operation'), operation);
+    span.setTag(this.tagName('method'), operation);
     span.setTag(this.tagName('table'), collection);
   }
 
@@ -138,7 +137,7 @@ export class MySQLPatcher extends Patcher {
       }
 
       span.setTag(this.tagName('host'), host);
-      span.setTag(this.tagName('portPath'), portPath);
+      span.setTag(this.tagName('port'), portPath);
       span.setTag(this.tagName('database'), database);
     } else {
       this.logger.info('[MySQLPatcher] query without connection info.');
@@ -197,7 +196,9 @@ export class MySQLPatcher extends Patcher {
       this.shimmer.wrap(Connection, 'createQuery', function createQueryWrapper(createQuery) {
 
         return function wrappedCreateQuery(this: Connection, sql, values, cb) {
+          const encodeStart = Date.now();
           const query = createQuery.apply(this, arguments);
+          const encodeRt = Date.now() - encodeStart;
 
           // pool 会在 connection.query 前调用一次 createQuery，避免重复追踪
           if (self.isQueryTraced(query)) {
@@ -211,6 +212,7 @@ export class MySQLPatcher extends Patcher {
             return query;
           }
 
+          span.setTag(self.tagName('encode_rt'), encodeRt);
           self.queryTraced(query);
           self.transformSql(span, query);
           self.cls.bindEmitter(query);

@@ -223,7 +223,7 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     });
 
     expect(tags.get('mysql.host')).to.equal(os.hostname());
-    expect(tags.get('mysql.portPath')).to.equal('/tmpdir/123.sock');
+    expect(tags.get('mysql.port')).to.equal('/tmpdir/123.sock');
     expect(tags.get('mysql.database')).to.equal('Unknown');
     tags.clear();
 
@@ -238,7 +238,7 @@ describe('ComponentAutoPatching -> MySQLPatcher', function () {
     });
 
     expect(tags.get('mysql.host')).to.equal('30.30.30.30');
-    expect(tags.get('mysql.portPath')).to.equal(3036);
+    expect(tags.get('mysql.port')).to.equal(3036);
     expect(tags.get('mysql.database')).to.equal('pandora');
 
     const spy = sinon.spy(consoleLogger, 'info');

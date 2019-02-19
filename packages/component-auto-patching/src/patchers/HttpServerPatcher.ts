@@ -144,7 +144,7 @@ export class HttpServerPatcher extends Patcher {
 
     const context = tracer.extract('http', req);
     const tags = this.buildTags(req);
-    let traceName = `HTTP:${tags[this.tagName('method')]}:${tags[this.tagName('pathname')]}`;
+    let traceName = `HTTP:${tags[this.tagName('method')]}:${tags[this.tagName('url')]}`;
 
     if (this.options.traceName && is.function(this.options.traceName)) {
       traceName = this.options.traceName(tags);
@@ -167,7 +167,7 @@ export class HttpServerPatcher extends Patcher {
 
     return {
       [this.tagName('method')]: req.method.toUpperCase(),
-      [this.tagName('pathname')]: extractPath(req.url),
+      [this.tagName('url')]: extractPath(req.url),
       [this.tagName('client')]: false,
       is_entry: true
     };
