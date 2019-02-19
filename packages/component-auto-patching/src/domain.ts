@@ -113,6 +113,8 @@ export interface HttpClientPatcherOptions extends PatcherOptions {
   maxResponseSize?: number;
   // 请求结果处理函数
   responseTransformer?: ResponseTransformer;
+  // 是否记录完整请求 URL，记录在 log 里
+  recordFullUrl?: boolean;
   // 是否开启下游追踪，开启会在请求中植入参数
   tracing?: boolean;
 }
@@ -128,10 +130,10 @@ export interface HttpClientTags extends Tags {
 
 export type HttpRequestCallback = (res: IncomingMessage) => void;
 
-export interface ExIncomingMessage extends IncomingMessage {
-  __responseSize: number;
-  __chunks: Buffer[];
-}
+export type ExIncomingMessage = IncomingMessage & {
+  __responseSize__: number;
+  __chunks__: Buffer[];
+};
 
 export type SQLMask = (sql: string) => string;
 
@@ -152,3 +154,5 @@ export interface MySQLTags extends Tags {
   'mysql.table'?: boolean;
   'mysql.operation'?: number;
 }
+
+export type MySQLCallback = (error: Error, results: [], fields: []) => void;
