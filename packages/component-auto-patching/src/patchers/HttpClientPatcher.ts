@@ -123,7 +123,9 @@ export class HttpClientPatcher extends Patcher {
       // defaultPort: https://github.com/nodejs/node/blob/eb664c3b6df2ec618fa1c9339dbd418e858bfcfa/lib/_http_agent.js#L48
       [this.tagName('port')]: options.port || options._defaultAgent && (options._defaultAgent as Agent & { defaultPort: number }).defaultPort || DEFAULT_PORT,
       // use '/' default, like node.js
-      [this.tagName('pathname')]: options.path || DEFAULT_PATH
+      [this.tagName('pathname')]: options.path || DEFAULT_PATH,
+      // TODO: get request size
+      [this.tagName('request_size')]: 0
     };
   }
 
@@ -274,7 +276,7 @@ export class HttpClientPatcher extends Patcher {
 
     span.setTag(this.tagName('status_code'), res.statusCode);
     span.setTag(this.tagName('remote_ip'), remoteIp);
-    span.setTag(this.tagName('response_size'), responseSize);
+    span.setTag(this.tagName('response_size'), responseSize || 0);
   }
 
   responseTransformer(buffer: Buffer, res?: ExIncomingMessage): string {
