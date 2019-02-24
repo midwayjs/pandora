@@ -14,6 +14,7 @@ export interface ICoreSDKOptions {
 }
 
 export interface IComponentDeclaration {
+  enable?: boolean;
   name: string;
   path: string;
   dependencies?: string[];

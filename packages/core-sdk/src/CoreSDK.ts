@@ -176,7 +176,10 @@ export class CoreSDK {
   protected loadComponentsFromConfig() {
     const components: {[name: string]: Partial<IComponentDeclaration>} = this.config.components;
     for(const name of Object.keys(components)) {
-      const {path, configDir} = components[name];
+      const {path, configDir, enable} = components[name];
+      if(enable === false) {
+        continue;
+      }
       const resolvedPath = resolve.sync(path, {
         basedir: configDir,
         extensions: ['.js', '.ts']
