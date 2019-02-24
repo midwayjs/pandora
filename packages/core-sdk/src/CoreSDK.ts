@@ -137,6 +137,14 @@ export class CoreSDK {
   }
 
   protected loadConfigFromDefaultPlaces() {
+
+    if(this.options.extendConfig) {
+      for(const {config, configDir} of this.options.extendConfig) {
+        this.loadConfig(config, configDir);
+      }
+    }
+
+    // 用户配置
     const configLoadDirs = ['/etc/', os.homedir(), process.cwd()];
     for(const dir of configLoadDirs) {
       try {
@@ -148,11 +156,6 @@ export class CoreSDK {
       }
     }
 
-    if(this.options.extendConfig) {
-      for(const {config, configDir} of this.options.extendConfig) {
-        this.loadConfig(config, configDir);
-      }
-    }
   }
 
   protected loadConfig(extConfig: any, configDir: string, reverseExtend: boolean = false) {
