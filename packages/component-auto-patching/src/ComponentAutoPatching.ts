@@ -20,7 +20,10 @@ import {
     patchers: {
       global: {
         enabled: true,
-        klass: GlobalPatcher
+        klass: GlobalPatcher,
+        recordConsole: true,
+        recordUnhandled: true,
+        recordFatal: true
       },
       httpServer: {
         enabled: true,
