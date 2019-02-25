@@ -55,14 +55,6 @@ export class PandoraSpanContext extends SpanContext {
     this._baggage = baggage;
   }
 
-  get userData(): Baggage {
-    return this._baggage;
-  }
-
-  set userData(baggage: Baggage) {
-    this._baggage = baggage;
-  }
-
   setBaggageItem(key: string, value: any) {
     this._baggage.set(key, value);
   }
@@ -73,5 +65,21 @@ export class PandoraSpanContext extends SpanContext {
 
   removeBaggageItem(key: string) {
     this._baggage.delete(key);
+  }
+
+  toJSON() {
+    const result = {
+      traceId: this.traceId,
+      parentId: this.parentId,
+      spanId: this.spanId
+    };
+
+    for (const [key, value] of this.baggage.entries()) {
+      if (value !== undefined) {
+        result[key] = value;
+      }
+    }
+
+    return result;
   }
 }

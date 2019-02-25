@@ -4,7 +4,7 @@ import { inherits } from 'util';
 import { PandoraSpanContext } from './PandoraSpanContext';
 import { PandoraTracer } from './PandoraTracer';
 import { PandoraReference } from './PandoraReference';
-import { convertObjectToArray } from './utils';
+import { convertObjectToArray, mapToObj } from './utils';
 import { SPAN_FINISHED } from './constants';
 import { Tag, LogData } from './domain';
 
@@ -153,6 +153,22 @@ export class PandoraSpan extends Span {
     this._duration = this._finishTime - this._startTime;
 
     (<any>this).emit(SPAN_FINISHED, this);
+  }
+
+  toJSON(): any {
+    const tags = mapToObj(this.tags);
+
+    return {
+      name: this.operationName,
+      timestamp: this.startTime,
+      duration: this.duration,
+      context: this.context(),
+      references: this._references.map((reference) => {
+        return (<PandoraSpanContext> reference.referencedContext()).toJSON();
+      }),
+      tags,
+      logs: this.logs
+    };
   }
 }
 
