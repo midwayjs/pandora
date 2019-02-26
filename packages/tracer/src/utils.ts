@@ -27,3 +27,13 @@ export function convertObjectToArray(object: {[key: string]: string}): LogItem[]
 
   return ret;
 }
+
+export function mapToObj(map: Map<string, any>): Object {
+  const obj = Object.create(null);
+
+  for (let [k, v] of map) {
+    obj[k] = v;
+  }
+
+  return obj;
+}
