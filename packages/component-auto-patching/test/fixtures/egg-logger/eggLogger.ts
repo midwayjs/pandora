@@ -39,9 +39,17 @@ export default class EggLoggerFixture extends Fixture {
         assert(data.traceId === '1234567890');
         return _done();
       }
-      if (data.errType === 'Error') {
+      if (data.errType === 'WarningError') {
         assert(data.method === 'warn');
         assert(data.message === 'warn foo');
+        assert(data.stack);
+        assert(data.path.match(/^\/tmp\/.*test_eggLoggerPatcher.log/));
+        assert(data.traceId === '1234567890');
+        return _done();
+      }
+      if (data.errType === 'Error') {
+        assert(data.method === 'error');
+        assert(data.message === 'error string foo');
         assert(data.stack);
         assert(data.path.match(/^\/tmp\/.*test_eggLoggerPatcher.log/));
         assert(data.traceId === '1234567890');
@@ -75,6 +83,7 @@ export default class EggLoggerFixture extends Fixture {
         const error = new Error('error foo');
         error.name = 'FooError';
         logger.error(error);
+        logger.error('error string foo');
         logger.log(null, 'log without level');
 
         res.end('ok');

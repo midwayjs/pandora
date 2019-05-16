@@ -4,6 +4,7 @@ import { ErrorLog } from 'pandora-component-error-log';
 import { EggLoggerPatcherOptions } from '../domain';
 import { CURRENT_CONTEXT } from '../constants';
 import { Patcher } from '../Patcher';
+import { Logger } from 'egg-logger';
 
 export class EggLoggerPatcher extends Patcher {
 
@@ -20,12 +21,12 @@ export class EggLoggerPatcher extends Patcher {
 
     this.hook(target, '^2.x||^1.6.x', (loadModule) => {
       const self = this;
-      const logger = loadModule('lib/logger.js');
-      this.eggLoggerModule = logger;
+      const TargetLogger = loadModule('lib/logger.js');
+      this.eggLoggerModule = TargetLogger;
 
-      this.shimmer.wrap(logger.prototype, 'log', function logWrapper(log) {
+      this.shimmer.wrap(TargetLogger.prototype, 'log', function logWrapper(log) {
 
-        return function wrappedLog(this: any, level, args, meta) {
+        return function wrappedLog(this: Logger, level, args, meta) {
           const _level = (level || '').toLowerCase();
 
           if (_level === 'error' || _level === 'warn') {
@@ -35,13 +36,17 @@ export class EggLoggerPatcher extends Patcher {
             try {
               if (!(error instanceof Error)) {
                 error = new Error(util.format.apply(util, args));
-                error.name = 'Error';
+                if (_level === 'warn') {
+                  error.name = 'WarningError';
+                } else {
+                  error.name = 'Error';
+                }
               }
 
               let logPath = 'egg-logger';
               const fileTrans = this.get('file');
-              if (fileTrans) {
-                logPath = fileTrans.options.file;
+              if (fileTrans &&  fileTrans['options']) {
+                logPath = fileTrans['options'].file;
               }
 
               let traceId = '';
