@@ -7,7 +7,8 @@ import {
   HttpServerPatcher,
   HttpClientPatcher,
   MySQLPatcher,
-  MySQL2Patcher
+  MySQL2Patcher,
+  EggLoggerPatcher
 } from './patchers';
 
 @componentName('autoPatching')
@@ -40,6 +41,10 @@ import {
       mysql2: {
         enabled: true,
         klass: MySQL2Patcher
+      },
+      eggLogger: {
+        enabled: true,
+        klass: EggLoggerPatcher
       }
     }
   }
