@@ -6,7 +6,7 @@
 [![Test Coverage](https://img.shields.io/codecov/c/github/midwayjs/pandora/2.x.svg)](https://codecov.io/gh/midwayjs/pandora/branch/2.x)
 [![Package Quality](http://npm.packagequality.com/shield/pandora.svg)](http://packagequality.com/#?package=pandora)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
-[![Known Vulnerabilities](https://snyk.io/test/npm/pandora/badge.svg)](https://snyk.io/test/npm/pandora)
+[![Known Vulnerabilities](https://snyk.io/test/npm/pandora@2.x.x/badge.svg)](https://snyk.io/test/npm/pandora)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/midwayjs/pandora/pulls)
 
 Node.js >= 8.2.1 required.
