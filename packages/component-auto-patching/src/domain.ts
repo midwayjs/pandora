@@ -156,3 +156,7 @@ export interface MySQLTags extends Tags {
 }
 
 export type MySQLCallback = (error: Error, results: [], fields: []) => void;
+
+export interface EggLoggerPatcherOptions extends PatcherOptions {
+
+}
