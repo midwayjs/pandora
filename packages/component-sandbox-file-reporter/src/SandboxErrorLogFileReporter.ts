@@ -20,12 +20,15 @@ export class SandboxErrorLogFileReporter implements IReporter {
   async report (data: any[]): Promise<void> {
     const globalTags = this.getGlobalTags();
     for(const errorLog of data) {
-      this.logger.write(JSON.stringify({
+      let level = 'NONE';
+      if (errorLog.method) {
+        level = errorLog.method.toUpperCase();
+      }
+      this.logger.log(level, [JSON.stringify({
         ...errorLog,
         unix_timestamp: FileReporterUtil.unix(errorLog.timestamp),
-        seed: FileReporterUtil.getSeed(),
         ...globalTags
-      }));
+      })], { raw: true });
     }
   }
   getGlobalTags() {

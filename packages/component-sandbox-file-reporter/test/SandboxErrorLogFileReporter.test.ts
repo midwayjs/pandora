@@ -3,7 +3,7 @@ import {SandboxErrorLogFileReporter} from '../src/SandboxErrorLogFileReporter';
 import {tmpdir} from 'os';
 import {join} from 'path';
 import {FileLoggerManager} from 'pandora-component-file-logger-service';
-import {readFileSync} from 'fs';
+import {readFileSync, writeFileSync} from 'fs';
 import {FileReporterUtil} from '../src/FileReporterUtil';
 
 describe('SandboxErrorLogFileReporter', () => {
@@ -34,7 +34,7 @@ describe('SandboxErrorLogFileReporter', () => {
 
     const obj = {
       timestamp: Date.now(),
-      method: 'method',
+      method: 'error',
       errType: 'errType',
       message: 'testMsg',
       stack: 'testStack',
@@ -47,6 +47,7 @@ describe('SandboxErrorLogFileReporter', () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const targetPath = join(tmpLogsDir, appName, 'sandbox-errors.log');
     const contentRaw = readFileSync(targetPath).toString();
+    writeFileSync(targetPath, '');
     const json = JSON.parse(contentRaw);
 
     expect(json).to.be.include({
@@ -54,6 +55,47 @@ describe('SandboxErrorLogFileReporter', () => {
       unix_timestamp: FileReporterUtil.unix(obj.timestamp),
       ...ctx.config.sandboxFileReporter.globalTags
     });
+
+  });
+
+
+  it('should skip log when use lower level method', async () => {
+
+    const ctx: any = {
+      appName,
+      fileLoggerManager: new FileLoggerManager({stopWriteWhenNoSupervisor: false}),
+      config: {
+        sandboxFileReporter: {
+          logsDir: tmpLogsDir,
+          globalTags: {
+            testGlobalTag: 1
+          },
+          error: {
+            type: 'size',
+            maxFileSize: 100 * 1024 * 1024,
+            stdoutLevel: 'NONE',
+            level: 'ERROR'
+          },
+        }
+      }
+    };
+
+    const obj = {
+      timestamp: Date.now(),
+      method: 'warn',
+      errType: 'errType',
+      message: 'testMsg',
+      stack: 'testStack',
+      traceId: 'testTraceId',
+      path: 'testPAth'
+    };
+
+    const sandboxErrorLogFileReporter = new SandboxErrorLogFileReporter(ctx);
+    await sandboxErrorLogFileReporter.report([obj]);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const targetPath = join(tmpLogsDir, appName, 'sandbox-errors.log');
+    const contentRaw = readFileSync(targetPath).toString();
+    expect(contentRaw).to.equal('');
 
   });
 

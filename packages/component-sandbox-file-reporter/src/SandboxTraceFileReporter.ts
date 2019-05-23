@@ -40,7 +40,6 @@ export class SandboxTraceFileReporter implements IReporter {
         // rename traceName to name
         traceName: undefined,
         name: traceData2nd.traceName,
-        seed: FileReporterUtil.getSeed(),
         unix_timestamp: FileReporterUtil.unix(traceData2nd.timestamp),
         ...globalTags
       }));
