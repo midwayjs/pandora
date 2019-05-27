@@ -21,7 +21,7 @@ export class SandboxMetricsFileReporter implements IReporter {
   async report (data: any[]): Promise<void> {
     const globalTags = this.getGlobalTags();
     for(const metricObject of data) {
-      this.logger.write(JSON.stringify({
+      this.logger.log('INFO', [JSON.stringify({
         ...metricObject,
         ...globalTags,
         tags: {
@@ -29,7 +29,7 @@ export class SandboxMetricsFileReporter implements IReporter {
           ...globalTags
         },
         unix_timestamp: FileReporterUtil.unix(metricObject.timestamp),
-      }));
+      })], { raw: true });
     }
   }
   getGlobalTags() {

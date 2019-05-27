@@ -34,7 +34,7 @@ export class SandboxTraceFileReporter implements IReporter {
           }
         }
       }
-      this.logger.write(JSON.stringify({
+      this.logger.log('INFO', [JSON.stringify({
         ...traceData2nd,
 
         // rename traceName to name
@@ -42,7 +42,7 @@ export class SandboxTraceFileReporter implements IReporter {
         name: traceData2nd.traceName,
         unix_timestamp: FileReporterUtil.unix(traceData2nd.timestamp),
         ...globalTags
-      }));
+      })], { raw: true });
     }
   }
   getGlobalTags() {

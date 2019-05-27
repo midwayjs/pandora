@@ -3,6 +3,7 @@ import * as $ from 'pandora-dollar';
 import {expect} from 'chai';
 import {FileLoggerManager} from '../src/FileLoggerManager';
 import Path = require('path');
+import fs = require('fs');
 import mkdirp = require('mkdirp');
 import mm = require('mm');
 
@@ -45,6 +46,38 @@ describe('#FileLoggerManager', () => {
       logger.warn('warn');
       logger.error('error');
     });
+
+    it('should skip write file works well', async () => {
+
+      fs.writeFileSync(Path.join(tmpDir, 'levels'), '');
+      let logger = loggerManager.createLogger('levels', {
+        name: 'levels',
+        dir: tmpDir,
+        stdoutLevel: 'ALL',
+        level: 'ALL'
+      });
+      logger.debug('debug');
+      logger.error('error');
+      await new Promise(r => setTimeout(r, 1000));
+      let content = fs.readFileSync(Path.join(tmpDir, 'levels'));
+      expect(content.toString()).to.be.equal('');
+
+      mm(loggerManager, 'stopWriteWhenNoSupervisor', false);
+      logger = loggerManager.createLogger('levels', {
+        name: 'levels',
+        dir: tmpDir,
+        stdoutLevel: 'ALL',
+        level: 'ALL'
+      });
+      logger.debug('debug');
+      logger.error('error');
+      await new Promise(r => setTimeout(r, 1000));
+
+      content = fs.readFileSync(Path.join(tmpDir, 'levels'));
+      expect(content.toString().split('\n').length).to.be.equal(3);
+
+    });
+
     it('should reload be ok', async () => {
       loggerManager.testReload();
       loggerManager.testReloadAllUUID();
