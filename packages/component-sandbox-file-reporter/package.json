@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-sandbox-file-reporter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Pandora 2 Component Sandbox File Reporter",
   "main": "dist/ComponentSandboxFileReporter",
   "typings": "dist/ComponentSandboxFileReporter.d.ts",
@@ -26,7 +26,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-file-logger-service": "^2.1.0",
+    "pandora-component-file-logger-service": "^2.1.1",
     "pandora-component-reporter-manager": "^2.1.0"
   },
   "nyc": {
