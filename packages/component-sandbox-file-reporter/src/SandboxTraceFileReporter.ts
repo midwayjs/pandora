@@ -34,16 +34,15 @@ export class SandboxTraceFileReporter implements IReporter {
           }
         }
       }
-      this.logger.write(JSON.stringify({
+      this.logger.log('INFO', [JSON.stringify({
         ...traceData2nd,
 
         // rename traceName to name
         traceName: undefined,
         name: traceData2nd.traceName,
-        seed: FileReporterUtil.getSeed(),
         unix_timestamp: FileReporterUtil.unix(traceData2nd.timestamp),
         ...globalTags
-      }));
+      })], { raw: true });
     }
   }
   getGlobalTags() {
