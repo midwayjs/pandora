@@ -69,7 +69,7 @@ export interface LookupPackage extends MessagePackage {
 }
 
 export interface ForceReplyFn {
-  (ReplyPackage): void;
+  (reply: ReplyPackage): void;
 }
 
 export interface SelectedInfo {
