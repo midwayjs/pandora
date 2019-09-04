@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
 import ComponentHttpServerMetrics, {MetricsStat} from '../src/ComponentHttpServerMetrics';
 import { MetricsServerManager } from 'metrics-common';
+import * as mm from 'mm';
 
 describe('ComponentHttpServerMetrics', () => {
 
@@ -13,7 +14,8 @@ describe('ComponentHttpServerMetrics', () => {
   it('should recordRequest() be ok', () => {
     const fakeMetricsManager = new MetricsServerManager;
     const ctx: any = {
-      metricsManager: fakeMetricsManager
+      metricsManager: fakeMetricsManager,
+      mode: 'worker',
     };
     const componentHttpServerMetrics: ComponentHttpServerMetrics = new ComponentHttpServerMetrics(ctx);
     componentHttpServerMetrics.recordRequest({
@@ -42,4 +44,19 @@ describe('ComponentHttpServerMetrics', () => {
     expect(rtTotalErr.toString()).to.be.equal('85');
   });
 
+  it('should skip pandora-agent and agent_worker', () => {
+    const fakeMetricsManager = new MetricsServerManager;
+    let componentHttpServerMetrics: ComponentHttpServerMetrics = new ComponentHttpServerMetrics({
+      metricsManager: fakeMetricsManager,
+      mode: 'supervisor',
+    });
+    expect(componentHttpServerMetrics.globalCompass).to.be.undefined;
+    mm(process, 'argv', ['', '/path/to/executable/agent_worker.js']);
+    componentHttpServerMetrics = new ComponentHttpServerMetrics({
+      metricsManager: fakeMetricsManager,
+      mode: 'worker',
+    });
+    expect(componentHttpServerMetrics.globalCompass).to.be.undefined;
+    mm.restore();
+  });
 });
