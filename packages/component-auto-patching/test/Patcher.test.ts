@@ -4,6 +4,7 @@ import { CURRENT_CONTEXT } from '../src/constants';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { consoleLogger } from 'pandora-dollar';
+import { IPandoraContext } from 'pandora-component-trace/src/domain';
 
 describe('Patcher', () => {
   let cls;
@@ -41,7 +42,7 @@ describe('Patcher', () => {
 
       expect(context.test).to.equal(1);
 
-      cp.currentContext = {
+      cp.currentContext = <IPandoraContext>{
         traceId: '1',
         traceName: '2'
       };
