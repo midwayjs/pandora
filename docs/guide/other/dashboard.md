@@ -24,7 +24,7 @@ Then, open `http://127.0.0.1:9081`, now we can see the dashboard.
 By default, the dashboard listen on `http://127.0.0.1:9081`, you can also change it.
  
 ```bash
-pandora start --name dashboard --env "DASHBORAD_PORT=9081 DASHBOARD_HOST=0.0.0.0" --npm pandora-dashboard
+pandora start --name dashboard --env "DASHBOARD_PORT=9081 DASHBOARD_HOST=0.0.0.0" --npm pandora-dashboard
 ```
 
 ## Screenshots
