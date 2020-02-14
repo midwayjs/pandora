@@ -55,6 +55,26 @@ describe('ActuatorRestServer', function () {
     });
   });
 
+  it('should post unsupport encoding be ok', async () => {
+    const encodingEndPoint: IEndPoint = {
+      prefix: '/encoding',
+      route(router) {
+        router.post('/', (ctx) => {
+          console.log('ctx.request.body: ', ctx.request.body);
+          ctx.ok(ctx.request.body);
+        });
+      }
+    };
+    endPointManager.register(encodingEndPoint);
+    const result = await request(actuatorRestServer.server)
+      .post('/encoding/')
+      .send('encoding')
+      .set('Content-Type', 'text/plain; charset=ISO-8859-1')
+      .set('Content-Encoding', 'UTF-8')
+      .expect(200);
+    expect(result.body.data).to.equal('encoding');
+  });
+
   it('should endPoint fail result be ok', async () => {
     const testEndPoint: IEndPoint = {
       prefix: '/test2',
