@@ -19,19 +19,13 @@ export class ActuatorRestServer {
     const httpConfig = this.config.http;
     const app = this.app;
 
-    app.use((ctx, next) => {
-      if (ctx.headers) {
-        const encoding = ctx.headers['content-encoding'];
-        if (encoding) {
-          if (ActuatorRestServer.supportEncoding.indexOf(encoding) < 0) {
-            ctx.headers['content-encoding'] = ActuatorRestServer.defaultEncoding;
-          }
-        }
-      }
-      return next();
-    });
-
-    app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }));
+    if (httpConfig.middlewares) {
+      httpConfig.middlewares.forEach((middleware) => {
+        app.use(middleware);
+      });
+    } else {
+      app.use(bodyParser());
+    }
 
     let homeRouter = new Router();
     homeRouter.get('/', async (ctx) => {
