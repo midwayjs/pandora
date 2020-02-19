@@ -3,9 +3,6 @@ import bodyParser = require('koa-bodyparser');
 import Router = require('koa-router');
 
 export class ActuatorRestServer {
-  static supportEncoding = ['gzip', 'deflate', 'identity'];
-  static defaultEncoding = 'identity';
-
   server;
   app: KOA;
   config: any;
