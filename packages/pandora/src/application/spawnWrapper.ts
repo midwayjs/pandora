@@ -36,6 +36,8 @@ async function main () {
   }
 
   // unref all active handles
+  // after node.js v11, Timer objects no longer show up in process._getActiveHandles()
+  // see: https://github.com/nodejs/node/issues/25806
   try {
     for(const handler of (<any> process)._getActiveHandles()) {
       try {

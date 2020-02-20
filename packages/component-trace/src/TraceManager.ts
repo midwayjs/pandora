@@ -170,6 +170,8 @@ export class TraceManager extends EventEmitter {
           this.logger.error('[TraceManager] interval dump data error. ', error);
         }
       }, this.interval);
+      // non blocking
+      this.intervalId.unref();
     }
   }
 

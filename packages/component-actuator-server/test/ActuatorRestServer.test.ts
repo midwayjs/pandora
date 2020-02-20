@@ -3,6 +3,7 @@ import {ActuatorRestServer} from '../src/ActuatorRestServer';
 import {EndPointManager} from '../src/EndPointManager';
 import request = require('supertest');
 import {IEndPoint} from '../src/domain';
+import bodyParser = require('koa-bodyparser');
 
 describe('ActuatorRestServer', function () {
 
@@ -80,5 +81,54 @@ describe('ActuatorRestServer', function () {
     expect(actuatorRestServer.server == null).to.be.ok;
   });
 
+  it('should support custom middlewares', async () => {
+    const ctx: any = {
+      config: {
+        actuatorServer: {
+          http: {
+            enabled: true,
+            host: '127.0.0.1',
+            port: 7003,
+            middlewares: [
+              bodyParser(),
+              async (ctx, next) => {
+                if (ctx.headers['x-auth'] === 'true') {
+                  return next();
+                } else {
+                  return ctx.body = 'deny';
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const restServer = new ActuatorRestServer(ctx);
+    const manager = new EndPointManager(restServer);
+
+    await restServer.start();
+
+    const endpoint: IEndPoint = {
+      prefix: '/middleware',
+      route(router) {
+        router.get('/', (ctx) => {
+          return ctx.body = 'ok';
+        });
+      }
+    };
+
+    manager.register(endpoint);
+    const deny = await request(restServer.server)
+      .get('/middleware')
+      .expect(200);
+    expect(deny.text).to.equal('deny');
+
+    const ok = await request(restServer.server)
+      .get('/middleware')
+      .set('x-auth', 'true')
+      .expect(200);
+    expect(ok.text).to.equal('ok');
+  });
 
 });

@@ -3,7 +3,6 @@ import bodyParser = require('koa-bodyparser');
 import Router = require('koa-router');
 
 export class ActuatorRestServer {
-
   server;
   app: KOA;
   config: any;
@@ -16,7 +15,15 @@ export class ActuatorRestServer {
   start(): Promise<void> | void {
     const httpConfig = this.config.http;
     const app = this.app;
-    app.use(bodyParser());
+
+    if (httpConfig.middlewares) {
+      httpConfig.middlewares.forEach((middleware) => {
+        app.use(middleware);
+      });
+    } else {
+      app.use(bodyParser());
+    }
+
     let homeRouter = new Router();
     homeRouter.get('/', async (ctx) => {
       ctx.body = 'Pandora restful service start successful';

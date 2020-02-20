@@ -38,6 +38,8 @@ export class MetricsOscillator extends EventEmitter {
           debug('collect error', err);
         });
       }, interval);
+      // non blocking
+      this.intervalHandler.unref();
     }
   }
 
