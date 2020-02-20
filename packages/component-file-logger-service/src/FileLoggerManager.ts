@@ -84,6 +84,16 @@ export class FileLoggerManager {
     }
   }
 
+  private nonBlocking(logger): void {
+    const fileTransport = logger.get('file');
+    if (fileTransport) {
+      const timer = fileTransport._timer;
+      if (timer) {
+        timer.unref();
+      }
+    }
+  }
+
   public createLogger(loggerName, loggerConfig: LoggerConfig): ILogger {
 
     loggerConfig = Object.assign({}, DEFAULT_LOGGER_CONFIG, loggerConfig);
@@ -98,6 +108,8 @@ export class FileLoggerManager {
       consoleLevel: loggerConfig.stdoutLevel,
       eol: loggerConfig.eol
     });
+    // make logger non blocking
+    this.nonBlocking(newLogger);
     this.loggerMap.set(uuid, newLogger);
     this.sendRotationStrategy({
       uuid: uuid,
