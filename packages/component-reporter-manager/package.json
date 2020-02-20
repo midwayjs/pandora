@@ -1,6 +1,6 @@
 {
   "name": "pandora-component-reporter-manager",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Pandora 2 Component Reporter Manager",
   "main": "dist/ComponentReporterManager",
   "typings": "dist/ComponentReporterManager.d.ts",
@@ -26,9 +26,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-error-log": "^2.1.2",
-    "pandora-component-metrics": "^2.1.2",
-    "pandora-component-trace": "^2.1.2"
+    "pandora-component-error-log": "^2.2.0",
+    "pandora-component-metrics": "^2.2.0",
+    "pandora-component-trace": "^2.2.0"
   },
   "nyc": {
     "include": [
