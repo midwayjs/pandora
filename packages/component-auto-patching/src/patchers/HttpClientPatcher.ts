@@ -45,7 +45,6 @@ export class HttpClientPatcher extends Patcher {
     } else if (url && url instanceof URL) {
       _url = urlToOptions(url);
     } else {
-      _options = url;
       _url = null;
     }
 
