@@ -13,3 +13,4 @@ docs/api-reference
 _book
 coverage
 run
+*.tsbuildinfo

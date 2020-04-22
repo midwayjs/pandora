@@ -1,23 +1,10 @@
 {
-    "compilerOptions": {
-        "target": "ES2017",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "stripInternal": true,
-        "pretty": true,
-        "declaration": true,
-        "sourceMap": true,
-        "outDir": "dist"
-    },
-    "exclude": [
-        "dist",
-        "node_modules",
-        "test"
-    ],
-    "files": [
-      "src/ComponentProcessInfo"
-    ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+  },
+  "files": [
+    "src/ComponentProcessInfo.ts"
+  ]
 }

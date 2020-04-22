@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "stripInternal": true,
+    "pretty": true,
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "test",
+    "doc"
+  ]
+}
