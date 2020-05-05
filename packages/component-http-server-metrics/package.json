@@ -5,7 +5,7 @@
   "main": "dist/ComponentHttpServerMetrics",
   "typings": "dist/ComponentHttpServerMetrics.d.ts",
   "scripts": {
-    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "build": "tsc -p .",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
     "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
@@ -21,7 +21,7 @@
     "@types/chai": "^3.5.2",
     "@types/extend": "^3.0.0",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.5.2",
+    "@types/node": "^12.0.0",
     "chai": "^3.5.0",
     "metrics-common": "^1.1.6",
     "mm": "^2.1.0",

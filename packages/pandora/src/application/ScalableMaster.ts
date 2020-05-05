@@ -117,7 +117,8 @@ export class ScalableMaster {
       return new Promise((resolve) => {
         let setting = worker._clusterSettings;
         if (setting) {
-          cluster.settings = setting;
+          // TODO: This object is not intended to be changed or set manually
+          (cluster as any).settings = setting;
           cluster.setupMaster();
         }
         const newWorker: any = cluster.fork();

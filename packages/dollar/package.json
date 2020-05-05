@@ -5,7 +5,7 @@
   "main": "dist/index",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "build": "tsc -p .",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
     "test": "npm run lint && true",
@@ -21,7 +21,7 @@
     "@types/chai": "^3.5.2",
     "@types/lodash": "^4.14.72",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.5.2",
+    "@types/node": "^12.0.0",
     "@types/uuid": "^2.0.30",
     "chai": "^3.5.0",
     "mm": "^2.1.0",

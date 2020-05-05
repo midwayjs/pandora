@@ -8,7 +8,7 @@
     "pandora": "bin/pandora"
   },
   "scripts": {
-    "build": "npm run lint && rm -rf ./dist && ../../node_modules/.bin/tsc",
+    "build": "tsc -p .",
     "start": "npm run build && node dist/index",
     "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
     "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
@@ -64,7 +64,7 @@
     "@types/lodash": "^4.14.105",
     "@types/mocha": "^2.2.48",
     "@types/mz": "^0.0.32",
-    "@types/node": "^8.9.5",
+    "@types/node": "^12.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mm": "^2.1.0",
