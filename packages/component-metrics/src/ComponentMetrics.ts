@@ -27,7 +27,7 @@ export default class ComponentMetrics {
 
     this.batcher = new PandoraBatcher()
     this.metricsForwarder = new MetricsForwarder()
-    this.meterProvider = new MeterProvider({ exporter: this.metricsForwarder, interval: 1000 })
+    this.meterProvider = new MeterProvider({ exporter: this.metricsForwarder, batcher: this.batcher, interval: 1000 })
     metrics.setGlobalMeterProvider(this.meterProvider)
     ctx.meterProvider = this.meterProvider
     ctx.metricsForwarder = this.metricsForwarder

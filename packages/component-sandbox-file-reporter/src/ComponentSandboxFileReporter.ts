@@ -43,9 +43,6 @@ export default class ComponentSandboxFileReporter {
 
   constructor(ctx) {
     this.ctx = ctx;
-    this.metricsFileReporter = new SandboxMetricsFileReporter(ctx)
-    this.traceFileReporter = new SandboxTraceFileReporter(ctx)
-    this.errorLogFileReporter = new SandboxErrorLogFileReporter(ctx)
   }
 
   async start() {
@@ -57,6 +54,9 @@ export default class ComponentSandboxFileReporter {
   }
 
   startAtAllProcesses() {
+    this.metricsFileReporter = new SandboxMetricsFileReporter(this.ctx)
+    this.traceFileReporter = new SandboxTraceFileReporter(this.ctx)
+    this.errorLogFileReporter = new SandboxErrorLogFileReporter(this.ctx)
     this.ctx.metricsForwarder.on('data', (data) => this.metricsFileReporter.report(data))
   }
 }

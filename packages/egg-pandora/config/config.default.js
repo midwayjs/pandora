@@ -9,5 +9,11 @@ exports.pandora = {
     nodeMetrics: {
       path: require.resolve('pandora-component-node-metrics'),
     },
+    fileLoggerService: {
+      path: require.resolve('pandora-component-file-logger-service')
+    },
+    sandboxFileReporter: {
+      path: require.resolve('pandora-component-sandbox-file-reporter')
+    }
   },
 };

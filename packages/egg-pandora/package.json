@@ -15,8 +15,10 @@
   ],
   "dependencies": {
     "pandora-core-sdk": "^2.2.0",
+    "pandora-component-file-logger-service": "^2.2.0",
     "pandora-component-metrics": "^2.2.0",
-    "pandora-component-node-metrics": "^2.1.2"
+    "pandora-component-node-metrics": "^2.1.2",
+    "pandora-component-sandbox-file-reporter": "^2.2.0"
   },
   "devDependencies": {
   },

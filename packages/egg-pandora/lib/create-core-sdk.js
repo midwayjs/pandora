@@ -2,7 +2,6 @@
 const { CoreSDK } = require('pandora-core-sdk');
 
 module.exports = (app, mode) => {
-
   const appName = app.name;
   const appDir = app.appDir || app.baseDir;
   const extendPandoraConfig = app.config.pandora;
@@ -10,8 +9,20 @@ module.exports = (app, mode) => {
   /* istanbul ignore else */
   if (extendPandoraConfig) {
     optExtendConfig = [
-      { config: extendPandoraConfig,
-        configDir: appDir },
+      {
+        config: {
+          ...extendPandoraConfig,
+          coreLogger: {
+            ...(extendPandoraConfig.coreLogger ?? {}),
+            dir: app.config.logger.dir
+          },
+          sandboxFileReporter: {
+            ...(extendPandoraConfig.sandboxFileReporter ?? {}),
+            logsDir: app.config.logger.dir
+          }
+        },
+        configDir: appDir
+      },
     ];
   }
   const extendContext = {
