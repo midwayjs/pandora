@@ -28,7 +28,7 @@ export default class ComponentIndicator {
   }
 }
 
-export * from './domain';
+export * from './types';
 export * from './IndicatorManager';
 export * from './IndicatorManagerProxy';
 export * from './IndicatorUtil';

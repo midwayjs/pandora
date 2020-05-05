@@ -1,5 +1,5 @@
 import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
-import {ErrorLog} from './domain';
+import {ErrorLog} from './types';
 import {RecentWindow} from './RecentWindow';
 
 

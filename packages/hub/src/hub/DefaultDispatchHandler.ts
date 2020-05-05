@@ -1,4 +1,4 @@
-import {DispatchHandler, HubMessage} from '../domain';
+import {DispatchHandler, HubMessage} from '../types';
 
 /**
  * DefaultDispatchHandler

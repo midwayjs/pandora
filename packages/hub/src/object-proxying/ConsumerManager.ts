@@ -1,6 +1,6 @@
 import {HubClient} from '../hub/HubClient';
 import {ObjectConsumer} from './ObjectConsumer';
-import {ConsumerExtInfo, ObjectDescription} from '../domain';
+import {ConsumerExtInfo, ObjectDescription} from '../types';
 import {DefaultObjectProxy} from './DefaultObjectProxy';
 import {ProviderManager} from './ProviderManager';
 

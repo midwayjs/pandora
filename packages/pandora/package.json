@@ -81,7 +81,7 @@
     "exclude": [
       "src/debug",
       "src/index.ts",
-      "src/domain.ts",
+      "src/types.ts",
       "typings",
       "doc",
       "test.bak",

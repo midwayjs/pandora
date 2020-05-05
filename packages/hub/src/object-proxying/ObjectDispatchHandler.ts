@@ -1,4 +1,4 @@
-import {DispatchHandler, Introspection, ObjectMessage, SubscribeMessage} from '../domain';
+import {DispatchHandler, Introspection, ObjectMessage, SubscribeMessage} from '../types';
 import {ProviderManager} from './ProviderManager';
 import {
   OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE,

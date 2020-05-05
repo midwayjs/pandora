@@ -1,6 +1,6 @@
 import {IntrospectionUtils} from './IntrospectionUtils';
 import {ObjectConsumer} from './ObjectConsumer';
-import {ObjectDescription, ObjectProxyBehaviour} from '../domain';
+import {ObjectDescription, ObjectProxyBehaviour} from '../types';
 import {HubClient} from '../hub/HubClient';
 import {OBJECT_ACTION_INVOKE} from '../const';
 

@@ -3,7 +3,7 @@ import {EndPointManager} from 'pandora-component-actuator-server';
 import {IndicatorManager} from 'pandora-component-indicator';
 import {ErrorLogManager} from './ErrorLogManager';
 import {RecentWindow} from './RecentWindow';
-import {ErrorLog} from './domain';
+import {ErrorLog} from './types';
 import {ErrorLogEndPoint} from './ErrorLogEndPoint';
 import {ErrorLogIndicator} from './ErrorLogIndicator';
 
@@ -48,4 +48,4 @@ export default class ComponentErrorLog {
 }
 
 export * from './ErrorLogManager';
-export * from './domain';
+export * from './types';

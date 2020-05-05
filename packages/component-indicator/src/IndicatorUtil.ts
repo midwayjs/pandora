@@ -1,4 +1,4 @@
-import {IndicatorResultObject, IndicatorScope} from './domain';
+import {IndicatorResultObject, IndicatorScope} from './types';
 
 export class IndicatorUtil {
   static mergeRawIndicatorResultRows(rows: IndicatorResultObject[]): IndicatorResultObject[] {

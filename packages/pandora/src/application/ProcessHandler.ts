@@ -4,7 +4,7 @@ import {
   RELOAD, RELOAD_SUCCESS, RELOAD_ERROR, PANDORA_CWD,
   State, PROCESS_READY, PROCESS_ERROR, RELOAD_TIMEOUT, SHUTDOWN_TIMEOUT, PANDORA_HOME
 } from '../const';
-import {ProcessRepresentation} from '../domain';
+import {ProcessRepresentation} from '../types';
 import {join} from 'path';
 import {consoleLogger} from 'pandora-dollar';
 

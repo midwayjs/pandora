@@ -1,5 +1,5 @@
 'use strict';
-import {ApplicationRepresentation} from '../domain';
+import {ApplicationRepresentation} from '../types';
 import {ApplicationHandler} from '../application/ApplicationHandler';
 import {consoleLogger} from 'pandora-dollar';
 import {CoreSDK} from 'pandora-core-sdk';

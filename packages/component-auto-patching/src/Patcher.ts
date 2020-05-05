@@ -1,6 +1,6 @@
 import { hook, IHook } from 'module-hook';
 import * as shimmer from './Shimmer';
-import { IShimmer, PatcherOptions } from './domain';
+import { IShimmer, PatcherOptions } from './types';
 import { ITracer, IPandoraContext } from 'pandora-component-trace';
 import * as assert from 'assert';
 import { CLS } from './cls';

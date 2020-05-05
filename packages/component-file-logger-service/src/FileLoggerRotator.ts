@@ -5,7 +5,7 @@ import moment = require('moment');
 import fs = require('mz/fs');
 import ms = require('humanize-ms');
 import {DEFAULT_ROTATION_CONFIG, ILogger, HEARTBEAT_TIME_MAX, MESSENGER_ACTION_SERVICE, MsgReloadPayload,
-  MsgHeartbeatPayload, MsgSendStrategyPayload, RotationStrategy, MsgPkg} from './domain';
+  MsgHeartbeatPayload, MsgSendStrategyPayload, RotationStrategy, MsgPkg} from './types';
 
 const ERROR_MSG_TIMER_BEEN_REMOVED = 'TIMER_BEEN_REMOVED';
 const MIN_INTERVAL = 60 * 1000;

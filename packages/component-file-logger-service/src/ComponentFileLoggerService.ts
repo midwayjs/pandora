@@ -70,4 +70,4 @@ export default class ComponentFileLoggerService {
 
 export * from './FileLoggerManager';
 export * from './FileLoggerRotator';
-export * from './domain';
+export * from './types';

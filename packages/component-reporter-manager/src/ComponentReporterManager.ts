@@ -80,6 +80,6 @@ export default class ComponentReporterManager {
 
 }
 
-export * from './domain';
+export * from './types';
 export * from './ReporterManager';
 export * from './oscillator/MetricsOscillator';

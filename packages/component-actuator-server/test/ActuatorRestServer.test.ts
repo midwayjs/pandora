@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {ActuatorRestServer} from '../src/ActuatorRestServer';
 import {EndPointManager} from '../src/EndPointManager';
 import request = require('supertest');
-import {IEndPoint} from '../src/domain';
+import {IEndPoint} from '../src/types';
 import bodyParser = require('koa-bodyparser');
 
 describe('ActuatorRestServer', function () {

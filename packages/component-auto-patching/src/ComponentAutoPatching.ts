@@ -1,6 +1,6 @@
 import { componentName, dependencies, componentConfig } from 'pandora-component-decorator';
 import { PandoraTracer } from 'pandora-tracer';
-import { AutoPatchingConfig } from './domain';
+import { AutoPatchingConfig } from './types';
 import { Patcher } from './Patcher';
 import {
   GlobalPatcher,
@@ -88,6 +88,6 @@ export * from './Patcher';
 export * from './patchers/index';
 export * from './Shimmer';
 export * from './cls';
-export * from './domain';
+export * from './types';
 export * from './constants';
 export * from './utils';

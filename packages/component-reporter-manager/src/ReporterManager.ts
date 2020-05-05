@@ -1,4 +1,4 @@
-import {IReporter} from './domain';
+import {IReporter} from './types';
 const debug = require('debug')('pandora:reporter-manager:ReporterManager');
 
 export class ReporterManager {

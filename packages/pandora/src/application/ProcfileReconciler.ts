@@ -1,7 +1,7 @@
 'use strict';
 import {makeRequire, resolveSymlink} from 'pandora-dollar';
 import { EntryClass, ApplicationRepresentation, ApplicationStructureRepresentation
-  , ProcessRepresentation } from '../domain';
+  , ProcessRepresentation } from '../types';
 import assert = require('assert');
 import {join, dirname, basename, extname} from 'path';
 import {existsSync, writeFileSync} from 'fs';

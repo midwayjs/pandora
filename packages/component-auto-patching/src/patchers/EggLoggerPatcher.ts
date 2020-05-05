@@ -1,7 +1,7 @@
 
 import * as util from 'util';
 import { ErrorLog } from 'pandora-component-error-log';
-import { EggLoggerPatcherOptions } from '../domain';
+import { EggLoggerPatcherOptions } from '../types';
 import { CURRENT_CONTEXT } from '../constants';
 import { Patcher } from '../Patcher';
 import { Logger } from 'egg-logger';

@@ -1,4 +1,4 @@
-import {Introspection} from '../domain';
+import {Introspection} from '../types';
 
 const SKIP_NAMES = ['subscribe', 'unsubscribe'];
 

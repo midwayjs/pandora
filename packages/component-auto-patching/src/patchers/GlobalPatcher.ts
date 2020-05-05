@@ -3,7 +3,7 @@ import * as events from 'events';
 import { ErrorLog, ErrorLogManager } from 'pandora-component-error-log';
 import { Patcher } from '../Patcher';
 import { CURRENT_CONTEXT } from '../constants';
-import { GlobalPatcherOptions } from '../domain';
+import { GlobalPatcherOptions } from '../types';
 
 function listenerCount(emitter, event) {
   if (emitter.listenerCount) {

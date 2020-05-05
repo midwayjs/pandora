@@ -1,7 +1,7 @@
 import * as os from 'os';
 import * as path from 'path';
 import * as extend from 'extend';
-import {IComponentDeclaration, IComponentDeclarationStrict, ICoreSDKOptions} from './domain';
+import {IComponentDeclaration, IComponentDeclarationStrict, ICoreSDKOptions} from './types';
 import {IComponent, ComponentReflector} from 'pandora-component-decorator';
 import {ComponentWeightCalculator, ISortedItem} from './ComponentWeightCalculator';
 import * as defaultConfig from './pandoraConfig';

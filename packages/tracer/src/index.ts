@@ -4,6 +4,6 @@ export * from './PandoraSpanContext';
 export * from './PandoraTracer';
 export * from './utils';
 export * from './constants';
-export * from './domain';
+export * from './types';
 export * from './codec/PandoraCodec';
 export * from './codec/PandoraHttpCodec';

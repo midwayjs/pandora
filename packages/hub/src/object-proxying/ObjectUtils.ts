@@ -1,4 +1,4 @@
-import {ObjectDescription} from '../domain';
+import {ObjectDescription} from '../types';
 
 export class ObjectUtils {
   /**

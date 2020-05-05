@@ -1,5 +1,5 @@
 import {DefaultObjectProxyBehaviour} from './DefaultObjectProxyBehaviour';
-import {ObjectDescription, ObjectProxyBehaviour} from '../domain';
+import {ObjectDescription, ObjectProxyBehaviour} from '../types';
 import {ObjectUtils} from './ObjectUtils';
 
 /**

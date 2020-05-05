@@ -1,4 +1,4 @@
-import {IIndicator, IndicatorResultObject} from './domain';
+import {IIndicator, IndicatorResultObject} from './types';
 import {IndicatorUtil} from './IndicatorUtil';
 import {IndicatorManagerProxy} from './IndicatorManagerProxy';
 import {HubFacade} from 'pandora-hub';

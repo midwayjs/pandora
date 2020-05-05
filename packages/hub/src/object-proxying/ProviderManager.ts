@@ -1,4 +1,4 @@
-import {Selector, ObjectDescription} from '../domain';
+import {Selector, ObjectDescription} from '../types';
 import {HubClient} from '../hub/HubClient';
 import {format} from 'util';
 import {ObjectDispatchHandler} from './ObjectDispatchHandler';

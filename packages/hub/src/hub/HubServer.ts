@@ -1,4 +1,4 @@
-import {ForceReplyFn, MessagePackage, PublishPackage, ReplyPackage} from '../domain';
+import {ForceReplyFn, MessagePackage, PublishPackage, ReplyPackage} from '../types';
 import {MessengerClient, MessengerServer} from 'pandora-messenger';
 import {
   HUB_SOCKET_NAME, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_MSG_DOWN,

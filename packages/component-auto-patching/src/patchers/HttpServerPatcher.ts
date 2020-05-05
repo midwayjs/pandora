@@ -10,7 +10,7 @@ import {
   RequestListener,
   HttpCreateServerOptions,
   HttpServerTags
-} from '../domain';
+} from '../types';
 import { extractPath, recordError } from '../utils';
 import { CURRENT_CONTEXT } from '../constants';
 

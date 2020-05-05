@@ -1,5 +1,5 @@
 import {ObjectConsumer} from './ObjectConsumer';
-import {Introspection} from '../domain';
+import {Introspection} from '../types';
 import {ObjectProxyBehaviourManager} from './ObjectProxyBehaviourManager';
 
 const OBJECT_CONSUMER = Symbol();

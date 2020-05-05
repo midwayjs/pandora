@@ -34,6 +34,6 @@ export default class ComponentActuatorServer {
   }
 }
 
-export * from './domain';
+export * from './types';
 export * from './ActuatorRestServer';
 export * from './EndPointManager';

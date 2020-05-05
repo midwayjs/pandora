@@ -1,5 +1,5 @@
 import * as xorshift from 'xorshift';
-import { LogItem } from './domain';
+import { LogItem } from './types';
 
 /**
  * random id

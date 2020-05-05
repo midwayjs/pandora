@@ -1,6 +1,6 @@
 import { SpanContext } from 'opentracing';
 import { getRandom64 } from './utils';
-import { Baggage, ContextOptions } from './domain';
+import { Baggage, ContextOptions } from './types';
 
 export class PandoraSpanContext extends SpanContext {
   private _traceId: string;

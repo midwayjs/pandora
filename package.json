@@ -57,7 +57,7 @@
       "**/*.d.ts",
       "**/dist",
       "**/src/index.ts",
-      "**/src/domain.ts"
+      "**/src/types.ts"
     ],
     "extension": [
       ".ts"

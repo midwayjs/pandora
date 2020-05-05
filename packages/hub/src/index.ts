@@ -20,4 +20,4 @@ export * from './object-proxying/ObjectUtils';
 export * from './config-manager/ConfigManager';
 export * from './config-manager/ConfigClient';
 
-export * from './domain';
+export * from './types';

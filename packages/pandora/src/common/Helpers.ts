@@ -1,7 +1,7 @@
 'use strict';
 import {dirname, join, resolve} from 'path';
 import {statSync} from 'fs';
-import {ApplicationRepresentation} from '../domain';
+import {ApplicationRepresentation} from '../types';
 import {consoleLogger} from 'pandora-dollar';
 
 export function calcAppName(dir?) {

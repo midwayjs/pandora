@@ -2,7 +2,7 @@
 require('source-map-support').install();
 import program = require('commander');
 import {PROCESS_ERROR, FINISH_SHUTDOWN, PROCESS_READY, SHUTDOWN, PANDORA_PROCESS} from '../const';
-import {ProcessRepresentation} from '../domain';
+import {ProcessRepresentation} from '../types';
 import assert = require('assert');
 import {makeRequire} from 'pandora-dollar';
 import {ScalableMaster} from './ScalableMaster';

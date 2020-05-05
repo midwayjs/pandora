@@ -6,7 +6,7 @@ import { PandoraTracer } from './PandoraTracer';
 import { PandoraReference } from './PandoraReference';
 import { convertObjectToArray, mapToObj } from './utils';
 import { SPAN_FINISHED } from './constants';
-import { Tag, LogData } from './domain';
+import { Tag, LogData } from './types';
 
 export class PandoraSpan extends Span {
   private __tracer: PandoraTracer;

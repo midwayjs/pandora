@@ -1,2 +1,2 @@
 export * from './ComponentReflector';
-export * from './domain';
+export * from './types';

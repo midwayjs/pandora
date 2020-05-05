@@ -1,5 +1,5 @@
 'use strict';
-import {ProcessRepresentation} from '../domain';
+import {ProcessRepresentation} from '../types';
 import cluster = require('cluster');
 import {format} from 'util';
 import * as $ from 'pandora-dollar';

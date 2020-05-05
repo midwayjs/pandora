@@ -1,5 +1,5 @@
 import * as $ from 'pandora-dollar';
-import {MsgSendStrategyPayload, DEFAULT_LOGGER_CONFIG, RotationStrategy, ILogger, MsgHeartbeatPayload, HEARTBEAT_TIME, LoggerConfig, MsgReloadPayload, MsgPkg, MESSENGER_ACTION_SERVICE} from './domain';
+import {MsgSendStrategyPayload, DEFAULT_LOGGER_CONFIG, RotationStrategy, ILogger, MsgHeartbeatPayload, HEARTBEAT_TIME, LoggerConfig, MsgReloadPayload, MsgPkg, MESSENGER_ACTION_SERVICE} from './types';
 import assert = require('assert');
 import {EggLogger} from 'egg-logger';
 import {join} from 'path';

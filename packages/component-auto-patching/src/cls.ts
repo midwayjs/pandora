@@ -1,6 +1,6 @@
 process.env.NODE_ASYNC_HOOK_NO_WARNING = 'true';
 import { EventEmitter } from 'events';
-import { ICLSNamespace, ICLSContext } from './domain';
+import { ICLSNamespace, ICLSContext } from './types';
 
 const cls = require('cls-hooked');
 

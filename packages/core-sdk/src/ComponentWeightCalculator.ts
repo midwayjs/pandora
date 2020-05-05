@@ -1,4 +1,4 @@
-import {IComponentDeclaration} from './domain';
+import {IComponentDeclaration} from './types';
 import * as assert from 'assert';
 
 export interface ISortedItem {

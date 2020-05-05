@@ -3,7 +3,7 @@ import { IPandoraSpan } from 'pandora-component-trace';
 import * as is from 'is-type-of';
 import * as os from 'os';
 import { Patcher } from '../Patcher';
-import { MySQLPatcherOptions, MySQLCallback } from '../domain';
+import { MySQLPatcherOptions, MySQLCallback } from '../types';
 import { CURRENT_CONTEXT, INSTANCE_UNKNOWN, HOST_UNKNOWN, TABLE_UNKNOWN } from '../constants';
 import { recordError, getDatabaseConfigFromQuery, setInternalProperty, isLocalhost } from '../utils';
 import * as Parser from './SqlParser';

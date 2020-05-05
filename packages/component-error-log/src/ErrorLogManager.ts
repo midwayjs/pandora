@@ -1,4 +1,4 @@
-import {ErrorLog} from './domain';
+import {ErrorLog} from './types';
 import {EventEmitter} from 'events';
 
 export class ErrorLogManager extends EventEmitter {

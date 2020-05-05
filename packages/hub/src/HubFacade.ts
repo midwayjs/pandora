@@ -1,4 +1,4 @@
-import {FacadeSetupOptions, Location, ObjectDescription, ConsumerExtInfo} from './domain';
+import {FacadeSetupOptions, Location, ObjectDescription, ConsumerExtInfo} from './types';
 import {HubClient} from './hub/HubClient';
 import {ProviderManager} from './object-proxying/ProviderManager';
 import {ConsumerManager} from './object-proxying/ConsumerManager';

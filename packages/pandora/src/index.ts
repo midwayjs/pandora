@@ -1,7 +1,7 @@
 /**
  * Interface and Constant
  */
-export * from './domain';
+export * from './types';
 export * from './const';
 
 /**

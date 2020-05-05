@@ -1,4 +1,4 @@
-import {Selector, selectorSchema} from '../domain';
+import {Selector, selectorSchema} from '../types';
 
 export class SelectorUtils {
 

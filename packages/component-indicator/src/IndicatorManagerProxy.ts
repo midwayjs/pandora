@@ -1,5 +1,5 @@
 import {IndicatorManager} from './IndicatorManager';
-import {IndicatorResultObject} from './domain';
+import {IndicatorResultObject} from './types';
 
 export class IndicatorManagerProxy {
   static SERVICE_NAME_AT_IPC_HUB = '__Pandora__IndicatorManagerProxy';

@@ -1,5 +1,5 @@
 import Router = require('koa-router');
-import {IEndPoint} from './domain';
+import {IEndPoint} from './types';
 import {ActuatorRestServer} from './ActuatorRestServer';
 
 export class EndPointManager {

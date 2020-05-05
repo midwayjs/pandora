@@ -1,4 +1,4 @@
-import {ApplicationRepresentation, ApplicationStructureRepresentation} from '../domain';
+import {ApplicationRepresentation, ApplicationStructureRepresentation} from '../types';
 import uuid = require('uuid');
 import {State} from '../const';
 import {ProcfileReconciler} from './ProcfileReconciler';

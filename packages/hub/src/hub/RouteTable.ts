@@ -1,4 +1,4 @@
-import {SelectedInfo, Selector} from '../domain';
+import {SelectedInfo, Selector} from '../types';
 import {MessengerClient} from 'pandora-messenger';
 import {SelectorUtils} from './SelectorUtils';
 import {format} from 'util';

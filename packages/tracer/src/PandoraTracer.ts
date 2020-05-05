@@ -2,7 +2,7 @@ import { Tracer, REFERENCE_CHILD_OF, REFERENCE_FOLLOWS_FROM } from 'opentracing'
 import { EventEmitter } from 'events';
 import { inherits } from 'util';
 import { PandoraSpan } from './PandoraSpan';
-import { SpanOptions } from './domain';
+import { SpanOptions } from './types';
 import { SPAN_CREATED } from './constants';
 import { PandoraCodec } from './codec/PandoraCodec';
 import { PandoraHttpCodec } from './codec/PandoraHttpCodec';

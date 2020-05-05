@@ -1,4 +1,4 @@
-import {ConsumerExtInfo, Introspection, ObjectDescription, ReplyPackage, Selector} from '../domain';
+import {ConsumerExtInfo, Introspection, ObjectDescription, ReplyPackage, Selector} from '../types';
 import {HubClient} from '../hub/HubClient';
 import {
   OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE,

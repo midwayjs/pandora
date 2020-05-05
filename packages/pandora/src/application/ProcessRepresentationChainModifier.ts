@@ -1,4 +1,4 @@
-import {ProcessRepresentation, ProcessScale} from '../domain';
+import {ProcessRepresentation, ProcessScale} from '../types';
 import {ProcfileReconciler} from './ProcfileReconciler';
 
 export class ProcessRepresentationChainModifier {

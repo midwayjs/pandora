@@ -2,7 +2,7 @@ import uuid = require('uuid');
 import {
   Location, Selector, MessagePackage, ReplyPackage, PublishPackage, ForceReplyFn,
   DispatchHandler, HubMessage, ClientOptions
-} from '../domain';
+} from '../types';
 import {MessengerClient} from 'pandora-messenger';
 import {
   HUB_SOCKET_NAME, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_PUBLISH_UP,

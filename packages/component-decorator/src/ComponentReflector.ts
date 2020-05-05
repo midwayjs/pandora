@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {IComponentConstructor} from './domain';
+import {IComponentConstructor} from './types';
 
 export class ComponentReflector {
   static COMPONENT_NAME = 'COMPONENT_NAME';

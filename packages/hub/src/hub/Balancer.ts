@@ -1,4 +1,4 @@
-import {SelectedInfo} from '../domain';
+import {SelectedInfo} from '../types';
 
 /**
  * Balancer
