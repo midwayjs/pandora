@@ -11,44 +11,18 @@ export class MetricsEndPoint implements IEndPoint {
   }
 
   route(router) {
-
     const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
 
-    router.get('/list', async (ctx, next) => {
+    router.get('/', async (ctx, next) => {
       try {
         const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
           action: 'list'
         });
-        ctx.ok(res);
+        ctx.body = res.map(it => it.data).join('\n');
       } catch (err) {
         ctx.fail(err.message);
       }
     });
-
-    router.get('/list/:group', async (ctx, next) => {
-      try {
-        const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
-          action: 'list',
-          group: ctx.params.group
-        });
-        ctx.ok(res);
-      } catch (err) {
-        ctx.fail(err.message);
-      }
-    });
-
-    router.get('/:group', async (ctx, next) => {
-      try {
-        const res = await indicatorManager.invokeAllProcessesRaw('metrics', {
-          action: 'group',
-          group: ctx.params.group
-        });
-        ctx.ok(res);
-      } catch (err) {
-        ctx.fail(err.message);
-      }
-    });
-
   }
 
 }

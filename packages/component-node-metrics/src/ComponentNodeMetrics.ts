@@ -1,4 +1,3 @@
-import {MetricName, MetricLevel, MetricsCollectPeriodConfig, MetricsManager} from 'metrics-common';
 import {componentName, dependencies} from 'pandora-component-decorator';
 import {V8GaugeSet} from './node/V8GaugeSet';
 
@@ -7,7 +6,7 @@ import {V8GaugeSet} from './node/V8GaugeSet';
 export default class ComponentNodeMetrics {
 
   ctx: any;
-  metricsCollectPeriodConfig = MetricsCollectPeriodConfig.getInstance();
+  v8Gauge: V8GaugeSet;
   constructor(ctx: any) {
     this.ctx = ctx;
   }
@@ -21,12 +20,9 @@ export default class ComponentNodeMetrics {
   }
 
   async startAtProcesses() {
-
-    const metricsManager: MetricsManager = this.ctx.metricsManager;
-
-    metricsManager.register('node', MetricName.build('node.v8'),
-      new V8GaugeSet(this.metricsCollectPeriodConfig.getCachedTimeForLevel(MetricLevel.NORMAL)));
-
+    // TODO: api.metrics.getMeterProvider doesn't reflect correct global meterProvider
+    this.v8Gauge = new V8GaugeSet(5000, this.ctx.meterProvider)
+    this.v8Gauge.getMetrics()
   }
 
 }

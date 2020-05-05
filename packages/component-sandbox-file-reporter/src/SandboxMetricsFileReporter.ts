@@ -1,10 +1,9 @@
-import {IReporter} from 'pandora-component-reporter-manager';
 import {FileLoggerManager} from 'pandora-component-file-logger-service';
 import {join} from 'path';
 import {FileReporterUtil} from './FileReporterUtil';
 
 
-export class SandboxMetricsFileReporter implements IReporter {
+export class SandboxMetricsFileReporter {
   type = 'metrics';
   ctx: any;
   logger: any;

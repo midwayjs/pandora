@@ -1,73 +1,47 @@
-import {MetricName, BaseGauge} from 'metrics-common';
-import {CachedMetricSet} from 'pandora-metrics-util';
-const debug = require('debug')('metrics:v8');
-const v8 = require('v8');
+import { getHeapSpaceStatistics, getHeapStatistics } from 'v8';
+import { MeterProvider } from '@opentelemetry/api';
+import { ObserverMetric } from '@opentelemetry/metrics';
+const debug = require('debug')('pandora:metrics:v8');
 
-export class V8GaugeSet extends CachedMetricSet {
+export class V8GaugeSet {
 
+  lastRefresh;
   heapSpaceStats = {};
   heapStats = {};
 
-  constructor(dataTTL = 5) {
-    super(dataTTL);
+  constructor(private dataTTL = 5, private meterProvider: MeterProvider) {
     this.refreshIfNecessary();
   }
 
+  refreshIfNecessary() {
+    if (Date.now() - this.lastRefresh < this.dataTTL) {
+      return
+    }
+    this.heapSpaceStats = getHeapSpaceStatistics()
+    this.heapStats = getHeapStatistics()
+    this.lastRefresh = Date.now()
+  }
+
   getMetrics() {
-
-    const self = this;
-    const gauges = [];
-
-    debug(self.heapSpaceStats);
-    debug(self.heapStats);
-    // exec first
-    self.refreshIfNecessary();
-
-    for (const key of Object.keys(self.heapSpaceStats)) {
-      gauges.push({
-        name: MetricName.build(`${key}`),
-        metric: <BaseGauge<number>> {
-          getValue() {
-            self.refreshIfNecessary();
-            return self.heapSpaceStats[key];
-          }
-        }
-      });
-    }
-
-    for (const key of Object.keys(self.heapStats)) {
-      gauges.push({
-        name: MetricName.build(key),
-        metric: <BaseGauge<number>> {
-          getValue() {
-            self.refreshIfNecessary();
-            return self.heapStats[key];
-          }
-        }
-      });
-    }
-
-    return gauges;
+    Object.keys(this.heapSpaceStats).forEach(key => {
+      // TODO: observer type not correct, see https://github.com/open-telemetry/opentelemetry-js/pull/1001
+      const observer = this.meterProvider.getMeter('v8').createObserver(`heap_space_statistics_${key}`, {labelKeys: ['pid']}) as any as ObserverMetric
+      observer.setCallback(observer => [
+        observer.observe(() => {
+          this.refreshIfNecessary()
+          return this.heapSpaceStats[key]
+        }, {pid: String(process.pid)})
+      ])
+    })
+    Object.keys(this.heapStats).forEach(key => {
+      const observer = this.meterProvider.getMeter('v8').createObserver(`heap_statistics_${key}`, {labelKeys: ['pid']}) as any as ObserverMetric
+      observer.setCallback(observer => [
+        observer.observe(() => {
+          this.refreshIfNecessary()
+          return this.heapStats[key]
+        }, {pid: String(process.pid)})
+      ])
+    })
   }
 
-  getValueInternal() {
-    let heapSpaceStats = v8.getHeapSpaceStatistics();
-    let heapStats = v8.getHeapStatistics();
-
-    for (const stats of heapSpaceStats) {
-      const spaceName = stats['space_name'];
-      /* istanbul ignore else */
-      if (spaceName) {
-        for (const key of Object.keys(stats)) {
-          if (key !== 'space_name') {
-            this.heapSpaceStats[`${spaceName}.${key}`] = stats[key];
-          }
-        }
-      }
-    }
-
-    for (const key in heapStats) {
-      this.heapStats[key] = heapStats[key];
-    }
-  }
 }

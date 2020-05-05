@@ -38,14 +38,13 @@ $ npm install -g pandora@release-2.x
 | [metrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-metrics) | 提供接口创建各类 Metrics ，供下游业务组件收集各类数据使用 |
 | [trace](https://github.com/midwayjs/pandora/tree/2.x/packages/component-trace) | 收集 Trace 信息，提供 record() 接口供下游业务接口进行写入 |
 | [errorLog](https://github.com/midwayjs/pandora/tree/2.x/packages/component-error-log) | 收集错误日志信息，提供 record() 接口供下游业务接口进行写入 |
-| [reporterManager](https://github.com/midwayjs/pandora/tree/2.x/packages/component-reporter-manager) | 向 metrics、trace、errorLog 组件收集或订阅数据，向注册的 Reporter 写入 |
 
 ### 三、其他默认集成的业务组件
 
 | 组件 | 作用 |
 | ------ | ------ |
-| [httpServerMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-http-server-metrics) | 创建相应 Metrics ，收集 HTTP Server 的 QPS、RT 等 | 
-| [nodeMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-node-metrics) | 收集 Node.js 运行时的内存分布等信息 | 
+| [httpServerMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-http-server-metrics) | 创建相应 Metrics ，收集 HTTP Server 的 QPS、RT 等 |
+| [nodeMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-node-metrics) | 收集 Node.js 运行时的内存分布等信息 |
 | [systemMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-system-metrics) | 收集操作系统内存、CPU Usage、Load 等 |
 | [processInfo](https://github.com/midwayjs/pandora/tree/2.x/packages/component-process-info) | 收集进程的静态信息，如启动参数等 |
 | [deadCounter](https://github.com/midwayjs/pandora/tree/2.x/packages/component-dead-counter) | 通过 IPC-HUB 的断线统计进程意外退出的次数 |
@@ -62,8 +61,8 @@ Pandora.js 2.0 亦提供 [pandora-component-auto-patching](https://github.com/mi
 
 | 功能 | 详细 |
 | ------ | ------ |
-| 错误日志 | console、promise 异常等皆可自动捕获 | 
-| HTTP Server QPS | 可以统计所有 HTTP Server 的 QPS、RT 等 | 
+| 错误日志 | console、promise 异常等皆可自动捕获 |
+| HTTP Server QPS | 可以统计所有 HTTP Server 的 QPS、RT 等 |
 
 链路相关：
 

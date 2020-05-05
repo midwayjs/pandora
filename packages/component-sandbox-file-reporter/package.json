@@ -26,8 +26,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-file-logger-service": "^2.2.0",
-    "pandora-component-reporter-manager": "^2.2.0"
+    "pandora-component-file-logger-service": "^2.2.0"
   },
   "nyc": {
     "include": [

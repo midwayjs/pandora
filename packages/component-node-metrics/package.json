@@ -53,8 +53,8 @@
     "src"
   ],
   "dependencies": {
-    "metrics-common": "^1.1.6",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-metrics-util": "^2.1.2"
+    "@opentelemetry/api": "^0.7.0",
+    "@opentelemetry/metrics": "^0.7.0",
+    "pandora-component-decorator": "^2.1.2"
   }
 }
