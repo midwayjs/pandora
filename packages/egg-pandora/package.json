@@ -1,0 +1,50 @@
+{
+  "name": "egg-pandora",
+  "version": "2.2.0",
+  "description": "",
+  "eggPlugin": {
+    "name": "pandora",
+    "optionalDependencies": [
+      "report"
+    ]
+  },
+  "keywords": [
+    "egg",
+    "eggPlugin",
+    "egg-plugin"
+  ],
+  "dependencies": {
+    "pandora-core-sdk": "^2.2.0",
+    "pandora-component-metrics": "^2.2.0",
+    "pandora-component-node-metrics": "^2.1.2"
+  },
+  "devDependencies": {
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test --exit",
+    "cov": "../../node_modules/.bin/nyc npm run test-local",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "files": [
+    "config",
+    "agent.js",
+    "app.js",
+    "lib",
+    "pandora-agent"
+  ],
+  "ci": {
+    "version": "8, 9"
+  },
+  "bugs": {
+    "url": "https://github.com/eggjs/egg/issues"
+  },
+  "homepage": "https://github.com/eggjs/egg-pandora#readme",
+  "author": "",
+  "license": "MIT"
+}
