@@ -1,12 +1,13 @@
-import {FileLoggerManager} from 'pandora-component-file-logger-service';
+import {FileLoggerManager, ILogger} from 'pandora-component-file-logger-service';
 import {join} from 'path';
+import * as api from '@opentelemetry/api'
+import * as tracing from '@opentelemetry/tracing'
 import {FileReporterUtil} from './FileReporterUtil';
 
-
-export class SandboxTraceFileReporter {
+export class SandboxTraceFileReporter implements tracing.SpanProcessor {
   type = 'trace';
   ctx: any;
-  logger: any;
+  logger: ILogger;
   constructor(ctx: any) {
     this.ctx = ctx;
     const {appName} = ctx;
@@ -17,35 +18,50 @@ export class SandboxTraceFileReporter {
       dir: join(config.logsDir, appName)
     });
   }
-  async report (data: any[]): Promise<void> {
-    const globalTags = this.getGlobalTags();
-    for(const traceData of data) {
-      const traceData2nd = {...traceData};
-      /* istanbul ignore else */
-      if(traceData.spans) {
-        traceData2nd.spans = [];
-        for(const span of traceData.spans) {
-          if(span.toJSON) {
-            // 如果 span 有 toJSON 接口，则使用 toJSON 接口获得序列化对象
-            traceData2nd.spans.push(span.toJSON());
-          } else {
-            traceData2nd.spans.push(span);
-          }
-        }
-      }
-      this.logger.log('INFO', [JSON.stringify({
-        ...traceData2nd,
 
-        // rename traceName to name
-        traceName: undefined,
-        name: traceData2nd.traceName,
-        unix_timestamp: FileReporterUtil.unix(traceData2nd.timestamp),
-        ...globalTags
-      })], { raw: true });
-    }
+  forceFlush() {
+
   }
+
+  onStart(span: api.Span) {
+
+  }
+
+  /**
+   * TODO: span should be a serializable representation of api.Span
+   * @param span
+   */
+  onEnd(span: any) {
+    const globalTags = this.getGlobalTags();
+    const readableSpan = {
+      traceId: span.spanContext.traceId,
+      parentId: span.parentSpanId,
+      name: span.name,
+      id: span.spanContext.spanId,
+      kind: span.kind,
+      timestamp: hrTimeToMicroseconds(span.startTime),
+      duration: hrTimeToMicroseconds(span.duration),
+      attributes: span.attributes,
+      status: span.status,
+      events: span.events,
+    };
+    this.logger.log('INFO', [JSON.stringify({
+      ...readableSpan,
+      // TODO: normative format doc
+      ...globalTags
+    })], { raw: true });
+  }
+
+  shutdown() {
+
+  }
+
   getGlobalTags() {
     const {sandboxFileReporter: config} = this.ctx.config;
     return config.globalTags;
   }
+}
+
+function hrTimeToMicroseconds(hrTime: api.HrTime): number {
+  return Math.round(hrTime[0] * 1e6 + hrTime[1] / 1e3);
 }

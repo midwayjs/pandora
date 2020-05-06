@@ -1,6 +1,7 @@
 import { componentName, dependencies, componentConfig } from 'pandora-component-decorator';
-import { TraceManager } from './TraceManager';
-import { TraceManagerOptions, ComponentTraceConfig } from './domain';
+import { NodeTracerProvider } from '@opentelemetry/node'
+import { BasicTracerProvider } from '@opentelemetry/tracing'
+import { MultiSpanProcessor } from './SpanProcessor'
 
 @componentName('trace')
 @dependencies(['indicator'])
@@ -8,67 +9,48 @@ import { TraceManagerOptions, ComponentTraceConfig } from './domain';
   trace: {
     poolSize: 100,
     interval: 15 * 1000,
-    slowThreshold: 10 * 1000
+    slowThreshold: 10 * 1000,
+    plugins: {}
   }
 })
 export default class ComponentTrace {
   ctx: any;
-  traceManager: TraceManager;
+  spanProcessor: MultiSpanProcessor
+  tracerProvider: BasicTracerProvider
 
   constructor(ctx: any) {
     this.ctx = ctx;
-    const traceConfig = ctx.config.trace || {};
-    const { kTracer, tracerConfig, ...managerConfig } = traceConfig;
-
-    const options: TraceManagerOptions = {
-      ...managerConfig,
-      logger: ctx.logger
-    };
-
-    this.traceManager = new TraceManager(options);
-    ctx.traceManager = this.traceManager;
+    this.spanProcessor = new MultiSpanProcessor()
+    ctx.spanProcessor = this.spanProcessor
   }
 
   initTracer() {
-    const ctx = this.ctx;
-    const trace: ComponentTraceConfig = ctx.config.trace || {};
-
-    if (trace) {
-      const { kTracer: Tracer } = trace;
-
-      if (Tracer) {
-        return new Tracer(ctx);
-      }
-    }
-
-    return null;
+    const tracer = this.tracerProvider.getTracer('pandora')
+    return tracer
   }
 
   async startAtSupervisor() {
-    this.traceManager.start();
+    await this.start()
   }
 
   async start() {
-    const tracer = this.initTracer();
-    if(tracer) {
-      this.traceManager.tracer = tracer;
-    }
-    this.traceManager.start();
+    // TODO: customize trace provider
+    const tracerProvider = /** instruments applied */ new NodeTracerProvider({
+      plugins: this.ctx.config.trace.plugins
+    })
+    tracerProvider.addSpanProcessor(this.spanProcessor)
+
+    tracerProvider.register({})
+    this.tracerProvider = tracerProvider
   }
 
   async stopAtSupervisor() {
-    this.traceManager.stop();
+    await this.stop()
   }
 
-  async stop() {
-    this.traceManager.stop();
-  }
+  async stop() {}
 
 }
 
-export * from './constants';
-export * from './domain';
-export * from './TraceData';
+export * from './types';
 export * from './TraceEndPoint';
-export * from './TraceIndicator';
-export * from './TraceManager';

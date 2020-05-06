@@ -57,6 +57,8 @@ export default class ComponentSandboxFileReporter {
     this.metricsFileReporter = new SandboxMetricsFileReporter(this.ctx)
     this.traceFileReporter = new SandboxTraceFileReporter(this.ctx)
     this.errorLogFileReporter = new SandboxErrorLogFileReporter(this.ctx)
+
     this.ctx.metricsForwarder.on('data', (data) => this.metricsFileReporter.report(data))
+    this.ctx.spanProcessor.addSpanProcessor(this.traceFileReporter);
   }
 }
