@@ -1,9 +1,28 @@
 {
   "lerna": "2.7.1",
   "packages": [
-    "packages/*"
+    "packages/component-actuator-server",
+    "packages/component-dead-counter",
+    "packages/component-decorator",
+    "packages/component-file-logger-service",
+    "packages/component-indicator",
+    "packages/component-ipc-hub",
+    "packages/component-metrics",
+    "packages/component-node-metrics",
+    "packages/component-sandbox-file-reporter",
+    "packages/component-trace",
+    "packages/component-core-sdk",
+    "packages/component-dollar",
+    "packages/egg-pandora",
+    "packages/hub",
+    "packages/messenger"
   ],
   "version": "2.2.0",
+  "command": {
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"]
+    }
+  },
   "registry": "https://registry.npmjs.org/",
   "npmClient": "npm"
 }

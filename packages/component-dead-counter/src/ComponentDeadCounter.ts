@@ -1,6 +1,5 @@
 import {componentName, dependencies} from 'pandora-component-decorator';
 import {HubServer, Selector} from 'pandora-hub';
-import {MetricsManager, MetricName} from 'metrics-common';
 const debug = require('debug')('pandora:ComponentDeadCounter');
 
 
@@ -8,30 +7,27 @@ const debug = require('debug')('pandora:ComponentDeadCounter');
 @dependencies(['ipcHub', 'metrics', 'errorLog'])
 export default class ComponentDeadCounter {
 
-  ctx: any;
-  constructor(ctx) {
-    if(ctx.mode === 'supervisor') {
-      const hubServer: HubServer = ctx.hubServer;
-      const metricsManager: MetricsManager = ctx.metricsManager;
-      const errorLogManager = ctx.errorLogManager;
-      const counter = metricsManager.getCounter('supervisor', MetricName.build('process_disconnected'));
-      hubServer.on('client_disconnected', (selectors: Selector[]) => {
-        try {
-          const processSelector: Selector = selectors[1];
-          counter.inc();
-          errorLogManager.record({
-            timestamp: Date.now(),
-            errType: 'processDisconnected',
-            message: 'process disconnected PID: ' + processSelector.pid,
-            stack: '',
-            traceId: '',
-            path: 'component-dead-counter'
-          });
-        } catch(err) {
-          debug(err);
-        }
-      });
-    }
-  }
+  constructor(private ctx) {}
 
+  startAtSupervisor() {
+    const counter = this.ctx.meterProvider.getMeter('supervisor').createCounter('process_disconnected').bind({})
+    const hubServer: HubServer = this.ctx.hubServer;
+    const errorLogManager = this.ctx.errorLogManager;
+    hubServer.on('client_disconnected', (selectors: Selector[]) => {
+      counter.inc();
+      try {
+        const processSelector: Selector = selectors[1];
+        errorLogManager.record({
+          timestamp: Date.now(),
+          errType: 'processDisconnected',
+          message: 'process disconnected PID: ' + processSelector.pid,
+          stack: '',
+          traceId: '',
+          path: 'component-dead-counter'
+        });
+      } catch(err) {
+        debug(err);
+      }
+    });
+  }
 }

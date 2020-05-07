@@ -23,6 +23,7 @@
     "@types/mocha": "^2.2.41",
     "@types/node": "^12.0.0",
     "chai": "^3.5.0",
+    "gts": "^2.0.0",
     "metrics-common": "^1.1.6",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
@@ -56,11 +57,7 @@
   ],
   "dependencies": {
     "debug": "^4.1.1",
-    "koa": "^2.6.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "metrics-common": "^1.1.6",
     "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2"
+    "pandora-hub": "^2.1.2"
   }
 }

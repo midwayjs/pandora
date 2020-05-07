@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
+    "gts": "^2.0.0",
     "mm": "^2.1.0",
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
