@@ -59,6 +59,7 @@
     "@opentelemetry/tracing": "^0.7.0",
     "md5": "^2.2.1",
     "pandora-component-decorator": "^2.1.2",
+    "pandora-component-metrics": "^2.2.0",
     "pandora-dollar": "^2.1.2"
   }
 }

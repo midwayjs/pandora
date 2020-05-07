@@ -1,12 +1,6 @@
-import { MetricExporter, MetricRecord, MetricDescriptor, Point, Distribution, Histogram } from '@opentelemetry/metrics'
-import { Labels } from '@opentelemetry/api'
+import { MetricExporter, MetricRecord } from '@opentelemetry/metrics'
 import { EventEmitter } from 'events'
-
-export interface IMetricSnapshot {
-  descriptor: MetricDescriptor,
-  labels: Labels,
-  point: Point
-}
+import { IMetricSnapshot } from './types'
 
 // TODO: replace with PullController
 export class MetricsForwarder extends EventEmitter implements MetricExporter {

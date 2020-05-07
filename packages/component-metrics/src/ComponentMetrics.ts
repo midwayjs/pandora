@@ -44,5 +44,4 @@ export default class ComponentMetrics {
   }
 }
 
-export * from './MetricsEndPoint';
-export * from './MetricsIndicator';
+export * from './types';
