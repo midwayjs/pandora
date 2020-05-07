@@ -53,4 +53,3 @@ export default class ComponentTrace {
 }
 
 export * from './types';
-export * from './TraceEndPoint';

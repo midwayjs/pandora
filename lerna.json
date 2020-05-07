@@ -11,8 +11,8 @@
     "packages/component-node-metrics",
     "packages/component-sandbox-file-reporter",
     "packages/component-trace",
-    "packages/component-core-sdk",
-    "packages/component-dollar",
+    "packages/core-sdk",
+    "packages/dollar",
     "packages/egg-pandora",
     "packages/hub",
     "packages/messenger"
