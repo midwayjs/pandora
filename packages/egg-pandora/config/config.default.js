@@ -21,8 +21,8 @@ exports.pandora = {
   },
   trace: {
     plugins: {
-      http: { enabled: true, path: '@opentelemetry/plugin-http' },
-      https: { enabled: true, path: '@opentelemetry/plugin-https' },
+      http: { enabled: true, path: require.resolve('@opentelemetry/plugin-http') },
+      https: { enabled: true, path: require.resolve('@opentelemetry/plugin-https') },
     },
   },
 };

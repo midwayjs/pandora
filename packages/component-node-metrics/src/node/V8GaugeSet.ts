@@ -17,7 +17,13 @@ export class V8GaugeSet {
     if (Date.now() - this.lastRefresh < this.dataTTL) {
       return
     }
-    this.heapSpaceStats = getHeapSpaceStatistics()
+    this.heapSpaceStats = getHeapSpaceStatistics().reduce((accu, it) => {
+      accu[it.space_name + '_space_size'] = it.space_size
+      accu[it.space_name + '_space_used_size'] = it.space_used_size
+      accu[it.space_name + '_space_available_size'] = it.space_available_size
+      accu[it.space_name + '_physical_space_size'] = it.physical_space_size
+      return accu
+    }, {})
     this.heapStats = getHeapStatistics()
     this.lastRefresh = Date.now()
   }
