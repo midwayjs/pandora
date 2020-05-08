@@ -22,16 +22,16 @@ import { SpanProcessor } from '@opentelemetry/tracing';
  * received events to a list of {@link SpanProcessor}s.
  */
 export class MultiSpanProcessor implements SpanProcessor {
-  private _spanProcessors: SpanProcessor[] = []
+  private _spanProcessors: SpanProcessor[] = [];
   constructor() {}
 
   addSpanProcessor(spanProcessor: SpanProcessor) {
-    this._spanProcessors.push(spanProcessor)
+    this._spanProcessors.push(spanProcessor);
   }
 
   forceFlush(): void {
     for (const spanProcessor of this._spanProcessors) {
-      spanProcessor.forceFlush()
+      spanProcessor.forceFlush();
     }
   }
 

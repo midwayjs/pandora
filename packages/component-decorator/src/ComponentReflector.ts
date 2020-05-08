@@ -1,12 +1,15 @@
 import 'reflect-metadata';
-import {IComponentConstructor} from './types';
+import { IComponentConstructor } from './types';
 
 export class ComponentReflector {
   static COMPONENT_NAME = 'COMPONENT_NAME';
   static COMPONENT_DEPENDENCIES = 'COMPONENT_DEPENDENCIES';
   static COMPONENT_CONFIG = 'COMPONENT_CONFIG';
   static getDependencies(klass: IComponentConstructor): string[] {
-    return Reflect.getMetadata(ComponentReflector.COMPONENT_DEPENDENCIES, klass);
+    return Reflect.getMetadata(
+      ComponentReflector.COMPONENT_DEPENDENCIES,
+      klass
+    );
   }
   static getComponentName(klass: IComponentConstructor): string {
     return Reflect.getMetadata(ComponentReflector.COMPONENT_NAME, klass);
@@ -18,7 +21,11 @@ export class ComponentReflector {
 
 export function dependencies(deps: string[]) {
   return function (target: any): void {
-    Reflect.defineMetadata(ComponentReflector.COMPONENT_DEPENDENCIES, deps, target);
+    Reflect.defineMetadata(
+      ComponentReflector.COMPONENT_DEPENDENCIES,
+      deps,
+      target
+    );
   };
 }
 

@@ -1,5 +1,5 @@
-import {IndicatorManager} from './IndicatorManager';
-import {IndicatorResultObject} from './types';
+import { IndicatorManager } from './IndicatorManager';
+import { IndicatorResultObject } from './types';
 
 export class IndicatorManagerProxy {
   static SERVICE_NAME_AT_IPC_HUB = '__Pandora__IndicatorManagerProxy';
@@ -7,7 +7,10 @@ export class IndicatorManagerProxy {
   constructor(indicatorManager: IndicatorManager) {
     this.indicatorManager = indicatorManager;
   }
-  overProcessCallHandle(indicatorGroup: string, query: any): Promise<IndicatorResultObject[]> {
+  overProcessCallHandle(
+    indicatorGroup: string,
+    query: any
+  ): Promise<IndicatorResultObject[]> {
     return this.indicatorManager.invokeRaw(indicatorGroup, query);
   }
 }

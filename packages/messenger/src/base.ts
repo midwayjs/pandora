@@ -14,7 +14,7 @@ class MessengerBase extends Base {
   constructor(options) {
     super();
     if (!options.socket) {
-      assert(options.name, `options.name is required!`);
+      assert(options.name, 'options.name is required!');
     }
     this.options = options;
     this.on(eventName, (message, reply, client) => {
@@ -34,7 +34,10 @@ class MessengerBase extends Base {
 
   get sockPath() {
     if (!this[sockPath]) {
-      let sock = path.join(tmpDir, `pandorajs_${this.options.name.replace(/[^\w]/g, '')}.sock`);
+      let sock = path.join(
+        tmpDir,
+        `pandorajs_${this.options.name.replace(/[^\w]/g, '')}.sock`
+      );
       if (process.platform === 'win32') {
         sock = '\\\\.\\pipe\\' + sock.replace(/^\//, '').replace(/\//g, '-');
       }

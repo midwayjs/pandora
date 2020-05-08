@@ -1,5 +1,5 @@
 export type ICoreSDKMode = string;
-import {IComponentConstructor} from 'pandora-component-decorator';
+import { IComponentConstructor } from 'pandora-component-decorator';
 
 export interface ICoreSDKOptions {
   mode: ICoreSDKMode;

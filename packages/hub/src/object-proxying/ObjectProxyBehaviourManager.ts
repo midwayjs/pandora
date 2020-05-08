@@ -1,13 +1,12 @@
-import {DefaultObjectProxyBehaviour} from './DefaultObjectProxyBehaviour';
-import {ObjectDescription, ObjectProxyBehaviour} from '../types';
-import {ObjectUtils} from './ObjectUtils';
+import { DefaultObjectProxyBehaviour } from './DefaultObjectProxyBehaviour';
+import { ObjectDescription, ObjectProxyBehaviour } from '../types';
+import { ObjectUtils } from './ObjectUtils';
 
 /**
  * ObjectProxyBehaviourManager
  * Unified management of all Object Proxy Behaviour through Remote and Proxy
  */
 export class ObjectProxyBehaviourManager {
-
   protected idToBehaviour: Map<string, ObjectProxyBehaviour> = new Map();
 
   /**
@@ -15,7 +14,10 @@ export class ObjectProxyBehaviourManager {
    * @param {ObjectDescription} objectDescription
    * @param {ObjectProxyBehaviour} behaviour
    */
-  public setBehaviour(objectDescription: ObjectDescription, behaviour: ObjectProxyBehaviour) {
+  public setBehaviour(
+    objectDescription: ObjectDescription,
+    behaviour: ObjectProxyBehaviour
+  ) {
     const id = ObjectUtils.objectDescriptionToId(objectDescription);
     this.idToBehaviour.set(id, behaviour);
   }
@@ -36,9 +38,11 @@ export class ObjectProxyBehaviourManager {
    * @param {ObjectDescription} objectDescription
    * @param {ObjectProxyBehaviour} behaviour
    */
-  public getBehaviour(objectDescription: ObjectDescription): ObjectProxyBehaviour {
+  public getBehaviour(
+    objectDescription: ObjectDescription
+  ): ObjectProxyBehaviour {
     const id = ObjectUtils.objectDescriptionToId(objectDescription);
-    if(this.idToBehaviour.has(id)) {
+    if (this.idToBehaviour.has(id)) {
       return this.idToBehaviour.get(id);
     } else {
       return DefaultObjectProxyBehaviour;
@@ -47,8 +51,8 @@ export class ObjectProxyBehaviourManager {
 
   private static instance: ObjectProxyBehaviourManager;
   static getInstance() {
-    if(!ObjectProxyBehaviourManager.instance) {
-      ObjectProxyBehaviourManager.instance = new ObjectProxyBehaviourManager;
+    if (!ObjectProxyBehaviourManager.instance) {
+      ObjectProxyBehaviourManager.instance = new ObjectProxyBehaviourManager();
     }
     return ObjectProxyBehaviourManager.instance;
   }

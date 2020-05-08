@@ -1,6 +1,6 @@
 import Router = require('koa-router');
-import {IEndPoint} from './types';
-import {ActuatorRestServer} from './ActuatorRestServer';
+import { IEndPoint } from './types';
+import { ActuatorRestServer } from './ActuatorRestServer';
 
 export class EndPointManager {
   server: ActuatorRestServer;
@@ -9,8 +9,10 @@ export class EndPointManager {
   }
   register(endPoint: IEndPoint) {
     const server: ActuatorRestServer = this.server;
-    const allPrefixes: string[] = endPoint.aliasPrefix ? [endPoint.prefix].concat(endPoint.aliasPrefix) : [endPoint.prefix];
-    for(const prefix of allPrefixes) {
+    const allPrefixes: string[] = endPoint.aliasPrefix
+      ? [endPoint.prefix].concat(endPoint.aliasPrefix)
+      : [endPoint.prefix];
+    for (const prefix of allPrefixes) {
       const router = new Router();
       router.prefix(prefix);
       endPoint.route(router);

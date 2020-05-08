@@ -1,9 +1,13 @@
-import {componentName, dependencies, componentConfig} from 'pandora-component-decorator';
-import {join} from 'path';
-import {homedir} from 'os';
-import {SandboxMetricsFileReporter} from './SandboxMetricsFileReporter';
-import {SandboxTraceFileReporter} from './SandboxTraceFileReporter';
-import {SandboxErrorLogFileReporter} from './SandboxErrorLogFileReporter';
+import {
+  componentName,
+  dependencies,
+  componentConfig,
+} from 'pandora-component-decorator';
+import { join } from 'path';
+import { homedir } from 'os';
+import { SandboxMetricsFileReporter } from './SandboxMetricsFileReporter';
+import { SandboxTraceFileReporter } from './SandboxTraceFileReporter';
+import { SandboxErrorLogFileReporter } from './SandboxErrorLogFileReporter';
 
 @componentName('sandboxFileReporter')
 @dependencies(['metrics', 'fileLoggerService'])
@@ -16,30 +20,29 @@ import {SandboxErrorLogFileReporter} from './SandboxErrorLogFileReporter';
       maxFileSize: 100 * 1024 * 1024,
       maxFiles: 2,
       stdoutLevel: 'NONE',
-      level: 'ALL'
+      level: 'ALL',
     },
     trace: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
       maxFiles: 2,
       stdoutLevel: 'NONE',
-      level: 'ALL'
+      level: 'ALL',
     },
     error: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
       maxFiles: 2,
       stdoutLevel: 'NONE',
-      level: 'ALL'
+      level: 'ALL',
     },
-  }
+  },
 })
 export default class ComponentSandboxFileReporter {
-
   ctx: any;
-  metricsFileReporter: SandboxMetricsFileReporter
-  traceFileReporter: SandboxTraceFileReporter
-  errorLogFileReporter: SandboxErrorLogFileReporter
+  metricsFileReporter: SandboxMetricsFileReporter;
+  traceFileReporter: SandboxTraceFileReporter;
+  errorLogFileReporter: SandboxErrorLogFileReporter;
 
   constructor(ctx) {
     this.ctx = ctx;
@@ -54,11 +57,13 @@ export default class ComponentSandboxFileReporter {
   }
 
   startAtAllProcesses() {
-    this.metricsFileReporter = new SandboxMetricsFileReporter(this.ctx)
-    this.traceFileReporter = new SandboxTraceFileReporter(this.ctx)
-    this.errorLogFileReporter = new SandboxErrorLogFileReporter(this.ctx)
+    this.metricsFileReporter = new SandboxMetricsFileReporter(this.ctx);
+    this.traceFileReporter = new SandboxTraceFileReporter(this.ctx);
+    this.errorLogFileReporter = new SandboxErrorLogFileReporter(this.ctx);
 
-    this.ctx.metricsForwarder.on('data', (data) => this.metricsFileReporter.report(data))
+    this.ctx.metricsForwarder.on('data', data =>
+      this.metricsFileReporter.report(data)
+    );
     this.ctx.spanProcessor.addSpanProcessor(this.traceFileReporter);
   }
 }

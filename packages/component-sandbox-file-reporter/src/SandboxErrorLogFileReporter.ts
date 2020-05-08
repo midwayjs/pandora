@@ -1,6 +1,6 @@
-import {FileLoggerManager} from 'pandora-component-file-logger-service';
-import {join} from 'path';
-import {FileReporterUtil} from './FileReporterUtil';
+import { FileLoggerManager } from 'pandora-component-file-logger-service';
+import { join } from 'path';
+import { FileReporterUtil } from './FileReporterUtil';
 
 export class SandboxErrorLogFileReporter {
   type = 'errorLog';
@@ -8,30 +8,36 @@ export class SandboxErrorLogFileReporter {
   logger: any;
   constructor(ctx: any) {
     this.ctx = ctx;
-    const {appName} = ctx;
-    const {sandboxFileReporter: config} = ctx.config;
+    const { appName } = ctx;
+    const { sandboxFileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('sandbox-errors', {
       ...config.error,
-      dir: join(config.logsDir, appName)
+      dir: join(config.logsDir, appName),
     });
   }
-  async report (data: any[]): Promise<void> {
+  async report(data: any[]): Promise<void> {
     const globalTags = this.getGlobalTags();
-    for(const errorLog of data) {
+    for (const errorLog of data) {
       let level = 'NONE';
       if (errorLog.method) {
         level = errorLog.method.toUpperCase();
       }
-      this.logger.log(level, [JSON.stringify({
-        ...errorLog,
-        unix_timestamp: FileReporterUtil.unix(errorLog.timestamp),
-        ...globalTags
-      })], { raw: true });
+      this.logger.log(
+        level,
+        [
+          JSON.stringify({
+            ...errorLog,
+            unix_timestamp: FileReporterUtil.unix(errorLog.timestamp),
+            ...globalTags,
+          }),
+        ],
+        { raw: true }
+      );
     }
   }
   getGlobalTags() {
-    const {sandboxFileReporter: config} = this.ctx.config;
+    const { sandboxFileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
 }

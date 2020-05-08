@@ -1,25 +1,26 @@
-import {expect} from 'chai';
-import {HubServer} from '../../src/hub/HubServer';
-import {MessagePackage, Selector} from '../../src/domain';
+import { expect } from 'chai';
+import { HubServer } from '../../src/hub/HubServer';
+import { MessagePackage, Selector } from '../../src/domain';
 import {
-  PANDORA_HUB_ACTION_MSG_DOWN, PANDORA_HUB_ACTION_OFFLINE_UP,
-  PANDORA_HUB_ACTION_ONLINE_UP, PANDORA_HUB_ACTION_PUBLISH_UP, PANDORA_HUB_ACTION_UNPUBLISH_UP
+  PANDORA_HUB_ACTION_MSG_DOWN,
+  PANDORA_HUB_ACTION_OFFLINE_UP,
+  PANDORA_HUB_ACTION_ONLINE_UP,
+  PANDORA_HUB_ACTION_PUBLISH_UP,
+  PANDORA_HUB_ACTION_UNPUBLISH_UP,
 } from '../../src/const';
 import mm = require('mm');
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
 
-describe('Hub', function () {
-
+describe('Hub', () => {
   describe('start and stop', () => {
-
     it('should start() and stop() be ok', async () => {
       const hub = new HubServer();
       await hub.start();
-      const msgServer = (<any> hub).messengerServer;
+      const msgServer = (hub as any).messengerServer;
       expect(msgServer).to.be.ok;
-      expect((<any> msgServer.server).listening).to.equal(true);
+      expect((msgServer.server as any).listening).to.equal(true);
       await hub.stop();
-      expect((<any> msgServer.server).listening).to.equal(false);
+      expect((msgServer.server as any).listening).to.equal(false);
     });
 
     it('should throw an error when start twice and stop twice', async () => {
@@ -33,18 +34,15 @@ describe('Hub', function () {
     it('should get an error when messengerServer.close() get an error', async () => {
       const hub = new HubServer();
       await hub.start();
-      await new Promise(resolve => (<any> hub).messengerServer.close(resolve));
+      await new Promise(resolve => (<any>hub).messengerServer.close(resolve));
       await expect(hub.stop()).to.be.rejectedWith(/not running/i);
     });
-
   });
 
   describe('dispatch', () => {
-
     // broadcast to all clients
 
     it('should broadcast to all clients be ok', async () => {
-
       const hub = new HubServer();
       await hub.start();
 
@@ -54,7 +52,7 @@ describe('Hub', function () {
       mm(hub, 'routeTable', {
         selectClients() {
           selectClientsCalled = true;
-        }
+        },
       });
 
       mm(hub, 'messengerServer', {
@@ -62,7 +60,7 @@ describe('Hub', function () {
           expect(action).to.equal(PANDORA_HUB_ACTION_MSG_DOWN);
           expect(message.data.test).to.be.ok;
           broadcastCalled = true;
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -71,16 +69,16 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: null,
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
 
       await new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
+        (<any>hub).handleMessageIn(messagePackage, resp => {
           if (resp.success) {
             resolve();
           } else {
@@ -94,18 +92,16 @@ describe('Hub', function () {
 
       mm.restore();
       await hub.stop();
-
     });
 
     it('should get an error when broadcast to all clients thrown an error', async () => {
-
       const hub = new HubServer();
       await hub.start();
 
       mm(hub, 'messengerServer', {
         broadcast() {
           throw new Error('a fake error');
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -114,29 +110,29 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: null,
-        data: null
+        data: null,
       };
 
-      await expect(new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
-          if (resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        });
-      })).to.be.rejectedWith('a fake error');
+      await expect(
+        new Promise((resolve, reject) => {
+          (<any>hub).handleMessageIn(messagePackage, resp => {
+            if (resp.success) {
+              resolve();
+            } else {
+              reject(resp.error);
+            }
+          });
+        })
+      ).to.be.rejectedWith('a fake error');
 
       mm.restore();
       await hub.stop();
-
     });
 
     it('should ignore error when broadcast to all clients without reply', async () => {
-
       const hub = new HubServer();
       await hub.start();
 
@@ -145,26 +141,24 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: null,
-        data: null
+        data: null,
       };
 
       mm(hub, 'messengerServer', {
         broadcast() {
           throw new Error('a fake error');
-        }
+        },
       });
-      (<any> hub).handleMessageIn(messagePackage);
+      (<any>hub).handleMessageIn(messagePackage);
       mm.restore();
 
       await hub.stop();
-
     });
 
     it('should broadcast to all clients without reply', async () => {
-
       const hub = new HubServer();
       await hub.start();
 
@@ -173,30 +167,28 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: null,
-        data: null
+        data: null,
       };
       let calledBroadcast = false;
       mm(hub, 'messengerServer', {
         broadcast() {
           calledBroadcast = true;
-        }
+        },
       });
-      (<any> hub).handleMessageIn(messagePackage);
+      (<any>hub).handleMessageIn(messagePackage);
 
       expect(calledBroadcast).to.be.true;
 
       mm.restore();
       await hub.stop();
-
     });
 
     // broadcast to all selected clients
 
     it('should broadcast to all selected clients', async () => {
-
       let sendCalledTimes = 0;
       const shimClient = {
         send(action: string, message: MessagePackage, reply) {
@@ -208,10 +200,10 @@ describe('Hub', function () {
           sendCalledTimes++;
           if (message.needReply) {
             reply(null, {
-              success: true
+              success: true,
             });
           }
-        }
+        },
       };
 
       const hub = new HubServer();
@@ -224,13 +216,15 @@ describe('Hub', function () {
           expect(selector.objectName).to.be.ok;
           const shimSelectedInfo = {
             client: shimClient,
-            selector: selector
+            selector: selector,
           };
           return [
-            shimSelectedInfo, shimSelectedInfo,
-            shimSelectedInfo, shimSelectedInfo
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
           ];
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -239,20 +233,20 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          objectName: 'fake.name'
+          objectName: 'fake.name',
         },
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
 
       await new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
+        (<any>hub).handleMessageIn(messagePackage, resp => {
           if (resp.success) {
             resolve(resp);
           } else {
@@ -265,15 +259,13 @@ describe('Hub', function () {
 
       mm.restore();
       await hub.stop();
-
     });
 
     it('should get an error when broadcast to all selected clients thrown an error', async () => {
-
       const shimClient = {
         send(action, message, callback) {
           callback(new Error('fake error'));
-        }
+        },
       };
 
       const hub = new HubServer();
@@ -283,13 +275,15 @@ describe('Hub', function () {
         selectClients: (selector: Selector) => {
           const shimSelectedInfo = {
             client: shimClient,
-            selector: selector
+            selector: selector,
           };
           return [
-            shimSelectedInfo, shimSelectedInfo,
-            shimSelectedInfo, shimSelectedInfo
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
           ];
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -298,46 +292,46 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          objectName: 'fake.name'
+          objectName: 'fake.name',
         },
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
 
-      const {batchReply} = await <Promise<any>> new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
-          if (resp.success) {
-            resolve(resp);
-          } else {
-            reject(resp.error);
-          }
-        });
-      });
+      const { batchReply } = await (<Promise<any>>(
+        new Promise((resolve, reject) => {
+          (<any>hub).handleMessageIn(messagePackage, resp => {
+            if (resp.success) {
+              resolve(resp);
+            } else {
+              reject(resp.error);
+            }
+          });
+        })
+      ));
 
       expect(batchReply.length).to.equal(4);
 
-      for(const reply of batchReply) {
+      for (const reply of batchReply) {
         expect(reply.error.toString()).to.include('fake error');
       }
 
       mm.restore();
       await hub.stop();
-
     });
 
     it('should broadcast to all selected clients without reply', async () => {
-
       let sendCalledTimes = 0;
       const shimClient = {
         send() {
           sendCalledTimes++;
-        }
+        },
       };
 
       const hub = new HubServer();
@@ -347,13 +341,15 @@ describe('Hub', function () {
         selectClients: (selector: Selector) => {
           const shimSelectedInfo = {
             client: shimClient,
-            selector: selector
+            selector: selector,
           };
           return [
-            shimSelectedInfo, shimSelectedInfo,
-            shimSelectedInfo, shimSelectedInfo
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
           ];
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -361,29 +357,27 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          objectName: 'fake.name'
+          objectName: 'fake.name',
         },
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
-      (<any> hub).handleMessageIn(messagePackage);
+      (<any>hub).handleMessageIn(messagePackage);
       expect(sendCalledTimes).to.equal(4);
 
       mm.restore();
       await hub.stop();
-
     });
 
     // balance to a random one of all selected clients
 
     it('should balance to a random one of all selected clients', async () => {
-
       let sendCalledTimes = 0;
       const shimClient = {
         send(action: string, message: MessagePackage, reply) {
@@ -395,10 +389,10 @@ describe('Hub', function () {
           sendCalledTimes++;
           if (message.needReply) {
             reply(null, {
-              success: true
+              success: true,
             });
           }
-        }
+        },
       };
 
       const hub = new HubServer();
@@ -411,15 +405,16 @@ describe('Hub', function () {
           expect(selector.objectName).to.be.ok;
           const shimSelectedInfo = {
             client: shimClient,
-            selector: selector
+            selector: selector,
           };
           return [
-            shimSelectedInfo, shimSelectedInfo,
-            shimSelectedInfo, shimSelectedInfo
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
           ];
-        }
+        },
       });
-
 
       const messagePackage: MessagePackage = {
         needReply: true,
@@ -427,20 +422,20 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          objectName: 'fake.name'
+          objectName: 'fake.name',
         },
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
 
       await new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
+        (<any>hub).handleMessageIn(messagePackage, resp => {
           if (resp.success) {
             resolve();
           } else {
@@ -454,15 +449,13 @@ describe('Hub', function () {
 
       mm.restore();
       await hub.stop();
-
     });
 
     it('should get an error when broadcast to a random one of all selected clients thrown an error', async () => {
-
       const shimClient = {
         send(action, message, callback) {
           callback(new Error('fake error'));
-        }
+        },
       };
 
       const hub = new HubServer();
@@ -472,13 +465,15 @@ describe('Hub', function () {
         selectClients: (selector: Selector) => {
           const shimSelectedInfo = {
             client: shimClient,
-            selector: selector
+            selector: selector,
           };
           return [
-            shimSelectedInfo, shimSelectedInfo,
-            shimSelectedInfo, shimSelectedInfo
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
           ];
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -487,40 +482,40 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          objectName: 'fake.name'
+          objectName: 'fake.name',
         },
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
 
-      await expect(new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
-          if (resp.success) {
-            resolve(resp);
-          } else {
-            reject(resp.error);
-          }
-        });
-      })).to.be.rejectedWith('fake error');
+      await expect(
+        new Promise((resolve, reject) => {
+          (<any>hub).handleMessageIn(messagePackage, resp => {
+            if (resp.success) {
+              resolve(resp);
+            } else {
+              reject(resp.error);
+            }
+          });
+        })
+      ).to.be.rejectedWith('fake error');
 
       mm.restore();
       await hub.stop();
-
     });
 
     it('should balance to a random one of all selected clients without reply', async () => {
-
       let sendCalledTimes = 0;
       const shimClient = {
         send() {
           sendCalledTimes++;
-        }
+        },
       };
 
       const hub = new HubServer();
@@ -530,13 +525,15 @@ describe('Hub', function () {
         selectClients: (selector: Selector) => {
           const shimSelectedInfo = {
             client: shimClient,
-            selector: selector
+            selector: selector,
           };
           return [
-            shimSelectedInfo, shimSelectedInfo,
-            shimSelectedInfo, shimSelectedInfo
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
+            shimSelectedInfo,
           ];
-        }
+        },
       });
 
       const messagePackage: MessagePackage = {
@@ -544,30 +541,27 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'remoteAppName',
           processName: 'aname',
-          objectName: 'fake.name'
+          objectName: 'fake.name',
         },
         data: {
-          test: 'fakeMsg'
-        }
+          test: 'fakeMsg',
+        },
       };
-      (<any> hub).handleMessageIn(messagePackage);
+      (<any>hub).handleMessageIn(messagePackage);
       expect(sendCalledTimes).to.equal(1);
 
       mm.restore();
       await hub.stop();
-
     });
-
 
     // non-existent selector
 
     it('should get an error when looking for an non-existent selector', async () => {
-
       const hub = new HubServer();
       await hub.start();
 
@@ -577,30 +571,30 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'unkown',
           processName: 'unkown',
-          objectName: 'unkown'
+          objectName: 'unkown',
         },
-        data: null
+        data: null,
       };
 
-      await expect(new Promise((resolve, reject) => {
-        (<any> hub).handleMessageIn(messagePackage, (resp) => {
-          if (resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        });
-      })).to.be.rejectedWith('Cannot found any clients by selector');
-
+      await expect(
+        new Promise((resolve, reject) => {
+          (<any>hub).handleMessageIn(messagePackage, resp => {
+            if (resp.success) {
+              resolve();
+            } else {
+              reject(resp.error);
+            }
+          });
+        })
+      ).to.be.rejectedWith('Cannot found any clients by selector');
     });
 
     it('should ignore error when looking for an non-existent selector and without reply', async () => {
-
       const hub = new HubServer();
       await hub.start();
 
@@ -608,318 +602,337 @@ describe('Hub', function () {
         host: {
           appName: 'justTest',
           processName: 'nobody',
-          pid: null
+          pid: null,
         },
         remote: {
           appName: 'unknown',
           processName: 'unknown',
-          objectName: 'unknown'
+          objectName: 'unknown',
         },
-        data: null
+        data: null,
       };
 
-      (<any> hub).handleMessageIn(messagePackage);
+      (<any>hub).handleMessageIn(messagePackage);
       mm.restore();
       await hub.stop();
-
     });
-
   });
 
   describe('routeTable related messages', () => {
-
     it('should add initialization relation for client when that client connected', () => {
-
       const client = {};
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          setRelation (client, selector) {
+          setRelation(client, selector) {
             expect(client).to.equal(client);
-            expect(selector).to.deep.equal({initialization: true});
-
-          }
-        }
+            expect(selector).to.deep.equal({ initialization: true });
+          },
+        },
       };
       fakeHub.startListen();
       fakeHub.messengerServer.emit('connected', client);
-
     });
 
     it('should forgetClient when a client disconnected', () => {
-
       const client = {};
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         emit: () => {},
         routeTable: {
-          forgetClient (client) {
+          forgetClient(client) {
             expect(client).to.equal(client);
           },
-          getSelectorsByClient() {}
-        }
+          getSelectorsByClient() {},
+        },
       };
       fakeHub.startListen();
       fakeHub.messengerServer.emit('disconnected', client);
-
     });
 
     it('should setRelation when got a PANDORA_HUB_ACTION_ONLINE_UP message', async () => {
-
       const client = {};
-      const selector = {appName: Date.now().toString()};
+      const selector = { appName: Date.now().toString() };
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          setRelation (client, ownSelector) {
+          setRelation(client, ownSelector) {
             expect(client).to.equal(client);
             expect(ownSelector).to.deep.equal(selector);
-          }
-        }
+          },
+        },
       };
       fakeHub.startListen();
 
       await new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_ONLINE_UP, {
-          host: selector
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
+        fakeHub.messengerServer.emit(
+          PANDORA_HUB_ACTION_ONLINE_UP,
+          {
+            host: selector,
+          },
+          resp => {
+            if (resp.success) {
+              resolve();
+            } else {
+              reject(resp.error);
+            }
+          },
+          client
+        );
       });
-
     });
 
     it('should get an error when handing PANDORA_HUB_ACTION_ONLINE_UP message got an error', async () => {
-
       const client = {};
-      const selector = {appName: Date.now().toString()};
+      const selector = { appName: Date.now().toString() };
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          setRelation (client) {
+          setRelation(client) {
             throw new Error('fake error');
-          }
-        }
+          },
+        },
       };
       fakeHub.startListen();
 
-      await expect(new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_ONLINE_UP, {
-          host: selector
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
-      })).to.be.rejectedWith('fake error');
-
+      await expect(
+        new Promise((resolve, reject) => {
+          fakeHub.messengerServer.emit(
+            PANDORA_HUB_ACTION_ONLINE_UP,
+            {
+              host: selector,
+            },
+            resp => {
+              if (resp.success) {
+                resolve();
+              } else {
+                reject(resp.error);
+              }
+            },
+            client
+          );
+        })
+      ).to.be.rejectedWith('fake error');
     });
 
     it('should forgetClient when got a PANDORA_HUB_ACTION_OFFLINE_UP message', async () => {
-
       const client = {};
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          forgetClient (client) {
+          forgetClient(client) {
             expect(client).to.equal(client);
           },
-          getSelectorsByClient() {}
-        }
+          getSelectorsByClient() {},
+        },
       };
       fakeHub.startListen();
 
       await new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_OFFLINE_UP, {
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
+        fakeHub.messengerServer.emit(
+          PANDORA_HUB_ACTION_OFFLINE_UP,
+          {},
+          resp => {
+            if (resp.success) {
+              resolve();
+            } else {
+              reject(resp.error);
+            }
+          },
+          client
+        );
       });
-
     });
 
     it('should get an error when handing PANDORA_HUB_ACTION_OFFLINE_UP message got an error', async () => {
-
       const client = {};
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          forgetClient () {
+          forgetClient() {
             throw new Error('fake error');
           },
-          getSelectorsByClient() {}
-        }
+          getSelectorsByClient() {},
+        },
       };
       fakeHub.startListen();
 
-      await expect(new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_OFFLINE_UP, {
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
-      })).to.be.rejectedWith('fake error');
-
+      await expect(
+        new Promise((resolve, reject) => {
+          fakeHub.messengerServer.emit(
+            PANDORA_HUB_ACTION_OFFLINE_UP,
+            {},
+            resp => {
+              if (resp.success) {
+                resolve();
+              } else {
+                reject(resp.error);
+              }
+            },
+            client
+          );
+        })
+      ).to.be.rejectedWith('fake error');
     });
 
     it('should setRelation when got a PANDORA_HUB_ACTION_PUBLISH_UP message', async () => {
-
       const client = {};
-      const selector = {objectName: Date.now().toString()};
+      const selector = { objectName: Date.now().toString() };
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          setRelation (client, ownSelector) {
+          setRelation(client, ownSelector) {
             expect(client).to.equal(client);
             expect(ownSelector).to.equal(selector);
-          }
-        }
+          },
+        },
       };
       fakeHub.startListen();
 
       await new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_PUBLISH_UP, {
-          data: {selector}
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
+        fakeHub.messengerServer.emit(
+          PANDORA_HUB_ACTION_PUBLISH_UP,
+          {
+            data: { selector },
+          },
+          resp => {
+            if (resp.success) {
+              resolve();
+            } else {
+              reject(resp.error);
+            }
+          },
+          client
+        );
       });
-
     });
 
     it('should get an error when handing PANDORA_HUB_ACTION_PUBLISH_UP message got an error', async () => {
-
       const client = {};
-      const selector = {objectName: Date.now().toString()};
+      const selector = { objectName: Date.now().toString() };
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          setRelation () {
+          setRelation() {
             throw new Error('fake error');
-          }
-        }
+          },
+        },
       };
       fakeHub.startListen();
 
-      await expect(new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_PUBLISH_UP, {
-          data: {selector}
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
-      })).to.be.rejectedWith('fake error');
-
+      await expect(
+        new Promise((resolve, reject) => {
+          fakeHub.messengerServer.emit(
+            PANDORA_HUB_ACTION_PUBLISH_UP,
+            {
+              data: { selector },
+            },
+            resp => {
+              if (resp.success) {
+                resolve();
+              } else {
+                reject(resp.error);
+              }
+            },
+            client
+          );
+        })
+      ).to.be.rejectedWith('fake error');
     });
 
-
     it('should setRelation when got a PANDORA_HUB_ACTION_UNPUBLISH_UP message', async () => {
-
       const client = {};
-      const selector = {objectName: Date.now().toString()};
+      const selector = { objectName: Date.now().toString() };
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          forgetRelation (client, ownSelector) {
+          forgetRelation(client, ownSelector) {
             expect(client).to.equal(client);
             expect(ownSelector).to.equal(selector);
-          }
-        }
+          },
+        },
       };
       fakeHub.startListen();
 
       await new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_UNPUBLISH_UP, {
-          data: {selector}
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
+        fakeHub.messengerServer.emit(
+          PANDORA_HUB_ACTION_UNPUBLISH_UP,
+          {
+            data: { selector },
+          },
+          resp => {
+            if (resp.success) {
+              resolve();
+            } else {
+              reject(resp.error);
+            }
+          },
+          client
+        );
       });
-
     });
 
     it('should get an error when handing PANDORA_HUB_ACTION_UNPUBLISH_UP message got an error', async () => {
-
       const client = {};
-      const selector = {objectName: Date.now().toString()};
+      const selector = { objectName: Date.now().toString() };
 
       const fakeHub = {
         handleMessageIn: function () {},
         messengerServer: new EventEmitter(),
-        startListen: (<any> HubServer.prototype).startListen,
+        startListen: (<any>HubServer.prototype).startListen,
         routeTable: {
-          forgetRelation () {
+          forgetRelation() {
             throw new Error('fake error');
-          }
-        }
+          },
+        },
       };
       fakeHub.startListen();
 
-      await expect(new Promise((resolve, reject) => {
-        fakeHub.messengerServer.emit(PANDORA_HUB_ACTION_UNPUBLISH_UP, {
-          data: {selector}
-        }, (resp) => {
-          if(resp.success) {
-            resolve();
-          } else {
-            reject(resp.error);
-          }
-        }, client);
-      })).to.be.rejectedWith('fake error');
-
+      await expect(
+        new Promise((resolve, reject) => {
+          fakeHub.messengerServer.emit(
+            PANDORA_HUB_ACTION_UNPUBLISH_UP,
+            {
+              data: { selector },
+            },
+            resp => {
+              if (resp.success) {
+                resolve();
+              } else {
+                reject(resp.error);
+              }
+            },
+            client
+          );
+        })
+      ).to.be.rejectedWith('fake error');
     });
-
   });
-
 });

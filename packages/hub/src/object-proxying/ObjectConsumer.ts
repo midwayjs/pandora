@@ -1,27 +1,40 @@
-import {ConsumerExtInfo, Introspection, ObjectDescription, ReplyPackage, Selector} from '../types';
-import {HubClient} from '../hub/HubClient';
 import {
-  OBJECT_ACTION_GET_PROPERTY, OBJECT_ACTION_INTROSPECT, OBJECT_ACTION_INVOKE,
-  OBJECT_ACTION_SUBSCRIBE, OBJECT_ACTION_UNSUBSCRIBE
+  ConsumerExtInfo,
+  Introspection,
+  ObjectDescription,
+  ReplyPackage,
+  Selector,
+} from '../types';
+import { HubClient } from '../hub/HubClient';
+import {
+  OBJECT_ACTION_GET_PROPERTY,
+  OBJECT_ACTION_INTROSPECT,
+  OBJECT_ACTION_INVOKE,
+  OBJECT_ACTION_SUBSCRIBE,
+  OBJECT_ACTION_UNSUBSCRIBE,
 } from '../const';
-import {DefaultObjectProxy} from './DefaultObjectProxy';
-import {ProviderManager} from './ProviderManager';
+import { DefaultObjectProxy } from './DefaultObjectProxy';
+import { ProviderManager } from './ProviderManager';
 import EventEmitter = require('events');
 
 export class ObjectConsumer extends EventEmitter {
-
   public objectDescription: ObjectDescription;
   private hubClient: HubClient;
   private providerManager: ProviderManager;
   private objectProxy: DefaultObjectProxy;
   private timeout: number;
 
-  constructor(objectDescription: ObjectDescription, hubClient, providerManager: ProviderManager, extInfo?: ConsumerExtInfo) {
+  constructor(
+    objectDescription: ObjectDescription,
+    hubClient,
+    providerManager: ProviderManager,
+    extInfo?: ConsumerExtInfo
+  ) {
     super();
     this.objectDescription = objectDescription;
     this.hubClient = hubClient;
     this.providerManager = providerManager;
-    if(extInfo) {
+    if (extInfo) {
       this.timeout = extInfo.timeout;
     }
   }
@@ -33,15 +46,19 @@ export class ObjectConsumer extends EventEmitter {
    * @return {Promise<any>}
    */
   public async invoke(method: string, params: any[]): Promise<any> {
-    const res = await this.hubClient.invoke({
-      objectName: this.objectDescription.name,
-      objectTag: this.objectDescription.tag,
-    }, OBJECT_ACTION_INVOKE, {
-      timeout: this.timeout,
-      propertyName: method,
-      data: params
-    });
-    if(res.error) {
+    const res = await this.hubClient.invoke(
+      {
+        objectName: this.objectDescription.name,
+        objectTag: this.objectDescription.tag,
+      },
+      OBJECT_ACTION_INVOKE,
+      {
+        timeout: this.timeout,
+        propertyName: method,
+        data: params,
+      }
+    );
+    if (res.error) {
       throw res.error;
     }
     return res.data;
@@ -53,16 +70,24 @@ export class ObjectConsumer extends EventEmitter {
    * @param {any[]} params
    * @return {Promise<any>}
    */
-  public async multipleInvoke(method: string, params: any[], selectors?: Selector): Promise<ReplyPackage[]> {
-    const res = await this.hubClient.multipleInvoke({
-      objectName: this.objectDescription.name,
-      objectTag: this.objectDescription.tag,
-      ...(selectors || {})
-    }, OBJECT_ACTION_INVOKE, {
-      timeout: this.timeout,
-      propertyName: method,
-      data: params
-    });
+  public async multipleInvoke(
+    method: string,
+    params: any[],
+    selectors?: Selector
+  ): Promise<ReplyPackage[]> {
+    const res = await this.hubClient.multipleInvoke(
+      {
+        objectName: this.objectDescription.name,
+        objectTag: this.objectDescription.tag,
+        ...(selectors || {}),
+      },
+      OBJECT_ACTION_INVOKE,
+      {
+        timeout: this.timeout,
+        propertyName: method,
+        data: params,
+      }
+    );
     return res;
   }
 
@@ -72,79 +97,87 @@ export class ObjectConsumer extends EventEmitter {
    * @return {Promise<any>}
    */
   public async getProperty(name: string) {
-    const res = await this.hubClient.invoke({
-      objectName: this.objectDescription.name,
-      objectTag: this.objectDescription.tag
-    }, OBJECT_ACTION_GET_PROPERTY, {
-      timeout: this.timeout,
-      propertyName: name
-    });
-    if(res.error) {
+    const res = await this.hubClient.invoke(
+      {
+        objectName: this.objectDescription.name,
+        objectTag: this.objectDescription.tag,
+      },
+      OBJECT_ACTION_GET_PROPERTY,
+      {
+        timeout: this.timeout,
+        propertyName: name,
+      }
+    );
+    if (res.error) {
       throw res.error;
     }
     return res.data;
   }
 
-
   private subscriberPublished = false;
   public async subscribe(register: string, fn) {
-
     const cnt = this.listenerCount(register);
     this.addListener(register, fn);
 
-    if(!this.subscriberPublished) {
+    if (!this.subscriberPublished) {
       this.subscriberPublished = true;
-      await this.providerManager.publish({
-        callback: (register: string, params: any[]) => {
-          this.emit(register, ...params);
+      await this.providerManager.publish(
+        {
+          callback: (register: string, params: any[]) => {
+            this.emit(register, ...params);
+          },
+        },
+        {
+          ...this.objectDescription,
+          name: this.objectDescription.name + '@subscriber',
         }
-      }, {
-        ...this.objectDescription,
-        name: this.objectDescription.name + '@subscriber'
-      });
+      );
     }
 
-    if(cnt === 0) {
+    if (cnt === 0) {
+      const res = await this.hubClient.invoke(
+        {
+          objectName: this.objectDescription.name,
+          objectTag: this.objectDescription.tag,
+        },
+        OBJECT_ACTION_SUBSCRIBE,
+        {
+          timeout: this.timeout,
+          register: register,
+        }
+      );
 
-      const res = await this.hubClient.invoke({
-        objectName: this.objectDescription.name,
-        objectTag: this.objectDescription.tag,
-      }, OBJECT_ACTION_SUBSCRIBE, {
-        timeout: this.timeout,
-        register: register
-      });
-
-      if(res.error) {
+      if (res.error) {
         throw res.error;
       }
       return res.data;
-
     }
-
   }
 
   public async unsubscribe(register: string, fn?) {
-
     if (fn) {
       this.removeListener(register, fn);
     } else {
       this.removeAllListeners(register);
     }
 
-    if(this.listenerCount(register) === 0) {
-      const res = await this.hubClient.invoke({
-        objectName: this.objectDescription.name,
-        objectTag: this.objectDescription.tag,
-      }, OBJECT_ACTION_UNSUBSCRIBE, {
-        timeout: this.timeout,
-        register: register
-      });
-      if(res.error) {
+    if (this.listenerCount(register) === 0) {
+      const res = await this.hubClient.invoke(
+        {
+          objectName: this.objectDescription.name,
+          objectTag: this.objectDescription.tag,
+        },
+        OBJECT_ACTION_UNSUBSCRIBE,
+        {
+          timeout: this.timeout,
+          register: register,
+        }
+      );
+      if (res.error) {
         throw res.error;
       }
       return res.data;
     }
-
   }
 
   /**
@@ -152,11 +185,15 @@ export class ObjectConsumer extends EventEmitter {
    * @return {Promise<Introspection>}
    */
   public async introspect(): Promise<Introspection> {
-    const res = await this.hubClient.invoke({
-      objectName: this.objectDescription.name,
-      objectTag: this.objectDescription.tag
-    }, OBJECT_ACTION_INTROSPECT, null);
-    if(res.error) {
+    const res = await this.hubClient.invoke(
+      {
+        objectName: this.objectDescription.name,
+        objectTag: this.objectDescription.tag,
+      },
+      OBJECT_ACTION_INTROSPECT,
+      null
+    );
+    if (res.error) {
       throw res.error;
     }
     return res.data;
@@ -167,14 +204,11 @@ export class ObjectConsumer extends EventEmitter {
    * @return {Promise<T & DefaultObjectProxy>}
    */
   public async getProxy<T extends any>(): Promise<T & DefaultObjectProxy> {
-    if(this.objectProxy) {
-      return <any> this.objectProxy;
+    if (this.objectProxy) {
+      return this.objectProxy as any;
     }
     const introspection = await this.introspect();
     this.objectProxy = new DefaultObjectProxy(this, introspection);
-    return <any> this.objectProxy;
+    return this.objectProxy as any;
   }
-
 }
-
-

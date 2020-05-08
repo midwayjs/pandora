@@ -1,11 +1,13 @@
 'use strict';
-const debug = require('debug')('pandora:messenger:server');
-const is: any = require('is-type-of');
+import * as is from 'is-type-of';
+import createDebug from 'debug';
 import * as net from 'net';
 import * as fs from 'fs';
 import MessengerBase from './base';
 import Client from './client';
 import eventName from './eventName';
+
+const debug = require('debug')('pandora:messenger:server');
 
 export default class Server extends MessengerBase {
   private clients: Map<any, any>;
@@ -26,7 +28,9 @@ export default class Server extends MessengerBase {
       fs.unlinkSync(sockPath);
     }
     this.server.listen(sockPath, () => {
-      debug(`[server] pandora messenger server is listening, socket path is ${this.sockPath}!`);
+      debug(
+        `[server] pandora messenger server is listening, socket path is ${this.sockPath}!`
+      );
       setImmediate(() => {
         this.ready(true);
         if (is.function(callback)) {
@@ -48,8 +52,8 @@ export default class Server extends MessengerBase {
     if (this.clients.size === 0) {
       if (!this.pending) {
         this.pending = [];
-        this.on('connected', (client) => {
-          this.pending.forEach((msg) => {
+        this.on('connected', client => {
+          this.pending.forEach(msg => {
             client.send(msg.action, msg.data);
           });
         });
@@ -79,14 +83,14 @@ export default class Server extends MessengerBase {
   }
 
   _handleDisconnect(socket) {
-    debug(`[server] server lost a connection!`);
+    debug('[server] server lost a connection!');
     const client = this.clients.get(socket);
     this.clients.delete(socket);
     this.emit('disconnected', client);
   }
 
   _handleConnection(socket) {
-    debug(`[server] server got a connection!`);
+    debug('[server] server got a connection!');
     const client = new Client({
       socket: socket,
       name: this.options.name,
@@ -100,4 +104,3 @@ export default class Server extends MessengerBase {
     this.emit('connected', client);
   }
 }
-

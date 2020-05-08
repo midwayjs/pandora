@@ -1,24 +1,22 @@
-import {expect} from 'chai';
-import {DefaultDispatchHandler} from '../../src/hub/DefaultDispatchHandler';
+import { expect } from 'chai';
+import { DefaultDispatchHandler } from '../../src/hub/DefaultDispatchHandler';
 
-describe('DefaultDispatchHandler', function () {
-
+describe('DefaultDispatchHandler', () => {
   it('should echo be ok', async () => {
     const defaultDispatchHandler: DefaultDispatchHandler = new DefaultDispatchHandler();
     const ret = await defaultDispatchHandler.dispatch({
-      action: 'echo'
+      action: 'echo',
     });
     expect(ret).to.deep.equal({
-      echo: { action: 'echo' }
+      echo: { action: 'echo' },
     });
   });
 
   it('should ignore unknown action be ok', async () => {
     const defaultDispatchHandler: DefaultDispatchHandler = new DefaultDispatchHandler();
     const ret = await defaultDispatchHandler.dispatch({
-      action: 'unknown'
+      action: 'unknown',
     });
     expect(ret).to.be.not.ok;
   });
-
 });

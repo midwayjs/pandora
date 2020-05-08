@@ -1,7 +1,7 @@
-import {componentName, componentConfig} from 'pandora-component-decorator';
-import {EndPointManager} from './EndPointManager';
-import {ActuatorRestServer} from './ActuatorRestServer';
-import {consoleLogger} from 'pandora-dollar';
+import { componentName, componentConfig } from 'pandora-component-decorator';
+import { EndPointManager } from './EndPointManager';
+import { ActuatorRestServer } from './ActuatorRestServer';
+import { consoleLogger } from 'pandora-dollar';
 
 @componentName('actuatorServer')
 @componentConfig({
@@ -9,9 +9,9 @@ import {consoleLogger} from 'pandora-dollar';
     http: {
       enabled: true,
       host: '127.0.0.1',
-      port: 7002
-    }
-  }
+      port: 7002,
+    },
+  },
 })
 export default class ComponentActuatorServer {
   ctx: any;
@@ -24,9 +24,11 @@ export default class ComponentActuatorServer {
   }
   async startAtSupervisor() {
     await this.actuatorRestServer.start();
-    if(this.actuatorRestServer.server) {
-      const {address, port} = this.actuatorRestServer.server.address();
-      consoleLogger.info(`Actuator restful server started at http://${address}:${port}`);
+    if (this.actuatorRestServer.server) {
+      const { address, port } = this.actuatorRestServer.server.address();
+      consoleLogger.info(
+        `Actuator restful server started at http://${address}:${port}`
+      );
     }
   }
   async stopAtSupervisor() {

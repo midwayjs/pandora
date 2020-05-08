@@ -22,7 +22,6 @@ export interface RotationStrategy {
   maxFileSize?: number;
 }
 
-
 export interface LoggerConfig {
   name?: string;
   dir?: string;
@@ -37,7 +36,7 @@ export interface LoggerConfig {
 }
 
 export const DEFAULT_ROTATION_CONFIG = {
-  type: <RotationType> 'date',
+  type: 'date' as RotationType,
   maxFiles: 5,
   maxFileSize: 300 * 1024 * 1024,
   rotateDuration: 5 * 60 * 1000,
@@ -47,7 +46,7 @@ export const DEFAULT_LOGGER_CONFIG: LoggerConfig = {
   ...DEFAULT_ROTATION_CONFIG,
   stdoutLevel: 'ERROR',
   level: 'WARN',
-  emitterLevel: 'INFO'
+  emitterLevel: 'INFO',
 };
 
 export interface MsgPkg {
@@ -68,10 +67,10 @@ export interface MsgHeartbeatPayload {
 }
 
 export interface ILogger {
-  debug (...args);
-  warn (...args);
-  info (...args);
-  error (...args);
-  log (...args);
-  write (...args);
+  debug(...args);
+  warn(...args);
+  info(...args);
+  error(...args);
+  log(...args);
+  write(...args);
 }

@@ -1,5 +1,13 @@
-import { MetricDescriptor, Aggregator, MetricKind, CounterSumAggregator, MeasureExactAggregator, ObserverAggregator, MetricRecord } from '@opentelemetry/metrics'
-import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher'
+import {
+  MetricDescriptor,
+  Aggregator,
+  MetricKind,
+  CounterSumAggregator,
+  MeasureExactAggregator,
+  ObserverAggregator,
+  MetricRecord,
+} from '@opentelemetry/metrics';
+import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher';
 
 /**
  * Batcher which retains all dimensions/labels. It accepts all records and

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../d.ts/sdk-base.d.ts" />
 'use strict';
 import MessengerClient from './client';
@@ -13,27 +14,26 @@ function factory(options, type) {
   const isClient = type === 'client';
   const MessengerClass = isClient ? MessengerClient : MessengerServer;
   const key = options.name;
-  const pool =  isClient ? Clients : Servers;
+  const pool = isClient ? Clients : Servers;
   if (!pool[key]) {
     pool[key] = new MessengerClass(options);
   }
   return pool[key];
 }
 
-
-export {default as MessengerClient} from './client';
-export {default as MessengerServer} from './server';
+export { default as MessengerClient } from './client';
+export { default as MessengerServer } from './server';
 
 export default {
   eventName,
   Client: MessengerClient,
   Server: MessengerServer,
   getClient(options): MessengerClient {
-    options = Object.assign({reConnectTimes: 10}, options);
+    options = Object.assign({ reConnectTimes: 10 }, options);
     return factory(options, 'client');
   },
 
   getServer(options) {
     return factory(options, 'server');
-  }
+  },
 };

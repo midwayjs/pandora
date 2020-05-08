@@ -1,9 +1,10 @@
 'use strict';
-const debug = require('debug')('pandora:messenger:client');
-const is: any = require('is-type-of');
+import createDebug from 'debug';
+import * as is from 'is-type-of';
 import * as net from 'net';
 import MessengerBase from './base';
 import eventName from './eventName';
+const debug = createDebug('pandora:messenger:client');
 
 const defaultOptions = {
   noDelay: true,
@@ -14,9 +15,7 @@ const defaultOptions = {
 
 const MAX_PACKET_ID = Math.pow(2, 30);
 
-
 export default class Client extends MessengerBase {
-
   private _reConnectTimes: number;
   private _socket: net.Socket;
   private _header: Buffer;
@@ -24,7 +23,6 @@ export default class Client extends MessengerBase {
   private _queue: Array<any>;
   private _packetId: number;
   private _unref: boolean;
-
 
   /**
    * tcp 客户端的基类
@@ -55,7 +53,6 @@ export default class Client extends MessengerBase {
       this._bind();
     }
   }
-
 
   createPacketId() {
     this._packetId += 1;
@@ -166,13 +163,16 @@ export default class Client extends MessengerBase {
   }
 
   send(action, data, callback?, timeout?) {
-    return this._send({
-      timeout,
-      data: {
-        action,
-        data,
+    return this._send(
+      {
+        timeout,
+        data: {
+          action,
+          data,
+        },
       },
-    }, callback);
+      callback
+    );
   }
 
   /**
@@ -206,7 +206,7 @@ export default class Client extends MessengerBase {
         err.name = 'MessengerRequestTimeoutError';
         callback(err);
       }, timeout);
-      this.once(callbackEvent, (message) => {
+      this.once(callbackEvent, message => {
         clearTimeout(timer);
         callback(null, message);
       });
@@ -218,7 +218,7 @@ export default class Client extends MessengerBase {
 
   // 清理未发出的请求
   _cleanQueue() {
-    for(const record of this._queue) {
+    for (const record of this._queue) {
       const callback = record[1];
       callback && callback(new Error('socket not available'));
     }
@@ -227,7 +227,7 @@ export default class Client extends MessengerBase {
 
   // 缓冲区空闲，重新尝试写入
   _resume() {
-    let args = this._queue.shift();
+    const args = this._queue.shift();
     if (args) {
       this._send(args[0], args[1]);
     }
@@ -253,9 +253,9 @@ export default class Client extends MessengerBase {
       }
     }
     this._bodyLength = null;
-    let entity = this.decode(body, this._header);
+    const entity = this.decode(body, this._header);
     setImmediate(() => {
-      this.emit(eventName, entity.data, (res) => {
+      this.emit(eventName, entity.data, res => {
         const id = entity.id;
         this.send(`response_callback_${id}`, res);
       });
@@ -292,7 +292,7 @@ export default class Client extends MessengerBase {
     this._socket.removeAllListeners();
     this._socket = null;
 
-    if(!this._ready && !this.options.reConnectAtFirstTime) {
+    if (!this._ready && !this.options.reConnectAtFirstTime) {
       this._reConnectTimes = 0;
     }
 
@@ -308,11 +308,14 @@ export default class Client extends MessengerBase {
           // 连接成功后重新设置可重连次数
           this._reConnectTimes = this.options.reConnectTimes;
           // 继续处理由于socket断开遗留的请求
-          debug('[client] reconnected to the server, process pid is %s', process.pid);
+          debug(
+            '[client] reconnected to the server, process pid is %s',
+            process.pid
+          );
         });
       }, this.options.reConnectInterval);
-      if(this.shouldUnref) {
-        (<any> timer).unref();
+      if (this.shouldUnref) {
+        timer.unref();
       }
       return;
     }
@@ -328,7 +331,7 @@ export default class Client extends MessengerBase {
     this._socket.once('connect', () => {
       this.ready(true);
       done && done();
-      if(this.shouldUnref) {
+      if (this.shouldUnref) {
         this._socket.unref();
       }
       this._resume();
@@ -346,8 +349,7 @@ export default class Client extends MessengerBase {
         let remaining = false;
         do {
           remaining = this._readPacket();
-        }
-        while (remaining);
+        } while (remaining);
       } catch (err) {
         err.name = 'PacketParsedError';
         this._close(err);
@@ -363,9 +365,9 @@ export default class Client extends MessengerBase {
 
 function replaceErrors(key, value) {
   if (value instanceof Error) {
-    let error = {};
+    const error = {};
 
-    Object.getOwnPropertyNames(value).forEach(function (key) {
+    Object.getOwnPropertyNames(value).forEach(key => {
       error[key] = value[key];
     });
 

@@ -1,9 +1,10 @@
 import * as _ from 'lodash';
 import * as uuid from 'uuid';
-import {join, dirname} from 'path';
-import {lstatSync, readlinkSync} from 'fs';
-const Module = require('module');
-const colors = require('colors');
+import { join, dirname } from 'path';
+import { lstatSync, readlinkSync } from 'fs';
+import _Module = require('module');
+import * as colors from 'colors';
+const Module: any = _Module;
 
 export function genereateUUID(): string {
   return uuid.v4();
@@ -11,9 +12,9 @@ export function genereateUUID(): string {
 
 export const promise = {
   fromCallback(cb): Promise<any> {
-    return new Promise(function(resolve, reject) {
-      cb(function(e) {
-        if(e) {
+    return new Promise((resolve, reject) => {
+      cb(e => {
+        if (e) {
           return reject(e);
         }
         resolve();
@@ -21,26 +22,26 @@ export const promise = {
     });
   },
   delay(ms: number): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(resolve, ms);
     });
   },
   defer() {
     let resolve, reject;
-    const promise = new Promise(function(_resolve, _reject) {
+    const promise = new Promise((_resolve, _reject) => {
       resolve = _resolve;
       reject = _reject;
     });
     return {
       resolve: resolve,
       reject: reject,
-      promise: promise
+      promise: promise,
     };
-  }
+  },
 };
 
 export function makeRequire(dir) {
-  if(!Module._extensions['.$requireAnyWhere']) {
+  if (!Module._extensions['.$requireAnyWhere']) {
     Module._extensions['.$requireAnyWhere'] = () => {};
   }
   const fakePath = join(dir, 'pandora.$requireAnyWhere');
@@ -50,7 +51,7 @@ export function makeRequire(dir) {
 }
 
 export function resolveSymlink(targetPath) {
-  if(lstatSync(targetPath).isSymbolicLink()) {
+  if (lstatSync(targetPath).isSymbolicLink()) {
     const linkTo = join(dirname(targetPath), readlinkSync(targetPath));
     return resolveSymlink(linkTo);
   }
@@ -66,7 +67,7 @@ export class MyConsole extends console.Console {
   }
   error(msg, ...more) {
     super.error(colors.red(`[Pandora.js] ${msg}`), ...more);
-    if(msg.stack) {
+    if (msg.stack) {
       super.error(colors.red(msg.stack), ...more);
     }
   }
@@ -89,7 +90,7 @@ export const avoidLogger = {
 };
 
 export function startsWith(str, target, position = 0) {
-  const {length} = str;
+  const { length } = str;
   if (position < 0) {
     position = 0;
   } else if (position > length) {

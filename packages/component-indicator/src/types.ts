@@ -8,7 +8,6 @@ export interface IIndicator {
   invoke(query: any): Promise<any>;
 }
 
-
 /**
  * 指标维度
  */
@@ -29,4 +28,3 @@ export interface IndicatorResultObject {
   data: any;
   scope: IndicatorScope;
 }
-

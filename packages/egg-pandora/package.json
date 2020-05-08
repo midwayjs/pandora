@@ -32,8 +32,7 @@
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test --exit",
     "cov": "../../node_modules/.bin/nyc npm run test-local",
-    "lint": "eslint .",
-    "ci": "npm run lint && npm run cov",
+    "ci": " npm run cov",
     "autod": "autod"
   },
   "files": [

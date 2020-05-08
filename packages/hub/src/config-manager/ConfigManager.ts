@@ -1,21 +1,20 @@
-import {ProviderManager} from '../object-proxying/ProviderManager';
-import {PANDORA_HUB_CONFIG_MANAGER} from '../const';
+import { ProviderManager } from '../object-proxying/ProviderManager';
+import { PANDORA_HUB_CONFIG_MANAGER } from '../const';
 
 export class ConfigManager {
-
   static async create(providerManager: ProviderManager) {
     const configManager = new ConfigManager();
     await providerManager.publish(configManager, {
-      name: PANDORA_HUB_CONFIG_MANAGER
+      name: PANDORA_HUB_CONFIG_MANAGER,
     });
     return configManager;
   }
 
   private config = {};
-  private callbackStore: Map<string, (...x) => Promise<void>>  = new Map();
+  private callbackStore: Map<string, (...x) => Promise<void>> = new Map();
 
   getConfig(topic?) {
-    if(topic) {
+    if (topic) {
       return this.config[topic];
     }
     return this.config;
@@ -32,7 +31,7 @@ export class ConfigManager {
   async publish(topic: string, config) {
     this.config[topic] = config;
     const cb = this.callbackStore.get(topic);
-    if(cb) {
+    if (cb) {
       await cb(config);
     }
   }
@@ -41,7 +40,7 @@ export class ConfigManager {
     const topics = Object.keys(this.config);
     const ret = [];
     for (const topic of topics) {
-      if(!prefix || topic.startsWith(prefix)) {
+      if (!prefix || topic.startsWith(prefix)) {
         ret.push(topic);
       }
     }
@@ -52,12 +51,10 @@ export class ConfigManager {
     const topics = this.callbackStore.keys();
     const ret = [];
     for (const topic of topics) {
-      if(!prefix || topic.startsWith(prefix)) {
+      if (!prefix || topic.startsWith(prefix)) {
         ret.push(topic);
       }
     }
     return ret;
   }
-
 }
-

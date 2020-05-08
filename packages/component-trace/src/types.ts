@@ -1,7 +1,4 @@
-import * as tracing from '@opentelemetry/tracing'
-
-export interface ComponentTraceConfig {
-}
+import * as tracing from '@opentelemetry/tracing';
 
 /**
  * SpanProcessor is the interface Tracer SDK uses to allow synchronous hooks

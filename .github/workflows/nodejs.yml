@@ -25,3 +25,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i --no-package-lock
     - run: npm run build
+    - run: npm run lint

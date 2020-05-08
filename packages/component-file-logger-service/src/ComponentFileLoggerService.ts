@@ -1,9 +1,13 @@
-import {MessengerServer, MessengerClient} from 'pandora-messenger';
-import {componentName, dependencies, componentConfig} from 'pandora-component-decorator';
-import {FileLoggerRotator} from './FileLoggerRotator';
-import {FileLoggerManager} from './FileLoggerManager';
-import {homedir} from 'os';
-import {join} from 'path';
+import { MessengerServer, MessengerClient } from 'pandora-messenger';
+import {
+  componentName,
+  dependencies,
+  componentConfig,
+} from 'pandora-component-decorator';
+import { FileLoggerRotator } from './FileLoggerRotator';
+import { FileLoggerManager } from './FileLoggerManager';
+import { homedir } from 'os';
+import { join } from 'path';
 
 @componentName('fileLoggerService')
 @dependencies(['ipcHub'])
@@ -18,11 +22,10 @@ import {join} from 'path';
     maxFiles: 2,
     maxFileSize: 100 * 1024 * 1024,
     stdoutLevel: 'NONE',
-    level: 'WARN'
-  }
+    level: 'WARN',
+  },
 })
 export default class ComponentFileLoggerService {
-
   ctx: any;
   fileLoggerRotator: FileLoggerRotator;
   fileLoggerManager: FileLoggerManager;
@@ -43,10 +46,13 @@ export default class ComponentFileLoggerService {
   }
 
   async startAtAllProcesses() {
-    const messengerClient: MessengerClient = this.ctx.hubFacade.getHubClient().getMessengerClient();
+    const messengerClient: MessengerClient = this.ctx.hubFacade
+      .getHubClient()
+      .getMessengerClient();
     this.fileLoggerManager = new FileLoggerManager({
       connectRotator: messengerClient.isOK,
-      stopWriteWhenNoSupervisor: this.ctx.config.fileLoggerService.stopWriteWhenNoSupervisor
+      stopWriteWhenNoSupervisor: this.ctx.config.fileLoggerService
+        .stopWriteWhenNoSupervisor,
     });
     this.ctx.fileLoggerManager = this.fileLoggerManager;
     this.fileLoggerManager.setMessengerClient(messengerClient);
@@ -57,15 +63,17 @@ export default class ComponentFileLoggerService {
   startRecordingCoreLogger() {
     const coreLogger = this.ctx.logger;
     const config = this.ctx.config.coreLogger;
-    if(!config.enable) {
+    if (!config.enable) {
       return;
     }
-    const ownLogger: Map<string, any> = <any> this.fileLoggerManager.createLogger('core', {
-      ...config
-    });
+    const ownLogger: Map<string, any> = this.fileLoggerManager.createLogger(
+      'core',
+      {
+        ...config,
+      }
+    ) as any;
     coreLogger.set('file', ownLogger.get('file'));
   }
-
 }
 
 export * from './FileLoggerManager';

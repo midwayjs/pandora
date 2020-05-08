@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
+  "extends": "./node_modules/mwts/tsconfig-midway.json",
   "compilerOptions": {
     "target": "es2018",
     "module": "commonjs",

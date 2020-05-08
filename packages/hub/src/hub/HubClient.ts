@@ -1,38 +1,46 @@
 import uuid = require('uuid');
 import {
-  Location, Selector, MessagePackage, ReplyPackage, PublishPackage, ForceReplyFn,
-  DispatchHandler, HubMessage, ClientOptions
+  Location,
+  Selector,
+  MessagePackage,
+  ReplyPackage,
+  PublishPackage,
+  ForceReplyFn,
+  DispatchHandler,
+  HubMessage,
+  ClientOptions,
 } from '../types';
-import {MessengerClient} from 'pandora-messenger';
+import { MessengerClient } from 'pandora-messenger';
 import {
-  HUB_SOCKET_NAME, PANDORA_HUB_ACTION_MSG_UP, PANDORA_HUB_ACTION_PUBLISH_UP,
-  PANDORA_HUB_ACTION_UNPUBLISH_UP, PANDORA_HUB_ACTION_MSG_DOWN, PANDORA_HUB_ACTION_ONLINE_UP,
-  PANDORA_HUB_ACTION_OFFLINE_UP, TIMEOUT_OF_RESPONSE
+  HUB_SOCKET_NAME,
+  PANDORA_HUB_ACTION_MSG_UP,
+  PANDORA_HUB_ACTION_PUBLISH_UP,
+  PANDORA_HUB_ACTION_UNPUBLISH_UP,
+  PANDORA_HUB_ACTION_MSG_DOWN,
+  PANDORA_HUB_ACTION_ONLINE_UP,
+  PANDORA_HUB_ACTION_OFFLINE_UP,
+  TIMEOUT_OF_RESPONSE,
 } from '../const';
-import {SelectorUtils} from './SelectorUtils';
-import {format} from 'util';
-import {DefaultDispatchHandler} from './DefaultDispatchHandler';
-import {EventEmitter} from 'events';
-
+import { SelectorUtils } from './SelectorUtils';
+import { format } from 'util';
+import { DefaultDispatchHandler } from './DefaultDispatchHandler';
+import { EventEmitter } from 'events';
 
 export class HubClient extends EventEmitter {
-
   protected messengerClient: MessengerClient = null;
   protected location: Location;
   protected publishedSelectors: Array<Selector> = [];
   protected logger;
   protected dispatchHandlers: DispatchHandler[];
 
-  constructor (options: ClientOptions) {
+  constructor(options: ClientOptions) {
     super();
     this.location = {
       ...options.location,
-      clientId: uuid.v4()
+      clientId: uuid.v4(),
     };
     this.logger = options.logger || console;
-    this.dispatchHandlers = [
-      new DefaultDispatchHandler()
-    ];
+    this.dispatchHandlers = [new DefaultDispatchHandler()];
   }
 
   /**
@@ -44,9 +52,9 @@ export class HubClient extends EventEmitter {
   }
 
   async handleHubDispatch(message: HubMessage): Promise<any> {
-    for(const dispatchHandler of this.dispatchHandlers) {
+    for (const dispatchHandler of this.dispatchHandlers) {
       const ret = await dispatchHandler.dispatch(message);
-      if(ret) {
+      if (ret) {
         return ret;
       }
     }
@@ -62,8 +70,7 @@ export class HubClient extends EventEmitter {
    * @return {Promise<void>}
    */
   async start() {
-
-    if(this.messengerClient) {
+    if (this.messengerClient) {
       throw new Error('HubClient already started');
     }
 
@@ -72,7 +79,7 @@ export class HubClient extends EventEmitter {
         name: HUB_SOCKET_NAME,
         reConnectTimes: 10,
         responseTimeout: TIMEOUT_OF_RESPONSE,
-        unref: true
+        unref: true,
       });
       this.messengerClient.once('error', reject);
       this.messengerClient.ready(resolve);
@@ -84,14 +91,12 @@ export class HubClient extends EventEmitter {
 
     // When reconnected
     this.messengerClient.on('connect', () => {
-      this.resendPublishedSelectors().catch((err) => {
+      this.resendPublishedSelectors().catch(err => {
         this.logger.error(err);
         this.logger.error('resendPublishedSelectors() went wrong');
       });
     });
-
   }
-
 
   protected async sendOnline() {
     await this.sendToHubAndWaitReply(PANDORA_HUB_ACTION_ONLINE_UP);
@@ -118,25 +123,34 @@ export class HubClient extends EventEmitter {
   async unpublish(selector: Selector): Promise<ReplyPackage> {
     const filteredSelectors: Array<Selector> = [];
     const batchReply = [];
-    for(const targetSelector of this.publishedSelectors) {
-      if(!SelectorUtils.match(selector, targetSelector)) {
+    for (const targetSelector of this.publishedSelectors) {
+      if (!SelectorUtils.match(selector, targetSelector)) {
         filteredSelectors.push(targetSelector);
         continue;
       }
-      const res = await this.sendToHubAndWaitReply<PublishPackage>(PANDORA_HUB_ACTION_UNPUBLISH_UP, {
-        data: {
-          selector: targetSelector
+      const res = await this.sendToHubAndWaitReply<PublishPackage>(
+        PANDORA_HUB_ACTION_UNPUBLISH_UP,
+        {
+          data: {
+            selector: targetSelector,
+          },
         }
-      });
+      );
       batchReply.push(res);
-      if(!res.success) {
-        throw new Error(format('Unpublish selector %j went wrong, cause from Hub: %s', selector, res.error));
+      if (!res.success) {
+        throw new Error(
+          format(
+            'Unpublish selector %j went wrong, cause from Hub: %s',
+            selector,
+            res.error
+          )
+        );
       }
     }
     this.publishedSelectors = filteredSelectors;
     return {
       success: true,
-      batchReply
+      batchReply,
     };
   }
 
@@ -144,9 +158,9 @@ export class HubClient extends EventEmitter {
    * Resend all published selectors to HUB when reconnected
    * @return {Promise<void>}
    */
-  protected async resendPublishedSelectors () {
+  protected async resendPublishedSelectors() {
     await this.sendOnline();
-    for(const selector of this.publishedSelectors) {
+    for (const selector of this.publishedSelectors) {
       await this.sendPublishToHub(selector);
     }
   }
@@ -185,12 +199,15 @@ export class HubClient extends EventEmitter {
    * @return {Promise<any>}
    */
   async invoke(remote: Selector, action, message): Promise<ReplyPackage> {
-    const res = await this.sendToHubAndWaitReply<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
-      remote: remote,
-      action,
-      broadcast: false,
-      ...message
-    });
+    const res = await this.sendToHubAndWaitReply<HubMessage>(
+      PANDORA_HUB_ACTION_MSG_UP,
+      {
+        remote: remote,
+        action,
+        broadcast: false,
+        ...message,
+      }
+    );
     return res;
   }
 
@@ -200,13 +217,20 @@ export class HubClient extends EventEmitter {
    * @param message
    * @return {Promise<Array<ReplyPackage>>}
    */
-  async multipleInvoke(remote: Selector, action, message): Promise<Array<ReplyPackage>> {
-    const res = await this.sendToHubAndWaitReply<HubMessage>(PANDORA_HUB_ACTION_MSG_UP, {
-      remote: remote,
-      action,
-      broadcast: true,
-      ...message
-    });
+  async multipleInvoke(
+    remote: Selector,
+    action,
+    message
+  ): Promise<Array<ReplyPackage>> {
+    const res = await this.sendToHubAndWaitReply<HubMessage>(
+      PANDORA_HUB_ACTION_MSG_UP,
+      {
+        remote: remote,
+        action,
+        broadcast: true,
+        ...message,
+      }
+    );
     return res.batchReply;
   }
 
@@ -221,7 +245,7 @@ export class HubClient extends EventEmitter {
       remote: remote,
       action,
       broadcast: false,
-      ...message
+      ...message,
     });
   }
 
@@ -236,7 +260,7 @@ export class HubClient extends EventEmitter {
       remote: remote,
       action,
       broadcast: true,
-      ...message
+      ...message,
     });
   }
 
@@ -244,15 +268,18 @@ export class HubClient extends EventEmitter {
    * Get location of this client
    * @return {Location}
    */
-  getLocation () {
+  getLocation() {
     return this.location;
   }
 
   /**
    * Send a message to Hub
    */
-  protected sendToHub<MessageType extends MessagePackage>(action, message?: MessageType): void {
-    message = <any> (message || {});
+  protected sendToHub<MessageType extends MessagePackage>(
+    action,
+    message?: MessageType
+  ): void {
+    message = (message || {}) as any;
     message.host = this.location;
     this.messengerClient.send(action, message);
   }
@@ -263,19 +290,27 @@ export class HubClient extends EventEmitter {
    * @param {MessageType} message
    * @return {Promise<ReplyPackage>}
    */
-  protected async sendToHubAndWaitReply<MessageType extends MessagePackage>(action, message?: MessageType): Promise<ReplyPackage> {
-    message = <any> (message || {});
+  protected async sendToHubAndWaitReply<MessageType extends MessagePackage>(
+    action,
+    message?: MessageType
+  ): Promise<ReplyPackage> {
+    message = (message || {}) as any;
     message.host = this.location;
     message.needReply = true;
-    return new Promise(((resolve, reject) => {
-      this.messengerClient.send(action, message, (err, message: ReplyPackage) => {
-        if(err) {
-          reject(err);
-          return;
-        }
-        resolve(message);
-      }, message.timeout);
-    }));
+    return new Promise((resolve, reject) => {
+      this.messengerClient.send(
+        action,
+        message,
+        (err, message: ReplyPackage) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(message);
+        },
+        message.timeout
+      );
+    });
   }
 
   /**
@@ -284,13 +319,22 @@ export class HubClient extends EventEmitter {
    * @return {Promise<ReplyPackage>}
    */
   protected async sendPublishToHub(selector: Selector): Promise<ReplyPackage> {
-    const res = await this.sendToHubAndWaitReply<PublishPackage>(PANDORA_HUB_ACTION_PUBLISH_UP, {
-      data: {
-        selector: selector
+    const res = await this.sendToHubAndWaitReply<PublishPackage>(
+      PANDORA_HUB_ACTION_PUBLISH_UP,
+      {
+        data: {
+          selector: selector,
+        },
       }
-    });
-    if(!res.success) {
-      throw new Error(format('Publish selector %j went wrong, cause from Hub: %s', selector, res.error));
+    );
+    if (!res.success) {
+      throw new Error(
+        format(
+          'Publish selector %j went wrong, cause from Hub: %s',
+          selector,
+          res.error
+        )
+      );
     }
     return res;
   }
@@ -299,53 +343,57 @@ export class HubClient extends EventEmitter {
    * Make sure each selector are unique
    * @param selector
    */
-  protected assertExistSelector (selector) {
-    for(const targetSelector of this.publishedSelectors) {
-      if(SelectorUtils.match(selector, targetSelector)) {
+  protected assertExistSelector(selector) {
+    for (const targetSelector of this.publishedSelectors) {
+      if (SelectorUtils.match(selector, targetSelector)) {
         throw new Error(format('Selector %j already exist', selector));
       }
     }
   }
 
-
   startListen() {
-
-    this.messengerClient.on(PANDORA_HUB_ACTION_MSG_DOWN, async (message: HubMessage, reply: ForceReplyFn) => {
-      try {
-        let replyPkg: ReplyPackage = null;
+    this.messengerClient.on(
+      PANDORA_HUB_ACTION_MSG_DOWN,
+      async (message: HubMessage, reply: ForceReplyFn) => {
         try {
-          const data = await this.handleHubDispatch(message);
-          replyPkg = {
-            host: this.location,
-            remote: message.host,
-            success: true,
-            data: data
-          };
-        } catch (error) {
-          replyPkg = {
-            host: this.location,
-            remote: message.host,
-            success: false,
-            error: error
-          };
+          let replyPkg: ReplyPackage = null;
+          try {
+            const data = await this.handleHubDispatch(message);
+            replyPkg = {
+              host: this.location,
+              remote: message.host,
+              success: true,
+              data: data,
+            };
+          } catch (error) {
+            replyPkg = {
+              host: this.location,
+              remote: message.host,
+              success: false,
+              error: error,
+            };
+          }
+          if (message.needReply) {
+            reply(replyPkg);
+          }
+        } catch (err) {
+          this.logger.error(err);
+          this.logger.error(
+            format(
+              'Handing PANDORA_HUB_ACTION_MSG_DOWN went wrong, remote message: %j',
+              message
+            )
+          );
         }
-        if(message.needReply) {
-          reply(replyPkg);
-        }
-      } catch (err) {
-        this.logger.error(err);
-        this.logger.error(format('Handing PANDORA_HUB_ACTION_MSG_DOWN went wrong, remote message: %j', message));
       }
-    });
-
+    );
   }
 
   /**
    * Close this client
    */
   async stop() {
-
-    if(!this.messengerClient) {
+    if (!this.messengerClient) {
       throw new Error('HubClient has not started yet');
     }
 
@@ -357,5 +405,4 @@ export class HubClient extends EventEmitter {
   getMessengerClient() {
     return this.messengerClient;
   }
-
 }

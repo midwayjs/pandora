@@ -7,8 +7,7 @@
   "scripts": {
     "build": "tsc -p .",
     "start": "npm run build && node dist/index",
-    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
-    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
+    "test": "NODE_ENV=unittest mocha --trace-warnings",
     "cov": "nyc mocha",
     "ci": "npm run test",
     "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
@@ -20,7 +19,6 @@
   "devDependencies": {
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
-    "gts": "^2.0.0",
     "mm": "^2.1.0",
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
@@ -56,6 +54,7 @@
   ],
   "dependencies": {
     "@opentelemetry/api": "^0.7.0",
+    "@opentelemetry/core": "^0.7.0",
     "@opentelemetry/metrics": "^0.7.0",
     "pandora-component-decorator": "^2.1.2",
     "pandora-dollar": "^2.1.2"

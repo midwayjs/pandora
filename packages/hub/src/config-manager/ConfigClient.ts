@@ -1,12 +1,13 @@
-import {ConfigManager} from './ConfigManager';
-import {PANDORA_HUB_CONFIG_MANAGER} from '../const';
-import {ConsumerManager} from '../object-proxying/ConsumerManager';
+import { ConfigManager } from './ConfigManager';
+import { PANDORA_HUB_CONFIG_MANAGER } from '../const';
+import { ConsumerManager } from '../object-proxying/ConsumerManager';
 
 export class ConfigClient {
-
   static async create(consumerManager: ConsumerManager) {
-    const configManagerProxy: ConfigManager = await consumerManager.getProxy<ConfigManager>({
-      name: PANDORA_HUB_CONFIG_MANAGER
+    const configManagerProxy: ConfigManager = await consumerManager.getProxy<
+      ConfigManager
+    >({
+      name: PANDORA_HUB_CONFIG_MANAGER,
     });
     return new ConfigClient(configManagerProxy);
   }
@@ -29,5 +30,4 @@ export class ConfigClient {
   async getConfig(topic?: string) {
     return await this.configManagerProxy.getConfig(topic);
   }
-
 }

@@ -1,6 +1,6 @@
-import {MessengerClient} from 'pandora-messenger';
-import {ObjectConsumer} from './object-proxying/ObjectConsumer';
-import {HubClient} from './hub/HubClient';
+import { MessengerClient } from 'pandora-messenger';
+import { ObjectConsumer } from './object-proxying/ObjectConsumer';
+import { HubClient } from './hub/HubClient';
 
 export interface Location {
   initialization?: boolean;
@@ -15,14 +15,13 @@ export interface Selector extends Location {
   objectTag?: string;
 }
 
-
-export const selectorSchema  = [
+export const selectorSchema = [
   'clientId',
   'appName',
   'processName',
   'pid',
   'objectName',
-  'tag'
+  'tag',
 ];
 
 export interface ObjectMessage extends HubMessage {
@@ -56,7 +55,7 @@ export interface PublishPackage extends MessagePackage {
   broadcast?: null;
   remote?: null;
   data: {
-    selector: Selector
+    selector: Selector;
   };
 }
 
@@ -64,7 +63,7 @@ export interface LookupPackage extends MessagePackage {
   broadcast?: null;
   remote?: null;
   data: {
-    selector: Selector
+    selector: Selector;
   };
 }
 
@@ -78,7 +77,7 @@ export interface SelectedInfo {
 }
 
 export interface DispatchHandler {
-  dispatch(message: HubMessage): Promise<any> | any
+  dispatch(message: HubMessage): Promise<any> | any;
 }
 
 export interface ObjectDescription {
@@ -100,15 +99,34 @@ export interface Introspection {
 
 export interface ObjectProxyBehaviour {
   host: {
-    invoke (host: any, method: string, params: any[]): Promise<any>;
-    getProperty (host: any, name: string): Promise<any>;
+    invoke(host: any, method: string, params: any[]): Promise<any>;
+    getProperty(host: any, name: string): Promise<any>;
     introspect(host: any): Introspection;
-    subscribe(hub: HubClient, objectDescription: ObjectDescription, host: any, register: string): Promise<any>;
-    unsubscribe(hub: HubClient, objectDescription: ObjectDescription, host: any, register: string): Promise<any>;
+    subscribe(
+      hub: HubClient,
+      objectDescription: ObjectDescription,
+      host: any,
+      register: string
+    ): Promise<any>;
+    unsubscribe(
+      hub: HubClient,
+      objectDescription: ObjectDescription,
+      host: any,
+      register: string
+    ): Promise<any>;
   };
   proxy: {
-    invoke (proxy: any, consumer: ObjectConsumer, method: string, params: any[]): Promise<any>
-    getProperty (proxy: any, consumer: ObjectConsumer, name: string): Promise<any>;
+    invoke(
+      proxy: any,
+      consumer: ObjectConsumer,
+      method: string,
+      params: any[]
+    ): Promise<any>;
+    getProperty(
+      proxy: any,
+      consumer: ObjectConsumer,
+      name: string
+    ): Promise<any>;
     subscribe(proxy, consumer: ObjectConsumer, register: string, fn);
     unsubscribe(proxy, consumer: ObjectConsumer, register: string, fn?);
   };
@@ -119,8 +137,7 @@ export interface ClientOptions {
   logger?: any;
 }
 
-export interface FacadeSetupOptions extends ClientOptions {
-}
+export type FacadeSetupOptions = ClientOptions;
 
 export interface ConsumerExtInfo {
   timeout: number;

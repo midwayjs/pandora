@@ -1,10 +1,9 @@
-import {componentName, dependencies} from 'pandora-component-decorator';
-import {V8GaugeSet} from './node/V8GaugeSet';
+import { componentName, dependencies } from 'pandora-component-decorator';
+import { V8GaugeSet } from './node/V8GaugeSet';
 
 @componentName('nodeMetrics')
 @dependencies(['metrics'])
 export default class ComponentNodeMetrics {
-
   ctx: any;
   v8Gauge: V8GaugeSet;
   constructor(ctx: any) {
@@ -21,10 +20,9 @@ export default class ComponentNodeMetrics {
 
   async startAtProcesses() {
     // TODO: api.metrics.getMeterProvider doesn't reflect correct global meterProvider
-    this.v8Gauge = new V8GaugeSet(5000, this.ctx.meterProvider)
-    this.v8Gauge.getMetrics()
+    this.v8Gauge = new V8GaugeSet(5000, this.ctx.meterProvider);
+    this.v8Gauge.getMetrics();
   }
-
 }
 
 export * from './node/V8GaugeSet';

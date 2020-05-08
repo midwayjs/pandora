@@ -1,20 +1,19 @@
-import {componentName} from 'pandora-component-decorator';
-import {HubServer, HubFacade} from 'pandora-hub';
-import {consoleLogger} from 'pandora-dollar';
+import { componentName } from 'pandora-component-decorator';
+import { HubServer, HubFacade } from 'pandora-hub';
+import { consoleLogger } from 'pandora-dollar';
 
 @componentName('ipcHub')
 export default class ComponentIPCHub {
-
   ctx: any;
   hubServer: HubServer;
   hubFacade: HubFacade;
   constructor(ctx) {
     this.ctx = ctx;
-    if(ctx.mode === 'supervisor') {
-      this.hubServer = new HubServer;
+    if (ctx.mode === 'supervisor') {
+      this.hubServer = new HubServer();
       ctx.hubServer = this.hubServer;
     }
-    this.hubFacade = new HubFacade;
+    this.hubFacade = new HubFacade();
     ctx.hubFacade = this.hubFacade;
   }
 
@@ -25,7 +24,9 @@ export default class ComponentIPCHub {
     try {
       await this.hubFacade.initConfigManager();
     } catch (err) {
-      consoleLogger.warn('IPC Hub init ConfigManager failed at PID ' + process.pid + ', ' + err);
+      consoleLogger.warn(
+        'IPC Hub init ConfigManager failed at PID ' + process.pid + ', ' + err
+      );
     }
   }
 
@@ -33,26 +34,30 @@ export default class ComponentIPCHub {
     await this.startClient();
     try {
       await this.hubFacade.initConfigClient();
-    } catch(err) {
-      consoleLogger.warn('IPC Hub init ConfigClient failed at PID ' + process.pid + ', ' + err);
+    } catch (err) {
+      consoleLogger.warn(
+        'IPC Hub init ConfigClient failed at PID ' + process.pid + ', ' + err
+      );
     }
   }
 
   async startClient() {
-    const {appName, processName} = this.ctx;
+    const { appName, processName } = this.ctx;
     this.hubFacade.setup({
       location: {
         appName: appName,
         processName: processName,
-        pid: process.pid.toString()
+        pid: process.pid.toString(),
       },
-      logger: consoleLogger
+      logger: consoleLogger,
     });
     try {
       await this.hubFacade.start();
       consoleLogger.info('IPC Hub Client started at PID ' + process.pid);
-    } catch(err) {
-      consoleLogger.warn('IPC Hub Client start failed at PID ' + process.pid + ', ' + err);
+    } catch (err) {
+      consoleLogger.warn(
+        'IPC Hub Client start failed at PID ' + process.pid + ', ' + err
+      );
     }
   }
 
@@ -64,5 +69,4 @@ export default class ComponentIPCHub {
     await this.hubFacade.stop();
     await this.hubServer.stop();
   }
-
 }

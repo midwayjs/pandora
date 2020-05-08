@@ -1,7 +1,7 @@
-import {SelectedInfo, Selector} from '../types';
-import {MessengerClient} from 'pandora-messenger';
-import {SelectorUtils} from './SelectorUtils';
-import {format} from 'util';
+import { SelectedInfo, Selector } from '../types';
+import { MessengerClient } from 'pandora-messenger';
+import { SelectorUtils } from './SelectorUtils';
+import { format } from 'util';
 
 // TODO: Increase performance
 
@@ -9,8 +9,7 @@ import {format} from 'util';
  * RouteTable
  */
 export class RouteTable {
-
-  mapClientToSelector: Map<MessengerClient, Selector[]> = new Map;
+  mapClientToSelector: Map<MessengerClient, Selector[]> = new Map();
 
   /**
    * Save a relation between Client and Selector
@@ -18,10 +17,10 @@ export class RouteTable {
    * @param {Selector} selector
    */
   setRelation(client: MessengerClient, selector: Selector) {
-    if(!selector) {
-      throw new Error(format( 'Selector is required, but got %j', selector));
+    if (!selector) {
+      throw new Error(format('Selector is required, but got %j', selector));
     }
-    if(!this.mapClientToSelector.has(client)) {
+    if (!this.mapClientToSelector.has(client)) {
       this.mapClientToSelector.set(client, []);
     }
     const selectors = this.mapClientToSelector.get(client);
@@ -34,17 +33,17 @@ export class RouteTable {
    * @param {Selector} selector
    */
   forgetRelation(client: MessengerClient, selector: Selector) {
-    if(!this.mapClientToSelector.has(client)) {
+    if (!this.mapClientToSelector.has(client)) {
       throw new Error('Can not found client when forgetRelation()');
     }
     const targetSelectors = this.mapClientToSelector.get(client);
     const filteredSelectors: Array<Selector> = [];
-    for(const targetSelector of targetSelectors)  {
-      if(!SelectorUtils.match(selector, targetSelector)) {
+    for (const targetSelector of targetSelectors) {
+      if (!SelectorUtils.match(selector, targetSelector)) {
         filteredSelectors.push(targetSelector);
       }
     }
-    if(!filteredSelectors.length) {
+    if (!filteredSelectors.length) {
       this.mapClientToSelector.delete(client);
       return;
     }
@@ -65,21 +64,19 @@ export class RouteTable {
    * @return {Array<SelectedInfo>}
    */
   selectClients(selector?: Selector): Array<SelectedInfo> {
-
     const selectedClients = [];
 
-    for(const [client, targetSelectors] of this.mapClientToSelector) {
-      for(const targetSelector of targetSelectors) {
+    for (const [client, targetSelectors] of this.mapClientToSelector) {
+      for (const targetSelector of targetSelectors) {
         const found = SelectorUtils.match(selector, targetSelector);
-        if(found) {
-          selectedClients.push({client: client, targetSelectors});
+        if (found) {
+          selectedClients.push({ client: client, targetSelectors });
           break;
         }
       }
     }
 
     return selectedClients;
-
   }
 
   /**
@@ -98,5 +95,4 @@ export class RouteTable {
   getSelectorsByClient(client: MessengerClient) {
     return this.mapClientToSelector.get(client);
   }
-
 }

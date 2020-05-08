@@ -1,10 +1,9 @@
-import {SelectedInfo} from '../types';
+import { SelectedInfo } from '../types';
 
 /**
  * Balancer
  */
 export class Balancer {
-
   protected clients: Array<SelectedInfo>;
   constructor(clients) {
     this.clients = clients;
@@ -15,7 +14,7 @@ export class Balancer {
    * @return {SelectedInfo}
    */
   pick(): SelectedInfo {
-    if(this.clients.length === 1) {
+    if (this.clients.length === 1) {
       return this.clients[0];
     }
     const randomInt = Balancer.getRandomInt(0, this.clients.length - 1);
@@ -25,6 +24,4 @@ export class Balancer {
   public static getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-
 }
-

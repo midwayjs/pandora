@@ -13,4 +13,3 @@ export class FileReporterUtil {
     return md5(hostname + pid + Date.now() + seedIndex++);
   }
 }
-

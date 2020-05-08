@@ -7,8 +7,7 @@
   "scripts": {
     "build": "tsc -p .",
     "start": "npm run build && node dist/index",
-    "lint": "../../node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
-    "test": "npm run lint && NODE_ENV=unittest mocha --trace-warnings",
+    "test": "NODE_ENV=unittest mocha --trace-warnings",
     "cov": "nyc mocha",
     "ci": "npm run test",
     "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
@@ -23,7 +22,6 @@
     "@types/mocha": "^2.2.41",
     "@types/node": "^12.0.0",
     "chai": "^3.5.0",
-    "gts": "^2.0.0",
     "metrics-common": "^1.1.6",
     "mm": "^2.1.0",
     "mocha": "^3.5.0",

@@ -1,24 +1,23 @@
-import {IndicatorResultObject, IndicatorScope} from './types';
+import { IndicatorResultObject, IndicatorScope } from './types';
 
 export class IndicatorUtil {
-  static mergeRawIndicatorResultRows(rows: IndicatorResultObject[]): IndicatorResultObject[] {
-
-    const hitMap: Map<string, boolean> = new Map;
+  static mergeRawIndicatorResultRows(
+    rows: IndicatorResultObject[]
+  ): IndicatorResultObject[] {
+    const hitMap: Map<string, boolean> = new Map();
     const ret = [];
 
-    for(const row of rows) {
-
+    for (const row of rows) {
       let key: string;
 
       switch (row.scope) {
-
         case IndicatorScope.PROCESS:
           ret.push(row);
           break;
 
         case IndicatorScope.APP:
           key = `${IndicatorScope.APP}##${row.appName}##${row.group}##${row.key}`;
-          if(hitMap.has(key)) {
+          if (hitMap.has(key)) {
             break;
           }
           hitMap.set(key, true);
@@ -27,7 +26,7 @@ export class IndicatorUtil {
 
         case IndicatorScope.SYSTEM:
           key = `${IndicatorScope.SYSTEM}##${row.group}##${row.key}`;
-          if(hitMap.has(key)) {
+          if (hitMap.has(key)) {
             break;
           }
           hitMap.set(key, true);
@@ -37,12 +36,9 @@ export class IndicatorUtil {
         default:
           ret.push(row);
           break;
-
       }
-
     }
 
     return ret;
-
   }
 }

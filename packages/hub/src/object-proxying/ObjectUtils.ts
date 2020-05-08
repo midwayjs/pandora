@@ -1,4 +1,4 @@
-import {ObjectDescription} from '../types';
+import { ObjectDescription } from '../types';
 
 export class ObjectUtils {
   /**
@@ -6,8 +6,10 @@ export class ObjectUtils {
    * @param {ObjectDescription} objectDescription
    * @return {string}
    */
-  static objectDescriptionToId (objectDescription: ObjectDescription) {
-    const id = objectDescription.name + (objectDescription.tag ? ( ':' + objectDescription.tag ) : '');
+  static objectDescriptionToId(objectDescription: ObjectDescription) {
+    const id =
+      objectDescription.name +
+      (objectDescription.tag ? ':' + objectDescription.tag : '');
     return id;
   }
 }

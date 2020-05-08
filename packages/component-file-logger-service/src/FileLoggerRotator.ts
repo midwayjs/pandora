@@ -1,11 +1,20 @@
-import {MessengerServer} from 'pandora-messenger';
+import { MessengerServer } from 'pandora-messenger';
 import assert = require('assert');
 import * as $ from 'pandora-dollar';
 import moment = require('moment');
 import fs = require('mz/fs');
 import ms = require('humanize-ms');
-import {DEFAULT_ROTATION_CONFIG, ILogger, HEARTBEAT_TIME_MAX, MESSENGER_ACTION_SERVICE, MsgReloadPayload,
-  MsgHeartbeatPayload, MsgSendStrategyPayload, RotationStrategy, MsgPkg} from './types';
+import {
+  DEFAULT_ROTATION_CONFIG,
+  ILogger,
+  HEARTBEAT_TIME_MAX,
+  MESSENGER_ACTION_SERVICE,
+  MsgReloadPayload,
+  MsgHeartbeatPayload,
+  MsgSendStrategyPayload,
+  RotationStrategy,
+  MsgPkg,
+} from './types';
 
 const ERROR_MSG_TIMER_BEEN_REMOVED = 'TIMER_BEEN_REMOVED';
 const MIN_INTERVAL = 60 * 1000;
@@ -13,24 +22,33 @@ const MIN_INTERVAL = 60 * 1000;
 const emptyFn = () => {};
 
 export class FileLoggerRotator {
-
-  protected logger: ILogger = <ILogger> { log: emptyFn, debug: emptyFn, info: emptyFn, warn: console.warn, error: console.error };
+  protected logger: ILogger = {
+    log: emptyFn,
+    debug: emptyFn,
+    info: emptyFn,
+    warn: console.warn,
+    error: console.error,
+  } as ILogger;
   protected messengerServer: MessengerServer;
-  protected strategyMap: Map<string, RotationStrategy> = new Map;
-  protected strategyHeartbeat: Map<string, number> = new Map;
+  protected strategyMap: Map<string, RotationStrategy> = new Map();
+  protected strategyHeartbeat: Map<string, number> = new Map();
   protected timerClearances: { clear(): void }[] = [];
   protected heartbeatCheckTime = 10000;
   protected heartbeatTimeMax = HEARTBEAT_TIME_MAX;
 
-  constructor(options?: { logger?: ILogger; heartbeatCheckTime?: number; heartbeatTimeMax?: number; }) {
+  constructor(options?: {
+    logger?: ILogger;
+    heartbeatCheckTime?: number;
+    heartbeatTimeMax?: number;
+  }) {
     options = options || {};
-    if(options.logger) {
+    if (options.logger) {
       this.logger = options.logger;
     }
-    if(options.heartbeatCheckTime) {
+    if (options.heartbeatCheckTime) {
       this.heartbeatCheckTime = options.heartbeatCheckTime;
     }
-    if(options.heartbeatTimeMax) {
+    if (options.heartbeatTimeMax) {
       this.heartbeatTimeMax = options.heartbeatTimeMax;
     }
   }
@@ -40,32 +58,32 @@ export class FileLoggerRotator {
    * @return {Promise<void>}
    */
   public async start(): Promise<void> {
-
-    this.messengerServer.on(MESSENGER_ACTION_SERVICE, (message: MsgPkg, reply) => {
-
-      if(message.type === 'logger-send-strategy') {
-        const payload: MsgSendStrategyPayload = <MsgSendStrategyPayload> message.payload;
-        const strategy = payload.strategy;
-        try {
-          this.receiveStrategy(strategy);
-        } catch (err) {
-          reply({ error: err });
+    this.messengerServer.on(
+      MESSENGER_ACTION_SERVICE,
+      (message: MsgPkg, reply) => {
+        if (message.type === 'logger-send-strategy') {
+          const payload: MsgSendStrategyPayload = message.payload as MsgSendStrategyPayload;
+          const strategy = payload.strategy;
+          try {
+            this.receiveStrategy(strategy);
+          } catch (err) {
+            reply({ error: err });
+            return;
+          }
+          reply({ error: null, result: 'ok' });
           return;
         }
-        reply({ error: null, result: 'ok' });
-        return;
-      }
 
-      if(message.type === 'logger-heartbeat') {
-        const payload: MsgHeartbeatPayload = <MsgHeartbeatPayload> message.payload;
-        const uuid = payload.uuid;
-        if(this.strategyMap.has(uuid)) {
-          const now = Date.now();
-          this.strategyHeartbeat.set(uuid, now);
+        if (message.type === 'logger-heartbeat') {
+          const payload: MsgHeartbeatPayload = message.payload as MsgHeartbeatPayload;
+          const uuid = payload.uuid;
+          if (this.strategyMap.has(uuid)) {
+            const now = Date.now();
+            this.strategyHeartbeat.set(uuid, now);
+          }
         }
       }
-
-    });
+    );
 
     // Support `kill -USR1` to trigger reload logs
     process.on('SIGUSR1', () => {
@@ -73,28 +91,30 @@ export class FileLoggerRotator {
     });
 
     // Start to handing heartbeat
-    this.startHeartbeatWhile().catch((err) => {
+    this.startHeartbeatWhile().catch(err => {
       this.logger.error(err);
       throw err;
     });
 
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       this.messengerServer.ready(resolve);
     });
 
     this.logger.info('[loggerRotator] started service.');
-
   }
 
   /**
    * Receive a log rotator strategy
    * @param {RotationStrategy} strategy
    */
-  public receiveStrategy (strategy: RotationStrategy) {
+  public receiveStrategy(strategy: RotationStrategy) {
     strategy = Object.assign({}, DEFAULT_ROTATION_CONFIG, strategy);
 
     const uuid: string = strategy.uuid;
-    assert(!this.strategyMap.has(uuid), 'Strategy uuid ' + uuid + ' already has');
+    assert(
+      !this.strategyMap.has(uuid),
+      'Strategy uuid ' + uuid + ' already has'
+    );
     this.strategyMap.set(uuid, strategy);
     const now = Date.now();
     this.strategyHeartbeat.set(uuid, now);
@@ -104,20 +124,20 @@ export class FileLoggerRotator {
   /**
    * Reentry while
    */
-  protected reentry () {
-    if(this.timerClearances.length) {
-      for(let {clear} of this.timerClearances ) {
+  protected reentry() {
+    if (this.timerClearances.length) {
+      for (const { clear } of this.timerClearances) {
         clear();
       }
       this.timerClearances.length = 0;
     }
-    this.startLogRotateByDateTimer().catch((err) => {
-      if(err.message !== ERROR_MSG_TIMER_BEEN_REMOVED) {
+    this.startLogRotateByDateTimer().catch(err => {
+      if (err.message !== ERROR_MSG_TIMER_BEEN_REMOVED) {
         this.logger.error(err);
       }
     });
-    this.startLogRotateBySize().catch((err) => {
-      if(err.message !== ERROR_MSG_TIMER_BEEN_REMOVED) {
+    this.startLogRotateBySize().catch(err => {
+      if (err.message !== ERROR_MSG_TIMER_BEEN_REMOVED) {
         this.logger.error(err);
       }
     });
@@ -132,15 +152,17 @@ export class FileLoggerRotator {
       await $.promise.delay(this.heartbeatCheckTime);
       const now = Date.now();
       let needRestart = false;
-      for(let [uuid, beatTime] of this.strategyHeartbeat.entries()) {
-        if((now - beatTime) > this.heartbeatTimeMax) {
+      for (const [uuid, beatTime] of this.strategyHeartbeat.entries()) {
+        if (now - beatTime > this.heartbeatTimeMax) {
           const strategy = this.strategyMap.get(uuid);
-          this.logger.warn(`logger ${ strategy.file } heartbeat timeout will remove log rotate task`);
+          this.logger.warn(
+            `logger ${strategy.file} heartbeat timeout will remove log rotate task`
+          );
           this.removeStrategyWithoutRestart(uuid);
           needRestart = true;
         }
       }
-      if(needRestart) {
+      if (needRestart) {
         this.reentry();
       }
     }
@@ -153,7 +175,13 @@ export class FileLoggerRotator {
   protected async startLogRotateBySize(): Promise<void> {
     while (true) {
       const dealyMs = this.caclIntervalForRotateLogBySize();
-      this.logger.info(`will rotate by size after ${ms(dealyMs)} ${this.getStrategiesRotateBySize().map((x) => x.file).join(', ')}`);
+      this.logger.info(
+        `will rotate by size after ${ms(
+          dealyMs
+        )} ${this.getStrategiesRotateBySize()
+          .map(x => x.file)
+          .join(', ')}`
+      );
       await this.delayOnOptimisticLock(dealyMs);
       await this.rotateLogBySize();
     }
@@ -169,7 +197,13 @@ export class FileLoggerRotator {
       const ONE_DAY = ms('1d');
       // 计算离0点还差的时间间隔
       const dealyMs = now.clone().add(ONE_DAY, 'ms').startOf('day').diff(now);
-      this.logger.info(`will rotate by date after ${ms(dealyMs)} ${this.getStrategiesRotateByDate().map((x) => x.file).join(', ')}`);
+      this.logger.info(
+        `will rotate by date after ${ms(
+          dealyMs
+        )} ${this.getStrategiesRotateByDate()
+          .map(x => x.file)
+          .join(', ')}`
+      );
       await this.delayOnOptimisticLock(dealyMs);
       await this.rotateLogByDate();
     }
@@ -181,8 +215,12 @@ export class FileLoggerRotator {
    */
   protected async rotateLogByDate(): Promise<void> {
     const strategiesRotateByDate = this.getStrategiesRotateByDate();
-    this.logger.info(`start rename files:\n${strategiesRotateByDate.map(x => x.file).join('\n')}`);
-    for(let strategy of strategiesRotateByDate) {
+    this.logger.info(
+      `start rename files:\n${strategiesRotateByDate
+        .map(x => x.file)
+        .join('\n')}`
+    );
+    for (const strategy of strategiesRotateByDate) {
       try {
         await this.renameLogfile(strategy.file);
       } catch (err) {
@@ -217,15 +255,17 @@ export class FileLoggerRotator {
    * @return {Promise<void>}
    */
   protected async rotateLogBySize(): Promise<void> {
-    for(let item of this.getStrategiesRotateBySize()) {
+    for (const item of this.getStrategiesRotateBySize()) {
       try {
-        let logfile = item.file;
-        let maxFileSize = item.maxFileSize;
+        const logfile = item.file;
+        const maxFileSize = item.maxFileSize;
         const exists = await fs.exists(logfile);
         if (exists) {
           const stat = await fs.stat(logfile);
           if (stat.size >= maxFileSize) {
-            this.logger.info(`File ${logfile} reach the maximum file size, current size: ${stat.size}, max size: ${maxFileSize}`);
+            this.logger.info(
+              `File ${logfile} reach the maximum file size, current size: ${stat.size}, max size: ${maxFileSize}`
+            );
             await this.rotateBySize(item);
           }
         }
@@ -242,14 +282,14 @@ export class FileLoggerRotator {
    * @return {Promise<void>}
    */
   protected async rotateBySize(strategy: RotationStrategy): Promise<void> {
-    let logfile = strategy.file;
-    let maxFiles = strategy.maxFiles;
+    const logfile = strategy.file;
+    const maxFiles = strategy.maxFiles;
     const exists = await fs.exists(logfile);
     if (!exists) {
       return;
     }
     // remove max
-    let maxFileName = `${logfile}.${maxFiles}`;
+    const maxFileName = `${logfile}.${maxFiles}`;
     const maxExists = await fs.exists(maxFileName);
     if (maxExists) {
       await fs.unlink(maxFileName);
@@ -288,11 +328,12 @@ export class FileLoggerRotator {
    * @return {number}
    */
   protected caclIntervalForRotateLogBySize() {
-    const userSpecedDurations = this.getStrategiesRotateBySize().map((x: RotationStrategy) => x.rotateDuration)
+    const userSpecedDurations = this.getStrategiesRotateBySize()
+      .map((x: RotationStrategy) => x.rotateDuration)
       // the const interval could be Infinity if this.getStrategiesRotateBySize() get an empty array, given a default value next line
       .concat([MIN_INTERVAL * 10]);
 
-    const interval = Math.max(Math.min.apply(Math, userSpecedDurations), MIN_INTERVAL);
+    const interval = Math.max(Math.min(...userSpecedDurations), MIN_INTERVAL);
     return interval;
   }
 
@@ -301,12 +342,12 @@ export class FileLoggerRotator {
    * @param {string} uuid
    */
   protected broadcastReload(uuid?: string) {
-    this.messengerServer.broadcast(MESSENGER_ACTION_SERVICE, <MsgPkg> {
+    this.messengerServer.broadcast(MESSENGER_ACTION_SERVICE, {
       type: 'logger-reload',
-      payload: <MsgReloadPayload> {
-        uuid: uuid
-      }
-    });
+      payload: {
+        uuid: uuid,
+      } as MsgReloadPayload,
+    } as MsgPkg);
   }
 
   /**
@@ -318,7 +359,7 @@ export class FileLoggerRotator {
     return new Promise((resolve, reject) => {
       let emit = false;
       const timer = setTimeout(() => {
-        if(emit) {
+        if (emit) {
           return;
         }
         emit = true;
@@ -327,18 +368,18 @@ export class FileLoggerRotator {
       }, ms);
       const timerClearance = {
         clear: () => {
-          if(emit) {
+          if (emit) {
             return;
           }
           emit = true;
           removeTimerClearance();
           reject(new Error(ERROR_MSG_TIMER_BEEN_REMOVED));
           clearTimeout(timer);
-        }
+        },
       };
       const removeTimerClearance = () => {
         const idx = this.timerClearances.indexOf(timerClearance);
-        if(-1 !== idx) {
+        if (-1 !== idx) {
           this.timerClearances.slice(idx, 1);
         }
       };
@@ -352,15 +393,14 @@ export class FileLoggerRotator {
    */
   protected getFilteredStrategiesList(): RotationStrategy[] {
     const ret = [];
-    const fileHashFilter: Map<string, RotationStrategy> = new Map;
-    for (let strategy of this.strategyMap.values()) {
+    const fileHashFilter: Map<string, RotationStrategy> = new Map();
+    for (const strategy of this.strategyMap.values()) {
       if (!fileHashFilter.has(strategy.file)) {
         ret.push(strategy);
         fileHashFilter.set(strategy.file, strategy);
       }
     }
     return ret;
-
   }
 
   /**
@@ -369,7 +409,7 @@ export class FileLoggerRotator {
    */
   protected getStrategiesRotateByDate(): RotationStrategy[] {
     const ret = [];
-    for (let strategy of this.getFilteredStrategiesList()) {
+    for (const strategy of this.getFilteredStrategiesList()) {
       if (strategy.type === 'date') {
         ret.push(strategy);
       }
@@ -383,7 +423,7 @@ export class FileLoggerRotator {
    */
   protected getStrategiesRotateBySize(): RotationStrategy[] {
     const ret = [];
-    for (let strategy of this.getFilteredStrategiesList()) {
+    for (const strategy of this.getFilteredStrategiesList()) {
       if (strategy.type === 'size') {
         ret.push(strategy);
       }
@@ -396,7 +436,10 @@ export class FileLoggerRotator {
    * @param uuid
    */
   protected removeStrategyWithoutRestart(uuid) {
-    assert(this.strategyMap.has(uuid), 'Could not found strategy uuid ' + uuid + '');
+    assert(
+      this.strategyMap.has(uuid),
+      'Could not found strategy uuid ' + uuid + ''
+    );
     this.strategyMap.delete(uuid);
     this.strategyHeartbeat.delete(uuid);
   }
@@ -404,5 +447,4 @@ export class FileLoggerRotator {
   public setMessengerServer(messengerServer: MessengerServer) {
     this.messengerServer = messengerServer;
   }
-
 }

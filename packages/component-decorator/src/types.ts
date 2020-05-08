@@ -6,5 +6,5 @@ export interface IComponent {
 }
 
 export interface IComponentConstructor {
-  new(ctx: any): IComponent;
+  new (ctx: any): IComponent;
 }

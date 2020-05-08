@@ -4,17 +4,19 @@
   "devDependencies": {
     "git-hooks": "^1.1.10",
     "lerna": "^3.20.2",
+    "mwts": "^1.0.4",
     "nyc": "^13.1.0",
     "pandora-site-tools": "^1.0.0",
     "ts-node": "^7.0.1",
     "typedoc": "^0.13.0",
     "typescript": "~3.8.0",
-    "vuepress": "^0.14.4",
-    "gts": "^2.0.0"
+    "vuepress": "^0.14.4"
   },
   "scripts": {
     "postinstall": "lerna bootstrap --no-ci",
     "build": "lerna run build",
+    "lint": "lerna exec mwts check",
+    "lint:fix": "lerna exec mwts fix",
     "test": "lerna run test --concurrency=1 --stream",
     "cov": "nyc lerna run cov --concurrency=1 --stream",
     "ci": "npm run build && npm run cov",

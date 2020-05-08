@@ -1,6 +1,6 @@
-import {componentName, dependencies} from 'pandora-component-decorator';
-import {IndicatorManager} from './IndicatorManager';
-import {consoleLogger} from 'pandora-dollar';
+import { componentName, dependencies } from 'pandora-component-decorator';
+import { IndicatorManager } from './IndicatorManager';
+import { consoleLogger } from 'pandora-dollar';
 
 @componentName('indicator')
 @dependencies(['ipcHub'])
@@ -21,9 +21,16 @@ export default class ComponentIndicator {
   async publish() {
     try {
       await this.indicatorManager.publish();
-      consoleLogger.info('Indicator manager published on IPC hub at PID ' + process.pid);
-    } catch(err) {
-      consoleLogger.warn('Indicator manager publish failed on IPC hub at PID ' + process.pid + ', ' + err);
+      consoleLogger.info(
+        'Indicator manager published on IPC hub at PID ' + process.pid
+      );
+    } catch (err) {
+      consoleLogger.warn(
+        'Indicator manager publish failed on IPC hub at PID ' +
+          process.pid +
+          ', ' +
+          err
+      );
     }
   }
 }

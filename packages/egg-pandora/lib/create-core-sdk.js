@@ -14,14 +14,14 @@ module.exports = (app, mode) => {
           ...extendPandoraConfig,
           coreLogger: {
             ...(extendPandoraConfig.coreLogger ?? {}),
-            dir: app.config.logger.dir
+            dir: app.config.logger.dir,
           },
           sandboxFileReporter: {
             ...(extendPandoraConfig.sandboxFileReporter ?? {}),
-            logsDir: app.config.logger.dir
-          }
+            logsDir: app.config.logger.dir,
+          },
         },
-        configDir: appDir
+        configDir: appDir,
       },
     ];
   }
@@ -30,13 +30,12 @@ module.exports = (app, mode) => {
   };
   const opts = {
     mode,
-    appName, appDir,
+    appName,
+    appDir,
     extendConfig: optExtendConfig,
     extendContext,
   };
   const sdk = new CoreSDK(opts);
   sdk.instantiate();
   return sdk;
-
 };
-

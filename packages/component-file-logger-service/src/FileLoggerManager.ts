@@ -1,55 +1,68 @@
 import * as $ from 'pandora-dollar';
-import {MsgSendStrategyPayload, DEFAULT_LOGGER_CONFIG, RotationStrategy, ILogger, MsgHeartbeatPayload, HEARTBEAT_TIME, LoggerConfig, MsgReloadPayload, MsgPkg, MESSENGER_ACTION_SERVICE} from './types';
+import {
+  MsgSendStrategyPayload,
+  DEFAULT_LOGGER_CONFIG,
+  RotationStrategy,
+  ILogger,
+  MsgHeartbeatPayload,
+  HEARTBEAT_TIME,
+  LoggerConfig,
+  MsgReloadPayload,
+  MsgPkg,
+  MESSENGER_ACTION_SERVICE,
+} from './types';
 import assert = require('assert');
-import {EggLogger} from 'egg-logger';
-import {join} from 'path';
-import {MessengerClient} from 'pandora-messenger';
+import { EggLogger } from 'egg-logger';
+import { join } from 'path';
+import { MessengerClient } from 'pandora-messenger';
 
 /**
  * Class LoggerManager
  */
 export class FileLoggerManager {
-
   protected messengerClient: MessengerClient;
   protected loggerMap: Map<string, any> = new Map();
   protected connectRotator = false;
-  protected stopWriteWhenNoSupervisor: boolean = true;
+  protected stopWriteWhenNoSupervisor = true;
   protected heartbeatTime: number = HEARTBEAT_TIME;
 
-  constructor(options?: { connectRotator?: boolean; heartbeatTime?: number; stopWriteWhenNoSupervisor?: boolean }) {
-
+  constructor(options?: {
+    connectRotator?: boolean;
+    heartbeatTime?: number;
+    stopWriteWhenNoSupervisor?: boolean;
+  }) {
     options = options || {};
 
-    if(options.heartbeatTime) {
+    if (options.heartbeatTime) {
       this.heartbeatTime = options.heartbeatTime;
     }
 
-    if(options.connectRotator != null) {
+    if (options.connectRotator != null) {
       this.connectRotator = options.connectRotator;
     }
 
-    if(options.stopWriteWhenNoSupervisor != null) {
+    if (options.stopWriteWhenNoSupervisor != null) {
       this.stopWriteWhenNoSupervisor = options.stopWriteWhenNoSupervisor;
     }
-
   }
 
   public async start(): Promise<void> {
-    if(!this.connectRotator) {
+    if (!this.connectRotator) {
       return;
     }
     this.messengerClient.on(MESSENGER_ACTION_SERVICE, (message: MsgPkg) => {
-      if(message.type === 'logger-reload') {
-        const payload: MsgReloadPayload = <MsgReloadPayload> message.payload || {};
+      if (message.type === 'logger-reload') {
+        const payload: MsgReloadPayload =
+          (message.payload as MsgReloadPayload) || {};
         const uuid = payload.uuid;
         this.reload(uuid);
 
         return;
       }
     });
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.messengerClient.ready(() => {
-        this.startHeartbeatWhile().catch((err) => {
+        this.startHeartbeatWhile().catch(err => {
           $.consoleLogger.error(err);
         });
         resolve();
@@ -63,24 +76,23 @@ export class FileLoggerManager {
 
   protected async startHeartbeatWhile(): Promise<void> {
     while (true) {
-      for(let uuid of this.loggerMap.keys()) {
+      for (const uuid of this.loggerMap.keys()) {
         try {
-          this.messengerClient.send(MESSENGER_ACTION_SERVICE, <MsgPkg> {
+          this.messengerClient.send(MESSENGER_ACTION_SERVICE, {
             type: 'logger-heartbeat',
-            payload: <MsgHeartbeatPayload> {
-              uuid: uuid
-            }
-          });
+            payload: {
+              uuid: uuid,
+            } as MsgHeartbeatPayload,
+          } as MsgPkg);
         } catch (err) {
           console.error(err);
         }
       }
 
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         const timer = setTimeout(resolve, this.heartbeatTime);
         timer.unref();
       });
-
     }
   }
 
@@ -95,18 +107,21 @@ export class FileLoggerManager {
   }
 
   public createLogger(loggerName, loggerConfig: LoggerConfig): ILogger {
-
     loggerConfig = Object.assign({}, DEFAULT_LOGGER_CONFIG, loggerConfig);
 
     const uuid = $.genereateUUID();
-    const fileName = loggerConfig.name ? loggerConfig.name : loggerName + '.log';
+    const fileName = loggerConfig.name
+      ? loggerConfig.name
+      : loggerName + '.log';
     const filePath = join(loggerConfig.dir, fileName);
-    const skipWriteFile = this.stopWriteWhenNoSupervisor && (!this.connectRotator || !this.messengerClient.isOK);
+    const skipWriteFile =
+      this.stopWriteWhenNoSupervisor &&
+      (!this.connectRotator || !this.messengerClient.isOK);
     const newLogger = new EggLogger({
       file: filePath,
       level: skipWriteFile ? 'NONE' : loggerConfig.level,
       consoleLevel: loggerConfig.stdoutLevel,
-      eol: loggerConfig.eol
+      eol: loggerConfig.eol,
     });
     // make logger non blocking
     this.nonBlocking(newLogger);
@@ -121,31 +136,31 @@ export class FileLoggerManager {
     });
 
     return newLogger;
-
   }
 
   protected sendRotationStrategy(strategy: RotationStrategy) {
-
-    if(this.connectRotator) {
+    if (this.connectRotator) {
       this.messengerClient.ready(() => {
-        this.messengerClient.send(MESSENGER_ACTION_SERVICE, <MsgPkg> {
+        this.messengerClient.send(MESSENGER_ACTION_SERVICE, {
           type: 'logger-send-strategy',
-          payload: <MsgSendStrategyPayload> {
-            strategy: strategy
-          }
-        });
+          payload: {
+            strategy: strategy,
+          } as MsgSendStrategyPayload,
+        } as MsgPkg);
       });
     }
-
   }
 
   protected reload(uuid?) {
-    assert(!uuid || this.loggerMap.has(uuid), `Could not found logger uuid ${uuid}`);
-    if(uuid) {
+    assert(
+      !uuid || this.loggerMap.has(uuid),
+      `Could not found logger uuid ${uuid}`
+    );
+    if (uuid) {
       const logger = this.loggerMap.get(uuid);
       logger.reload();
     } else {
-      for( let logger of this.loggerMap.values() ) {
+      for (const logger of this.loggerMap.values()) {
         logger.reload();
       }
     }

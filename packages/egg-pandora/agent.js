@@ -9,7 +9,9 @@ module.exports = agent => {
   const PANDORA_HOME = process.env.PANDORA_HOME;
   if (PANDORA_HOME) {
     agent.coreLogger.warn('===== Pandora.js Warning =====');
-    agent.coreLogger.warn('Pandora.js Warning: DO NOT use pandora and egg-pandora at same time ! egg-pandora will be skipped!');
+    agent.coreLogger.warn(
+      'Pandora.js Warning: DO NOT use pandora and egg-pandora at same time ! egg-pandora will be skipped!'
+    );
     return;
   }
   const coreSdk = createCoreSdk(agent, 'supervisor');

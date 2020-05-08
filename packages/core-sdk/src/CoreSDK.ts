@@ -1,23 +1,29 @@
 import * as os from 'os';
 import * as path from 'path';
 import * as extend from 'extend';
-import {IComponentDeclaration, IComponentDeclarationStrict, ICoreSDKOptions} from './types';
-import {IComponent, ComponentReflector} from 'pandora-component-decorator';
-import {ComponentWeightCalculator, ISortedItem} from './ComponentWeightCalculator';
+import {
+  IComponentDeclaration,
+  IComponentDeclarationStrict,
+  ICoreSDKOptions,
+} from './types';
+import { IComponent, ComponentReflector } from 'pandora-component-decorator';
+import {
+  ComponentWeightCalculator,
+  ISortedItem,
+} from './ComponentWeightCalculator';
 import * as defaultConfig from './pandoraConfig';
-import {dirname} from 'path';
-import {Logger} from 'egg-logger';
+import { dirname } from 'path';
+import { Logger } from 'egg-logger';
 
 const resolve = require('resolve');
 const debug = require('debug')('pandora:CoreSDK');
 
 export class CoreSDK {
-
   public coreContext: any;
   protected options: ICoreSDKOptions;
   protected components: Map<string, IComponentDeclaration> = new Map();
   protected componentInstances: Map<string, IComponent> = new Map();
-  protected instantiated: boolean = false;
+  protected instantiated = false;
 
   get config(): any {
     return this.coreContext.config;
@@ -38,20 +44,20 @@ export class CoreSDK {
       logger: new Logger({}),
     };
     debug('constructing CoreSDK %j', options);
-    if(this.options.extendContext) {
+    if (this.options.extendContext) {
       Object.assign(this.coreContext, this.options.extendContext);
     }
     this.loadConfig(defaultConfig, dirname(require.resolve('./pandoraConfig')));
   }
 
   instantiate() {
-    if(this.instantiated) {
+    if (this.instantiated) {
       return;
     }
     this.loadConfigFromDefaultPlaces();
     this.loadComponentsFromConfig();
     const startQueue = this.getStartQueue();
-    for(const { name } of startQueue) {
+    for (const { name } of startQueue) {
       this.getInstance(name);
     }
     this.instantiated = true;
@@ -59,7 +65,7 @@ export class CoreSDK {
 
   async start(): Promise<void> {
     this.instantiate();
-    if(this.coreContext.mode === 'supervisor') {
+    if (this.coreContext.mode === 'supervisor') {
       return this.startAtSupervisor();
     }
     return this.startAtWorker();
@@ -67,9 +73,9 @@ export class CoreSDK {
 
   protected async startAtWorker(): Promise<void> {
     const startQueue = this.getStartQueue();
-    for(const { name } of startQueue) {
+    for (const { name } of startQueue) {
       const instance: IComponent = this.getInstance(name);
-      if(instance.start) {
+      if (instance.start) {
         await instance.start();
         debug(`started component ${name} at worker`);
       }
@@ -78,9 +84,9 @@ export class CoreSDK {
 
   protected async startAtSupervisor(): Promise<void> {
     const startQueue = this.getStartQueue();
-    for(const { name } of startQueue) {
+    for (const { name } of startQueue) {
       const instance: IComponent = this.getInstance(name);
-      if(instance.startAtSupervisor) {
+      if (instance.startAtSupervisor) {
         await instance.startAtSupervisor();
         debug(`started component ${name} at supervisor`);
       }
@@ -88,7 +94,7 @@ export class CoreSDK {
   }
 
   async stop(): Promise<void> {
-    if(this.coreContext.mode === 'supervisor') {
+    if (this.coreContext.mode === 'supervisor') {
       return this.stopAtSupervisor();
     }
     return this.stopAtWorker();
@@ -96,9 +102,9 @@ export class CoreSDK {
 
   protected async stopAtWorker(): Promise<void> {
     const stopQueue = this.getStopQueue();
-    for(const { name } of stopQueue) {
+    for (const { name } of stopQueue) {
       const instance: IComponent = this.getInstance(name);
-      if(instance.stop) {
+      if (instance.stop) {
         await instance.stop();
         debug(`stopped component ${name} at worker`);
       }
@@ -107,9 +113,9 @@ export class CoreSDK {
 
   protected async stopAtSupervisor(): Promise<void> {
     const stopQueue = this.getStopQueue();
-    for(const { name } of stopQueue) {
+    for (const { name } of stopQueue) {
       const instance: IComponent = this.getInstance(name);
-      if(instance.stopAtSupervisor) {
+      if (instance.stopAtSupervisor) {
         await instance.stopAtSupervisor();
         debug(`stopped component ${name} at supervisor`);
       }
@@ -117,7 +123,7 @@ export class CoreSDK {
   }
 
   protected getInstance(name): IComponent {
-    if(!this.componentInstances.has(name)) {
+    if (!this.componentInstances.has(name)) {
       const componentDeclaration = this.components.get(name);
       const { klass: Klass } = componentDeclaration;
       const instance: IComponent = new Klass(this.coreContext);
@@ -138,32 +144,37 @@ export class CoreSDK {
 
   protected loadConfigFromDefaultPlaces() {
     const configLoadDirs = ['/etc/', os.homedir(), process.cwd()];
-    for(const dir of configLoadDirs) {
+    for (const dir of configLoadDirs) {
       try {
         const target = path.join(dir, 'pandoraConfig');
         const extConfig = require(target);
         this.loadConfig(extConfig, dir);
-      } catch(err) {
+      } catch (err) {
         // ignore
       }
     }
 
-    if(this.options.extendConfig) {
-      for(const {config, configDir} of this.options.extendConfig) {
+    if (this.options.extendConfig) {
+      for (const { config, configDir } of this.options.extendConfig) {
         this.loadConfig(config, configDir);
       }
     }
   }
 
-  protected loadConfig(extConfig: any, configDir: string, reverseExtend: boolean = false) {
+  protected loadConfig(
+    extConfig: any,
+    configDir: string,
+    reverseExtend = false
+  ) {
     debug('loadConfig configDir %s, config %j', configDir, extConfig);
-    const components: {[name: string]: Partial<IComponentDeclaration>} = extConfig.components;
-    if(components) {
-      for(const comp of Object.values(components)) {
+    const components: { [name: string]: Partial<IComponentDeclaration> } =
+      extConfig.components;
+    if (components) {
+      for (const comp of Object.values(components)) {
         comp.configDir = configDir;
       }
     }
-    if(reverseExtend) {
+    if (reverseExtend) {
       this.config = extend(true, extConfig, this.config);
     } else {
       extend(true, this.config, extConfig);
@@ -171,25 +182,30 @@ export class CoreSDK {
   }
 
   protected loadComponentsFromConfig() {
-    const components: {[name: string]: Partial<IComponentDeclaration>} = this.config.components;
-    for(const name of Object.keys(components)) {
-      const {path, configDir} = components[name];
+    const components: { [name: string]: Partial<IComponentDeclaration> } = this
+      .config.components;
+    for (const name of Object.keys(components)) {
+      const { path, configDir } = components[name];
       const resolvedPath = resolve.sync(path, {
         basedir: configDir,
-        extensions: ['.js', '.ts']
+        extensions: ['.js', '.ts'],
       });
       let klass = require(resolvedPath);
       klass = klass.default ? klass.default : klass;
 
       const dependencies = ComponentReflector.getDependencies(klass) || [];
       const metaName = ComponentReflector.getComponentName(klass);
-      const componentDefaultConfig = ComponentReflector.getComponentConfig(klass);
+      const componentDefaultConfig = ComponentReflector.getComponentConfig(
+        klass
+      );
 
-      if(metaName && metaName !== name) {
-        throw new Error(`Component decorated name ${metaName}, but config name is ${name}`);
+      if (metaName && metaName !== name) {
+        throw new Error(
+          `Component decorated name ${metaName}, but config name is ${name}`
+        );
       }
 
-      if(componentDefaultConfig) {
+      if (componentDefaultConfig) {
         this.loadConfig(componentDefaultConfig, dirname(resolvedPath), true);
       }
 
@@ -201,5 +217,4 @@ export class CoreSDK {
     debug(`addComponent ${component.name}`);
     this.components.set(component.name, component);
   }
-
 }

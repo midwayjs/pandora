@@ -1,4 +1,7 @@
 {
-  "extends": "./node_modules/gts/",
-  "ignorePatterns": ["node_modules", "dist"]
+  "extends": "./node_modules/mwts/",
+  "ignorePatterns": ["node_modules", "dist", "test"],
+  "env": {
+    "mocha": true
+  }
 }

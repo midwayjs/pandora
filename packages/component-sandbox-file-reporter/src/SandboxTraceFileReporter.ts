@@ -1,8 +1,11 @@
-import {FileLoggerManager, ILogger} from 'pandora-component-file-logger-service';
-import {join} from 'path';
-import * as api from '@opentelemetry/api'
-import * as tracing from '@opentelemetry/tracing'
-import {FileReporterUtil} from './FileReporterUtil';
+import {
+  FileLoggerManager,
+  ILogger,
+} from 'pandora-component-file-logger-service';
+import { join } from 'path';
+import * as api from '@opentelemetry/api';
+import * as tracing from '@opentelemetry/tracing';
+import { FileReporterUtil } from './FileReporterUtil';
 
 export class SandboxTraceFileReporter implements tracing.SpanProcessor {
   type = 'trace';
@@ -10,22 +13,18 @@ export class SandboxTraceFileReporter implements tracing.SpanProcessor {
   logger: ILogger;
   constructor(ctx: any) {
     this.ctx = ctx;
-    const {appName} = ctx;
-    const {sandboxFileReporter: config} = ctx.config;
+    const { appName } = ctx;
+    const { sandboxFileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('sandbox-traces', {
       ...config.trace,
-      dir: join(config.logsDir, appName)
+      dir: join(config.logsDir, appName),
     });
   }
 
-  forceFlush() {
+  forceFlush() {}
 
-  }
-
-  onStart(span: api.Span) {
-
-  }
+  onStart(span: api.Span) {}
 
   /**
    * TODO: span should be a serializable representation of api.Span
@@ -39,25 +38,30 @@ export class SandboxTraceFileReporter implements tracing.SpanProcessor {
       name: span.name,
       id: span.spanContext.spanId,
       kind: span.kind,
+      // TODO: timestamp unit
       timestamp: hrTimeToMicroseconds(span.startTime),
       duration: hrTimeToMicroseconds(span.duration),
       attributes: span.attributes,
       status: span.status,
       events: span.events,
     };
-    this.logger.log('INFO', [JSON.stringify({
-      ...readableSpan,
-      // TODO: normative format doc
-      ...globalTags
-    })], { raw: true });
+    this.logger.log(
+      'INFO',
+      [
+        JSON.stringify({
+          ...readableSpan,
+          // TODO: normative format doc
+          ...globalTags,
+        }),
+      ],
+      { raw: true }
+    );
   }
 
-  shutdown() {
-
-  }
+  shutdown() {}
 
   getGlobalTags() {
-    const {sandboxFileReporter: config} = this.ctx.config;
+    const { sandboxFileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
 }
