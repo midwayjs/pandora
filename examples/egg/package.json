@@ -1,0 +1,28 @@
+{
+  "name": "egg-example",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "@pandorajs/egg-pandora": "^2.2.0",
+    "egg": "^2.15.1",
+    "egg-scripts": "^2.11.0"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.11.0",
+    "egg-mock": "^3.21.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon --title=egg-server",
+    "stop": "egg-scripts stop --title=egg-server",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "license": "MIT"
+}

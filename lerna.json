@@ -1,6 +1,7 @@
 {
   "lerna": "2.7.1",
   "packages": [
+    "examples/egg",
     "packages/component-actuator-server",
     "packages/component-dead-counter",
     "packages/component-decorator",
