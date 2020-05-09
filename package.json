@@ -6,11 +6,8 @@
     "lerna": "^3.20.2",
     "mwts": "^1.0.4",
     "nyc": "^13.1.0",
-    "pandora-site-tools": "^1.0.0",
     "ts-node": "^7.0.1",
-    "typedoc": "^0.13.0",
-    "typescript": "~3.8.0",
-    "vuepress": "^0.14.4"
+    "typescript": "~3.8.0"
   },
   "scripts": {
     "postinstall": "lerna bootstrap --no-ci",

@@ -20,7 +20,7 @@ export class ComponentReflector {
 }
 
 export function dependencies(deps: string[]) {
-  return function(target: any): void {
+  return function (target: any): void {
     Reflect.defineMetadata(
       ComponentReflector.COMPONENT_DEPENDENCIES,
       deps,
@@ -30,13 +30,13 @@ export function dependencies(deps: string[]) {
 }
 
 export function componentName(name: string) {
-  return function(target: any): void {
+  return function (target: any): void {
     Reflect.defineMetadata(ComponentReflector.COMPONENT_NAME, name, target);
   };
 }
 
 export function componentConfig<T extends any>(config: T) {
-  return function(target: any): void {
+  return function (target: any): void {
     Reflect.defineMetadata(ComponentReflector.COMPONENT_CONFIG, config, target);
   };
 }

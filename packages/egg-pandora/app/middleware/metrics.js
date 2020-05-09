@@ -9,7 +9,7 @@ module.exports = (config, app) => {
     .createMeasure('http_request_rt', { labelKeys: ['pid'] })
     .bind({ pid: String(process.pid) });
 
-  return async function(ctx, next) {
+  return async function (ctx, next) {
     const startTime = Date.now();
     await next();
     httpRequestCount.add(1);

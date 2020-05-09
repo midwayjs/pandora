@@ -30,12 +30,12 @@ export class DefaultObjectProxy {
     const properties = introspection.properties;
     for (const property of properties) {
       Object.defineProperty(this, property.name, {
-        get: function() {
+        get: function () {
           throw new Error(
             `Use 'await proxy.getProperty('${property.name}')' to replace 'proxy.${property.name}' when using IPC Object Proxy`
           );
         },
-        set: function() {
+        set: function () {
           throw new Error(
             `Use 'await proxy.getProperty('${property.name}')' to replace 'proxy.${property.name}' when using IPC Object Proxy`
           );
