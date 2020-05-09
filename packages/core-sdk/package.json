@@ -1,5 +1,5 @@
 {
-  "name": "pandora-core-sdk",
+  "name": "@pandorajs/core-sdk",
   "version": "2.2.0",
   "description": "Pandora 2 Core SDK",
   "main": "dist/index",
@@ -58,12 +58,12 @@
     "debug": "^4.1.0",
     "egg-logger": "^2.3.1",
     "extend": "^3.0.2",
-    "pandora-component-actuator-server": "^2.2.0",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-component-indicator": "^2.1.2",
-    "pandora-component-ipc-hub": "^2.1.2",
-    "pandora-dollar": "^2.1.2",
-    "pandora-hub": "^2.1.2",
+    "@pandorajs/component-actuator-server": "^2.2.0",
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/component-indicator": "^2.1.2",
+    "@pandorajs/component-ipc-hub": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2",
+    "@pandorajs/hub": "^2.1.2",
     "reflect-metadata": "^0.1.12",
     "resolve": "^1.8.1"
   }

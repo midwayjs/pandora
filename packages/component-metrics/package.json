@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-metrics",
+  "name": "@pandorajs/component-metrics",
   "version": "2.2.0",
   "description": "Pandora 2 Component Metrics",
   "main": "dist/ComponentMetrics",
@@ -22,9 +22,9 @@
     "mm": "^2.1.0",
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
-    "pandora-component-actuator-server": "^2.2.0",
-    "pandora-component-indicator": "^2.1.2",
-    "pandora-component-ipc-hub": "^2.1.2",
+    "@pandorajs/component-actuator-server": "^2.2.0",
+    "@pandorajs/component-indicator": "^2.1.2",
+    "@pandorajs/component-ipc-hub": "^2.1.2",
     "supertest": "^3.3.0"
   },
   "nyc": {
@@ -56,7 +56,7 @@
     "@opentelemetry/api": "^0.7.0",
     "@opentelemetry/core": "^0.7.0",
     "@opentelemetry/metrics": "^0.7.0",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-file-logger-service",
+  "name": "@pandorajs/component-file-logger-service",
   "version": "2.2.0",
   "description": "Pandora 2 Component File Logger Service",
   "main": "dist/ComponentFileLoggerService",
@@ -25,7 +25,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-ipc-hub": "^2.1.2"
+    "@pandorajs/component-ipc-hub": "^2.1.2"
   },
   "nyc": {
     "include": [
@@ -58,8 +58,8 @@
     "humanize-ms": "^1.2.1",
     "moment": "^2.18.1",
     "mz": "^2.6.0",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2",
-    "pandora-messenger": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2",
+    "@pandorajs/messenger": "^2.1.2"
   }
 }

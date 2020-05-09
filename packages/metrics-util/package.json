@@ -1,5 +1,5 @@
 {
-  "name": "pandora-metrics-util",
+  "name": "@pandorajs/metrics-util",
   "version": "2.1.2",
   "description": "Pandora 2 Metrics Util",
   "main": "dist/index",

@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-system-metrics",
+  "name": "@pandorajs/component-system-metrics",
   "version": "2.1.2",
   "description": "Pandora 2 Component System Metrics",
   "main": "dist/ComponentSystemMetrics",
@@ -54,8 +54,8 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2",
-    "pandora-metrics-util": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2",
+    "@pandorajs/metrics-util": "^2.1.2"
   }
 }

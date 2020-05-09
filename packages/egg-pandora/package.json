@@ -1,5 +1,5 @@
 {
-  "name": "egg-pandora",
+  "name": "@pandorajs/egg-pandora",
   "version": "2.2.0",
   "description": "",
   "eggPlugin": {
@@ -16,12 +16,12 @@
   "dependencies": {
     "@opentelemetry/plugin-http": "^0.7.0",
     "@opentelemetry/plugin-https": "^0.7.0",
-    "pandora-core-sdk": "^2.2.0",
-    "pandora-component-file-logger-service": "^2.2.0",
-    "pandora-component-metrics": "^2.2.0",
-    "pandora-component-node-metrics": "^2.1.2",
-    "pandora-component-sandbox-file-reporter": "^2.2.0",
-    "pandora-component-trace": "^2.2.0"
+    "@pandorajs/core-sdk": "^2.2.0",
+    "@pandorajs/component-file-logger-service": "^2.2.0",
+    "@pandorajs/component-metrics": "^2.2.0",
+    "@pandorajs/component-node-metrics": "^2.1.2",
+    "@pandorajs/component-sandbox-file-reporter": "^2.2.0",
+    "@pandorajs/component-trace": "^2.2.0"
   },
   "devDependencies": {
   },

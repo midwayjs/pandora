@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-error-log",
+  "name": "@pandorajs/component-error-log",
   "version": "2.2.0",
   "description": "Pandora 2 Component Error Log",
   "main": "dist/ComponentErrorLog",
@@ -25,9 +25,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-actuator-server": "^2.2.0",
-    "pandora-component-indicator": "^2.1.2",
-    "pandora-component-ipc-hub": "^2.1.2",
+    "@pandorajs/component-actuator-server": "^2.2.0",
+    "@pandorajs/component-indicator": "^2.1.2",
+    "@pandorajs/component-ipc-hub": "^2.1.2",
     "supertest": "^3.3.0"
   },
   "nyc": {
@@ -59,7 +59,7 @@
   "dependencies": {
     "metrics-common": "^1.1.6",
     "node-df": "^0.1.1",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2"
   }
 }

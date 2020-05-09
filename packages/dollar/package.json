@@ -1,5 +1,5 @@
 {
-  "name": "pandora-dollar",
+  "name": "@pandorajs/dollar",
   "version": "2.1.2",
   "description": "handy utilities",
   "main": "dist/index",

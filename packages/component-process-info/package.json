@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-process-info",
+  "name": "@pandorajs/component-process-info",
   "version": "2.2.0",
   "description": "Pandora 2 Component Process Info",
   "main": "dist/ComponentProcessInfo",
@@ -25,9 +25,9 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-actuator-server": "^2.2.0",
-    "pandora-component-indicator": "^2.1.2",
-    "pandora-component-ipc-hub": "^2.1.2",
+    "@pandorajs/component-actuator-server": "^2.2.0",
+    "@pandorajs/component-indicator": "^2.1.2",
+    "@pandorajs/component-ipc-hub": "^2.1.2",
     "supertest": "^3.3.0"
   },
   "nyc": {
@@ -56,7 +56,7 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.1.2",
+    "@pandorajs/component-decorator": "^2.1.2",
     "pidusage": "^1.1.6"
   }
 }

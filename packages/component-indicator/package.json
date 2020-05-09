@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-indicator",
+  "name": "@pandorajs/component-indicator",
   "version": "2.1.2",
   "description": "Pandora 2 Component Indicator",
   "main": "dist/ComponentIndicator",
@@ -27,7 +27,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-component-ipc-hub": "^2.1.2"
+    "@pandorajs/component-ipc-hub": "^2.1.2"
   },
   "nyc": {
     "include": [
@@ -55,8 +55,8 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2",
-    "pandora-hub": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2",
+    "@pandorajs/hub": "^2.1.2"
   }
 }

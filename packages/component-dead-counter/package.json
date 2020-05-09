@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-dead-counter",
+  "name": "@pandorajs/component-dead-counter",
   "version": "2.1.2",
   "description": "Pandora 2 Component Dead Counter",
   "main": "dist/ComponentDeadCounter",
@@ -26,7 +26,7 @@
     "mm": "^2.1.0",
     "mocha": "^3.5.0",
     "nyc": "^13.1.0",
-    "pandora-hub": "^2.1.2"
+    "@pandorajs/hub": "^2.1.2"
   },
   "nyc": {
     "include": [
@@ -55,7 +55,7 @@
   ],
   "dependencies": {
     "debug": "^4.1.1",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-hub": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/hub": "^2.1.2"
   }
 }

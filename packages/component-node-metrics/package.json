@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-node-metrics",
+  "name": "@pandorajs/component-node-metrics",
   "version": "2.1.2",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "dist/ComponentNodeMetrics",
@@ -54,6 +54,6 @@
   "dependencies": {
     "@opentelemetry/api": "^0.7.0",
     "@opentelemetry/metrics": "^0.7.0",
-    "pandora-component-decorator": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2"
   }
 }

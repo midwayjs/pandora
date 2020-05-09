@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-decorator",
+  "name": "@pandorajs/component-decorator",
   "version": "2.1.2",
   "description": "Pandora 2 Component Decorators",
   "main": "dist/index",

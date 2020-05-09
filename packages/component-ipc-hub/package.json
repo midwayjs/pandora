@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-ipc-hub",
+  "name": "@pandorajs/component-ipc-hub",
   "version": "2.1.2",
   "description": "Pandora 2 Component IPC Hub",
   "main": "dist/ComponentIPCHub",
@@ -52,8 +52,8 @@
     "src"
   ],
   "dependencies": {
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2",
-    "pandora-hub": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2",
+    "@pandorajs/hub": "^2.1.2"
   }
 }

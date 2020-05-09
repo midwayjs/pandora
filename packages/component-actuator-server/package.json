@@ -1,5 +1,5 @@
 {
-  "name": "pandora-component-actuator-server",
+  "name": "@pandorajs/component-actuator-server",
   "version": "2.2.0",
   "description": "Pandora 2 Component Actuator Server",
   "main": "dist/ComponentActuatorServer",
@@ -57,7 +57,7 @@
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "pandora-component-decorator": "^2.1.2",
-    "pandora-dollar": "^2.1.2"
+    "@pandorajs/component-decorator": "^2.1.2",
+    "@pandorajs/dollar": "^2.1.2"
   }
 }
