@@ -1,4 +1,4 @@
-import { IIndicator, IndicatorScope } from 'pandora-component-indicator';
+import { IIndicator, IndicatorScope } from '@pandorajs/component-indicator';
 import {
   MetricRecord,
   Distribution,

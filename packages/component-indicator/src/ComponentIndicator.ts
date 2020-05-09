@@ -1,6 +1,6 @@
-import { componentName, dependencies } from 'pandora-component-decorator';
+import { componentName, dependencies } from '@pandorajs/component-decorator';
 import { IndicatorManager } from './IndicatorManager';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 
 @componentName('indicator')
 @dependencies(['ipcHub'])

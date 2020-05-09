@@ -1,4 +1,4 @@
-import { FileLoggerManager } from 'pandora-component-file-logger-service';
+import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { join } from 'path';
 import { FileReporterUtil } from './FileReporterUtil';
 

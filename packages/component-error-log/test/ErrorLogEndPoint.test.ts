@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import request = require('supertest');
 import {ErrorLogEndPoint} from '../src/ErrorLogEndPoint';
-import ComponentActuatorServer from 'pandora-component-actuator-server';
+import ComponentActuatorServer from '@pandorajs/component-actuator-server';
 import {Server} from 'http';
 
 describe('ErrorLogEndPoint', () => {

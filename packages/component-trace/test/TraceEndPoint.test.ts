@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import request = require('supertest');
 import {TraceEndPoint} from '../src/TraceEndPoint';
-import ComponentActuatorServer from 'pandora-component-actuator-server';
+import ComponentActuatorServer from '@pandorajs/component-actuator-server';
 import {Server} from 'http';
 
 describe('TraceEndPoint', () => {

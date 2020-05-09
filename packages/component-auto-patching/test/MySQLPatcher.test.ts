@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import ComponentTrace from 'pandora-component-trace';
+import ComponentTrace from '@pandorajs/component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { MySQLPatcher } from '../src/patchers';
-import { PandoraTracer } from 'pandora-tracer';
+import { PandoraTracer } from '@pandorajs/tracer';
 import { fork } from './TestUtil';
 import { FakeMySQLServer } from './helpers/fake-mysql-server/FakeMySQLServer';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 import * as Parser from '../src/patchers/SqlParser';
 import * as os from 'os';
 

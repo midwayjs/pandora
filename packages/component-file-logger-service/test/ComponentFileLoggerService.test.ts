@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import ComponentFileLoggerService from '../src/ComponentFileLoggerService';
-import ComponentIPCHub from 'pandora-component-ipc-hub';
+import ComponentIPCHub from '@pandorajs/component-ipc-hub';
 import {FileLoggerManager} from '../src/FileLoggerManager';
 
 describe('ComponentFileLoggerService', () => {

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 import * as Shimmer from '../src/Shimmer';
 
 describe('Shimmer', () => {

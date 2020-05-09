@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import ComponentIPCHub from 'pandora-component-ipc-hub';
+import ComponentIPCHub from '@pandorajs/component-ipc-hub';
 import {IndicatorManager} from '../src/IndicatorManager';
 import {IIndicator, IndicatorScope} from '../src/domain';
 require('chai').use(require('chai-as-promised'));

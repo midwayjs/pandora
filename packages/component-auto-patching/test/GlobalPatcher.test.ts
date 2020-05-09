@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import ComponentTrace from 'pandora-component-trace';
+import ComponentTrace from '@pandorajs/component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { GlobalPatcher } from '../src/patchers';
-import { PandoraTracer } from 'pandora-tracer';
-import ComponentErrorLog from 'pandora-component-error-log';
+import { PandoraTracer } from '@pandorajs/tracer';
+import ComponentErrorLog from '@pandorajs/component-error-log';
 import { fork } from './TestUtil';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 
 describe('ComponentAutoPatching -> GlobalPatcher', function () {
   let autoPatching, componentTrace, componentErrorLog, ctx: any;
@@ -85,7 +85,7 @@ describe('ComponentAutoPatching -> GlobalPatcher', function () {
 
     await autoPatching.start();
 
-    expect(spy.calledWith(sinon.match('pandora-component-error-log is need.'))).to.be.true;
+    expect(spy.calledWith(sinon.match('@pandorajs/component-error-log is need.'))).to.be.true;
 
     await autoPatching.stop();
     stub.restore();

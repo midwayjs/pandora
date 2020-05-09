@@ -1,4 +1,4 @@
-import wrap = require('pandora-spawn-wrap');
+import wrap = require('@pandorajs/spawn-wrap');
 
 const wrapFile = require.resolve('./spawnWrapper');
 const DEFAULT_WRAP_MAX_DEPTH = 2; // Level 2 means first level children

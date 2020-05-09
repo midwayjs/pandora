@@ -1,8 +1,8 @@
 'use strict';
 
-const wrap = require('pandora-spawn-wrap');
+const wrap = require('@pandorajs/spawn-wrap');
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
-import {consoleLogger} from 'pandora-dollar';
+import {consoleLogger} from '@pandorajs/dollar';
 import {PANDORA_PROCESS} from '../const';
 import {CoreSDKWithExtendedConfig} from '../util/CoreSDKWithExtendedConfig';
 

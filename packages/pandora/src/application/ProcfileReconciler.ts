@@ -1,5 +1,5 @@
 'use strict';
-import {makeRequire, resolveSymlink} from 'pandora-dollar';
+import {makeRequire, resolveSymlink} from '@pandorajs/dollar';
 import { EntryClass, ApplicationRepresentation, ApplicationStructureRepresentation
   , ProcessRepresentation } from '../types';
 import assert = require('assert');

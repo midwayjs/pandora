@@ -1,6 +1,6 @@
-import {componentName, dependencies, componentConfig} from 'pandora-component-decorator';
-import {EndPointManager} from 'pandora-component-actuator-server';
-import {IndicatorManager} from 'pandora-component-indicator';
+import {componentName, dependencies, componentConfig} from '@pandorajs/component-decorator';
+import {EndPointManager} from '@pandorajs/component-actuator-server';
+import {IndicatorManager} from '@pandorajs/component-indicator';
 import {ErrorLogManager} from './ErrorLogManager';
 import {RecentWindow} from './RecentWindow';
 import {ErrorLog} from './types';

@@ -4,7 +4,7 @@ import { Fixture, sleep, request } from '../../TestUtil';
 import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 
 export default class HttpClientFixture extends Fixture {
 

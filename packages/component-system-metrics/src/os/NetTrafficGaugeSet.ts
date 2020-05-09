@@ -1,6 +1,6 @@
 import {MetricName, BaseGauge} from 'metrics-common';
 import * as fs from 'fs';
-import {CachedMetricSet} from 'pandora-metrics-util';
+import {CachedMetricSet} from '@pandorajs/metrics-util';
 
 const debug = require('debug')('metrics:net_traffic');
 

@@ -1,7 +1,7 @@
 import { IIndicator, IndicatorResultObject } from './types';
 import { IndicatorUtil } from './IndicatorUtil';
 import { IndicatorManagerProxy } from './IndicatorManagerProxy';
-import { HubFacade } from 'pandora-hub';
+import { HubFacade } from '@pandorajs/hub';
 const PID = process.pid.toString();
 
 export class IndicatorManager {

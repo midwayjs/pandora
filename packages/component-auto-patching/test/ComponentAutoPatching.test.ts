@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { ComponentReflector } from 'pandora-component-decorator';
+import { ComponentReflector } from '@pandorajs/component-decorator';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 
 describe('ComponentAutoPatching', function () {

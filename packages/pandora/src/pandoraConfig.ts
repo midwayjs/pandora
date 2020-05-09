@@ -1,20 +1,20 @@
 export const components = {
   nodeMetrics: {
-    path: 'pandora-component-node-metrics'
+    path: '@pandorajs/component-node-metrics'
   },
   systemMetrics: {
-    path: 'pandora-component-system-metrics'
+    path: '@pandorajs/component-system-metrics'
   },
   processInfo: {
-    path: 'pandora-component-process-info'
+    path: '@pandorajs/component-process-info'
   },
   sandboxFileReporter: {
-    path: 'pandora-component-sandbox-file-reporter'
+    path: '@pandorajs/component-sandbox-file-reporter'
   },
   fileLoggerService: {
-    path: 'pandora-component-file-logger-service'
+    path: '@pandorajs/component-file-logger-service'
   },
   deadCounter: {
-    path: 'pandora-component-dead-counter'
+    path: '@pandorajs/component-dead-counter'
   }
 };

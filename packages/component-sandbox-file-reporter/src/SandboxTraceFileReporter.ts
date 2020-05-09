@@ -1,7 +1,7 @@
 import {
   FileLoggerManager,
   ILogger,
-} from 'pandora-component-file-logger-service';
+} from '@pandorajs/component-file-logger-service';
 import { join } from 'path';
 import * as api from '@opentelemetry/api';
 import * as tracing from '@opentelemetry/tracing';

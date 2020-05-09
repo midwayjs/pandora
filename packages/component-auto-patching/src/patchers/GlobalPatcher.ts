@@ -1,6 +1,6 @@
 import * as util from 'util';
 import * as events from 'events';
-import { ErrorLog, ErrorLogManager } from 'pandora-component-error-log';
+import { ErrorLog, ErrorLogManager } from '@pandorajs/component-error-log';
 import { Patcher } from '../Patcher';
 import { CURRENT_CONTEXT } from '../constants';
 import { GlobalPatcherOptions } from '../types';
@@ -137,7 +137,7 @@ export class GlobalPatcher extends Patcher {
     const options = this.options;
 
     if (!this.errorLogManager) {
-      this.logger.error('pandora-component-error-log is need.');
+      this.logger.error('@pandorajs/component-error-log is need.');
       return;
     }
 

@@ -10,7 +10,7 @@ import {
   ExIncomingMessage
 } from '../types';
 import { nodeVersion, urlToOptions, recordError, isURL, setInternalProperty } from '../utils';
-import { IPandoraSpan } from 'pandora-component-trace';
+import { IPandoraSpan } from '@pandorajs/component-trace';
 import { CURRENT_CONTEXT, DEFAULT_HOST, DEFAULT_PORT, DEFAULT_PROTOCOL, DEFAULT_PATH } from '../constants';
 
 export class HttpClientPatcher extends Patcher {

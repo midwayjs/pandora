@@ -1,5 +1,5 @@
 import {MetricName, MetricLevel, MetricsCollectPeriodConfig, MetricsManager} from 'metrics-common';
-import {componentName, dependencies} from 'pandora-component-decorator';
+import {componentName, dependencies} from '@pandorajs/component-decorator';
 import {CpuUsageGaugeSet} from './os/CpuUsageGaugeSet';
 import {NetTrafficGaugeSet} from './os/NetTrafficGaugeSet';
 import {NetworkTrafficGaugeSet} from './os/TcpGaugeSet';

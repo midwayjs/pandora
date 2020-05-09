@@ -1,7 +1,7 @@
 import {CoreSDK} from '../src/CoreSDK';
 import {expect} from 'chai';
 import {unlinkSync, writeFileSync} from 'fs';
-import {IComponentConstructor} from 'pandora-component-decorator';
+import {IComponentConstructor} from '@pandorajs/component-decorator';
 describe('CoreSDK', function () {
 
   it('should extendContext works when constructing', () => {
@@ -183,8 +183,8 @@ describe('CoreSDK', function () {
     }
     const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
     sdk.loadComponentsFromConfig();
-    expect(sdk.components.get('actuatorServer').klass).to.be.equal(require('pandora-component-actuator-server').default);
-    expect(sdk.components.get('ipcHub').klass).to.be.equal(require('pandora-component-ipc-hub').default);
+    expect(sdk.components.get('actuatorServer').klass).to.be.equal(require('@pandorajs/component-actuator-server').default);
+    expect(sdk.components.get('ipcHub').klass).to.be.equal(require('@pandorajs/component-ipc-hub').default);
 
   });
 

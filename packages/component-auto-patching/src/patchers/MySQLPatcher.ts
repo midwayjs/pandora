@@ -1,5 +1,5 @@
 import { Connection, Query, Pool } from 'mysql';
-import { IPandoraSpan } from 'pandora-component-trace';
+import { IPandoraSpan } from '@pandorajs/component-trace';
 import * as is from 'is-type-of';
 import * as os from 'os';
 import { Patcher } from '../Patcher';

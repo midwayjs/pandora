@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import ComponentTrace from 'pandora-component-trace';
+import ComponentTrace from '@pandorajs/component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { MySQL2Patcher } from '../src/patchers';
-import { PandoraTracer } from 'pandora-tracer';
+import { PandoraTracer } from '@pandorajs/tracer';
 import { fork } from './TestUtil';
 import { createServer } from 'mysql2';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 const ClientFlags = require('mysql2/lib/constants/client.js');
 
 describe('ComponentAutoPatching -> MySQL2Patcher', function () {

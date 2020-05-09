@@ -1,9 +1,9 @@
-import { MessengerServer, MessengerClient } from 'pandora-messenger';
+import { MessengerServer, MessengerClient } from '@pandorajs/messenger';
 import {
   componentName,
   dependencies,
   componentConfig,
-} from 'pandora-component-decorator';
+} from '@pandorajs/component-decorator';
 import { FileLoggerRotator } from './FileLoggerRotator';
 import { FileLoggerManager } from './FileLoggerManager';
 import { homedir } from 'os';

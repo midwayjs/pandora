@@ -1,6 +1,6 @@
 import {MsgHeartbeatPayload, MsgPkg, MsgSendStrategyPayload} from '../src/domain';
 import {expect} from 'chai';
-import * as $ from 'pandora-dollar';
+import * as $ from '@pandorajs/dollar';
 import {FileLoggerRotator} from '../src/FileLoggerRotator';
 
 import mm = require('mm');

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import ComponentSystemMetrics from '../src/ComponentSystemMetrics';
 import {MetricsServerManager} from 'metrics-common';
 

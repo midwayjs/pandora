@@ -1,5 +1,5 @@
 'use strict';
-const { CoreSDK } = require('pandora-core-sdk');
+const { CoreSDK } = require('@pandorajs/core-sdk');
 
 module.exports = (app, mode) => {
   const appName = app.name;

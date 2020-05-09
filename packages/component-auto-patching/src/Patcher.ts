@@ -1,7 +1,7 @@
 import { hook, IHook } from 'module-hook';
 import * as shimmer from './Shimmer';
 import { IShimmer, PatcherOptions } from './types';
-import { ITracer, IPandoraContext } from 'pandora-component-trace';
+import { ITracer, IPandoraContext } from '@pandorajs/component-trace';
 import * as assert from 'assert';
 import { CLS } from './cls';
 import { CURRENT_CONTEXT } from './constants';
@@ -63,8 +63,8 @@ export class Patcher {
 
   get tracer(): ITracer {
     const traceManager = this.ctx.traceManager;
-    assert(traceManager, 'pandora-component-trace is need!');
-    assert(traceManager.tracer, 'pandora-component-trace is need!');
+    assert(traceManager, '@pandorajs/component-trace is need!');
+    assert(traceManager.tracer, '@pandorajs/component-trace is need!');
     return traceManager.tracer;
   }
 

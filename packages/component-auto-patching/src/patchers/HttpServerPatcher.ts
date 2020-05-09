@@ -2,7 +2,7 @@ import { Socket } from 'net';
 import * as http from 'http';
 import { IncomingMessage, ServerResponse } from 'http';
 import * as is from 'is-type-of';
-import { IPandoraSpan } from 'pandora-component-trace';
+import { IPandoraSpan } from '@pandorajs/component-trace';
 import { parse } from 'url';
 import { Patcher } from '../Patcher';
 import {

@@ -1,8 +1,8 @@
 import {MetricName} from 'metrics-common';
 import {BaseGauge} from 'metrics-common';
-import {startsWith, extractInt} from 'pandora-dollar';
+import {startsWith, extractInt} from '@pandorajs/dollar';
 import * as fs from 'fs';
-import {CachedMetricSet} from 'pandora-metrics-util';
+import {CachedMetricSet} from '@pandorajs/metrics-util';
 
 
 const debug = require('debug')('metrics:cpu');

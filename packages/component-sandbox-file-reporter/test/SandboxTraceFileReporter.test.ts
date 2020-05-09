@@ -2,13 +2,13 @@ import {expect} from 'chai';
 import {SandboxTraceFileReporter} from '../src/SandboxTraceFileReporter';
 import {tmpdir} from 'os';
 import {join} from 'path';
-import {FileLoggerManager} from 'pandora-component-file-logger-service';
+import {FileLoggerManager} from '@pandorajs/component-file-logger-service';
 import {readFileSync} from 'fs';
 import {FileReporterUtil} from '../src/FileReporterUtil';
 
 describe('SandboxTraceFileReporter', () => {
 
-  const tmpLogsDir = join(tmpdir(), 'pandora-test', Date.now().toString());
+  const tmpLogsDir = join(tmpdir(), '@pandorajs/test', Date.now().toString());
   const appName = 'fakeApp';
 
   it('should write log be ok be ok', async () => {

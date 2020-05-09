@@ -1,4 +1,4 @@
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import {expect} from 'chai';
 import {MetricsServerManager} from 'metrics-common';
 import ComponentNodeMetrics from '../src/ComponentNodeMetrics';

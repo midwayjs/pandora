@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {ComponentReflector} from 'pandora-component-decorator';
+import {ComponentReflector} from '@pandorajs/component-decorator';
 import ComponentActuatorServer from '../src/ComponentActuatorServer';
 import {EndPointManager} from '../src/EndPointManager';
 import {ActuatorRestServer} from '../src/ActuatorRestServer';

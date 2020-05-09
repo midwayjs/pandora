@@ -2,8 +2,8 @@ import { Fixture, sleep } from '../../TestUtil';
 import { HttpServerPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
-import { SPAN_FINISHED } from 'pandora-component-trace';
-import { consoleLogger } from 'pandora-dollar';
+import { SPAN_FINISHED } from '@pandorajs/component-trace';
+import { consoleLogger } from '@pandorajs/dollar';
 
 export default class HttpServerFixture extends Fixture {
 

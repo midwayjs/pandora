@@ -1,9 +1,9 @@
 import {join} from 'path';
 import {homedir} from 'os';
 import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import ComponentSandboxFileReporter from '../src/ComponentSandboxFileReporter';
-import {FileLoggerManager} from 'pandora-component-file-logger-service';
+import {FileLoggerManager} from '@pandorajs/component-file-logger-service';
 import {SandboxMetricsFileReporter} from '../src/SandboxMetricsFileReporter';
 import {SandboxTraceFileReporter} from '../src/SandboxTraceFileReporter';
 import {SandboxErrorLogFileReporter} from '../src/SandboxErrorLogFileReporter';

@@ -1,4 +1,4 @@
-import { componentName, dependencies } from 'pandora-component-decorator';
+import { componentName, dependencies } from '@pandorajs/component-decorator';
 import { V8GaugeSet } from './node/V8GaugeSet';
 
 @componentName('nodeMetrics')

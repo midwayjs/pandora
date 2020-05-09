@@ -1,5 +1,5 @@
 import { SelectedInfo, Selector } from '../types';
-import { MessengerClient } from 'pandora-messenger';
+import { MessengerClient } from '@pandorajs/messenger';
 import { SelectorUtils } from './SelectorUtils';
 import { format } from 'util';
 

@@ -1,5 +1,5 @@
-import { IMetricSnapshot } from 'pandora-component-metrics';
-import { FileLoggerManager } from 'pandora-component-file-logger-service';
+import { IMetricSnapshot } from '@pandorajs/component-metrics';
+import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { join } from 'path';
 import { FileReporterUtil } from './FileReporterUtil';
 

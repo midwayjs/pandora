@@ -1,6 +1,6 @@
-import { MessengerServer } from 'pandora-messenger';
+import { MessengerServer } from '@pandorajs/messenger';
 import assert = require('assert');
-import * as $ from 'pandora-dollar';
+import * as $ from '@pandorajs/dollar';
 import moment = require('moment');
 import fs = require('mz/fs');
 import ms = require('humanize-ms');

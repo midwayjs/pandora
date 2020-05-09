@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import ComponentTrace from '../src/ComponentTrace';
 import {TraceManager} from '../src/TraceManager';
 

@@ -1,8 +1,8 @@
 'use strict';
 import {ApplicationRepresentation} from '../types';
 import {ApplicationHandler} from '../application/ApplicationHandler';
-import {consoleLogger} from 'pandora-dollar';
-import {CoreSDK} from 'pandora-core-sdk';
+import {consoleLogger} from '@pandorajs/dollar';
+import {CoreSDK} from '@pandorajs/core-sdk';
 import {CoreSDKWithExtendedConfig} from '../util/CoreSDKWithExtendedConfig';
 
 /**

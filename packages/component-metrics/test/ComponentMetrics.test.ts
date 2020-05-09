@@ -1,9 +1,9 @@
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import {expect} from 'chai';
 import ComponentMetrics from '../src/ComponentMetrics';
-import ComponentIPCHub from 'pandora-component-ipc-hub';
-import ComponentIndicator from 'pandora-component-indicator';
-import ComponentActuatorServer from 'pandora-component-actuator-server';
+import ComponentIPCHub from '@pandorajs/component-ipc-hub';
+import ComponentIndicator from '@pandorajs/component-indicator';
+import ComponentActuatorServer from '@pandorajs/component-actuator-server';
 import {MetricsManager} from '../src/MetricsManager';
 import request = require('supertest');
 

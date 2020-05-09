@@ -3,8 +3,8 @@ import { CLS } from '../src/cls';
 import { CURRENT_CONTEXT } from '../src/constants';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { consoleLogger } from 'pandora-dollar';
-import { IPandoraContext } from 'pandora-component-trace/src/domain';
+import { consoleLogger } from '@pandorajs/dollar';
+import { IPandoraContext } from '@pandorajs/component-trace/src/domain';
 
 describe('Patcher', () => {
   let cls;

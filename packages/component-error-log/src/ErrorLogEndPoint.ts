@@ -1,5 +1,5 @@
-import {IEndPoint} from 'pandora-component-actuator-server';
-import {IndicatorManager} from 'pandora-component-indicator';
+import {IEndPoint} from '@pandorajs/component-actuator-server';
+import {IndicatorManager} from '@pandorajs/component-indicator';
 
 export class ErrorLogEndPoint implements IEndPoint {
 

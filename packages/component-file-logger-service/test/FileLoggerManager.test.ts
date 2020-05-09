@@ -1,4 +1,4 @@
-import * as $ from 'pandora-dollar';
+import * as $ from '@pandorajs/dollar';
 
 import {expect} from 'chai';
 import {FileLoggerManager} from '../src/FileLoggerManager';

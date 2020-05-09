@@ -2,7 +2,7 @@ import {
   componentName,
   dependencies,
   componentConfig,
-} from 'pandora-component-decorator';
+} from '@pandorajs/component-decorator';
 import { NodeTracerProvider } from '@opentelemetry/node';
 import { BasicTracerProvider } from '@opentelemetry/tracing';
 import { MultiSpanProcessor } from './SpanProcessor';

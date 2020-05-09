@@ -2,7 +2,7 @@
 import {dirname, join, resolve} from 'path';
 import {statSync} from 'fs';
 import {ApplicationRepresentation} from '../types';
-import {consoleLogger} from 'pandora-dollar';
+import {consoleLogger} from '@pandorajs/dollar';
 
 export function calcAppName(dir?) {
 

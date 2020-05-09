@@ -4,7 +4,7 @@ import {
   PublishPackage,
   ReplyPackage,
 } from '../types';
-import { MessengerClient, MessengerServer } from 'pandora-messenger';
+import { MessengerClient, MessengerServer } from '@pandorajs/messenger';
 import {
   HUB_SOCKET_NAME,
   PANDORA_HUB_ACTION_MSG_UP,

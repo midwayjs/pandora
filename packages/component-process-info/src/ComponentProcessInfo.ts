@@ -1,6 +1,6 @@
-import {componentName, dependencies} from 'pandora-component-decorator';
-import {EndPointManager} from 'pandora-component-actuator-server';
-import {IndicatorManager} from 'pandora-component-indicator';
+import {componentName, dependencies} from '@pandorajs/component-decorator';
+import {EndPointManager} from '@pandorajs/component-actuator-server';
+import {IndicatorManager} from '@pandorajs/component-indicator';
 import {ProcessInfoIndicator} from './ProcessIndicator';
 import {ProcessEndPoint} from './ProcessEndPoint';
 

@@ -2,7 +2,7 @@ import {
   componentName,
   dependencies,
   componentConfig,
-} from 'pandora-component-decorator';
+} from '@pandorajs/component-decorator';
 import { join } from 'path';
 import { homedir } from 'os';
 import { SandboxMetricsFileReporter } from './SandboxMetricsFileReporter';

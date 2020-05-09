@@ -1,5 +1,5 @@
-import { componentName, dependencies, componentConfig } from 'pandora-component-decorator';
-import { PandoraTracer } from 'pandora-tracer';
+import { componentName, dependencies, componentConfig } from '@pandorajs/component-decorator';
+import { PandoraTracer } from '@pandorajs/tracer';
 import { AutoPatchingConfig } from './types';
 import { Patcher } from './Patcher';
 import {

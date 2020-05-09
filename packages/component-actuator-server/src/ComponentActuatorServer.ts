@@ -1,7 +1,7 @@
-import { componentName, componentConfig } from 'pandora-component-decorator';
+import { componentName, componentConfig } from '@pandorajs/component-decorator';
 import { EndPointManager } from './EndPointManager';
 import { ActuatorRestServer } from './ActuatorRestServer';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 
 @componentName('actuatorServer')
 @componentConfig({

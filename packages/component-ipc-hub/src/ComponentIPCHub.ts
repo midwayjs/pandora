@@ -1,6 +1,6 @@
-import { componentName } from 'pandora-component-decorator';
-import { HubServer, HubFacade } from 'pandora-hub';
-import { consoleLogger } from 'pandora-dollar';
+import { componentName } from '@pandorajs/component-decorator';
+import { HubServer, HubFacade } from '@pandorajs/hub';
+import { consoleLogger } from '@pandorajs/dollar';
 
 @componentName('ipcHub')
 export default class ComponentIPCHub {

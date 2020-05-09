@@ -6,7 +6,7 @@ import {
   IComponentDeclarationStrict,
   ICoreSDKOptions,
 } from './types';
-import { IComponent, ComponentReflector } from 'pandora-component-decorator';
+import { IComponent, ComponentReflector } from '@pandorajs/component-decorator';
 import {
   ComponentWeightCalculator,
   ISortedItem,

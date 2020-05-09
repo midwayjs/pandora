@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import ComponentDeadCounter from '../src/ComponentDeadCounter';
 import { MetricsServerManager } from 'metrics-common';
 import {EventEmitter} from 'events';

@@ -2,7 +2,7 @@ import * as url from 'url';
 import { UrlWithStringQuery, URL } from 'url';
 import * as semver from 'semver';
 import { RequestOptions } from 'http';
-import { IPandoraSpan } from 'pandora-component-trace';
+import { IPandoraSpan } from '@pandorajs/component-trace';
 
 const LOCALHOST_NAMES = {
   'localhost': true,

@@ -1,4 +1,4 @@
-import {componentName, dependencies} from 'pandora-component-decorator';
+import {componentName, dependencies} from '@pandorajs/component-decorator';
 import {IFastCompass, MetricName, MetricLevel} from 'metrics-common';
 import {basename} from 'path';
 

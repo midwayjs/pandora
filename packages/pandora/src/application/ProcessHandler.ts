@@ -6,7 +6,7 @@ import {
 } from '../const';
 import {ProcessRepresentation} from '../types';
 import {join} from 'path';
-import {consoleLogger} from 'pandora-dollar';
+import {consoleLogger} from '@pandorajs/dollar';
 
 const pathProcessBootstrap = require.resolve('./ProcessBootstrap');
 

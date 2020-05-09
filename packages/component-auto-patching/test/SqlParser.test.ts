@@ -2,7 +2,7 @@ import * as SqlParser from '../src/patchers/SqlParser';
 import { StatementMatcher } from '../src/patchers/StatementMatcher';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 import { OPERATION_UNKNOWN } from '../src/constants';
 
 describe('SqlParser', () => {

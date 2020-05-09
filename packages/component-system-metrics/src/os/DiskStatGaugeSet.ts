@@ -1,6 +1,6 @@
 import {MetricName, BaseGauge} from 'metrics-common';
 import * as df from 'node-df';
-import {CachedMetricSet} from 'pandora-metrics-util';
+import {CachedMetricSet} from '@pandorajs/metrics-util';
 const util = require('util');
 const DiskFree = util.promisify(df);
 

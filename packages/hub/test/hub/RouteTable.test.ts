@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { RouteTable } from '../../src/hub/RouteTable';
-import { MessengerClient } from 'pandora-messenger';
+import { MessengerClient } from '@pandorajs/messenger';
 import { Selector } from '../../src/domain';
 
 describe('RouteMap', () => {

@@ -1,6 +1,6 @@
-import { componentName, dependencies } from 'pandora-component-decorator';
-import { EndPointManager } from 'pandora-component-actuator-server';
-import { IndicatorManager } from 'pandora-component-indicator';
+import { componentName, dependencies } from '@pandorajs/component-decorator';
+import { EndPointManager } from '@pandorajs/component-actuator-server';
+import { IndicatorManager } from '@pandorajs/component-indicator';
 import { metrics } from '@opentelemetry/api';
 import { MeterProvider } from '@opentelemetry/metrics';
 

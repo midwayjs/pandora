@@ -1,6 +1,6 @@
-import {CoreSDK, ICoreSDKOptions} from 'pandora-core-sdk';
+import {CoreSDK, ICoreSDKOptions} from '@pandorajs/core-sdk';
 import {dirname} from 'path';
-import {consoleLogger} from 'pandora-dollar';
+import {consoleLogger} from '@pandorajs/dollar';
 
 export class CoreSDKWithExtendedConfig extends CoreSDK {
   constructor(options: ICoreSDKOptions) {

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import ComponentTrace from 'pandora-component-trace';
+import ComponentTrace from '@pandorajs/component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { HttpClientPatcher } from '../src/patchers';
 import { DEFAULT_PROTOCOL } from '../src/constants';
-import { PandoraTracer } from 'pandora-tracer';
+import { PandoraTracer } from '@pandorajs/tracer';
 import { fork } from './TestUtil';
 import * as semver from 'semver';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 import { URL } from 'url';
 
 describe('ComponentAutoPatching -> HttpClientPatcher', function () {

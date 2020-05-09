@@ -1,5 +1,5 @@
-import { componentName, dependencies } from 'pandora-component-decorator';
-import { HubServer, Selector } from 'pandora-hub';
+import { componentName, dependencies } from '@pandorajs/component-decorator';
+import { HubServer, Selector } from '@pandorajs/hub';
 const debug = require('debug')('pandora:ComponentDeadCounter');
 
 @componentName('deadCounter')

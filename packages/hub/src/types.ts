@@ -1,4 +1,4 @@
-import { MessengerClient } from 'pandora-messenger';
+import { MessengerClient } from '@pandorajs/messenger';
 import { ObjectConsumer } from './object-proxying/ObjectConsumer';
 import { HubClient } from './hub/HubClient';
 

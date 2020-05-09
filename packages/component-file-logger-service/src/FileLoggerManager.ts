@@ -1,4 +1,4 @@
-import * as $ from 'pandora-dollar';
+import * as $ from '@pandorajs/dollar';
 import {
   MsgSendStrategyPayload,
   DEFAULT_LOGGER_CONFIG,
@@ -14,7 +14,7 @@ import {
 import assert = require('assert');
 import { EggLogger } from 'egg-logger';
 import { join } from 'path';
-import { MessengerClient } from 'pandora-messenger';
+import { MessengerClient } from '@pandorajs/messenger';
 
 /**
  * Class LoggerManager

@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as childProcess from 'child_process';
-import ComponentTrace from 'pandora-component-trace';
+import ComponentTrace from '@pandorajs/component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
-import ComponentErrorLog from 'pandora-component-error-log';
-import { PandoraTracer } from 'pandora-tracer';
+import ComponentErrorLog from '@pandorajs/component-error-log';
+import { PandoraTracer } from '@pandorajs/tracer';
 import { find } from 'lodash';
-import { consoleLogger } from 'pandora-dollar';
+import { consoleLogger } from '@pandorajs/dollar';
 
 export function fork(name, done) {
   const filePath = require.resolve(path.join(__dirname, `fixtures/${name}`));

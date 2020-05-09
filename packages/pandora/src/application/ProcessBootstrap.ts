@@ -4,11 +4,11 @@ import program = require('commander');
 import {PROCESS_ERROR, FINISH_SHUTDOWN, PROCESS_READY, SHUTDOWN, PANDORA_PROCESS} from '../const';
 import {ProcessRepresentation} from '../types';
 import assert = require('assert');
-import {makeRequire} from 'pandora-dollar';
+import {makeRequire} from '@pandorajs/dollar';
 import {ScalableMaster} from './ScalableMaster';
 import {SpawnWrapperUtils} from './SpawnWrapperUtils';
-import {consoleLogger} from 'pandora-dollar';
-import {CoreSDK} from 'pandora-core-sdk';
+import {consoleLogger} from '@pandorajs/dollar';
+import {CoreSDK} from '@pandorajs/core-sdk';
 import {CoreSDKWithExtendedConfig} from '../util/CoreSDKWithExtendedConfig';
 
 /**

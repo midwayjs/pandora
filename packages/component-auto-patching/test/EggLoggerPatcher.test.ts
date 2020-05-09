@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import ComponentTrace from 'pandora-component-trace';
+import ComponentTrace from '@pandorajs/component-trace';
 import ComponentAutoPatching from '../src/ComponentAutoPatching';
 import { EggLoggerPatcher } from '../src/patchers';
-import { PandoraTracer } from 'pandora-tracer';
+import { PandoraTracer } from '@pandorajs/tracer';
 import { fork } from './TestUtil';
-import { consoleLogger } from 'pandora-dollar';
-import ComponentErrorLog from 'pandora-component-error-log';
+import { consoleLogger } from '@pandorajs/dollar';
+import ComponentErrorLog from '@pandorajs/component-error-log';
 
 describe('ComponentAutoPatching -> EggLoggerPatcher', function () {
   let autoPatching, componentTrace, componentErrorLog;

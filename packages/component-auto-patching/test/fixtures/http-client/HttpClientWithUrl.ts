@@ -5,7 +5,7 @@ import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
-import { SPAN_FINISHED } from 'pandora-component-trace';
+import { SPAN_FINISHED } from '@pandorajs/component-trace';
 import { URL } from 'url';
 
 export default class HttpClientFixture extends Fixture {

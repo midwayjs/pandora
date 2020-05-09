@@ -1,5 +1,5 @@
 import * as pusage from 'pidusage';
-import {IIndicator, IndicatorScope} from 'pandora-component-indicator';
+import {IIndicator, IndicatorScope} from '@pandorajs/component-indicator';
 
 export class ProcessInfoIndicator implements IIndicator {
 

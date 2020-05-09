@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import request = require('supertest');
 import {ProcessEndPoint} from '../src/ProcessEndPoint';
-import ComponentActuatorServer from 'pandora-component-actuator-server';
+import ComponentActuatorServer from '@pandorajs/component-actuator-server';
 import {Server} from 'http';
 
 describe('ProcessEndPoint', () => {

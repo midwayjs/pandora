@@ -2,12 +2,12 @@
 import {ProcessRepresentation} from '../types';
 import cluster = require('cluster');
 import {format} from 'util';
-import * as $ from 'pandora-dollar';
+import * as $ from '@pandorajs/dollar';
 import {
   PROCESS_READY, WORKER_READY, RELOAD, SHUTDOWN, WORKER_EXIT, PROCESS_ERROR,
   RELOAD_SUCCESS, RELOAD_ERROR, SHUTDOWN_TIMEOUT, FINISH_SHUTDOWN, defaultWorkerCount
 } from '../const';
-import {consoleLogger} from 'pandora-dollar';
+import {consoleLogger} from '@pandorajs/dollar';
 
 
 const cFork = require('../../3rd/fork');

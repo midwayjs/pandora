@@ -6,9 +6,9 @@ import { HttpServerPatcher, HttpClientPatcher } from '../../../src/patchers';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
 import * as pedding from 'pedding';
-import { SPAN_FINISHED } from 'pandora-component-trace';
-import { HEADER_TRACE_ID, HEADER_SPAN_ID } from 'pandora-tracer';
-import { consoleLogger } from 'pandora-dollar';
+import { SPAN_FINISHED } from '@pandorajs/component-trace';
+import { HEADER_TRACE_ID, HEADER_SPAN_ID } from '@pandorajs/tracer';
+import { consoleLogger } from '@pandorajs/dollar';
 
 export default class HttpClientFixture extends Fixture {
 

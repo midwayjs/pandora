@@ -1,6 +1,6 @@
-import {HubServer, HubFacade} from 'pandora-hub';
+import {HubServer, HubFacade} from '@pandorajs/hub';
 import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from 'pandora-component-decorator';
+import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
 import ComponentIPCHub from '../src/ComponentIPCHub';
 
 describe('ComponentIPCHub', () => {
