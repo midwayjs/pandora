@@ -78,9 +78,8 @@ async function main() {
     const costMs = endTime - startTime;
     const tps = (expectTimes / costMs) * 1000;
     console.log(
-      `cost: ${costMs}ms, tps: ${tps}, concurrency: ${expectConcurrency}, times: ${expectTimes} rt-average: ${
-        rtTotal / expectTimes
-      }ms rt-total: ${rtTotal}ms`
+      `cost: ${costMs}ms, tps: ${tps}, concurrency: ${expectConcurrency}, times: ${expectTimes} rt-average: ${rtTotal /
+        expectTimes}ms rt-total: ${rtTotal}ms`
     );
   }
 

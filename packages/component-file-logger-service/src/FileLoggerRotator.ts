@@ -196,7 +196,11 @@ export class FileLoggerRotator {
       const now = moment();
       const ONE_DAY = ms('1d');
       // 计算离0点还差的时间间隔
-      const dealyMs = now.clone().add(ONE_DAY, 'ms').startOf('day').diff(now);
+      const dealyMs = now
+        .clone()
+        .add(ONE_DAY, 'ms')
+        .startOf('day')
+        .diff(now);
       this.logger.info(
         `will rotate by date after ${ms(
           dealyMs
@@ -236,7 +240,9 @@ export class FileLoggerRotator {
    * @return {Promise<void>}
    */
   protected async renameLogfile(logfile: string): Promise<void> {
-    const logname = moment().subtract(1, 'days').format('.YYYY-MM-DD');
+    const logname = moment()
+      .subtract(1, 'days')
+      .format('.YYYY-MM-DD');
     const newLogfile = logfile + logname;
     try {
       const exists = await fs.exists(newLogfile);
