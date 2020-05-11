@@ -64,6 +64,6 @@ export default class ComponentSandboxFileReporter {
     this.ctx.metricsForwarder.on('data', data =>
       this.metricsFileReporter.report(data)
     );
-    this.ctx.spanProcessor.addSpanProcessor(this.traceFileReporter);
+    this.ctx.spanProcessor.addSpanExporter(this.traceFileReporter);
   }
 }

@@ -15,41 +15,42 @@
  */
 
 import { Span } from '@opentelemetry/api';
-import { SpanProcessor } from '@opentelemetry/tracing';
+import {
+  SpanProcessor,
+  SpanExporter,
+  ReadableSpan,
+} from '@opentelemetry/tracing';
 
 /**
  * Implementation of the {@link SpanProcessor} that simply forwards all
- * received events to a list of {@link SpanProcessor}s.
+ * received events to a list of {@link SpanExporter}s.
  */
 export class MultiSpanProcessor implements SpanProcessor {
-  private _spanProcessors: SpanProcessor[] = [];
+  private _spanExporter: SpanExporter[] = [];
   constructor() {}
 
-  addSpanProcessor(spanProcessor: SpanProcessor) {
-    this._spanProcessors.push(spanProcessor);
+  addSpanExporter(spanExporter: SpanExporter) {
+    this._spanExporter.push(spanExporter);
   }
 
   forceFlush(): void {
-    for (const spanProcessor of this._spanProcessors) {
-      spanProcessor.forceFlush();
-    }
+    // TODO:
   }
 
   onStart(span: Span): void {
-    for (const spanProcessor of this._spanProcessors) {
-      spanProcessor.onStart(span);
-    }
+    // TODO:
   }
 
   onEnd(span: Span): void {
-    for (const spanProcessor of this._spanProcessors) {
-      spanProcessor.onEnd(span);
+    const callback = () => {};
+    for (const exporter of this._spanExporter) {
+      exporter.export([(span as unknown) as ReadableSpan], callback);
     }
   }
 
   shutdown(): void {
-    for (const spanProcessor of this._spanProcessors) {
-      spanProcessor.shutdown();
+    for (const exporter of this._spanExporter) {
+      exporter.shutdown();
     }
   }
 }

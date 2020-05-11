@@ -13,11 +13,11 @@ module.exports = (app, mode) => {
         config: {
           ...extendPandoraConfig,
           coreLogger: {
-            ...(extendPandoraConfig.coreLogger ?? {}),
+            ...(extendPandoraConfig.coreLogger || {}),
             dir: app.config.logger.dir,
           },
           sandboxFileReporter: {
-            ...(extendPandoraConfig.sandboxFileReporter ?? {}),
+            ...(extendPandoraConfig.sandboxFileReporter || {}),
             logsDir: app.config.logger.dir,
           },
         },

@@ -5,9 +5,8 @@ import {
 import { join } from 'path';
 import * as api from '@opentelemetry/api';
 import * as tracing from '@opentelemetry/tracing';
-import { FileReporterUtil } from './FileReporterUtil';
 
-export class SandboxTraceFileReporter implements tracing.SpanProcessor {
+export class SandboxTraceFileReporter implements tracing.SpanExporter {
   type = 'trace';
   ctx: any;
   logger: ILogger;
@@ -22,40 +21,34 @@ export class SandboxTraceFileReporter implements tracing.SpanProcessor {
     });
   }
 
-  forceFlush() {}
-
-  onStart(span: api.Span) {}
-
   /**
-   * TODO: span should be a serializable representation of api.Span
-   * @param span
+   * @param spans
    */
-  onEnd(span: any) {
+  export(spans: tracing.ReadableSpan[]) {
     const globalTags = this.getGlobalTags();
-    const readableSpan = {
-      traceId: span.spanContext.traceId,
-      parentId: span.parentSpanId,
-      name: span.name,
-      id: span.spanContext.spanId,
-      kind: span.kind,
-      // TODO: timestamp unit
-      timestamp: hrTimeToMicroseconds(span.startTime),
-      duration: hrTimeToMicroseconds(span.duration),
-      attributes: span.attributes,
-      status: span.status,
-      events: span.events,
-    };
-    this.logger.log(
-      'INFO',
-      [
-        JSON.stringify({
-          ...readableSpan,
-          // TODO: normative format doc
-          ...globalTags,
-        }),
-      ],
-      { raw: true }
-    );
+    for (const it of spans) {
+      this.logger.log(
+        'INFO',
+        [
+          JSON.stringify({
+            traceId: it.spanContext.traceId,
+            spanId: it.spanContext.spanId,
+            parentId: it.parentSpanId,
+            name: it.name,
+            status: it.status,
+            startTime: hrTimeToMilliseconds(it.startTime),
+            duration: hrTimeToMilliseconds(it.duration),
+            kind: it.kind,
+            links: it.links,
+            attributes: it.attributes,
+            events: it.events,
+            // TODO: User data
+            ...globalTags,
+          }),
+        ],
+        { raw: true }
+      );
+    }
   }
 
   shutdown() {}
@@ -66,6 +59,6 @@ export class SandboxTraceFileReporter implements tracing.SpanProcessor {
   }
 }
 
-function hrTimeToMicroseconds(hrTime: api.HrTime): number {
-  return Math.round(hrTime[0] * 1e6 + hrTime[1] / 1e3);
+function hrTimeToMilliseconds(hrTime: api.HrTime): number {
+  return Math.round(hrTime[0] * 1e3 + hrTime[1] / 1e6);
 }

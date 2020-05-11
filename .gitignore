@@ -9,6 +9,7 @@ _book
 run
 .*
 *.tsbuildinfo
+*.local.js
 !.github
 !.githooks
 !.eslintrc.json
