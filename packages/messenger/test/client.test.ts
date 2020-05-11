@@ -180,7 +180,7 @@ describe('test/client.test.js', () => {
     });
 
     it('should reconnect and emit error if still can\'t connect / 1', done => {
-        done = pedding(1, done);
+        done = pedding(2, done);
         const client = new Client({
             name: 'taojie',
             reConnectTimes: 2,
@@ -196,7 +196,7 @@ describe('test/client.test.js', () => {
     });
 
   it('should reconnect and emit error if still can\'t connect / 2', done => {
-    done = pedding(3, done);
+    done = pedding(4, done);
     const client = new Client({
       name: 'taojie',
       reConnectTimes: 2,

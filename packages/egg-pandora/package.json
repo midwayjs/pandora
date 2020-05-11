@@ -29,11 +29,6 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test --exit",
-    "cov": "../../node_modules/.bin/nyc npm run test-local",
-    "ci": " npm run cov",
-    "autod": "autod"
   },
   "files": [
     "config",
