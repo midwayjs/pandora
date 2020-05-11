@@ -1,24 +1,22 @@
-import {expect} from 'chai';
-import {HubClient} from '../../src/hub/HubClient';
-import {HubServer} from '../../src/hub/HubServer';
+import { expect } from 'chai';
+import { HubClient } from '../../src/hub/HubClient';
+import { HubServer } from '../../src/hub/HubServer';
 
 describe('ReconnectedAndDisconnected', () => {
-
   class TestHub extends HubServer {
-    getRouteTable () {
+    getRouteTable() {
       return this.routeTable;
     }
   }
 
   it('should remove Route Info when client disconnected', async () => {
-
-    const hub = new TestHub;
+    const hub = new TestHub();
     const client = new HubClient({
       location: {
         appName: 'testApp',
         processName: 'process1',
-        pid: '1'
-      }
+        pid: '1',
+      },
     });
 
     await hub.start();
@@ -26,7 +24,7 @@ describe('ReconnectedAndDisconnected', () => {
 
     client.publish({
       ...client.getLocation(),
-      objectName: 'testObject'
+      objectName: 'testObject',
     });
 
     const routeTable = hub.getRouteTable();
@@ -34,7 +32,9 @@ describe('ReconnectedAndDisconnected', () => {
     const clientsBeforeClose = routeTable.getAllClients();
     expect(clientsBeforeClose.length).to.equal(1);
 
-    const selectorsBeforeClose = routeTable.getSelectorsByClient(clientsBeforeClose[0]);
+    const selectorsBeforeClose = routeTable.getSelectorsByClient(
+      clientsBeforeClose[0]
+    );
     expect(selectorsBeforeClose.length).to.equal(2);
 
     await client.stop();
@@ -43,18 +43,16 @@ describe('ReconnectedAndDisconnected', () => {
     expect(clientsAfterClose.length).to.equal(0);
 
     await hub.stop();
-
   });
 
   it('should resend all selectors to Hub when reconnected to Hub', async () => {
-
-    const hub1 = new TestHub;
+    const hub1 = new TestHub();
     const client = new HubClient({
       location: {
         appName: 'testApp',
         processName: 'process1',
-        pid: '1'
-      }
+        pid: '1',
+      },
     });
 
     await hub1.start();
@@ -62,7 +60,7 @@ describe('ReconnectedAndDisconnected', () => {
 
     await client.publish({
       ...client.getLocation(),
-      objectName: 'testObject'
+      objectName: 'testObject',
     });
 
     const routeTable1 = hub1.getRouteTable();
@@ -73,10 +71,10 @@ describe('ReconnectedAndDisconnected', () => {
 
     await hub1.stop();
 
-    const hub2 = new TestHub;
+    const hub2 = new TestHub();
     await hub2.start();
 
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 2000);
     });
 
@@ -89,7 +87,5 @@ describe('ReconnectedAndDisconnected', () => {
 
     await client.stop();
     await hub2.stop();
-
   });
-
 });

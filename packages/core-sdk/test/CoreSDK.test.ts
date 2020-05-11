@@ -1,9 +1,8 @@
-import {CoreSDK} from '../src/CoreSDK';
-import {expect} from 'chai';
-import {unlinkSync, writeFileSync} from 'fs';
-import {IComponentConstructor} from '@pandorajs/component-decorator';
-describe('CoreSDK', function () {
-
+import { CoreSDK } from '../src/CoreSDK';
+import { expect } from 'chai';
+import { unlinkSync, writeFileSync } from 'fs';
+import { IComponentConstructor } from '@pandorajs/component-decorator';
+describe('CoreSDK', () => {
   it('should extendContext works when constructing', () => {
     class TestCoreSDK extends CoreSDK {
       public coreContext;
@@ -13,21 +12,25 @@ describe('CoreSDK', function () {
       appName: 'test',
       appDir: 'test',
       extendContext: {
-        papa: 1
-      }
+        papa: 1,
+      },
     };
     const sdk = new TestCoreSDK(opts);
     expect(sdk.coreContext.papa).to.be.equal(1);
   });
 
   it('should getInstance() be ok', () => {
-    class TestCoreSDK extends CoreSDK { }
+    class TestCoreSDK extends CoreSDK {}
     interface TestCoreSDK {
       getInstance(name);
       components;
       coreContext;
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
     class TestClass {
       constructor(ctx) {
         expect(ctx).to.be.equal(sdk.coreContext);
@@ -42,7 +45,7 @@ describe('CoreSDK', function () {
     sdk.components.set('pa', {
       name: 'pa',
       path: 'pa',
-      klass: TestClass
+      klass: TestClass,
     });
     const instance = sdk.getInstance('pa');
     expect(instance).an.instanceof(TestClass);
@@ -50,15 +53,29 @@ describe('CoreSDK', function () {
   });
 
   it('should getStartQueue() be ok', () => {
-    class TestCoreSDK extends CoreSDK { }
+    class TestCoreSDK extends CoreSDK {}
     interface TestCoreSDK {
       addComponent(component);
       getStartQueue();
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
-    sdk.addComponent( { name: 'a', path: 'a', klass: null, dependencies: ['b'] } );
-    sdk.addComponent( { name: 'b', path: 'b', klass: null } );
-    sdk.addComponent( { name: 'c', path: 'c', klass: null, dependencies: ['a'] } );
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
+    sdk.addComponent({
+      name: 'a',
+      path: 'a',
+      klass: null,
+      dependencies: ['b'],
+    });
+    sdk.addComponent({ name: 'b', path: 'b', klass: null });
+    sdk.addComponent({
+      name: 'c',
+      path: 'c',
+      klass: null,
+      dependencies: ['a'],
+    });
     expect(sdk.getStartQueue()).to.deep.equal([
       { name: 'b', weight: 1 },
       { name: 'a', weight: 2 },
@@ -67,15 +84,29 @@ describe('CoreSDK', function () {
   });
 
   it('should getStopQueue() be ok', () => {
-    class TestCoreSDK extends CoreSDK { }
+    class TestCoreSDK extends CoreSDK {}
     interface TestCoreSDK {
       addComponent(component);
       getStopQueue();
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
-    sdk.addComponent( { name: 'a', path: 'a', klass: null, dependencies: ['b'] } );
-    sdk.addComponent( { name: 'b', path: 'b', klass: null } );
-    sdk.addComponent( { name: 'c', path: 'c', klass: null, dependencies: ['a'] } );
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
+    sdk.addComponent({
+      name: 'a',
+      path: 'a',
+      klass: null,
+      dependencies: ['b'],
+    });
+    sdk.addComponent({ name: 'b', path: 'b', klass: null });
+    sdk.addComponent({
+      name: 'c',
+      path: 'c',
+      klass: null,
+      dependencies: ['a'],
+    });
     expect(sdk.getStopQueue()).to.deep.equal([
       { name: 'c', weight: 3 },
       { name: 'a', weight: 2 },
@@ -84,44 +115,55 @@ describe('CoreSDK', function () {
   });
 
   it('should loadConfig() be ok', () => {
-    class TestCoreSDK extends CoreSDK { }
+    class TestCoreSDK extends CoreSDK {}
     interface TestCoreSDK {
       loadConfig(extConfig: any, configDir: string, reverseExtend?: boolean);
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
-    sdk.loadConfig({
-      a: {
-        b: {
-          c: 1
-        }
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
+    sdk.loadConfig(
+      {
+        a: {
+          b: {
+            c: 1,
+          },
+        },
+        components: {
+          papa: {
+            path: 'papa',
+          },
+        },
       },
-      components: {
-        papa: {
-          path: 'papa'
-        }
-      }
-    }, '/baba');
+      '/baba'
+    );
 
     expect(sdk.config.a.b.c).to.be.equal(1);
     expect(sdk.config.components.papa.path).to.be.equal('papa');
     expect(sdk.config.components.papa.configDir).to.be.equal('/baba');
 
-    sdk.loadConfig({
-      a: {
-        b: {
-          c: 2,
-          d: 2
-        }
-      },
-      components: {
-        papa: {
-          path: 'papa'
+    sdk.loadConfig(
+      {
+        a: {
+          b: {
+            c: 2,
+            d: 2,
+          },
         },
-        caca: {
-          path: 'caca'
-        }
-      }
-    }, '/lala', true);
+        components: {
+          papa: {
+            path: 'papa',
+          },
+          caca: {
+            path: 'caca',
+          },
+        },
+      },
+      '/lala',
+      true
+    );
 
     expect(sdk.config.a.b.c).to.be.equal(1);
     expect(sdk.config.a.b.d).to.be.equal(2);
@@ -129,14 +171,17 @@ describe('CoreSDK', function () {
     expect(sdk.config.components.papa.configDir).to.be.equal('/baba');
     expect(sdk.config.components.caca.path).to.be.equal('caca');
     expect(sdk.config.components.caca.configDir).to.be.equal('/lala');
-
   });
 
   it('should loadConfigFromDefaultPlaces() be ok', () => {
     writeFileSync('./pandoraConfig.js', 'module.exports = { test: 1 }');
     const allConfigDirs = {};
     class TestCoreSDK extends CoreSDK {
-      public loadConfig(extConfig: any, configDir: string, reverseExtend: boolean = false) {
+      public loadConfig(
+        extConfig: any,
+        configDir: string,
+        reverseExtend = false
+      ) {
         expect(reverseExtend).to.be.equal(false);
         allConfigDirs[configDir] = extConfig;
       }
@@ -144,14 +189,18 @@ describe('CoreSDK', function () {
     interface TestCoreSDK {
       loadConfigFromDefaultPlaces();
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
     sdk.loadConfigFromDefaultPlaces();
     unlinkSync('./pandoraConfig.js');
     expect(allConfigDirs[process.cwd()].test).to.be.equal(1);
   });
 
   it('should extendConfig works when constructing', () => {
-    class TestCoreSDK extends CoreSDK { }
+    class TestCoreSDK extends CoreSDK {}
     interface TestCoreSDK {
       loadConfigFromDefaultPlaces();
     }
@@ -162,11 +211,11 @@ describe('CoreSDK', function () {
       extendConfig: [
         {
           config: {
-            extConfig: 1
+            extConfig: 1,
           },
-          configDir: '/etc/config/'
+          configDir: '/etc/config/',
         },
-      ]
+      ],
     };
     const sdk = new TestCoreSDK(opts);
     sdk.loadConfigFromDefaultPlaces();
@@ -174,22 +223,27 @@ describe('CoreSDK', function () {
   });
 
   it('should loadComponentsFromConfig() be ok', () => {
-
     class TestCoreSDK extends CoreSDK {
       public components;
     }
     interface TestCoreSDK {
-       loadComponentsFromConfig();
+      loadComponentsFromConfig();
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
     sdk.loadComponentsFromConfig();
-    expect(sdk.components.get('actuatorServer').klass).to.be.equal(require('@pandorajs/component-actuator-server').default);
-    expect(sdk.components.get('ipcHub').klass).to.be.equal(require('@pandorajs/component-ipc-hub').default);
-
+    expect(sdk.components.get('actuatorServer').klass).to.be.equal(
+      require('@pandorajs/component-actuator-server').default
+    );
+    expect(sdk.components.get('ipcHub').klass).to.be.equal(
+      require('@pandorajs/component-ipc-hub').default
+    );
   });
 
   it('should start / stop at supervisor mode be ok', async () => {
-
     const startOrder = [];
     const stopOrder = [];
 
@@ -213,21 +267,33 @@ describe('CoreSDK', function () {
 
     class TestCoreSDK extends CoreSDK {
       public loadConfigFromDefaultPlaces() {
-        this.addComponent({ name: 'test1', path: 'test1', klass: <IComponentConstructor> <any> TestComponent1, dependencies: ['test2'] });
-        this.addComponent({ name: 'test2', path: 'test2', klass: <IComponentConstructor> <any> TestComponent2, dependencies: []});
+        this.addComponent({
+          name: 'test1',
+          path: 'test1',
+          klass: (TestComponent1 as any) as IComponentConstructor,
+          dependencies: ['test2'],
+        });
+        this.addComponent({
+          name: 'test2',
+          path: 'test2',
+          klass: (TestComponent2 as any) as IComponentConstructor,
+          dependencies: [],
+        });
       }
     }
-    const sdk = new TestCoreSDK({ mode: 'supervisor', appName: 'test', appDir: 'test' });
+    const sdk = new TestCoreSDK({
+      mode: 'supervisor',
+      appName: 'test',
+      appDir: 'test',
+    });
     sdk.config.components = {};
     await sdk.start();
     expect(startOrder).to.deep.equal([2, 1]);
     await sdk.stop();
     expect(stopOrder).to.deep.equal([1, 2]);
-
   });
 
   it('should start / stop at worker mode be ok', async () => {
-
     const startOrder = [];
     const stopOrder = [];
 
@@ -251,17 +317,29 @@ describe('CoreSDK', function () {
 
     class TestCoreSDK extends CoreSDK {
       public loadConfigFromDefaultPlaces() {
-        this.addComponent({ name: 'test1', path: 'test1', klass: <IComponentConstructor> <any> TestComponent1, dependencies: ['test2'] });
-        this.addComponent({ name: 'test2', path: 'test2', klass: <IComponentConstructor> <any> TestComponent2, dependencies: []});
+        this.addComponent({
+          name: 'test1',
+          path: 'test1',
+          klass: (TestComponent1 as any) as IComponentConstructor,
+          dependencies: ['test2'],
+        });
+        this.addComponent({
+          name: 'test2',
+          path: 'test2',
+          klass: (TestComponent2 as any) as IComponentConstructor,
+          dependencies: [],
+        });
       }
     }
-    const sdk = new TestCoreSDK({ mode: 'worker', appName: 'test', appDir: 'test' });
+    const sdk = new TestCoreSDK({
+      mode: 'worker',
+      appName: 'test',
+      appDir: 'test',
+    });
     sdk.config.components = {};
     await sdk.start();
     expect(startOrder).to.deep.equal([2, 1]);
     await sdk.stop();
     expect(stopOrder).to.deep.equal([1, 2]);
-
   });
-
 });

@@ -28,7 +28,8 @@
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
     "pedding": "^1.1.0",
-    "should": "^11.2.1"
+    "should": "^11.2.1",
+    "uncaughtException": "^1.0.0"
   },
   "nyc": {
     "include": [

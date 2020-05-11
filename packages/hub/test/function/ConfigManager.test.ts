@@ -1,19 +1,18 @@
-import {HubFacade} from '../../src/HubFacade';
-import {HubServer} from '../../src/hub/HubServer';
-import {expect} from 'chai';
+import { HubFacade } from '../../src/HubFacade';
+import { HubServer } from '../../src/hub/HubServer';
+import { expect } from 'chai';
 
 describe('ConfigManager', () => {
-
   let facade: HubFacade;
   let hub: HubServer;
 
   before(async () => {
-    hub = new HubServer;
-    facade = new HubFacade;
+    hub = new HubServer();
+    facade = new HubFacade();
     facade.setup({
       location: {
-        appName: 'test'
-      }
+        appName: 'test',
+      },
     });
     await hub.start();
     await facade.start();
@@ -43,7 +42,7 @@ describe('ConfigManager', () => {
   it('should callback be ok when just subscribed / 1', async () => {
     const configClient = facade.getConfigClient();
     let gotContent;
-    await configClient.subscribe('test_topic', (content) => {
+    await configClient.subscribe('test_topic', content => {
       gotContent = content;
     });
     expect(gotContent).to.be.equal('test_content_1');
@@ -52,7 +51,7 @@ describe('ConfigManager', () => {
   it('should callback be ok when just subscribed / 2', async () => {
     const configClient = facade.getConfigClient();
     let gotContent;
-    await configClient.subscribe('test_topic', (content) => {
+    await configClient.subscribe('test_topic', content => {
       gotContent = content;
     });
     expect(gotContent).to.be.equal('test_content_1');
@@ -65,14 +64,19 @@ describe('ConfigManager', () => {
     await configManager.publish('test_topic2', 'test_content_2');
 
     const allConfig1 = await configClient.getConfig();
-    expect(allConfig1).to.deep.equal( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
+    expect(allConfig1).to.deep.equal({
+      test_topic: 'test_content_1',
+      test_topic2: 'test_content_2',
+    });
 
     const allConfig2 = configManager.getConfig();
-    expect(allConfig2).to.deep.equal( { test_topic: 'test_content_1', test_topic2: 'test_content_2' } );
+    expect(allConfig2).to.deep.equal({
+      test_topic: 'test_content_1',
+      test_topic2: 'test_content_2',
+    });
   });
 
   it('should getAllTopics', async () => {
-
     const configManager = facade.getConfigManager();
 
     await configManager.publish('test_topic', '123');
@@ -81,11 +85,14 @@ describe('ConfigManager', () => {
     await configManager.publish('prefix_topic3', '789');
 
     const topics1 = configManager.getAllTopics('prefix_');
-    expect(topics1).to.deep.equal([ 'prefix_topic1', 'prefix_topic2', 'prefix_topic3' ]);
+    expect(topics1).to.deep.equal([
+      'prefix_topic1',
+      'prefix_topic2',
+      'prefix_topic3',
+    ]);
   });
 
   it('should getAllSubscribedTopics() be ok', async () => {
-
     const configManager = facade.getConfigManager();
     const configClient = facade.getConfigClient();
 
@@ -94,19 +101,18 @@ describe('ConfigManager', () => {
     await configManager.publish('prefix_topic2', '456');
     await configManager.publish('prefix_topic3', '789');
 
-    await configClient.subscribe('test_topic', () => { });
-    await configClient.subscribe('prefix_topic1', () => { });
-    await configClient.subscribe('prefix_topic3', () => { });
-
+    await configClient.subscribe('test_topic', () => {});
+    await configClient.subscribe('prefix_topic1', () => {});
+    await configClient.subscribe('prefix_topic3', () => {});
 
     const topics1 = configManager.getAllSubscribedTopics('prefix_');
-    expect(topics1).to.deep.equal([ 'prefix_topic1', 'prefix_topic3' ]);
+    expect(topics1).to.deep.equal(['prefix_topic1', 'prefix_topic3']);
 
     const topics2 = configManager.getAllSubscribedTopics();
-    expect(topics2).to.deep.equal([ 'test_topic', 'prefix_topic1', 'prefix_topic3' ]);
-
+    expect(topics2).to.deep.equal([
+      'test_topic',
+      'prefix_topic1',
+      'prefix_topic3',
+    ]);
   });
-
-
 });
-

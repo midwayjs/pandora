@@ -14,7 +14,7 @@ describe('test/server.test.js', () => {
   const action = 'midway-messenger-action';
   let server;
 
-  before(function (done) {
+  before(done => {
     server = new Server({
       name,
     });
@@ -25,15 +25,14 @@ describe('test/server.test.js', () => {
     server.close();
   });
 
-  it('should server broadcast message ok', function (done) {
-
-    let count = 3;
+  it('should server broadcast message ok', done => {
+    const count = 3;
 
     function getClient() {
       const client = new Client({
         name,
       });
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         client.ready(() => {
           resolve(client);
         });
@@ -49,21 +48,21 @@ describe('test/server.test.js', () => {
     }
 
     Promise.all(getClients())
-      .then((clients) => {
+      .then(clients => {
         process.nextTick(() => {
           server.broadcast(action, msg);
         });
 
-        return Promise.all(clients.map((client) => {
-
-          return new Promise((resolve) => {
-            client.on(action, (message) => {
-              assert(message.name === msg.name);
-              resolve();
+        return Promise.all(
+          clients.map(client => {
+            return new Promise(resolve => {
+              client.on(action, message => {
+                assert(message.name === msg.name);
+                resolve();
+              });
             });
-          });
-
-        }));
+          })
+        );
       })
       .then(() => {
         done();
@@ -85,13 +84,13 @@ describe('test/server.test.js', () => {
       server.broadcast(action, msg);
     }
 
-    let count = 3;
+    const count = 3;
 
     function getClient() {
       const client = new Client({
-        name: name
+        name: name,
       });
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         client.ready(() => {
           resolve(client);
         });
@@ -107,21 +106,21 @@ describe('test/server.test.js', () => {
     }
 
     Promise.all(getClients())
-      .then((clients) => {
-        return Promise.all(clients.map((client) => {
-
-          return new Promise((resolve) => {
-            let count = messageCount;
-            client.on(action, (message) => {
-              assert(message.name === msg.name);
-              count--;
-              if (count === 0) {
-                resolve();
-              }
+      .then(clients => {
+        return Promise.all(
+          clients.map(client => {
+            return new Promise(resolve => {
+              let count = messageCount;
+              client.on(action, message => {
+                assert(message.name === msg.name);
+                count--;
+                if (count === 0) {
+                  resolve();
+                }
+              });
             });
-          });
-
-        }));
+          })
+        );
       })
       .then(() => {
         done();
@@ -131,15 +130,14 @@ describe('test/server.test.js', () => {
       });
   });
 
-
-  it('should server handle client callback ok', function (done) {
+  it('should server handle client callback ok', done => {
     const action = 'callback_test';
     const action1 = 'callback_test1';
     const data = {
       name: 'message_data',
     };
     const client = new Client({
-      name: name
+      name: name,
     });
 
     server.once(action, (message, reply, cli) => {
@@ -156,13 +154,11 @@ describe('test/server.test.js', () => {
     client.ready(() => {
       client.send(action, data);
     });
-
   });
 
-  it('should server handle client disconnect ok', function (done) {
-
+  it('should server handle client disconnect ok', done => {
     const client = new Client({
-      name: name
+      name: name,
     });
 
     server.once('disconnected', () => {
@@ -172,16 +168,14 @@ describe('test/server.test.js', () => {
     client.ready(() => {
       client.close();
     });
-
   });
 
-  it('should a client reconnect server when server restarted', function (done) {
-
+  it('should a client reconnect server when server restarted', done => {
     const client = new Client({
       name,
     });
 
-    client.on(action, (message) => {
+    client.on(action, message => {
       assert(message.name === msg.name);
       done();
     });
@@ -194,7 +188,5 @@ describe('test/server.test.js', () => {
       server.server.unref();
       process.nextTick(restart);
     });
-
   });
-
 });

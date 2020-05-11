@@ -6,9 +6,9 @@ import { Selector } from '../../src/types';
 describe('RouteMap', () => {
   const routeTable = new RouteTable();
 
-  const pairs: Array<[MessengerClient, Selector]> = [
+  const pairs: [MessengerClient, Selector][] = [
     [
-      <MessengerClient>(<any>{ client: '1' }),
+      ({ client: '1' } as any) as MessengerClient,
       {
         appName: 'testApp',
         processName: 'processA',
@@ -18,7 +18,7 @@ describe('RouteMap', () => {
       },
     ],
     [
-      <MessengerClient>(<any>{ client: '2' }),
+      ({ client: '2' } as any) as MessengerClient,
       {
         appName: 'testApp',
         processName: 'processB',
@@ -28,7 +28,7 @@ describe('RouteMap', () => {
       },
     ],
     [
-      <MessengerClient>(<any>{ client: '3' }),
+      ({ client: '3' } as any) as MessengerClient,
       {
         appName: 'testApp2',
         processName: 'processA',
@@ -38,7 +38,7 @@ describe('RouteMap', () => {
       },
     ],
     [
-      <MessengerClient>(<any>{ client: '4' }),
+      ({ client: '4' } as any) as MessengerClient,
       {
         appName: 'testApp2',
         processName: 'processB',
@@ -57,7 +57,7 @@ describe('RouteMap', () => {
 
   it('should throw error when setRelation(client, null) be ok', () => {
     expect(() => {
-      routeTable.setRelation(<MessengerClient>{}, null);
+      routeTable.setRelation({} as MessengerClient, null);
     }).throw('Selector is required, but got');
   });
 
@@ -72,8 +72,8 @@ describe('RouteMap', () => {
     });
 
     expect(selecteds.length).to.equal(2);
-    expect((<any>selecteds[0].client).client).to.equal('1');
-    expect((<any>selecteds[1].client).client).to.equal('2');
+    expect((selecteds[0].client as any).client).to.equal('1');
+    expect((selecteds[1].client as any).client).to.equal('2');
   });
 
   it('should selectClients() be ok in case 2', () => {
@@ -82,8 +82,8 @@ describe('RouteMap', () => {
     });
 
     expect(selecteds.length).to.equal(2);
-    expect((<any>selecteds[0].client).client).to.equal('2');
-    expect((<any>selecteds[1].client).client).to.equal('4');
+    expect((selecteds[0].client as any).client).to.equal('2');
+    expect((selecteds[1].client as any).client).to.equal('4');
   });
 
   it('should selectClients() be ok in case 3', () => {
@@ -92,7 +92,7 @@ describe('RouteMap', () => {
       processName: 'processA',
     });
     expect(clients.length).to.equal(1);
-    expect((<any>clients[0].client).client).to.equal('3');
+    expect((clients[0].client as any).client).to.equal('3');
   });
 
   it('should forgetClient() be ok', () => {
@@ -107,7 +107,7 @@ describe('RouteMap', () => {
   });
 
   it('should forgetRelation be ok', () => {
-    const client = <MessengerClient>(<any>{ client: 'x' });
+    const client = ({ client: 'x' } as any) as MessengerClient;
     const selector1 = {
       appName: 'testApp1',
       processName: 'processX',

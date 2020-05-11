@@ -100,7 +100,7 @@ describe('HubClient', () => {
       };
 
       fakeClient.startListen();
-      const res = await (<Promise<any>>new Promise((resolve, reject) => {
+      const res = await (new Promise((resolve, reject) => {
         fakeClient.messengerClient.emit(
           PANDORA_HUB_ACTION_MSG_DOWN,
           { needReply: true },
@@ -111,7 +111,7 @@ describe('HubClient', () => {
             resolve(resp.data);
           }
         );
-      }));
+      }) as Promise<any>);
 
       expect(res.test).to.be.true;
     });
@@ -216,7 +216,7 @@ describe('HubClient', () => {
         objectName: 'theName',
       });
       expect(calledSendPublishToHub).to.be.true;
-      expect((<any>hubClient).publishedSelectors.length).to.equal(1);
+      expect((hubClient as any).publishedSelectors.length).to.equal(1);
       mm.restore();
     });
 
@@ -247,12 +247,12 @@ describe('HubClient', () => {
         objectName: 'theName',
       });
       expect(calledSendToHubAndWaitReply).to.be.true;
-      expect((<any>hubClient).publishedSelectors.length).to.equal(1);
+      expect((hubClient as any).publishedSelectors.length).to.equal(1);
       await hubClient.unpublish({
         appName: 'fake',
         objectName: 'theName2',
       });
-      expect((<any>hubClient).publishedSelectors.length).to.equal(0);
+      expect((hubClient as any).publishedSelectors.length).to.equal(0);
       mm.restore();
     });
 
@@ -281,7 +281,7 @@ describe('HubClient', () => {
 
     it('should get an error when sendPublishToHub() got an error from Hub', async () => {
       const fakeHubClient = {
-        sendPublishToHub: (<any>HubClient.prototype).sendPublishToHub,
+        sendPublishToHub: (HubClient.prototype as any).sendPublishToHub,
         sendToHubAndWaitReply: function () {
           return {
             success: false,
@@ -353,7 +353,7 @@ describe('HubClient', () => {
             msg = ownMsg;
           },
         },
-        sendToHub: (<any>HubClient.prototype).sendToHub,
+        sendToHub: (HubClient.prototype as any).sendToHub,
       };
       fakeHubClient.sendToHub('anAction');
       expect(action).to.deep.equal('anAction');
@@ -426,7 +426,8 @@ describe('HubClient', () => {
 
     it('should get an error when sendToHubAndWaitReply() got an error from Hub', async () => {
       const fakeHubClient = {
-        sendToHubAndWaitReply: (<any>HubClient.prototype).sendToHubAndWaitReply,
+        sendToHubAndWaitReply: (HubClient.prototype as any)
+          .sendToHubAndWaitReply,
         messengerClient: {
           send(action, message, reply) {
             reply(new Error('fake error'));

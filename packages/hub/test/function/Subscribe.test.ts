@@ -1,11 +1,10 @@
-import {HubFacade} from '../../src/HubFacade';
-import {HubServer} from '../../src/hub/HubServer';
-import {expect} from 'chai';
+import { HubFacade } from '../../src/HubFacade';
+import { HubServer } from '../../src/hub/HubServer';
+import { expect } from 'chai';
 
 describe('Subscribe', () => {
-
   class TestHub extends HubServer {
-    getRouteTable () {
+    getRouteTable() {
       return this.routeTable;
     }
   }
@@ -14,12 +13,12 @@ describe('Subscribe', () => {
   let hub: TestHub;
 
   before(async () => {
-    hub = new TestHub;
-    facade = new HubFacade;
+    hub = new TestHub();
+    facade = new HubFacade();
     facade.setup({
       location: {
-        appName: 'test'
-      }
+        appName: 'test',
+      },
     });
     await hub.start();
     await facade.start();
@@ -35,8 +34,8 @@ describe('Subscribe', () => {
   let lastGot = null;
 
   it('should publish subscribable object be ok ', async () => {
-
-      await facade.publish({
+    await facade.publish(
+      {
         subscribe: async (type, cb) => {
           expect(type).to.be.equal('testType');
           publisherSideCb = cb;
@@ -45,15 +44,19 @@ describe('Subscribe', () => {
           expect(type).to.be.equal('testType');
           expect(publisherSideCb).to.be.equal(cb);
           publisherSideCb = null;
-        }
-      }, { name: 'subscribableObject', tag: 'latest' });
+        },
+      },
+      { name: 'subscribableObject', tag: 'latest' }
+    );
 
-    proxy = await facade.getProxy<any>({name: 'subscribableObject', tag: 'latest'});
+    proxy = await facade.getProxy<any>({
+      name: 'subscribableObject',
+      tag: 'latest',
+    });
 
     await proxy.subscribe('testType', (a, b) => {
       lastGot = [a, b];
     });
-
   });
 
   it('should callback be ok / 1', async () => {
@@ -72,5 +75,4 @@ describe('Subscribe', () => {
     expect(publisherSideCb).to.be.null;
     await cbx('3_arg1', '3_arg2');
   });
-
 });
