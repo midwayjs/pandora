@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-  },
-  "files": [
-    "src/ComponentNodeMetrics.ts"
-  ]
+    "outDir": "./build",
+    "rootDir": ".",
+  }
 }

@@ -1,7 +1,11 @@
-import {MsgHeartbeatPayload, MsgPkg, MsgSendStrategyPayload} from '../src/domain';
-import {expect} from 'chai';
+import {
+  MsgHeartbeatPayload,
+  MsgPkg,
+  MsgSendStrategyPayload,
+} from '../src/types';
+import { expect } from 'chai';
 import * as $ from '@pandorajs/dollar';
-import {FileLoggerRotator} from '../src/FileLoggerRotator';
+import { FileLoggerRotator } from '../src/FileLoggerRotator';
 
 import mm = require('mm');
 import mkdirp = require('mkdirp');
@@ -25,7 +29,7 @@ class OwnLoggerRotator extends FileLoggerRotator {
     return this.rotateLogBySize();
   }
   removeAllStrategyAndRestart() {
-    for(let uuid of this.strategyMap.keys()) {
+    for (const uuid of this.strategyMap.keys()) {
       this.removeStrategyWithoutRestart(uuid);
     }
     this.start();
@@ -45,29 +49,27 @@ class OwnLoggerRotator extends FileLoggerRotator {
 }
 
 describe('#LoggerRotator', () => {
-
-  let loggerRotator, triggerEvent, broadcastThrowError = false, broadcastedReload = false;
+  let loggerRotator,
+    triggerEvent,
+    broadcastedReload = false;
 
   before(async () => {
     loggerRotator = new OwnLoggerRotator({
       heartbeatCheckTime: 300,
-      heartbeatTimeMax: 2000
+      heartbeatTimeMax: 2000,
     });
     loggerRotator.setMessengerServer({
-      ready: (cb) => {
+      ready: cb => {
         cb && cb();
       },
       on: (action, cb) => {
         triggerEvent = cb;
       },
       broadcast: (action, data) => {
-        if(broadcastThrowError) {
-          throw new Error('mock error');
-        }
-        if(data.type === 'logger-reload') {
+        if (data.type === 'logger-reload') {
           broadcastedReload = true;
         }
-      }
+      },
     });
     await loggerRotator.start();
   });
@@ -75,9 +77,7 @@ describe('#LoggerRotator', () => {
     mm.restore();
   });
 
-
   describe('#Simple', () => {
-
     it('should renameLogfile be ok', async () => {
       loggerRotator.removeAllStrategyAndRestart();
       const testFilePath = Path.join(tmpDir, Date.now() + 'renameLogfile.log');
@@ -93,12 +93,15 @@ describe('#LoggerRotator', () => {
       broadcastedReload = false;
 
       const uuid = 'receiveStrategyTestDate';
-      const testFilePathOnReceiveStrategy = Path.join(tmpDir, Date.now() + 'receiveStrategyTestDate.log');
+      const testFilePathOnReceiveStrategy = Path.join(
+        tmpDir,
+        Date.now() + 'receiveStrategyTestDate.log'
+      );
       await fs.writeFile(testFilePathOnReceiveStrategy, 'test');
       loggerRotator.receiveStrategy({
         uuid: uuid,
         type: 'date',
-        file: testFilePathOnReceiveStrategy
+        file: testFilePathOnReceiveStrategy,
       });
       await loggerRotator.testRotateLogByDate();
 
@@ -108,18 +111,20 @@ describe('#LoggerRotator', () => {
       expect(broadcastedReload).to.be.ok;
     });
 
-
     it('should receiveStrategy and rotateLogBySize() be ok', async () => {
       loggerRotator.removeAllStrategyAndRestart();
       broadcastedReload = false;
 
       const uuid = 'receiveStrategyTestSize';
-      const testFilePathOnReceiveStrategy = Path.join(tmpDir, Date.now() + 'receiveStrategyTestSize.log');
+      const testFilePathOnReceiveStrategy = Path.join(
+        tmpDir,
+        Date.now() + 'receiveStrategyTestSize.log'
+      );
       loggerRotator.receiveStrategy({
         uuid: uuid,
         type: 'size',
         file: testFilePathOnReceiveStrategy,
-        maxFileSize: 1024
+        maxFileSize: 1024,
       });
 
       await fs.writeFile(testFilePathOnReceiveStrategy, '*'.repeat(1025));
@@ -141,61 +146,66 @@ describe('#LoggerRotator', () => {
     });
 
     it('should filter same path', () => {
-
       loggerRotator.removeAllStrategyAndRestart();
 
-      const testFilePathOnReceiveStrategy1 = Path.join(tmpDir, Date.now() + 'receiveStrategyTestSamePath1.log');
-      const testFilePathOnReceiveStrategy2 = Path.join(tmpDir, Date.now() + 'receiveStrategyTestSamePath2.log');
+      const testFilePathOnReceiveStrategy1 = Path.join(
+        tmpDir,
+        Date.now() + 'receiveStrategyTestSamePath1.log'
+      );
+      const testFilePathOnReceiveStrategy2 = Path.join(
+        tmpDir,
+        Date.now() + 'receiveStrategyTestSamePath2.log'
+      );
 
       loggerRotator.receiveStrategy({
         uuid: 'receiveStrategyTestSamePath1',
         type: 'size',
-        file: testFilePathOnReceiveStrategy1
+        file: testFilePathOnReceiveStrategy1,
       });
       loggerRotator.receiveStrategy({
         uuid: 'receiveStrategyTestSamePath2',
         type: 'size',
-        file: testFilePathOnReceiveStrategy1
+        file: testFilePathOnReceiveStrategy1,
       });
 
       loggerRotator.receiveStrategy({
         uuid: 'receiveStrategyTestSamePath3',
         type: 'date',
-        file: testFilePathOnReceiveStrategy2
+        file: testFilePathOnReceiveStrategy2,
       });
       loggerRotator.receiveStrategy({
         uuid: 'receiveStrategyTestSamePath4',
         type: 'date',
-        file: testFilePathOnReceiveStrategy2
+        file: testFilePathOnReceiveStrategy2,
       });
 
       expect(loggerRotator.getFilteredStrategiesList().length).equal(2);
       expect(loggerRotator.getStrategiesRotateByDate().length).equal(1);
       expect(loggerRotator.getStrategiesRotateBySize().length).equal(1);
-
     });
-
   });
 
   describe('#IPC', () => {
-
     it('should heartbeat works', async () => {
       loggerRotator.removeAllStrategyAndRestart();
 
       const uuid = 'heartbeatWorks';
-      const testFilePathOnReceiveStrategy = Path.join(tmpDir, Date.now() + 'heartbeatWorks.log');
+      const testFilePathOnReceiveStrategy = Path.join(
+        tmpDir,
+        Date.now() + 'heartbeatWorks.log'
+      );
       loggerRotator.receiveStrategy({
         uuid: uuid,
         type: 'date',
-        file: testFilePathOnReceiveStrategy
+        file: testFilePathOnReceiveStrategy,
       });
       expect(loggerRotator.countStrategies()).equal(1);
       await $.promise.delay(1500);
-      triggerEvent(<MsgPkg> {
+      triggerEvent({
         type: 'logger-heartbeat',
-        payload: <MsgHeartbeatPayload> {
-          uuid: uuid
-        }
+        payload: {
+          uuid: uuid,
+        },
       });
       await $.promise.delay(1500);
       expect(loggerRotator.countStrategies()).equal(1);
@@ -203,38 +213,43 @@ describe('#LoggerRotator', () => {
 
     it('should remove when heartbeat timeout', async () => {
       loggerRotator.removeAllStrategyAndRestart();
-      const testFilePathOnReceiveStrategy = Path.join(tmpDir, Date.now() + 'heartbeatTimeout.log');
+      const testFilePathOnReceiveStrategy = Path.join(
+        tmpDir,
+        Date.now() + 'heartbeatTimeout.log'
+      );
       loggerRotator.receiveStrategy({
         uuid: 'heartbeatTimeout',
         type: 'date',
-        file: testFilePathOnReceiveStrategy
+        file: testFilePathOnReceiveStrategy,
       });
       expect(loggerRotator.countStrategies()).equal(1);
       await $.promise.delay(3000);
       expect(loggerRotator.countStrategies()).equal(0);
     });
 
-
     it('should receiveStrategy by IPC', () => {
       loggerRotator.removeAllStrategyAndRestart();
       const uuid = 'receiveStrategyByIPC';
-      const testFilePathOnReceiveStrategy = Path.join(tmpDir, Date.now() + 'receiveStrategyByIPC.log');
-      triggerEvent(<MsgPkg> {
-        type: 'logger-send-strategy',
-        payload: <MsgSendStrategyPayload> {
-          strategy: {
-            uuid: uuid,
-            type: 'date',
-            file: testFilePathOnReceiveStrategy
-          }
+      const testFilePathOnReceiveStrategy = Path.join(
+        tmpDir,
+        Date.now() + 'receiveStrategyByIPC.log'
+      );
+      triggerEvent(
+        {
+          type: 'logger-send-strategy',
+          payload: {
+            strategy: {
+              uuid: uuid,
+              type: 'date',
+              file: testFilePathOnReceiveStrategy,
+            },
+          },
+        },
+        resp => {
+          console.log(resp);
         }
-      }, (resp) => {
-        console.log(resp);
-      });
+      );
       expect(loggerRotator.hasStrategy(uuid)).to.be.ok;
     });
-
   });
-
-
 });

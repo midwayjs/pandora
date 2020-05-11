@@ -2,16 +2,11 @@ node_modules
 *.log*
 logs
 dist
+build
 coverage
 package-lock.json
 docs/api-reference
 _book
 run
-.*
 *.tsbuildinfo
 *.local.js
-!.github
-!.githooks
-!.eslintrc.json
-!.prettierrc.js
-!.npmignore

@@ -1,11 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-  },
-  "files": [
-    "src/index.ts",
-    "src/pandoraConfig.ts"
-  ]
+    "outDir": "./build",
+    "rootDir": ".",
+  }
 }

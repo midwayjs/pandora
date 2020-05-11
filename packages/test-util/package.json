@@ -1,0 +1,19 @@
+{
+  "name": "test-util",
+  "version": "1.0.0",
+  "private": true,
+  "main": "build/src",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^0.7.0",
+    "@opentelemetry/core": "^0.7.0",
+    "@opentelemetry/metrics": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "mocha": "^7.1.2"
+  }
+}

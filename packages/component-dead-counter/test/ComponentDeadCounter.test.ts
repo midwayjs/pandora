@@ -1,106 +1,82 @@
-import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
+import {
+  ComponentReflector,
+  IComponentConstructor,
+} from '@pandorajs/component-decorator';
+import { EventEmitter } from 'events';
+import { TestMeterProvider, deepMatch } from 'test-util';
+import * as assert from 'assert';
 import ComponentDeadCounter from '../src/ComponentDeadCounter';
-import { MetricsServerManager } from 'metrics-common';
-import {EventEmitter} from 'events';
 
-
-describe('ComponentDeadCounter', function () {
-
+describe('ComponentDeadCounter', () => {
   it('should have correct meta info', () => {
-    expect(ComponentReflector.getComponentName(<IComponentConstructor> ComponentDeadCounter)).to.be.equal('deadCounter');
-    expect(ComponentReflector.getDependencies(<IComponentConstructor> ComponentDeadCounter)).to.be.deep.equal(['ipcHub', 'metrics', 'errorLog']);
+    assert.strictEqual(
+      ComponentReflector.getComponentName(
+        ComponentDeadCounter as IComponentConstructor
+      ),
+      'deadCounter'
+    );
+    assert.deepStrictEqual(
+      ComponentReflector.getDependencies(
+        ComponentDeadCounter as IComponentConstructor
+      ),
+      ['ipcHub', 'metrics', 'errorLog']
+    );
   });
 
-  it('should record client_disconnected be ok', () => {
-
+  it('should record client_disconnected be ok', async () => {
     const errorRecorded = [];
-    const fakeMetricsManager = new MetricsServerManager;
-    const fakeHubServer = new EventEmitter;
+    const meterProvider = new TestMeterProvider();
+    const fakeHubServer = new EventEmitter();
     const fakeErrorLogManager = {
-      record (info) {
+      record(info) {
         errorRecorded.push(info);
-      }
+      },
     };
 
-    new ComponentDeadCounter({
+    await new ComponentDeadCounter({
       mode: 'supervisor',
-      metricsManager: fakeMetricsManager,
+      meterProvider,
       hubServer: fakeHubServer,
-      errorLogManager: fakeErrorLogManager
-    });
+      errorLogManager: fakeErrorLogManager,
+    }).startAtSupervisor();
 
     fakeHubServer.emit('client_disconnected', [
       { initialization: true, clientId: 'nope' },
       { clientId: 'nope', pid: '12345' },
     ]);
 
-    expect(errorRecorded.length).to.be.equal(1);
-    expect(errorRecorded[0]).to.be.deep.include({
-       errType: 'processDisconnected',
-       message: 'process disconnected PID: 12345',
-       stack: '',
-       traceId: '',
-       path: 'component-dead-counter'
+    assert.strictEqual(errorRecorded.length, 1);
+    deepMatch(errorRecorded[0], {
+      errType: 'processDisconnected',
+      message: 'process disconnected PID: 12345',
+      stack: '',
+      traceId: '',
+      path: 'component-dead-counter',
     });
 
-    const counter = fakeMetricsManager.getCounter('supervisor', 'process_disconnected');
-    expect(counter.getCount()).to.be.equal(1);
-
+    const counter = meterProvider.getMetricRecord('process_disconnected');
+    assert.strictEqual(counter.aggregator.toPoint().value, 1);
   });
 
-  it('should avoid error be ok', () => {
-
-    const fakeMetricsManager = new MetricsServerManager;
-    const fakeHubServer = new EventEmitter;
+  it('should avoid error be ok', async () => {
+    const meterProvider = new TestMeterProvider();
+    const fakeHubServer = new EventEmitter();
     const fakeErrorLogManager = {
-      record (info) {
+      record(info) {
         throw new Error('testError');
-      }
+      },
     };
 
-    new ComponentDeadCounter({
+    await new ComponentDeadCounter({
       mode: 'supervisor',
-      metricsManager: fakeMetricsManager,
+      meterProvider,
       hubServer: fakeHubServer,
-      errorLogManager: fakeErrorLogManager
-    });
+      errorLogManager: fakeErrorLogManager,
+    }).startAtSupervisor();
 
     fakeHubServer.emit('client_disconnected', [
       { initialization: true, clientId: 'nope' },
       { clientId: 'nope', pid: '12345' },
     ]);
-
   });
-
-  it('should do nothing at worker mode be ok', () => {
-
-    const errorRecorded = [];
-    const fakeMetricsManager = new MetricsServerManager;
-    const fakeHubServer = new EventEmitter;
-    const fakeErrorLogManager = {
-      record (info) {
-        errorRecorded.push(info);
-      }
-    };
-
-    new ComponentDeadCounter({
-      mode: 'worker',
-      metricsManager: fakeMetricsManager,
-      hubServer: fakeHubServer,
-      errorLogManager: fakeErrorLogManager
-    });
-
-    fakeHubServer.emit('client_disconnected', [
-      { initialization: true, clientId: 'nope' },
-      { clientId: 'nope', pid: '12345' },
-    ]);
-
-    expect(errorRecorded.length).to.be.equal(0);
-
-    const counter = fakeMetricsManager.getCounter('supervisor', 'process_disconnected');
-    expect(counter.getCount()).to.be.equal(0);
-
-  });
-
 });

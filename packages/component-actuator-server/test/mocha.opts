@@ -1,4 +1,0 @@
---compilers ts:ts-node/register
---timeout 0
-test/**/*.test.ts
-

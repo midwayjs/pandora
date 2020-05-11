@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {IntrospectionUtils} from '../../src/object-proxying/IntrospectionUtils';
-import {Introspection} from '../../src/domain';
+import {Introspection} from '../../src/types';
 
 describe('IntrospectionUtils', () => {
 

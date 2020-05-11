@@ -1,7 +1,7 @@
 import * as $ from '@pandorajs/dollar';
 
-import {expect} from 'chai';
-import {FileLoggerManager} from '../src/FileLoggerManager';
+import { expect } from 'chai';
+import { FileLoggerManager } from '../src/FileLoggerManager';
 import Path = require('path');
 import fs = require('fs');
 import mkdirp = require('mkdirp');
@@ -11,26 +11,25 @@ const tmpDir = Path.join(__dirname, '.tmp');
 mkdirp.sync(tmpDir);
 
 class OwnLoggerManager extends FileLoggerManager {
-  testReload () {
+  testReload() {
     this.reload();
   }
-  testReloadAllUUID () {
-    for(let uuid of this.loggerMap.keys()) {
+  testReloadAllUUID() {
+    for (const uuid of this.loggerMap.keys()) {
       this.reload(uuid);
     }
   }
 }
 
 describe('#FileLoggerManager', () => {
-
   describe('#Simple', () => {
-    const loggerManager  = new OwnLoggerManager;
+    const loggerManager = new OwnLoggerManager();
     it('should create a logger be ok', async () => {
       const logger = loggerManager.createLogger('create', {
         name: 'create',
         dir: tmpDir,
         stdoutLevel: 'ALL',
-        level: 'ALL'
+        level: 'ALL',
       });
       expect(logger).be.ok;
     });
@@ -39,7 +38,7 @@ describe('#FileLoggerManager', () => {
         name: 'levels',
         dir: tmpDir,
         stdoutLevel: 'ALL',
-        level: 'ALL'
+        level: 'ALL',
       });
       logger.debug('debug');
       logger.info('info');
@@ -48,13 +47,12 @@ describe('#FileLoggerManager', () => {
     });
 
     it('should skip write file works well', async () => {
-
       fs.writeFileSync(Path.join(tmpDir, 'levels'), '');
       let logger = loggerManager.createLogger('levels', {
         name: 'levels',
         dir: tmpDir,
         stdoutLevel: 'ALL',
-        level: 'ALL'
+        level: 'ALL',
       });
       logger.debug('debug');
       logger.error('error');
@@ -67,7 +65,7 @@ describe('#FileLoggerManager', () => {
         name: 'levels',
         dir: tmpDir,
         stdoutLevel: 'ALL',
-        level: 'ALL'
+        level: 'ALL',
       });
       logger.debug('debug');
       logger.error('error');
@@ -75,7 +73,6 @@ describe('#FileLoggerManager', () => {
 
       content = fs.readFileSync(Path.join(tmpDir, 'levels'));
       expect(content.toString().split('\n').length).to.be.equal(3);
-
     });
 
     it('should reload be ok', async () => {
@@ -113,11 +110,11 @@ describe('#FileLoggerManager', () => {
     before(() => {
       loggerManager = new OwnLoggerManager({
         connectRotator: true,
-        heartbeatTime: 200
+        heartbeatTime: 200,
       });
-      loggerManager.setMessengerClient( <any> {
-        ready: (fn) => {
-          if(typeof fn === 'function') {
+      loggerManager.setMessengerClient({
+        ready: fn => {
+          if (typeof fn === 'function') {
             fn();
           }
         },
@@ -125,13 +122,13 @@ describe('#FileLoggerManager', () => {
           triggerEvent = cb;
         },
         send: (action, data) => {
-          if(data.type === 'logger-heartbeat') {
-            if(sendThrowError) {
+          if (data.type === 'logger-heartbeat') {
+            if (sendThrowError) {
               throw new Error('mock error');
             }
             heartbeatCount++;
           }
-        }
+        },
       });
     });
     after(() => {
@@ -148,7 +145,7 @@ describe('#FileLoggerManager', () => {
       loggerManager.createLogger('heartbeat', {
         dir: tmpDir,
         stdoutLevel: 'ALL',
-        level: 'ALL'
+        level: 'ALL',
       });
       await $.promise.delay(500);
       sendThrowError = false;
@@ -158,10 +155,8 @@ describe('#FileLoggerManager', () => {
 
     it('should handing reload by broadcast be ok', async () => {
       triggerEvent({
-        type: 'logger-reload'
+        type: 'logger-reload',
       });
     });
-
   });
-
 });

@@ -7,7 +7,7 @@ const debug = require('debug')('pandora:ComponentDeadCounter');
 export default class ComponentDeadCounter {
   constructor(private ctx) {}
 
-  startAtSupervisor() {
+  async startAtSupervisor() {
     const counter = this.ctx.meterProvider
       .getMeter('supervisor')
       .createCounter('process_disconnected')
@@ -15,7 +15,7 @@ export default class ComponentDeadCounter {
     const hubServer: HubServer = this.ctx.hubServer;
     const errorLogManager = this.ctx.errorLogManager;
     hubServer.on('client_disconnected', (selectors: Selector[]) => {
-      counter.inc();
+      counter.add(1);
       try {
         const processSelector: Selector = selectors[1];
         errorLogManager.record({

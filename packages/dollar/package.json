@@ -2,15 +2,10 @@
   "name": "@pandorajs/dollar",
   "version": "2.1.2",
   "description": "handy utilities",
-  "main": "dist/index",
-  "typings": "dist/index.d.ts",
+  "main": "build/src/index.js",
+  "typings": "build/src/index.d.ts",
   "scripts": {
-    "build": "tsc -p .",
-    "start": "npm run build && node dist/index",
-    "test": " true",
-    "cov": "true",
-    "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/dollar src/"
+    "build": "tsc -p ."
   },
   "keywords": [
     "pandora"
@@ -18,40 +13,12 @@
   "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.72",
-    "@types/mocha": "^2.2.41",
     "@types/node": "^12.0.0",
-    "@types/uuid": "^2.0.30",
-    "mm": "^2.1.0",
-    "mocha": "^3.5.0",
-    "nyc": "^8.4.0"
+    "@types/uuid": "^2.0.30"
   },
   "dependencies": {
     "colors": "^1.2.1",
     "lodash": "^4.17.4",
     "uuid": "^3.1.0"
-  },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "json",
-      "html"
-    ],
-    "all": true
-  },
-  "files": [
-    "dist",
-    "src"
-  ]
+  }
 }

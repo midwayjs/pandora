@@ -1,9 +1,8 @@
-import {expect} from 'chai';
-import {IndicatorUtil} from '../src/IndicatorUtil';
-import {IndicatorScope} from '../src/domain';
+import { expect } from 'chai';
+import { IndicatorUtil } from '../src/IndicatorUtil';
+import { IndicatorScope } from '../src/types';
 
 describe('IndicatorUtil', () => {
-
   it('should mergeRawIndicatorResultRows() with PROCESS scope be ok', () => {
     const list = [
       {
@@ -12,7 +11,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.PROCESS
+        scope: IndicatorScope.PROCESS,
       },
       {
         appName: 'test',
@@ -20,8 +19,8 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.PROCESS
-      }
+        scope: IndicatorScope.PROCESS,
+      },
     ];
     expect(IndicatorUtil.mergeRawIndicatorResultRows(list)).to.deep.equal(list);
   });
@@ -34,7 +33,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test',
@@ -42,7 +41,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test1',
@@ -50,7 +49,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test1',
@@ -58,10 +57,13 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
-      }
+        scope: IndicatorScope.APP,
+      },
     ];
-    expect(IndicatorUtil.mergeRawIndicatorResultRows(list)).to.deep.equal([list[0], list[2]]);
+    expect(IndicatorUtil.mergeRawIndicatorResultRows(list)).to.deep.equal([
+      list[0],
+      list[2],
+    ]);
   });
 
   it('should mergeRawIndicatorResultRows() with SYSTEM scope be ok', () => {
@@ -72,7 +74,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test',
@@ -80,7 +82,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test1',
@@ -88,7 +90,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test1',
@@ -96,12 +98,13 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
-      }
+        scope: IndicatorScope.SYSTEM,
+      },
     ];
-    expect(IndicatorUtil.mergeRawIndicatorResultRows(list)).to.deep.equal([list[0]]);
+    expect(IndicatorUtil.mergeRawIndicatorResultRows(list)).to.deep.equal([
+      list[0],
+    ]);
   });
-
 
   it('should mergeRawIndicatorResultRows() with mess scopes be ok', () => {
     const list = [
@@ -111,7 +114,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test',
@@ -119,7 +122,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test1',
@@ -127,7 +130,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test1',
@@ -135,7 +138,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.SYSTEM
+        scope: IndicatorScope.SYSTEM,
       },
       {
         appName: 'test',
@@ -143,7 +146,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test',
@@ -151,7 +154,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test1',
@@ -159,7 +162,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test1',
@@ -167,7 +170,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.APP
+        scope: IndicatorScope.APP,
       },
       {
         appName: 'test',
@@ -175,7 +178,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.PROCESS
+        scope: IndicatorScope.PROCESS,
       },
       {
         appName: 'test',
@@ -183,8 +186,8 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: IndicatorScope.PROCESS
-      }
+        scope: IndicatorScope.PROCESS,
+      },
     ];
     expect(IndicatorUtil.mergeRawIndicatorResultRows(list)).to.deep.equal([
       {
@@ -193,7 +196,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: 'SYSTEM'
+        scope: 'SYSTEM',
       },
       {
         appName: 'test',
@@ -201,7 +204,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: 'APP'
+        scope: 'APP',
       },
       {
         appName: 'test1',
@@ -209,7 +212,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: 'APP'
+        scope: 'APP',
       },
       {
         appName: 'test',
@@ -217,7 +220,7 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: 'PROCESS'
+        scope: 'PROCESS',
       },
       {
         appName: 'test',
@@ -225,13 +228,12 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: 'PROCESS'
-      }
+        scope: 'PROCESS',
+      },
     ]);
   });
 
   it('should have default behavior when mergeRawIndicatorResultRows() got a unknown scope type', () => {
-
     const list = [
       {
         appName: 'test',
@@ -239,12 +241,12 @@ describe('IndicatorUtil', () => {
         group: '1234',
         key: '1234',
         data: {},
-        scope: 'xxx'
-      }
+        scope: 'xxx',
+      },
     ];
 
-    expect(IndicatorUtil.mergeRawIndicatorResultRows(<any> list)).to.deep.equal(list);
-
+    expect(
+      IndicatorUtil.mergeRawIndicatorResultRows(list as any)
+    ).to.deep.equal(list);
   });
-
 });

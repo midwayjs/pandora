@@ -7,7 +7,7 @@ export class V8GaugeSet {
   heapSpaceStats = {};
   heapStats = {};
 
-  constructor(private dataTTL = 5, private meterProvider: MeterProvider) {
+  constructor(private meterProvider: MeterProvider, private dataTTL = 5000) {
     this.refreshIfNecessary();
   }
 

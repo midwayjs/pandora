@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {IComponentDeclaration} from '../src/domain';
+import {IComponentDeclaration} from '../src/types';
 import {ComponentWeightCalculator} from '../src/ComponentWeightCalculator';
 describe('ComponentWeightCalculator', function () {
 

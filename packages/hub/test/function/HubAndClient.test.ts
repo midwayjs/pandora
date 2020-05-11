@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {HubServer} from '../../src/hub/HubServer';
 import {HubClient} from '../../src/hub/HubClient';
-import {Selector} from '../../src/domain';
+import {Selector} from '../../src/types';
 describe('HubAndClient', () => {
 
   class TestHub extends HubServer {

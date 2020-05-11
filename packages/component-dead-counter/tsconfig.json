@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-  },
-  "files": [
-    "src/ComponentDeadCounter.ts"
-  ]
+    "outDir": "./build",
+    "rootDir": ".",
+  }
 }

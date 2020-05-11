@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { HubServer } from '../../src/hub/HubServer';
-import { MessagePackage, Selector } from '../../src/domain';
+import { MessagePackage, Selector } from '../../src/types';
 import {
   PANDORA_HUB_ACTION_MSG_DOWN,
   PANDORA_HUB_ACTION_OFFLINE_UP,

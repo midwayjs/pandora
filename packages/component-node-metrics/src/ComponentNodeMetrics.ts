@@ -20,7 +20,7 @@ export default class ComponentNodeMetrics {
 
   async startAtProcesses() {
     // TODO: api.metrics.getMeterProvider doesn't reflect correct global meterProvider
-    this.v8Gauge = new V8GaugeSet(5000, this.ctx.meterProvider);
+    this.v8Gauge = new V8GaugeSet(this.ctx.meterProvider);
     this.v8Gauge.getMetrics();
   }
 }

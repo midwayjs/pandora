@@ -1,12 +1,11 @@
-import {expect} from 'chai';
-import {ActuatorRestServer} from '../src/ActuatorRestServer';
-import {EndPointManager} from '../src/EndPointManager';
+import { expect } from 'chai';
+import { ActuatorRestServer } from '../src/ActuatorRestServer';
+import { EndPointManager } from '../src/EndPointManager';
 import request = require('supertest');
-import {IEndPoint} from '../src/types';
+import { IEndPoint } from '../src/types';
 import bodyParser = require('koa-bodyparser');
 
-describe('ActuatorRestServer', function () {
-
+describe('ActuatorRestServer', () => {
   let actuatorRestServer: ActuatorRestServer;
   let endPointManager: EndPointManager;
   const ctx: any = {
@@ -15,10 +14,10 @@ describe('ActuatorRestServer', function () {
         http: {
           enabled: true,
           host: '127.0.0.1',
-          port: 7002
-        }
-      }
-    }
+          port: 7002,
+        },
+      },
+    },
   };
 
   before(() => {
@@ -28,13 +27,15 @@ describe('ActuatorRestServer', function () {
 
   it('should start be ok', async () => {
     await actuatorRestServer.start();
-    const {address, port} = actuatorRestServer.server.address();
+    const { address, port } = actuatorRestServer.server.address();
     expect(address).to.be.contains(ctx.config.actuatorServer.http.host);
     expect(port).to.be.equal(ctx.config.actuatorServer.http.port);
   });
 
   it('should path / be ok', async () => {
-    const result = await request(actuatorRestServer.server).get('/').expect(200);
+    const result = await request(actuatorRestServer.server)
+      .get('/')
+      .expect(200);
     expect(result.text).to.be.equal('Pandora restful service start successful');
   });
 
@@ -42,17 +43,19 @@ describe('ActuatorRestServer', function () {
     const testEndPoint: IEndPoint = {
       prefix: '/test1',
       route(router) {
-        router.get('/', (ctx) => {
+        router.get('/', ctx => {
           ctx.ok('ok');
         });
-      }
+      },
     };
     endPointManager.register(testEndPoint);
-    const result = await request(actuatorRestServer.server).get('/test1/').expect(200);
+    const result = await request(actuatorRestServer.server)
+      .get('/test1/')
+      .expect(200);
     expect(result.body).to.deep.include({
       data: 'ok',
       success: true,
-      message: ''
+      message: '',
     });
   });
 
@@ -60,16 +63,18 @@ describe('ActuatorRestServer', function () {
     const testEndPoint: IEndPoint = {
       prefix: '/test2',
       route(router) {
-        router.get('/', (ctx) => {
+        router.get('/', ctx => {
           ctx.fail('fail');
         });
-      }
+      },
     };
     endPointManager.register(testEndPoint);
-    const result = await request(actuatorRestServer.server).get('/test2/').expect(200);
+    const result = await request(actuatorRestServer.server)
+      .get('/test2/')
+      .expect(200);
     expect(result.body).to.deep.include({
       success: false,
-      message: 'fail'
+      message: 'fail',
     });
   });
 
@@ -95,13 +100,13 @@ describe('ActuatorRestServer', function () {
                 if (ctx.headers['x-auth'] === 'true') {
                   return next();
                 } else {
-                  return ctx.body = 'deny';
+                  return (ctx.body = 'deny');
                 }
-              }
-            ]
-          }
-        }
-      }
+              },
+            ],
+          },
+        },
+      },
     };
 
     const restServer = new ActuatorRestServer(ctx);
@@ -112,10 +117,10 @@ describe('ActuatorRestServer', function () {
     const endpoint: IEndPoint = {
       prefix: '/middleware',
       route(router) {
-        router.get('/', (ctx) => {
-          return ctx.body = 'ok';
+        router.get('/', ctx => {
+          return (ctx.body = 'ok');
         });
-      }
+      },
     };
 
     manager.register(endpoint);
@@ -130,5 +135,4 @@ describe('ActuatorRestServer', function () {
       .expect(200);
     expect(ok.text).to.equal('ok');
   });
-
 });

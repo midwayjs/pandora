@@ -2,15 +2,13 @@
   "name": "@pandorajs/hub",
   "version": "2.1.2",
   "description": "pandora.js messenge hub",
-  "main": "dist/index",
-  "typings": "dist/index.d.ts",
+  "main": "build/src/index.js",
+  "typings": "build/src/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
-    "start": "npm run build && node dist/index",
     "test": "mocha",
     "cov": "nyc mocha",
-    "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/hub src/"
+    "ci": "npm run test"
   },
   "keywords": [
     "pandora",
@@ -27,12 +25,12 @@
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
     "@types/lodash": "^4.14.99",
-    "@types/mocha": "^2.2.41",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mm": "^2.2.0",
-    "mocha": "^3.5.0",
+    "mocha": "^7.1.2",
     "nyc": "^13.1.0"
   },
   "nyc": {
@@ -61,8 +59,7 @@
     "all": true
   },
   "files": [
-    "dist",
-    "src",
-    "d.ts"
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts"
   ]
 }

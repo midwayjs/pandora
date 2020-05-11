@@ -1,31 +1,42 @@
-import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
-import {expect} from 'chai';
-import {MetricsServerManager} from 'metrics-common';
+import {
+  ComponentReflector,
+  IComponentConstructor,
+} from '@pandorajs/component-decorator';
+import * as assert from 'assert';
+import { TestMeterProvider } from 'test-util';
 import ComponentNodeMetrics from '../src/ComponentNodeMetrics';
 
 describe('ComponentNodeMetrics', () => {
-
   it('should have correct meta info', () => {
-    expect(ComponentReflector.getComponentName(<IComponentConstructor> ComponentNodeMetrics)).to.be.equal('nodeMetrics');
-    expect(ComponentReflector.getDependencies(<IComponentConstructor> ComponentNodeMetrics)).to.deep.equal(['metrics']);
+    assert.strictEqual(
+      ComponentReflector.getComponentName(
+        ComponentNodeMetrics as IComponentConstructor
+      ),
+      'nodeMetrics'
+    );
+    assert.deepStrictEqual(
+      ComponentReflector.getDependencies(
+        ComponentNodeMetrics as IComponentConstructor
+      ),
+      ['metrics']
+    );
   });
 
   it('should start at supervisor be ok', async () => {
     const ctx = {
       mode: 'supervisor',
-      metricsManager: new MetricsServerManager
+      meterProvider: new TestMeterProvider(),
     };
     const componentNodeMetrics = new ComponentNodeMetrics(ctx);
     await componentNodeMetrics.startAtSupervisor();
   });
 
-  it('should start at supervisor be ok', async () => {
+  it('should start at worker be ok', async () => {
     const ctx = {
       mode: 'worker',
-      metricsManager: new MetricsServerManager
+      meterProvider: new TestMeterProvider(),
     };
     const componentNodeMetrics = new ComponentNodeMetrics(ctx);
     await componentNodeMetrics.start();
   });
-
 });

@@ -1,14 +1,29 @@
-import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
+import { expect } from 'chai';
+import {
+  ComponentReflector,
+  IComponentConstructor,
+} from '@pandorajs/component-decorator';
 import ComponentFileLoggerService from '../src/ComponentFileLoggerService';
 import ComponentIPCHub from '@pandorajs/component-ipc-hub';
-import {FileLoggerManager} from '../src/FileLoggerManager';
+import { FileLoggerManager } from '../src/FileLoggerManager';
 
 describe('ComponentFileLoggerService', () => {
   it('should have correct meta info', () => {
-    expect(ComponentReflector.getComponentName(<IComponentConstructor> ComponentFileLoggerService)).to.be.equal('fileLoggerService');
-    expect(ComponentReflector.getDependencies(<IComponentConstructor> ComponentFileLoggerService)).to.deep.equal(['ipcHub']);
-    expect(ComponentReflector.getComponentConfig<any>(<IComponentConstructor> ComponentFileLoggerService).fileLoggerService.stopWriteWhenNoSupervisor).to.be.ok;
+    expect(
+      ComponentReflector.getComponentName(
+        ComponentFileLoggerService as IComponentConstructor
+      )
+    ).to.be.equal('fileLoggerService');
+    expect(
+      ComponentReflector.getDependencies(
+        ComponentFileLoggerService as IComponentConstructor
+      )
+    ).to.deep.equal(['ipcHub']);
+    expect(
+      ComponentReflector.getComponentConfig<any>(
+        ComponentFileLoggerService as IComponentConstructor
+      ).fileLoggerService.stopWriteWhenNoSupervisor
+    ).to.be.ok;
   });
 
   it('should work at supervisor mode be ok', async () => {
@@ -16,12 +31,12 @@ describe('ComponentFileLoggerService', () => {
       mode: 'supervisor',
       config: {
         coreLogger: {
-          enable: false
+          enable: false,
         },
         fileLoggerService: {
           stopWriteWhenNoSupervisor: true,
-        }
-      }
+        },
+      },
     };
     const componentIPCHub = new ComponentIPCHub(ctx);
     const componentFileLoggerService = new ComponentFileLoggerService(ctx);
@@ -35,12 +50,12 @@ describe('ComponentFileLoggerService', () => {
       mode: 'worker',
       config: {
         coreLogger: {
-          enable: false
+          enable: false,
         },
         fileLoggerService: {
           stopWriteWhenNoSupervisor: true,
-        }
-      }
+        },
+      },
     };
     const componentIPCHub = new ComponentIPCHub(ctx);
     const componentFileLoggerService = new ComponentFileLoggerService(ctx);
@@ -48,6 +63,4 @@ describe('ComponentFileLoggerService', () => {
     await componentFileLoggerService.start();
     expect(ctx.fileLoggerManager).to.be.an.instanceof(FileLoggerManager);
   });
-
-
 });

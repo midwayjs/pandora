@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-  },
-  "files": [
-    "src/ComponentFileLoggerService.ts"
-  ]
+    "outDir": "./build",
+    "rootDir": ".",
+  }
 }

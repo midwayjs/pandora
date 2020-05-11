@@ -1,5 +1,6 @@
-import {expect} from 'chai';
-import {V8GaugeSet} from '../../src/node/V8GaugeSet';
+import * as assert from 'assert';
+import { TestMeterProvider } from 'test-util';
+import { V8GaugeSet } from '../../src/node/V8GaugeSet';
 //
 // const keys = [
 //   "new_space.space_size",
@@ -33,18 +34,15 @@ import {V8GaugeSet} from '../../src/node/V8GaugeSet';
 //   "does_zap_garbage",
 // ];
 
-describe('V8GaugeSet', function () {
-
+describe('V8GaugeSet', () => {
   it('should get v8 metrics', () => {
-    const gaugeSet = new V8GaugeSet();
-    const gauges = gaugeSet.getMetrics();
-    const data = {};
-    for (const gauge of gauges) {
-      data[gauge.name.key] = gauge.metric.getValue();
-    }
-    expect(Object.keys(data).length >= 26).to.be.true;
-    for (const key of Object.keys(data)) {
-      expect(data[key]).to.be.a('number');
-    }
+    const meterProvider = new TestMeterProvider();
+    const gaugeSet = new V8GaugeSet(meterProvider);
+    gaugeSet.getMetrics();
+    assert(
+      meterProvider
+        .getMetricRecord('heap_statistics_heap_size_limit')
+        .aggregator.toPoint().value > 0
+    );
   });
 });

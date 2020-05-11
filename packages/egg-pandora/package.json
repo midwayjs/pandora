@@ -16,12 +16,12 @@
   "dependencies": {
     "@opentelemetry/plugin-http": "^0.7.0",
     "@opentelemetry/plugin-https": "^0.7.0",
-    "@pandorajs/core-sdk": "^2.2.0",
     "@pandorajs/component-file-logger-service": "^2.2.0",
     "@pandorajs/component-metrics": "^2.2.0",
     "@pandorajs/component-node-metrics": "^2.1.2",
     "@pandorajs/component-sandbox-file-reporter": "^2.2.0",
-    "@pandorajs/component-trace": "^2.2.0"
+    "@pandorajs/component-trace": "^2.2.0",
+    "@pandorajs/core-sdk": "^2.2.0"
   },
   "devDependencies": {
   },

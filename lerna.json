@@ -16,7 +16,8 @@
     "packages/dollar",
     "packages/egg-pandora",
     "packages/hub",
-    "packages/messenger"
+    "packages/messenger",
+    "packages/test-util"
   ],
   "version": "2.2.0",
   "command": {

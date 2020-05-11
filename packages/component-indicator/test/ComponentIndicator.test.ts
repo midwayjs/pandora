@@ -1,23 +1,33 @@
-import {expect} from 'chai';
-import {ComponentReflector, IComponentConstructor} from '@pandorajs/component-decorator';
+import { expect } from 'chai';
+import {
+  ComponentReflector,
+  IComponentConstructor,
+} from '@pandorajs/component-decorator';
 import ComponentIndicator from '../src/ComponentIndicator';
 
 describe('ComponentIndicator', () => {
-
   it('should have correct meta info', () => {
-    expect(ComponentReflector.getComponentName(<IComponentConstructor> ComponentIndicator)).to.be.equal('indicator');
-    expect(ComponentReflector.getDependencies(<IComponentConstructor> ComponentIndicator)).to.deep.equal(['ipcHub']);
+    expect(
+      ComponentReflector.getComponentName(
+        ComponentIndicator as IComponentConstructor
+      )
+    ).to.be.equal('indicator');
+    expect(
+      ComponentReflector.getDependencies(
+        ComponentIndicator as IComponentConstructor
+      )
+    ).to.deep.equal(['ipcHub']);
   });
 
   it('should publish indicatorManager at all start entries be ok', async () => {
     const ctx = {};
     const componentIndicator: ComponentIndicator = new ComponentIndicator(ctx);
     let publishCalledTimes = 0;
-    componentIndicator.indicatorManager = <any> {
+    componentIndicator.indicatorManager = {
       publish() {
         publishCalledTimes++;
-      }
-    };
+      },
+    } as any;
     await componentIndicator.startAtSupervisor();
     expect(publishCalledTimes).to.be.equal(1);
     await componentIndicator.start();
@@ -27,12 +37,11 @@ describe('ComponentIndicator', () => {
   it('should publish() can avoid error', async () => {
     const ctx = {};
     const componentIndicator: ComponentIndicator = new ComponentIndicator(ctx);
-    componentIndicator.indicatorManager = <any> {
+    componentIndicator.indicatorManager = {
       publish() {
         throw new Error('test Error');
-      }
-    };
+      },
+    } as any;
     await componentIndicator.publish();
   });
-
 });
