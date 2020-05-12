@@ -1,26 +1,22 @@
 import { IMetricSnapshot } from '@pandorajs/component-metrics';
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
-import { join } from 'path';
-import { FileReporterUtil } from './FileReporterUtil';
+import { hrTimeToMilliseconds } from './util';
 
 export class SandboxMetricsFileReporter {
   type = 'metrics';
-  ctx: any;
   logger: any;
-  constructor(ctx: any) {
-    this.ctx = ctx;
-    const { appName } = ctx;
+  constructor(private ctx: any) {
     const { sandboxFileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('sandbox-metrics', {
       ...config.metrics,
-      dir: join(config.logsDir, appName),
+      dir: config.logsDir,
     });
   }
   async report(data: IMetricSnapshot[]): Promise<void> {
     const globalTags = this.getGlobalTags();
     for (const metricObject of data) {
-      const timestamp = hrTimeToTimestamp(metricObject.point.timestamp);
+      const timestamp = hrTimeToMilliseconds(metricObject.point.timestamp);
       if (typeof metricObject.point.value === 'number') {
         this.logger.log(
           'INFO',
@@ -79,8 +75,4 @@ export class SandboxMetricsFileReporter {
     const { sandboxFileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
-}
-
-function hrTimeToTimestamp(hrtime) {
-  return hrtime[0] * 1000 + Math.floor(hrtime[1] / 1e6);
 }

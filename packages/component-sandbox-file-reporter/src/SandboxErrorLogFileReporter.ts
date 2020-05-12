@@ -1,19 +1,15 @@
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
-import { join } from 'path';
 import { FileReporterUtil } from './FileReporterUtil';
 
 export class SandboxErrorLogFileReporter {
   type = 'errorLog';
-  ctx: any;
   logger: any;
-  constructor(ctx: any) {
-    this.ctx = ctx;
-    const { appName } = ctx;
+  constructor(private ctx: any) {
     const { sandboxFileReporter: config } = ctx.config;
-    const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
+    const fileLoggerManager: FileLoggerManager = ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('sandbox-errors', {
       ...config.error,
-      dir: join(config.logsDir, appName),
+      dir: config.logsDir,
     });
   }
   async report(data: any[]): Promise<void> {

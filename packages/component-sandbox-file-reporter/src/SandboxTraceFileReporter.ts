@@ -2,22 +2,18 @@ import {
   FileLoggerManager,
   ILogger,
 } from '@pandorajs/component-file-logger-service';
-import { join } from 'path';
-import * as api from '@opentelemetry/api';
 import * as tracing from '@opentelemetry/tracing';
+import { hrTimeToMilliseconds } from './util';
 
 export class SandboxTraceFileReporter implements tracing.SpanExporter {
   type = 'trace';
-  ctx: any;
   logger: ILogger;
-  constructor(ctx: any) {
-    this.ctx = ctx;
-    const { appName } = ctx;
+  constructor(private ctx: any) {
     const { sandboxFileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('sandbox-traces', {
       ...config.trace,
-      dir: join(config.logsDir, appName),
+      dir: config.logsDir,
     });
   }
 
@@ -57,8 +53,4 @@ export class SandboxTraceFileReporter implements tracing.SpanExporter {
     const { sandboxFileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
-}
-
-function hrTimeToMilliseconds(hrTime: api.HrTime): number {
-  return Math.round(hrTime[0] * 1e3 + hrTime[1] / 1e6);
 }
