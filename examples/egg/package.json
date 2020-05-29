@@ -16,10 +16,7 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server",
-    "stop": "egg-scripts stop --title=egg-server",
-    "dev": "egg-bin dev",
-    "debug": "egg-bin debug"
+    "start": "egg-bin dev"
   },
   "ci": {
     "version": "10"

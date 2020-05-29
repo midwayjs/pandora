@@ -10,7 +10,7 @@
     "packages/component-ipc-hub",
     "packages/component-metrics",
     "packages/component-node-metrics",
-    "packages/component-sandbox-file-reporter",
+    "packages/component-file-reporter",
     "packages/component-trace",
     "packages/core-sdk",
     "packages/dollar",

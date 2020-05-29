@@ -1,9 +1,9 @@
 {
-  "name": "@pandorajs/component-sandbox-file-reporter",
+  "name": "@pandorajs/component-file-reporter",
   "version": "2.2.0",
-  "description": "Pandora 2 Component Sandbox File Reporter",
-  "main": "build/src/ComponentSandboxFileReporter.js",
-  "typings": "build/src/ComponentSandboxFileReporter.d.ts",
+  "description": "Pandora 2 Component File Reporter",
+  "main": "build/src/ComponentFileReporter.js",
+  "typings": "build/src/ComponentFileReporter.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "test": "#SKIP NODE_ENV=unittest mocha --trace-warnings",

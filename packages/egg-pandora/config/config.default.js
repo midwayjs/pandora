@@ -12,8 +12,8 @@ exports.pandora = {
     fileLoggerService: {
       path: require.resolve('@pandorajs/component-file-logger-service'),
     },
-    sandboxFileReporter: {
-      path: require.resolve('@pandorajs/component-sandbox-file-reporter'),
+    fileReporter: {
+      path: require.resolve('@pandorajs/component-file-reporter'),
     },
     trace: {
       path: require.resolve('@pandorajs/component-trace'),

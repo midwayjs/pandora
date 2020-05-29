@@ -43,7 +43,7 @@
     "@pandorajs/component-file-logger-service": "^2.2.0",
     "@pandorajs/component-node-metrics": "^2.1.2",
     "@pandorajs/component-process-info": "^2.2.0",
-    "@pandorajs/component-sandbox-file-reporter": "^2.2.0",
+    "@pandorajs/component-file-reporter": "^2.2.0",
     "@pandorajs/component-system-metrics": "^2.1.2",
     "@pandorajs/core-sdk": "^2.2.0",
     "@pandorajs/dollar": "^2.1.2",

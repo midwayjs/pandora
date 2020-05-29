@@ -16,8 +16,8 @@ module.exports = (app, mode) => {
             ...(extendPandoraConfig.coreLogger || {}),
             dir: app.config.logger.dir,
           },
-          sandboxFileReporter: {
-            ...(extendPandoraConfig.sandboxFileReporter || {}),
+          fileReporter: {
+            ...(extendPandoraConfig.fileReporter || {}),
             logsDir: app.config.logger.dir,
           },
         },

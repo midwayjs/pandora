@@ -5,14 +5,14 @@ import {
 } from '@pandorajs/component-decorator';
 import { join } from 'path';
 import { homedir } from 'os';
-import { SandboxMetricsFileReporter } from './SandboxMetricsFileReporter';
-import { SandboxTraceFileReporter } from './SandboxTraceFileReporter';
-import { SandboxErrorLogFileReporter } from './SandboxErrorLogFileReporter';
+import { MetricsFileReporter } from './MetricsFileReporter';
+import { TraceFileReporter } from './TraceFileReporter';
+import { ErrorLogFileReporter } from './ErrorLogFileReporter';
 
-@componentName('sandboxFileReporter')
+@componentName('fileReporter')
 @dependencies(['metrics', 'fileLoggerService'])
 @componentConfig({
-  sandboxFileReporter: {
+  fileReporter: {
     logsDir: join(homedir(), 'logs'),
     globalTags: {},
     metrics: {
@@ -38,11 +38,11 @@ import { SandboxErrorLogFileReporter } from './SandboxErrorLogFileReporter';
     },
   },
 })
-export default class ComponentSandboxFileReporter {
+export default class ComponentFileReporter {
   ctx: any;
-  metricsFileReporter: SandboxMetricsFileReporter;
-  traceFileReporter: SandboxTraceFileReporter;
-  errorLogFileReporter: SandboxErrorLogFileReporter;
+  metricsFileReporter: MetricsFileReporter;
+  traceFileReporter: TraceFileReporter;
+  errorLogFileReporter: ErrorLogFileReporter;
 
   constructor(ctx) {
     this.ctx = ctx;
@@ -57,9 +57,9 @@ export default class ComponentSandboxFileReporter {
   }
 
   startAtAllProcesses() {
-    this.metricsFileReporter = new SandboxMetricsFileReporter(this.ctx);
-    this.traceFileReporter = new SandboxTraceFileReporter(this.ctx);
-    this.errorLogFileReporter = new SandboxErrorLogFileReporter(this.ctx);
+    this.metricsFileReporter = new MetricsFileReporter(this.ctx);
+    this.traceFileReporter = new TraceFileReporter(this.ctx);
+    this.errorLogFileReporter = new ErrorLogFileReporter(this.ctx);
 
     this.ctx.metricsForwarder.on('data', data =>
       this.metricsFileReporter.report(data)

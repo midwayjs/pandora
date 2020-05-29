@@ -1,13 +1,13 @@
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { FileReporterUtil } from './FileReporterUtil';
 
-export class SandboxErrorLogFileReporter {
+export class ErrorLogFileReporter {
   type = 'errorLog';
   logger: any;
   constructor(private ctx: any) {
-    const { sandboxFileReporter: config } = ctx.config;
+    const { fileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = ctx.fileLoggerManager;
-    this.logger = fileLoggerManager.createLogger('sandbox-errors', {
+    this.logger = fileLoggerManager.createLogger('pandora-errors', {
       ...config.error,
       dir: config.logsDir,
     });
@@ -33,7 +33,7 @@ export class SandboxErrorLogFileReporter {
     }
   }
   getGlobalTags() {
-    const { sandboxFileReporter: config } = this.ctx.config;
+    const { fileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
 }

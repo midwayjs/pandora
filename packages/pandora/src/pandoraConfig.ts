@@ -8,8 +8,8 @@ export const components = {
   processInfo: {
     path: '@pandorajs/component-process-info'
   },
-  sandboxFileReporter: {
-    path: '@pandorajs/component-sandbox-file-reporter'
+  fileReporter: {
+    path: '@pandorajs/component-file-reporter'
   },
   fileLoggerService: {
     path: '@pandorajs/component-file-logger-service'

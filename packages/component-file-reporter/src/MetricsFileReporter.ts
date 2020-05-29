@@ -2,13 +2,13 @@ import { IMetricSnapshot } from '@pandorajs/component-metrics';
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { hrTimeToMilliseconds } from './util';
 
-export class SandboxMetricsFileReporter {
+export class MetricsFileReporter {
   type = 'metrics';
   logger: any;
   constructor(private ctx: any) {
-    const { sandboxFileReporter: config } = ctx.config;
+    const { fileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
-    this.logger = fileLoggerManager.createLogger('sandbox-metrics', {
+    this.logger = fileLoggerManager.createLogger('pandora-metrics', {
       ...config.metrics,
       dir: config.logsDir,
     });
@@ -72,7 +72,7 @@ export class SandboxMetricsFileReporter {
     }
   }
   getGlobalTags() {
-    const { sandboxFileReporter: config } = this.ctx.config;
+    const { fileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
 }

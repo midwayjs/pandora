@@ -5,13 +5,13 @@ import {
 import * as tracing from '@opentelemetry/tracing';
 import { hrTimeToMilliseconds } from './util';
 
-export class SandboxTraceFileReporter implements tracing.SpanExporter {
+export class TraceFileReporter implements tracing.SpanExporter {
   type = 'trace';
   logger: ILogger;
   constructor(private ctx: any) {
-    const { sandboxFileReporter: config } = ctx.config;
+    const { fileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
-    this.logger = fileLoggerManager.createLogger('sandbox-traces', {
+    this.logger = fileLoggerManager.createLogger('pandora-traces', {
       ...config.trace,
       dir: config.logsDir,
     });
@@ -50,7 +50,7 @@ export class SandboxTraceFileReporter implements tracing.SpanExporter {
   shutdown() {}
 
   getGlobalTags() {
-    const { sandboxFileReporter: config } = this.ctx.config;
+    const { fileReporter: config } = this.ctx.config;
     return config.globalTags;
   }
 }
