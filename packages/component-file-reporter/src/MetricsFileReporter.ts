@@ -1,8 +1,8 @@
-import { IMetricSnapshot } from '@pandorajs/component-metrics';
+import { MetricSnapshot, MetricsExporter } from '@pandorajs/component-metrics';
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { hrTimeToMilliseconds } from './util';
 
-export class MetricsFileReporter {
+export class MetricsFileReporter implements MetricsExporter {
   type = 'metrics';
   logger: any;
   constructor(private ctx: any) {
@@ -13,7 +13,7 @@ export class MetricsFileReporter {
       dir: config.logsDir,
     });
   }
-  async report(data: IMetricSnapshot[]): Promise<void> {
+  export(data: MetricSnapshot[]) {
     const globalTags = this.getGlobalTags();
     for (const metricObject of data) {
       const timestamp = hrTimeToMilliseconds(metricObject.point.timestamp);
@@ -71,6 +71,9 @@ export class MetricsFileReporter {
       // TODO: distribution and histogram support
     }
   }
+
+  shutdown() {}
+
   getGlobalTags() {
     const { fileReporter: config } = this.ctx.config;
     return config.globalTags;

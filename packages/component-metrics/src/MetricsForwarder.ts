@@ -1,26 +1,34 @@
-import { MetricExporter, MetricRecord } from '@opentelemetry/metrics';
-import { EventEmitter } from 'events';
-import { IMetricSnapshot } from './types';
+import {
+  MetricExporter as OtelMetricExporter,
+  MetricRecord,
+} from '@opentelemetry/metrics';
+import { MetricSnapshot, MetricsExporter } from './types';
 
 // TODO: replace with PullController
-export class MetricsForwarder extends EventEmitter implements MetricExporter {
+export class MetricsForwarder implements OtelMetricExporter {
+  _metricsExporter: MetricsExporter[] = [];
+
   /** @implements */
   export(metrics: MetricRecord[], resultCallback: (result) => void): void {
     const snapshots = metrics.map(it => this.format(it));
-    try {
-      this.emit('data', snapshots);
-    } catch (e) {
-      this.emit('error', e);
+    for (const item of this._metricsExporter) {
+      item.export(snapshots);
     }
     resultCallback(0);
   }
 
   /** @implements */
   shutdown(): void {
-    this.emit('end');
+    for (const item of this._metricsExporter) {
+      item.shutdown();
+    }
   }
 
-  private format(metric: MetricRecord): IMetricSnapshot {
+  addMetricsExporter(exporter: MetricsExporter) {
+    this._metricsExporter.push(exporter);
+  }
+
+  private format(metric: MetricRecord): MetricSnapshot {
     return {
       descriptor: metric.descriptor,
       labels: metric.labels,

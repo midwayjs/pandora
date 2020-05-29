@@ -3,17 +3,20 @@
 exports.pandora = {
   enable: true,
   components: {
-    metrics: {
-      path: require.resolve('@pandorajs/component-metrics'),
-    },
-    nodeMetrics: {
-      path: require.resolve('@pandorajs/component-node-metrics'),
-    },
     fileLoggerService: {
       path: require.resolve('@pandorajs/component-file-logger-service'),
     },
     fileReporter: {
       path: require.resolve('@pandorajs/component-file-reporter'),
+    },
+    logger: {
+      path: require.resolve('@pandorajs/component-logger'),
+    },
+    metrics: {
+      path: require.resolve('@pandorajs/component-metrics'),
+    },
+    nodeMetrics: {
+      path: require.resolve('@pandorajs/component-node-metrics'),
     },
     trace: {
       path: require.resolve('@pandorajs/component-trace'),

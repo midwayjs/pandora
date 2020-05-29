@@ -14,22 +14,23 @@
     "egg-plugin"
   ],
   "dependencies": {
+    "@opentelemetry/api": "^0.7.0",
+    "@opentelemetry/core": "^0.7.0",
     "@opentelemetry/plugin-http": "^0.7.0",
     "@opentelemetry/plugin-https": "^0.7.0",
     "@pandorajs/component-file-logger-service": "^2.2.0",
+    "@pandorajs/component-file-reporter": "^2.2.0",
+    "@pandorajs/component-logger": "^2.2.0",
     "@pandorajs/component-metrics": "^2.2.0",
     "@pandorajs/component-node-metrics": "^2.1.2",
-    "@pandorajs/component-file-reporter": "^2.2.0",
     "@pandorajs/component-trace": "^2.2.0",
-    "@pandorajs/core-sdk": "^2.2.0"
-  },
-  "devDependencies": {
+    "@pandorajs/core-sdk": "^2.2.0",
+    "egg-logger": "^2.4.2"
   },
   "engines": {
     "node": ">=8.0.0"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "files": [
     "config",
     "agent.js",

@@ -8,6 +8,7 @@
     "packages/component-file-logger-service",
     "packages/component-indicator",
     "packages/component-ipc-hub",
+    "packages/component-logger",
     "packages/component-metrics",
     "packages/component-node-metrics",
     "packages/component-file-reporter",

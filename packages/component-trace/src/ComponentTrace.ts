@@ -45,7 +45,7 @@ export default class ComponentTrace {
     tracerProvider.addSpanProcessor(this.spanProcessor);
 
     tracerProvider.register({});
-    this.tracerProvider = tracerProvider;
+    this.ctx.tracerProvider = this.tracerProvider = tracerProvider;
   }
 
   async stopAtSupervisor() {

@@ -1,5 +1,6 @@
 'use strict';
 const createCoreSdk = require('./lib/create-core-sdk');
+const monitor = require('./lib/app-monitor');
 
 module.exports = app => {
   const config = app.config.pandora;
@@ -18,10 +19,9 @@ module.exports = app => {
   app.pandoraCoreSdk = coreSdk;
   app.pandora = coreSdk.coreContext;
 
-  app.config.coreMiddleware.unshift('metrics');
-
   app.beforeStart(async () => {
     await coreSdk.start();
+    monitor(app);
   });
   app.beforeClose(async () => {
     try {

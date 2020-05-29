@@ -1,9 +1,10 @@
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
-import { FileReporterUtil } from './FileReporterUtil';
+import { LogExporter, LogRecord } from '@pandorajs/component-logger';
 
-export class ErrorLogFileReporter {
+export class LogFileReporter implements LogExporter {
   type = 'errorLog';
   logger: any;
+
   constructor(private ctx: any) {
     const { fileReporter: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = ctx.fileLoggerManager;
@@ -12,19 +13,19 @@ export class ErrorLogFileReporter {
       dir: config.logsDir,
     });
   }
-  async report(data: any[]): Promise<void> {
+
+  export(data: LogRecord[]) {
     const globalTags = this.getGlobalTags();
     for (const errorLog of data) {
       let level = 'NONE';
-      if (errorLog.method) {
-        level = errorLog.method.toUpperCase();
+      if (errorLog.level) {
+        level = errorLog.level.toUpperCase();
       }
       this.logger.log(
         level,
         [
           JSON.stringify({
             ...errorLog,
-            unix_timestamp: FileReporterUtil.unix(errorLog.timestamp),
             ...globalTags,
           }),
         ],
@@ -32,6 +33,7 @@ export class ErrorLogFileReporter {
       );
     }
   }
+
   getGlobalTags() {
     const { fileReporter: config } = this.ctx.config;
     return config.globalTags;

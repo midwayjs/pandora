@@ -7,8 +7,13 @@ export const DEFAULT_CONFIG = {
   logLevel: LogLevel.INFO,
 };
 
-export interface IMetricSnapshot {
+export interface MetricSnapshot {
   descriptor: MetricDescriptor;
   labels: Labels;
   point: Point;
+}
+
+export interface MetricsExporter {
+  export(metrics: MetricSnapshot[]): void;
+  shutdown(): void;
 }

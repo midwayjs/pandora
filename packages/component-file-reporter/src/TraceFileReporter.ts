@@ -29,7 +29,7 @@ export class TraceFileReporter implements tracing.SpanExporter {
           JSON.stringify({
             traceId: it.spanContext.traceId,
             spanId: it.spanContext.spanId,
-            parentId: it.parentSpanId,
+            parentSpanId: it.parentSpanId,
             name: it.name,
             status: it.status,
             startTime: hrTimeToMilliseconds(it.startTime),
