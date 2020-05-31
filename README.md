@@ -35,7 +35,7 @@ $ npm install -g pandora@release-2.x
 | [actuatorServer](https://github.com/midwayjs/pandora/tree/2.x/packages/component-actuator-server) | 提供 Restful 的应用监控数据的获取，以及下行控制管道的接口 |
 | [ipcHub](https://github.com/midwayjs/pandora/tree/2.x/packages/component-ipc-hub) | Pandora.js 进程间通信的基础 |
 | [indicator](https://github.com/midwayjs/pandora/tree/2.x/packages/component-indicator) | 对于监控指标的注册管理，以及跨进程的监控数据查询 |
-| [metrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-metrics) | 提供接口创建各类 Metrics ，供下游业务组件收集各类数据使用 |
+| [metrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-metric) | 提供接口创建各类 Metrics ，供下游业务组件收集各类数据使用 |
 | [trace](https://github.com/midwayjs/pandora/tree/2.x/packages/component-trace) | 收集 Trace 信息，提供 record() 接口供下游业务接口进行写入 |
 | [errorLog](https://github.com/midwayjs/pandora/tree/2.x/packages/component-error-log) | 收集错误日志信息，提供 record() 接口供下游业务接口进行写入 |
 
@@ -43,10 +43,7 @@ $ npm install -g pandora@release-2.x
 
 | 组件 | 作用 |
 | ------ | ------ |
-| [httpServerMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-http-server-metrics) | 创建相应 Metrics ，收集 HTTP Server 的 QPS、RT 等 |
-| [nodeMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-node-metrics) | 收集 Node.js 运行时的内存分布等信息 |
-| [systemMetrics](https://github.com/midwayjs/pandora/tree/2.x/packages/component-system-metrics) | 收集操作系统内存、CPU Usage、Load 等 |
-| [processInfo](https://github.com/midwayjs/pandora/tree/2.x/packages/component-process-info) | 收集进程的静态信息，如启动参数等 |
+| [metricInstrument](https://github.com/midwayjs/pandora/tree/2.x/packages/component-metric-instrument) | 收集 Node.js 运行时的内存分布、操作系统内存、CPU Usage、Load 等信息 |
 | [deadCounter](https://github.com/midwayjs/pandora/tree/2.x/packages/component-dead-counter) | 通过 IPC-HUB 的断线统计进程意外退出的次数 |
 | [fileLoggerService](https://github.com/midwayjs/pandora/tree/2.x/packages/component-file-logger-service) | 带日志切割的 LoggerService，用于写入文本日志 |
 | [fileReporter](https://github.com/midwayjs/pandora/tree/2.x/packages/component-file-reporter) | 向 reporterManager 注册 metrics、trace、errorLog 三类 Reporter，通过 fileLoggerService 写入文本日志 |

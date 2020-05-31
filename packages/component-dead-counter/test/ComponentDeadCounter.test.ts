@@ -19,7 +19,7 @@ describe('ComponentDeadCounter', () => {
       ComponentReflector.getDependencies(
         ComponentDeadCounter as IComponentConstructor
       ),
-      ['ipcHub', 'metrics', 'errorLog']
+      ['ipcHub', 'metric', 'errorLog']
     );
   });
 

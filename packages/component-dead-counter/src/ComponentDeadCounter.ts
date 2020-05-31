@@ -3,7 +3,7 @@ import { HubServer, Selector } from '@pandorajs/hub';
 const debug = require('debug')('pandora:ComponentDeadCounter');
 
 @componentName('deadCounter')
-@dependencies(['ipcHub', 'metrics', 'errorLog'])
+@dependencies(['ipcHub', 'metric', 'errorLog'])
 export default class ComponentDeadCounter {
   constructor(private ctx) {}
 

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { Span } from '@opentelemetry/api';
 import {
   SpanProcessor,
   SpanExporter,
@@ -37,14 +36,14 @@ export class MultiSpanProcessor implements SpanProcessor {
     // TODO:
   }
 
-  onStart(span: Span): void {
+  onStart(span: ReadableSpan): void {
     // TODO:
   }
 
-  onEnd(span: Span): void {
+  onEnd(span: ReadableSpan): void {
     const callback = () => {};
     for (const exporter of this._spanExporter) {
-      exporter.export([(span as unknown) as ReadableSpan], callback);
+      exporter.export([span], callback);
     }
   }
 

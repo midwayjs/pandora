@@ -48,12 +48,12 @@
     "build/src/**/*.d.ts"
   ],
   "dependencies": {
-    "@opentelemetry/api": "^0.7.0",
-    "@opentelemetry/tracing": "^0.7.0",
+    "@opentelemetry/api": "^0.8.3",
+    "@opentelemetry/tracing": "^0.8.3",
     "@pandorajs/component-decorator": "^2.1.2",
     "@pandorajs/component-file-logger-service": "^2.2.0",
     "@pandorajs/component-logger": "^2.2.0",
-    "@pandorajs/component-metrics": "^2.2.0",
+    "@pandorajs/component-metric": "^2.2.0",
     "@pandorajs/dollar": "^2.1.2",
     "md5": "^2.2.1"
   }

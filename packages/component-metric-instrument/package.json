@@ -1,12 +1,12 @@
 {
-  "name": "@pandorajs/component-trace",
-  "version": "2.2.0",
-  "description": "Pandora 2 Component Trace",
-  "main": "build/src/ComponentTrace.js",
-  "typings": "build/src/ComponentTrace.d.ts",
+  "name": "@pandorajs/component-metric-instrument",
+  "version": "2.1.2",
+  "description": "Pandora 2 Component Node.js Metrics",
+  "main": "build/src/ComponentMetricInstrument.js",
+  "typings": "build/src/ComponentMetricInstrument.d.ts",
   "scripts": {
     "build": "tsc -p .",
-    "test": "# SKIP NODE_ENV=unittest mocha --trace-warnings",
+    "test": "NODE_ENV=unittest mocha",
     "cov": "nyc mocha",
     "ci": "npm run test"
   },
@@ -15,14 +15,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-actuator-server": "^2.2.0",
-    "@pandorajs/component-indicator": "^2.1.2",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "mocha": "^7.1.2",
-    "nyc": "^13.1.0",
-    "sinon": "^7.2.3",
-    "supertest": "^3.4.1"
+    "nyc": "^13.1.0"
   },
   "nyc": {
     "include": [
@@ -31,8 +27,7 @@
     ],
     "exclude": [
       "typings",
-      "dist",
-      "src/types.ts"
+      "dist"
     ],
     "extension": [
       ".ts"
@@ -52,9 +47,11 @@
   ],
   "dependencies": {
     "@opentelemetry/api": "^0.8.3",
-    "@opentelemetry/node": "^0.8.3",
-    "@opentelemetry/tracing": "^0.8.3",
+    "@opentelemetry/metrics": "^0.8.3",
     "@pandorajs/component-decorator": "^2.1.2",
-    "@pandorajs/dollar": "^2.1.2"
+    "@pandorajs/dollar": "^2.1.2",
+    "debug": "^4.1.1",
+    "node-df": "^0.1.4",
+    "test-util": "^1.0.0"
   }
 }

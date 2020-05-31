@@ -41,7 +41,7 @@
     "mz": "^2.7.0",
     "@pandorajs/component-dead-counter": "^2.1.2",
     "@pandorajs/component-file-logger-service": "^2.2.0",
-    "@pandorajs/component-node-metrics": "^2.1.2",
+    "@pandorajs/component-metric-instrument": "^2.1.2",
     "@pandorajs/component-process-info": "^2.2.0",
     "@pandorajs/component-file-reporter": "^2.2.0",
     "@pandorajs/component-system-metrics": "^2.1.2",

@@ -1,12 +1,6 @@
 export const components = {
-  nodeMetrics: {
-    path: '@pandorajs/component-node-metrics'
-  },
-  systemMetrics: {
-    path: '@pandorajs/component-system-metrics'
-  },
-  processInfo: {
-    path: '@pandorajs/component-process-info'
+  metricInstrument: {
+    path: '@pandorajs/component-metric-instrument'
   },
   fileReporter: {
     path: '@pandorajs/component-file-reporter'

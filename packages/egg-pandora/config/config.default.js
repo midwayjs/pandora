@@ -12,11 +12,11 @@ exports.pandora = {
     logger: {
       path: require.resolve('@pandorajs/component-logger'),
     },
-    metrics: {
-      path: require.resolve('@pandorajs/component-metrics'),
+    metric: {
+      path: require.resolve('@pandorajs/component-metric'),
     },
-    nodeMetrics: {
-      path: require.resolve('@pandorajs/component-node-metrics'),
+    metricInstrument: {
+      path: require.resolve('@pandorajs/component-metric-instrument'),
     },
     trace: {
       path: require.resolve('@pandorajs/component-trace'),

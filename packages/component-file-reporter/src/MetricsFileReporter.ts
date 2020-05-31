@@ -1,4 +1,4 @@
-import { MetricSnapshot, MetricsExporter } from '@pandorajs/component-metrics';
+import { MetricSnapshot, MetricsExporter } from '@pandorajs/component-metric';
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { hrTimeToMilliseconds } from './util';
 
