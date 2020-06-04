@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/egg-pandora",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "description": "",
   "main": "./index.js",
   "eggPlugin": {
