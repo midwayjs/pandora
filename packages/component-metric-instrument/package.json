@@ -21,27 +21,6 @@
     "nyc": "^13.1.0",
     "test-util": "^3.0.0-alpha.0"
   },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings",
-      "dist"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "json",
-      "html"
-    ],
-    "all": true
-  },
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts"

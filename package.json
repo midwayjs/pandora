@@ -1,8 +1,8 @@
 {
   "name": "pandora.js",
   "version": "0.0.1",
+  "private": true,
   "devDependencies": {
-    "git-hooks": "^1.1.10",
     "lerna": "^3.20.2",
     "mwts": "^1.0.4",
     "nyc": "^13.1.0",
@@ -17,12 +17,6 @@
     "test": "lerna run test --concurrency=1 --stream",
     "cov": "nyc lerna run cov --concurrency=1 --stream",
     "ci": "npm run build && npm run cov",
-    "purge": "npm run clean && rm -rf node_modules",
-    "clean": "lerna clean --yes; rm -rf ./packages/**/package-lock.json",
-    "reset": "npm run purge && npm i && npm run ci",
-    "publish": "sh scripts/publish.sh",
-    "beta": "sh scripts/publish.sh --npm-tag pandora2-beta --force-publish=*",
-    "canary": "sh scripts/publish.sh --canary",
     "authors": "git log --format='%aN <%aE>' | sort -u > AUTHORS"
   },
   "keywords": [
@@ -40,26 +34,5 @@
   "engines": {
     "node": ">= 8.2.1"
   },
-  "license": "MIT",
-  "nyc": {
-    "include": [
-      "packages/**/src/*.ts",
-      "packages/**/src/**/*.ts"
-    ],
-    "exclude": [
-      "**/typings",
-      "**/*.d.ts",
-      "**/dist",
-      "**/src/index.ts",
-      "**/src/types.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "reporter": [
-      "json",
-      "html"
-    ],
-    "all": true
-  }
+  "license": "MIT"
 }

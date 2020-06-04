@@ -24,28 +24,6 @@
     "sinon": "^7.2.3",
     "supertest": "^3.4.1"
   },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings",
-      "dist",
-      "src/types.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "json",
-      "html"
-    ],
-    "all": true
-  },
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts"

@@ -12,8 +12,7 @@
     "start": "npm run build && node dist/index",
     "test": "NODE_ENV=unittest mocha --trace-warnings",
     "cov": "NODE_ENV=unittest nyc mocha",
-    "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/pandora src/"
+    "ci": "npm run test"
   },
   "keywords": [
     "pandora",
@@ -73,35 +72,6 @@
     "nyc": "^13.1.0",
     "nyc-ts-patch": "^1.0.0",
     "urllib": "^2.33.0"
-  },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "src/debug",
-      "src/index.ts",
-      "src/types.ts",
-      "typings",
-      "doc",
-      "test.bak",
-      "**/*.d.ts",
-      "dist"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text",
-      "json",
-      "html",
-      "lcovonly"
-    ],
-    "all": true
   },
   "files": [
     "3rd",

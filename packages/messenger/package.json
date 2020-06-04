@@ -31,30 +31,6 @@
     "should": "^11.2.1",
     "uncaughtException": "^1.0.0"
   },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings",
-      "**/*.d.ts",
-      "dist"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text",
-      "json",
-      "html",
-      "lcovonly"
-    ],
-    "all": true
-  },
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts",

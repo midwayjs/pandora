@@ -11,3 +11,4 @@ run
 *.tsbuildinfo
 *.local.js
 .tmp
+.nyc_output

@@ -33,31 +33,6 @@
     "mocha": "^7.1.2",
     "nyc": "^13.1.0"
   },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "src/index.ts",
-      "typings",
-      "**/*.d.ts",
-      "dist"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text",
-      "json",
-      "html",
-      "lcovonly"
-    ],
-    "all": true
-  },
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts"

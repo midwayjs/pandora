@@ -8,8 +8,7 @@
     "build": "tsc -p .",
     "test": "NODE_ENV=unittest mocha",
     "cov": "nyc mocha",
-    "ci": "npm run test",
-    "gen-api-ref": "../../node_modules/.bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../docs/.vuepress/dist/api-reference/env src/"
+    "ci": "npm run test"
   },
   "keywords": [
     "pandora"
@@ -25,28 +24,6 @@
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
     "supertest": "^3.3.0"
-  },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings",
-      "dist",
-      "src/types.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "json",
-      "html"
-    ],
-    "all": true
   },
   "files": [
     "build/src/**/*.js",

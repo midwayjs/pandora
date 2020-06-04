@@ -25,28 +25,6 @@
     "nyc": "^13.1.0",
     "supertest": "^3.3.0"
   },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings",
-      "dist",
-      "src/types.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "json",
-      "html"
-    ],
-    "all": true
-  },
   "files": [
     "build",
     "src"

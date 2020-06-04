@@ -1,0 +1,20 @@
+{
+  "include": [
+    "packages/**/src/*.ts",
+    "packages/**/src/**/*.ts"
+  ],
+  "exclude": [
+    "**/typings",
+    "**/*.d.ts",
+    "**/dist",
+    "**/test/**/*.ts"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "reporter": [
+    "json",
+    "html"
+  ],
+  "all": true
+}
