@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-metric-instrument",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "build/src/ComponentMetricInstrument.js",
   "typings": "build/src/ComponentMetricInstrument.d.ts",
