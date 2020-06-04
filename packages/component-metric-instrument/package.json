@@ -18,7 +18,8 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "mocha": "^7.1.2",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "test-util": "^3.0.0-alpha.0"
   },
   "nyc": {
     "include": [
@@ -51,7 +52,6 @@
     "@pandorajs/component-decorator": "^3.0.0-alpha.0",
     "@pandorajs/dollar": "^3.0.0-alpha.0",
     "debug": "^4.1.1",
-    "node-df": "^0.1.4",
-    "test-util": "^3.0.0-alpha.0"
+    "node-df": "^0.1.4"
   }
 }
