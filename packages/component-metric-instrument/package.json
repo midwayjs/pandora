@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-metric-instrument",
-  "version": "2.1.2",
+  "version": "3.0.0-alpha.0",
   "description": "Pandora 2 Component Node.js Metrics",
   "main": "build/src/ComponentMetricInstrument.js",
   "typings": "build/src/ComponentMetricInstrument.d.ts",
@@ -48,10 +48,10 @@
   "dependencies": {
     "@opentelemetry/api": "^0.8.3",
     "@opentelemetry/metrics": "^0.8.3",
-    "@pandorajs/component-decorator": "^2.1.2",
-    "@pandorajs/dollar": "^2.1.2",
+    "@pandorajs/component-decorator": "^3.0.0-alpha.0",
+    "@pandorajs/dollar": "^3.0.0-alpha.0",
     "debug": "^4.1.1",
     "node-df": "^0.1.4",
-    "test-util": "^1.0.0"
+    "test-util": "^3.0.0-alpha.0"
   }
 }
