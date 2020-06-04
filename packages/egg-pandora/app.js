@@ -1,18 +1,11 @@
 'use strict';
 const createCoreSdk = require('./lib/create-core-sdk');
 const monitor = require('./lib/app-monitor');
+const pkg = require('./index');
 
 module.exports = app => {
-  const config = app.config.pandora;
+  const config = app.config[pkg.pluginName];
   if (!config.enable) {
-    return;
-  }
-  const PANDORA_HOME = process.env.PANDORA_HOME;
-  if (PANDORA_HOME) {
-    app.coreLogger.warn('===== Pandora.js Warning =====');
-    app.coreLogger.warn(
-      'Pandora.js Warning: DO NOT use pandora and egg-pandora at same time ! egg-pandora will be skipped!'
-    );
     return;
   }
   const coreSdk = createCoreSdk(app, 'worker');

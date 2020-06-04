@@ -1,10 +1,11 @@
 'use strict';
 const { CoreSDK } = require('@pandorajs/core-sdk');
+const pkg = require('../index');
 
 module.exports = (app, mode) => {
   const appName = app.name;
   const appDir = app.appDir || app.baseDir;
-  const extendPandoraConfig = app.config.pandora;
+  const extendPandoraConfig = app.config[pkg.pluginName];
   let optExtendConfig;
   /* istanbul ignore else */
   if (extendPandoraConfig) {

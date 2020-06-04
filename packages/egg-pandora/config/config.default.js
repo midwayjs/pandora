@@ -1,6 +1,7 @@
 'use strict';
+const pkg = require('../index');
 
-exports.pandora = {
+exports[pkg.pluginName] = {
   enable: true,
   components: {
     fileLoggerService: {

@@ -2,11 +2,9 @@
   "name": "@pandorajs/egg-pandora",
   "version": "3.0.0-alpha.1",
   "description": "",
+  "main": "./index.js",
   "eggPlugin": {
-    "name": "pandora",
-    "optionalDependencies": [
-      "report"
-    ]
+    "name": "pandora-next"
   },
   "keywords": [
     "egg",
