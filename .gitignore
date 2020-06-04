@@ -10,3 +10,4 @@ _book
 run
 *.tsbuildinfo
 *.local.js
+.tmp

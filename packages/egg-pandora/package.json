@@ -33,6 +33,7 @@
     "config",
     "agent.js",
     "app.js",
+    "index.js",
     "lib",
     "pandora-agent"
   ],
