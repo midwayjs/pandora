@@ -23,8 +23,9 @@ class PandoraLogTransport extends Transport {
         Error.captureStackTrace(error, this.log);
       }
 
+      // FIXME: replace with ?.
       // egg-logger 的 context logger 中在 meta 注入了 ctx
-      const traceId = meta?.ctx?.traceId ?? '';
+      const traceId = (meta && meta.ctx && meta.ctx.traceId) || '';
 
       const data = {
         level: levelLowerCase,

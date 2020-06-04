@@ -6,6 +6,10 @@ module.exports = {
     return this.app.pandora;
   },
   get traceId() {
-    return this[constant.span]?.spanContext.traceId;
+    const span = this[constant.span];
+    if (span == null) {
+      return undefined;
+    }
+    return span.spanContext.traceId;
   },
 };
