@@ -3,7 +3,8 @@ const LogTransport = require('./log-transport');
 const constant = require('./constant');
 
 module.exports = app => {
-  // trigger hook on https for preloaded urllib.
+  // trigger hook on http/https for preloaded urllib.
+  require('http');
   require('https');
 
   for (const name of app.loggers.keys()) {
@@ -38,6 +39,9 @@ module.exports = app => {
     startTimeWeakMap.set(ctx, Date.now());
     httpRequestCount.add(1);
     const span = tracer.getCurrentSpan();
+    if (span == null) {
+      return;
+    }
     ctx[constant.span] = span;
     // TODO:
     span.__end = span.end;
@@ -51,7 +55,11 @@ module.exports = app => {
       return;
     }
     httpRequestRT.record(Date.now() - startTime);
-    ctx[constant.span].updateName(ctx.routerPath);
-    ctx[constant.span].__end(ctx[constant.span].__endTime);
+    const span = ctx[constant.span];
+    if (span == null) {
+      return;
+    }
+    span.updateName(`${ctx.method} ${ctx.routerPath}`);
+    span.__end(span.__endTime);
   });
 };
