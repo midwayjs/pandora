@@ -1,4 +1,8 @@
-import { componentName, dependencies } from '@pandorajs/component-decorator';
+import {
+  componentName,
+  dependencies,
+  componentConfig,
+} from '@pandorajs/component-decorator';
 import { EndPointManager } from '@pandorajs/component-actuator-server';
 import { IndicatorManager } from '@pandorajs/component-indicator';
 import { metrics } from '@opentelemetry/api';
@@ -10,6 +14,11 @@ import { MetricsForwarder } from './MetricsForwarder';
 import { PandoraBatcher } from './Batcher';
 
 @componentName('metric')
+@componentConfig({
+  metric: {
+    interval: 5000,
+  },
+})
 @dependencies(['actuatorServer', 'indicator'])
 export default class ComponentMetric {
   ctx: any;
@@ -21,13 +30,14 @@ export default class ComponentMetric {
 
   constructor(ctx) {
     this.ctx = ctx;
+    const interval = ctx.config.metric.interval;
 
     this.batcher = new PandoraBatcher();
     this.metricsForwarder = new MetricsForwarder();
     this.meterProvider = new MeterProvider({
       exporter: this.metricsForwarder,
       batcher: this.batcher,
-      interval: 1000,
+      interval,
     });
     metrics.setGlobalMeterProvider(this.meterProvider);
     ctx.meterProvider = this.meterProvider;

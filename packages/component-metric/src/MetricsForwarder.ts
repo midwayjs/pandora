@@ -10,7 +10,17 @@ export class MetricsForwarder implements OtelMetricExporter {
 
   /** @implements */
   export(metrics: MetricRecord[], resultCallback: (result) => void): void {
-    const snapshots = metrics.map(it => this.format(it));
+    const snapshots: MetricSnapshot[] = [];
+    for (const item of metrics) {
+      const snapshot = this.format(item);
+      if (
+        snapshot.point.timestamp[0] === 0 &&
+        snapshot.point.timestamp[1] === 0
+      ) {
+        continue;
+      }
+      snapshots.push(snapshot);
+    }
     for (const item of this._metricsExporter) {
       item.export(snapshots);
     }
