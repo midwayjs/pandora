@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-file-reporter",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.6",
   "description": "Pandora 2 Component File Reporter",
   "main": "build/src/ComponentFileReporter.js",
   "typings": "build/src/ComponentFileReporter.d.ts",
@@ -32,7 +32,7 @@
     "@pandorajs/component-decorator": "^3.0.0-alpha.3",
     "@pandorajs/component-file-logger-service": "^3.0.0-alpha.3",
     "@pandorajs/component-logger": "^3.0.0-alpha.3",
-    "@pandorajs/component-metric": "^3.0.0-alpha.3",
+    "@pandorajs/component-metric": "^3.0.0-alpha.6",
     "@pandorajs/dollar": "^3.0.0-alpha.0",
     "md5": "^2.2.1"
   }

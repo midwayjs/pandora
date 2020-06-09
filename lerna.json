@@ -20,7 +20,7 @@
     "packages/messenger",
     "packages/test-util"
   ],
-  "version": "3.0.0-alpha.5",
+  "version": "3.0.0-alpha.6",
   "command": {
     "bootstrap": {
       "npmClientArgs": [
