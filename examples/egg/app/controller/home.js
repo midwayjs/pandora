@@ -17,6 +17,7 @@ class HomeController extends Controller {
         });
       } catch (e) {
         ctx.logger.error('Test Error', e);
+        ctx.status = 500;
       }
     }
     ctx.body = data;

@@ -29,6 +29,9 @@ module.exports = app => {
   const httpRequestCount = meter
     .createCounter('http_request_count', { labelKeys: ['pid'] })
     .bind({ pid: String(process.pid) });
+  const httpRequestFailureCount = meter
+    .createCounter('http_request_failure_count', { labelKeys: ['pid'] })
+    .bind({ pid: String(process.pid) });
   const httpRequestRT = meter
     .createMeasure('http_request_rt', { labelKeys: ['pid'] })
     .bind({ pid: String(process.pid) });
@@ -50,6 +53,9 @@ module.exports = app => {
     };
   });
   app.on('response', ctx => {
+    if (ctx.realStatus >= 400) {
+      httpRequestFailureCount.add(1);
+    }
     const startTime = startTimeWeakMap.get(ctx);
     if (startTime == null) {
       return;
