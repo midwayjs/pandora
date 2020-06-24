@@ -2,7 +2,7 @@ import {
   Aggregator,
   MetricKind,
   CounterSumAggregator,
-  MeasureExactAggregator,
+  ValueRecorderExactAggregator,
   ObserverAggregator,
   MetricRecord,
   MetricDescriptor,
@@ -17,17 +17,18 @@ export class PandoraBatcher extends Batcher {
   aggregatorFor(descriptor: MetricDescriptor): Aggregator {
     switch (descriptor.metricKind) {
       case MetricKind.COUNTER:
+      case MetricKind.UP_DOWN_COUNTER:
         return new CounterSumAggregator();
       case MetricKind.OBSERVER:
         return new ObserverAggregator();
       default:
-        return new MeasureExactAggregator();
+        return new ValueRecorderExactAggregator();
     }
   }
 
   process(record: MetricRecord): void {
-    const labels = record.descriptor.labelKeys
-      .map(k => `${k}=${record.labels[k]}`)
+    const labels = Object.entries(record.labels)
+      .map(it => `${it[0]}=${it[1]}`)
       .join(',');
     this._batchMap.set(record.descriptor.name + labels, record);
   }

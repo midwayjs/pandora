@@ -48,10 +48,7 @@ export class NetTrafficGaugeSet extends MetricObservableSet {
             { interface_name: iface },
             () => this.stats[iface].count[index],
           ];
-        }),
-        {
-          labelKeys: ['interface_name'],
-        }
+        })
       );
       this.createObservables(
         `net_traffic_${fieldName}_rate`,
@@ -60,10 +57,7 @@ export class NetTrafficGaugeSet extends MetricObservableSet {
             { interface_name: iface },
             () => this.stats[iface].rate[index],
           ];
-        }),
-        {
-          labelKeys: ['interface_name'],
-        }
+        })
       );
     }
   }

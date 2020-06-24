@@ -24,8 +24,7 @@ export class V8GaugeSet extends MetricObservableSet {
         () => {
           return this.heapSpaceStats[key];
         },
-        { pid: String(process.pid) },
-        { labelKeys: ['pid'] }
+        { pid: String(process.pid) }
       );
     });
     Object.keys(this.heapStats).forEach(key => {
@@ -34,8 +33,7 @@ export class V8GaugeSet extends MetricObservableSet {
         () => {
           return this.heapStats[key];
         },
-        { pid: String(process.pid) },
-        { labelKeys: ['pid'] }
+        { pid: String(process.pid) }
       );
     });
   }
