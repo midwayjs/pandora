@@ -1,5 +1,6 @@
 const util = require('util');
 const { Transport } = require('egg-logger');
+const { span: SpanSymbol } = require('./constant');
 
 class PandoraLogTransport extends Transport {
   path;
@@ -25,7 +26,12 @@ class PandoraLogTransport extends Transport {
 
       // FIXME: replace with ?.
       // egg-logger 的 context logger 中在 meta 注入了 ctx
-      const traceId = (meta && meta.ctx && meta.ctx.traceId) || '';
+      const traceId =
+        (meta &&
+          meta.ctx &&
+          meta.ctx[SpanSymbol] &&
+          meta.ctx[SpanSymbol].spanContext.traceId) ||
+        '';
 
       const data = {
         level: levelLowerCase,

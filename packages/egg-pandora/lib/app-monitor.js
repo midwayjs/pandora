@@ -27,13 +27,13 @@ module.exports = app => {
 
   const meter = app.pandora.meterProvider.getMeter('egg');
   const httpRequestCount = meter
-    .createCounter('http_request_count', { labelKeys: ['pid'] })
+    .createCounter('http_request_count')
     .bind({ pid: String(process.pid) });
   const httpRequestFailureCount = meter
-    .createCounter('http_request_failure_count', { labelKeys: ['pid'] })
+    .createCounter('http_request_failure_count')
     .bind({ pid: String(process.pid) });
   const httpRequestRT = meter
-    .createMeasure('http_request_rt', { labelKeys: ['pid'] })
+    .createValueRecorder('http_request_rt')
     .bind({ pid: String(process.pid) });
   const startTimeWeakMap = new WeakMap();
 
