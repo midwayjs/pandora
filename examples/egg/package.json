@@ -1,10 +1,10 @@
 {
   "name": "egg-example",
-  "version": "3.0.0-alpha.7",
+  "version": "3.0.0-alpha.8",
   "description": "",
   "private": true,
   "dependencies": {
-    "@pandorajs/egg-pandora": "^3.0.0-alpha.7",
+    "@pandorajs/egg-pandora": "^3.0.0-alpha.8",
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0"
   },
