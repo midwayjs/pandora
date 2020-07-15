@@ -1,8 +1,8 @@
-const util = require('util');
-const { Transport } = require('egg-logger');
-const { span: SpanSymbol } = require('./constant');
+import util = require('util');
+import { Transport } from 'egg-logger';
+import { spanSymbol } from './constant';
 
-class PandoraLogTransport extends Transport {
+export default class PandoraLogTransport extends Transport {
   path;
   logProcessor;
   constructor(options) {
@@ -11,28 +11,21 @@ class PandoraLogTransport extends Transport {
     this.logProcessor = options.logProcessor;
   }
 
-  log(level, args, meta) {
+  log(level, args: any[], meta) {
     const levelLowerCase = (level || '').toLowerCase();
-    if (levelLowerCase !== 'error' && levelLowerCase !== 'warn') {
+    if (levelLowerCase !== 'error') {
       return;
     }
     let error = args[0];
     try {
       if (!(error instanceof Error)) {
-        error = new Error(util.format(...args));
+        error = new Error((util.format as any)(...args));
         error.name = 'Error';
         Error.captureStackTrace(error, this.log);
       }
 
-      // FIXME: replace with ?.
       // egg-logger 的 context logger 中在 meta 注入了 ctx
-      const traceId =
-        (meta &&
-          meta.ctx &&
-          meta.ctx[SpanSymbol] &&
-          meta.ctx[SpanSymbol].spanContext.traceId) ||
-        '';
-
+      const traceId = meta?.ctx?.[spanSymbol]?.spanContext.traceId ?? '';
       const data = {
         level: levelLowerCase,
         timestamp: Date.now(),
@@ -40,6 +33,7 @@ class PandoraLogTransport extends Transport {
         message: error.message,
         stack: error.stack,
         traceId,
+        traceName: meta?.ctx && `${meta?.ctx.method} ${meta?.ctx.routerPath}`,
         path: this.path || 'egg-logger',
       };
       this.logProcessor.export(data);
@@ -48,5 +42,3 @@ class PandoraLogTransport extends Transport {
     }
   }
 }
-
-module.exports = PandoraLogTransport;

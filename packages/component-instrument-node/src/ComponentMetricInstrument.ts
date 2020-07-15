@@ -1,13 +1,15 @@
 import { componentName, dependencies } from '@pandorajs/component-decorator';
 import { V8GaugeSet } from './node/V8GaugeSet';
-import { CpuUsageGaugeSet } from './os/CpuUsageGaugeSet';
-import { DiskStatGaugeSet } from './os/DiskStatGaugeSet';
-import { NetTrafficGaugeSet } from './os/NetTrafficGaugeSet';
-import { SystemLoadGaugeSet } from './os/SystemLoadGaugeSet';
-import { SystemMemoryGaugeSet } from './os/SystemMemoryGaugeSet';
-import { TcpGaugeSet } from './os/TcpGaugeSet';
+import { CpuUsageGaugeSet } from './system/CpuUsageGaugeSet';
+import { DiskStatGaugeSet } from './system/DiskStatGaugeSet';
+import { NetTrafficGaugeSet } from './system/NetTrafficGaugeSet';
+import { SystemLoadGaugeSet } from './system/SystemLoadGaugeSet';
+import { SystemMemoryGaugeSet } from './system/SystemMemoryGaugeSet';
+import { TcpGaugeSet } from './system/TcpGaugeSet';
 import os = require('os');
+import { CpuGaugeSet } from './system/CpuGaugeSet';
 
+// TODO: prefixes
 const linuxSets = [
   CpuUsageGaugeSet,
   DiskStatGaugeSet,
@@ -17,13 +19,14 @@ const linuxSets = [
 ];
 const supervisorSets = [
   ...(os.platform() === 'linux' ? linuxSets : []),
+  CpuGaugeSet,
   SystemLoadGaugeSet,
 ];
 const processSets = [V8GaugeSet];
 
-@componentName('metricInstrument')
+@componentName('instrumentNode')
 @dependencies(['metric'])
-export default class ComponentMetricInstrument {
+export default class ComponentInstrumentNode {
   ctx: any;
   constructor(ctx: any) {
     this.ctx = ctx;

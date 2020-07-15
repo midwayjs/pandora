@@ -1,8 +1,9 @@
-import { MetricSnapshot, MetricsExporter } from '@pandorajs/component-metric';
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
+import { MetricExporter, MetricRecord } from '@opentelemetry/metrics';
+import { ExportResult } from '@opentelemetry/core';
 import { hrTimeToMilliseconds } from './util';
 
-export class MetricsFileReporter implements MetricsExporter {
+export class MetricsFileReporter implements MetricExporter {
   type = 'metrics';
   logger: any;
   constructor(private ctx: any) {
@@ -13,23 +14,24 @@ export class MetricsFileReporter implements MetricsExporter {
       dir: config.logsDir,
     });
   }
-  export(data: MetricSnapshot[]) {
+  export(data: MetricRecord[], callback) {
     const globalTags = this.getGlobalTags();
-    for (const metricObject of data) {
-      const timestamp = hrTimeToMilliseconds(metricObject.point.timestamp);
-      if (typeof metricObject.point.value === 'number') {
+    for (const record of data) {
+      const point = record.aggregator.toPoint();
+      const timestamp = hrTimeToMilliseconds(point.timestamp);
+      if (typeof point.value === 'number') {
         this.logger.log(
           'INFO',
           [
             JSON.stringify({
-              metric: metricObject.descriptor.name,
+              metric: record.descriptor.name,
               timestamp,
-              value: metricObject.point.value,
+              value: point.value,
               tags: {
-                ...metricObject.labels,
+                ...record.labels,
                 ...globalTags,
               },
-              unix_timestamp: metricObject.point.timestamp[0],
+              unix_timestamp: point.timestamp[0],
             }),
           ],
           { raw: true }
@@ -40,14 +42,14 @@ export class MetricsFileReporter implements MetricsExporter {
         'INFO',
         [
           JSON.stringify({
-            metric: metricObject.descriptor.name + '_count',
+            metric: record.descriptor.name + '_count',
             timestamp,
-            value: metricObject.point.value.count,
+            value: point.value.count,
             tags: {
-              ...metricObject.labels,
+              ...record.labels,
               ...globalTags,
             },
-            unix_timestamp: metricObject.point.timestamp[0],
+            unix_timestamp: point.timestamp[0],
           }),
         ],
         { raw: true }
@@ -56,20 +58,21 @@ export class MetricsFileReporter implements MetricsExporter {
         'INFO',
         [
           JSON.stringify({
-            metric: metricObject.descriptor.name + '_sum',
+            metric: record.descriptor.name + '_sum',
             timestamp,
-            value: metricObject.point.value.sum,
+            value: point.value.sum,
             tags: {
-              ...metricObject.labels,
+              ...record.labels,
               ...globalTags,
             },
-            unix_timestamp: metricObject.point.timestamp[0],
+            unix_timestamp: point.timestamp[0],
           }),
         ],
         { raw: true }
       );
       // TODO: distribution and histogram support
     }
+    callback(ExportResult.SUCCESS);
   }
 
   shutdown() {}

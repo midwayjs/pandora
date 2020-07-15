@@ -38,11 +38,8 @@ describe('V8GaugeSet', () => {
   it('should get v8 metrics', async () => {
     const meterProvider = new TestMeterProvider();
     const gaugeSet = new V8GaugeSet(meterProvider.getMeter('test'));
-    await new Promise(resolve => {
-      gaugeSet.subscribe(() => {
-        resolve();
-      });
-    });
+    gaugeSet.subscribe();
+    // TODO: pulling
 
     assert(
       meterProvider

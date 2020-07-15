@@ -2,27 +2,15 @@ import {
   MetricExporter as OtelMetricExporter,
   MetricRecord,
 } from '@opentelemetry/metrics';
-import { MetricSnapshot, MetricsExporter } from './types';
 
 // TODO: replace with PullController
 export class MetricsForwarder implements OtelMetricExporter {
-  _metricsExporter: MetricsExporter[] = [];
+  _metricsExporter: OtelMetricExporter[] = [];
 
   /** @implements */
   export(metrics: MetricRecord[], resultCallback: (result) => void): void {
-    const snapshots: MetricSnapshot[] = [];
-    for (const item of metrics) {
-      const snapshot = this.format(item);
-      if (
-        snapshot.point.timestamp[0] === 0 &&
-        snapshot.point.timestamp[1] === 0
-      ) {
-        continue;
-      }
-      snapshots.push(snapshot);
-    }
     for (const item of this._metricsExporter) {
-      item.export(snapshots);
+      item.export(metrics, () => {});
     }
     resultCallback(0);
   }
@@ -34,15 +22,7 @@ export class MetricsForwarder implements OtelMetricExporter {
     }
   }
 
-  addMetricsExporter(exporter: MetricsExporter) {
+  addMetricsExporter(exporter: OtelMetricExporter) {
     this._metricsExporter.push(exporter);
-  }
-
-  private format(metric: MetricRecord): MetricSnapshot {
-    return {
-      descriptor: metric.descriptor,
-      labels: metric.labels,
-      point: metric.aggregator.toPoint(),
-    };
   }
 }

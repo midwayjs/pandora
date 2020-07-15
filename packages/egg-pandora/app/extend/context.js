@@ -1,12 +1,12 @@
 'use strict';
-const constant = require('../../lib/constant');
+const { constant } = require('@pandorajs/component-instrument-egg');
 
 module.exports = {
   get pandora() {
     return this.app.pandora;
   },
   get traceId() {
-    const span = this[constant.span];
+    const span = this[constant.spanSymbol];
     if (span == null) {
       return undefined;
     }

@@ -57,17 +57,17 @@ export class SystemLoadGaugeSet extends MetricObservableSet {
 
   onSubscribe() {
     this.createObservable(
-      'cpu_load_1min',
+      'system_cpu_load_1min',
       () => this.loadAvg[LoadAvg.ONE_MIN],
       {}
     );
     this.createObservable(
-      'cpu_load_5min',
+      'system_cpu_load_5min',
       () => this.loadAvg[LoadAvg.FIVE_MIN],
       {}
     );
     this.createObservable(
-      'cpu_load_15min',
+      'system_cpu_load_15min',
       () => this.loadAvg[LoadAvg.FIFTEEN_MIN],
       {}
     );

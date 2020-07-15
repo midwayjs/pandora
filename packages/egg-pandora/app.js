@@ -1,6 +1,5 @@
 'use strict';
 const createCoreSdk = require('./lib/create-core-sdk');
-const monitor = require('./lib/app-monitor');
 const pkg = require('./index');
 
 module.exports = app => {
@@ -14,7 +13,7 @@ module.exports = app => {
 
   app.beforeStart(async () => {
     await coreSdk.start();
-    monitor(app);
+    app.pandora.eggInstrument(app);
   });
   app.beforeClose(async () => {
     try {

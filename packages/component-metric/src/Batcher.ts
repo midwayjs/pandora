@@ -1,13 +1,13 @@
 import {
   Aggregator,
   MetricKind,
-  CounterSumAggregator,
-  ValueRecorderExactAggregator,
-  ObserverAggregator,
   MetricRecord,
   MetricDescriptor,
+  CounterSumAggregator,
 } from '@opentelemetry/metrics';
 import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher';
+import { LastValueAggregator } from './LastValueAggregator';
+import { HistogramAggregator } from './HistogramAggregator';
 
 /**
  * Batcher which retains all dimensions/labels. It accepts all records and
@@ -15,14 +15,23 @@ import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher';
  */
 export class PandoraBatcher extends Batcher {
   aggregatorFor(descriptor: MetricDescriptor): Aggregator {
+    const histogram = descriptor.description.match(
+      /histogram{((?:[\d.]+,?)+)}/
+    );
+    if (histogram) {
+      return new HistogramAggregator(histogram[1].split(',').map(Number));
+    }
     switch (descriptor.metricKind) {
       case MetricKind.COUNTER:
       case MetricKind.UP_DOWN_COUNTER:
+      case MetricKind.SUM_OBSERVER:
+      case MetricKind.UP_DOWN_SUM_OBSERVER:
         return new CounterSumAggregator();
-      case MetricKind.OBSERVER:
-        return new ObserverAggregator();
+      case MetricKind.VALUE_RECORDER:
+      case MetricKind.VALUE_OBSERVER:
+        return new LastValueAggregator();
       default:
-        return new ValueRecorderExactAggregator();
+        return new LastValueAggregator();
     }
   }
 

@@ -10,14 +10,17 @@ exports[pkg.pluginName] = {
     fileReporter: {
       path: require.resolve('@pandorajs/component-file-reporter'),
     },
+    instrumentEgg: {
+      path: require.resolve('@pandorajs/component-instrument-egg'),
+    },
+    instrumentNode: {
+      path: require.resolve('@pandorajs/component-instrument-node'),
+    },
     logger: {
       path: require.resolve('@pandorajs/component-logger'),
     },
     metric: {
       path: require.resolve('@pandorajs/component-metric'),
-    },
-    metricInstrument: {
-      path: require.resolve('@pandorajs/component-metric-instrument'),
     },
     trace: {
       path: require.resolve('@pandorajs/component-trace'),

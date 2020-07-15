@@ -20,7 +20,8 @@
     "@pandorajs/component-file-reporter": "^3.0.0-alpha.7",
     "@pandorajs/component-logger": "^3.0.0-alpha.3",
     "@pandorajs/component-metric": "^3.0.0-alpha.7",
-    "@pandorajs/component-metric-instrument": "^3.0.0-alpha.7",
+    "@pandorajs/component-instrument-egg": "^3.0.0-alpha.7",
+    "@pandorajs/component-instrument-node": "^3.0.0-alpha.7",
     "@pandorajs/component-trace": "^3.0.0-alpha.7",
     "@pandorajs/core-sdk": "^3.0.0-alpha.3",
     "egg-logger": "^2.4.2"
