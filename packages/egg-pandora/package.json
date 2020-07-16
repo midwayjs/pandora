@@ -14,8 +14,10 @@
   "dependencies": {
     "@opentelemetry/api": "^0.9.0",
     "@opentelemetry/core": "^0.9.0",
+    "@opentelemetry/resources": "^0.9.0",
     "@opentelemetry/plugin-http": "^0.9.0",
     "@opentelemetry/plugin-https": "^0.9.0",
+    "@pandorajs/component-dead-counter": "^3.0.0-alpha.3",
     "@pandorajs/component-file-logger-service": "^3.0.0-alpha.3",
     "@pandorajs/component-instrument-egg": "^3.0.0-alpha.9",
     "@pandorajs/component-instrument-node": "^3.0.0-alpha.8",
@@ -24,6 +26,7 @@
     "@pandorajs/component-reporter-file": "^3.0.0-alpha.9",
     "@pandorajs/component-trace": "^3.0.0-alpha.7",
     "@pandorajs/core-sdk": "^3.0.0-alpha.3",
+    "@pandorajs/semantic-conventions": "^3.0.0-alpha.10",
     "egg-logger": "^2.4.2"
   },
   "engines": {

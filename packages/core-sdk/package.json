@@ -30,6 +30,7 @@
     "build/src/**/*.d.ts"
   ],
   "dependencies": {
+    "@opentelemetry/resources": "^0.9.0",
     "@pandorajs/component-actuator-server": "^3.0.0-alpha.3",
     "@pandorajs/component-decorator": "^3.0.0-alpha.3",
     "@pandorajs/component-indicator": "^3.0.0-alpha.3",

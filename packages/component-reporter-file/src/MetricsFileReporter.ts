@@ -14,9 +14,9 @@ export class MetricsFileReporter implements MetricExporter {
     });
   }
   export(data: MetricRecord[], callback) {
-    const globalTags = this.getGlobalTags();
     const timestamp = Date.now();
     for (const record of data) {
+      const resource = record.resource;
       const point = record.aggregator.toPoint();
       if (point.value == null) {
         // TODO: it is possible when value recorder doesn't get updated with values.
@@ -31,8 +31,8 @@ export class MetricsFileReporter implements MetricExporter {
               timestamp,
               value: point.value,
               tags: {
+                ...resource.labels,
                 ...record.labels,
-                ...globalTags,
               },
             }),
           ],
@@ -48,8 +48,8 @@ export class MetricsFileReporter implements MetricExporter {
             timestamp,
             value: point.value.count,
             tags: {
+              ...resource.labels,
               ...record.labels,
-              ...globalTags,
             },
           }),
         ],
@@ -63,8 +63,8 @@ export class MetricsFileReporter implements MetricExporter {
             timestamp,
             value: point.value.sum,
             tags: {
+              ...resource.labels,
               ...record.labels,
-              ...globalTags,
             },
           }),
         ],
@@ -76,9 +76,4 @@ export class MetricsFileReporter implements MetricExporter {
   }
 
   shutdown() {}
-
-  getGlobalTags() {
-    const { reporterFile: config } = this.ctx.config;
-    return config.globalTags;
-  }
 }

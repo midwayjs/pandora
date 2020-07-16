@@ -1,34 +1,20 @@
 import { componentName, dependencies } from '@pandorajs/component-decorator';
-import { HubServer, Selector } from '@pandorajs/hub';
-const debug = require('debug')('pandora:ComponentDeadCounter');
+import { HubServer } from '@pandorajs/hub';
+import { PandoraMetric } from '@pandorajs/semantic-conventions';
 
 @componentName('deadCounter')
-@dependencies(['ipcHub', 'metric', 'errorLog'])
+@dependencies(['ipcHub', 'metric'])
 export default class ComponentDeadCounter {
   constructor(private ctx) {}
 
   async startAtSupervisor() {
     const counter = this.ctx.meterProvider
-      .getMeter('supervisor')
-      .createCounter('process_disconnected')
+      .getMeter('pandora')
+      .createCounter(PandoraMetric.CLIENT_DISCONNECTED)
       .bind({});
     const hubServer: HubServer = this.ctx.hubServer;
-    const errorLogManager = this.ctx.errorLogManager;
-    hubServer.on('client_disconnected', (selectors: Selector[]) => {
+    hubServer.on('client_disconnected', () => {
       counter.add(1);
-      try {
-        const processSelector: Selector = selectors[1];
-        errorLogManager.record({
-          timestamp: Date.now(),
-          errType: 'processDisconnected',
-          message: 'process disconnected PID: ' + processSelector.pid,
-          stack: '',
-          traceId: '',
-          path: 'component-dead-counter',
-        });
-      } catch (err) {
-        debug(err);
-      }
     });
   }
 }

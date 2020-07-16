@@ -21,8 +21,8 @@ export class TracesFileReporter implements tracing.SpanExporter {
    * @param spans
    */
   export(spans: tracing.ReadableSpan[]) {
-    const globalTags = this.getGlobalTags();
     for (const it of spans) {
+      const resource = it.resource;
       this.logger.log(
         'INFO',
         [
@@ -39,10 +39,11 @@ export class TracesFileReporter implements tracing.SpanExporter {
             kind: it.kind,
             context: it.spanContext,
             links: it.links,
-            attributes: it.attributes,
+            attributes: {
+              ...resource.labels,
+              ...it.attributes,
+            },
             events: it.events,
-            // TODO: User data
-            ...globalTags,
           }),
         ],
         { raw: true }

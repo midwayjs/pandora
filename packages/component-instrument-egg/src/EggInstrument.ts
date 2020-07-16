@@ -52,7 +52,7 @@ export default (app: EggApplication) => {
   );
   const startTimeWeakMap = new WeakMap();
 
-  const tracer = app.pandora.tracerProvider.getTracer('@pandorajs/egg-pandora');
+  const tracer = app.pandora.tracerProvider.getTracer('pandora');
   app.on('request', ctx => {
     startTimeWeakMap.set(ctx, Date.now());
     const span = tracer.getCurrentSpan();

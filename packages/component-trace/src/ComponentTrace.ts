@@ -41,6 +41,7 @@ export default class ComponentTrace {
     // TODO: customize trace provider
     const tracerProvider = /** instruments applied */ new NodeTracerProvider({
       plugins: this.ctx.config.trace.plugins,
+      resource: this.ctx.resource,
     });
     tracerProvider.addSpanProcessor(this.spanProcessor);
 

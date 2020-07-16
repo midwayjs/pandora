@@ -38,6 +38,7 @@ export default class ComponentMetric {
       exporter: this.metricsForwarder,
       batcher: this.batcher,
       interval,
+      resource: ctx.resource,
     });
     metrics.setGlobalMeterProvider(this.meterProvider);
     ctx.meterProvider = this.meterProvider;

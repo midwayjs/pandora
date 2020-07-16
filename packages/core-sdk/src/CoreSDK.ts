@@ -14,6 +14,7 @@ import {
 import * as defaultConfig from './pandoraConfig';
 import { dirname } from 'path';
 import { Logger } from 'egg-logger';
+import { Resource } from '@opentelemetry/resources';
 
 const resolve = require('resolve');
 const debug = require('debug')('pandora:CoreSDK');
@@ -35,11 +36,19 @@ export class CoreSDK {
 
   constructor(options: ICoreSDKOptions) {
     this.options = options;
+
+    // TODO: pandora version detection.
+    let resource = Resource.createTelemetrySDKResource();
+    if (options.resource) {
+      resource = resource.merge(options.resource);
+    }
+
     this.coreContext = {
       mode: options.mode,
       appName: options.appName,
       appDir: options.appDir,
       processName: options.processName || options.mode,
+      resource,
       config: {},
       logger: new Logger({}),
     };
