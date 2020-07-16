@@ -1,7 +1,6 @@
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { MetricExporter, MetricRecord } from '@opentelemetry/metrics';
 import { ExportResult } from '@opentelemetry/core';
-import { hrTimeToMilliseconds } from './util';
 
 export class MetricsFileReporter implements MetricExporter {
   type = 'metrics';
@@ -16,9 +15,9 @@ export class MetricsFileReporter implements MetricExporter {
   }
   export(data: MetricRecord[], callback) {
     const globalTags = this.getGlobalTags();
+    const timestamp = Date.now();
     for (const record of data) {
       const point = record.aggregator.toPoint();
-      const timestamp = hrTimeToMilliseconds(point.timestamp);
       if (typeof point.value === 'number') {
         this.logger.log(
           'INFO',
@@ -31,7 +30,6 @@ export class MetricsFileReporter implements MetricExporter {
                 ...record.labels,
                 ...globalTags,
               },
-              unix_timestamp: point.timestamp[0],
             }),
           ],
           { raw: true }
@@ -49,7 +47,6 @@ export class MetricsFileReporter implements MetricExporter {
               ...record.labels,
               ...globalTags,
             },
-            unix_timestamp: point.timestamp[0],
           }),
         ],
         { raw: true }
@@ -65,7 +62,6 @@ export class MetricsFileReporter implements MetricExporter {
               ...record.labels,
               ...globalTags,
             },
-            unix_timestamp: point.timestamp[0],
           }),
         ],
         { raw: true }
