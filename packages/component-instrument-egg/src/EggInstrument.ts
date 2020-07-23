@@ -63,7 +63,7 @@ export default (app: EggApplication) => {
     };
   });
   app.on('response', ctx => {
-    const rpc = `${ctx.method} ${ctx.routerPath}`;
+    const rpc = `${ctx.method} ${ctx.routerPath ?? '(not routed)'}`;
     httpRequestCounter.add(1, {
       ...labels,
       rpc,

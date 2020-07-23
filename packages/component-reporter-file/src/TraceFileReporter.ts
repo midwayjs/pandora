@@ -37,6 +37,7 @@ export class TraceFileReporter implements tracing.SpanExporter {
             duration: hrTimeToMilliseconds(it.duration),
             ended: it.ended,
             kind: it.kind,
+            context: it.spanContext,
             links: it.links,
             attributes: it.attributes,
             events: it.events,

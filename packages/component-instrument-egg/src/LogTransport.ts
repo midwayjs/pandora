@@ -26,6 +26,10 @@ export default class PandoraLogTransport extends Transport {
 
       // egg-logger 的 context logger 中在 meta 注入了 ctx
       const traceId = meta?.ctx?.[spanSymbol]?.spanContext.traceId ?? '';
+      const spanId = meta?.ctx?.[spanSymbol]?.spanContext.spanId ?? '';
+      const traceName = meta?.ctx
+        ? `${meta?.ctx.method} ${meta?.ctx.routerPath ?? '(not routed)'}`
+        : '(unnamed)';
       const data = {
         level: levelLowerCase,
         timestamp: Date.now(),
@@ -33,8 +37,9 @@ export default class PandoraLogTransport extends Transport {
         message: error.message,
         stack: error.stack,
         traceId,
-        traceName: meta?.ctx && `${meta?.ctx.method} ${meta?.ctx.routerPath}`,
-        path: this.path || 'egg-logger',
+        spanId,
+        traceName,
+        path: this.path ?? 'egg-logger',
       };
       this.logProcessor.export(data);
     } catch (err) {
