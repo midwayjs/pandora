@@ -1,14 +1,14 @@
 export const components = {
-  metricInstrument: {
-    path: '@pandorajs/component-metric-instrument'
+  instrumentNode: {
+    path: '@pandorajs/component-instrument-node',
   },
-  fileReporter: {
-    path: '@pandorajs/component-file-reporter'
+  reporterFile: {
+    path: '@pandorajs/component-reporter-file',
   },
   fileLoggerService: {
-    path: '@pandorajs/component-file-logger-service'
+    path: '@pandorajs/component-file-logger-service',
   },
   deadCounter: {
-    path: '@pandorajs/component-dead-counter'
-  }
+    path: '@pandorajs/component-dead-counter',
+  },
 };

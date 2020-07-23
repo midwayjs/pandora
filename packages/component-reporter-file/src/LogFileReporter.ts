@@ -6,7 +6,7 @@ export class LogFileReporter implements LogExporter {
   logger: any;
 
   constructor(private ctx: any) {
-    const { fileReporter: config } = ctx.config;
+    const { reporterFile: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('pandora-errors', {
       ...config.error,
@@ -35,7 +35,7 @@ export class LogFileReporter implements LogExporter {
   }
 
   getGlobalTags() {
-    const { fileReporter: config } = this.ctx.config;
+    const { reporterFile: config } = this.ctx.config;
     return config.globalTags;
   }
 }

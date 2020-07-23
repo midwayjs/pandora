@@ -9,10 +9,10 @@ import { MetricsFileReporter } from './MetricsFileReporter';
 import { TraceFileReporter } from './TraceFileReporter';
 import { LogFileReporter } from './LogFileReporter';
 
-@componentName('fileReporter')
+@componentName('reporterFile')
 @dependencies(['fileLoggerService'])
 @componentConfig({
-  fileReporter: {
+  reporterFile: {
     logsDir: join(homedir(), 'logs'),
     globalTags: {},
     metrics: {

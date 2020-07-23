@@ -1,5 +1,5 @@
 {
-  "name": "@pandorajs/component-file-reporter",
+  "name": "@pandorajs/component-reporter-file",
   "version": "3.0.0-alpha.8",
   "description": "Pandora 2 Component File Reporter",
   "main": "build/src/ComponentFileReporter.js",

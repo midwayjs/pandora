@@ -7,8 +7,8 @@ exports[pkg.pluginName] = {
     fileLoggerService: {
       path: require.resolve('@pandorajs/component-file-logger-service'),
     },
-    fileReporter: {
-      path: require.resolve('@pandorajs/component-file-reporter'),
+    reporterFile: {
+      path: require.resolve('@pandorajs/component-reporter-file'),
     },
     instrumentEgg: {
       path: require.resolve('@pandorajs/component-instrument-egg'),

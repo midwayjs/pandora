@@ -9,7 +9,7 @@ export class TraceFileReporter implements tracing.SpanExporter {
   type = 'trace';
   logger: ILogger;
   constructor(private ctx: any) {
-    const { fileReporter: config } = ctx.config;
+    const { reporterFile: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('pandora-traces', {
       ...config.trace,
@@ -33,7 +33,9 @@ export class TraceFileReporter implements tracing.SpanExporter {
             name: it.name,
             status: it.status,
             startTime: hrTimeToMilliseconds(it.startTime),
+            endTime: hrTimeToMilliseconds(it.endTime),
             duration: hrTimeToMilliseconds(it.duration),
+            ended: it.ended,
             kind: it.kind,
             links: it.links,
             attributes: it.attributes,
@@ -50,7 +52,7 @@ export class TraceFileReporter implements tracing.SpanExporter {
   shutdown() {}
 
   getGlobalTags() {
-    const { fileReporter: config } = this.ctx.config;
+    const { reporterFile: config } = this.ctx.config;
     return config.globalTags;
   }
 }

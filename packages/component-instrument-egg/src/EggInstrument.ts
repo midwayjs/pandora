@@ -28,6 +28,7 @@ export default (app: EggApplication) => {
   }
 
   const meter = app.pandora.meterProvider.getMeter('egg');
+  // TODO: resources
   const labels = {
     pid: String(process.pid),
     isProvider: 'true',

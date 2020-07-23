@@ -46,7 +46,7 @@ $ npm install -g pandora@release-2.x
 | [metricInstrument](https://github.com/midwayjs/pandora/tree/2.x/packages/component-metric-instrument) | 收集 Node.js 运行时的内存分布、操作系统内存、CPU Usage、Load 等信息 |
 | [deadCounter](https://github.com/midwayjs/pandora/tree/2.x/packages/component-dead-counter) | 通过 IPC-HUB 的断线统计进程意外退出的次数 |
 | [fileLoggerService](https://github.com/midwayjs/pandora/tree/2.x/packages/component-file-logger-service) | 带日志切割的 LoggerService，用于写入文本日志 |
-| [fileReporter](https://github.com/midwayjs/pandora/tree/2.x/packages/component-file-reporter) | 向 reporterManager 注册 metrics、trace、errorLog 三类 Reporter，通过 fileLoggerService 写入文本日志 |
+| [reporterFile](https://github.com/midwayjs/pandora/tree/2.x/packages/component-reporter-file) | 向 reporterManager 注册 metrics、trace、errorLog 三类 Reporter，通过 fileLoggerService 写入文本日志 |
 
 ### 四、AutoPaching
 

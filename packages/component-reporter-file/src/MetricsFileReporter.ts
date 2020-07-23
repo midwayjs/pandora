@@ -6,7 +6,7 @@ export class MetricsFileReporter implements MetricExporter {
   type = 'metrics';
   logger: any;
   constructor(private ctx: any) {
-    const { fileReporter: config } = ctx.config;
+    const { reporterFile: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('pandora-metrics', {
       ...config.metrics,
@@ -18,6 +18,10 @@ export class MetricsFileReporter implements MetricExporter {
     const timestamp = Date.now();
     for (const record of data) {
       const point = record.aggregator.toPoint();
+      if (point.value == null) {
+        // TODO: it is possible when value recorder doesn't get updated with values.
+        continue;
+      }
       if (typeof point.value === 'number') {
         this.logger.log(
           'INFO',
@@ -74,7 +78,7 @@ export class MetricsFileReporter implements MetricExporter {
   shutdown() {}
 
   getGlobalTags() {
-    const { fileReporter: config } = this.ctx.config;
+    const { reporterFile: config } = this.ctx.config;
     return config.globalTags;
   }
 }
