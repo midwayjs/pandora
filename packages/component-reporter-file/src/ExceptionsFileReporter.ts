@@ -1,15 +1,15 @@
 import { FileLoggerManager } from '@pandorajs/component-file-logger-service';
 import { LogExporter, LogRecord } from '@pandorajs/component-logger';
 
-export class LogFileReporter implements LogExporter {
+export class ExceptionsFileReporter implements LogExporter {
   type = 'errorLog';
   logger: any;
 
   constructor(private ctx: any) {
     const { reporterFile: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = ctx.fileLoggerManager;
-    this.logger = fileLoggerManager.createLogger('pandora-errors', {
-      ...config.error,
+    this.logger = fileLoggerManager.createLogger('pandora-exceptions', {
+      ...config.exceptions,
       dir: config.logsDir,
     });
   }

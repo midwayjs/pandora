@@ -6,8 +6,8 @@ import {
 import { join } from 'path';
 import { homedir } from 'os';
 import { MetricsFileReporter } from './MetricsFileReporter';
-import { TraceFileReporter } from './TraceFileReporter';
-import { LogFileReporter } from './LogFileReporter';
+import { TracesFileReporter } from './TracesFileReporter';
+import { ExceptionsFileReporter } from './ExceptionsFileReporter';
 
 @componentName('reporterFile')
 @dependencies(['fileLoggerService'])
@@ -22,14 +22,14 @@ import { LogFileReporter } from './LogFileReporter';
       stdoutLevel: 'NONE',
       level: 'ALL',
     },
-    trace: {
+    traces: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
       maxFiles: 2,
       stdoutLevel: 'NONE',
       level: 'ALL',
     },
-    error: {
+    exceptions: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
       maxFiles: 2,
@@ -41,8 +41,8 @@ import { LogFileReporter } from './LogFileReporter';
 export default class ComponentFileReporter {
   ctx: any;
   metricsFileReporter: MetricsFileReporter;
-  traceFileReporter: TraceFileReporter;
-  logFileReporter: LogFileReporter;
+  tracesFileReporter: TracesFileReporter;
+  exceptionsFileReporter: ExceptionsFileReporter;
 
   constructor(ctx) {
     this.ctx = ctx;
@@ -58,11 +58,11 @@ export default class ComponentFileReporter {
 
   startAtAllProcesses() {
     this.metricsFileReporter = new MetricsFileReporter(this.ctx);
-    this.traceFileReporter = new TraceFileReporter(this.ctx);
-    this.logFileReporter = new LogFileReporter(this.ctx);
+    this.tracesFileReporter = new TracesFileReporter(this.ctx);
+    this.exceptionsFileReporter = new ExceptionsFileReporter(this.ctx);
 
     this.ctx.metricsForwarder?.addMetricsExporter(this.metricsFileReporter);
-    this.ctx.spanProcessor?.addSpanExporter(this.traceFileReporter);
-    this.ctx.logProcessor?.addLogExporter(this.logFileReporter);
+    this.ctx.spanProcessor?.addSpanExporter(this.tracesFileReporter);
+    this.ctx.logProcessor?.addLogExporter(this.exceptionsFileReporter);
   }
 }

@@ -5,14 +5,14 @@ import {
 import * as tracing from '@opentelemetry/tracing';
 import { hrTimeToMilliseconds } from './util';
 
-export class TraceFileReporter implements tracing.SpanExporter {
+export class TracesFileReporter implements tracing.SpanExporter {
   type = 'trace';
   logger: ILogger;
   constructor(private ctx: any) {
     const { reporterFile: config } = ctx.config;
     const fileLoggerManager: FileLoggerManager = this.ctx.fileLoggerManager;
     this.logger = fileLoggerManager.createLogger('pandora-traces', {
-      ...config.trace,
+      ...config.traces,
       dir: config.logsDir,
     });
   }

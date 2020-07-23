@@ -89,7 +89,7 @@ export default (app: EggApplication) => {
     if (span == null) {
       return;
     }
-    span.updateName(`${ctx.method} ${ctx.routerPath}`);
+    span.updateName(rpc);
     span.__end(span.__endTime);
   });
 };
