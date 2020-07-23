@@ -21,7 +21,7 @@
     "packages/messenger",
     "packages/test-util"
   ],
-  "version": "3.0.0-alpha.8",
+  "version": "3.0.0-alpha.9",
   "command": {
     "bootstrap": {
       "npmClientArgs": [
