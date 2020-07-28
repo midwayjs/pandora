@@ -6,6 +6,7 @@ import { EventEmitter } from 'events';
 import { TestMeterProvider, deepMatch } from 'test-util';
 import * as assert from 'assert';
 import ComponentDeadCounter from '../src/ComponentDeadCounter';
+import { PandoraMetric } from '@pandorajs/semantic-conventions';
 
 describe('ComponentDeadCounter', () => {
   it('should have correct meta info', () => {
@@ -19,25 +20,18 @@ describe('ComponentDeadCounter', () => {
       ComponentReflector.getDependencies(
         ComponentDeadCounter as IComponentConstructor
       ),
-      ['ipcHub', 'metric', 'errorLog']
+      ['ipcHub', 'metric']
     );
   });
 
   it('should record client_disconnected be ok', async () => {
-    const errorRecorded = [];
     const meterProvider = new TestMeterProvider();
     const fakeHubServer = new EventEmitter();
-    const fakeErrorLogManager = {
-      record(info) {
-        errorRecorded.push(info);
-      },
-    };
 
     await new ComponentDeadCounter({
       mode: 'supervisor',
       meterProvider,
       hubServer: fakeHubServer,
-      errorLogManager: fakeErrorLogManager,
     }).startAtSupervisor();
 
     fakeHubServer.emit('client_disconnected', [
@@ -45,16 +39,9 @@ describe('ComponentDeadCounter', () => {
       { clientId: 'nope', pid: '12345' },
     ]);
 
-    assert.strictEqual(errorRecorded.length, 1);
-    deepMatch(errorRecorded[0], {
-      errType: 'processDisconnected',
-      message: 'process disconnected PID: 12345',
-      stack: '',
-      traceId: '',
-      path: 'component-dead-counter',
-    });
-
-    const counter = meterProvider.getMetricRecord('process_disconnected');
+    const counter = meterProvider.getMetricRecord(
+      PandoraMetric.CLIENT_DISCONNECTED
+    );
     assert.strictEqual(counter.aggregator.toPoint().value, 1);
   });
 

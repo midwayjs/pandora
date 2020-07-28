@@ -12,7 +12,7 @@ describe('ComponentMetricInstrument', () => {
       ComponentReflector.getComponentName(
         ComponentMetricInstrument as IComponentConstructor
       ),
-      'metricInstrument'
+      'instrumentNode'
     );
     assert.deepStrictEqual(
       ComponentReflector.getDependencies(

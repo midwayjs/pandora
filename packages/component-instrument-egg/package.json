@@ -6,7 +6,7 @@
   "typings": "build/src/ComponentEggInstrument.d.ts",
   "scripts": {
     "build": "tsc -p .",
-    "test": "NODE_ENV=unittest mocha",
+    "test": "#SKIP NODE_ENV=unittest mocha",
     "cov": "nyc mocha",
     "ci": "npm run test"
   },

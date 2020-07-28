@@ -35,7 +35,7 @@ import { V8GaugeSet } from '../../src/node/V8GaugeSet';
 // ];
 
 describe('V8GaugeSet', () => {
-  it('should get v8 metrics', async () => {
+  it.skip('should get v8 metrics', async () => {
     const meterProvider = new TestMeterProvider();
     const gaugeSet = new V8GaugeSet(meterProvider.getMeter('test'));
     gaugeSet.subscribe();
