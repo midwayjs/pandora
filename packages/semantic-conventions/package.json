@@ -1,0 +1,30 @@
+{
+  "name": "@pandorajs/semantic-conventions",
+  "version": "3.0.0-alpha.10",
+  "description": "Pandora 3 Semantic Conventions",
+  "main": "build/src/index.js",
+  "typings": "build/src/index.d.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "# SKIP NODE_ENV=unittest mocha --trace-warnings",
+    "cov": "nyc mocha",
+    "ci": "npm run test"
+  },
+  "keywords": [
+    "pandora"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^12.0.0",
+    "mocha": "^7.1.2",
+    "nyc": "^13.1.0"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts"
+  ],
+  "dependencies": {
+    "@opentelemetry/semantic-conventions": "^0.9.0"
+  }
+}

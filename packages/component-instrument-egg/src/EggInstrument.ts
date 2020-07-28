@@ -1,4 +1,12 @@
 import * as core from '@opentelemetry/core';
+import {
+  GeneralAttribute,
+  HttpAttribute,
+  RpcAttribute,
+  RpcKind,
+  RpcMetric,
+  parseHttpStatusCode,
+} from '@pandorajs/semantic-conventions';
 import type { EggApplication } from 'egg';
 import LogTransport from './LogTransport';
 import { spanSymbol } from './constant';
@@ -31,19 +39,15 @@ export default (app: EggApplication) => {
   // TODO: resources
   const labels = {
     pid: String(process.pid),
-    isProvider: 'true',
-    rpcType: 'http',
+    [GeneralAttribute.COMPONENT]: 'http',
+    [RpcAttribute.KIND]: RpcKind.SERVER,
   };
-  const httpRequestCounter = meter.createCounter('rpc_requests_count');
-  const httpRequestErrorCounter = meter.createCounter(
-    'rpc_requests_error_count'
+  const rpcRequestCounter = meter.createCounter(RpcMetric.REQUEST_COUNT);
+  const rpcResponseErrorCounter = meter.createCounter(
+    RpcMetric.RESPONSE_ERROR_COUNT
   );
-  const httpRequestSecondsRecorder = meter.createValueRecorder(
-    'rpc_requests_seconds',
-    { description: 'histogram{0.1,1,10}' }
-  );
-  const httpRequestMsRecorder = meter.createValueRecorder(
-    'rpc_requests_milliseconds',
+  const rpcResponseDurationRecorder = meter.createValueRecorder(
+    RpcMetric.RESPONSE_DURATION,
     { description: 'histogram{100,1000,10000}' }
   );
   const startTimeWeakMap = new WeakMap();
@@ -63,33 +67,42 @@ export default (app: EggApplication) => {
     };
   });
   app.on('response', ctx => {
-    const rpc = `${ctx.method} ${ctx.routerPath ?? '(not routed)'}`;
-    httpRequestCounter.add(1, {
+    const method = ctx.method;
+    const route = ctx.routerPath ?? '(not routed)';
+    const spanName = `${method} ${route}`;
+    const canonicalCode = parseHttpStatusCode(ctx.realStatus);
+    rpcRequestCounter.add(1, {
       ...labels,
-      rpc,
-      httpStatusCode: String(ctx.realStatus),
+      [HttpAttribute.HTTP_ROUTE]: route,
+      [HttpAttribute.HTTP_METHOD]: method,
+      [HttpAttribute.HTTP_STATUS_CODE]: String(ctx.realStatus),
+      [RpcAttribute.RESPONSE_CANONICAL_CODE]: canonicalCode,
     });
     if (ctx.realStatus >= 400) {
-      httpRequestErrorCounter.add(1, {
+      rpcResponseErrorCounter.add(1, {
         ...labels,
-        rpc,
+        rpc: route,
         httpStatusCode: String(ctx.realStatus),
       });
     }
+
     const startTime = startTimeWeakMap.get(ctx);
     if (startTime == null) {
       return;
     }
-    httpRequestSecondsRecorder.record((Date.now() - startTime) / 1000, {
+    rpcResponseDurationRecorder.record(Date.now() - startTime, {
       ...labels,
-      rpc,
+      [HttpAttribute.HTTP_ROUTE]: route,
+      [HttpAttribute.HTTP_METHOD]: method,
+      [HttpAttribute.HTTP_STATUS_CODE]: String(ctx.realStatus),
+      [RpcAttribute.RESPONSE_CANONICAL_CODE]: canonicalCode,
     });
-    httpRequestMsRecorder.record(Date.now() - startTime, { ...labels, rpc });
+
     const span = ctx[spanSymbol];
     if (span == null) {
       return;
     }
-    span.updateName(rpc);
+    span.updateName(spanName);
     span.__end(span.__endTime);
   });
 };

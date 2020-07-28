@@ -4,7 +4,7 @@
   "description": "",
   "main": "./index.js",
   "eggPlugin": {
-    "name": "pandora-next"
+    "name": "pandora"
   },
   "keywords": [
     "egg",

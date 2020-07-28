@@ -19,6 +19,7 @@
     "packages/egg-pandora",
     "packages/hub",
     "packages/messenger",
+    "packages/semantic-conventions",
     "packages/test-util"
   ],
   "version": "3.0.0-alpha.9",
