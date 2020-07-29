@@ -1,5 +1,5 @@
 import { componentName, componentConfig } from '@pandorajs/component-decorator';
-import { LogProcessor } from './LogProcessor';
+import { ExceptionProcessor } from './ExceptionProcessor';
 
 @componentName('logger')
 @componentConfig({
@@ -8,11 +8,12 @@ import { LogProcessor } from './LogProcessor';
   },
 })
 export default class ComponentLogger {
-  logProcessor: LogProcessor;
+  exceptionProcessor: ExceptionProcessor;
 
   constructor(ctx) {
-    ctx.logProcessor = this.logProcessor = new LogProcessor();
+    ctx.exceptionProcessor = this.exceptionProcessor = new ExceptionProcessor();
   }
 }
 
+export { ExceptionProcessor } from './ExceptionProcessor';
 export * from './types';

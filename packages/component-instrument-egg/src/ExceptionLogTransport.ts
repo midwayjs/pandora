@@ -1,21 +1,22 @@
 import util = require('util');
 import { Transport } from 'egg-logger';
+import { ExceptionProcessor } from '@pandorajs/component-logger';
+import { Resource } from '@opentelemetry/resources';
 import { spanSymbol } from './constant';
 
-export default class PandoraLogTransport extends Transport {
-  path;
-  logProcessor;
-  constructor(options) {
-    super(options);
+export default class ExceptionLogTransport extends Transport {
+  private path: string;
+  constructor(
+    private resource: Resource,
+    private exceptionProcessor: ExceptionProcessor,
+    options
+  ) {
+    super({ level: 'ERROR', ...options });
     this.path = options.path;
-    this.logProcessor = options.logProcessor;
   }
 
   log(level, args: any[], meta) {
     const levelLowerCase = (level || '').toLowerCase();
-    if (levelLowerCase !== 'error') {
-      return;
-    }
     let error = args[0];
     try {
       if (!(error instanceof Error)) {
@@ -29,21 +30,25 @@ export default class PandoraLogTransport extends Transport {
       const spanId = meta?.ctx?.[spanSymbol]?.spanContext.spanId ?? '';
       const traceName = meta?.ctx
         ? `${meta?.ctx.method} ${meta?.ctx.routerPath ?? '(not routed)'}`
-        : '(unnamed)';
-      const data = {
-        level: levelLowerCase,
+        : '(not traced)';
+      this.exceptionProcessor.export({
         timestamp: Date.now(),
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
+        level: levelLowerCase,
         traceId,
         spanId,
         traceName,
-        path: this.path ?? 'egg-logger',
-      };
-      this.logProcessor.export(data);
+        resource: this.resource,
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        attributes: error,
+        path: this.path,
+      });
     } catch (err) {
-      console.error('Error during logProcessor.export()', err);
+      console.error(
+        'Unexpected exception during exceptionProcessor.export()',
+        err
+      );
     }
   }
 }

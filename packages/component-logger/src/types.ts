@@ -1,13 +1,22 @@
-export interface LogRecord {
+import { Resource } from '@opentelemetry/resources';
+
+export interface ExceptionRecord {
   timestamp: number;
   level?: string;
+
+  traceId?: string;
+  spanId?: string;
+  traceName?: string;
+  resource?: Resource;
+
   name?: string;
   message?: string;
   stack?: string;
-  traceId?: string;
+  attributes?: { [key: string]: string };
+
   path?: string;
 }
 
-export interface LogExporter {
-  export(logs: LogRecord[]): void;
+export interface ExceptionExporter {
+  export(logs: ExceptionRecord[]): void;
 }

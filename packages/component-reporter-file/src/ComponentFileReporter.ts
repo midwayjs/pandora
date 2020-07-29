@@ -14,7 +14,6 @@ import { ExceptionsFileReporter } from './ExceptionsFileReporter';
 @componentConfig({
   reporterFile: {
     logsDir: join(homedir(), 'logs'),
-    globalTags: {},
     metrics: {
       type: 'size',
       maxFileSize: 100 * 1024 * 1024,
@@ -63,6 +62,8 @@ export default class ComponentFileReporter {
 
     this.ctx.metricsForwarder?.addMetricsExporter(this.metricsFileReporter);
     this.ctx.spanProcessor?.addSpanExporter(this.tracesFileReporter);
-    this.ctx.logProcessor?.addLogExporter(this.exceptionsFileReporter);
+    this.ctx.exceptionProcessor?.addExceptionExporter(
+      this.exceptionsFileReporter
+    );
   }
 }
