@@ -17,6 +17,9 @@ export default class ExceptionLogTransport extends Transport {
 
   log(level, args: any[], meta) {
     const levelLowerCase = (level || '').toLowerCase();
+    if (level !== 'error') {
+      return;
+    }
     let error = args[0];
     try {
       if (!(error instanceof Error)) {

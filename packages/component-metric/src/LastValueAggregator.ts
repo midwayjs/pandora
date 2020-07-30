@@ -18,7 +18,7 @@ import { Point, Aggregator } from '@opentelemetry/metrics';
 import { HrTime } from '@opentelemetry/api';
 import { hrTime } from '@opentelemetry/core';
 
-/** Basic aggregator which calculates a Sum from individual measurements. */
+/** Basic aggregator which memo last value from individual measurements. */
 export class LastValueAggregator implements Aggregator {
   private _current = 0;
   private _lastUpdateTime: HrTime = [0, 0];
