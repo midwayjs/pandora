@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-metric",
-  "version": "3.0.0-alpha.10",
+  "version": "3.0.0-alpha.12",
   "description": "Pandora 2 Component Metrics",
   "main": "build/src/ComponentMetric.js",
   "typings": "build/src/ComponentMetric.d.ts",
