@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-instrument-egg",
-  "version": "3.0.0-alpha.12",
+  "version": "3.0.0-alpha.13",
   "description": "Pandora 2 Component Egg.js Metrics",
   "main": "build/src/ComponentEggInstrument.js",
   "typings": "build/src/ComponentEggInstrument.d.ts",
@@ -19,7 +19,7 @@
     "@types/node": "^12.0.0",
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
-    "test-util": "^3.0.0-alpha.7"
+    "test-util": "^3.0.0-alpha.13"
   },
   "files": [
     "build/src/**/*.js",
@@ -31,9 +31,9 @@
     "@opentelemetry/metrics": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.0-alpha.3",
-    "@pandorajs/component-logger": "^3.0.0-alpha.11",
+    "@pandorajs/component-logger": "^3.0.0-alpha.13",
     "@pandorajs/dollar": "^3.0.0-alpha.0",
-    "@pandorajs/semantic-conventions": "^3.0.0-alpha.10",
+    "@pandorajs/semantic-conventions": "^3.0.0-alpha.13",
     "debug": "^4.1.1",
     "egg": "^2.27.0",
     "egg-logger": "^2.4.2"

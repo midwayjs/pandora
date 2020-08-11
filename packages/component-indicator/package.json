@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-indicator",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.13",
   "description": "Pandora 2 Component Indicator",
   "main": "build/src/ComponentIndicator.js",
   "typings": "build/src/ComponentIndicator.d.ts",
@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-ipc-hub": "^3.0.0-alpha.3",
+    "@pandorajs/component-ipc-hub": "^3.0.0-alpha.13",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
@@ -32,6 +32,6 @@
   "dependencies": {
     "@pandorajs/component-decorator": "^3.0.0-alpha.3",
     "@pandorajs/dollar": "^3.0.0-alpha.0",
-    "@pandorajs/hub": "^3.0.0-alpha.3"
+    "@pandorajs/hub": "^3.0.0-alpha.13"
   }
 }
