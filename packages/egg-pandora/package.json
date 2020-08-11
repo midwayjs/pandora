@@ -12,11 +12,11 @@
     "egg-plugin"
   ],
   "dependencies": {
-    "@opentelemetry/api": "^0.9.0",
-    "@opentelemetry/core": "^0.9.0",
-    "@opentelemetry/plugin-http": "^0.9.0",
-    "@opentelemetry/plugin-https": "^0.9.0",
-    "@opentelemetry/resources": "^0.9.0",
+    "@opentelemetry/api": "^0.10.2",
+    "@opentelemetry/core": "^0.10.2",
+    "@opentelemetry/plugin-http": "^0.10.2",
+    "@opentelemetry/plugin-https": "^0.10.2",
+    "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-dead-counter": "^3.0.0-alpha.10",
     "@pandorajs/component-file-logger-service": "^3.0.0-alpha.3",
     "@pandorajs/component-instrument-egg": "^3.0.0-alpha.12",

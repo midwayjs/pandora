@@ -16,7 +16,7 @@
 
 import * as api from '@opentelemetry/api';
 import { Meter, MetricRecord } from '@opentelemetry/metrics';
-import { UngroupedBatcher } from '@opentelemetry/metrics/build/src/export/Batcher';
+import { TestBatcher } from './TestBatcher';
 
 /**
  * This class represents a meter provider which platform libraries can extend
@@ -24,10 +24,10 @@ import { UngroupedBatcher } from '@opentelemetry/metrics/build/src/export/Batche
 export class TestMeterProvider implements api.MeterProvider {
   readonly meters: Map<string, Meter> = new Map();
   readonly logger: api.Logger;
-  readonly batcher: UngroupedBatcher;
+  readonly batcher: TestBatcher;
 
   constructor() {
-    this.batcher = new UngroupedBatcher();
+    this.batcher = new TestBatcher();
   }
 
   /**
@@ -38,14 +38,17 @@ export class TestMeterProvider implements api.MeterProvider {
   getMeter(name: string, version = '*'): Meter {
     const key = `${name}@${version}`;
     if (!this.meters.has(key)) {
-      this.meters.set(key, new Meter({ batcher: this.batcher }));
+      this.meters.set(
+        key,
+        new Meter({ name, version }, { batcher: this.batcher })
+      );
     }
 
     return this.meters.get(key)!;
   }
 
-  getMetricRecord(name: string): MetricRecord {
-    this.meters.forEach(it => it.collect());
+  async getMetricRecord(name: string): Promise<MetricRecord> {
+    await Promise.all(Array.from(this.meters.values()).map(it => it.collect()));
     return this.batcher
       .checkPointSet()
       .filter(it => it.descriptor.name === name)[0];

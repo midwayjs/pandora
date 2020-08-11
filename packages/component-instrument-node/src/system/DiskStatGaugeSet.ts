@@ -1,44 +1,35 @@
-import * as df from 'node-df';
+import * as si from 'systeminformation';
+import { SystemMetric, SystemAttribute } from '@pandorajs/semantic-conventions';
 import { MetricObservableSet } from '../MetricObservableSet';
-const util = require('util');
-const DiskFree = util.promisify(df);
 
-export class DiskStatGaugeSet extends MetricObservableSet {
-  diskUsage: {
-    size?: number;
-    used?: number;
-    available?: number;
-    capacity?: number;
-    mount?: string;
-  } = {};
-
+type ValueType = si.Systeminformation.FsSizeData[];
+export class DiskStatGaugeSet extends MetricObservableSet<ValueType> {
   onSubscribe() {
-    // TODO: Labels
-    this.createObservable(
-      'disk_partition_total',
-      () => this.diskUsage.size,
-      {}
-    );
-    this.createObservable(
-      'disk_partition_free',
-      () => this.diskUsage.available,
-      {}
-    );
-    this.createObservable(
-      'disk_partition_used_ratio',
-      () => this.diskUsage.capacity,
-      {}
-    );
+    this.createValueObserver(SystemMetric.DISK_FREE_BYTES, value => {
+      return value.map(it => {
+        return [
+          it.size - it.used,
+          {
+            [SystemAttribute.DISK_FS_NAME]: it.fs,
+            [SystemAttribute.DISK_MOUNT_POINT]: it.mount,
+          },
+        ];
+      });
+    });
+    this.createValueObserver(SystemMetric.DISK_TOTAL_BYTES, value => {
+      return value.map(it => {
+        return [
+          it.size,
+          {
+            [SystemAttribute.DISK_FS_NAME]: it.fs,
+            [SystemAttribute.DISK_MOUNT_POINT]: it.mount,
+          },
+        ];
+      });
+    });
   }
 
   async getValue() {
-    const diskFreeData = await DiskFree({
-      file: '/',
-      precision: 2,
-    });
-
-    if (diskFreeData && diskFreeData.length) {
-      this.diskUsage = diskFreeData[0];
-    }
+    return si.fsSize();
   }
 }

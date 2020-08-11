@@ -25,6 +25,6 @@
     "build/src/**/*.d.ts"
   ],
   "dependencies": {
-    "@opentelemetry/semantic-conventions": "^0.9.0"
+    "@opentelemetry/semantic-conventions": "^0.10.2"
   }
 }

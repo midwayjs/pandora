@@ -1,28 +1,20 @@
 import { componentName, dependencies } from '@pandorajs/component-decorator';
-import { V8GaugeSet } from './node/V8GaugeSet';
-import { CpuUsageGaugeSet } from './system/CpuUsageGaugeSet';
+import { V8HeapGaugeSet } from './node/V8HeapGaugeSet';
+import { V8HeapSpaceGaugeSet } from './node/V8HeapSpaceGaugeSet';
 import { DiskStatGaugeSet } from './system/DiskStatGaugeSet';
-import { NetTrafficGaugeSet } from './system/NetTrafficGaugeSet';
-import { SystemLoadGaugeSet } from './system/SystemLoadGaugeSet';
-import { SystemMemoryGaugeSet } from './system/SystemMemoryGaugeSet';
-import { TcpGaugeSet } from './system/TcpGaugeSet';
-import os = require('os');
+import { NetGaugeSet } from './system/NetGaugeSet';
+import { LoadGaugeSet } from './system/LoadGaugeSet';
+import { MemGaugeSet } from './system/MemGaugeSet';
 import { CpuGaugeSet } from './system/CpuGaugeSet';
 
-// TODO: prefixes
-const linuxSets = [
-  CpuUsageGaugeSet,
-  DiskStatGaugeSet,
-  NetTrafficGaugeSet,
-  SystemMemoryGaugeSet,
-  TcpGaugeSet,
-];
 const supervisorSets = [
-  ...(os.platform() === 'linux' ? linuxSets : []),
   CpuGaugeSet,
-  SystemLoadGaugeSet,
+  DiskStatGaugeSet,
+  NetGaugeSet,
+  LoadGaugeSet,
+  MemGaugeSet,
 ];
-const processSets = [V8GaugeSet];
+const processSets = [V8HeapGaugeSet, V8HeapSpaceGaugeSet];
 
 @componentName('instrumentNode')
 @dependencies(['metric'])

@@ -3,7 +3,7 @@ import {
   MetricKind,
   MetricRecord,
   MetricDescriptor,
-  CounterSumAggregator,
+  SumAggregator,
 } from '@opentelemetry/metrics';
 import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher';
 import { LastValueAggregator } from './LastValueAggregator';
@@ -26,7 +26,7 @@ export class PandoraBatcher extends Batcher {
       case MetricKind.UP_DOWN_COUNTER:
       case MetricKind.SUM_OBSERVER:
       case MetricKind.UP_DOWN_SUM_OBSERVER:
-        return new CounterSumAggregator();
+        return new SumAggregator();
       case MetricKind.VALUE_RECORDER:
       case MetricKind.VALUE_OBSERVER:
         return new LastValueAggregator();

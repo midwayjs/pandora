@@ -1,17 +1,22 @@
 import * as os from 'os';
+import { SystemMetric } from '@pandorajs/semantic-conventions';
 import { MetricObservableSet } from '../MetricObservableSet';
 
 type CpuInfo = os.CpuInfo['times'];
 export class CpuGaugeSet extends MetricObservableSet {
-  accumulatedCpuUsage: CpuInfo;
-  cpuUsage: CpuInfo;
+  private accumulatedCpuUsage: CpuInfo;
+  private cpuUsage: CpuInfo;
 
   onSubscribe() {
-    this.getValue();
-    // TODO: Labels
-    this.createObservable('system_cpu_idle', () => this.cpuUsage.idle, {});
-    this.createObservable('system_cpu_system', () => this.cpuUsage.sys, {});
-    this.createObservable('system_cpu_user', () => this.cpuUsage.user, {});
+    this.createValueObserver(SystemMetric.CPU_IDLE, () => [
+      [this.cpuUsage.idle, {}],
+    ]);
+    this.createValueObserver(SystemMetric.CPU_SYSTEM, () => [
+      [this.cpuUsage.sys, {}],
+    ]);
+    this.createValueObserver(SystemMetric.CPU_USER, () => [
+      [this.cpuUsage.user, {}],
+    ]);
   }
 
   async getValue() {
@@ -25,9 +30,7 @@ export class CpuGaugeSet extends MetricObservableSet {
 
     const cpuUsage = {} as CpuInfo;
     for (const [key, val] of Object.entries(accumulatedCpuUsage)) {
-      cpuUsage[key] =
-        accumulatedCpuUsage[key] -
-        (this.accumulatedCpuUsage?.[key] ?? accumulatedCpuUsage[key]);
+      cpuUsage[key] = val - (this.accumulatedCpuUsage?.[key] ?? val);
     }
 
     this.accumulatedCpuUsage = accumulatedCpuUsage;

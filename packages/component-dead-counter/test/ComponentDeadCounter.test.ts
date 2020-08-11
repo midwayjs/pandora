@@ -39,7 +39,7 @@ describe('ComponentDeadCounter', () => {
       { clientId: 'nope', pid: '12345' },
     ]);
 
-    const counter = meterProvider.getMetricRecord(
+    const counter = await meterProvider.getMetricRecord(
       PandoraMetric.CLIENT_DISCONNECTED
     );
     assert.strictEqual(counter.aggregator.toPoint().value, 1);

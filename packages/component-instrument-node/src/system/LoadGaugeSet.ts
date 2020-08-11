@@ -1,5 +1,6 @@
 import fs = require('fs');
 import os = require('os');
+import { SystemMetric } from '@pandorajs/semantic-conventions';
 import { promisify } from 'util';
 import { MetricObservableSet } from '../MetricObservableSet';
 const exec = promisify(require('child_process').exec);
@@ -10,12 +11,22 @@ enum LoadAvg {
   FIFTEEN_MIN,
 }
 
-export class SystemLoadGaugeSet extends MetricObservableSet {
+export class LoadGaugeSet extends MetricObservableSet {
   static DEFAULT_FILE_PATH = '/proc/loadavg';
+  private filePath: string = LoadGaugeSet.DEFAULT_FILE_PATH;
+  private loadAvg = {};
 
-  filePath: string = SystemLoadGaugeSet.DEFAULT_FILE_PATH;
-
-  loadAvg = {};
+  onSubscribe() {
+    this.createValueObserver(SystemMetric.LOAD_1MIN, () => [
+      [this.loadAvg[LoadAvg.ONE_MIN], {}],
+    ]);
+    this.createValueObserver(SystemMetric.LOAD_5MIN, () => [
+      [this.loadAvg[LoadAvg.FIVE_MIN], {}],
+    ]);
+    this.createValueObserver(SystemMetric.LOAD_15MIN, () => [
+      [this.loadAvg[LoadAvg.FIFTEEN_MIN], {}],
+    ]);
+  }
 
   getLoadAvgLinux() {
     try {
@@ -53,24 +64,6 @@ export class SystemLoadGaugeSet extends MetricObservableSet {
     this.loadAvg[LoadAvg.ONE_MIN] = loadAvg[0];
     this.loadAvg[LoadAvg.FIVE_MIN] = loadAvg[1];
     this.loadAvg[LoadAvg.FIFTEEN_MIN] = loadAvg[2];
-  }
-
-  onSubscribe() {
-    this.createObservable(
-      'system_cpu_load_1min',
-      () => this.loadAvg[LoadAvg.ONE_MIN],
-      {}
-    );
-    this.createObservable(
-      'system_cpu_load_5min',
-      () => this.loadAvg[LoadAvg.FIVE_MIN],
-      {}
-    );
-    this.createObservable(
-      'system_cpu_load_15min',
-      () => this.loadAvg[LoadAvg.FIFTEEN_MIN],
-      {}
-    );
   }
 
   async getValue() {

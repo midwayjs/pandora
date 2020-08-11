@@ -30,7 +30,7 @@
     "src"
   ],
   "dependencies": {
-    "@opentelemetry/resources": "^0.9.0",
+    "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.0-alpha.3"
   }
 }
