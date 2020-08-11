@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../d.ts/sdk-base.d.ts" />
+/// <reference path="./sdk-base.d.ts" />
 'use strict';
 import MessengerClient from './client';
 import MessengerServer from './server';
