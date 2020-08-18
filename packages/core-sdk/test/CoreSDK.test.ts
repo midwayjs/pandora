@@ -10,7 +10,6 @@ describe('CoreSDK', () => {
     const opts = {
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
       extendContext: {
         papa: 1,
       },
@@ -29,7 +28,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     class TestClass {
       constructor(ctx) {
@@ -37,7 +35,6 @@ describe('CoreSDK', () => {
         expect(ctx).to.includes({
           mode: 'worker',
           appName: 'test',
-          appDir: 'test',
           processName: 'worker',
         });
       }
@@ -61,7 +58,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.addComponent({
       name: 'a',
@@ -92,7 +88,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.addComponent({
       name: 'a',
@@ -122,7 +117,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.loadConfig(
       {
@@ -192,7 +186,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.loadConfigFromDefaultPlaces();
     unlinkSync('./pandoraConfig.js');
@@ -207,7 +200,6 @@ describe('CoreSDK', () => {
     const opts = {
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
       extendConfig: [
         {
           config: {
@@ -232,7 +224,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.loadComponentsFromConfig();
     expect(sdk.components.get('actuatorServer').klass).to.be.equal(
@@ -284,7 +275,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'supervisor',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.config.components = {};
     await sdk.start();
@@ -334,7 +324,6 @@ describe('CoreSDK', () => {
     const sdk = new TestCoreSDK({
       mode: 'worker',
       appName: 'test',
-      appDir: 'test',
     });
     sdk.config.components = {};
     await sdk.start();

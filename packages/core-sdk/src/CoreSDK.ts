@@ -46,7 +46,6 @@ export class CoreSDK {
     this.coreContext = {
       mode: options.mode,
       appName: options.appName,
-      appDir: options.appDir,
       processName: options.processName || options.mode,
       resource,
       config: {},

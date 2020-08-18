@@ -41,7 +41,6 @@ module.exports = (app, mode) => {
   const opts = {
     mode,
     appName,
-    appDir,
     resource,
     extendConfig: optExtendConfig,
     extendContext,

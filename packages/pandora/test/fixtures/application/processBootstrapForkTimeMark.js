@@ -1,2 +1,0 @@
-exports.requireTime = new Date();
-

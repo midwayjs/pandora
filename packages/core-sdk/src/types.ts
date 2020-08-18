@@ -5,7 +5,6 @@ import { Resource } from '@opentelemetry/resources';
 export interface ICoreSDKOptions {
   mode: ICoreSDKMode;
   appName: string;
-  appDir: string;
   resource?: Resource;
   processName?: string;
   extendConfig?: Array<{
