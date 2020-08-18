@@ -38,7 +38,6 @@
     "@pandorajs/dollar": "^3.0.0-alpha.0",
     "@pandorajs/hub": "^3.0.0-alpha.13",
     "debug": "^4.1.0",
-    "egg-logger": "^2.3.1",
     "extend": "^3.0.2",
     "reflect-metadata": "^0.1.12",
     "resolve": "^1.8.1"

@@ -1,14 +1,7 @@
-import * as _ from 'lodash';
-import * as uuid from 'uuid';
 import { join, dirname } from 'path';
 import { lstatSync, readlinkSync } from 'fs';
-import _Module = require('module');
+import { Module } from './module';
 import * as colors from 'colors';
-const Module: any = _Module;
-
-export function genereateUUID(): string {
-  return uuid.v4();
-}
 
 export const promise = {
   fromCallback(cb): Promise<any> {

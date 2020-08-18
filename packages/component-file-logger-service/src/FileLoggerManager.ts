@@ -1,4 +1,5 @@
 import * as $ from '@pandorajs/dollar';
+import * as UUID from 'uuid';
 import {
   MsgSendStrategyPayload,
   DEFAULT_LOGGER_CONFIG,
@@ -109,7 +110,7 @@ export class FileLoggerManager {
   public createLogger(loggerName, loggerConfig: LoggerConfig): ILogger {
     loggerConfig = Object.assign({}, DEFAULT_LOGGER_CONFIG, loggerConfig);
 
-    const uuid = $.genereateUUID();
+    const uuid = UUID.v4();
     const fileName = loggerConfig.name
       ? loggerConfig.name
       : loggerName + '.log';

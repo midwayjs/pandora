@@ -13,8 +13,8 @@ import {
 } from './ComponentWeightCalculator';
 import * as defaultConfig from './pandoraConfig';
 import { dirname } from 'path';
-import { Logger } from 'egg-logger';
 import { Resource } from '@opentelemetry/resources';
+import { consoleLogger } from '@pandorajs/dollar';
 
 const resolve = require('resolve');
 const debug = require('debug')('pandora:CoreSDK');
@@ -50,7 +50,7 @@ export class CoreSDK {
       processName: options.processName || options.mode,
       resource,
       config: {},
-      logger: new Logger({}),
+      logger: consoleLogger,
     };
     debug('constructing CoreSDK %j', options);
     if (this.options.extendContext) {
