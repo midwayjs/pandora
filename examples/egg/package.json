@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@pandorajs/egg-pandora": "^3.0.0-alpha.17",
+    "@pandorajs/component-reporter-arms": "^3.0.0-alpha.17",
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0"
   },

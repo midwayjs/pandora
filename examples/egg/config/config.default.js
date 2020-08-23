@@ -21,6 +21,13 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    pandora: {
+      components: {
+        reporterArms: {
+          path: require.resolve('@pandorajs/component-reporter-arms'),
+        },
+      },
+    },
   };
 
   return {

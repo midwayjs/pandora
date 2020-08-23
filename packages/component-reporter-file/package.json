@@ -16,10 +16,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
-    "chai": "^4.2.0",
     "mocha": "^7.1.2",
     "nyc": "^13.1.0"
   },

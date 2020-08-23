@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package opentelemetry.proto.arms;
+
+option java_multiple_files = true;
+option java_package = "io.opentelemetry.proto.arms";
+
+import "opentelemetry/proto/resource/v1/resource.proto";
+import "opentelemetry/proto/common/v1/common.proto";
+
+message StringMeta {
+    opentelemetry.proto.resource.v1.Resource resource = 1;
+    //编码后生成的id
+    string id = 2;
+    //原始内容
+    string value = 3;
+}
+
+
+message BatchStringMeta {
+    opentelemetry.proto.resource.v1.Resource resource = 1;
+    //key=编码后生成的id,value=原始内容
+    repeated opentelemetry.proto.common.v1.StringKeyValue metas = 2;
+}
+
+
+message ServiceInstance {
+    opentelemetry.proto.resource.v1.Resource resource = 1;
+    //启动时间
+    int64 startTimestamp = 2;
+}
+
+enum Code {
+    //成功
+    OK = 0;
+    //非法的licenseKey
+    INVALID_LICENSE_KEY = 1;
+    //指定服务不存在
+    SERVICE_NOT_EXIST = 2;
+    //其他错误
+    OTHER = 15;
+}
+message Response {
+    bool success = 1;
+    Code code = 2;
+    string msg = 3;
+}
+
+service ArmsRegister {
+
+    //注册服务实例
+    rpc registerServiceInstance (ServiceInstance) returns (Response) {
+    }
+
+    //注册编码字符串
+    rpc registerStringMeta (StringMeta) returns (Response) {
+    }
+
+    //批量注册编码字符串
+    rpc registerBatchStringMeta (BatchStringMeta) returns (Response) {
+    }
+}

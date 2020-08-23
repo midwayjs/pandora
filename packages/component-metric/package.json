@@ -36,6 +36,7 @@
     "@opentelemetry/metrics": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.0-alpha.16",
-    "@pandorajs/dollar": "^3.0.0-alpha.16"
+    "@pandorajs/dollar": "^3.0.0-alpha.16",
+    "tdigest": "^0.1.1"
   }
 }

@@ -8,6 +8,7 @@ import {
 import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher';
 import { LastValueAggregator } from './LastValueAggregator';
 import { HistogramAggregator } from './HistogramAggregator';
+import { SummaryAggregator } from './SummaryAggregator';
 
 /**
  * Batcher which retains all dimensions/labels. It accepts all records and
@@ -20,6 +21,10 @@ export class PandoraBatcher extends Batcher {
     );
     if (histogram) {
       return new HistogramAggregator(histogram[1].split(',').map(Number));
+    }
+    const summary = descriptor.description.match(/summary{((?:[\d.]+,?)+)}/);
+    if (summary) {
+      return new SummaryAggregator(summary[1].split(',').map(Number));
     }
     switch (descriptor.metricKind) {
       case MetricKind.COUNTER:

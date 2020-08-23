@@ -11,6 +11,7 @@ import type { EggApplication } from 'egg';
 import ExceptionLogTransport from './ExceptionLogTransport';
 import { spanSymbol } from './constant';
 import { Transport } from './type';
+import { Meter, ValueType } from '@opentelemetry/api';
 
 type PandoraContext = any;
 export default (ctx: PandoraContext) => {
@@ -39,19 +40,29 @@ export default (ctx: PandoraContext) => {
       );
     }
 
-    const meter = app.pandora.meterProvider.getMeter('egg');
+    const meter: Meter = app.pandora.meterProvider.getMeter('egg');
     const labels = {
-      pid: String(process.pid),
       [GeneralAttribute.COMPONENT]: 'http',
       [RpcAttribute.KIND]: RpcKind.SERVER,
     };
-    const rpcRequestCounter = meter.createCounter(RpcMetric.REQUEST_COUNT);
+    const rpcRequestCounter = meter.createCounter(RpcMetric.REQUEST_COUNT, {
+      valueType: ValueType.INT,
+    });
+    const rpcRequestNoStatusCounter = meter.createCounter(
+      RpcMetric.REQUEST_COUNT + '_no_status',
+      {
+        valueType: ValueType.INT,
+      }
+    );
     const rpcResponseErrorCounter = meter.createCounter(
-      RpcMetric.RESPONSE_ERROR_COUNT
+      RpcMetric.RESPONSE_ERROR_COUNT,
+      {
+        valueType: ValueType.INT,
+      }
     );
     const rpcResponseDurationRecorder = meter.createValueRecorder(
       RpcMetric.RESPONSE_DURATION,
-      { description: 'histogram{100,1000,10000}' }
+      { description: 'summary{0.5,0.75,0.9,0.99}', valueType: ValueType.DOUBLE }
     );
     const startTimeWeakMap = new WeakMap();
 
@@ -73,19 +84,29 @@ export default (ctx: PandoraContext) => {
       const method = ctx.method;
       const route = ctx.routerPath ?? '(not routed)';
       const spanName = `${method} ${route}`;
-      const canonicalCode = parseHttpStatusCode(ctx.realStatus);
+      rpcRequestNoStatusCounter.add(1, {
+        ...labels,
+        [HttpAttribute.HTTP_ROUTE]: route,
+        [HttpAttribute.HTTP_METHOD]: method,
+      });
       rpcRequestCounter.add(1, {
         ...labels,
         [HttpAttribute.HTTP_ROUTE]: route,
         [HttpAttribute.HTTP_METHOD]: method,
-        [HttpAttribute.HTTP_STATUS_CODE]: String(ctx.realStatus),
-        [RpcAttribute.RESPONSE_CANONICAL_CODE]: canonicalCode,
+        [HttpAttribute.HTTP_STATUS_CODE]:
+          ctx.realStatus >= 500
+            ? '5xx'
+            : ctx.realStatus >= 400
+            ? '4xx'
+            : ctx.realStatus >= 300
+            ? '3xx'
+            : '200',
       });
       if (ctx.realStatus >= 400) {
         rpcResponseErrorCounter.add(1, {
           ...labels,
-          rpc: route,
-          httpStatusCode: String(ctx.realStatus),
+          [HttpAttribute.HTTP_ROUTE]: route,
+          [HttpAttribute.HTTP_METHOD]: method,
         });
       }
 
@@ -97,8 +118,6 @@ export default (ctx: PandoraContext) => {
         ...labels,
         [HttpAttribute.HTTP_ROUTE]: route,
         [HttpAttribute.HTTP_METHOD]: method,
-        [HttpAttribute.HTTP_STATUS_CODE]: String(ctx.realStatus),
-        [RpcAttribute.RESPONSE_CANONICAL_CODE]: canonicalCode,
       });
 
       const span = ctx[spanSymbol];

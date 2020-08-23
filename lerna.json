@@ -13,6 +13,7 @@
     "packages/component-logger",
     "packages/component-metric",
     "packages/component-process-info",
+    "packages/component-reporter-arms",
     "packages/component-reporter-file",
     "packages/component-trace",
     "packages/core-sdk",
