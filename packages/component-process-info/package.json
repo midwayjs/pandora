@@ -1,0 +1,39 @@
+{
+  "name": "@pandorajs/component-process-info",
+  "version": "2.2.0",
+  "description": "Pandora 2 Component Process Info",
+  "main": "build/src/ComponentProcessInfo",
+  "typings": "build/src/ComponentProcessInfo.d.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "NODE_ENV=unittest mocha",
+    "cov": "nyc mocha",
+    "ci": "npm run test"
+  },
+  "keywords": [
+    "pandora"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/extend": "^3.0.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^12.0.0",
+    "mocha": "^7.1.2",
+    "nyc": "^13.1.0",
+    "chai": "^4.2.0",
+    "mm": "^2.1.0",
+    "@pandorajs/component-actuator-server": "^3.0.0-alpha.14",
+    "@pandorajs/component-indicator": "^3.0.0-alpha.14",
+    "@pandorajs/component-ipc-hub": "^3.0.0-alpha.14",
+    "supertest": "^3.3.0"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts"
+  ],
+  "dependencies": {
+    "@pandorajs/component-decorator": "^3.0.0-alpha.3",
+    "pidusage": "^1.1.6"
+  }
+}
