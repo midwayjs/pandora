@@ -40,7 +40,7 @@ export default class ComponentTrace {
 
   async start() {
     let tracerProvider = this.ctx.config.trace.tracerProvider;
-    if (this.ctx.config.trace.tracerProvider) {
+    if (tracerProvider == null) {
       tracerProvider = /** instruments applied */ new NodeTracerProvider({
         plugins: this.ctx.config.trace.plugins,
         resource: this.ctx.resource,
