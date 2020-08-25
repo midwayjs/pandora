@@ -15,6 +15,7 @@ import { MultiSpanProcessor } from './SpanProcessor';
     interval: 15 * 1000,
     slowThreshold: 10 * 1000,
     plugins: {},
+    tracerProvider: undefined,
   },
 })
 export default class ComponentTrace {
@@ -38,14 +39,16 @@ export default class ComponentTrace {
   }
 
   async start() {
-    // TODO: customize trace provider
-    const tracerProvider = /** instruments applied */ new NodeTracerProvider({
-      plugins: this.ctx.config.trace.plugins,
-      resource: this.ctx.resource,
-    });
-    tracerProvider.addSpanProcessor(this.spanProcessor);
+    let tracerProvider = this.ctx.config.trace.tracerProvider;
+    if (this.ctx.config.trace.tracerProvider) {
+      tracerProvider = /** instruments applied */ new NodeTracerProvider({
+        plugins: this.ctx.config.trace.plugins,
+        resource: this.ctx.resource,
+      });
+      tracerProvider.register({});
+    }
 
-    tracerProvider.register({});
+    tracerProvider.addSpanProcessor(this.spanProcessor);
     this.ctx.tracerProvider = this.tracerProvider = tracerProvider;
   }
 
