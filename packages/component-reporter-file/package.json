@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-reporter-file",
-  "version": "3.0.0-alpha.13",
+  "version": "3.0.0-alpha.14",
   "description": "Pandora 2 Component File Reporter",
   "main": "build/src/ComponentFileReporter.js",
   "typings": "build/src/ComponentFileReporter.d.ts",
@@ -33,10 +33,10 @@
     "@opentelemetry/resources": "^0.10.2",
     "@opentelemetry/tracing": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.0-alpha.3",
-    "@pandorajs/component-file-logger-service": "^3.0.0-alpha.13",
+    "@pandorajs/component-file-logger-service": "^3.0.0-alpha.14",
     "@pandorajs/component-logger": "^3.0.0-alpha.13",
-    "@pandorajs/component-metric": "^3.0.0-alpha.13",
-    "@pandorajs/dollar": "^3.0.0-alpha.0",
+    "@pandorajs/component-metric": "^3.0.0-alpha.14",
+    "@pandorajs/dollar": "^3.0.0-alpha.14",
     "md5": "^2.2.1"
   }
 }
