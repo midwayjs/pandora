@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/hub",
-  "version": "3.0.0-alpha.13",
+  "version": "3.0.0-alpha.16",
   "description": "pandora.js messenge hub",
   "main": "build/src/index.js",
   "typings": "build/src/index.d.ts",
@@ -19,7 +19,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@pandorajs/messenger": "^3.0.0-alpha.13",
+    "@pandorajs/messenger": "^3.0.0-alpha.16",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "test-util",
-  "version": "3.0.0-alpha.13",
+  "version": "3.0.0-alpha.16",
   "private": true,
   "main": "build/src",
   "scripts": {

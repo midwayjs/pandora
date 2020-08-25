@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/dollar",
-  "version": "3.0.0-alpha.14",
+  "version": "3.0.0-alpha.16",
   "description": "handy utilities",
   "main": "build/src/index.js",
   "typings": "build/src/index.d.ts",
