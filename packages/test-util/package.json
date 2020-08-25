@@ -5,7 +5,8 @@
   "main": "build/src",
   "scripts": {
     "build": "tsc",
-    "test": "mocha"
+    "test": "mocha",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@opentelemetry/api": "^0.10.2",

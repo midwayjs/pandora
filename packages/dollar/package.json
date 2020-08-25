@@ -5,7 +5,8 @@
   "main": "build/src/index.js",
   "typings": "build/src/index.d.ts",
   "scripts": {
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "prepare": "npm run build"
   },
   "keywords": [
     "pandora"

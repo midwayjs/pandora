@@ -8,7 +8,8 @@
     "build": "tsc -p .",
     "test": "# SKIP NODE_ENV=unittest mocha --trace-warnings",
     "cov": "nyc mocha",
-    "ci": "npm run test"
+    "ci": "npm run test",
+    "prepare": "npm run build"
   },
   "keywords": [
     "pandora"

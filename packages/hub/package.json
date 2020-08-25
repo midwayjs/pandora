@@ -8,7 +8,8 @@
     "build": "tsc -p .",
     "test": "mocha",
     "cov": "nyc mocha",
-    "ci": "npm run test"
+    "ci": "npm run test",
+    "prepare": "npm run build"
   },
   "keywords": [
     "pandora",
