@@ -11,9 +11,6 @@ import { MultiSpanProcessor } from './SpanProcessor';
 @dependencies(['indicator'])
 @componentConfig({
   trace: {
-    poolSize: 100,
-    interval: 15 * 1000,
-    slowThreshold: 10 * 1000,
     plugins: {},
     tracerProvider: undefined,
   },

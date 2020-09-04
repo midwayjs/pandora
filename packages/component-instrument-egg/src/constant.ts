@@ -1,1 +1,2 @@
-export const spanSymbol = Symbol('span');
+export const spanSymbol = Symbol('pandora#ctx-span');
+export const errorSymbol = Symbol('pandora#ctx-error');

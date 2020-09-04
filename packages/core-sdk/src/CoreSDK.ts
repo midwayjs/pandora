@@ -55,7 +55,7 @@ export class CoreSDK {
     if (this.options.extendContext) {
       Object.assign(this.coreContext, this.options.extendContext);
     }
-    this.loadConfig(defaultConfig, dirname(require.resolve('./pandoraConfig')));
+    this.loadConfig(defaultConfig, __dirname);
   }
 
   instantiate() {

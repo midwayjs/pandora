@@ -4,7 +4,6 @@ import {
   GeneralAttribute,
   SystemMetric,
   HttpAttribute,
-  SystemAttribute,
 } from '@pandorajs/semantic-conventions';
 import { SummaryPointValue } from '@pandorajs/component-metric';
 
@@ -47,6 +46,7 @@ export default class SemanticTranslator {
             record.labels[HttpAttribute.HTTP_METHOD] +
             ' ' +
             record.labels[HttpAttribute.HTTP_ROUTE],
+          exception: record.labels['exception'],
         },
       };
     },
@@ -64,6 +64,7 @@ export default class SemanticTranslator {
             record.labels[HttpAttribute.HTTP_METHOD] +
             ' ' +
             record.labels[HttpAttribute.HTTP_ROUTE],
+          exception: record.labels['exception'],
           status: record.labels[HttpAttribute.HTTP_STATUS_CODE],
         },
       };
@@ -82,6 +83,7 @@ export default class SemanticTranslator {
             record.labels[HttpAttribute.HTTP_METHOD] +
             ' ' +
             record.labels[HttpAttribute.HTTP_ROUTE],
+          exception: record.labels['exception'],
         },
       };
     },
@@ -101,6 +103,7 @@ export default class SemanticTranslator {
               record.labels[HttpAttribute.HTTP_METHOD] +
               ' ' +
               record.labels[HttpAttribute.HTTP_ROUTE],
+            exception: record.labels['exception'],
           },
           aggregator: {
             toPoint: () => {
@@ -133,6 +136,7 @@ export default class SemanticTranslator {
                   record.labels[HttpAttribute.HTTP_METHOD] +
                   ' ' +
                   record.labels[HttpAttribute.HTTP_ROUTE],
+                exception: record.labels['exception'],
                 quantile: String(it),
               },
               aggregator: {

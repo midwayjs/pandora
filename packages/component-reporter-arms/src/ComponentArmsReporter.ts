@@ -3,7 +3,6 @@ import { IndicatorManager } from '@pandorajs/component-indicator';
 import ArmsIndicator from './ArmsIndicator';
 import { Batcher } from '@opentelemetry/metrics';
 import ArmsExportController from './ArmsExportController';
-import { hostname } from 'os';
 import { Resource } from '@opentelemetry/resources';
 import { resolvePrimaryNetworkInterfaceIPv4Addr } from './util';
 

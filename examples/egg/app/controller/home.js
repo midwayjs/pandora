@@ -10,15 +10,10 @@ class HomeController extends Controller {
       dataType: 'text',
     });
     if (Math.random() > 0.5) {
-      try {
-        await ctx.curl('https://not-exists', {
-          method: 'GET',
-          dataType: 'text',
-        });
-      } catch (e) {
-        ctx.logger.error('Test Error', e);
-        ctx.status = 500;
-      }
+      await ctx.curl('https://not-exists', {
+        method: 'GET',
+        dataType: 'text',
+      });
     }
     ctx.body = data;
   }
