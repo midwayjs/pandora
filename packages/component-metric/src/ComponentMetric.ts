@@ -16,7 +16,7 @@ import { PandoraBatcher } from './Batcher';
 @componentName('metric')
 @componentConfig({
   metric: {
-    interval: 5000,
+    interval: 60_000,
   },
 })
 @dependencies(['actuatorServer', 'indicator'])
