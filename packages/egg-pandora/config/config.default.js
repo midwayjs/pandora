@@ -19,12 +19,6 @@ exports[pkg.pluginName] = {
     instrumentNode: {
       path: require.resolve('@pandorajs/component-instrument-node'),
     },
-    fileLoggerService: {
-      path: require.resolve('@pandorajs/component-file-logger-service'),
-    },
-    reporterFile: {
-      path: require.resolve('@pandorajs/component-reporter-file'),
-    },
   },
   trace: {
     plugins: {

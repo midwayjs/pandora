@@ -19,8 +19,5 @@
   "scripts": {
     "start": "egg-bin dev"
   },
-  "ci": {
-    "version": "10"
-  },
   "license": "MIT"
 }

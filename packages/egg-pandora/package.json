@@ -18,12 +18,10 @@
     "@opentelemetry/plugin-https": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-dead-counter": "^3.0.0-alpha.16",
-    "@pandorajs/component-file-logger-service": "^3.0.0-alpha.16",
     "@pandorajs/component-instrument-egg": "^3.0.0-alpha.16",
     "@pandorajs/component-instrument-node": "^3.0.0-alpha.16",
     "@pandorajs/component-logger": "^3.0.0-alpha.16",
     "@pandorajs/component-metric": "^3.0.0-alpha.17",
-    "@pandorajs/component-reporter-file": "^3.0.0-alpha.17",
     "@pandorajs/component-trace": "^3.0.0-alpha.16",
     "@pandorajs/core-sdk": "^3.0.0-alpha.16",
     "@pandorajs/semantic-conventions": "^3.0.0-alpha.16",
@@ -34,16 +32,13 @@
   },
   "scripts": {},
   "files": [
+    "app",
     "config",
+    "lib",
     "agent.js",
     "app.js",
-    "index.js",
-    "lib",
-    "pandora-agent"
+    "index.js"
   ],
-  "ci": {
-    "version": "8, 9"
-  },
   "bugs": {
     "url": "https://github.com/eggjs/egg/issues"
   },
