@@ -3,9 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "glob": "^7.1.6",
     "lerna": "^3.20.2",
     "mwts": "^1.0.4",
     "nyc": "^13.1.0",
+    "rimraf": "^3.0.2",
     "ts-node": "^7.0.1",
     "typescript": "~3.8.0"
   },
@@ -15,10 +17,11 @@
     "lint": "lerna exec mwts check",
     "lint:fix": "lerna exec mwts fix",
     "test": "lerna run test --concurrency=1 --stream",
-    "cov": "nyc lerna run cov --concurrency=1 --stream",
+    "cov": "lerna run cov --concurrency=1 --stream; node ./scripts/merge-coverages.js",
     "ci": "npm run build && npm run cov",
     "authors": "git log --format='%aN <%aE>' | sort -u > AUTHORS"
   },
+  "files": [],
   "keywords": [
     "container",
     "runtime",

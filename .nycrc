@@ -1,13 +1,14 @@
 {
   "include": [
-    "packages/**/src/*.ts",
-    "packages/**/src/**/*.ts"
+    "**/src/*.ts",
+    "**/src/**/*.ts"
   ],
   "exclude": [
     "**/typings",
     "**/*.d.ts",
     "**/dist",
-    "**/test/**/*.ts"
+    "**/test/**/*.ts",
+    "**/node_modules"
   ],
   "extension": [
     ".ts"

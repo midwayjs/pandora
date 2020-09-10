@@ -29,17 +29,13 @@ export default (ctx: PandoraContext) => {
 
       logger.set(
         'pandora',
-        new ExceptionLogTransport(
-          ctx.resource,
-          app.pandora.exceptionProcessor,
-          {
-            path,
-          }
-        )
+        new ExceptionLogTransport(ctx.resource, ctx.exceptionProcessor, {
+          path,
+        })
       );
     }
 
-    const meter: Meter = app.pandora.meterProvider.getMeter('egg');
+    const meter: Meter = ctx.meterProvider.getMeter('egg');
     const labels = {
       [GeneralAttribute.COMPONENT]: 'http',
       [RpcAttribute.KIND]: RpcKind.SERVER,
@@ -65,7 +61,7 @@ export default (ctx: PandoraContext) => {
     );
     const startTimeWeakMap = new WeakMap();
 
-    const tracer = app.pandora.tracerProvider.getTracer('pandora');
+    const tracer = ctx.tracerProvider.getTracer('pandora');
     app.on('error', (err, ctx) => {
       if (ctx == null) {
         return;

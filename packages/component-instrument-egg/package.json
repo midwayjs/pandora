@@ -6,9 +6,9 @@
   "typings": "build/src/ComponentEggInstrument.d.ts",
   "scripts": {
     "build": "tsc -p .",
-    "test": "#SKIP NODE_ENV=unittest mocha",
-    "cov": "nyc mocha",
-    "ci": "npm run test",
+    "test": "mocha",
+    "cov": "nyc npm test",
+    "ci": "npm run cov",
     "prepare": "npm run build"
   },
   "keywords": [
@@ -16,8 +16,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/egg-mock": "^3.0.4",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
+    "egg-mock": "^4.0.1",
     "mocha": "^7.1.2",
     "nyc": "^13.1.0",
     "test-util": "^3.0.0-alpha.16"

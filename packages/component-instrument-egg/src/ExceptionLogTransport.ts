@@ -3,6 +3,7 @@ import { Transport } from 'egg-logger';
 import { ExceptionProcessor } from '@pandorajs/component-logger';
 import { Resource } from '@opentelemetry/resources';
 import { spanSymbol } from './constant';
+import { Span } from '@opentelemetry/api';
 
 export default class ExceptionLogTransport extends Transport {
   private path: string;
@@ -29,8 +30,9 @@ export default class ExceptionLogTransport extends Transport {
       }
 
       // egg-logger 的 context logger 中在 meta 注入了 ctx
-      const traceId = meta?.ctx?.[spanSymbol]?.spanContext.traceId ?? '';
-      const spanId = meta?.ctx?.[spanSymbol]?.spanContext.spanId ?? '';
+      const span = meta?.ctx?.[spanSymbol] as Span | undefined;
+      const traceId = span?.context().traceId ?? '';
+      const spanId = span?.context().spanId ?? '';
       const traceName = meta?.ctx
         ? `${meta?.ctx.method} ${meta?.ctx.routerPath ?? '(not routed)'}`
         : '(not traced)';
