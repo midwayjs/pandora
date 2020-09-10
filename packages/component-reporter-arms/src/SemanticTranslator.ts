@@ -1,11 +1,13 @@
-import { MetricRecord } from '@opentelemetry/metrics';
 import {
   RpcMetric,
   GeneralAttribute,
   SystemMetric,
   HttpAttribute,
 } from '@pandorajs/semantic-conventions';
-import { SummaryPointValue } from '@pandorajs/component-metric';
+import { isSummaryValueType } from '@pandorajs/component-metric';
+import { ArmsMetaStringRegistry } from './ArmsMetaStringRegistry';
+import { Labels } from '@opentelemetry/api';
+import { PlainMetricRecord } from './types';
 
 const SystemMetricNames = [
   SystemMetric.CPU_IDLE,
@@ -31,8 +33,8 @@ const SystemMetricNames = [
 export default class SemanticTranslator {
   map = {
     [RpcMetric.REQUEST_COUNT + '_no_status']: (
-      record: MetricRecord
-    ): MetricRecord => {
+      record: PlainMetricRecord
+    ): PlainMetricRecord => {
       return {
         ...record,
         descriptor: {
@@ -41,16 +43,12 @@ export default class SemanticTranslator {
             record.labels[GeneralAttribute.COMPONENT]
           }_requests_total`,
         },
-        labels: {
-          rpc:
-            record.labels[HttpAttribute.HTTP_METHOD] +
-            ' ' +
-            record.labels[HttpAttribute.HTTP_ROUTE],
-          exception: record.labels['exception'],
-        },
+        labels: this.extractCommonLabels(record.labels),
       };
     },
-    [RpcMetric.REQUEST_COUNT]: (record: MetricRecord): MetricRecord => {
+    [RpcMetric.REQUEST_COUNT]: (
+      record: PlainMetricRecord
+    ): PlainMetricRecord => {
       return {
         ...record,
         descriptor: {
@@ -60,16 +58,14 @@ export default class SemanticTranslator {
           }_requests_by_status_total`,
         },
         labels: {
-          rpc:
-            record.labels[HttpAttribute.HTTP_METHOD] +
-            ' ' +
-            record.labels[HttpAttribute.HTTP_ROUTE],
-          exception: record.labels['exception'],
+          ...this.extractCommonLabels(record.labels),
           status: record.labels[HttpAttribute.HTTP_STATUS_CODE],
         },
       };
     },
-    [RpcMetric.RESPONSE_ERROR_COUNT]: (record: MetricRecord): MetricRecord => {
+    [RpcMetric.RESPONSE_ERROR_COUNT]: (
+      record: PlainMetricRecord
+    ): PlainMetricRecord => {
       return {
         ...record,
         descriptor: {
@@ -78,18 +74,15 @@ export default class SemanticTranslator {
             record.labels[GeneralAttribute.COMPONENT]
           }_requests_error_total`,
         },
-        labels: {
-          rpc:
-            record.labels[HttpAttribute.HTTP_METHOD] +
-            ' ' +
-            record.labels[HttpAttribute.HTTP_ROUTE],
-          exception: record.labels['exception'],
-        },
+        labels: this.extractCommonLabels(record.labels),
       };
     },
-    [RpcMetric.RESPONSE_DURATION]: (record: MetricRecord): MetricRecord[] => {
-      const point = record.aggregator.toPoint();
-      let result = [
+    [RpcMetric.RESPONSE_DURATION]: (
+      record: PlainMetricRecord
+    ): PlainMetricRecord[] => {
+      const labels = this.extractCommonLabels(record.labels);
+      const point = record.point;
+      let result: PlainMetricRecord[] = [
         {
           ...record,
           descriptor: {
@@ -98,24 +91,13 @@ export default class SemanticTranslator {
               record.labels[GeneralAttribute.COMPONENT]
             }_requests_seconds_total`,
           },
-          labels: {
-            rpc:
-              record.labels[HttpAttribute.HTTP_METHOD] +
-              ' ' +
-              record.labels[HttpAttribute.HTTP_ROUTE],
-            exception: record.labels['exception'],
-          },
-          aggregator: {
-            toPoint: () => {
-              return {
-                timestamp: point.timestamp,
-                value:
-                  typeof point.value === 'number'
-                    ? point.value / 1000
-                    : point.value.sum / 1000,
-              };
-            },
-            update: () => {},
+          labels,
+          point: {
+            timestamp: point.timestamp,
+            value:
+              typeof point.value === 'number'
+                ? point.value / 1000
+                : point.value.sum / 1000,
           },
         },
       ];
@@ -132,21 +114,12 @@ export default class SemanticTranslator {
                 }_requests_latency_seconds`,
               },
               labels: {
-                rpc:
-                  record.labels[HttpAttribute.HTTP_METHOD] +
-                  ' ' +
-                  record.labels[HttpAttribute.HTTP_ROUTE],
-                exception: record.labels['exception'],
+                ...labels,
                 quantile: String(it),
               },
-              aggregator: {
-                toPoint: () => {
-                  return {
-                    timestamp: point.timestamp,
-                    value: summary.values[idx],
-                  };
-                },
-                update: () => {},
+              point: {
+                timestamp: point.timestamp,
+                value: summary.values[idx],
               },
             };
           })
@@ -157,7 +130,9 @@ export default class SemanticTranslator {
     },
   };
 
-  translate(records: MetricRecord[]): MetricRecord[] {
+  constructor(private metaStringRegistry: ArmsMetaStringRegistry) {}
+
+  translate(records: PlainMetricRecord[]): PlainMetricRecord[] {
     return records
       .map(record => {
         const translator = this.map[record.descriptor.name];
@@ -187,13 +162,24 @@ export default class SemanticTranslator {
         return undefined;
       })
       .filter(it => it !== undefined)
-      .reduce<MetricRecord[]>((accu, it) => accu.concat(it), []);
+      .reduce<PlainMetricRecord[]>((accu, it) => accu.concat(it), []);
   }
-}
 
-export function isSummaryValueType(value: unknown): value is SummaryPointValue {
-  return (
-    Array.isArray((value as SummaryPointValue).percentiles) &&
-    Array.isArray((value as SummaryPointValue).values)
-  );
+  private extractCommonLabels(labels: Labels): Labels {
+    const result: Labels = {
+      rpc:
+        labels[HttpAttribute.HTTP_METHOD] +
+        ' ' +
+        labels[HttpAttribute.HTTP_ROUTE],
+    };
+    if (labels['exception']) {
+      result['exception'] = labels['exception'];
+    }
+    if (labels['stacktrace']) {
+      result['stackTraceId'] = this.metaStringRegistry.getMetaIdForString(
+        labels['stacktrace']
+      );
+    }
+    return result;
+  }
 }

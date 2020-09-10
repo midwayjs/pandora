@@ -1,4 +1,4 @@
-import { initWithGrpc, resolvePrimaryNetworkInterfaceIPv4Addr } from './util';
+import { initWithGrpc } from './util';
 import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
 import { Resource } from '@opentelemetry/resources';
 import * as os from 'os';
@@ -8,23 +8,26 @@ import { ArmsMetricExporter } from './ArmsMetricExporter';
 import ArmsIndicator from './ArmsIndicator';
 import { CollectorProtocolNode } from '@opentelemetry/exporter-collector/build/src/enums';
 import { ArmsConfig } from './ComponentArmsReporter';
+import * as createDebug from 'debug';
+
+const debug = createDebug('pandora:arms');
 
 export default class ArmsExportController {
-  private client: ArmsRegisterClient;
+  /**
+   * @internal
+   */
+  client: ArmsRegisterClient;
   private authorization: string;
 
   private metricExporter: ArmsMetricExporter;
 
-  constructor(
-    private config: ArmsConfig,
-    private armsIndicator: ArmsIndicator
-  ) {
+  constructor(private config: ArmsConfig) {
     this.authorization = Buffer.from(
       `${this.config.serviceName}:${this.config.licenseKey}`
     ).toString('base64');
   }
 
-  async start() {
+  async start(armsIndicator: ArmsIndicator) {
     this.client = await initWithGrpc(this.config.endpoint);
     const metadata = this.getAuthorizationMetadata();
 
@@ -49,8 +52,10 @@ export default class ArmsExportController {
       metadata: this.getAuthorizationMetadata(),
     });
 
+    debug('start collection');
     setInterval(async () => {
-      const resourceMetric = await this.armsIndicator.getResourceMetrics();
+      const resourceMetric = await armsIndicator.getResourceMetrics();
+      debug('collected metrics', resourceMetric);
       if (
         resourceMetric.instrumentationLibraryMetrics.length === 0 ||
         resourceMetric.instrumentationLibraryMetrics.reduce(
@@ -58,18 +63,19 @@ export default class ArmsExportController {
           0
         ) === 0
       ) {
+        debug('no metrics collected, skipping');
         return;
       }
       this.metricExporter.send(
         [resourceMetric],
         () => {
-          console.info('collector metric exported');
+          debug('collector metric exported');
         },
         error => {
-          console.error('collector errror', error);
+          debug('collector error', error);
         }
       );
-    }, 1000 /** 1min */);
+    }, this.config.reportInterval ?? 60_000 /** 1min */);
   }
 
   getAuthorizationMetadata() {

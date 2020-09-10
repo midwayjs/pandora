@@ -1,17 +1,6 @@
 import * as api from '@opentelemetry/api';
-import {
-  groupMetricsByResourceAndLibrary,
-  toCollectorLabels,
-  toSingularPoint,
-  toHistogramPoint,
-  toCollectorTemporality,
-} from '@opentelemetry/exporter-collector/build/src/transformMetrics';
-import {
-  MetricRecord,
-  MetricKind,
-  HistogramAggregator,
-  MinMaxLastSumCountAggregator,
-} from '@opentelemetry/metrics';
+import { toCollectorLabels } from '@opentelemetry/exporter-collector/build/src/transformMetrics';
+import { MetricKind, Histogram } from '@opentelemetry/metrics';
 import {
   InstrumentationLibrary,
   hrTimeToNanoseconds,
@@ -22,10 +11,11 @@ import { Attributes, HrTime } from '@opentelemetry/api';
 import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
 import {
   SummaryPointValue,
-  SummaryAggregator,
-  HistogramAggregator as PHistogramAggregator,
+  isDistributionValueType,
+  isSummaryValueType,
+  isHistogramValueType,
 } from '@pandorajs/component-metric';
-import { isSummaryValueType } from './SemanticTranslator';
+import { PlainMetricRecord } from './types';
 
 /**
  * Prepares metric service request to be sent to collector
@@ -34,14 +24,14 @@ import { isSummaryValueType } from './SemanticTranslator';
  * @param collectorMetricExporterBase
  */
 export function toCollectorExportMetricServiceRequest(
-  metrics: MetricRecord[],
+  metrics: PlainMetricRecord[],
   startTime: number,
   serviceName: string,
   attributes?: Attributes
 ): opentelemetryProto.collector.metrics.v1.ExportMetricsServiceRequest {
   const groupedMetrics: Map<
     Resource,
-    Map<InstrumentationLibrary, MetricRecord[]>
+    Map<InstrumentationLibrary, PlainMetricRecord[]>
   > = groupMetricsByResourceAndLibrary(metrics);
   const additionalAttributes = Object.assign({}, attributes, {
     'service.name': serviceName,
@@ -56,6 +46,32 @@ export function toCollectorExportMetricServiceRequest(
 }
 
 /**
+ * Takes an array of metrics and groups them by resource and instrumentation
+ * library
+ * @param metrics metrics
+ */
+export function groupMetricsByResourceAndLibrary(
+  metrics: PlainMetricRecord[]
+): Map<Resource, Map<InstrumentationLibrary, PlainMetricRecord[]>> {
+  return metrics.reduce((metricMap, metric) => {
+    //group by resource
+    let resourceMetrics = metricMap.get(metric.resource);
+    if (!resourceMetrics) {
+      resourceMetrics = new Map<InstrumentationLibrary, PlainMetricRecord[]>();
+      metricMap.set(metric.resource, resourceMetrics);
+    }
+    //group by instrumentation library
+    let libMetrics = resourceMetrics.get(metric.instrumentationLibrary);
+    if (!libMetrics) {
+      libMetrics = [];
+      resourceMetrics.set(metric.instrumentationLibrary, libMetrics);
+    }
+    libMetrics.push(metric);
+    return metricMap;
+  }, new Map<Resource, Map<InstrumentationLibrary, PlainMetricRecord[]>>());
+}
+
+/**
  * Convert to InstrumentationLibraryMetrics
  * @param instrumentationLibrary
  * @param metrics
@@ -63,7 +79,7 @@ export function toCollectorExportMetricServiceRequest(
  */
 function toCollectorInstrumentationLibraryMetrics(
   instrumentationLibrary: InstrumentationLibrary,
-  metrics: MetricRecord[],
+  metrics: PlainMetricRecord[],
   startTime: number
 ): opentelemetryProto.metrics.v1.InstrumentationLibraryMetrics {
   return {
@@ -78,7 +94,10 @@ function toCollectorInstrumentationLibraryMetrics(
  * @param baseAttributes
  */
 function toCollectorResourceMetrics(
-  groupedMetrics: Map<Resource, Map<InstrumentationLibrary, MetricRecord[]>>,
+  groupedMetrics: Map<
+    Resource,
+    Map<InstrumentationLibrary, PlainMetricRecord[]>
+  >,
   baseAttributes: Attributes,
   startTime: number
 ): opentelemetryProto.metrics.v1.ResourceMetrics[] {
@@ -104,7 +123,7 @@ function toCollectorResourceMetrics(
  * @param startTime start time in nanoseconds
  */
 export function toCollectorMetric(
-  metric: MetricRecord,
+  metric: PlainMetricRecord,
   startTime: number
 ): opentelemetryProto.metrics.v1.Metric {
   if (
@@ -150,7 +169,7 @@ export function toCollectorMetric(
  * @param descriptor
  */
 export function toCollectorType(
-  metric: MetricRecord
+  metric: PlainMetricRecord
 ): opentelemetryProto.metrics.v1.MetricDescriptorType {
   if (
     metric.descriptor.metricKind === MetricKind.COUNTER ||
@@ -161,16 +180,12 @@ export function toCollectorType(
     }
     return opentelemetryProto.metrics.v1.MetricDescriptorType.MONOTONIC_DOUBLE;
   }
-  if (
-    metric.aggregator instanceof HistogramAggregator ||
-    metric.aggregator instanceof PHistogramAggregator
-  ) {
+  if (isHistogramValueType(metric.point.value)) {
     return opentelemetryProto.metrics.v1.MetricDescriptorType.HISTOGRAM;
   }
   if (
-    metric.aggregator instanceof MinMaxLastSumCountAggregator ||
-    metric.aggregator instanceof SummaryAggregator ||
-    isSummaryValueType(metric.aggregator.toPoint().value)
+    isDistributionValueType(metric.point.value) ||
+    isSummaryValueType(metric.point.value)
   ) {
     return opentelemetryProto.metrics.v1.MetricDescriptorType.SUMMARY;
   }
@@ -189,7 +204,7 @@ export function toCollectorType(
  * @param metric
  */
 export function toCollectorMetricDescriptor(
-  metric: MetricRecord
+  metric: PlainMetricRecord
 ): opentelemetryProto.metrics.v1.MetricDescriptor {
   return {
     name: metric.descriptor.name,
@@ -201,15 +216,46 @@ export function toCollectorMetricDescriptor(
 }
 
 /**
+ * Given a MetricDescriptor, return its temporality in a compatible format with the collector
+ * @param descriptor
+ */
+export function toCollectorTemporality(
+  metric: PlainMetricRecord
+): opentelemetryProto.metrics.v1.MetricDescriptorTemporality {
+  if (
+    metric.descriptor.metricKind === MetricKind.COUNTER ||
+    metric.descriptor.metricKind === MetricKind.SUM_OBSERVER
+  ) {
+    return opentelemetryProto.metrics.v1.MetricDescriptorTemporality.CUMULATIVE;
+  }
+  if (
+    metric.descriptor.metricKind === MetricKind.UP_DOWN_COUNTER ||
+    metric.descriptor.metricKind === MetricKind.UP_DOWN_SUM_OBSERVER
+  ) {
+    return opentelemetryProto.metrics.v1.MetricDescriptorTemporality.DELTA;
+  }
+  if (
+    metric.descriptor.metricKind === MetricKind.VALUE_OBSERVER ||
+    metric.descriptor.metricKind === MetricKind.VALUE_RECORDER
+  ) {
+    // TODO: Change once LastValueAggregator is implemented.
+    // If the aggregator is LastValue or Exact, then it will be instantaneous
+    return opentelemetryProto.metrics.v1.MetricDescriptorTemporality.DELTA;
+  }
+  return opentelemetryProto.metrics.v1.MetricDescriptorTemporality
+    .INVALID_TEMPORALITY;
+}
+
+/**
  * Returns a SummaryPoint to the collector
  * @param metric
  * @param startTime
  */
 export function toSummaryPoint(
-  metric: MetricRecord,
+  metric: PlainMetricRecord,
   startTime: number
 ): opentelemetryProto.metrics.v1.SummaryDataPoint {
-  const { value, timestamp } = metric.aggregator.toPoint() as {
+  const { value, timestamp } = metric.point as {
     value: SummaryPointValue;
     timestamp: HrTime;
   };
@@ -228,5 +274,53 @@ export function toSummaryPoint(
       })),
       { percentile: 100, value: value.max },
     ],
+  };
+}
+
+/**
+ * Returns a HistogramPoint to the collector
+ * @param metric
+ * @param startTime
+ */
+export function toHistogramPoint(
+  metric: PlainMetricRecord,
+  startTime: number
+): opentelemetryProto.metrics.v1.HistogramDataPoint {
+  const { value, timestamp } = metric.point as {
+    value: Histogram;
+    timestamp: HrTime;
+  };
+  return {
+    labels: toCollectorLabels(metric.labels),
+    sum: value.sum,
+    count: value.count,
+    startTimeUnixNano: startTime,
+    timeUnixNano: hrTimeToNanoseconds(timestamp),
+    buckets: value.buckets.counts.map(count => {
+      return { count };
+    }),
+    explicitBounds: value.buckets.boundaries,
+  };
+}
+
+/**
+ * Returns an Int64Point or DoublePoint to the collector
+ * @param metric
+ * @param startTime
+ */
+export function toSingularPoint(
+  metric: PlainMetricRecord,
+  startTime: number
+): {
+  labels: opentelemetryProto.common.v1.StringKeyValue[];
+  startTimeUnixNano: number;
+  timeUnixNano: number;
+  value: number;
+} {
+  return {
+    labels: toCollectorLabels(metric.labels),
+    value: metric.point.value as number,
+    startTimeUnixNano: startTime,
+    timeUnixNano: hrTimeToNanoseconds(metric.point.timestamp),
   };
 }

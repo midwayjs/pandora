@@ -1,9 +1,18 @@
 import * as grpc from 'grpc';
 import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
+import { MetricDescriptor, Point } from '@opentelemetry/metrics';
+import { Labels } from '@opentelemetry/api';
+import { InstrumentationLibrary } from '@opentelemetry/core';
+import { Resource } from '@opentelemetry/resources';
 
 export interface ServiceInstance {
   resource: opentelemetryProto.resource.v1.Resource;
   startTimestamp: number;
+}
+
+export interface BatchStringMeta {
+  resource: opentelemetryProto.resource.v1.Resource;
+  metas: opentelemetryProto.common.v1.StringKeyValue[];
 }
 
 export enum Code {
@@ -29,10 +38,23 @@ export interface ErrorResponse extends Error {
   details: string;
 }
 
-export interface ArmsRegisterClient extends grpc.Client {
+export interface ArmsRegisterClient {
   registerServiceInstance(
     serviceInstance: ServiceInstance,
     metadata: grpc.Metadata | undefined,
     callback: (error: Error, response: Response) => void
-  ): {};
+  ): unknown;
+  registerBatchStringMeta(
+    batchStringMeta: BatchStringMeta,
+    metadata: grpc.Metadata | undefined,
+    callback: (error: Error, response: Response) => void
+  ): unknown;
+}
+
+export interface PlainMetricRecord {
+  readonly descriptor: MetricDescriptor;
+  readonly labels: Labels;
+  readonly point: Point;
+  readonly resource: Resource;
+  readonly instrumentationLibrary: InstrumentationLibrary;
 }

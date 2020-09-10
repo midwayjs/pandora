@@ -31,10 +31,10 @@ export function initWithGrpc(address: string): Promise<ArmsRegisterClientType> {
         packageObject,
         'opentelemetry.proto.arms.ArmsRegister'
       );
-      return new ArmsRegisterClient(
+      return (new ArmsRegisterClient(
         address,
         credentials
-      ) as ArmsRegisterClientType;
+      ) as unknown) as ArmsRegisterClientType;
     });
 }
 

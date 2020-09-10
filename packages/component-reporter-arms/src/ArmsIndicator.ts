@@ -1,4 +1,4 @@
-import { Batcher } from '@opentelemetry/metrics';
+import { Batcher, MetricRecord } from '@opentelemetry/metrics';
 import {
   IIndicator,
   IndicatorScope,
@@ -6,10 +6,10 @@ import {
 } from '@pandorajs/component-indicator';
 import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
 import SemanticTranslator from './SemanticTranslator';
-import { Labels } from '@opentelemetry/api';
 import { Resource } from '@opentelemetry/resources';
 import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
 import { toCollectorMetric } from './transformMetrics';
+import { PlainMetricRecord } from './types';
 
 export interface ArmsIndicatorInvokeQuery {
   action: 'list';
@@ -23,37 +23,49 @@ type DataPoint =
   | opentelemetryProto.metrics.v1.HistogramDataPoint
   | opentelemetryProto.metrics.v1.SummaryDataPoint;
 
-export default class ArmsIndicator implements IIndicator {
+export class ArmsBasicIndicator implements IIndicator {
   /** @implements */
-  group = 'arms';
+  public group = 'arms';
   /** @implements */
-  scope = IndicatorScope.PROCESS;
-  /** unix nano */
-  startTime = Date.now() * 1000;
-
-  private translator = new SemanticTranslator();
+  public scope = IndicatorScope.PROCESS;
 
   constructor(
-    private batcher: Batcher,
-    private indicatorManager: IndicatorManager,
-    private resource: Resource = new Resource({}),
-    private additionalLabels: Labels = {}
+    protected batcher: Batcher,
+    protected indicatorManager: IndicatorManager,
+    protected resource: Resource = new Resource({})
   ) {}
 
   /** @implements */
-  async invoke(query: ArmsIndicatorInvokeQuery) {
+  async invoke(
+    query: ArmsIndicatorInvokeQuery
+  ): Promise<PlainMetricRecord[] | undefined> {
     if (query.action === 'list') {
-      let records = this.batcher.checkPointSet();
-      records = this.translator.translate(records);
-      records = records.map(it => ({
-        ...it,
-        labels: { ...it.labels, ...this.additionalLabels },
-      }));
-      const collectorMetric = records.map(it =>
-        toCollectorMetric(it, this.startTime)
-      );
-      return collectorMetric;
+      const records = this.batcher.checkPointSet();
+      return records.map(it => {
+        return {
+          descriptor: it.descriptor,
+          instrumentationLibrary: it.instrumentationLibrary,
+          labels: it.labels,
+          point: it.aggregator.toPoint(),
+          resource: it.resource,
+        };
+      });
     }
+    return undefined;
+  }
+}
+
+export default class ArmsIndicator extends ArmsBasicIndicator {
+  /** unix nano */
+  startTime = Date.now() * 1000;
+
+  constructor(
+    batcher: Batcher,
+    indicatorManager: IndicatorManager,
+    private translator: SemanticTranslator,
+    resource: Resource = new Resource({})
+  ) {
+    super(batcher, indicatorManager, resource);
   }
 
   async getResourceMetrics(): Promise<
@@ -62,9 +74,15 @@ export default class ArmsIndicator implements IIndicator {
     const result = await this.indicatorManager.invokeAllProcesses(this.group, {
       action: 'list',
     });
-    const collectorMetrics = result.reduce(
+
+    let records = result.reduce(
       (accu, item) => accu.concat(item.data),
-      [] as opentelemetryProto.metrics.v1.Metric[]
+      [] as PlainMetricRecord[]
+    );
+    records = this.translator.translate(records);
+
+    const collectorMetrics = records.map(it =>
+      toCollectorMetric(it, this.startTime)
     );
     const aggregatedMetrics = this.aggregateMetrics(collectorMetrics);
 

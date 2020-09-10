@@ -10,20 +10,28 @@ import {
 import * as assert from 'assert';
 import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
 import { ValueType } from '@opentelemetry/api';
+import SemanticTranslator from '../src/SemanticTranslator';
+import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
+import { TestArmsClient } from './util';
 
 describe('ArmsIndicator', () => {
+  const semanticTranslator = new SemanticTranslator(
+    new ArmsMetaStringRegistry('foo', new TestArmsClient())
+  );
   describe('aggregation', () => {
     it('should aggregate int64 data point', async () => {
       const indicatorManager = new IndicatorManager({});
       const meterProvider1 = new TestMeterProvider();
       const indicator1 = new ArmsIndicator(
         meterProvider1.batcher,
-        indicatorManager
+        indicatorManager,
+        semanticTranslator
       );
       const meterProvider2 = new TestMeterProvider();
       const indicator2 = new ArmsIndicator(
         meterProvider2.batcher,
-        indicatorManager
+        indicatorManager,
+        semanticTranslator
       );
       const stub = sinon.stub(indicatorManager, 'invokeAllProcesses');
       stub.callsFake((async (group, action) => {
@@ -73,10 +81,6 @@ describe('ArmsIndicator', () => {
         {
           key: 'rpc',
           value: 'GET /',
-        },
-        {
-          key: 'exception',
-          value: undefined,
         },
         {
           key: 'status',

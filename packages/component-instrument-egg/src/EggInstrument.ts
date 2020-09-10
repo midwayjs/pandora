@@ -82,7 +82,7 @@ export default (ctx: PandoraContext) => {
       };
     });
     app.on('response', ctx => {
-      const error = ctx[errorSymbol];
+      const error = ctx[errorSymbol] as Error;
       const method = ctx.method;
       const route = ctx.routerPath ?? '(not routed)';
       const spanName = `${method} ${route}`;
@@ -94,6 +94,8 @@ export default (ctx: PandoraContext) => {
       if (error) {
         commonCtxLabels['exception'] =
           error.name + ' ' + (error.stack.split('\n')[1] ?? '').trim();
+        commonCtxLabels['stacktrace'] =
+          error.name + ' ' + error.stack.split('\n').slice(1).join('\n');
       }
       rpcRequestNoStatusCounter.add(1, {
         ...commonCtxLabels,
