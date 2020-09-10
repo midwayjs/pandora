@@ -43,3 +43,10 @@ export class SummaryAggregator implements Aggregator {
     };
   }
 }
+
+export function isSummaryValueType(value: unknown): value is SummaryPointValue {
+  return (
+    Array.isArray((value as SummaryPointValue).percentiles) &&
+    Array.isArray((value as SummaryPointValue).values)
+  );
+}

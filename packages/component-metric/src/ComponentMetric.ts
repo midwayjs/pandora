@@ -50,7 +50,10 @@ export default class ComponentMetric {
 }
 
 export * from './types';
-export { HistogramAggregator } from './HistogramAggregator';
+export {
+  HistogramAggregator,
+  isHistogramValueType,
+} from './HistogramAggregator';
 export { LastValueAggregator } from './LastValueAggregator';
 export { SumAggregator } from './SumAggregator';
-export { SummaryAggregator } from './SummaryAggregator';
+export { SummaryAggregator, isSummaryValueType } from './SummaryAggregator';

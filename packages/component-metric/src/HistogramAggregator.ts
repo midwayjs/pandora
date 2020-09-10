@@ -55,3 +55,11 @@ export class HistogramAggregator implements Aggregator {
     };
   }
 }
+
+export function isHistogramValueType(value: unknown): value is Histogram {
+  return (
+    typeof (value as Histogram).buckets === 'object' &&
+    Array.isArray((value as Histogram).buckets.boundaries) &&
+    Array.isArray((value as Histogram).buckets.counts)
+  );
+}

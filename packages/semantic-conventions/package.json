@@ -6,9 +6,9 @@
   "typings": "build/src/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
-    "test": "# SKIP NODE_ENV=unittest mocha --trace-warnings",
-    "cov": "nyc mocha",
-    "ci": "npm run test",
+    "test": "mocha",
+    "cov": "nyc npm test",
+    "ci": "npm run cov",
     "prepare": "npm run build"
   },
   "keywords": [
