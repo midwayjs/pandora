@@ -226,9 +226,6 @@ describe('CoreSDK', () => {
       appName: 'test',
     });
     sdk.loadComponentsFromConfig();
-    expect(sdk.components.get('actuatorServer').klass).to.be.equal(
-      require('@pandorajs/component-actuator-server').default
-    );
     expect(sdk.components.get('ipcHub').klass).to.be.equal(
       require('@pandorajs/component-ipc-hub').default
     );

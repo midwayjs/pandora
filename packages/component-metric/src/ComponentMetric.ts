@@ -3,12 +3,10 @@ import {
   dependencies,
   componentConfig,
 } from '@pandorajs/component-decorator';
-import { EndPointManager } from '@pandorajs/component-actuator-server';
-import { IndicatorManager } from '@pandorajs/component-indicator';
+import type { IndicatorManager } from '@pandorajs/component-indicator';
 import { metrics } from '@opentelemetry/api';
 import { MeterProvider } from '@opentelemetry/metrics';
 
-import { MetricsEndPoint } from './MetricsEndPoint';
 import { MetricsIndicator } from './MetricsIndicator';
 import { MetricsForwarder } from './MetricsForwarder';
 import { PandoraBatcher } from './Batcher';
@@ -48,11 +46,6 @@ export default class ComponentMetric {
     const indicatorManager: IndicatorManager = ctx.indicatorManager;
     this.metricsIndicator = new MetricsIndicator(this.batcher);
     indicatorManager.register(this.metricsIndicator);
-  }
-
-  async startAtSupervisor() {
-    const endPointManager: EndPointManager = this.ctx.endPointManager;
-    endPointManager.register(new MetricsEndPoint(this.ctx));
   }
 }
 

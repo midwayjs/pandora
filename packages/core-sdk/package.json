@@ -32,7 +32,6 @@
   ],
   "dependencies": {
     "@opentelemetry/resources": "^0.10.2",
-    "@pandorajs/component-actuator-server": "^3.0.0-alpha.16",
     "@pandorajs/component-decorator": "^3.0.0-alpha.16",
     "@pandorajs/component-indicator": "^3.0.0-alpha.16",
     "@pandorajs/component-ipc-hub": "^3.0.0-alpha.16",

@@ -1,7 +1,4 @@
 export const components = {
-  actuatorServer: {
-    path: '@pandorajs/component-actuator-server',
-  },
   ipcHub: {
     path: '@pandorajs/component-ipc-hub',
   },
