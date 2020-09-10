@@ -2,7 +2,11 @@ import ArmsIndicator from '../src/ArmsIndicator';
 import { TestMeterProvider } from 'test-util';
 import { IndicatorManager } from '@pandorajs/component-indicator';
 import * as sinon from 'sinon';
-import { RpcMetric, GeneralAttribute } from '@pandorajs/semantic-conventions';
+import {
+  RpcMetric,
+  GeneralAttribute,
+  HttpAttribute,
+} from '@pandorajs/semantic-conventions';
 import * as assert from 'assert';
 import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
 import { ValueType } from '@opentelemetry/api';
@@ -37,7 +41,12 @@ describe('ArmsIndicator', () => {
           const counter = meter.createCounter(RpcMetric.REQUEST_COUNT, {
             valueType: ValueType.INT,
           });
-          counter.add(1, { [GeneralAttribute.COMPONENT]: 'http' });
+          counter.add(1, {
+            [GeneralAttribute.COMPONENT]: 'http',
+            [HttpAttribute.HTTP_METHOD]: 'GET',
+            [HttpAttribute.HTTP_ROUTE]: '/',
+            [HttpAttribute.HTTP_STATUS_CODE]: '200',
+          });
 
           await meter.collect();
         })
@@ -52,7 +61,7 @@ describe('ArmsIndicator', () => {
       const metric = result.instrumentationLibraryMetrics[0].metrics[0];
       assert.strictEqual(
         metric.metricDescriptor.name,
-        'arms_http_requests_total'
+        'arms_http_requests_by_status_total'
       );
       assert.strictEqual(
         metric.metricDescriptor.type,
@@ -62,8 +71,16 @@ describe('ArmsIndicator', () => {
       const dp = metric.int64DataPoints[0];
       assert.deepStrictEqual(dp.labels, [
         {
-          key: GeneralAttribute.COMPONENT,
-          value: 'http',
+          key: 'rpc',
+          value: 'GET /',
+        },
+        {
+          key: 'exception',
+          value: undefined,
+        },
+        {
+          key: 'status',
+          value: '200',
         },
       ]);
       assert.deepStrictEqual(dp.value, 2);
