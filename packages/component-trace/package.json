@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-trace",
-  "version": "3.0.0-alpha.16",
+  "version": "3.0.0-alpha.18",
   "description": "Pandora 2 Component Trace",
   "main": "build/src/ComponentTrace.js",
   "typings": "build/src/ComponentTrace.d.ts",
@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-indicator": "^3.0.0-alpha.16",
+    "@pandorajs/component-indicator": "^3.0.0-alpha.18",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "mocha": "^7.1.2",

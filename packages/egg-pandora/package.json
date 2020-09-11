@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/egg-pandora",
-  "version": "3.0.0-alpha.17",
+  "version": "3.0.0-alpha.18",
   "description": "",
   "main": "./index.js",
   "eggPlugin": {
@@ -17,14 +17,14 @@
     "@opentelemetry/plugin-http": "^0.10.2",
     "@opentelemetry/plugin-https": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
-    "@pandorajs/component-dead-counter": "^3.0.0-alpha.16",
-    "@pandorajs/component-instrument-egg": "^3.0.0-alpha.16",
-    "@pandorajs/component-instrument-node": "^3.0.0-alpha.16",
-    "@pandorajs/component-logger": "^3.0.0-alpha.16",
-    "@pandorajs/component-metric": "^3.0.0-alpha.17",
-    "@pandorajs/component-trace": "^3.0.0-alpha.16",
-    "@pandorajs/core-sdk": "^3.0.0-alpha.16",
-    "@pandorajs/semantic-conventions": "^3.0.0-alpha.16",
+    "@pandorajs/component-dead-counter": "^3.0.0-alpha.18",
+    "@pandorajs/component-instrument-egg": "^3.0.0-alpha.18",
+    "@pandorajs/component-instrument-node": "^3.0.0-alpha.18",
+    "@pandorajs/component-logger": "^3.0.0-alpha.18",
+    "@pandorajs/component-metric": "^3.0.0-alpha.18",
+    "@pandorajs/component-trace": "^3.0.0-alpha.18",
+    "@pandorajs/core-sdk": "^3.0.0-alpha.18",
+    "@pandorajs/semantic-conventions": "^3.0.0-alpha.18",
     "egg-logger": "^2.4.2"
   },
   "engines": {

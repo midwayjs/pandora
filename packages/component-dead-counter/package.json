@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-dead-counter",
-  "version": "3.0.0-alpha.16",
+  "version": "3.0.0-alpha.18",
   "description": "Pandora 2 Component Dead Counter",
   "main": "build/src/ComponentDeadCounter.js",
   "types": "build/src/ComponentDeadCounter.d.ts",
@@ -29,8 +29,8 @@
   ],
   "dependencies": {
     "@pandorajs/component-decorator": "^3.0.0-alpha.16",
-    "@pandorajs/hub": "^3.0.0-alpha.16",
-    "@pandorajs/semantic-conventions": "^3.0.0-alpha.16",
+    "@pandorajs/hub": "^3.0.0-alpha.18",
+    "@pandorajs/semantic-conventions": "^3.0.0-alpha.18",
     "debug": "^4.1.1"
   }
 }
