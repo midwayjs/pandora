@@ -122,9 +122,9 @@ export default class Client extends MessengerBase {
     if (message.isResponse === false) {
       first = first | 0x40;
     }
-    const header = new Buffer(9);
+    const header = Buffer.alloc(9);
     const data = JSON.stringify(message.data, replaceErrors);
-    const body = new Buffer(data);
+    const body = Buffer.from(data);
     header.fill(0);
     header.writeUInt8(first, 0);
     header.writeUInt32BE(message.id, 1);
