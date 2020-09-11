@@ -12,3 +12,4 @@ run
 *.local.js
 .tmp
 .nyc_output
+*.node

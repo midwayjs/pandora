@@ -17,6 +17,7 @@
     "packages/component-reporter-file",
     "packages/component-trace",
     "packages/core-sdk",
+    "packages/diag-probe",
     "packages/dollar",
     "packages/egg-pandora",
     "packages/hub",

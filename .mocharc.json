@@ -3,5 +3,5 @@
   "//": "TODO: remove exit option",
   "exit": true,
   "timeout": 0,
-  "spec": "test/**/*.test.ts"
+  "spec": "test/**/*.test.[tj]s"
 }

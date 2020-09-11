@@ -1,0 +1,34 @@
+{
+  "name": "@pandorajs/diag-probe",
+  "version": "3.0.0-alpha.19",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "node-pre-gyp": "^0.15.0"
+  },
+  "devDependencies": {
+    "clang-format": "^1.4.0",
+    "nan": "^2.14.1",
+    "node-pre-gyp-github": "^1.4.3",
+    "mocha": "^7.1.2"
+  },
+  "//": "disable npm's default install script 'node-gyp rebuild' on lerna bootstrapping",
+  "gypfile": false,
+  "scripts": {
+    "install": "node-pre-gyp install --fallback-to-build",
+    "publish": "node-pre-gyp-github publish --release",
+    "build": "node-pre-gyp rebuild",
+    "fix": "clang-format -i src/*",
+    "test": "mocha --expose_gc"
+  },
+  "binary": {
+    "module_name": "diag_prob",
+    "module_path": "./lib/binding/",
+    "remote_path": "{version}",
+    "host": "https://github.com/midwayjs/pandora/releases/download/"
+  },
+  "files": [
+    "lib/**/*.js",
+    "src/**/*",
+    "binding.gyp"
+  ]
+}
