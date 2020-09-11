@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-reporter-arms",
-  "version": "3.0.0-alpha.18",
+  "version": "3.0.0-alpha.19",
   "description": "Pandora 2 Component ARMS Reporter",
   "main": "build/src/ComponentArmsReporter.js",
   "typings": "build/src/ComponentArmsReporter.d.ts",
