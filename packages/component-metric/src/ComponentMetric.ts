@@ -17,7 +17,7 @@ import { PandoraBatcher } from './Batcher';
     interval: 60_000,
   },
 })
-@dependencies(['actuatorServer', 'indicator'])
+@dependencies(['indicator'])
 export default class ComponentMetric {
   ctx: any;
   metricsIndicator: MetricsIndicator;
@@ -57,3 +57,7 @@ export {
 export { LastValueAggregator } from './LastValueAggregator';
 export { SumAggregator } from './SumAggregator';
 export { SummaryAggregator, isSummaryValueType } from './SummaryAggregator';
+export {
+  MinMaxLastSumCountAggregator,
+  isDistributionValueType,
+} from './MinMaxLastSumCountAggregator';
