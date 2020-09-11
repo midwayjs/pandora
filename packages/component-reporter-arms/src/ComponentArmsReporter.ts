@@ -9,8 +9,8 @@ import SemanticTranslator from './SemanticTranslator';
 import { ArmsMetaStringRegistry } from './ArmsMetaStringRegistry';
 
 export interface ArmsConfig {
-  licenseKey: string;
-  serviceName: string;
+  licenseKey?: string;
+  serviceName?: string;
   endpoint: string;
   ip: string;
   reportInterval?: number;
@@ -46,9 +46,10 @@ export default class ComponentArmsReporter {
 
   async startAtSupervisor() {
     this.armsExportController = new ArmsExportController(this.config);
+    await this.armsExportController.register();
     const metaStringRegistry = new ArmsMetaStringRegistry(
       this.config.serviceName,
-      this.armsExportController.client
+      this.armsExportController
     );
     const semanticTranslator = new SemanticTranslator(metaStringRegistry);
 
@@ -67,6 +68,6 @@ export default class ComponentArmsReporter {
     this.armsIndicator = armsIndicator;
     indicatorManager.register(this.armsIndicator);
 
-    await this.armsExportController.start(armsIndicator);
+    this.armsExportController.start(armsIndicator);
   }
 }

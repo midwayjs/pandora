@@ -12,11 +12,11 @@ import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/
 import { ValueType } from '@opentelemetry/api';
 import SemanticTranslator from '../src/SemanticTranslator';
 import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
-import { TestArmsClient } from './util';
+import { TestArmsExportController } from './util';
 
 describe('ArmsIndicator', () => {
   const semanticTranslator = new SemanticTranslator(
-    new ArmsMetaStringRegistry('foo', new TestArmsClient())
+    new ArmsMetaStringRegistry('foo', new TestArmsExportController())
   );
   describe('aggregation', () => {
     it('should aggregate int64 data point', async () => {

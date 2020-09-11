@@ -1,15 +1,16 @@
 import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
-import { TestArmsClient } from './util';
+import { TestArmsClient, TestArmsExportController } from './util';
 import * as assert from 'assert';
 import * as sinon from 'sinon';
 
 describe('ArmsMetaStringRegistry', () => {
   const armsClient = new TestArmsClient();
+  const armsExportController = new TestArmsExportController(armsClient);
   afterEach(() => {
     sinon.restore();
   });
   it('.getMetaIdForString()', async () => {
-    const registry = new ArmsMetaStringRegistry('foo', armsClient);
+    const registry = new ArmsMetaStringRegistry('foo', armsExportController);
     const id1 = registry.getMetaIdForString('foobar');
     const id2 = registry.getMetaIdForString('foobar');
     assert(typeof id1 === 'string');
@@ -18,10 +19,11 @@ describe('ArmsMetaStringRegistry', () => {
 
   it('should upload meta strings on buffer full', async () => {
     const timer = sinon.useFakeTimers();
-    const registry = new ArmsMetaStringRegistry('foo', armsClient, 1);
+    const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
     const stub = sinon.stub(armsClient, 'registerBatchStringMeta');
 
     const foobarId = registry.getMetaIdForString('foobar');
+    await timer.tickAsync(1);
     assert.strictEqual(stub.args.length, 1);
     const [batch] = stub.args[0];
     // TODO: batch validation;
@@ -36,6 +38,7 @@ describe('ArmsMetaStringRegistry', () => {
 
     // no new calls committed for registered meta string.
     registry.getMetaIdForString('foobar');
+    await timer.tickAsync(1);
     assert.strictEqual(stub.args.length, 1);
     assert(!registry['pendingIds'].has(foobarId));
     assert(!registry['registeringIds'].has(foobarId));
@@ -49,16 +52,18 @@ describe('ArmsMetaStringRegistry', () => {
 
   it('should not upload during another upload', async () => {
     const timer = sinon.useFakeTimers();
-    const registry = new ArmsMetaStringRegistry('foo', armsClient, 1);
+    const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
     const stub = sinon.stub(armsClient, 'registerBatchStringMeta');
 
     const foobarId = registry.getMetaIdForString('foobar');
+    await timer.tickAsync(1);
     assert.strictEqual(stub.args.length, 1);
     const [batch] = stub.args[0];
     // TODO: batch validation;
 
     // no new calls committed for registered meta string.
     const foobarId2 = registry.getMetaIdForString('foobar2');
+    await timer.tickAsync(1);
     assert.strictEqual(stub.args.length, 1);
 
     stub.yield(null, { success: true });
@@ -72,6 +77,7 @@ describe('ArmsMetaStringRegistry', () => {
 
     // no new calls committed for registered meta string.
     const foobarId3 = registry.getMetaIdForString('foobar3');
+    await timer.tickAsync(1);
     assert.strictEqual(stub.args.length, 2);
 
     stub.yield(null, { success: true });

@@ -6,6 +6,7 @@ import {
   Code,
 } from '../src/types';
 import * as grpc from 'grpc';
+import ArmsExportController from '../src/ArmsExportController';
 
 export class TestArmsClient implements ArmsRegisterClient {
   registerServiceInstance(
@@ -26,5 +27,11 @@ export class TestArmsClient implements ArmsRegisterClient {
     process.nextTick(() => {
       callback(null, { success: true, code: Code.OK, msg: 'ok' });
     });
+  }
+}
+
+export class TestArmsExportController extends ArmsExportController {
+  constructor(public client: ArmsRegisterClient = new TestArmsClient()) {
+    super({ endpoint: 'test', ip: '' });
   }
 }

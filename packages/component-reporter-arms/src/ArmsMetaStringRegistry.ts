@@ -1,8 +1,11 @@
 import { crc32 } from 'crc';
-import { ArmsRegisterClient, BatchStringMeta } from './types';
+import { BatchStringMeta } from './types';
 import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
 import { Resource } from '@opentelemetry/resources';
+import * as createDebug from 'debug';
+import ArmsExportController from './ArmsExportController';
 
+const debug = createDebug('pandora:arms');
 const BUFFER_SIZE = 10;
 
 export class ArmsMetaStringRegistry {
@@ -10,10 +13,11 @@ export class ArmsMetaStringRegistry {
   private pendingIds: Set<string> = new Set();
   private registeringIds: Set<string> = new Set();
   private pendingStringMeta: [string, string][] = [];
+  private timer?: NodeJS.Timeout;
 
   constructor(
     private serviceName: string,
-    private client: ArmsRegisterClient,
+    private exportController: ArmsExportController,
     private bufferSize = BUFFER_SIZE
   ) {}
 
@@ -36,15 +40,29 @@ export class ArmsMetaStringRegistry {
     this.pendingIds.add(id);
     this.pendingStringMeta.push([id, str]);
 
+    this.registerBatch();
+  }
+
+  private registerBatch() {
+    debug('[MetaString] register batch');
     if (
       this.pendingIds.size >= this.bufferSize &&
       this.registeringIds.size === 0
     ) {
       this.doRegisterBatch();
+      return;
     }
+
+    this.timer = setTimeout(() => {
+      this.doRegisterBatch();
+      this.timer = null;
+    }, 1000);
   }
 
   private async doRegisterBatch() {
+    clearTimeout(this.timer);
+    this.timer = null;
+
     const pendingStringMeta = this.pendingStringMeta;
     this.pendingStringMeta = [];
     this.registeringIds = this.pendingIds;
@@ -63,20 +81,18 @@ export class ArmsMetaStringRegistry {
       })),
     };
 
-    this.client.registerBatchStringMeta(
-      batchStringMeta,
-      undefined,
-      (error, response) => {
-        if (error) {
-          this.mergePendings(pendingStringMeta);
-          return;
-        }
-        for (const id of this.registeringIds.values()) {
-          this.registeredIds.add(id);
-        }
-        this.registeringIds = new Set();
-      }
-    );
+    debug('[MetaString] do register batch: %d', pendingStringMeta.length);
+    try {
+      await this.exportController.registerBatchStringMeta(batchStringMeta);
+    } catch (e) {
+      debug('[MetaString] register batch result', e);
+      this.mergePendings(pendingStringMeta);
+      return;
+    }
+    for (const id of this.registeringIds.values()) {
+      this.registeredIds.add(id);
+    }
+    this.registeringIds = new Set();
   }
 
   private mergePendings(pendingStringMeta: [string, string][]) {

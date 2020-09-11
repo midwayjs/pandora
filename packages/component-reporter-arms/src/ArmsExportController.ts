@@ -3,7 +3,7 @@ import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src
 import { Resource } from '@opentelemetry/resources';
 import * as os from 'os';
 import { Metadata } from 'grpc';
-import { ArmsRegisterClient, ServiceInstance } from './types';
+import { ArmsRegisterClient, BatchStringMeta, ServiceInstance } from './types';
 import { ArmsMetricExporter } from './ArmsMetricExporter';
 import ArmsIndicator from './ArmsIndicator';
 import { CollectorProtocolNode } from '@opentelemetry/exporter-collector/build/src/enums';
@@ -27,7 +27,7 @@ export default class ArmsExportController {
     ).toString('base64');
   }
 
-  async start(armsIndicator: ArmsIndicator) {
+  async register() {
     this.client = await initWithGrpc(this.config.endpoint);
     const metadata = this.getAuthorizationMetadata();
 
@@ -51,34 +51,30 @@ export default class ArmsExportController {
       url: this.config.endpoint,
       metadata: this.getAuthorizationMetadata(),
     });
+  }
 
-    debug('start collection');
+  start(armsIndicator: ArmsIndicator) {
     setInterval(async () => {
-      const resourceMetric = await armsIndicator.getResourceMetrics();
-      debug('collected metrics', resourceMetric);
-      if (
-        resourceMetric.instrumentationLibraryMetrics.length === 0 ||
-        resourceMetric.instrumentationLibraryMetrics.reduce(
-          (curr, it) => ((curr += it.metrics.length), curr),
-          0
-        ) === 0
-      ) {
-        debug('no metrics collected, skipping');
-        return;
-      }
-      this.metricExporter.send(
-        [resourceMetric],
-        () => {
-          debug('collector metric exported');
-        },
-        error => {
-          debug('collector error', error);
-        }
-      );
+      this.collect(armsIndicator);
     }, this.config.reportInterval ?? 60_000 /** 1min */);
   }
 
-  getAuthorizationMetadata() {
+  registerBatchStringMeta(batchStringMeta: BatchStringMeta) {
+    return new Promise((resolve, reject) => {
+      this.client.registerBatchStringMeta(
+        batchStringMeta,
+        this.getAuthorizationMetadata(),
+        (error, response) => {
+          if (error != null || !response.success) {
+            return reject(error || new Error(response.msg));
+          }
+          resolve();
+        }
+      );
+    });
+  }
+
+  private getAuthorizationMetadata() {
     const metadata = new Metadata();
     metadata.set('Authorization', `Basic ${this.authorization}`);
     return metadata;
@@ -100,5 +96,29 @@ export default class ArmsExportController {
         }
       );
     });
+  }
+
+  private async collect(armsIndicator: ArmsIndicator) {
+    const resourceMetric = await armsIndicator.getResourceMetrics();
+    debug('collected metrics', resourceMetric);
+    if (
+      resourceMetric.instrumentationLibraryMetrics.length === 0 ||
+      resourceMetric.instrumentationLibraryMetrics.reduce(
+        (curr, it) => ((curr += it.metrics.length), curr),
+        0
+      ) === 0
+    ) {
+      debug('no metrics collected, skipping');
+      return;
+    }
+    this.metricExporter.send(
+      [resourceMetric],
+      () => {
+        debug('collector metric exported');
+      },
+      error => {
+        debug('collector error', error);
+      }
+    );
   }
 }
