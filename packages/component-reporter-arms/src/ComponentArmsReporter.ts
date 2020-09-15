@@ -13,10 +13,16 @@ export interface ArmsConfig {
   serviceName?: string;
   endpoint: string;
   ip: string;
-  reportInterval?: number;
+  interval?: number;
 }
 
 @componentName('reporterArms')
+@componentConfig({
+  arms: {
+    interval: 15_000,
+    ip: resolvePrimaryNetworkInterfaceIPv4Addr(),
+  },
+})
 export default class ComponentArmsReporter {
   private ctx: any;
   private config: ArmsConfig;

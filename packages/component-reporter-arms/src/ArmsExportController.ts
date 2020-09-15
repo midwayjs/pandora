@@ -56,7 +56,7 @@ export default class ArmsExportController {
   start(armsIndicator: ArmsIndicator) {
     setInterval(async () => {
       this.collect(armsIndicator);
-    }, this.config.reportInterval ?? 60_000 /** 1min */);
+    }, this.config.interval ?? 15_000 /** 15s */);
   }
 
   registerBatchStringMeta(batchStringMeta: BatchStringMeta) {
