@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-reporter-arms",
-  "version": "3.0.0-alpha.19",
+  "version": "3.0.0-alpha.20",
   "description": "Pandora 2 Component ARMS Reporter",
   "main": "build/src/ComponentArmsReporter.js",
   "typings": "build/src/ComponentArmsReporter.d.ts",
@@ -42,7 +42,7 @@
     "@opentelemetry/tracing": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.0-alpha.3",
     "@pandorajs/component-indicator": "^3.0.0-alpha.18",
-    "@pandorajs/component-metric": "^3.0.0-alpha.18",
+    "@pandorajs/component-metric": "^3.0.0-alpha.20",
     "@pandorajs/component-trace": "^3.0.0-alpha.18",
     "@pandorajs/semantic-conventions": "^3.0.0-alpha.18",
     "crc": "^3.8.0",
