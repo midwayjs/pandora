@@ -21,6 +21,10 @@ export default class ArmsExportController {
 
   private metricExporter: ArmsMetricExporter;
 
+  private startTimestamp = Date.now();
+  private registrationTimer: ReturnType<typeof setInterval>;
+  private collectionTimer: ReturnType<typeof setInterval>;
+
   constructor(private config: ArmsConfig) {
     this.authorization = Buffer.from(
       `${this.config.serviceName}:${this.config.licenseKey}`
@@ -29,21 +33,10 @@ export default class ArmsExportController {
 
   async register() {
     this.client = await initWithGrpc(this.config.endpoint);
-    const metadata = this.getAuthorizationMetadata();
-
-    await this.registerServiceInstance(
-      {
-        resource: toCollectorResource(
-          new Resource({
-            'host.name': os.hostname(),
-            'host.ip': this.config.ip,
-            'service.name': this.config.serviceName,
-            'telemetry.sdk.language': 'nodejs',
-          })
-        ),
-        startTimestamp: Date.now(),
-      },
-      metadata
+    await this.registerServiceInstance();
+    this.registrationTimer = setInterval(
+      () => this.registerServiceInstance(),
+      60_000 /** 1min */
     );
 
     this.metricExporter = new ArmsMetricExporter({
@@ -54,9 +47,14 @@ export default class ArmsExportController {
   }
 
   start(armsIndicator: ArmsIndicator) {
-    setInterval(async () => {
+    this.collectionTimer = setInterval(async () => {
       this.collect(armsIndicator);
     }, this.config.interval ?? 15_000 /** 15s */);
+  }
+
+  stop() {
+    clearInterval(this.registrationTimer);
+    clearInterval(this.collectionTimer);
   }
 
   registerBatchStringMeta(batchStringMeta: BatchStringMeta) {
@@ -80,14 +78,21 @@ export default class ArmsExportController {
     return metadata;
   }
 
-  private registerServiceInstance(
-    serviceInstance: ServiceInstance,
-    metadata: Metadata
-  ) {
+  private registerServiceInstance() {
     return new Promise((resolve, reject) => {
       this.client.registerServiceInstance(
-        serviceInstance,
-        metadata,
+        {
+          resource: toCollectorResource(
+            new Resource({
+              'host.name': os.hostname(),
+              'host.ip': this.config.ip,
+              'service.name': this.config.serviceName,
+              'telemetry.sdk.language': 'nodejs',
+            })
+          ),
+          startTimestamp: this.startTimestamp,
+        },
+        this.getAuthorizationMetadata(),
         (error, response) => {
           if (error != null || !response.success) {
             return reject(error || new Error(response.msg));
