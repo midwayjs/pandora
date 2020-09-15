@@ -32,10 +32,15 @@ public:
       hrtime last_prologue_time;
 };
 
+static std::mutex statistics_data_mutex;
 static std::map<v8::Isolate *, GcStatistics *> statistics_data;
 
 NAN_GC_CALLBACK(GCPrologueCallback) {
-  GcStatistics *item = statistics_data[isolate];
+  GcStatistics *item;
+  {
+    std::lock_guard<std::mutex> lock{statistics_data_mutex};
+    item = statistics_data[isolate];
+  }
   if (item == nullptr) {
     return;
   }
@@ -43,7 +48,11 @@ NAN_GC_CALLBACK(GCPrologueCallback) {
 }
 
 NAN_GC_CALLBACK(GCEpilogueCallback) {
-  GcStatistics *item = statistics_data[isolate];
+  GcStatistics *item;
+  {
+    std::lock_guard<std::mutex> lock{statistics_data_mutex};
+    item = statistics_data[isolate];
+  }
   if (item == nullptr) {
     return;
   }
@@ -81,7 +90,10 @@ void Setup(const Nan::FunctionCallbackInfo<v8::Value> &info) {
   v8::Isolate *isolate = info.GetIsolate();
   Nan::AddGCPrologueCallback(GCPrologueCallback);
   Nan::AddGCEpilogueCallback(GCEpilogueCallback);
-  statistics_data[isolate] = new GcStatistics();
+  {
+    std::lock_guard<std::mutex> lock{statistics_data_mutex};
+    statistics_data[isolate] = new GcStatistics();
+  }
 
   info.GetReturnValue().Set(Nan::Undefined());
 }
@@ -90,15 +102,22 @@ void Teardown(const Nan::FunctionCallbackInfo<v8::Value> &info) {
   v8::Isolate *isolate = info.GetIsolate();
   Nan::RemoveGCPrologueCallback(GCPrologueCallback);
   Nan::RemoveGCEpilogueCallback(GCEpilogueCallback);
-  delete statistics_data[isolate];
-  statistics_data.erase(isolate);
+  {
+    std::lock_guard<std::mutex> lock{statistics_data_mutex};
+    delete statistics_data[isolate];
+    statistics_data.erase(isolate);
+  }
 
   info.GetReturnValue().Set(Nan::Undefined());
 }
 
 void GetStatistics(const Nan::FunctionCallbackInfo<v8::Value> &info) {
   v8::Isolate *isolate = info.GetIsolate();
-  auto item = statistics_data[isolate];
+  GcStatistics *item;
+  {
+    std::lock_guard<std::mutex> lock{statistics_data_mutex};
+    item = statistics_data[isolate];
+  }
   if (item == nullptr) {
     info.GetReturnValue().Set(Nan::Undefined());
     return;
@@ -155,4 +174,4 @@ void Init(v8::Local<v8::Object> exports) {
 
 } // namespace DiagProbe
 
-NODE_MODULE(hello, DiagProbe::Init)
+NODE_MODULE_CONTEXT_AWARE(hello, DiagProbe::Init)
