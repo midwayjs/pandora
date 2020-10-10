@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/semantic-conventions",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Pandora 3 Semantic Conventions",
   "main": "build/src/index.js",
   "typings": "build/src/index.d.ts",

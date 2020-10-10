@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-ipc-hub",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Pandora 2 Component IPC Hub",
   "main": "build/src/ComponentIPCHub.js",
   "typings": "build/src/ComponentIPCHub.d.ts",
@@ -28,8 +28,8 @@
     "build/src/**/*.d.ts"
   ],
   "dependencies": {
-    "@pandorajs/component-decorator": "^3.0.0-alpha.16",
-    "@pandorajs/dollar": "^3.0.0-alpha.16",
-    "@pandorajs/hub": "^3.0.0-alpha.18"
+    "@pandorajs/component-decorator": "^3.0.1",
+    "@pandorajs/dollar": "^3.0.1",
+    "@pandorajs/hub": "^3.0.1"
   }
 }

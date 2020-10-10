@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-actuator-server",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Pandora 2 Component Actuator Server",
   "main": "build/src/ComponentActuatorServer.js",
   "typings": "build/src/ComponentActuatorServer.d.ts",
@@ -31,8 +31,8 @@
     "build/src/**/*.d.ts"
   ],
   "dependencies": {
-    "@pandorajs/component-decorator": "^3.0.0-alpha.16",
-    "@pandorajs/dollar": "^3.0.0-alpha.16",
+    "@pandorajs/component-decorator": "^3.0.1",
+    "@pandorajs/dollar": "^3.0.1",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0"

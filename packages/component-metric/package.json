@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-metric",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Pandora 2 Component Metrics",
   "main": "build/src/ComponentMetric.js",
   "typings": "build/src/ComponentMetric.d.ts",
@@ -16,8 +16,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-indicator": "^3.0.0-alpha.18",
-    "@pandorajs/component-ipc-hub": "^3.0.0-alpha.18",
+    "@pandorajs/component-indicator": "^3.0.1",
+    "@pandorajs/component-ipc-hub": "^3.0.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "mocha": "^7.1.2",
@@ -34,8 +34,8 @@
     "@opentelemetry/exporter-prometheus": "^0.10.2",
     "@opentelemetry/metrics": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
-    "@pandorajs/component-decorator": "^3.0.0-alpha.16",
-    "@pandorajs/dollar": "^3.0.0-alpha.16",
+    "@pandorajs/component-decorator": "^3.0.1",
+    "@pandorajs/dollar": "^3.0.1",
     "tdigest": "^0.1.1"
   }
 }
