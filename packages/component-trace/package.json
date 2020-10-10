@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-trace",
-  "version": "3.0.0-alpha.18",
+  "version": "3.0.0",
   "description": "Pandora 2 Component Trace",
   "main": "build/src/ComponentTrace.js",
   "typings": "build/src/ComponentTrace.d.ts",

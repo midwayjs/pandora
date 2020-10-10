@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-file-logger-service",
-  "version": "3.0.0-alpha.18",
+  "version": "3.0.0",
   "description": "Pandora 2 Component File Logger Service",
   "main": "build/src/ComponentFileLoggerService.js",
   "typings": "build/src/ComponentFileLoggerService.d.ts",

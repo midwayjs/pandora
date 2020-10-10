@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-actuator-server",
-  "version": "3.0.0-alpha.16",
+  "version": "3.0.0",
   "description": "Pandora 2 Component Actuator Server",
   "main": "build/src/ComponentActuatorServer.js",
   "typings": "build/src/ComponentActuatorServer.d.ts",
