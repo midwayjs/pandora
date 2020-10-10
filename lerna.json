@@ -25,7 +25,7 @@
     "packages/semantic-conventions",
     "packages/test-util"
   ],
-  "version": "3.0.0-alpha.20",
+  "version": "3.0.0",
   "command": {
     "bootstrap": {
       "npmClientArgs": [
