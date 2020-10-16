@@ -16,7 +16,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-indicator": "^3.0.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "mocha": "^7.1.2",
@@ -30,9 +29,9 @@
   ],
   "dependencies": {
     "@opentelemetry/api": "^0.10.2",
-    "@opentelemetry/node": "^0.10.2",
     "@opentelemetry/tracing": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.1",
+    "@pandorajs/component-indicator": "^3.0.1",
     "@pandorajs/dollar": "^3.0.1"
   }
 }

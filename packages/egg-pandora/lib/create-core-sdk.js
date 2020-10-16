@@ -1,6 +1,7 @@
 'use strict';
 const { Resource } = require('@opentelemetry/resources');
 const { APPLICATION_RESOURCE } = require('@pandorajs/semantic-conventions');
+const { NodeTracerProvider } = require('@opentelemetry/node');
 const { CoreSDK } = require('@pandorajs/core-sdk');
 const pkg = require('../index');
 
@@ -12,12 +13,20 @@ module.exports = (app, mode) => {
   const resource = new Resource({
     [APPLICATION_RESOURCE.NAME]: appName,
     [APPLICATION_RESOURCE.ENV]: env,
-    ...extendPandoraConfig.resource,
+    ...(extendPandoraConfig.resource || {}),
   });
 
   let optExtendConfig;
   /* istanbul ignore else */
   if (extendPandoraConfig) {
+    extendPandoraConfig.trace = extendPandoraConfig.trace || {};
+    extendPandoraConfig.trace.tracerProvider =
+      extendPandoraConfig.trace.tracerProvider ||
+      new NodeTracerProvider({
+        plugins: extendPandoraConfig.trace.plugins,
+        resource,
+      });
+
     optExtendConfig = [
       {
         config: {

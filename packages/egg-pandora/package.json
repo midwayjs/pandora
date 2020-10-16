@@ -14,6 +14,7 @@
   "dependencies": {
     "@opentelemetry/api": "^0.10.2",
     "@opentelemetry/core": "^0.10.2",
+    "@opentelemetry/node": "^0.10.2",
     "@opentelemetry/plugin-http": "^0.10.2",
     "@opentelemetry/plugin-https": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",

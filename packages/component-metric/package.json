@@ -16,7 +16,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-indicator": "^3.0.1",
     "@pandorajs/component-ipc-hub": "^3.0.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -35,6 +34,7 @@
     "@opentelemetry/metrics": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.1",
+    "@pandorajs/component-indicator": "^3.0.1",
     "@pandorajs/dollar": "^3.0.1",
     "tdigest": "^0.1.1"
   }

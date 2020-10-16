@@ -12,12 +12,12 @@ import { MetricsForwarder } from './MetricsForwarder';
 import { PandoraBatcher } from './Batcher';
 
 @componentName('metric')
+@dependencies(['indicator'])
 @componentConfig({
   metric: {
     interval: 15_000,
   },
 })
-@dependencies(['indicator'])
 export default class ComponentMetric {
   ctx: any;
   metricsIndicator: MetricsIndicator;
