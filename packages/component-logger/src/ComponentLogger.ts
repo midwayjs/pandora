@@ -1,17 +1,15 @@
-import { componentName, componentConfig } from '@pandorajs/component-decorator';
+import { componentName, dependencies } from '@pandorajs/component-decorator';
 import { ExceptionProcessor } from './ExceptionProcessor';
 
 @componentName('logger')
-@componentConfig({
-  logger: {
-    poolSize: 50,
-  },
-})
+@dependencies(['metric'])
 export default class ComponentLogger {
   exceptionProcessor: ExceptionProcessor;
 
   constructor(ctx) {
-    ctx.exceptionProcessor = this.exceptionProcessor = new ExceptionProcessor();
+    const meter = ctx.meterProvider.getMeter('pandora');
+    ctx.exceptionProcessor = new ExceptionProcessor(meter);
+    this.exceptionProcessor = ctx.exceptionProcessor;
   }
 }
 

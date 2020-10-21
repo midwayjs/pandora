@@ -29,7 +29,9 @@
     "src"
   ],
   "dependencies": {
+    "@opentelemetry/api": "^0.10.2",
     "@opentelemetry/resources": "^0.10.2",
-    "@pandorajs/component-decorator": "^3.0.1"
+    "@pandorajs/component-decorator": "^3.0.1",
+    "@pandorajs/semantic-conventions": "^3.0.1"
   }
 }
