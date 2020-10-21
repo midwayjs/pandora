@@ -1,6 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <map>
+#include <mutex>
 #include <nan.h>
 
 namespace DiagProbe {

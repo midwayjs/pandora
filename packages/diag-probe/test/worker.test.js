@@ -1,5 +1,12 @@
-// eslint-disable-next-line node/no-unsupported-features/node-builtins
-const { Worker } = require('worker_threads');
+let Worker;
+let describe;
+if (Number(process.versions.node.match(/^(\d+)\./)[1]) < 12) {
+  describe = global.describe.skip;
+} else {
+  describe = global.describe;
+  // eslint-disable-next-line node/no-unsupported-features/node-builtins
+  ({ Worker } = require('worker_threads'));
+}
 const binding = require('../lib');
 const path = require('path');
 const assert = require('assert');
