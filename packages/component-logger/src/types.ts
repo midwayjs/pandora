@@ -1,13 +1,12 @@
 import { Resource } from '@opentelemetry/resources';
 
-export interface ExceptionRecord {
+export interface Exception {
   timestamp: number;
   level?: string;
 
   traceId?: string;
   spanId?: string;
   traceName?: string;
-  resource?: Resource;
 
   name?: string;
   message?: string;
@@ -15,6 +14,10 @@ export interface ExceptionRecord {
   attributes?: { [key: string]: string };
 
   path?: string;
+}
+
+export interface ExceptionRecord extends Exception {
+  resource: Resource;
 }
 
 export interface ExceptionExporter {

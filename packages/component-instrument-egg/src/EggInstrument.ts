@@ -29,7 +29,7 @@ export default (ctx: PandoraContext) => {
 
       logger.set(
         'pandora',
-        new ExceptionLogTransport(ctx.resource, ctx.exceptionProcessor, {
+        new ExceptionLogTransport(ctx.exceptionProcessor, {
           path,
         })
       );

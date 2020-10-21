@@ -1,17 +1,12 @@
 import util = require('util');
 import { Transport } from 'egg-logger';
 import { ExceptionProcessor } from '@pandorajs/component-logger';
-import { Resource } from '@opentelemetry/resources';
 import { spanSymbol } from './constant';
 import { Span } from '@opentelemetry/api';
 
 export default class ExceptionLogTransport extends Transport {
   private path: string;
-  constructor(
-    private resource: Resource,
-    private exceptionProcessor: ExceptionProcessor,
-    options
-  ) {
+  constructor(private exceptionProcessor: ExceptionProcessor, options) {
     super({ level: 'ERROR', ...options });
     this.path = options.path;
   }
@@ -42,7 +37,6 @@ export default class ExceptionLogTransport extends Transport {
         traceId,
         spanId,
         traceName,
-        resource: this.resource,
         name: error.name,
         message: error.message,
         stack: error.stack,

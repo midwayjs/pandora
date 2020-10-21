@@ -22,13 +22,9 @@ export default class ComponentInstrumentEgg {
 
         logger.set(
           'pandora',
-          new ExceptionLogTransport(
-            ctx.resource,
-            agent.pandora.exceptionProcessor,
-            {
-              path,
-            }
-          )
+          new ExceptionLogTransport(agent.pandora.exceptionProcessor, {
+            path,
+          })
         );
       }
     };

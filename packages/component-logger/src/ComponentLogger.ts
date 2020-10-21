@@ -8,7 +8,7 @@ export default class ComponentLogger {
 
   constructor(ctx) {
     const meter = ctx.meterProvider.getMeter('pandora');
-    ctx.exceptionProcessor = new ExceptionProcessor(meter);
+    ctx.exceptionProcessor = new ExceptionProcessor(ctx.resource, meter);
     this.exceptionProcessor = ctx.exceptionProcessor;
   }
 }
