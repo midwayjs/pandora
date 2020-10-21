@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/diag-probe",
-  "version": "3.0.0-alpha.20",
+  "version": "3.0.2",
   "main": "./lib/index.js",
   "dependencies": {
     "node-pre-gyp": "^0.15.0"
