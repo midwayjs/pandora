@@ -32,6 +32,14 @@ export class MultiSpanProcessor implements SpanProcessor {
     this._spanExporter.push(spanExporter);
   }
 
+  removeSpanExporter(spanExporter: SpanExporter) {
+    const idx = this._spanExporter.indexOf(spanExporter);
+    if (idx < 0) {
+      return;
+    }
+    this._spanExporter.splice(idx, 1);
+  }
+
   forceFlush(): void {
     // TODO:
   }
