@@ -3,19 +3,18 @@
   "version": "3.0.2",
   "main": "./lib/index.js",
   "dependencies": {
+    "nan": "^2.14.1",
     "node-pre-gyp": "^0.15.0"
   },
   "devDependencies": {
     "clang-format": "^1.4.0",
     "mocha": "^7.1.2",
-    "nan": "^2.14.1",
     "node-pre-gyp-github": "^1.4.3"
   },
   "//": "disable npm's default install script 'node-gyp rebuild' on lerna bootstrapping",
   "gypfile": false,
   "scripts": {
     "install": "node-pre-gyp install --fallback-to-build",
-    "publish": "node-pre-gyp-github publish --release",
     "build": "node-pre-gyp rebuild",
     "fix": "clang-format -i src/*",
     "test": "mocha --expose_gc"
@@ -30,5 +29,8 @@
     "lib/**/*.js",
     "src/**/*",
     "binding.gyp"
-  ]
+  ],
+  "repository": {
+    "url": "https://github.com/midwayjs/pandora.git"
+  }
 }
