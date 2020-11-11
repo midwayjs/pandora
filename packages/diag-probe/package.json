@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/diag-probe",
-  "version": "3.0.2",
+  "version": "3.0.4",
   "main": "./lib/index.js",
   "dependencies": {
     "nan": "^2.14.1",
