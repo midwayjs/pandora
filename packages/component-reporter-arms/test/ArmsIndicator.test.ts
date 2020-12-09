@@ -8,7 +8,6 @@ import {
   HttpAttribute,
 } from '@pandorajs/semantic-conventions';
 import * as assert from 'assert';
-import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
 import { ValueType } from '@opentelemetry/api';
 import SemanticTranslator from '../src/SemanticTranslator';
 import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
@@ -67,16 +66,9 @@ describe('ArmsIndicator', () => {
         1
       );
       const metric = result.instrumentationLibraryMetrics[0].metrics[0];
-      assert.strictEqual(
-        metric.metricDescriptor.name,
-        'arms_http_requests_by_status_total'
-      );
-      assert.strictEqual(
-        metric.metricDescriptor.type,
-        opentelemetryProto.metrics.v1.MetricDescriptorType.MONOTONIC_INT64
-      );
-      assert.strictEqual(metric.int64DataPoints.length, 1);
-      const dp = metric.int64DataPoints[0];
+      assert.strictEqual(metric.name, 'arms_http_requests_by_status_total');
+      assert.strictEqual(metric.intSum.dataPoints.length, 1);
+      const dp = metric.intSum.dataPoints[0];
       assert.deepStrictEqual(dp.labels, [
         {
           key: 'rpc',

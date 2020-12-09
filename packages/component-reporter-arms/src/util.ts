@@ -2,16 +2,20 @@ import * as grpc from 'grpc';
 import * as protoLoader from '@grpc/proto-loader';
 import * as path from 'path';
 import * as os from 'os';
-import { ArmsRegisterClient as ArmsRegisterClientType } from './types';
+import { ArmsMetaDataRegister, ArmsServiceRegister } from './types';
 
-export function initWithGrpc(address: string): Promise<ArmsRegisterClientType> {
+export function initWithGrpc(
+  address: string
+): Promise<[ArmsServiceRegister, ArmsMetaDataRegister]> {
   const credentials: grpc.ChannelCredentials = grpc.credentials.createInsecure();
 
   const includeDirs = [
     path.resolve(__dirname, 'protos'),
     path.resolve(
-      path.dirname(require.resolve('@opentelemetry/exporter-collector')),
-      'platform/node/protos'
+      path.dirname(
+        require.resolve('@opentelemetry/exporter-collector-grpc/package.json')
+      ),
+      'build/protos'
     ),
   ];
 
@@ -27,14 +31,24 @@ export function initWithGrpc(address: string): Promise<ArmsRegisterClientType> {
     .then(packageDefinition => {
       const packageObject = grpc.loadPackageDefinition(packageDefinition);
 
-      const ArmsRegisterClient = getGrpcService(
+      const ArmsServiceRegisterClass = getGrpcService(
         packageObject,
-        'opentelemetry.proto.arms.ArmsRegister'
+        'com.alibaba.arms.base.ArmsServiceRegister'
       );
-      return (new ArmsRegisterClient(
-        address,
-        credentials
-      ) as unknown) as ArmsRegisterClientType;
+      const ArmsMetadataRegisterClass = getGrpcService(
+        packageObject,
+        'com.alibaba.arms.base.ArmsMetaDataRegister'
+      );
+      return [
+        (new ArmsServiceRegisterClass(
+          address,
+          credentials
+        ) as unknown) as ArmsServiceRegister,
+        (new ArmsMetadataRegisterClass(
+          address,
+          credentials
+        ) as unknown) as ArmsMetaDataRegister,
+      ];
     });
 }
 

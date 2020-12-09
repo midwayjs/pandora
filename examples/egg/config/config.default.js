@@ -27,6 +27,12 @@ module.exports = appInfo => {
           path: require.resolve('@pandorajs/component-reporter-arms'),
         },
       },
+      trace: {
+        plugins: {
+          grpc: { enabled: false },
+          '@grpc/grpc-js': { enabled: false },
+        },
+      },
     },
   };
 

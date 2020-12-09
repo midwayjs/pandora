@@ -17,7 +17,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.6.8",
+    "debug": "^4.3.1",
     "is-type-of": "^1.2.0",
     "sdk-base": "^2.0.1"
   },

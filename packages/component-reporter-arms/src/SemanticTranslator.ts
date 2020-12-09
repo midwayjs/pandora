@@ -4,10 +4,10 @@ import {
   SystemMetric,
   HttpAttribute,
 } from '@pandorajs/semantic-conventions';
-import { isSummaryValueType } from '@pandorajs/component-metric';
 import { ArmsMetaStringRegistry } from './ArmsMetaStringRegistry';
 import { Labels } from '@opentelemetry/api';
 import { PlainMetricRecord } from './types';
+import { AggregatorKind } from '@opentelemetry/metrics';
 
 const SystemMetricNames = [
   SystemMetric.CPU_IDLE,
@@ -82,7 +82,7 @@ export default class SemanticTranslator {
     ): PlainMetricRecord[] => {
       const labels = this.extractCommonLabels(record.labels);
       const point = record.point;
-      let result: PlainMetricRecord[] = [
+      const result: PlainMetricRecord[] = [
         {
           ...record,
           descriptor: {
@@ -92,6 +92,7 @@ export default class SemanticTranslator {
             }_requests_seconds_total`,
           },
           labels,
+          aggregatorKind: AggregatorKind.SUM,
           point: {
             timestamp: point.timestamp,
             value:
@@ -101,30 +102,6 @@ export default class SemanticTranslator {
           },
         },
       ];
-      if (isSummaryValueType(point.value)) {
-        const summary = point.value;
-        result = result.concat(
-          summary.percentiles.map((it, idx) => {
-            return {
-              ...record,
-              descriptor: {
-                ...record.descriptor,
-                name: `arms_${
-                  record.labels[GeneralAttribute.COMPONENT]
-                }_requests_latency_seconds`,
-              },
-              labels: {
-                ...labels,
-                quantile: String(it),
-              },
-              point: {
-                timestamp: point.timestamp,
-                value: summary.values[idx],
-              },
-            };
-          })
-        );
-      }
 
       return result;
     },

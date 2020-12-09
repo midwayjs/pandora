@@ -2,6 +2,9 @@ import { IIndicator, IndicatorResultObject } from './types';
 import { IndicatorUtil } from './IndicatorUtil';
 import { IndicatorManagerProxy } from './IndicatorManagerProxy';
 import { HubFacade } from '@pandorajs/hub';
+import createDebug from 'debug';
+
+const debug = createDebug('pandora:indicator');
 const PID = process.pid.toString();
 
 export class IndicatorManager {
@@ -14,6 +17,7 @@ export class IndicatorManager {
   }
   register(indicator: IIndicator) {
     const { group } = indicator;
+    debug('register indicator: %s', group);
     if (!this.store.has(group)) {
       this.store.set(group, []);
     }

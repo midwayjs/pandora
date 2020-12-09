@@ -40,8 +40,8 @@ export class ExceptionsFileReporter implements ExceptionExporter {
             message: record.message,
             stack: record.stack,
             attributes: {
+              ...record?.resource.attributes,
               ...record?.attributes,
-              ...record?.resource.labels,
             },
             path: record.path,
           }),

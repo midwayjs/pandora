@@ -1,6 +1,9 @@
-import { Aggregator, MetricRecord } from '@opentelemetry/metrics';
+import {
+  Aggregator,
+  MetricRecord,
+  LastValueAggregator,
+} from '@opentelemetry/metrics';
 import { Batcher } from '@opentelemetry/metrics/build/src/export/Batcher';
-import { LastValueAggregator } from './LastValueAggregator';
 
 /**
  * Batcher which retains all dimensions/labels. It accepts all records and

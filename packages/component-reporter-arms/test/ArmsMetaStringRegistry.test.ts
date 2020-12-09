@@ -1,11 +1,19 @@
 import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
-import { TestArmsClient, TestArmsExportController } from './util';
+import {
+  TestArmsMetaDataRegister,
+  TestArmsServiceRegister,
+  TestArmsExportController,
+} from './util';
 import * as assert from 'assert';
 import * as sinon from 'sinon';
 
 describe('ArmsMetaStringRegistry', () => {
-  const armsClient = new TestArmsClient();
-  const armsExportController = new TestArmsExportController(armsClient);
+  const armsMetadataRegister = new TestArmsMetaDataRegister();
+  const armsServiceRegister = new TestArmsServiceRegister();
+  const armsExportController = new TestArmsExportController(
+    armsServiceRegister,
+    armsMetadataRegister
+  );
   afterEach(() => {
     sinon.restore();
   });
@@ -20,7 +28,7 @@ describe('ArmsMetaStringRegistry', () => {
   it('should upload meta strings on buffer full', async () => {
     const timer = sinon.useFakeTimers();
     const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
-    const stub = sinon.stub(armsClient, 'registerBatchStringMeta');
+    const stub = sinon.stub(armsMetadataRegister, 'registerBatchStringMeta');
 
     const foobarId = registry.getMetaIdForString('foobar');
     await timer.tickAsync(1);
@@ -53,7 +61,7 @@ describe('ArmsMetaStringRegistry', () => {
   it('should not upload during another upload', async () => {
     const timer = sinon.useFakeTimers();
     const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
-    const stub = sinon.stub(armsClient, 'registerBatchStringMeta');
+    const stub = sinon.stub(armsMetadataRegister, 'registerBatchStringMeta');
 
     const foobarId = registry.getMetaIdForString('foobar');
     await timer.tickAsync(1);

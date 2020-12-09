@@ -3,12 +3,15 @@ import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src
 import { Resource } from '@opentelemetry/resources';
 import * as os from 'os';
 import { Metadata } from 'grpc';
-import { ArmsRegisterClient, BatchStringMeta, ServiceInstance } from './types';
-import { ArmsMetricExporter } from './ArmsMetricExporter';
+import {
+  ArmsMetaDataRegister,
+  ArmsServiceRegister,
+  BatchStringMeta,
+} from './types';
 import ArmsIndicator from './ArmsIndicator';
-import { CollectorProtocolNode } from '@opentelemetry/exporter-collector/build/src/enums';
 import { ArmsConfig } from './ComponentArmsReporter';
 import * as createDebug from 'debug';
+import { ArmsMetricExporter } from './ArmsMetricExporter';
 
 const debug = createDebug('pandora:arms');
 
@@ -16,7 +19,8 @@ export default class ArmsExportController {
   /**
    * @internal
    */
-  client: ArmsRegisterClient;
+  serviceRegister: ArmsServiceRegister;
+  metadataRegister: ArmsMetaDataRegister;
   private authorization: string;
 
   private metricExporter: ArmsMetricExporter;
@@ -27,12 +31,14 @@ export default class ArmsExportController {
 
   constructor(private config: ArmsConfig) {
     this.authorization = Buffer.from(
-      `${this.config.serviceName}:${this.config.licenseKey}`
+      `${this.config.serviceName}@nodejs:${this.config.licenseKey}`
     ).toString('base64');
   }
 
   async register() {
-    this.client = await initWithGrpc(this.config.endpoint);
+    [this.serviceRegister, this.metadataRegister] = await initWithGrpc(
+      this.config.endpoint
+    );
     await this.registerServiceInstance();
     this.registrationTimer = setInterval(
       () => this.registerServiceInstance(),
@@ -40,7 +46,9 @@ export default class ArmsExportController {
     );
 
     this.metricExporter = new ArmsMetricExporter({
-      protocolNode: CollectorProtocolNode.GRPC,
+      url: this.config.endpoint,
+      metadata: this.getAuthorizationMetadata(),
+    });
       url: this.config.endpoint,
       metadata: this.getAuthorizationMetadata(),
     });
@@ -59,7 +67,7 @@ export default class ArmsExportController {
 
   registerBatchStringMeta(batchStringMeta: BatchStringMeta) {
     return new Promise((resolve, reject) => {
-      this.client.registerBatchStringMeta(
+      this.metadataRegister.registerBatchStringMeta(
         batchStringMeta,
         this.getAuthorizationMetadata(),
         (error, response) => {
@@ -80,7 +88,7 @@ export default class ArmsExportController {
 
   private registerServiceInstance() {
     return new Promise((resolve, reject) => {
-      this.client.registerServiceInstance(
+      this.serviceRegister.registerServiceInstance(
         {
           resource: toCollectorResource(
             new Resource({
@@ -104,6 +112,10 @@ export default class ArmsExportController {
   }
 
   private async collect(armsIndicator: ArmsIndicator) {
+    await Promise.all([this.collectMetrics(armsIndicator)]);
+  }
+
+  private async collectMetrics(armsIndicator: ArmsIndicator) {
     const resourceMetric = await armsIndicator.getResourceMetrics();
     debug('collected metrics', resourceMetric);
     if (

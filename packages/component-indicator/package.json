@@ -33,6 +33,7 @@
   "dependencies": {
     "@pandorajs/component-decorator": "^3.0.1",
     "@pandorajs/dollar": "^3.0.1",
-    "@pandorajs/hub": "^3.0.1"
+    "@pandorajs/hub": "^3.0.1",
+    "debug": "^4.3.1"
   }
 }

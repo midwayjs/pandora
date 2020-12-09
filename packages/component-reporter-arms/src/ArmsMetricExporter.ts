@@ -1,9 +1,9 @@
+import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
+import { CollectorExporterNodeBase } from '@opentelemetry/exporter-collector-grpc/build/src/CollectorExporterNodeBase';
 import {
-  opentelemetryProto,
   ServiceClientType,
-} from '@opentelemetry/exporter-collector/build/src/types';
-import { CollectorExporterNodeBase } from '@opentelemetry/exporter-collector/build/src/platform/node/CollectorExporterNodeBase';
-import { CollectorExporterConfigNode } from '@opentelemetry/exporter-collector/build/src/platform/node/types';
+  CollectorExporterConfigNode,
+} from '@opentelemetry/exporter-collector-grpc/build/src/types';
 
 const DEFAULT_SERVICE_NAME = 'collector-metric-exporter';
 const DEFAULT_COLLECTOR_URL_GRPC = 'localhost:55680';

@@ -40,7 +40,7 @@ export class TracesFileReporter implements tracing.SpanExporter {
             context: it.spanContext,
             links: it.links,
             attributes: {
-              ...resource.labels,
+              ...resource.attributes,
               ...it.attributes,
             },
             events: it.events,
@@ -51,7 +51,7 @@ export class TracesFileReporter implements tracing.SpanExporter {
     }
   }
 
-  shutdown() {}
+  async shutdown() {}
 
   getGlobalTags() {
     const { reporterFile: config } = this.ctx.config;

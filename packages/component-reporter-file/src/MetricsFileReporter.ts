@@ -31,7 +31,7 @@ export class MetricsFileReporter implements MetricExporter {
               timestamp,
               value: point.value,
               tags: {
-                ...resource.labels,
+                ...resource.attributes,
                 ...record.labels,
               },
             }),
@@ -48,7 +48,7 @@ export class MetricsFileReporter implements MetricExporter {
             timestamp,
             value: point.value.count,
             tags: {
-              ...resource.labels,
+              ...resource.attributes,
               ...record.labels,
             },
           }),
@@ -63,7 +63,7 @@ export class MetricsFileReporter implements MetricExporter {
             timestamp,
             value: point.value.sum,
             tags: {
-              ...resource.labels,
+              ...resource.attributes,
               ...record.labels,
             },
           }),
@@ -75,5 +75,5 @@ export class MetricsFileReporter implements MetricExporter {
     callback(ExportResult.SUCCESS);
   }
 
-  shutdown() {}
+  async shutdown() {}
 }

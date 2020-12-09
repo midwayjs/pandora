@@ -40,7 +40,7 @@ export class MultiSpanProcessor implements SpanProcessor {
     this._spanExporter.splice(idx, 1);
   }
 
-  forceFlush(): void {
+  async forceFlush(): Promise<void> {
     // TODO:
   }
 
@@ -55,7 +55,7 @@ export class MultiSpanProcessor implements SpanProcessor {
     }
   }
 
-  shutdown(): void {
+  async shutdown(): Promise<void> {
     for (const exporter of this._spanExporter) {
       exporter.shutdown();
     }

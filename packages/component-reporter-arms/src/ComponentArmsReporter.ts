@@ -38,6 +38,7 @@ export default class ComponentArmsReporter {
   async start() {
     const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
     const batcher: Batcher = this.ctx.metricsBatcher;
+
     this.armsIndicator = new ArmsBasicIndicator(
       batcher,
       indicatorManager,

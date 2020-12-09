@@ -1,14 +1,10 @@
 import { IIndicator, IndicatorScope } from '@pandorajs/component-indicator';
 import {
   MetricRecord,
-  Distribution,
   Histogram,
-  Point,
+  PointValueType,
 } from '@opentelemetry/metrics';
 import { PandoraBatcher } from './Batcher';
-
-type ValueType<T, K extends keyof T> = T[K];
-type PointValue = ValueType<Point, 'value'>;
 
 export interface MetricsIndicatorInvokeQuery {
   action: 'list';
@@ -36,14 +32,6 @@ export class MetricsIndicator implements IIndicator {
       if (isPrimitive(pv)) {
         metrics.push(`${notateMetricRecord(item)} ${pv}`);
       }
-      if (isDistribution(pv)) {
-        metrics = metrics.concat([
-          `${notateMetricRecord(item, 'count')} ${pv.count}`,
-          `${notateMetricRecord(item, 'sum')} ${pv.sum}`,
-          `${notateMetricRecord(item, 'min')} ${pv.min}`,
-          `${notateMetricRecord(item, 'max')} ${pv.max}`,
-        ]);
-      }
       if (isHistogram(pv)) {
         const tmp = [
           `${notateMetricRecord(item, 'count')} ${pv.count}`,
@@ -69,7 +57,7 @@ function notateMetricRecord(
   metric: MetricRecord,
   suffix?: string,
   label?: string,
-  labelValue?: any
+  labelValue?: unknown
 ) {
   return `${metric.descriptor.name}${
     suffix ? '_' + suffix : ''
@@ -78,21 +66,14 @@ function notateMetricRecord(
     .join(', ')}${label ? `, ${label}=${labelValue}` : ''}}`;
 }
 
-function isDistribution(pv: PointValue): pv is Distribution {
-  if ((pv as Distribution).min) {
-    return true;
-  }
-  return false;
-}
-
-function isHistogram(pv: PointValue): pv is Histogram {
+function isHistogram(pv: PointValueType): pv is Histogram {
   if ((pv as Histogram).buckets) {
     return true;
   }
   return false;
 }
 
-function isPrimitive(pv: PointValue): pv is number {
+function isPrimitive(pv: PointValueType): pv is number {
   if (typeof pv === 'number') {
     return true;
   }

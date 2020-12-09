@@ -9,9 +9,9 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "@opentelemetry/api": "^0.10.2",
-    "@opentelemetry/core": "^0.10.2",
-    "@opentelemetry/metrics": "^0.10.2"
+    "@opentelemetry/api": "^0.12.0",
+    "@opentelemetry/core": "^0.12.0",
+    "@opentelemetry/metrics": "^0.12.0"
   },
   "devDependencies": {
     "@types/mocha": "^7.0.2",

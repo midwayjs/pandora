@@ -57,7 +57,10 @@ export default (ctx: PandoraContext) => {
     );
     const rpcResponseDurationRecorder = meter.createValueRecorder(
       RpcMetric.RESPONSE_DURATION,
-      { description: 'summary{0.5,0.75,0.9,0.99}', valueType: ValueType.DOUBLE }
+      {
+        description: 'histogram{100,300,500,1000}',
+        valueType: ValueType.DOUBLE,
+      }
     );
     const startTimeWeakMap = new WeakMap();
 

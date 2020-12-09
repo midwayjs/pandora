@@ -27,11 +27,11 @@
     "build/src/**/*.d.ts"
   ],
   "dependencies": {
-    "@opentelemetry/api": "^0.10.2",
-    "@opentelemetry/metrics": "^0.10.2",
+    "@opentelemetry/api": "^0.12.0",
+    "@opentelemetry/metrics": "^0.12.0",
     "@pandorajs/component-decorator": "^3.0.1",
     "@pandorajs/semantic-conventions": "^3.0.2",
-    "debug": "^4.1.1",
+    "debug": "^4.3.1",
     "systeminformation": "^4.26.10"
   }
 }

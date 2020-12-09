@@ -1,4 +1,4 @@
-import { Batcher, MetricRecord } from '@opentelemetry/metrics';
+import { Batcher } from '@opentelemetry/metrics';
 import {
   IIndicator,
   IndicatorScope,
@@ -8,20 +8,36 @@ import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/
 import SemanticTranslator from './SemanticTranslator';
 import { Resource } from '@opentelemetry/resources';
 import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
+import { AggregationTemporality, PlainMetricRecord } from './types';
 import { toCollectorMetric } from './transformMetrics';
-import { PlainMetricRecord } from './types';
+import createDebug from 'debug';
+
+const debug = createDebug('pandora:ArmsIndicator');
 
 export interface ArmsIndicatorInvokeQuery {
   action: 'list';
 }
 
-type NumberDataPoint =
-  | opentelemetryProto.metrics.v1.Int64DataPoint
-  | opentelemetryProto.metrics.v1.DoubleDataPoint;
+type DataPointType =
+  | 'intGauge'
+  | 'doubleGauge'
+  | 'intSum'
+  | 'doubleSum'
+  | 'intHistogram'
+  | 'doubleHistogram';
+
+const DataPointTypes: DataPointType[] = [
+  'intGauge',
+  'doubleGauge',
+  'intSum',
+  'doubleSum',
+  'intHistogram',
+  'doubleHistogram',
+];
+
 type DataPoint =
-  | NumberDataPoint
-  | opentelemetryProto.metrics.v1.HistogramDataPoint
-  | opentelemetryProto.metrics.v1.SummaryDataPoint;
+  | opentelemetryProto.metrics.v1.DataPoint
+  | opentelemetryProto.metrics.v1.HistogramDataPoint;
 
 export class ArmsBasicIndicator implements IIndicator {
   /** @implements */
@@ -46,6 +62,7 @@ export class ArmsBasicIndicator implements IIndicator {
           descriptor: it.descriptor,
           instrumentationLibrary: it.instrumentationLibrary,
           labels: it.labels,
+          aggregatorKind: it.aggregator.kind,
           point: it.aggregator.toPoint(),
           resource: it.resource,
         };
@@ -100,83 +117,111 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
    * @internal
    * @param metrics
    */
-  aggregateMetrics(metrics: opentelemetryProto.metrics.v1.Metric[]) {
+  private aggregateMetrics(metrics: opentelemetryProto.metrics.v1.Metric[]) {
     const aggregateMap = new Map<
       string,
       {
-        descriptor: opentelemetryProto.metrics.v1.MetricDescriptor;
-        labelMap: Map<string, DataPoint>;
+        metric: opentelemetryProto.metrics.v1.Metric;
+        temporality: AggregationTemporality;
+        monotonic: boolean;
+        dataPointMap: Map<string, DataPoint>;
       }
     >();
     for (const metric of metrics) {
-      let it = aggregateMap.get(metric.metricDescriptor.name);
+      let it = aggregateMap.get(metric.name);
       if (it == null) {
         it = {
-          descriptor: metric.metricDescriptor,
-          labelMap: new Map(),
+          metric,
+          temporality: this.getTemporality(metric),
+          monotonic: this.getMonotonicity(metric),
+          dataPointMap: new Map(),
         };
-        aggregateMap.set(metric.metricDescriptor.name, it);
+        debug('metric temporality: %s, %s', metric.name, it.temporality);
+        aggregateMap.set(metric.name, it);
       }
       const dataPoints = this.getDataPoints(metric);
       for (const dp of dataPoints) {
         const key = this.getLabelIndexKey(dp);
-        const adp = it.labelMap.get(key);
+        const adp = it.dataPointMap.get(key);
         if (adp == null) {
-          it.labelMap.set(key, dp);
+          it.dataPointMap.set(key, dp);
           continue;
         }
-        it.labelMap.set(key, this.mergeDataPoint(adp, dp));
+        it.dataPointMap.set(key, this.mergeDataPoint(adp, dp, it.temporality));
       }
     }
 
     const aggregatedMetrics: opentelemetryProto.metrics.v1.Metric[] = [];
-    for (const { descriptor, labelMap } of aggregateMap.values()) {
-      if (
-        descriptor.type ===
-        opentelemetryProto.metrics.v1.MetricDescriptorType.HISTOGRAM
-      ) {
+    for (const {
+      metric,
+      temporality,
+      monotonic,
+      dataPointMap: dataPointMap,
+    } of aggregateMap.values()) {
+      if (metric.intGauge) {
         aggregatedMetrics.push({
-          metricDescriptor: descriptor,
-          histogramDataPoints: Array.from(
-            labelMap.values()
-          ) as opentelemetryProto.metrics.v1.HistogramDataPoint[],
+          ...metric,
+          intGauge: {
+            dataPoints: Array.from(
+              dataPointMap.values()
+            ) as opentelemetryProto.metrics.v1.DataPoint[],
+          },
         });
       }
-      if (
-        descriptor.type ===
-        opentelemetryProto.metrics.v1.MetricDescriptorType.SUMMARY
-      ) {
+      if (metric.doubleGauge) {
         aggregatedMetrics.push({
-          metricDescriptor: descriptor,
-          summaryDataPoints: Array.from(
-            labelMap.values()
-          ) as opentelemetryProto.metrics.v1.SummaryDataPoint[],
+          ...metric,
+          doubleGauge: {
+            dataPoints: Array.from(
+              dataPointMap.values()
+            ) as opentelemetryProto.metrics.v1.DataPoint[],
+          },
         });
       }
-      if (
-        descriptor.type ===
-          opentelemetryProto.metrics.v1.MetricDescriptorType.DOUBLE ||
-        descriptor.type ===
-          opentelemetryProto.metrics.v1.MetricDescriptorType.MONOTONIC_DOUBLE
-      ) {
+      if (metric.intSum) {
         aggregatedMetrics.push({
-          metricDescriptor: descriptor,
-          doubleDataPoints: Array.from(
-            labelMap.values()
-          ) as opentelemetryProto.metrics.v1.DoubleDataPoint[],
+          ...metric,
+          intSum: {
+            dataPoints: Array.from(
+              dataPointMap.values()
+            ) as opentelemetryProto.metrics.v1.DataPoint[],
+            aggregationTemporality: temporality,
+            isMonotonic: monotonic,
+          },
         });
       }
-      if (
-        descriptor.type ===
-          opentelemetryProto.metrics.v1.MetricDescriptorType.INT64 ||
-        descriptor.type ===
-          opentelemetryProto.metrics.v1.MetricDescriptorType.MONOTONIC_INT64
-      ) {
+      if (metric.doubleSum) {
         aggregatedMetrics.push({
-          metricDescriptor: descriptor,
-          int64DataPoints: Array.from(
-            labelMap.values()
-          ) as opentelemetryProto.metrics.v1.Int64DataPoint[],
+          ...metric,
+          doubleSum: {
+            dataPoints: Array.from(
+              dataPointMap.values()
+            ) as opentelemetryProto.metrics.v1.DataPoint[],
+            aggregationTemporality: temporality,
+            isMonotonic: monotonic,
+          },
+        });
+      }
+      if (metric.intHistogram) {
+        aggregatedMetrics.push({
+          ...metric,
+          intHistogram: {
+            dataPoints: Array.from(
+              dataPointMap.values()
+            ) as opentelemetryProto.metrics.v1.HistogramDataPoint[],
+            aggregationTemporality: temporality,
+          },
+        });
+      }
+      if (metric.doubleHistogram) {
+        aggregatedMetrics.push({
+          ...metric,
+          doubleHistogram: {
+            dataPoints: Array.from(
+              dataPointMap.values()
+            ) as opentelemetryProto.metrics.v1.HistogramDataPoint[],
+            aggregationTemporality: temporality,
+          },
         });
       }
     }
@@ -192,46 +237,64 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
     return index;
   }
 
+  private getTemporality(
+    metric: opentelemetryProto.metrics.v1.Metric
+  ): AggregationTemporality {
+    let temporality;
+    for (const key of DataPointTypes) {
+      const it = (metric[key] as opentelemetryProto.metrics.v1.Sum)
+        ?.aggregationTemporality;
+      if (it) {
+        temporality = it;
+        break;
+      }
+    }
+    return temporality ?? AggregationTemporality.AGGREGATION_TEMPORALITY_DELTA;
+  }
+
+  private getMonotonicity(
+    metric: opentelemetryProto.metrics.v1.Metric
+  ): boolean {
+    let monotonic;
+    for (const key of ['intSum', 'doubleSum']) {
+      const it = (metric[key] as opentelemetryProto.metrics.v1.Sum)
+        ?.isMonotonic;
+      if (it) {
+        monotonic = it;
+        break;
+      }
+    }
+    return monotonic ?? false;
+  }
+
   private getDataPoints(
     metric: opentelemetryProto.metrics.v1.Metric
   ): DataPoint[] {
     return (
-      metric.int64DataPoints ??
-      metric.doubleDataPoints ??
-      metric.histogramDataPoints ??
-      metric.summaryDataPoints
-    );
+      metric.intGauge ??
+      metric.doubleGauge ??
+      metric.intSum ??
+      metric.doubleSum ??
+      metric.intHistogram ??
+      metric.doubleHistogram
+    ).dataPoints;
   }
 
-  private mergeDataPoint(lhs: DataPoint, rhs: DataPoint): DataPoint {
-    if (isSummaryDataPoint(lhs) && isSummaryDataPoint(rhs)) {
-      return {
-        ...lhs,
-        count: lhs.count + rhs.count,
-        sum: lhs.sum + rhs.sum,
-        percentileValues: lhs.percentileValues.map(it => {
-          return {
-            ...it,
-            // TODO:
-            value:
-              (it.value +
-                rhs.percentileValues.find(
-                  rit => rit.percentile === it.percentile
-                ).value) /
-              2,
-          };
-        }),
-      };
+  private mergeDataPoint(
+    lhs: DataPoint,
+    rhs: DataPoint,
+    temporality: AggregationTemporality
+  ): DataPoint {
+    if (temporality === AggregationTemporality.AGGREGATION_TEMPORALITY_DELTA) {
+      return lhs;
     }
     if (isHistogramDataPoint(lhs) && isHistogramDataPoint(rhs)) {
       return {
         ...lhs,
         count: lhs.count + rhs.count,
         sum: lhs.sum + rhs.sum,
-        buckets: lhs.buckets.map((it, idx) => {
-          return {
-            count: it.count + rhs.buckets[idx].count,
-          };
+        bucketCounts: lhs.bucketCounts.map((it, idx) => {
+          return it + rhs.bucketCounts[idx];
         }),
         explicitBounds: lhs.explicitBounds,
       };
@@ -246,8 +309,12 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
   }
 }
 
-function isNumberDataPoints(dp: DataPoint): dp is NumberDataPoint {
-  return typeof (dp as NumberDataPoint).value === 'number';
+function isNumberDataPoints(
+  dp: DataPoint
+): dp is opentelemetryProto.metrics.v1.DataPoint {
+  return (
+    typeof (dp as opentelemetryProto.metrics.v1.DataPoint).value === 'number'
+  );
 }
 
 function isHistogramDataPoint(
@@ -255,18 +322,10 @@ function isHistogramDataPoint(
 ): dp is opentelemetryProto.metrics.v1.HistogramDataPoint {
   return (
     Array.isArray(
-      (dp as opentelemetryProto.metrics.v1.HistogramDataPoint).buckets
+      (dp as opentelemetryProto.metrics.v1.HistogramDataPoint).bucketCounts
     ) ||
     Array.isArray(
       (dp as opentelemetryProto.metrics.v1.HistogramDataPoint).explicitBounds
     )
-  );
-}
-
-function isSummaryDataPoint(
-  dp: DataPoint
-): dp is opentelemetryProto.metrics.v1.SummaryDataPoint {
-  return Array.isArray(
-    (dp as opentelemetryProto.metrics.v1.SummaryDataPoint).percentileValues
   );
 }

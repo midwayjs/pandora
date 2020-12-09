@@ -1,6 +1,10 @@
 import * as grpc from 'grpc';
 import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
-import { MetricDescriptor, Point } from '@opentelemetry/metrics';
+import {
+  AggregatorKind,
+  MetricDescriptor,
+  Point,
+} from '@opentelemetry/metrics';
 import { Labels } from '@opentelemetry/api';
 import { InstrumentationLibrary } from '@opentelemetry/core';
 import { Resource } from '@opentelemetry/resources';
@@ -10,6 +14,11 @@ export interface ServiceInstance {
   startTimestamp: number;
 }
 
+export interface StringMeta {
+  resource: opentelemetryProto.resource.v1.Resource;
+  id: string;
+  value: string;
+}
 export interface BatchStringMeta {
   resource: opentelemetryProto.resource.v1.Resource;
   metas: opentelemetryProto.common.v1.StringKeyValue[];
@@ -38,9 +47,9 @@ export interface ErrorResponse extends Error {
   details: string;
 }
 
-export interface ArmsRegisterClient {
-  registerServiceInstance(
-    serviceInstance: ServiceInstance,
+export interface ArmsMetaDataRegister {
+  registerStringMeta(
+    batchStringMeta: StringMeta,
     metadata: grpc.Metadata | undefined,
     callback: (error: Error, response: Response) => void
   ): unknown;
@@ -51,10 +60,24 @@ export interface ArmsRegisterClient {
   ): unknown;
 }
 
+export interface ArmsServiceRegister {
+  registerServiceInstance(
+    serviceInstance: ServiceInstance,
+    metadata: grpc.Metadata | undefined,
+    callback: (error: Error, response: Response) => void
+  ): unknown;
+}
+
+export type AnyPoint = Point<any>;
 export interface PlainMetricRecord {
   readonly descriptor: MetricDescriptor;
   readonly labels: Labels;
-  readonly point: Point;
+  readonly aggregatorKind: AggregatorKind;
+  readonly point: AnyPoint;
   readonly resource: Resource;
   readonly instrumentationLibrary: InstrumentationLibrary;
 }
+
+export type AggregationTemporality = opentelemetryProto.metrics.v1.AggregationTemporality;
+export const AggregationTemporality =
+  opentelemetryProto.metrics.v1.AggregationTemporality;

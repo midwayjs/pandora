@@ -31,6 +31,6 @@
     "@pandorajs/component-decorator": "^3.0.1",
     "@pandorajs/hub": "^3.0.1",
     "@pandorajs/semantic-conventions": "^3.0.2",
-    "debug": "^4.1.1"
+    "debug": "^4.3.1"
   }
 }
