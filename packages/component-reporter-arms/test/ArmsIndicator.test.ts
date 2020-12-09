@@ -67,8 +67,8 @@ describe('ArmsIndicator', () => {
       );
       const metric = result.instrumentationLibraryMetrics[0].metrics[0];
       assert.strictEqual(metric.name, 'arms_http_requests_by_status_total');
-      assert.strictEqual(metric.intSum.dataPoints.length, 1);
-      const dp = metric.intSum.dataPoints[0];
+      assert.strictEqual(metric.intGauge.dataPoints.length, 1);
+      const dp = metric.intGauge.dataPoints[0];
       assert.deepStrictEqual(dp.labels, [
         {
           key: 'rpc',
@@ -79,7 +79,10 @@ describe('ArmsIndicator', () => {
           value: '200',
         },
       ]);
-      assert.deepStrictEqual(dp.value, 2);
+      /**
+       * TestBatcher > LastValueAggregator
+       */
+      assert.deepStrictEqual(dp.value, 1);
     });
   });
 });
