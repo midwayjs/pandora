@@ -6,6 +6,7 @@ import {
 import { BasicTracerProvider } from '@opentelemetry/tracing';
 import { MultiSpanProcessor } from './SpanProcessor';
 import * as api from '@opentelemetry/api';
+import { TracerProvider } from '@opentelemetry/api';
 
 @componentName('trace')
 @dependencies(['indicator'])
@@ -24,13 +25,14 @@ export default class ComponentTrace {
     this.spanProcessor = new MultiSpanProcessor();
     ctx.spanProcessor = this.spanProcessor;
 
-    let tracerProvider = this.ctx.config.trace.tracerProvider;
+    let tracerProvider: BasicTracerProvider = this.ctx.config.trace
+      .tracerProvider;
     if (tracerProvider == null) {
       tracerProvider = new BasicTracerProvider({
         resource: this.ctx.resource,
       });
-      tracerProvider.register({});
     }
+    tracerProvider.register?.({});
     tracerProvider.addSpanProcessor(this.spanProcessor);
     this.ctx.tracerProvider = this.tracerProvider = tracerProvider;
     api.trace.setGlobalTracerProvider(tracerProvider);
