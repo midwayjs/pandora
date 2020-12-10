@@ -7,15 +7,22 @@ import {
 import { opentelemetryProto } from '@opentelemetry/exporter-collector/build/src/types';
 import SemanticTranslator from './SemanticTranslator';
 import { Resource } from '@opentelemetry/resources';
-import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
+import {
+  groupSpansByResourceAndLibrary,
+  toCollectorResource,
+} from '@opentelemetry/exporter-collector/build/src/transform';
 import { AggregationTemporality, PlainMetricRecord } from './types';
 import { toCollectorMetric } from './transformMetrics';
 import createDebug from 'debug';
+import { BufferSpanExporter } from './BufferSpanExporter';
+import { toCollectorResourceSpans } from './transformSpans';
+import { sum } from './util';
 
-const debug = createDebug('pandora:ArmsIndicator');
+const DEBUG = 'pandora:ArmsIndicator';
+const debug = createDebug(DEBUG);
 
 export interface ArmsIndicatorInvokeQuery {
-  action: 'list';
+  action: 'get-metrics' | 'get-trace-spans';
 }
 
 type DataPointType =
@@ -39,6 +46,8 @@ type DataPoint =
   | opentelemetryProto.metrics.v1.DataPoint
   | opentelemetryProto.metrics.v1.HistogramDataPoint;
 
+type CollectorResourceSpans = opentelemetryProto.trace.v1.ResourceSpans;
+
 export class ArmsBasicIndicator implements IIndicator {
   /** @implements */
   public group = 'arms';
@@ -47,6 +56,7 @@ export class ArmsBasicIndicator implements IIndicator {
 
   constructor(
     protected batcher: Batcher,
+    protected spanProcessor: BufferSpanExporter,
     protected indicatorManager: IndicatorManager,
     protected resource: Resource = new Resource({})
   ) {}
@@ -54,8 +64,8 @@ export class ArmsBasicIndicator implements IIndicator {
   /** @implements */
   async invoke(
     query: ArmsIndicatorInvokeQuery
-  ): Promise<PlainMetricRecord[] | undefined> {
-    if (query.action === 'list') {
+  ): Promise<PlainMetricRecord[] | CollectorResourceSpans[] | undefined> {
+    if (query.action === 'get-metrics') {
       const records = this.batcher.checkPointSet();
       return records.map(it => {
         return {
@@ -68,6 +78,11 @@ export class ArmsBasicIndicator implements IIndicator {
         };
       });
     }
+    if (query.action === 'get-trace-spans') {
+      const spans = this.spanProcessor.move();
+      const groupedSpans = groupSpansByResourceAndLibrary(spans);
+      return toCollectorResourceSpans(groupedSpans, this.resource.attributes);
+    }
     return undefined;
   }
 }
@@ -78,18 +93,19 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
 
   constructor(
     batcher: Batcher,
+    protected spanProcessor: BufferSpanExporter,
     indicatorManager: IndicatorManager,
     private translator: SemanticTranslator,
     resource: Resource = new Resource({})
   ) {
-    super(batcher, indicatorManager, resource);
+    super(batcher, spanProcessor, indicatorManager, resource);
   }
 
   async getResourceMetrics(): Promise<
     opentelemetryProto.metrics.v1.ResourceMetrics
   > {
     const result = await this.indicatorManager.invokeAllProcesses(this.group, {
-      action: 'list',
+      action: 'get-metrics',
     });
 
     let records = result.reduce(
@@ -103,6 +119,13 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
     );
     const aggregatedMetrics = this.aggregateMetrics(collectorMetrics);
 
+    if (createDebug.enabled(DEBUG)) {
+      debug(
+        'export metrics',
+        aggregatedMetrics.map(it => it.name)
+      );
+    }
+
     return {
       resource: toCollectorResource(this.resource),
       instrumentationLibraryMetrics: [
@@ -111,6 +134,27 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
         },
       ],
     };
+  }
+
+  async getResourceSpans(): Promise<CollectorResourceSpans[]> {
+    const result = await this.indicatorManager.invokeAllProcesses(this.group, {
+      action: 'get-trace-spans',
+    });
+
+    const resourceSpans = result.reduce(
+      (accu, item) => accu.concat(item.data),
+      [] as CollectorResourceSpans[]
+    );
+
+    if (createDebug.enabled(DEBUG)) {
+      debug(
+        'export span count',
+        sum(resourceSpans, it =>
+          sum(it.instrumentationLibrarySpans, it => it.spans.length)
+        )
+      );
+    }
+    return resourceSpans;
   }
 
   /**
@@ -136,7 +180,6 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
           monotonic: this.getMonotonicity(metric),
           dataPointMap: new Map(),
         };
-        debug('metric temporality: %s, %s', metric.name, it.temporality);
         aggregateMap.set(metric.name, it);
       }
       const dataPoints = this.getDataPoints(metric);

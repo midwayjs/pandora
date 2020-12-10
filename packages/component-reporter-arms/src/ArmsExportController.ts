@@ -1,4 +1,4 @@
-import { initWithGrpc } from './util';
+import { initWithGrpc, sum } from './util';
 import { toCollectorResource } from '@opentelemetry/exporter-collector/build/src/transform';
 import { Resource } from '@opentelemetry/resources';
 import * as os from 'os';
@@ -12,6 +12,7 @@ import ArmsIndicator from './ArmsIndicator';
 import { ArmsConfig } from './ComponentArmsReporter';
 import * as createDebug from 'debug';
 import { ArmsMetricExporter } from './ArmsMetricExporter';
+import { ArmsTraceExporter } from './ArmsTraceExporter';
 
 const debug = createDebug('pandora:arms');
 
@@ -24,6 +25,7 @@ export default class ArmsExportController {
   private authorization: string;
 
   private metricExporter: ArmsMetricExporter;
+  private traceExporter: ArmsTraceExporter;
 
   private startTimestamp = Date.now();
   private registrationTimer: ReturnType<typeof setInterval>;
@@ -46,6 +48,10 @@ export default class ArmsExportController {
     );
 
     this.metricExporter = new ArmsMetricExporter({
+      url: this.config.endpoint,
+      metadata: this.getAuthorizationMetadata(),
+    });
+    this.traceExporter = new ArmsTraceExporter({
       url: this.config.endpoint,
       metadata: this.getAuthorizationMetadata(),
     });
@@ -99,6 +105,11 @@ export default class ArmsExportController {
         },
         this.getAuthorizationMetadata(),
         (error, response) => {
+          debug(
+            'register service instance result(error: %s, response: %s)',
+            error,
+            response
+          );
           if (error != null || !response.success) {
             return reject(error || new Error(response.msg));
           }
@@ -109,17 +120,18 @@ export default class ArmsExportController {
   }
 
   private async collect(armsIndicator: ArmsIndicator) {
-    await Promise.all([this.collectMetrics(armsIndicator)]);
+    await Promise.all([
+      this.collectMetrics(armsIndicator),
+      this.collectTraceSpans(armsIndicator),
+    ]);
   }
 
   private async collectMetrics(armsIndicator: ArmsIndicator) {
     const resourceMetric = await armsIndicator.getResourceMetrics();
-    debug('collected metrics', resourceMetric);
     if (
-      resourceMetric.instrumentationLibraryMetrics.length === 0 ||
-      resourceMetric.instrumentationLibraryMetrics.reduce(
-        (curr, it) => ((curr += it.metrics.length), curr),
-        0
+      sum(
+        resourceMetric.instrumentationLibraryMetrics,
+        it => it.metrics.length
       ) === 0
     ) {
       debug('no metrics collected, skipping');
@@ -129,6 +141,27 @@ export default class ArmsExportController {
       [resourceMetric],
       () => {
         debug('collector metric exported');
+      },
+      error => {
+        debug('collector error', error);
+      }
+    );
+  }
+
+  private async collectTraceSpans(armsIndicator: ArmsIndicator) {
+    const resourceSpans = await armsIndicator.getResourceSpans();
+    if (
+      sum(resourceSpans, it =>
+        sum(it.instrumentationLibrarySpans, it => it.spans.length)
+      ) === 0
+    ) {
+      debug('no spans collected, skipping');
+      return;
+    }
+    this.traceExporter.send(
+      resourceSpans,
+      () => {
+        debug('collector span exported');
       },
       error => {
         debug('collector error', error);

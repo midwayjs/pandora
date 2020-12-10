@@ -12,6 +12,7 @@ import { ValueType } from '@opentelemetry/api';
 import SemanticTranslator from '../src/SemanticTranslator';
 import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
 import { TestArmsExportController } from './util';
+import { BufferSpanExporter } from '../src/BufferSpanExporter';
 
 describe('ArmsIndicator', () => {
   const semanticTranslator = new SemanticTranslator(
@@ -21,14 +22,17 @@ describe('ArmsIndicator', () => {
     it('should aggregate int64 data point', async () => {
       const indicatorManager = new IndicatorManager({});
       const meterProvider1 = new TestMeterProvider();
+      const spanExporter = new BufferSpanExporter();
       const indicator1 = new ArmsIndicator(
         meterProvider1.batcher,
+        spanExporter,
         indicatorManager,
         semanticTranslator
       );
       const meterProvider2 = new TestMeterProvider();
       const indicator2 = new ArmsIndicator(
         meterProvider2.batcher,
+        spanExporter,
         indicatorManager,
         semanticTranslator
       );

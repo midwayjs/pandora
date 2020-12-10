@@ -7,6 +7,7 @@ import { Resource } from '@opentelemetry/resources';
 import { resolvePrimaryNetworkInterfaceIPv4Addr } from './util';
 import SemanticTranslator from './SemanticTranslator';
 import { ArmsMetaStringRegistry } from './ArmsMetaStringRegistry';
+import { BufferSpanExporter } from './BufferSpanExporter';
 
 export interface ArmsConfig {
   licenseKey?: string;
@@ -39,8 +40,12 @@ export default class ComponentArmsReporter {
     const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
     const batcher: Batcher = this.ctx.metricsBatcher;
 
+    const bufferSpanExporter = new BufferSpanExporter();
+    this.ctx.spanProcessor.addSpanExporter(bufferSpanExporter);
+
     this.armsIndicator = new ArmsBasicIndicator(
       batcher,
+      bufferSpanExporter,
       indicatorManager,
       new Resource({
         'service.name': this.config.serviceName,
@@ -62,8 +67,13 @@ export default class ComponentArmsReporter {
 
     const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
     const batcher: Batcher = this.ctx.metricsBatcher;
+
+    const bufferSpanExporter = new BufferSpanExporter();
+    this.ctx.spanProcessor.addSpanExporter(bufferSpanExporter);
+
     const armsIndicator = new ArmsIndicator(
       batcher,
+      bufferSpanExporter,
       indicatorManager,
       semanticTranslator,
       new Resource({

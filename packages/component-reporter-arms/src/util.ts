@@ -78,3 +78,11 @@ export function resolvePrimaryNetworkInterfaceIPv4Addr(): string | undefined {
   }
   return undefined;
 }
+
+export function sum<T>(array: T[], mapper: (it: T) => number): number {
+  let count = 0;
+  for (const item of array) {
+    count += mapper(item);
+  }
+  return count;
+}
