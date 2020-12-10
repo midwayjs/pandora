@@ -49,9 +49,6 @@ export default class ArmsExportController {
       url: this.config.endpoint,
       metadata: this.getAuthorizationMetadata(),
     });
-      url: this.config.endpoint,
-      metadata: this.getAuthorizationMetadata(),
-    });
   }
 
   start(armsIndicator: ArmsIndicator) {
