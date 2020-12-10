@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-file-logger-service",
-  "version": "3.0.1",
+  "version": "3.1.0-alpha.0",
   "description": "Pandora 2 Component File Logger Service",
   "main": "build/src/ComponentFileLoggerService.js",
   "typings": "build/src/ComponentFileLoggerService.d.ts",
@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@pandorajs/component-ipc-hub": "^3.0.1",
+    "@pandorajs/component-ipc-hub": "^3.1.0-alpha.0",
     "@types/chai": "^3.5.2",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@pandorajs/component-decorator": "^3.0.1",
     "@pandorajs/dollar": "^3.0.1",
-    "@pandorajs/messenger": "^3.0.1",
+    "@pandorajs/messenger": "^3.1.0-alpha.0",
     "co": "^4.6.0",
     "egg-logger": "1.6.1",
     "humanize-ms": "^1.2.1",

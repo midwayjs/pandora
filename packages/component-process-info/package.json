@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-process-info",
-  "version": "3.0.1",
+  "version": "3.1.0-alpha.0",
   "description": "Pandora 2 Component Process Info",
   "main": "build/src/ComponentProcessInfo",
   "typings": "build/src/ComponentProcessInfo.d.ts",
@@ -17,8 +17,8 @@
   "license": "MIT",
   "devDependencies": {
     "@pandorajs/component-actuator-server": "^3.0.1",
-    "@pandorajs/component-indicator": "^3.0.1",
-    "@pandorajs/component-ipc-hub": "^3.0.1",
+    "@pandorajs/component-indicator": "^3.1.0-alpha.0",
+    "@pandorajs/component-ipc-hub": "^3.1.0-alpha.0",
     "@types/chai": "^4.1.7",
     "@types/extend": "^3.0.0",
     "@types/mocha": "^7.0.2",
