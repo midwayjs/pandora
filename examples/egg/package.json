@@ -1,11 +1,11 @@
 {
   "name": "egg-example",
-  "version": "3.1.0-alpha.0",
+  "version": "3.1.0-alpha.1",
   "description": "",
   "private": true,
   "dependencies": {
-    "@pandorajs/component-reporter-arms": "^3.1.0-alpha.0",
-    "@pandorajs/egg-pandora": "^3.1.0-alpha.0",
+    "@pandorajs/component-reporter-arms": "^3.1.0-alpha.1",
+    "@pandorajs/egg-pandora": "^3.1.0-alpha.1",
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0"
   },
