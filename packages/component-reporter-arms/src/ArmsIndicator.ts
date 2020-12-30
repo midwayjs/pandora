@@ -17,13 +17,21 @@ import createDebug from 'debug';
 import { BufferSpanExporter } from './BufferSpanExporter';
 import { toCollectorResourceSpans } from './transformSpans';
 import { sum } from './util';
+import { TraceIdRatioBasedSampler } from '@pandorajs/component-trace';
 
 const DEBUG = 'pandora:ArmsIndicator';
 const debug = createDebug(DEBUG);
 
-export interface ArmsIndicatorInvokeQuery {
+interface ArmsIndicatorInvokeNaiveQuery {
   action: 'get-metrics' | 'get-trace-spans';
 }
+interface ArmsIndicatorInvokeSetQuery {
+  action: 'set-sampling';
+  ratio: number;
+}
+export type ArmsIndicatorInvokeQuery =
+  | ArmsIndicatorInvokeNaiveQuery
+  | ArmsIndicatorInvokeSetQuery;
 
 type DataPointType =
   | 'intGauge'
@@ -56,6 +64,7 @@ export class ArmsBasicIndicator implements IIndicator {
 
   constructor(
     protected batcher: Batcher,
+    protected sampler: TraceIdRatioBasedSampler,
     protected spanProcessor: BufferSpanExporter,
     protected indicatorManager: IndicatorManager,
     protected resource: Resource = new Resource({})
@@ -83,6 +92,9 @@ export class ArmsBasicIndicator implements IIndicator {
       const groupedSpans = groupSpansByResourceAndLibrary(spans);
       return toCollectorResourceSpans(groupedSpans, this.resource.attributes);
     }
+    if (query.action === 'set-sampling') {
+      this.sampler.setRatio(query.ratio);
+    }
     return undefined;
   }
 }
@@ -93,12 +105,13 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
 
   constructor(
     batcher: Batcher,
+    sampler: TraceIdRatioBasedSampler,
     protected spanProcessor: BufferSpanExporter,
     indicatorManager: IndicatorManager,
     private translator: SemanticTranslator,
     resource: Resource = new Resource({})
   ) {
-    super(batcher, spanProcessor, indicatorManager, resource);
+    super(batcher, sampler, spanProcessor, indicatorManager, resource);
   }
 
   async getResourceMetrics(): Promise<
@@ -155,6 +168,13 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
       );
     }
     return resourceSpans;
+  }
+
+  async setSampling(enabled: boolean, ratio: number) {
+    await this.indicatorManager.invokeAllProcesses(this.group, {
+      action: 'set-sampling',
+      ratio: enabled ? ratio : 0,
+    });
   }
 
   /**

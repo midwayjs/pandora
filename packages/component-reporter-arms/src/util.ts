@@ -20,7 +20,7 @@ export function initWithGrpc(
   ];
 
   return protoLoader
-    .load('opentelemetry/proto/arms/arms_service.proto', {
+    .load('com/alibaba/arms/base/arms_service.proto', {
       keepCase: false,
       longs: String,
       enums: String,

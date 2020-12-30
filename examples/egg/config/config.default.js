@@ -29,6 +29,7 @@ module.exports = appInfo => {
       },
       trace: {
         plugins: {
+          dns: { enabled: false },
           grpc: { enabled: false },
           '@grpc/grpc-js': { enabled: false },
         },

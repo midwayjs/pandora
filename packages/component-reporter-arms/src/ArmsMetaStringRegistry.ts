@@ -44,7 +44,12 @@ export class ArmsMetaStringRegistry {
   }
 
   private registerBatch() {
-    debug('[MetaString] register batch');
+    debug(
+      '[MetaString] register batch, pending(%d, %d, registering: %d)',
+      this.pendingIds.size,
+      this.bufferSize,
+      this.registeringIds.size
+    );
     if (
       this.pendingIds.size >= this.bufferSize &&
       this.registeringIds.size === 0
@@ -52,6 +57,7 @@ export class ArmsMetaStringRegistry {
       this.doRegisterBatch();
       return;
     }
+    debug('[MetaString] buffer not full, awaiting');
 
     this.timer = setTimeout(() => {
       this.doRegisterBatch();
@@ -87,8 +93,10 @@ export class ArmsMetaStringRegistry {
     } catch (e) {
       debug('[MetaString] register batch result', e);
       this.mergePendings(pendingStringMeta);
+      this.registeringIds = new Set();
       return;
     }
+    debug('[MetaString] register batch succeeded');
     for (const id of this.registeringIds.values()) {
       this.registeredIds.add(id);
     }

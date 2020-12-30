@@ -41,6 +41,10 @@ export interface Response {
   msg: string;
 }
 
+export interface RegisterServiceInstanceResp extends Response {
+  pid: string;
+}
+
 export interface ErrorResponse extends Error {
   code: Code;
   metadata: grpc.Metadata;
@@ -64,7 +68,7 @@ export interface ArmsServiceRegister {
   registerServiceInstance(
     serviceInstance: ServiceInstance,
     metadata: grpc.Metadata | undefined,
-    callback: (error: Error, response: Response) => void
+    callback: (error: Error, response: RegisterServiceInstanceResp) => void
   ): unknown;
 }
 

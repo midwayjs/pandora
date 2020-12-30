@@ -63,6 +63,13 @@ message Response {
     string msg = 3;
 }
 
+message RegisterServiceInstanceResp {
+    bool success = 1;
+    Code code = 2;
+    string msg = 3;
+    string pid = 4;
+}
+
 service ArmsMetaDataRegister {
 
     //注册编码字符串
@@ -77,6 +84,6 @@ service ArmsMetaDataRegister {
 service ArmsServiceRegister {
 
     //注册服务实例
-    rpc registerServiceInstance (ServiceInstance) returns (Response) {
+    rpc registerServiceInstance (ServiceInstance) returns (RegisterServiceInstanceResp) {
     }
 }

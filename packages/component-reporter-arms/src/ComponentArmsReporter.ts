@@ -8,8 +8,10 @@ import { resolvePrimaryNetworkInterfaceIPv4Addr } from './util';
 import SemanticTranslator from './SemanticTranslator';
 import { ArmsMetaStringRegistry } from './ArmsMetaStringRegistry';
 import { BufferSpanExporter } from './BufferSpanExporter';
+import { TraceIdRatioBasedSampler } from '@pandorajs/component-trace';
 
 export interface ArmsConfig {
+  userId?: string;
   licenseKey?: string;
   serviceName?: string;
   endpoint: string;
@@ -39,12 +41,14 @@ export default class ComponentArmsReporter {
   async start() {
     const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
     const batcher: Batcher = this.ctx.metricsBatcher;
+    const sampler: TraceIdRatioBasedSampler = this.ctx.sampler;
 
     const bufferSpanExporter = new BufferSpanExporter();
     this.ctx.spanProcessor.addSpanExporter(bufferSpanExporter);
 
     this.armsIndicator = new ArmsBasicIndicator(
       batcher,
+      sampler,
       bufferSpanExporter,
       indicatorManager,
       new Resource({
@@ -67,12 +71,14 @@ export default class ComponentArmsReporter {
 
     const indicatorManager: IndicatorManager = this.ctx.indicatorManager;
     const batcher: Batcher = this.ctx.metricsBatcher;
+    const sampler: TraceIdRatioBasedSampler = this.ctx.sampler;
 
     const bufferSpanExporter = new BufferSpanExporter();
     this.ctx.spanProcessor.addSpanExporter(bufferSpanExporter);
 
     const armsIndicator = new ArmsIndicator(
       batcher,
+      sampler,
       bufferSpanExporter,
       indicatorManager,
       semanticTranslator,

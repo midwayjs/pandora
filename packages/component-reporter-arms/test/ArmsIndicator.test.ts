@@ -13,6 +13,7 @@ import SemanticTranslator from '../src/SemanticTranslator';
 import { ArmsMetaStringRegistry } from '../src/ArmsMetaStringRegistry';
 import { TestArmsExportController } from './util';
 import { BufferSpanExporter } from '../src/BufferSpanExporter';
+import { TraceIdRatioBasedSampler } from '@pandorajs/component-trace';
 
 describe('ArmsIndicator', () => {
   const semanticTranslator = new SemanticTranslator(
@@ -22,9 +23,11 @@ describe('ArmsIndicator', () => {
     it('should aggregate int64 data point', async () => {
       const indicatorManager = new IndicatorManager({});
       const meterProvider1 = new TestMeterProvider();
+      const sampler = new TraceIdRatioBasedSampler();
       const spanExporter = new BufferSpanExporter();
       const indicator1 = new ArmsIndicator(
         meterProvider1.batcher,
+        sampler,
         spanExporter,
         indicatorManager,
         semanticTranslator
@@ -32,6 +35,7 @@ describe('ArmsIndicator', () => {
       const meterProvider2 = new TestMeterProvider();
       const indicator2 = new ArmsIndicator(
         meterProvider2.batcher,
+        sampler,
         spanExporter,
         indicatorManager,
         semanticTranslator

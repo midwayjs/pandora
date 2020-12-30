@@ -13,6 +13,7 @@ import { ArmsConfig } from './ComponentArmsReporter';
 import * as createDebug from 'debug';
 import { ArmsMetricExporter } from './ArmsMetricExporter';
 import { ArmsTraceExporter } from './ArmsTraceExporter';
+import ControlChannel, { ControlConfig } from './ControlChannel';
 
 const debug = createDebug('pandora:arms');
 
@@ -26,26 +27,18 @@ export default class ArmsExportController {
 
   private metricExporter: ArmsMetricExporter;
   private traceExporter: ArmsTraceExporter;
+  private controlChannel = new ControlChannel();
 
   private startTimestamp = Date.now();
   private registrationTimer: ReturnType<typeof setInterval>;
   private collectionTimer: ReturnType<typeof setInterval>;
 
+  private registered = false;
+
   constructor(private config: ArmsConfig) {
     this.authorization = Buffer.from(
-      `${this.config.serviceName}@nodejs:${this.config.licenseKey}`
+      `${this.config.userId}:${this.config.licenseKey}`
     ).toString('base64');
-  }
-
-  async register() {
-    [this.serviceRegister, this.metadataRegister] = await initWithGrpc(
-      this.config.endpoint
-    );
-    await this.registerServiceInstance();
-    this.registrationTimer = setInterval(
-      () => this.registerServiceInstance(),
-      60_000 /** 1min */
-    );
 
     this.metricExporter = new ArmsMetricExporter({
       url: this.config.endpoint,
@@ -57,7 +50,31 @@ export default class ArmsExportController {
     });
   }
 
+  async register() {
+    [this.serviceRegister, this.metadataRegister] = await initWithGrpc(
+      this.config.endpoint
+    );
+    this.registerServiceInstance().catch(e => {
+      debug('arms registration failed', e);
+    });
+
+    clearInterval(this.registrationTimer);
+    this.registrationTimer = setInterval(
+      () =>
+        this.registerServiceInstance().catch(e => {
+          debug('arms registration failed', e);
+        }),
+      60_000 /** 1min */
+    );
+  }
+
   start(armsIndicator: ArmsIndicator) {
+    this.controlChannel.addListener(
+      'data',
+      this.controlChannelUpdate.bind(this, armsIndicator)
+    );
+
+    clearInterval(this.collectionTimer);
     this.collectionTimer = setInterval(async () => {
       this.collect(armsIndicator);
     }, this.config.interval ?? 15_000 /** 15s */);
@@ -69,7 +86,10 @@ export default class ArmsExportController {
   }
 
   registerBatchStringMeta(batchStringMeta: BatchStringMeta) {
-    return new Promise((resolve, reject) => {
+    if (!this.registered) {
+      return Promise.reject(new Error('arms registration not complete yet'));
+    }
+    return new Promise<void>((resolve, reject) => {
       this.metadataRegister.registerBatchStringMeta(
         batchStringMeta,
         this.getAuthorizationMetadata(),
@@ -89,8 +109,8 @@ export default class ArmsExportController {
     return metadata;
   }
 
-  private registerServiceInstance() {
-    return new Promise((resolve, reject) => {
+  private async registerServiceInstance() {
+    const pid = await new Promise<string>((resolve, reject) => {
       this.serviceRegister.registerServiceInstance(
         {
           resource: toCollectorResource(
@@ -111,15 +131,34 @@ export default class ArmsExportController {
             response
           );
           if (error != null || !response.success) {
+            this.registered = false;
             return reject(error || new Error(response.msg));
           }
-          resolve();
+          this.registered = true;
+          resolve(response.pid);
         }
       );
     });
+
+    await this.controlChannel.updateCredential(pid);
+  }
+
+  private async controlChannelUpdate(
+    armsIndicator: ArmsIndicator,
+    data: ControlConfig
+  ) {
+    if (data.profiler.sampling) {
+      armsIndicator.setSampling(
+        data.profiler.sampling.enable,
+        data.profiler.sampling.rate
+      );
+    }
   }
 
   private async collect(armsIndicator: ArmsIndicator) {
+    if (!this.registered) {
+      return;
+    }
     await Promise.all([
       this.collectMetrics(armsIndicator),
       this.collectTraceSpans(armsIndicator),

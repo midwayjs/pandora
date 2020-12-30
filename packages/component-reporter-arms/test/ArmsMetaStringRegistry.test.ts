@@ -18,6 +18,7 @@ describe('ArmsMetaStringRegistry', () => {
     sinon.restore();
   });
   it('.getMetaIdForString()', async () => {
+    await armsExportController.register();
     const registry = new ArmsMetaStringRegistry('foo', armsExportController);
     const id1 = registry.getMetaIdForString('foobar');
     const id2 = registry.getMetaIdForString('foobar');
@@ -27,6 +28,7 @@ describe('ArmsMetaStringRegistry', () => {
 
   it('should upload meta strings on buffer full', async () => {
     const timer = sinon.useFakeTimers();
+    await armsExportController.register();
     const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
     const stub = sinon.stub(armsMetadataRegister, 'registerBatchStringMeta');
 
@@ -60,6 +62,7 @@ describe('ArmsMetaStringRegistry', () => {
 
   it('should not upload during another upload', async () => {
     const timer = sinon.useFakeTimers();
+    await armsExportController.register();
     const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
     const stub = sinon.stub(armsMetadataRegister, 'registerBatchStringMeta');
 
@@ -91,5 +94,37 @@ describe('ArmsMetaStringRegistry', () => {
     stub.yield(null, { success: true });
     await timer.tickAsync(1);
     assert(registry['registeredIds'].has(foobarId3));
+  });
+
+  it('should re-buffer failed uploads', async () => {
+    const timer = sinon.useFakeTimers();
+
+    const registerBatchStringMetaStub = sinon.stub(
+      armsMetadataRegister,
+      'registerBatchStringMeta'
+    );
+
+    const registry = new ArmsMetaStringRegistry('foo', armsExportController, 1);
+
+    armsServiceRegister.setFailure(true);
+    await armsExportController.register();
+
+    const foobarId = registry.getMetaIdForString('foobar');
+    await timer.tickAsync(1);
+    assert.strictEqual(registerBatchStringMetaStub.callCount, 0);
+    assert(!registry['registeredIds'].has(foobarId));
+
+    armsServiceRegister.setFailure(false);
+    await armsExportController.register();
+
+    // trigger new registration
+    const foobarId2 = registry.getMetaIdForString('foobar2');
+    await timer.tickAsync(1);
+    assert.strictEqual(registerBatchStringMetaStub.args.length, 1);
+
+    registerBatchStringMetaStub.yield(null, { success: true });
+    await timer.tickAsync(1);
+    assert(registry['registeredIds'].has(foobarId));
+    assert(registry['registeredIds'].has(foobarId2));
   });
 });
