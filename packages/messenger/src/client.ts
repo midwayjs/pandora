@@ -326,7 +326,7 @@ export default class Client extends MessengerBase {
   }
 
   // 连接
-  _connect(done?: Function) {
+  _connect(done?: () => void) {
     this._socket = net.connect(this.sockPath);
     this._socket.once('connect', () => {
       this.ready(true);

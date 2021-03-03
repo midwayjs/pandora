@@ -69,7 +69,7 @@ describe('#FileLoggerManager', () => {
       });
       logger.debug('debug');
       logger.error('error');
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 2000));
 
       content = fs.readFileSync(Path.join(tmpDir, 'levels'));
       expect(content.toString().split('\n').length).to.be.equal(3);

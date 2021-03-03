@@ -204,6 +204,7 @@ export class FileLoggerRotator {
           .map(x => x.file)
           .join(', ')}`
       );
+
       await this.delayOnOptimisticLock(dealyMs);
       await this.rotateLogByDate();
     }
@@ -266,7 +267,12 @@ export class FileLoggerRotator {
             this.logger.info(
               `File ${logfile} reach the maximum file size, current size: ${stat.size}, max size: ${maxFileSize}`
             );
-            await this.rotateBySize(item);
+
+            if (item.type === 'size') {
+              await this.rotateBySize(item);
+            } else {
+              await this.truncateBySize(item);
+            }
           }
         }
       } catch (e) {
@@ -301,6 +307,23 @@ export class FileLoggerRotator {
     // logfile => logfile.1
     await fs.rename(logfile, `${logfile}.1`);
     this.broadcastReload();
+  }
+
+  protected async truncateBySize(strategy: RotationStrategy): Promise<void> {
+    const logfile = strategy.file;
+
+    const exists = await fs.exists(logfile);
+    if (!exists) {
+      return;
+    }
+
+    try {
+      await fs.truncate(logfile, 0);
+    } catch (error) {
+      this.logger.error(
+        `truncate [${logfile}] failed, error: ${error.message}`
+      );
+    }
   }
 
   /**
@@ -424,7 +447,7 @@ export class FileLoggerRotator {
   protected getStrategiesRotateBySize(): RotationStrategy[] {
     const ret = [];
     for (const strategy of this.getFilteredStrategiesList()) {
-      if (strategy.type === 'size') {
+      if (strategy.type === 'size' || strategy.type === 'size-truncate') {
         ret.push(strategy);
       }
     }
