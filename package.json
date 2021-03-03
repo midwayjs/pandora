@@ -4,12 +4,12 @@
   "private": true,
   "devDependencies": {
     "glob": "^7.1.6",
-    "lerna": "^3.20.2",
-    "mwts": "^1.0.4",
-    "nyc": "^13.1.0",
+    "lerna": "^3.22.1",
+    "mwts": "^1.1.2",
+    "nyc": "^13.3.0",
     "rimraf": "^3.0.2",
     "ts-node": "^7.0.1",
-    "typescript": "~3.8.0"
+    "typescript": "^3.9.9"
   },
   "scripts": {
     "postinstall": "lerna bootstrap --no-ci",

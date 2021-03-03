@@ -1,6 +1,6 @@
 {
   "extends": "./node_modules/mwts/",
-  "ignorePatterns": ["node_modules", "build", "fixtures"],
+  "ignorePatterns": ["node_modules", "build", "fixtures", "dist", "coverage"],
   "env": {
     "mocha": true
   }
