@@ -4,16 +4,20 @@ import {
   dependencies,
   componentConfig,
 } from '@pandorajs/component-decorator';
-import { FileLoggerRotator } from './FileLoggerRotator';
-import { FileLoggerManager } from './FileLoggerManager';
 import { homedir } from 'os';
 import { join } from 'path';
+import { FileLoggerRotator } from './FileLoggerRotator';
+import { FileLoggerManager } from './FileLoggerManager';
+import { FileLoggerEndPoint } from './FileLoggerEndPoint';
+import * as assert from 'assert';
+import * as UUID from 'uuid';
 
 @componentName('fileLoggerService')
 @dependencies(['ipcHub'])
 @componentConfig({
   fileLoggerService: {
     stopWriteWhenNoSupervisor: true,
+    endpoint: false,
   },
   coreLogger: {
     enable: false,
@@ -29,6 +33,7 @@ export default class ComponentFileLoggerService {
   ctx: any;
   fileLoggerRotator: FileLoggerRotator;
   fileLoggerManager: FileLoggerManager;
+
   constructor(ctx) {
     this.ctx = ctx;
   }
@@ -36,6 +41,17 @@ export default class ComponentFileLoggerService {
   async startAtSupervisor() {
     const messengerServer: MessengerServer = this.ctx.hubServer.getMessengerServer();
     this.fileLoggerRotator = new FileLoggerRotator();
+
+    if (
+      this.ctx.config.fileLoggerService.endpoint &&
+      this.ctx.endPointManager
+    ) {
+      // weak dependences on actuatorServer, depend on ASCII order
+      this.ctx.endPointManager.register(
+        new FileLoggerEndPoint(this.ctx, this.fileLoggerRotator)
+      );
+    }
+
     this.fileLoggerRotator.setMessengerServer(messengerServer);
     await this.fileLoggerRotator.start();
     await this.startAtAllProcesses();
@@ -58,6 +74,27 @@ export default class ComponentFileLoggerService {
     this.fileLoggerManager.setMessengerClient(messengerClient);
     await this.fileLoggerManager.start();
     this.startRecordingCoreLogger();
+  }
+
+  registerFileToRotate(
+    filePath: string,
+    type?: string,
+    maxFileSize?: number,
+    rotateDuration?: number
+  ) {
+    maxFileSize = maxFileSize || 100 * 1024 * 1024;
+    rotateDuration = rotateDuration || 10 * 60 * 1000;
+    type = type || 'size';
+
+    assert(filePath, 'file path is need');
+
+    this.fileLoggerRotator.receiveStrategy({
+      uuid: UUID.v4(),
+      type: 'size-truncate',
+      file: filePath,
+      rotateDuration,
+      maxFileSize,
+    });
   }
 
   startRecordingCoreLogger() {

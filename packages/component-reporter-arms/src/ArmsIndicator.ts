@@ -114,9 +114,7 @@ export default class ArmsIndicator extends ArmsBasicIndicator {
     super(batcher, sampler, spanProcessor, indicatorManager, resource);
   }
 
-  async getResourceMetrics(): Promise<
-    opentelemetryProto.metrics.v1.ResourceMetrics
-  > {
+  async getResourceMetrics(): Promise<opentelemetryProto.metrics.v1.ResourceMetrics> {
     const result = await this.indicatorManager.invokeAllProcesses(this.group, {
       action: 'get-metrics',
     });

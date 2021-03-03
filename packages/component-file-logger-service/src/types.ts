@@ -11,7 +11,7 @@ export const HEARTBEAT_TIME_MAX = 1000 * 60 * 3;
 
 export type LoggerLevel = 'ALL' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE';
 
-export type RotationType = 'date' | 'size';
+export type RotationType = 'date' | 'size' | 'size-truncate';
 
 export interface RotationStrategy {
   uuid: string;
