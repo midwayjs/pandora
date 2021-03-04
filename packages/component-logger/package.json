@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-logger",
-  "version": "3.0.2",
+  "version": "3.0.5",
   "description": "Pandora 2 Component Error Log",
   "main": "build/src/ComponentLogger",
   "typings": "build/src/ComponentLogger.d.ts",

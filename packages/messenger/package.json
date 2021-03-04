@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/messenger",
-  "version": "3.0.1",
+  "version": "3.0.5",
   "description": "pandora.js messenger module",
   "main": "build/src/index.js",
   "typings": "build/src/index.d.ts",

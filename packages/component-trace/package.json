@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/component-trace",
-  "version": "3.0.3",
+  "version": "3.0.5",
   "description": "Pandora 2 Component Trace",
   "main": "build/src/ComponentTrace.js",
   "typings": "build/src/ComponentTrace.d.ts",
@@ -29,7 +29,7 @@
     "@opentelemetry/api": "^0.10.2",
     "@opentelemetry/tracing": "^0.10.2",
     "@pandorajs/component-decorator": "^3.0.1",
-    "@pandorajs/component-indicator": "^3.0.1",
+    "@pandorajs/component-indicator": "^3.0.5",
     "@pandorajs/dollar": "^3.0.1"
   }
 }
