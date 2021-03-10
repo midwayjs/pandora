@@ -26,15 +26,16 @@ export class FileLoggerEndPoint implements IEndPoint {
       }
 
       try {
+        const uuid = UUID.v4();
         this.fileLoggerRotator.receiveStrategy({
-          uuid: UUID.v4(),
+          uuid,
           type: 'size-truncate',
           file: filePath,
           rotateDuration,
           maxFileSize,
         });
         ctx.ok(
-          `add [${filePath}] rotate by size [${maxFileSize}] bytes with internal [${rotateDuration}]ms.`
+          `add [${filePath}] rotate by size [${maxFileSize}] bytes with internal [${rotateDuration}]ms, uuid: [${uuid}].`
         );
       } catch (error) {
         ctx.fail(error.message);

@@ -121,6 +121,15 @@ export class FileLoggerRotator {
     this.reentry();
   }
 
+  public removeStrategy(uuid: string) {
+    if (this.strategyMap.has(uuid)) {
+      this.strategyMap.delete(uuid);
+      this.strategyHeartbeat.delete(uuid);
+
+      this.reentry();
+    }
+  }
+
   /**
    * Reentry while
    */
