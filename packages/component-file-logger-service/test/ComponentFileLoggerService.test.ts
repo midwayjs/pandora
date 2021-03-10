@@ -124,8 +124,8 @@ describe('ComponentFileLoggerService', () => {
           `/file-logger/register?filePath=${tmpPath}&maxFileSize=1024&rotateDuration=3000`
         )
         .expect(200);
-      expect(res.body.data).to.equal(
-        `add [${tmpPath}] rotate by size [1024] bytes with internal [3000]ms.`
+      expect(res.body.data).to.match(
+        /rotate by size \[1024\] bytes with internal \[3000\]ms/
       );
 
       await fs.writeFile(tmpPath, '*'.repeat(1024));
@@ -174,6 +174,50 @@ describe('ComponentFileLoggerService', () => {
       const fileData = await fs.readFile(tmpPath, 'utf-8');
       expect(fileData).to.equal('');
       stub.restore();
+    });
+
+    it('should work when remove rotator strategy by api', async () => {
+      const stub = sinon
+        .stub(
+          componentFileLoggerService.fileLoggerRotator,
+          'caclIntervalForRotateLogBySize'
+        )
+        .callsFake(() => {
+          return 1000;
+        });
+
+      const tmpPath = path.join(
+        tmpDir,
+        `${Date.now()}-remove-rotator-strategy-by-api-test.log`
+      );
+
+      await fs.writeFile(tmpPath, '*');
+
+      const uuid = componentFileLoggerService.registerFileToRotate(
+        tmpPath,
+        'size-truncate',
+        1024,
+        3000
+      );
+
+      await fs.writeFile(tmpPath, '*'.repeat(1024));
+
+      await sleep(5000);
+
+      let fileData = await fs.readFile(tmpPath, 'utf-8');
+      expect(fileData).to.equal('');
+
+      componentFileLoggerService.removeRotateStrategy(uuid);
+      await fs.writeFile(tmpPath, '*'.repeat(2000));
+
+      await sleep(5000);
+
+      fileData = await fs.readFile(tmpPath, 'utf-8');
+      expect(fileData.length).to.equal(2000);
+
+      stub.restore();
+
+      await fs.truncate(tmpPath, 0);
     });
   });
 

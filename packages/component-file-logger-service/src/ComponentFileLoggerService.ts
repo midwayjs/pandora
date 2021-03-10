@@ -88,13 +88,21 @@ export default class ComponentFileLoggerService {
 
     assert(filePath, 'file path is need');
 
+    const uuid = UUID.v4();
+
     this.fileLoggerRotator.receiveStrategy({
-      uuid: UUID.v4(),
+      uuid,
       type: 'size-truncate',
       file: filePath,
       rotateDuration,
       maxFileSize,
     });
+
+    return uuid;
+  }
+
+  removeRotateStrategy(uuid: string) {
+    this.fileLoggerRotator.removeStrategy(uuid);
   }
 
   startRecordingCoreLogger() {
