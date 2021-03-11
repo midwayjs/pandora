@@ -20,6 +20,7 @@ export class FileLoggerEndPoint implements IEndPoint {
       const maxFileSize = parseInt(query.maxFileSize, 10) || 100 * 1024 * 1024;
       const rotateDuration =
         parseInt(query.rotateDuration, 10) || 10 * 60 * 1000;
+      const ignoreHeartbeat = query.ignoreHeartbeat === 'true';
 
       if (!filePath) {
         return ctx.fail('file path is need');
@@ -33,6 +34,7 @@ export class FileLoggerEndPoint implements IEndPoint {
           file: filePath,
           rotateDuration,
           maxFileSize,
+          ignoreHeartbeat,
         });
         ctx.ok(
           `add [${filePath}] rotate by size [${maxFileSize}] bytes with internal [${rotateDuration}]ms, uuid: [${uuid}].`
