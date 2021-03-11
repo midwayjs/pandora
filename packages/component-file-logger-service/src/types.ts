@@ -20,6 +20,7 @@ export interface RotationStrategy {
   rotateDuration?: number;
   maxFiles?: number;
   maxFileSize?: number;
+  ignoreHeartbeat?: boolean;
 }
 
 export interface LoggerConfig {
