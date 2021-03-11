@@ -116,8 +116,12 @@ export class FileLoggerRotator {
       'Strategy uuid ' + uuid + ' already has'
     );
     this.strategyMap.set(uuid, strategy);
-    const now = Date.now();
-    this.strategyHeartbeat.set(uuid, now);
+
+    if (!strategy.ignoreHeartbeat) {
+      const now = Date.now();
+      this.strategyHeartbeat.set(uuid, now);
+    }
+
     this.reentry();
   }
 

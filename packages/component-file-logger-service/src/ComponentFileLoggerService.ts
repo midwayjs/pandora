@@ -38,7 +38,7 @@ export default class ComponentFileLoggerService {
     this.ctx = ctx;
   }
 
-  async startAtSupervisor() {
+  async startAtSupervisor(): Promise<void> {
     const messengerServer: MessengerServer = this.ctx.hubServer.getMessengerServer();
     this.fileLoggerRotator = new FileLoggerRotator();
 
@@ -57,11 +57,11 @@ export default class ComponentFileLoggerService {
     await this.startAtAllProcesses();
   }
 
-  async start() {
+  async start(): Promise<void> {
     await this.startAtAllProcesses();
   }
 
-  async startAtAllProcesses() {
+  async startAtAllProcesses(): Promise<void> {
     const messengerClient: MessengerClient = this.ctx.hubFacade
       .getHubClient()
       .getMessengerClient();
@@ -80,11 +80,13 @@ export default class ComponentFileLoggerService {
     filePath: string,
     type?: string,
     maxFileSize?: number,
-    rotateDuration?: number
-  ) {
+    rotateDuration?: number,
+    ignoreHeartbeat?: boolean
+  ): string {
     maxFileSize = maxFileSize || 100 * 1024 * 1024;
     rotateDuration = rotateDuration || 10 * 60 * 1000;
     type = type || 'size';
+    ignoreHeartbeat = ignoreHeartbeat || false;
 
     assert(filePath, 'file path is need');
 
@@ -96,16 +98,17 @@ export default class ComponentFileLoggerService {
       file: filePath,
       rotateDuration,
       maxFileSize,
+      ignoreHeartbeat,
     });
 
     return uuid;
   }
 
-  removeRotateStrategy(uuid: string) {
+  removeRotateStrategy(uuid: string): void {
     this.fileLoggerRotator.removeStrategy(uuid);
   }
 
-  startRecordingCoreLogger() {
+  startRecordingCoreLogger(): void {
     const coreLogger = this.ctx.logger;
     const config = this.ctx.config.coreLogger;
     if (!config.enable) {

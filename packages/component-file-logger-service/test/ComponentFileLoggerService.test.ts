@@ -128,13 +128,38 @@ describe('ComponentFileLoggerService', () => {
         /rotate by size \[1024\] bytes with internal \[3000\]ms/
       );
 
+      const uuid = res.body.data.match(/uuid:\s*\[(.*)\]/)[1];
+
+      expect(componentFileLoggerService.fileLoggerRotator.strategyMap.has(uuid))
+        .to.be.true;
+      expect(
+        componentFileLoggerService.fileLoggerRotator.strategyHeartbeat.has(uuid)
+      ).to.be.true;
+
       await fs.writeFile(tmpPath, '*'.repeat(1024));
 
       await sleep(5000);
 
       const fileData = await fs.readFile(tmpPath, 'utf-8');
       expect(fileData).to.equal('');
+
       stub.restore();
+    });
+
+    it('should ignore heartbeat with endpoint', async () => {
+      const res = await request(server)
+        .get(
+          '/file-logger/register?filePath=/test-path/test.log&ignoreHeartbeat=true'
+        )
+        .expect(200);
+
+      const uuid = res.body.data.match(/uuid:\s*\[(.*)\]/)[1];
+
+      expect(componentFileLoggerService.fileLoggerRotator.strategyMap.has(uuid))
+        .to.be.true;
+      expect(
+        componentFileLoggerService.fileLoggerRotator.strategyHeartbeat.has(uuid)
+      ).to.be.false;
     });
 
     it('should failed when add file by api without file', async () => {
@@ -160,12 +185,18 @@ describe('ComponentFileLoggerService', () => {
 
       await fs.writeFile(tmpPath, '*');
 
-      componentFileLoggerService.registerFileToRotate(
+      const uuid = componentFileLoggerService.registerFileToRotate(
         tmpPath,
         'size-truncate',
         1024,
         3000
       );
+
+      expect(componentFileLoggerService.fileLoggerRotator.strategyMap.has(uuid))
+        .to.be.true;
+      expect(
+        componentFileLoggerService.fileLoggerRotator.strategyHeartbeat.has(uuid)
+      ).to.be.true;
 
       await fs.writeFile(tmpPath, '*'.repeat(1024));
 
@@ -173,7 +204,24 @@ describe('ComponentFileLoggerService', () => {
 
       const fileData = await fs.readFile(tmpPath, 'utf-8');
       expect(fileData).to.equal('');
+
       stub.restore();
+    });
+
+    it('should ignore heartbeat with endpoint', async () => {
+      const uuid = componentFileLoggerService.registerFileToRotate(
+        'test-path/test.log',
+        'size-truncate',
+        10240000,
+        3000000,
+        true
+      );
+
+      expect(componentFileLoggerService.fileLoggerRotator.strategyMap.has(uuid))
+        .to.be.true;
+      expect(
+        componentFileLoggerService.fileLoggerRotator.strategyHeartbeat.has(uuid)
+      ).to.be.false;
     });
 
     it('should work when remove rotator strategy by api', async () => {
