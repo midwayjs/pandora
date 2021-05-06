@@ -1,6 +1,6 @@
 {
   "name": "@pandorajs/egg-pandora",
-  "version": "3.0.5",
+  "version": "3.0.8",
   "description": "",
   "main": "./index.js",
   "eggPlugin": {
@@ -20,7 +20,7 @@
     "@opentelemetry/resources": "^0.10.2",
     "@pandorajs/component-dead-counter": "^3.0.5",
     "@pandorajs/component-instrument-egg": "^3.0.5",
-    "@pandorajs/component-instrument-node": "^3.0.2",
+    "@pandorajs/component-instrument-node": "^3.0.8",
     "@pandorajs/component-logger": "^3.0.5",
     "@pandorajs/component-metric": "^3.0.5",
     "@pandorajs/component-trace": "^3.0.5",
