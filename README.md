@@ -9,6 +9,22 @@
 [![Known Vulnerabilities](https://snyk.io/test/npm/pandora/badge.svg)](https://snyk.io/test/npm/pandora)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/midwayjs/pandora/pulls)
 
+
+```
+感谢大家对 midwayjs/pandora 项目的支持。
+从 2019 年开始，pandora 已经完成了他的历史使命。
+虽然我们百般犹豫和不舍，但是有些路终归会走到尽头，就像溪流归入大海，巨岩化为尘埃。
+虽未很轰轰烈烈的走过，至少在历史中留下了一抹色彩。
+在面向云原生研发的今天，传统的进程管理和数据采集方式已经无法满足需求。
+社区也有如 pm2 等优秀的进程管理工具覆盖进程管理的部分。
+后续，midwayjs 在做好本职 midway 框架部分的同时，也将会继续探寻适合 Node.js 的研发之路。
+
+最后，不管如何，感谢关注的各位。
+
+2020.7
+```
+
+
 ## Installation
 
 ```bash
