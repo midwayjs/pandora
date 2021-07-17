@@ -43,7 +43,7 @@
     "log4js": "^3.0.5",
     "mocha": "^3.5.0",
     "module-hook": "^1.0.0",
-    "mongodb": "^2.2.0",
+    "mongodb": "^3.6.1",
     "mongodb-mock-server": "^1.0.0",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
